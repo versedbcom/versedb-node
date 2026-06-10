@@ -1,0 +1,40 @@
+speakeasyVersion: 1.775.0
+sources:
+    versedb-api:
+        sourceNamespace: versedb-api
+        sourceRevisionDigest: sha256:ad35e0511b5c0de406e652a9b6426838d5cae25a01e8ed808ec5e9ed3d7583b8
+        sourceBlobDigest: sha256:cfa57e874367df5d63bdb0a8dbc88804feb42d9a128135cef1e6e64e1eca1894
+        tags:
+            - latest
+            - 1.0.0
+targets:
+    typescript:
+        source: versedb-api
+        sourceNamespace: versedb-api
+        sourceRevisionDigest: sha256:ad35e0511b5c0de406e652a9b6426838d5cae25a01e8ed808ec5e9ed3d7583b8
+        sourceBlobDigest: sha256:cfa57e874367df5d63bdb0a8dbc88804feb42d9a128135cef1e6e64e1eca1894
+        codeSamplesNamespace: versedb-api-typescript-code-samples
+        codeSamplesRevisionDigest: sha256:431ae1400e06cd68815a648b825b35d7ccbb75d4ef417286a86ef7b1269fce9e
+workflow:
+    workflowVersion: 1.0.0
+    speakeasyVersion: latest
+    sources:
+        versedb-api:
+            inputs:
+                - location: https://versedb.com/api/docs.openapi
+            registry:
+                location: registry.speakeasyapi.dev/versedb/versedb/versedb-api
+    targets:
+        typescript:
+            target: typescript
+            source: versedb-api
+            output: .
+            publish:
+                npm:
+                    token: $npm_token
+            codeSamples:
+                registry:
+                    location: registry.speakeasyapi.dev/versedb/versedb/versedb-api-typescript-code-samples
+                labelOverride:
+                    fixedValue: Typescript (SDK)
+                blocking: false
