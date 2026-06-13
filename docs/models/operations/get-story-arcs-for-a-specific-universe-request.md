@@ -6,7 +6,7 @@
 import { GetStoryArcsForASpecificUniverseRequest } from "@versedbcom/sdk/models/operations";
 
 let value: GetStoryArcsForASpecificUniverseRequest = {
-  universeId: 16,
+  universeId: 1,
 };
 ```
 
@@ -14,4 +14,4 @@ let value: GetStoryArcsForASpecificUniverseRequest = {
 
 | Field                   | Type                    | Required                | Description             | Example                 |
 | ----------------------- | ----------------------- | ----------------------- | ----------------------- | ----------------------- |
-| `universeId`            | *number*                | :heavy_check_mark:      | The ID of the universe. | 16                      |
+| `universeId`            | *number*                | :heavy_check_mark:      | The ID of the universe. | 1                       |

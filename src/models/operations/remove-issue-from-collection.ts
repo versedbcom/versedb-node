@@ -10,9 +10,12 @@ import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type RemoveIssueFromCollectionRequestBody = {
   /**
-   * The <code>id</code> of an existing record in the issue_variants table.
+   * Specific variant ID to remove (optional).
    */
-  variantId?: string | null | undefined;
+  variantId?: number | null | undefined;
+  /**
+   * Specific collection item ID to remove (optional).
+   */
   collectionItemId?: number | null | undefined;
 };
 
@@ -38,7 +41,7 @@ export type RemoveIssueFromCollectionResponse = {
 
 /** @internal */
 export type RemoveIssueFromCollectionRequestBody$Outbound = {
-  variant_id?: string | null | undefined;
+  variant_id?: number | null | undefined;
   collection_item_id?: number | null | undefined;
 };
 
@@ -48,7 +51,7 @@ export const RemoveIssueFromCollectionRequestBody$outboundSchema: z.ZodMiniType<
   RemoveIssueFromCollectionRequestBody
 > = z.pipe(
   z.object({
-    variantId: z.optional(z.nullable(z.string())),
+    variantId: z.optional(z.nullable(z.int())),
     collectionItemId: z.optional(z.nullable(z.int())),
   }),
   z.transform((v) => {

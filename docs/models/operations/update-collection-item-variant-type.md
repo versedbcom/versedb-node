@@ -5,7 +5,7 @@
 ```typescript
 import { UpdateCollectionItemVariantType } from "@versedbcom/sdk/models/operations";
 
-let value: UpdateCollectionItemVariantType = "hologram_variant";
+let value: UpdateCollectionItemVariantType = "artist_variant";
 ```
 
 ## Values

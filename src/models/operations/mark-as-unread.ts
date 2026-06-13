@@ -10,9 +10,9 @@ import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type MarkAsUnreadRequestBody = {
   /**
-   * The <code>id</code> of an existing record in the issue_variants table.
+   * Specific variant ID (optional).
    */
-  variantId?: string | null | undefined;
+  variantId?: number | null | undefined;
 };
 
 export type MarkAsUnreadRequest = {
@@ -20,10 +20,6 @@ export type MarkAsUnreadRequest = {
    * The issue ID.
    */
   issueId: number;
-  /**
-   * Specific variant ID (optional).
-   */
-  variantId?: number | undefined;
   body?: MarkAsUnreadRequestBody | undefined;
 };
 
@@ -33,7 +29,7 @@ export type MarkAsUnreadResponse = {
 
 /** @internal */
 export type MarkAsUnreadRequestBody$Outbound = {
-  variant_id?: string | null | undefined;
+  variant_id?: number | null | undefined;
 };
 
 /** @internal */
@@ -42,7 +38,7 @@ export const MarkAsUnreadRequestBody$outboundSchema: z.ZodMiniType<
   MarkAsUnreadRequestBody
 > = z.pipe(
   z.object({
-    variantId: z.optional(z.nullable(z.string())),
+    variantId: z.optional(z.nullable(z.int())),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -62,7 +58,6 @@ export function markAsUnreadRequestBodyToJSON(
 /** @internal */
 export type MarkAsUnreadRequest$Outbound = {
   issue_id: number;
-  variant_id?: number | undefined;
   body?: MarkAsUnreadRequestBody$Outbound | undefined;
 };
 
@@ -73,13 +68,11 @@ export const MarkAsUnreadRequest$outboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     issueId: z.int(),
-    variantId: z.optional(z.int()),
     body: z.optional(z.lazy(() => MarkAsUnreadRequestBody$outboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {
       issueId: "issue_id",
-      variantId: "variant_id",
     });
   }),
 );

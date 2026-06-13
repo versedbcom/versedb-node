@@ -6,12 +6,12 @@
 import { MarkAsUnreadRequestBody } from "@versedbcom/sdk/models/operations";
 
 let value: MarkAsUnreadRequestBody = {
-  variantId: null,
+  variantId: 789,
 };
 ```
 
 ## Fields
 
-| Field                                                                  | Type                                                                   | Required                                                               | Description                                                            | Example                                                                |
-| ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| `variantId`                                                            | *string*                                                               | :heavy_minus_sign:                                                     | The <code>id</code> of an existing record in the issue_variants table. | null                                                                   |
+| Field                           | Type                            | Required                        | Description                     | Example                         |
+| ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------- |
+| `variantId`                     | *number*                        | :heavy_minus_sign:              | Specific variant ID (optional). | 789                             |

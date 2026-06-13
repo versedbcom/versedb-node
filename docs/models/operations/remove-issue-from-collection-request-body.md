@@ -6,14 +6,14 @@
 import { RemoveIssueFromCollectionRequestBody } from "@versedbcom/sdk/models/operations";
 
 let value: RemoveIssueFromCollectionRequestBody = {
-  variantId: null,
-  collectionItemId: 16,
+  variantId: 789,
+  collectionItemId: 1001,
 };
 ```
 
 ## Fields
 
-| Field                                                                  | Type                                                                   | Required                                                               | Description                                                            | Example                                                                |
-| ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| `variantId`                                                            | *string*                                                               | :heavy_minus_sign:                                                     | The <code>id</code> of an existing record in the issue_variants table. | null                                                                   |
-| `collectionItemId`                                                     | *number*                                                               | :heavy_minus_sign:                                                     | N/A                                                                    | 16                                                                     |
+| Field                                             | Type                                              | Required                                          | Description                                       | Example                                           |
+| ------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------- |
+| `variantId`                                       | *number*                                          | :heavy_minus_sign:                                | Specific variant ID to remove (optional).         | 789                                               |
+| `collectionItemId`                                | *number*                                          | :heavy_minus_sign:                                | Specific collection item ID to remove (optional). | 1001                                              |

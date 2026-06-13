@@ -6,7 +6,7 @@
 import { GetASpecificUniverseRequest } from "@versedbcom/sdk/models/operations";
 
 let value: GetASpecificUniverseRequest = {
-  universeId: 16,
+  universeId: 1,
 };
 ```
 
@@ -14,4 +14,4 @@ let value: GetASpecificUniverseRequest = {
 
 | Field                   | Type                    | Required                | Description             | Example                 |
 | ----------------------- | ----------------------- | ----------------------- | ----------------------- | ----------------------- |
-| `universeId`            | *number*                | :heavy_check_mark:      | The ID of the universe. | 16                      |
+| `universeId`            | *number*                | :heavy_check_mark:      | The ID of the universe. | 1                       |

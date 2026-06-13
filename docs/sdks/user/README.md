@@ -728,7 +728,6 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.user.markAsUnread({
     issueId: 5432,
-    variantId: 789,
     body: {
       variantId: null,
     },
@@ -757,7 +756,6 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await userMarkAsUnread(verseDB, {
     issueId: 5432,
-    variantId: 789,
     body: {
       variantId: null,
     },

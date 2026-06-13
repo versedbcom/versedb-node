@@ -6,7 +6,7 @@
 import { GetStoryArcsForASpecificCharacterRequest } from "@versedbcom/sdk/models/operations";
 
 let value: GetStoryArcsForASpecificCharacterRequest = {
-  characterId: 16,
+  characterId: 2,
 };
 ```
 
@@ -14,4 +14,4 @@ let value: GetStoryArcsForASpecificCharacterRequest = {
 
 | Field                    | Type                     | Required                 | Description              | Example                  |
 | ------------------------ | ------------------------ | ------------------------ | ------------------------ | ------------------------ |
-| `characterId`            | *number*                 | :heavy_check_mark:       | The ID of the character. | 16                       |
+| `characterId`            | *number*                 | :heavy_check_mark:       | The ID of the character. | 2                        |
