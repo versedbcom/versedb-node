@@ -5,7 +5,7 @@
 ```typescript
 import { UpdateCollectionItemPrintNumber } from "@versedbcom/sdk/models/operations";
 
-let value: UpdateCollectionItemPrintNumber = "2nd";
+let value: UpdateCollectionItemPrintNumber = "8th";
 ```
 
 ## Values

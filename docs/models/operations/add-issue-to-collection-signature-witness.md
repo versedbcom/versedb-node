@@ -5,7 +5,7 @@
 ```typescript
 import { AddIssueToCollectionSignatureWitness } from "@versedbcom/sdk/models/operations";
 
-let value: AddIssueToCollectionSignatureWitness = "witnessed_in_person";
+let value: AddIssueToCollectionSignatureWitness = "CGC";
 ```
 
 ## Values

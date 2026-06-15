@@ -5,7 +5,7 @@
 ```typescript
 import { AddIssueToCollectionVariantType } from "@versedbcom/sdk/models/operations";
 
-let value: AddIssueToCollectionVariantType = "sketch_variant";
+let value: AddIssueToCollectionVariantType = "cover_variant";
 ```
 
 ## Values

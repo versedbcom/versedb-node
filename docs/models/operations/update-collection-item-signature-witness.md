@@ -5,7 +5,7 @@
 ```typescript
 import { UpdateCollectionItemSignatureWitness } from "@versedbcom/sdk/models/operations";
 
-let value: UpdateCollectionItemSignatureWitness = "CBCS";
+let value: UpdateCollectionItemSignatureWitness = "witnessed_in_person";
 ```
 
 ## Values

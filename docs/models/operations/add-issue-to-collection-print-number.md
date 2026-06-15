@@ -5,7 +5,7 @@
 ```typescript
 import { AddIssueToCollectionPrintNumber } from "@versedbcom/sdk/models/operations";
 
-let value: AddIssueToCollectionPrintNumber = "8th";
+let value: AddIssueToCollectionPrintNumber = "4th";
 ```
 
 ## Values
