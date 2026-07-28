@@ -41,9 +41,9 @@ export function userUpdateCollectionItem(
 ): APIPromise<
   Result<
     operations.UpdateCollectionItemResponse,
-    | errors.UpdateCollectionItemUnauthorizedError
+    | errors.UnauthorizedError
     | errors.UpdateCollectionItemNotFoundError
-    | errors.UpdateCollectionItemTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -69,9 +69,9 @@ async function $do(
   [
     Result<
       operations.UpdateCollectionItemResponse,
-      | errors.UpdateCollectionItemUnauthorizedError
+      | errors.UnauthorizedError
       | errors.UpdateCollectionItemNotFoundError
-      | errors.UpdateCollectionItemTooManyRequestsError
+      | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
       | ConnectionError
@@ -167,9 +167,9 @@ async function $do(
 
   const [result] = await M.match<
     operations.UpdateCollectionItemResponse,
-    | errors.UpdateCollectionItemUnauthorizedError
+    | errors.UnauthorizedError
     | errors.UpdateCollectionItemNotFoundError
-    | errors.UpdateCollectionItemTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -183,13 +183,9 @@ async function $do(
       hdrs: true,
       key: "Result",
     }),
-    M.jsonErr(401, errors.UpdateCollectionItemUnauthorizedError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
     M.jsonErr(404, errors.UpdateCollectionItemNotFoundError$inboundSchema),
-    M.jsonErr(
-      429,
-      errors.UpdateCollectionItemTooManyRequestsError$inboundSchema,
-      { hdrs: true },
-    ),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

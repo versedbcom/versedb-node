@@ -81,11 +81,11 @@ run();
 
 ### Errors
 
-| Error Type                                                     | Status Code                                                    | Content Type                                                   |
-| -------------------------------------------------------------- | -------------------------------------------------------------- | -------------------------------------------------------------- |
-| errors.ListAllPublishersWithOptionalSearchUnauthorizedError    | 401                                                            | application/json                                               |
-| errors.ListAllPublishersWithOptionalSearchTooManyRequestsError | 429                                                            | application/json                                               |
-| errors.VerseDbDefaultError                                     | 4XX, 5XX                                                       | \*/\*                                                          |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
 
 ## getPublisherDetails
 
@@ -161,9 +161,9 @@ run();
 
 ### Errors
 
-| Error Type                                     | Status Code                                    | Content Type                                   |
-| ---------------------------------------------- | ---------------------------------------------- | ---------------------------------------------- |
-| errors.GetPublisherDetailsUnauthorizedError    | 401                                            | application/json                               |
-| errors.GetPublisherDetailsNotFoundError        | 404                                            | application/json                               |
-| errors.GetPublisherDetailsTooManyRequestsError | 429                                            | application/json                               |
-| errors.VerseDbDefaultError                     | 4XX, 5XX                                       | \*/\*                                          |
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| errors.UnauthorizedError                | 401                                     | application/json                        |
+| errors.GetPublisherDetailsNotFoundError | 404                                     | application/json                        |
+| errors.TooManyRequestsError             | 429                                     | application/json                        |
+| errors.VerseDbDefaultError              | 4XX, 5XX                                | \*/\*                                   |

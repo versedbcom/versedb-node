@@ -183,10 +183,10 @@ const verseDB = new VerseDB({
 });
 
 async function run() {
-  const result = await verseDB.titles.listTitles({
-    q: "spider-man",
-    publisher: 1,
-    limit: 20,
+  const result = await verseDB.discovery.fOCDeadlines({
+    limit: 10,
+    days: 7,
+    startDate: "2026-03-15",
   });
 
   console.log(result);
@@ -217,10 +217,10 @@ const verseDB = new VerseDB({
 });
 
 async function run() {
-  const result = await verseDB.titles.listTitles({
-    q: "spider-man",
-    publisher: 1,
-    limit: 20,
+  const result = await verseDB.discovery.fOCDeadlines({
+    limit: 10,
+    days: 7,
+    startDate: "2026-03-15",
   });
 
   console.log(result);
@@ -262,6 +262,12 @@ run();
 * [getCreatorsBlogPosts](docs/sdks/creators/README.md#getcreatorsblogposts) - Get creator's blog posts.
 * [getCreatorsIssues](docs/sdks/creators/README.md#getcreatorsissues) - Get creator's issues.
 * [getCreatorsSeries](docs/sdks/creators/README.md#getcreatorsseries) - Get creator's series.
+
+### [Discovery](docs/sdks/discovery/README.md)
+
+* [fOCDeadlines](docs/sdks/discovery/README.md#focdeadlines) - FOC deadlines.
+* [upcoming1Issues](docs/sdks/discovery/README.md#upcoming1issues) - Upcoming #1 issues.
+* [followUpdates](docs/sdks/discovery/README.md#followupdates) - Follow updates.
 
 ### [Events](docs/sdks/events/README.md)
 
@@ -354,6 +360,7 @@ run();
 
 * [getTheAuthenticatedUser](docs/sdks/user/README.md#gettheauthenticateduser) - Get the authenticated user.
 * [listCollection](docs/sdks/user/README.md#listcollection) - List collection.
+* [checkIssueInCollection](docs/sdks/user/README.md#checkissueincollection) - Check issue in collection.
 * [addIssueToCollection](docs/sdks/user/README.md#addissuetocollection) - Add issue to collection.
 * [updateCollectionItem](docs/sdks/user/README.md#updatecollectionitem) - Update collection item.
 * [removeIssueFromCollection](docs/sdks/user/README.md#removeissuefromcollection) - Remove issue from collection.
@@ -405,6 +412,9 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`creatorsGetCreatorsIssues`](docs/sdks/creators/README.md#getcreatorsissues) - Get creator's issues.
 - [`creatorsGetCreatorsSeries`](docs/sdks/creators/README.md#getcreatorsseries) - Get creator's series.
 - [`creatorsListCreators`](docs/sdks/creators/README.md#listcreators) - List creators.
+- [`discoveryFOCDeadlines`](docs/sdks/discovery/README.md#focdeadlines) - FOC deadlines.
+- [`discoveryFollowUpdates`](docs/sdks/discovery/README.md#followupdates) - Follow updates.
+- [`discoveryUpcoming1Issues`](docs/sdks/discovery/README.md#upcoming1issues) - Upcoming #1 issues.
 - [`eventsGetAnEvent`](docs/sdks/events/README.md#getanevent) - Get an event.
 - [`eventsListEvents`](docs/sdks/events/README.md#listevents) - List events.
 - [`imprintsGetImprintDetails`](docs/sdks/imprints/README.md#getimprintdetails) - Get imprint details
@@ -460,6 +470,7 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`userAddToPullList`](docs/sdks/user/README.md#addtopulllist) - Add to pull list.
 - [`userAddToWishlist`](docs/sdks/user/README.md#addtowishlist) - Add to wishlist.
 - [`userCheckFollowStatus`](docs/sdks/user/README.md#checkfollowstatus) - Check follow status.
+- [`userCheckIssueInCollection`](docs/sdks/user/README.md#checkissueincollection) - Check issue in collection.
 - [`userEditReadingDate`](docs/sdks/user/README.md#editreadingdate) - Edit reading date.
 - [`userFollowContent`](docs/sdks/user/README.md#followcontent) - Follow content.
 - [`userGetActivityFeed`](docs/sdks/user/README.md#getactivityfeed) - Get activity feed.
@@ -494,10 +505,10 @@ const verseDB = new VerseDB({
 });
 
 async function run() {
-  const result = await verseDB.titles.listTitles({
-    q: "spider-man",
-    publisher: 1,
-    limit: 20,
+  const result = await verseDB.discovery.fOCDeadlines({
+    limit: 10,
+    days: 7,
+    startDate: "2026-03-15",
   }, {
     retries: {
       strategy: "backoff",
@@ -537,10 +548,10 @@ const verseDB = new VerseDB({
 });
 
 async function run() {
-  const result = await verseDB.titles.listTitles({
-    q: "spider-man",
-    publisher: 1,
-    limit: 20,
+  const result = await verseDB.discovery.fOCDeadlines({
+    limit: 10,
+    days: 7,
+    startDate: "2026-03-15",
   });
 
   console.log(result);
@@ -576,10 +587,10 @@ const verseDB = new VerseDB({
 
 async function run() {
   try {
-    const result = await verseDB.titles.listTitles({
-      q: "spider-man",
-      publisher: 1,
-      limit: 20,
+    const result = await verseDB.discovery.fOCDeadlines({
+      limit: 10,
+      days: 7,
+      startDate: "2026-03-15",
     });
 
     console.log(result);
@@ -592,7 +603,7 @@ async function run() {
       console.log(error.headers);
 
       // Depending on the method different errors may be thrown
-      if (error instanceof errors.ListTitlesUnauthorizedError) {
+      if (error instanceof errors.UnauthorizedError) {
         console.log(error.data$.message); // string
       }
     }
@@ -604,10 +615,12 @@ run();
 ```
 
 ### Error Classes
-**Primary error:**
+**Primary errors:**
 * [`VerseDbError`](./src/models/errors/verse-db-error.ts): The base class for HTTP error responses.
+  * [`UnauthorizedError`](./src/models/errors/unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`.
+  * [`TooManyRequestsError`](./src/models/errors/too-many-requests-error.ts): Status code `429`.
 
-<details><summary>Less common errors (217)</summary>
+<details><summary>Less common errors (47)</summary>
 
 <br />
 
@@ -620,217 +633,47 @@ run();
 
 
 **Inherit from [`VerseDbError`](./src/models/errors/verse-db-error.ts)**:
-* [`ListTitlesUnauthorizedError`](./src/models/errors/list-titles-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetASpecificTitleUnauthorizedError`](./src/models/errors/get-a-specific-title-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`ListSeriesUnauthorizedError`](./src/models/errors/list-series-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetSeriesDetailsUnauthorizedError`](./src/models/errors/get-series-details-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetSeriesIssuesUnauthorizedError`](./src/models/errors/get-series-issues-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetSeriesCreatorsUnauthorizedError`](./src/models/errors/get-series-creators-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetSeriesCharactersUnauthorizedError`](./src/models/errors/get-series-characters-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`ListIssuesUnauthorizedError`](./src/models/errors/list-issues-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetIssueDetailsUnauthorizedError`](./src/models/errors/get-issue-details-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetIssueVariantsUnauthorizedError`](./src/models/errors/get-issue-variants-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetVariantDetailsUnauthorizedError`](./src/models/errors/get-variant-details-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetIssueCreatorsUnauthorizedError`](./src/models/errors/get-issue-creators-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetIssueCharactersUnauthorizedError`](./src/models/errors/get-issue-characters-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetKeyIssueReasonsUnauthorizedError`](./src/models/errors/get-key-issue-reasons-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`ListAllPublishersWithOptionalSearchUnauthorizedError`](./src/models/errors/list-all-publishers-with-optional-search-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetPublisherDetailsUnauthorizedError`](./src/models/errors/get-publisher-details-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`ListImprintsUnauthorizedError`](./src/models/errors/list-imprints-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetImprintDetailsUnauthorizedError`](./src/models/errors/get-imprint-details-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`ListCreatorsUnauthorizedError`](./src/models/errors/list-creators-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetCreatorDetailsUnauthorizedError`](./src/models/errors/get-creator-details-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetCreatorsBlogPostsUnauthorizedError`](./src/models/errors/get-creators-blog-posts-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetCreatorsIssuesUnauthorizedError`](./src/models/errors/get-creators-issues-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetCreatorsSeriesUnauthorizedError`](./src/models/errors/get-creators-series-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`ListCharactersUnauthorizedError`](./src/models/errors/list-characters-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetCharacterDetailsUnauthorizedError`](./src/models/errors/get-character-details-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetCharacterSeriesUnauthorizedError`](./src/models/errors/get-character-series-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetCharacterIssuesUnauthorizedError`](./src/models/errors/get-character-issues-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetCharacterTeamsUnauthorizedError`](./src/models/errors/get-character-teams-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`ListAllTeamsWithOptionalSearchUnauthorizedError`](./src/models/errors/list-all-teams-with-optional-search-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetASpecificTeamUnauthorizedError`](./src/models/errors/get-a-specific-team-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetCharactersForASpecificTeammembersUnauthorizedError`](./src/models/errors/get-characters-for-a-specific-teammembers-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetSeriesForASpecificTeamUnauthorizedError`](./src/models/errors/get-series-for-a-specific-team-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetIssuesForASpecificTeamUnauthorizedError`](./src/models/errors/get-issues-for-a-specific-team-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`ListAllStoryArcsWithOptionalSearchUnauthorizedError`](./src/models/errors/list-all-story-arcs-with-optional-search-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetStoryArcDetailUnauthorizedError`](./src/models/errors/get-story-arc-detail-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetStoryArcsForASpecificIssueUnauthorizedError`](./src/models/errors/get-story-arcs-for-a-specific-issue-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetStoryArcsForASpecificCharacterUnauthorizedError`](./src/models/errors/get-story-arcs-for-a-specific-character-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetStoryArcsForASpecificUniverseUnauthorizedError`](./src/models/errors/get-story-arcs-for-a-specific-universe-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`ListUniversesUnauthorizedError`](./src/models/errors/list-universes-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetASpecificUniverseUnauthorizedError`](./src/models/errors/get-a-specific-universe-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`ListEventsUnauthorizedError`](./src/models/errors/list-events-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetAnEventUnauthorizedError`](./src/models/errors/get-an-event-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`ListKeyIssueReasonsUnauthorizedError`](./src/models/errors/list-key-issue-reasons-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`ListComicShopsUnauthorizedError`](./src/models/errors/list-comic-shops-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetAComicShopUnauthorizedError`](./src/models/errors/get-a-comic-shop-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`ListAllPodcastsWithOptionalSearchUnauthorizedError`](./src/models/errors/list-all-podcasts-with-optional-search-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetASpecificPodcastUnauthorizedError`](./src/models/errors/get-a-specific-podcast-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`BrowseListsUnauthorizedError`](./src/models/errors/browse-lists-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`CreateListUnauthorizedError`](./src/models/errors/create-list-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`BrowseSystemListsUnauthorizedError`](./src/models/errors/browse-system-lists-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetListUnauthorizedError`](./src/models/errors/get-list-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`UpdateListUnauthorizedError`](./src/models/errors/update-list-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`DeleteListUnauthorizedError`](./src/models/errors/delete-list-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetUsersListsUnauthorizedError`](./src/models/errors/get-users-lists-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`ConvertAListToMixedUnauthorizedError`](./src/models/errors/convert-a-list-to-mixed-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`MergeAListIntoThisOneUnauthorizedError`](./src/models/errors/merge-a-list-into-this-one-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`AddItemToListUnauthorizedError`](./src/models/errors/add-item-to-list-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`RemoveItemFromListUnauthorizedError`](./src/models/errors/remove-item-from-list-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`ReorderItemsUnauthorizedError`](./src/models/errors/reorder-items-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`SaveListUnauthorizedError`](./src/models/errors/save-list-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`UnsaveListUnauthorizedError`](./src/models/errors/unsave-list-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`LikeListUnauthorizedError`](./src/models/errors/like-list-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`UnlikeListUnauthorizedError`](./src/models/errors/unlike-list-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`LookupByUPCUnauthorizedError`](./src/models/errors/lookup-by-upc-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`LookupByISBNUnauthorizedError`](./src/models/errors/lookup-by-isbn-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetTheAuthenticatedUserUnauthorizedError`](./src/models/errors/get-the-authenticated-user-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`ListCollectionUnauthorizedError`](./src/models/errors/list-collection-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`AddIssueToCollectionUnauthorizedError`](./src/models/errors/add-issue-to-collection-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`UpdateCollectionItemUnauthorizedError`](./src/models/errors/update-collection-item-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`RemoveIssueFromCollectionUnauthorizedError`](./src/models/errors/remove-issue-from-collection-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`ListPullListUnauthorizedError`](./src/models/errors/list-pull-list-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`AddToPullListUnauthorizedError`](./src/models/errors/add-to-pull-list-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`RemoveFromPullListUnauthorizedError`](./src/models/errors/remove-from-pull-list-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`ListReadStatusUnauthorizedError`](./src/models/errors/list-read-status-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`MarkAsReadUnauthorizedError`](./src/models/errors/mark-as-read-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`EditReadingDateUnauthorizedError`](./src/models/errors/edit-reading-date-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`MarkAsUnreadUnauthorizedError`](./src/models/errors/mark-as-unread-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`ListWishlistUnauthorizedError`](./src/models/errors/list-wishlist-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`AddToWishlistUnauthorizedError`](./src/models/errors/add-to-wishlist-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`RemoveFromWishlistUnauthorizedError`](./src/models/errors/remove-from-wishlist-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`ListFollowsUnauthorizedError`](./src/models/errors/list-follows-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`FollowContentUnauthorizedError`](./src/models/errors/follow-content-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`UnfollowContentUnauthorizedError`](./src/models/errors/unfollow-content-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`CheckFollowStatusUnauthorizedError`](./src/models/errors/check-follow-status-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`GetActivityFeedUnauthorizedError`](./src/models/errors/get-activity-feed-unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. Applicable to 1 of 85 methods.*
-* [`CreateListForbiddenError`](./src/models/errors/create-list-forbidden-error.ts): Limit Reached. Status code `403`. Applicable to 1 of 85 methods.*
-* [`GetListForbiddenError`](./src/models/errors/get-list-forbidden-error.ts): Private List. Status code `403`. Applicable to 1 of 85 methods.*
-* [`UpdateListForbiddenError`](./src/models/errors/update-list-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 85 methods.*
-* [`ResponseBodyError1`](./src/models/errors/response-body-error1.ts): Wishlist. Status code `403`. Applicable to 1 of 85 methods.*
-* [`ResponseBodyError2`](./src/models/errors/response-body-error2.ts): Unauthorized. Status code `403`. Applicable to 1 of 85 methods.*
-* [`ConvertAListToMixedForbiddenError`](./src/models/errors/convert-a-list-to-mixed-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 85 methods.*
-* [`MergeAListIntoThisOneForbiddenError`](./src/models/errors/merge-a-list-into-this-one-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 85 methods.*
-* [`AddItemToListForbiddenError`](./src/models/errors/add-item-to-list-forbidden-error.ts): Item Limit. Status code `403`. Applicable to 1 of 85 methods.*
-* [`RemoveItemFromListForbiddenError`](./src/models/errors/remove-item-from-list-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 85 methods.*
-* [`SaveListForbiddenError`](./src/models/errors/save-list-forbidden-error.ts): Own List. Status code `403`. Applicable to 1 of 85 methods.*
-* [`LikeListForbiddenError`](./src/models/errors/like-list-forbidden-error.ts): Own List. Status code `403`. Applicable to 1 of 85 methods.*
-* [`LookupByUPCForbiddenError`](./src/models/errors/lookup-by-upc-forbidden-error.ts): Missing Ability. Status code `403`. Applicable to 1 of 85 methods.*
-* [`LookupByISBNForbiddenError`](./src/models/errors/lookup-by-isbn-forbidden-error.ts): Missing Ability. Status code `403`. Applicable to 1 of 85 methods.*
-* [`AddIssueToCollectionForbiddenError`](./src/models/errors/add-issue-to-collection-forbidden-error.ts): Account Pending Deletion. Status code `403`. Applicable to 1 of 85 methods.*
-* [`GetASpecificTitleNotFoundError`](./src/models/errors/get-a-specific-title-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 85 methods.*
-* [`GetSeriesDetailsNotFoundError`](./src/models/errors/get-series-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 85 methods.*
-* [`GetIssueDetailsNotFoundError`](./src/models/errors/get-issue-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 85 methods.*
-* [`GetVariantDetailsNotFoundError`](./src/models/errors/get-variant-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 85 methods.*
-* [`GetPublisherDetailsNotFoundError`](./src/models/errors/get-publisher-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 85 methods.*
-* [`GetCreatorDetailsNotFoundError`](./src/models/errors/get-creator-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 85 methods.*
-* [`GetCharacterDetailsNotFoundError`](./src/models/errors/get-character-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 85 methods.*
-* [`GetASpecificTeamNotFoundError`](./src/models/errors/get-a-specific-team-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 85 methods.*
-* [`GetAnEventNotFoundError`](./src/models/errors/get-an-event-not-found-error.ts): Not Found or Archived. Status code `404`. Applicable to 1 of 85 methods.*
-* [`GetAComicShopNotFoundError`](./src/models/errors/get-a-comic-shop-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 85 methods.*
-* [`GetASpecificPodcastNotFoundError`](./src/models/errors/get-a-specific-podcast-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 85 methods.*
-* [`GetListNotFoundError`](./src/models/errors/get-list-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 85 methods.*
-* [`RemoveItemFromListNotFoundError`](./src/models/errors/remove-item-from-list-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 85 methods.*
-* [`LookupByUPCNotFoundError`](./src/models/errors/lookup-by-upc-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 85 methods.*
-* [`LookupByISBNNotFoundError`](./src/models/errors/lookup-by-isbn-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 85 methods.*
-* [`UpdateCollectionItemNotFoundError`](./src/models/errors/update-collection-item-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 85 methods.*
-* [`RemoveIssueFromCollectionNotFoundError`](./src/models/errors/remove-issue-from-collection-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 85 methods.*
-* [`FollowContentNotFoundError`](./src/models/errors/follow-content-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 85 methods.*
-* [`UnfollowContentNotFoundError`](./src/models/errors/unfollow-content-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 85 methods.*
-* [`AddItemToListConflictError`](./src/models/errors/add-item-to-list-conflict-error.ts): Already Exists. Status code `409`. Applicable to 1 of 85 methods.*
-* [`LookupByUPCConflictError`](./src/models/errors/lookup-by-upc-conflict-error.ts): Multiple Matches. Status code `409`. Applicable to 1 of 85 methods.*
-* [`ConvertAListToMixedUnprocessableEntityError`](./src/models/errors/convert-a-list-to-mixed-unprocessable-entity-error.ts): Not convertible. Status code `422`. Applicable to 1 of 85 methods.*
-* [`MergeAListIntoThisOneUnprocessableEntityError`](./src/models/errors/merge-a-list-into-this-one-unprocessable-entity-error.ts): Invalid merge. Status code `422`. Applicable to 1 of 85 methods.*
-* [`AddIssueToCollectionUnprocessableEntityError`](./src/models/errors/add-issue-to-collection-unprocessable-entity-error.ts): Invalid Variant. Status code `422`. Applicable to 1 of 85 methods.*
-* [`AddToPullListUnprocessableEntityError`](./src/models/errors/add-to-pull-list-unprocessable-entity-error.ts): Series Not Found. Status code `422`. Applicable to 1 of 85 methods.*
-* [`MarkAsReadUnprocessableEntityError`](./src/models/errors/mark-as-read-unprocessable-entity-error.ts): Invalid Variant. Status code `422`. Applicable to 1 of 85 methods.*
-* [`AddToWishlistUnprocessableEntityError`](./src/models/errors/add-to-wishlist-unprocessable-entity-error.ts): Wishlist Full. Status code `422`. Applicable to 1 of 85 methods.*
-* [`ListTitlesTooManyRequestsError`](./src/models/errors/list-titles-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetASpecificTitleTooManyRequestsError`](./src/models/errors/get-a-specific-title-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`ListSeriesTooManyRequestsError`](./src/models/errors/list-series-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetSeriesDetailsTooManyRequestsError`](./src/models/errors/get-series-details-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetSeriesIssuesTooManyRequestsError`](./src/models/errors/get-series-issues-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetSeriesCreatorsTooManyRequestsError`](./src/models/errors/get-series-creators-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetSeriesCharactersTooManyRequestsError`](./src/models/errors/get-series-characters-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`ListIssuesTooManyRequestsError`](./src/models/errors/list-issues-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetIssueDetailsTooManyRequestsError`](./src/models/errors/get-issue-details-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetIssueVariantsTooManyRequestsError`](./src/models/errors/get-issue-variants-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetVariantDetailsTooManyRequestsError`](./src/models/errors/get-variant-details-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetIssueCreatorsTooManyRequestsError`](./src/models/errors/get-issue-creators-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetIssueCharactersTooManyRequestsError`](./src/models/errors/get-issue-characters-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetKeyIssueReasonsTooManyRequestsError`](./src/models/errors/get-key-issue-reasons-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`ListAllPublishersWithOptionalSearchTooManyRequestsError`](./src/models/errors/list-all-publishers-with-optional-search-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetPublisherDetailsTooManyRequestsError`](./src/models/errors/get-publisher-details-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`ListImprintsTooManyRequestsError`](./src/models/errors/list-imprints-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetImprintDetailsTooManyRequestsError`](./src/models/errors/get-imprint-details-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`ListCreatorsTooManyRequestsError`](./src/models/errors/list-creators-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetCreatorDetailsTooManyRequestsError`](./src/models/errors/get-creator-details-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetCreatorsBlogPostsTooManyRequestsError`](./src/models/errors/get-creators-blog-posts-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetCreatorsIssuesTooManyRequestsError`](./src/models/errors/get-creators-issues-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetCreatorsSeriesTooManyRequestsError`](./src/models/errors/get-creators-series-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`ListCharactersTooManyRequestsError`](./src/models/errors/list-characters-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetCharacterDetailsTooManyRequestsError`](./src/models/errors/get-character-details-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetCharacterSeriesTooManyRequestsError`](./src/models/errors/get-character-series-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetCharacterIssuesTooManyRequestsError`](./src/models/errors/get-character-issues-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetCharacterTeamsTooManyRequestsError`](./src/models/errors/get-character-teams-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`ListAllTeamsWithOptionalSearchTooManyRequestsError`](./src/models/errors/list-all-teams-with-optional-search-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetASpecificTeamTooManyRequestsError`](./src/models/errors/get-a-specific-team-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetCharactersForASpecificTeammembersTooManyRequestsError`](./src/models/errors/get-characters-for-a-specific-teammembers-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetSeriesForASpecificTeamTooManyRequestsError`](./src/models/errors/get-series-for-a-specific-team-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetIssuesForASpecificTeamTooManyRequestsError`](./src/models/errors/get-issues-for-a-specific-team-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`ListAllStoryArcsWithOptionalSearchTooManyRequestsError`](./src/models/errors/list-all-story-arcs-with-optional-search-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetStoryArcDetailTooManyRequestsError`](./src/models/errors/get-story-arc-detail-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetStoryArcsForASpecificIssueTooManyRequestsError`](./src/models/errors/get-story-arcs-for-a-specific-issue-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetStoryArcsForASpecificCharacterTooManyRequestsError`](./src/models/errors/get-story-arcs-for-a-specific-character-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetStoryArcsForASpecificUniverseTooManyRequestsError`](./src/models/errors/get-story-arcs-for-a-specific-universe-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`ListUniversesTooManyRequestsError`](./src/models/errors/list-universes-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetASpecificUniverseTooManyRequestsError`](./src/models/errors/get-a-specific-universe-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`ListEventsTooManyRequestsError`](./src/models/errors/list-events-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetAnEventTooManyRequestsError`](./src/models/errors/get-an-event-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`ListKeyIssueReasonsTooManyRequestsError`](./src/models/errors/list-key-issue-reasons-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`ListComicShopsTooManyRequestsError`](./src/models/errors/list-comic-shops-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetAComicShopTooManyRequestsError`](./src/models/errors/get-a-comic-shop-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`ListAllPodcastsWithOptionalSearchTooManyRequestsError`](./src/models/errors/list-all-podcasts-with-optional-search-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetASpecificPodcastTooManyRequestsError`](./src/models/errors/get-a-specific-podcast-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`BrowseListsTooManyRequestsError`](./src/models/errors/browse-lists-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`CreateListTooManyRequestsError`](./src/models/errors/create-list-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`BrowseSystemListsTooManyRequestsError`](./src/models/errors/browse-system-lists-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetListTooManyRequestsError`](./src/models/errors/get-list-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`UpdateListTooManyRequestsError`](./src/models/errors/update-list-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`DeleteListTooManyRequestsError`](./src/models/errors/delete-list-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetUsersListsTooManyRequestsError`](./src/models/errors/get-users-lists-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`ConvertAListToMixedTooManyRequestsError`](./src/models/errors/convert-a-list-to-mixed-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`MergeAListIntoThisOneTooManyRequestsError`](./src/models/errors/merge-a-list-into-this-one-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`AddItemToListTooManyRequestsError`](./src/models/errors/add-item-to-list-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`RemoveItemFromListTooManyRequestsError`](./src/models/errors/remove-item-from-list-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`ReorderItemsTooManyRequestsError`](./src/models/errors/reorder-items-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`SaveListTooManyRequestsError`](./src/models/errors/save-list-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`UnsaveListTooManyRequestsError`](./src/models/errors/unsave-list-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`LikeListTooManyRequestsError`](./src/models/errors/like-list-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`UnlikeListTooManyRequestsError`](./src/models/errors/unlike-list-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`LookupByUPCTooManyRequestsError`](./src/models/errors/lookup-by-upc-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`LookupByISBNTooManyRequestsError`](./src/models/errors/lookup-by-isbn-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetTheAuthenticatedUserTooManyRequestsError`](./src/models/errors/get-the-authenticated-user-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`ListCollectionTooManyRequestsError`](./src/models/errors/list-collection-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`AddIssueToCollectionTooManyRequestsError`](./src/models/errors/add-issue-to-collection-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`UpdateCollectionItemTooManyRequestsError`](./src/models/errors/update-collection-item-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`RemoveIssueFromCollectionTooManyRequestsError`](./src/models/errors/remove-issue-from-collection-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`ListPullListTooManyRequestsError`](./src/models/errors/list-pull-list-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`AddToPullListTooManyRequestsError`](./src/models/errors/add-to-pull-list-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`RemoveFromPullListTooManyRequestsError`](./src/models/errors/remove-from-pull-list-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`ListReadStatusTooManyRequestsError`](./src/models/errors/list-read-status-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`MarkAsReadTooManyRequestsError`](./src/models/errors/mark-as-read-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`EditReadingDateTooManyRequestsError`](./src/models/errors/edit-reading-date-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`MarkAsUnreadTooManyRequestsError`](./src/models/errors/mark-as-unread-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`ListWishlistTooManyRequestsError`](./src/models/errors/list-wishlist-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`AddToWishlistTooManyRequestsError`](./src/models/errors/add-to-wishlist-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`RemoveFromWishlistTooManyRequestsError`](./src/models/errors/remove-from-wishlist-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`ListFollowsTooManyRequestsError`](./src/models/errors/list-follows-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`FollowContentTooManyRequestsError`](./src/models/errors/follow-content-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`UnfollowContentTooManyRequestsError`](./src/models/errors/unfollow-content-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`CheckFollowStatusTooManyRequestsError`](./src/models/errors/check-follow-status-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
-* [`GetActivityFeedTooManyRequestsError`](./src/models/errors/get-activity-feed-too-many-requests-error.ts): Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying. Status code `429`. Applicable to 1 of 85 methods.*
+* [`CreateListForbiddenError`](./src/models/errors/create-list-forbidden-error.ts): Limit Reached. Status code `403`. Applicable to 1 of 89 methods.*
+* [`GetListForbiddenError`](./src/models/errors/get-list-forbidden-error.ts): Private List. Status code `403`. Applicable to 1 of 89 methods.*
+* [`UpdateListForbiddenError`](./src/models/errors/update-list-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 89 methods.*
+* [`ResponseBodyError1`](./src/models/errors/response-body-error1.ts): Wishlist. Status code `403`. Applicable to 1 of 89 methods.*
+* [`ResponseBodyError2`](./src/models/errors/response-body-error2.ts): Unauthorized. Status code `403`. Applicable to 1 of 89 methods.*
+* [`ConvertAListToMixedForbiddenError`](./src/models/errors/convert-a-list-to-mixed-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 89 methods.*
+* [`MergeAListIntoThisOneForbiddenError`](./src/models/errors/merge-a-list-into-this-one-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 89 methods.*
+* [`AddItemToListForbiddenError`](./src/models/errors/add-item-to-list-forbidden-error.ts): Item Limit. Status code `403`. Applicable to 1 of 89 methods.*
+* [`RemoveItemFromListForbiddenError`](./src/models/errors/remove-item-from-list-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 89 methods.*
+* [`SaveListForbiddenError`](./src/models/errors/save-list-forbidden-error.ts): Own List. Status code `403`. Applicable to 1 of 89 methods.*
+* [`LikeListForbiddenError`](./src/models/errors/like-list-forbidden-error.ts): Own List. Status code `403`. Applicable to 1 of 89 methods.*
+* [`LookupByUPCForbiddenError`](./src/models/errors/lookup-by-upc-forbidden-error.ts): Missing Ability. Status code `403`. Applicable to 1 of 89 methods.*
+* [`LookupByISBNForbiddenError`](./src/models/errors/lookup-by-isbn-forbidden-error.ts): Missing Ability. Status code `403`. Applicable to 1 of 89 methods.*
+* [`AddIssueToCollectionForbiddenError`](./src/models/errors/add-issue-to-collection-forbidden-error.ts): Account Pending Deletion. Status code `403`. Applicable to 1 of 89 methods.*
+* [`GetASpecificTitleNotFoundError`](./src/models/errors/get-a-specific-title-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
+* [`GetSeriesDetailsNotFoundError`](./src/models/errors/get-series-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
+* [`GetIssueDetailsNotFoundError`](./src/models/errors/get-issue-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
+* [`GetVariantDetailsNotFoundError`](./src/models/errors/get-variant-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
+* [`GetPublisherDetailsNotFoundError`](./src/models/errors/get-publisher-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
+* [`GetCreatorDetailsNotFoundError`](./src/models/errors/get-creator-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
+* [`GetCharacterDetailsNotFoundError`](./src/models/errors/get-character-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
+* [`GetASpecificTeamNotFoundError`](./src/models/errors/get-a-specific-team-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
+* [`GetAnEventNotFoundError`](./src/models/errors/get-an-event-not-found-error.ts): Not Found or Archived. Status code `404`. Applicable to 1 of 89 methods.*
+* [`GetAComicShopNotFoundError`](./src/models/errors/get-a-comic-shop-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
+* [`GetASpecificPodcastNotFoundError`](./src/models/errors/get-a-specific-podcast-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
+* [`GetListNotFoundError`](./src/models/errors/get-list-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
+* [`RemoveItemFromListNotFoundError`](./src/models/errors/remove-item-from-list-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
+* [`LookupByUPCNotFoundError`](./src/models/errors/lookup-by-upc-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
+* [`LookupByISBNNotFoundError`](./src/models/errors/lookup-by-isbn-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
+* [`UpdateCollectionItemNotFoundError`](./src/models/errors/update-collection-item-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
+* [`RemoveIssueFromCollectionNotFoundError`](./src/models/errors/remove-issue-from-collection-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
+* [`FollowContentNotFoundError`](./src/models/errors/follow-content-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
+* [`UnfollowContentNotFoundError`](./src/models/errors/unfollow-content-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
+* [`AddItemToListConflictError`](./src/models/errors/add-item-to-list-conflict-error.ts): Already Exists. Status code `409`. Applicable to 1 of 89 methods.*
+* [`LookupByUPCConflictError`](./src/models/errors/lookup-by-upc-conflict-error.ts): Multiple Matches. Status code `409`. Applicable to 1 of 89 methods.*
+* [`ConvertAListToMixedUnprocessableEntityError`](./src/models/errors/convert-a-list-to-mixed-unprocessable-entity-error.ts): Not convertible. Status code `422`. Applicable to 1 of 89 methods.*
+* [`MergeAListIntoThisOneUnprocessableEntityError`](./src/models/errors/merge-a-list-into-this-one-unprocessable-entity-error.ts): Invalid merge. Status code `422`. Applicable to 1 of 89 methods.*
+* [`AddIssueToCollectionUnprocessableEntityError`](./src/models/errors/add-issue-to-collection-unprocessable-entity-error.ts): Invalid Variant. Status code `422`. Applicable to 1 of 89 methods.*
+* [`AddToPullListUnprocessableEntityError`](./src/models/errors/add-to-pull-list-unprocessable-entity-error.ts): Series Not Found. Status code `422`. Applicable to 1 of 89 methods.*
+* [`MarkAsReadUnprocessableEntityError`](./src/models/errors/mark-as-read-unprocessable-entity-error.ts): Invalid Variant. Status code `422`. Applicable to 1 of 89 methods.*
+* [`AddToWishlistUnprocessableEntityError`](./src/models/errors/add-to-wishlist-unprocessable-entity-error.ts): Wishlist Full. Status code `422`. Applicable to 1 of 89 methods.*
 * [`ResponseValidationError`](./src/models/errors/response-validation-error.ts): Type mismatch between the data returned from the server and the structure expected by the SDK. See `error.rawValue` for the raw value and `error.pretty()` for a nicely formatted multi-line string.
 
 </details>
@@ -853,10 +696,10 @@ const verseDB = new VerseDB({
 });
 
 async function run() {
-  const result = await verseDB.titles.listTitles({
-    q: "spider-man",
-    publisher: 1,
-    limit: 20,
+  const result = await verseDB.discovery.fOCDeadlines({
+    limit: 10,
+    days: 7,
+    startDate: "2026-03-15",
   });
 
   console.log(result);

@@ -41,10 +41,10 @@ export function listsConvertAListToMixed(
 ): APIPromise<
   Result<
     operations.ConvertAListToMixedResponse,
-    | errors.ConvertAListToMixedUnauthorizedError
+    | errors.UnauthorizedError
     | errors.ConvertAListToMixedForbiddenError
     | errors.ConvertAListToMixedUnprocessableEntityError
-    | errors.ConvertAListToMixedTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -70,10 +70,10 @@ async function $do(
   [
     Result<
       operations.ConvertAListToMixedResponse,
-      | errors.ConvertAListToMixedUnauthorizedError
+      | errors.UnauthorizedError
       | errors.ConvertAListToMixedForbiddenError
       | errors.ConvertAListToMixedUnprocessableEntityError
-      | errors.ConvertAListToMixedTooManyRequestsError
+      | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
       | ConnectionError
@@ -164,10 +164,10 @@ async function $do(
 
   const [result] = await M.match<
     operations.ConvertAListToMixedResponse,
-    | errors.ConvertAListToMixedUnauthorizedError
+    | errors.UnauthorizedError
     | errors.ConvertAListToMixedForbiddenError
     | errors.ConvertAListToMixedUnprocessableEntityError
-    | errors.ConvertAListToMixedTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -181,17 +181,13 @@ async function $do(
       hdrs: true,
       key: "Result",
     }),
-    M.jsonErr(401, errors.ConvertAListToMixedUnauthorizedError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
     M.jsonErr(403, errors.ConvertAListToMixedForbiddenError$inboundSchema),
     M.jsonErr(
       422,
       errors.ConvertAListToMixedUnprocessableEntityError$inboundSchema,
     ),
-    M.jsonErr(
-      429,
-      errors.ConvertAListToMixedTooManyRequestsError$inboundSchema,
-      { hdrs: true },
-    ),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

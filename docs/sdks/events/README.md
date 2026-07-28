@@ -93,11 +93,11 @@ run();
 
 ### Errors
 
-| Error Type                            | Status Code                           | Content Type                          |
-| ------------------------------------- | ------------------------------------- | ------------------------------------- |
-| errors.ListEventsUnauthorizedError    | 401                                   | application/json                      |
-| errors.ListEventsTooManyRequestsError | 429                                   | application/json                      |
-| errors.VerseDbDefaultError            | 4XX, 5XX                              | \*/\*                                 |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
 
 ## getAnEvent
 
@@ -168,9 +168,9 @@ run();
 
 ### Errors
 
-| Error Type                            | Status Code                           | Content Type                          |
-| ------------------------------------- | ------------------------------------- | ------------------------------------- |
-| errors.GetAnEventUnauthorizedError    | 401                                   | application/json                      |
-| errors.GetAnEventNotFoundError        | 404                                   | application/json                      |
-| errors.GetAnEventTooManyRequestsError | 429                                   | application/json                      |
-| errors.VerseDbDefaultError            | 4XX, 5XX                              | \*/\*                                 |
+| Error Type                     | Status Code                    | Content Type                   |
+| ------------------------------ | ------------------------------ | ------------------------------ |
+| errors.UnauthorizedError       | 401                            | application/json               |
+| errors.GetAnEventNotFoundError | 404                            | application/json               |
+| errors.TooManyRequestsError    | 429                            | application/json               |
+| errors.VerseDbDefaultError     | 4XX, 5XX                       | \*/\*                          |

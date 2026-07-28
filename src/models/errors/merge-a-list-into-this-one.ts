@@ -7,32 +7,6 @@ import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export type MergeAListIntoThisOneTooManyRequestsErrorData = {
-  message: string;
-};
-
-/**
- * Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export class MergeAListIntoThisOneTooManyRequestsError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: MergeAListIntoThisOneTooManyRequestsErrorData;
-
-  constructor(
-    err: MergeAListIntoThisOneTooManyRequestsErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "MergeAListIntoThisOneTooManyRequestsError";
-  }
-}
-
-/**
  * Invalid merge
  */
 export type MergeAListIntoThisOneUnprocessableEntityErrorData = {
@@ -86,50 +60,6 @@ export class MergeAListIntoThisOneForbiddenError extends VerseDbError {
   }
 }
 
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export type MergeAListIntoThisOneUnauthorizedErrorData = {
-  message: string;
-};
-
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export class MergeAListIntoThisOneUnauthorizedError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: MergeAListIntoThisOneUnauthorizedErrorData;
-
-  constructor(
-    err: MergeAListIntoThisOneUnauthorizedErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "MergeAListIntoThisOneUnauthorizedError";
-  }
-}
-
-/** @internal */
-export const MergeAListIntoThisOneTooManyRequestsError$inboundSchema:
-  z.ZodMiniType<MergeAListIntoThisOneTooManyRequestsError, unknown> = z.pipe(
-    z.object({
-      message: types.string(),
-      request$: z.custom<Request>(x => x instanceof Request),
-      response$: z.custom<Response>(x => x instanceof Response),
-      body$: z.string(),
-    }),
-    z.transform((v) => {
-      return new MergeAListIntoThisOneTooManyRequestsError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
-      });
-    }),
-  );
-
 /** @internal */
 export const MergeAListIntoThisOneUnprocessableEntityError$inboundSchema:
   z.ZodMiniType<MergeAListIntoThisOneUnprocessableEntityError, unknown> = z
@@ -168,21 +98,3 @@ export const MergeAListIntoThisOneForbiddenError$inboundSchema: z.ZodMiniType<
     });
   }),
 );
-
-/** @internal */
-export const MergeAListIntoThisOneUnauthorizedError$inboundSchema:
-  z.ZodMiniType<MergeAListIntoThisOneUnauthorizedError, unknown> = z.pipe(
-    z.object({
-      message: types.string(),
-      request$: z.custom<Request>(x => x instanceof Request),
-      response$: z.custom<Response>(x => x instanceof Response),
-      body$: z.string(),
-    }),
-    z.transform((v) => {
-      return new MergeAListIntoThisOneUnauthorizedError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
-      });
-    }),
-  );

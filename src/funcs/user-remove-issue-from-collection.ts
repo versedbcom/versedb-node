@@ -41,9 +41,9 @@ export function userRemoveIssueFromCollection(
 ): APIPromise<
   Result<
     operations.RemoveIssueFromCollectionResponse | undefined,
-    | errors.RemoveIssueFromCollectionUnauthorizedError
+    | errors.UnauthorizedError
     | errors.RemoveIssueFromCollectionNotFoundError
-    | errors.RemoveIssueFromCollectionTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -69,9 +69,9 @@ async function $do(
   [
     Result<
       operations.RemoveIssueFromCollectionResponse | undefined,
-      | errors.RemoveIssueFromCollectionUnauthorizedError
+      | errors.UnauthorizedError
       | errors.RemoveIssueFromCollectionNotFoundError
-      | errors.RemoveIssueFromCollectionTooManyRequestsError
+      | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
       | ConnectionError
@@ -170,9 +170,9 @@ async function $do(
 
   const [result] = await M.match<
     operations.RemoveIssueFromCollectionResponse | undefined,
-    | errors.RemoveIssueFromCollectionUnauthorizedError
+    | errors.UnauthorizedError
     | errors.RemoveIssueFromCollectionNotFoundError
-    | errors.RemoveIssueFromCollectionTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -189,16 +189,9 @@ async function $do(
       ),
       { hdrs: true },
     ),
-    M.jsonErr(
-      401,
-      errors.RemoveIssueFromCollectionUnauthorizedError$inboundSchema,
-    ),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
     M.jsonErr(404, errors.RemoveIssueFromCollectionNotFoundError$inboundSchema),
-    M.jsonErr(
-      429,
-      errors.RemoveIssueFromCollectionTooManyRequestsError$inboundSchema,
-      { hdrs: true },
-    ),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

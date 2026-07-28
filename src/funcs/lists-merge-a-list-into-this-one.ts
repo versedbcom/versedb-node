@@ -42,10 +42,10 @@ export function listsMergeAListIntoThisOne(
 ): APIPromise<
   Result<
     operations.MergeAListIntoThisOneResponse,
-    | errors.MergeAListIntoThisOneUnauthorizedError
+    | errors.UnauthorizedError
     | errors.MergeAListIntoThisOneForbiddenError
     | errors.MergeAListIntoThisOneUnprocessableEntityError
-    | errors.MergeAListIntoThisOneTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -71,10 +71,10 @@ async function $do(
   [
     Result<
       operations.MergeAListIntoThisOneResponse,
-      | errors.MergeAListIntoThisOneUnauthorizedError
+      | errors.UnauthorizedError
       | errors.MergeAListIntoThisOneForbiddenError
       | errors.MergeAListIntoThisOneUnprocessableEntityError
-      | errors.MergeAListIntoThisOneTooManyRequestsError
+      | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
       | ConnectionError
@@ -164,10 +164,10 @@ async function $do(
 
   const [result] = await M.match<
     operations.MergeAListIntoThisOneResponse,
-    | errors.MergeAListIntoThisOneUnauthorizedError
+    | errors.UnauthorizedError
     | errors.MergeAListIntoThisOneForbiddenError
     | errors.MergeAListIntoThisOneUnprocessableEntityError
-    | errors.MergeAListIntoThisOneTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -181,17 +181,13 @@ async function $do(
       hdrs: true,
       key: "Result",
     }),
-    M.jsonErr(401, errors.MergeAListIntoThisOneUnauthorizedError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
     M.jsonErr(403, errors.MergeAListIntoThisOneForbiddenError$inboundSchema),
     M.jsonErr(
       422,
       errors.MergeAListIntoThisOneUnprocessableEntityError$inboundSchema,
     ),
-    M.jsonErr(
-      429,
-      errors.MergeAListIntoThisOneTooManyRequestsError$inboundSchema,
-      { hdrs: true },
-    ),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

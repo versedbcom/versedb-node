@@ -11,32 +11,6 @@ import { SDKValidationError } from "./sdk-validation-error.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export type DeleteListTooManyRequestsErrorData = {
-  message: string;
-};
-
-/**
- * Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export class DeleteListTooManyRequestsError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: DeleteListTooManyRequestsErrorData;
-
-  constructor(
-    err: DeleteListTooManyRequestsErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "DeleteListTooManyRequestsError";
-  }
-}
-
-/**
  * Unauthorized
  */
 export type ResponseBodyError2Data = {
@@ -88,53 +62,10 @@ export class ResponseBodyError1 extends VerseDbError {
   }
 }
 
+/**
+ * Forbidden. The authenticated user may not perform this action.
+ */
 export type Forbidden = ResponseBodyError1 | ResponseBodyError2;
-
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export type DeleteListUnauthorizedErrorData = {
-  message: string;
-};
-
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export class DeleteListUnauthorizedError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: DeleteListUnauthorizedErrorData;
-
-  constructor(
-    err: DeleteListUnauthorizedErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "DeleteListUnauthorizedError";
-  }
-}
-
-/** @internal */
-export const DeleteListTooManyRequestsError$inboundSchema: z.ZodMiniType<
-  DeleteListTooManyRequestsError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new DeleteListTooManyRequestsError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
 
 /** @internal */
 export const ResponseBodyError2$inboundSchema: z.ZodMiniType<
@@ -192,23 +123,3 @@ export function forbiddenFromJSON(
     `Failed to parse 'Forbidden' from JSON`,
   );
 }
-
-/** @internal */
-export const DeleteListUnauthorizedError$inboundSchema: z.ZodMiniType<
-  DeleteListUnauthorizedError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new DeleteListUnauthorizedError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);

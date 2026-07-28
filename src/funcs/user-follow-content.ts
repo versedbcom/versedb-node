@@ -40,9 +40,9 @@ export function userFollowContent(
 ): APIPromise<
   Result<
     operations.FollowContentResponse,
-    | errors.FollowContentUnauthorizedError
+    | errors.UnauthorizedError
     | errors.FollowContentNotFoundError
-    | errors.FollowContentTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -68,9 +68,9 @@ async function $do(
   [
     Result<
       operations.FollowContentResponse,
-      | errors.FollowContentUnauthorizedError
+      | errors.UnauthorizedError
       | errors.FollowContentNotFoundError
-      | errors.FollowContentTooManyRequestsError
+      | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
       | ConnectionError
@@ -153,9 +153,9 @@ async function $do(
 
   const [result] = await M.match<
     operations.FollowContentResponse,
-    | errors.FollowContentUnauthorizedError
+    | errors.UnauthorizedError
     | errors.FollowContentNotFoundError
-    | errors.FollowContentTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -169,11 +169,9 @@ async function $do(
       hdrs: true,
       key: "Result",
     }),
-    M.jsonErr(401, errors.FollowContentUnauthorizedError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
     M.jsonErr(404, errors.FollowContentNotFoundError$inboundSchema),
-    M.jsonErr(429, errors.FollowContentTooManyRequestsError$inboundSchema, {
-      hdrs: true,
-    }),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

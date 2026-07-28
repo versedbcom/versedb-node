@@ -84,11 +84,11 @@ run();
 
 ### Errors
 
-| Error Type                              | Status Code                             | Content Type                            |
-| --------------------------------------- | --------------------------------------- | --------------------------------------- |
-| errors.ListImprintsUnauthorizedError    | 401                                     | application/json                        |
-| errors.ListImprintsTooManyRequestsError | 429                                     | application/json                        |
-| errors.VerseDbDefaultError              | 4XX, 5XX                                | \*/\*                                   |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
 
 ## getImprintDetails
 
@@ -159,8 +159,8 @@ run();
 
 ### Errors
 
-| Error Type                                   | Status Code                                  | Content Type                                 |
-| -------------------------------------------- | -------------------------------------------- | -------------------------------------------- |
-| errors.GetImprintDetailsUnauthorizedError    | 401                                          | application/json                             |
-| errors.GetImprintDetailsTooManyRequestsError | 429                                          | application/json                             |
-| errors.VerseDbDefaultError                   | 4XX, 5XX                                     | \*/\*                                        |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |

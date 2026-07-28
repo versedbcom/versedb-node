@@ -7,10 +7,10 @@ const verseDB = new VerseDB({
 });
 
 async function run() {
-  const result = await verseDB.titles.listTitles({
-    q: "spider-man",
-    publisher: 1,
-    limit: 20,
+  const result = await verseDB.discovery.fOCDeadlines({
+    limit: 10,
+    days: 7,
+    startDate: "2026-03-15",
   });
 
   console.log(result);

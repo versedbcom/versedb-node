@@ -7,32 +7,6 @@ import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export type GetVariantDetailsTooManyRequestsErrorData = {
-  message: string;
-};
-
-/**
- * Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export class GetVariantDetailsTooManyRequestsError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: GetVariantDetailsTooManyRequestsErrorData;
-
-  constructor(
-    err: GetVariantDetailsTooManyRequestsErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "GetVariantDetailsTooManyRequestsError";
-  }
-}
-
-/**
  * Not Found
  */
 export type GetVariantDetailsNotFoundErrorData = {
@@ -63,52 +37,6 @@ export class GetVariantDetailsNotFoundError extends VerseDbError {
   }
 }
 
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export type GetVariantDetailsUnauthorizedErrorData = {
-  message: string;
-};
-
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export class GetVariantDetailsUnauthorizedError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: GetVariantDetailsUnauthorizedErrorData;
-
-  constructor(
-    err: GetVariantDetailsUnauthorizedErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "GetVariantDetailsUnauthorizedError";
-  }
-}
-
-/** @internal */
-export const GetVariantDetailsTooManyRequestsError$inboundSchema: z.ZodMiniType<
-  GetVariantDetailsTooManyRequestsError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new GetVariantDetailsTooManyRequestsError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
-
 /** @internal */
 export const GetVariantDetailsNotFoundError$inboundSchema: z.ZodMiniType<
   GetVariantDetailsNotFoundError,
@@ -122,26 +50,6 @@ export const GetVariantDetailsNotFoundError$inboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return new GetVariantDetailsNotFoundError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
-
-/** @internal */
-export const GetVariantDetailsUnauthorizedError$inboundSchema: z.ZodMiniType<
-  GetVariantDetailsUnauthorizedError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new GetVariantDetailsUnauthorizedError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

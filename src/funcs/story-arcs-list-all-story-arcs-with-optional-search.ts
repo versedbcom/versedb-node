@@ -37,8 +37,8 @@ export function storyArcsListAllStoryArcsWithOptionalSearch(
 ): APIPromise<
   Result<
     operations.ListAllStoryArcsWithOptionalSearchResponse,
-    | errors.ListAllStoryArcsWithOptionalSearchUnauthorizedError
-    | errors.ListAllStoryArcsWithOptionalSearchTooManyRequestsError
+    | errors.UnauthorizedError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -64,8 +64,8 @@ async function $do(
   [
     Result<
       operations.ListAllStoryArcsWithOptionalSearchResponse,
-      | errors.ListAllStoryArcsWithOptionalSearchUnauthorizedError
-      | errors.ListAllStoryArcsWithOptionalSearchTooManyRequestsError
+      | errors.UnauthorizedError
+      | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
       | ConnectionError
@@ -161,8 +161,8 @@ async function $do(
 
   const [result] = await M.match<
     operations.ListAllStoryArcsWithOptionalSearchResponse,
-    | errors.ListAllStoryArcsWithOptionalSearchUnauthorizedError
-    | errors.ListAllStoryArcsWithOptionalSearchTooManyRequestsError
+    | errors.UnauthorizedError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -177,16 +177,8 @@ async function $do(
       operations.ListAllStoryArcsWithOptionalSearchResponse$inboundSchema,
       { hdrs: true, key: "Result" },
     ),
-    M.jsonErr(
-      401,
-      errors.ListAllStoryArcsWithOptionalSearchUnauthorizedError$inboundSchema,
-    ),
-    M.jsonErr(
-      429,
-      errors
-        .ListAllStoryArcsWithOptionalSearchTooManyRequestsError$inboundSchema,
-      { hdrs: true },
-    ),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

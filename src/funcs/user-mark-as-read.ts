@@ -40,9 +40,9 @@ export function userMarkAsRead(
 ): APIPromise<
   Result<
     operations.MarkAsReadResponse,
-    | errors.MarkAsReadUnauthorizedError
+    | errors.UnauthorizedError
     | errors.MarkAsReadUnprocessableEntityError
-    | errors.MarkAsReadTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -68,9 +68,9 @@ async function $do(
   [
     Result<
       operations.MarkAsReadResponse,
-      | errors.MarkAsReadUnauthorizedError
+      | errors.UnauthorizedError
       | errors.MarkAsReadUnprocessableEntityError
-      | errors.MarkAsReadTooManyRequestsError
+      | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
       | ConnectionError
@@ -159,9 +159,9 @@ async function $do(
 
   const [result] = await M.match<
     operations.MarkAsReadResponse,
-    | errors.MarkAsReadUnauthorizedError
+    | errors.UnauthorizedError
     | errors.MarkAsReadUnprocessableEntityError
-    | errors.MarkAsReadTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -175,11 +175,9 @@ async function $do(
       hdrs: true,
       key: "Result",
     }),
-    M.jsonErr(401, errors.MarkAsReadUnauthorizedError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
     M.jsonErr(422, errors.MarkAsReadUnprocessableEntityError$inboundSchema),
-    M.jsonErr(429, errors.MarkAsReadTooManyRequestsError$inboundSchema, {
-      hdrs: true,
-    }),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

@@ -87,11 +87,11 @@ run();
 
 ### Errors
 
-| Error Type                            | Status Code                           | Content Type                          |
-| ------------------------------------- | ------------------------------------- | ------------------------------------- |
-| errors.ListTitlesUnauthorizedError    | 401                                   | application/json                      |
-| errors.ListTitlesTooManyRequestsError | 429                                   | application/json                      |
-| errors.VerseDbDefaultError            | 4XX, 5XX                              | \*/\*                                 |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
 
 ## getASpecificTitle
 
@@ -171,9 +171,9 @@ run();
 
 ### Errors
 
-| Error Type                                   | Status Code                                  | Content Type                                 |
-| -------------------------------------------- | -------------------------------------------- | -------------------------------------------- |
-| errors.GetASpecificTitleUnauthorizedError    | 401                                          | application/json                             |
-| errors.GetASpecificTitleNotFoundError        | 404                                          | application/json                             |
-| errors.GetASpecificTitleTooManyRequestsError | 429                                          | application/json                             |
-| errors.VerseDbDefaultError                   | 4XX, 5XX                                     | \*/\*                                        |
+| Error Type                            | Status Code                           | Content Type                          |
+| ------------------------------------- | ------------------------------------- | ------------------------------------- |
+| errors.UnauthorizedError              | 401                                   | application/json                      |
+| errors.GetASpecificTitleNotFoundError | 404                                   | application/json                      |
+| errors.TooManyRequestsError           | 429                                   | application/json                      |
+| errors.VerseDbDefaultError            | 4XX, 5XX                              | \*/\*                                 |

@@ -7,32 +7,6 @@ import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export type GetCharacterDetailsTooManyRequestsErrorData = {
-  message: string;
-};
-
-/**
- * Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export class GetCharacterDetailsTooManyRequestsError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: GetCharacterDetailsTooManyRequestsErrorData;
-
-  constructor(
-    err: GetCharacterDetailsTooManyRequestsErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "GetCharacterDetailsTooManyRequestsError";
-  }
-}
-
-/**
  * Not Found
  */
 export type GetCharacterDetailsNotFoundErrorData = {
@@ -58,50 +32,6 @@ export class GetCharacterDetailsNotFoundError extends VerseDbError {
   }
 }
 
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export type GetCharacterDetailsUnauthorizedErrorData = {
-  message: string;
-};
-
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export class GetCharacterDetailsUnauthorizedError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: GetCharacterDetailsUnauthorizedErrorData;
-
-  constructor(
-    err: GetCharacterDetailsUnauthorizedErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "GetCharacterDetailsUnauthorizedError";
-  }
-}
-
-/** @internal */
-export const GetCharacterDetailsTooManyRequestsError$inboundSchema:
-  z.ZodMiniType<GetCharacterDetailsTooManyRequestsError, unknown> = z.pipe(
-    z.object({
-      message: types.string(),
-      request$: z.custom<Request>(x => x instanceof Request),
-      response$: z.custom<Response>(x => x instanceof Response),
-      body$: z.string(),
-    }),
-    z.transform((v) => {
-      return new GetCharacterDetailsTooManyRequestsError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
-      });
-    }),
-  );
-
 /** @internal */
 export const GetCharacterDetailsNotFoundError$inboundSchema: z.ZodMiniType<
   GetCharacterDetailsNotFoundError,
@@ -115,26 +45,6 @@ export const GetCharacterDetailsNotFoundError$inboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return new GetCharacterDetailsNotFoundError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
-
-/** @internal */
-export const GetCharacterDetailsUnauthorizedError$inboundSchema: z.ZodMiniType<
-  GetCharacterDetailsUnauthorizedError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new GetCharacterDetailsUnauthorizedError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

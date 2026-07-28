@@ -8,32 +8,6 @@ import * as operations from "../operations/index.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export type AddItemToListTooManyRequestsErrorData = {
-  message: string;
-};
-
-/**
- * Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export class AddItemToListTooManyRequestsError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: AddItemToListTooManyRequestsErrorData;
-
-  constructor(
-    err: AddItemToListTooManyRequestsErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "AddItemToListTooManyRequestsError";
-  }
-}
-
-/**
  * Already Exists
  */
 export type AddItemToListConflictErrorData = {
@@ -89,52 +63,6 @@ export class AddItemToListForbiddenError extends VerseDbError {
   }
 }
 
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export type AddItemToListUnauthorizedErrorData = {
-  message: string;
-};
-
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export class AddItemToListUnauthorizedError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: AddItemToListUnauthorizedErrorData;
-
-  constructor(
-    err: AddItemToListUnauthorizedErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "AddItemToListUnauthorizedError";
-  }
-}
-
-/** @internal */
-export const AddItemToListTooManyRequestsError$inboundSchema: z.ZodMiniType<
-  AddItemToListTooManyRequestsError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new AddItemToListTooManyRequestsError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
-
 /** @internal */
 export const AddItemToListConflictError$inboundSchema: z.ZodMiniType<
   AddItemToListConflictError,
@@ -171,26 +99,6 @@ export const AddItemToListForbiddenError$inboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return new AddItemToListForbiddenError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
-
-/** @internal */
-export const AddItemToListUnauthorizedError$inboundSchema: z.ZodMiniType<
-  AddItemToListUnauthorizedError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new AddItemToListUnauthorizedError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

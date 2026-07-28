@@ -40,10 +40,10 @@ export function listsGetList(
 ): APIPromise<
   Result<
     operations.GetListResponse,
-    | errors.GetListUnauthorizedError
+    | errors.UnauthorizedError
     | errors.GetListForbiddenError
     | errors.GetListNotFoundError
-    | errors.GetListTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -69,10 +69,10 @@ async function $do(
   [
     Result<
       operations.GetListResponse,
-      | errors.GetListUnauthorizedError
+      | errors.UnauthorizedError
       | errors.GetListForbiddenError
       | errors.GetListNotFoundError
-      | errors.GetListTooManyRequestsError
+      | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
       | ConnectionError
@@ -160,10 +160,10 @@ async function $do(
 
   const [result] = await M.match<
     operations.GetListResponse,
-    | errors.GetListUnauthorizedError
+    | errors.UnauthorizedError
     | errors.GetListForbiddenError
     | errors.GetListNotFoundError
-    | errors.GetListTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -177,12 +177,10 @@ async function $do(
       hdrs: true,
       key: "Result",
     }),
-    M.jsonErr(401, errors.GetListUnauthorizedError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
     M.jsonErr(403, errors.GetListForbiddenError$inboundSchema),
     M.jsonErr(404, errors.GetListNotFoundError$inboundSchema),
-    M.jsonErr(429, errors.GetListTooManyRequestsError$inboundSchema, {
-      hdrs: true,
-    }),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

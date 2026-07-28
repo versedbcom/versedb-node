@@ -102,11 +102,11 @@ run();
 
 ### Errors
 
-| Error Type                            | Status Code                           | Content Type                          |
-| ------------------------------------- | ------------------------------------- | ------------------------------------- |
-| errors.ListIssuesUnauthorizedError    | 401                                   | application/json                      |
-| errors.ListIssuesTooManyRequestsError | 429                                   | application/json                      |
-| errors.VerseDbDefaultError            | 4XX, 5XX                              | \*/\*                                 |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
 
 ## getIssueDetails
 
@@ -178,12 +178,12 @@ run();
 
 ### Errors
 
-| Error Type                                 | Status Code                                | Content Type                               |
-| ------------------------------------------ | ------------------------------------------ | ------------------------------------------ |
-| errors.GetIssueDetailsUnauthorizedError    | 401                                        | application/json                           |
-| errors.GetIssueDetailsNotFoundError        | 404                                        | application/json                           |
-| errors.GetIssueDetailsTooManyRequestsError | 429                                        | application/json                           |
-| errors.VerseDbDefaultError                 | 4XX, 5XX                                   | \*/\*                                      |
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.UnauthorizedError            | 401                                 | application/json                    |
+| errors.GetIssueDetailsNotFoundError | 404                                 | application/json                    |
+| errors.TooManyRequestsError         | 429                                 | application/json                    |
+| errors.VerseDbDefaultError          | 4XX, 5XX                            | \*/\*                               |
 
 ## getIssueVariants
 
@@ -254,11 +254,11 @@ run();
 
 ### Errors
 
-| Error Type                                  | Status Code                                 | Content Type                                |
-| ------------------------------------------- | ------------------------------------------- | ------------------------------------------- |
-| errors.GetIssueVariantsUnauthorizedError    | 401                                         | application/json                            |
-| errors.GetIssueVariantsTooManyRequestsError | 429                                         | application/json                            |
-| errors.VerseDbDefaultError                  | 4XX, 5XX                                    | \*/\*                                       |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
 
 ## getVariantDetails
 
@@ -331,12 +331,12 @@ run();
 
 ### Errors
 
-| Error Type                                   | Status Code                                  | Content Type                                 |
-| -------------------------------------------- | -------------------------------------------- | -------------------------------------------- |
-| errors.GetVariantDetailsUnauthorizedError    | 401                                          | application/json                             |
-| errors.GetVariantDetailsNotFoundError        | 404                                          | application/json                             |
-| errors.GetVariantDetailsTooManyRequestsError | 429                                          | application/json                             |
-| errors.VerseDbDefaultError                   | 4XX, 5XX                                     | \*/\*                                        |
+| Error Type                            | Status Code                           | Content Type                          |
+| ------------------------------------- | ------------------------------------- | ------------------------------------- |
+| errors.UnauthorizedError              | 401                                   | application/json                      |
+| errors.GetVariantDetailsNotFoundError | 404                                   | application/json                      |
+| errors.TooManyRequestsError           | 429                                   | application/json                      |
+| errors.VerseDbDefaultError            | 4XX, 5XX                              | \*/\*                                 |
 
 ## getIssueCreators
 
@@ -407,11 +407,11 @@ run();
 
 ### Errors
 
-| Error Type                                  | Status Code                                 | Content Type                                |
-| ------------------------------------------- | ------------------------------------------- | ------------------------------------------- |
-| errors.GetIssueCreatorsUnauthorizedError    | 401                                         | application/json                            |
-| errors.GetIssueCreatorsTooManyRequestsError | 429                                         | application/json                            |
-| errors.VerseDbDefaultError                  | 4XX, 5XX                                    | \*/\*                                       |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
 
 ## getIssueCharacters
 
@@ -482,11 +482,11 @@ run();
 
 ### Errors
 
-| Error Type                                    | Status Code                                   | Content Type                                  |
-| --------------------------------------------- | --------------------------------------------- | --------------------------------------------- |
-| errors.GetIssueCharactersUnauthorizedError    | 401                                           | application/json                              |
-| errors.GetIssueCharactersTooManyRequestsError | 429                                           | application/json                              |
-| errors.VerseDbDefaultError                    | 4XX, 5XX                                      | \*/\*                                         |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
 
 ## getKeyIssueReasons
 
@@ -557,8 +557,8 @@ run();
 
 ### Errors
 
-| Error Type                                    | Status Code                                   | Content Type                                  |
-| --------------------------------------------- | --------------------------------------------- | --------------------------------------------- |
-| errors.GetKeyIssueReasonsUnauthorizedError    | 401                                           | application/json                              |
-| errors.GetKeyIssueReasonsTooManyRequestsError | 429                                           | application/json                              |
-| errors.VerseDbDefaultError                    | 4XX, 5XX                                      | \*/\*                                         |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |

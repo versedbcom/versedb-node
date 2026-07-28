@@ -41,8 +41,8 @@ export function listsBrowseLists(
 ): APIPromise<
   Result<
     operations.BrowseListsResponse,
-    | errors.BrowseListsUnauthorizedError
-    | errors.BrowseListsTooManyRequestsError
+    | errors.UnauthorizedError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -68,8 +68,8 @@ async function $do(
   [
     Result<
       operations.BrowseListsResponse,
-      | errors.BrowseListsUnauthorizedError
-      | errors.BrowseListsTooManyRequestsError
+      | errors.UnauthorizedError
+      | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
       | ConnectionError
@@ -160,8 +160,8 @@ async function $do(
 
   const [result] = await M.match<
     operations.BrowseListsResponse,
-    | errors.BrowseListsUnauthorizedError
-    | errors.BrowseListsTooManyRequestsError
+    | errors.UnauthorizedError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -175,10 +175,8 @@ async function $do(
       hdrs: true,
       key: "Result",
     }),
-    M.jsonErr(401, errors.BrowseListsUnauthorizedError$inboundSchema),
-    M.jsonErr(429, errors.BrowseListsTooManyRequestsError$inboundSchema, {
-      hdrs: true,
-    }),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

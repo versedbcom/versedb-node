@@ -86,11 +86,11 @@ run();
 
 ### Errors
 
-| Error Type                              | Status Code                             | Content Type                            |
-| --------------------------------------- | --------------------------------------- | --------------------------------------- |
-| errors.ListCreatorsUnauthorizedError    | 401                                     | application/json                        |
-| errors.ListCreatorsTooManyRequestsError | 429                                     | application/json                        |
-| errors.VerseDbDefaultError              | 4XX, 5XX                                | \*/\*                                   |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
 
 ## getCreatorDetails
 
@@ -161,12 +161,12 @@ run();
 
 ### Errors
 
-| Error Type                                   | Status Code                                  | Content Type                                 |
-| -------------------------------------------- | -------------------------------------------- | -------------------------------------------- |
-| errors.GetCreatorDetailsUnauthorizedError    | 401                                          | application/json                             |
-| errors.GetCreatorDetailsNotFoundError        | 404                                          | application/json                             |
-| errors.GetCreatorDetailsTooManyRequestsError | 429                                          | application/json                             |
-| errors.VerseDbDefaultError                   | 4XX, 5XX                                     | \*/\*                                        |
+| Error Type                            | Status Code                           | Content Type                          |
+| ------------------------------------- | ------------------------------------- | ------------------------------------- |
+| errors.UnauthorizedError              | 401                                   | application/json                      |
+| errors.GetCreatorDetailsNotFoundError | 404                                   | application/json                      |
+| errors.TooManyRequestsError           | 429                                   | application/json                      |
+| errors.VerseDbDefaultError            | 4XX, 5XX                              | \*/\*                                 |
 
 ## getCreatorsBlogPosts
 
@@ -239,11 +239,11 @@ run();
 
 ### Errors
 
-| Error Type                                      | Status Code                                     | Content Type                                    |
-| ----------------------------------------------- | ----------------------------------------------- | ----------------------------------------------- |
-| errors.GetCreatorsBlogPostsUnauthorizedError    | 401                                             | application/json                                |
-| errors.GetCreatorsBlogPostsTooManyRequestsError | 429                                             | application/json                                |
-| errors.VerseDbDefaultError                      | 4XX, 5XX                                        | \*/\*                                           |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
 
 ## getCreatorsIssues
 
@@ -318,11 +318,11 @@ run();
 
 ### Errors
 
-| Error Type                                   | Status Code                                  | Content Type                                 |
-| -------------------------------------------- | -------------------------------------------- | -------------------------------------------- |
-| errors.GetCreatorsIssuesUnauthorizedError    | 401                                          | application/json                             |
-| errors.GetCreatorsIssuesTooManyRequestsError | 429                                          | application/json                             |
-| errors.VerseDbDefaultError                   | 4XX, 5XX                                     | \*/\*                                        |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
 
 ## getCreatorsSeries
 
@@ -397,8 +397,8 @@ run();
 
 ### Errors
 
-| Error Type                                   | Status Code                                  | Content Type                                 |
-| -------------------------------------------- | -------------------------------------------- | -------------------------------------------- |
-| errors.GetCreatorsSeriesUnauthorizedError    | 401                                          | application/json                             |
-| errors.GetCreatorsSeriesTooManyRequestsError | 429                                          | application/json                             |
-| errors.VerseDbDefaultError                   | 4XX, 5XX                                     | \*/\*                                        |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |

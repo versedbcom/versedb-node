@@ -37,9 +37,9 @@ export function podcastsGetASpecificPodcast(
 ): APIPromise<
   Result<
     operations.GetASpecificPodcastResponse,
-    | errors.GetASpecificPodcastUnauthorizedError
+    | errors.UnauthorizedError
     | errors.GetASpecificPodcastNotFoundError
-    | errors.GetASpecificPodcastTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -65,9 +65,9 @@ async function $do(
   [
     Result<
       operations.GetASpecificPodcastResponse,
-      | errors.GetASpecificPodcastUnauthorizedError
+      | errors.UnauthorizedError
       | errors.GetASpecificPodcastNotFoundError
-      | errors.GetASpecificPodcastTooManyRequestsError
+      | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
       | ConnectionError
@@ -156,9 +156,9 @@ async function $do(
 
   const [result] = await M.match<
     operations.GetASpecificPodcastResponse,
-    | errors.GetASpecificPodcastUnauthorizedError
+    | errors.UnauthorizedError
     | errors.GetASpecificPodcastNotFoundError
-    | errors.GetASpecificPodcastTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -172,13 +172,9 @@ async function $do(
       hdrs: true,
       key: "Result",
     }),
-    M.jsonErr(401, errors.GetASpecificPodcastUnauthorizedError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
     M.jsonErr(404, errors.GetASpecificPodcastNotFoundError$inboundSchema),
-    M.jsonErr(
-      429,
-      errors.GetASpecificPodcastTooManyRequestsError$inboundSchema,
-      { hdrs: true },
-    ),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

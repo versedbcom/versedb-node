@@ -7,32 +7,6 @@ import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export type UpdateCollectionItemTooManyRequestsErrorData = {
-  message: string;
-};
-
-/**
- * Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export class UpdateCollectionItemTooManyRequestsError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: UpdateCollectionItemTooManyRequestsErrorData;
-
-  constructor(
-    err: UpdateCollectionItemTooManyRequestsErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "UpdateCollectionItemTooManyRequestsError";
-  }
-}
-
-/**
  * Not Found
  */
 export type UpdateCollectionItemNotFoundErrorData = {
@@ -63,50 +37,6 @@ export class UpdateCollectionItemNotFoundError extends VerseDbError {
   }
 }
 
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export type UpdateCollectionItemUnauthorizedErrorData = {
-  message: string;
-};
-
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export class UpdateCollectionItemUnauthorizedError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: UpdateCollectionItemUnauthorizedErrorData;
-
-  constructor(
-    err: UpdateCollectionItemUnauthorizedErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "UpdateCollectionItemUnauthorizedError";
-  }
-}
-
-/** @internal */
-export const UpdateCollectionItemTooManyRequestsError$inboundSchema:
-  z.ZodMiniType<UpdateCollectionItemTooManyRequestsError, unknown> = z.pipe(
-    z.object({
-      message: types.string(),
-      request$: z.custom<Request>(x => x instanceof Request),
-      response$: z.custom<Response>(x => x instanceof Response),
-      body$: z.string(),
-    }),
-    z.transform((v) => {
-      return new UpdateCollectionItemTooManyRequestsError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
-      });
-    }),
-  );
-
 /** @internal */
 export const UpdateCollectionItemNotFoundError$inboundSchema: z.ZodMiniType<
   UpdateCollectionItemNotFoundError,
@@ -120,26 +50,6 @@ export const UpdateCollectionItemNotFoundError$inboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return new UpdateCollectionItemNotFoundError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
-
-/** @internal */
-export const UpdateCollectionItemUnauthorizedError$inboundSchema: z.ZodMiniType<
-  UpdateCollectionItemUnauthorizedError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new UpdateCollectionItemUnauthorizedError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

@@ -40,9 +40,9 @@ export function listsCreateList(
 ): APIPromise<
   Result<
     operations.CreateListResponse,
-    | errors.CreateListUnauthorizedError
+    | errors.UnauthorizedError
     | errors.CreateListForbiddenError
-    | errors.CreateListTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -68,9 +68,9 @@ async function $do(
   [
     Result<
       operations.CreateListResponse,
-      | errors.CreateListUnauthorizedError
+      | errors.UnauthorizedError
       | errors.CreateListForbiddenError
-      | errors.CreateListTooManyRequestsError
+      | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
       | ConnectionError
@@ -153,9 +153,9 @@ async function $do(
 
   const [result] = await M.match<
     operations.CreateListResponse,
-    | errors.CreateListUnauthorizedError
+    | errors.UnauthorizedError
     | errors.CreateListForbiddenError
-    | errors.CreateListTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -169,11 +169,9 @@ async function $do(
       hdrs: true,
       key: "Result",
     }),
-    M.jsonErr(401, errors.CreateListUnauthorizedError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
     M.jsonErr(403, errors.CreateListForbiddenError$inboundSchema),
-    M.jsonErr(429, errors.CreateListTooManyRequestsError$inboundSchema, {
-      hdrs: true,
-    }),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

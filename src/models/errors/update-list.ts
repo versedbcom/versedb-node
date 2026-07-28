@@ -7,32 +7,6 @@ import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export type UpdateListTooManyRequestsErrorData = {
-  message: string;
-};
-
-/**
- * Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export class UpdateListTooManyRequestsError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: UpdateListTooManyRequestsErrorData;
-
-  constructor(
-    err: UpdateListTooManyRequestsErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "UpdateListTooManyRequestsError";
-  }
-}
-
-/**
  * Unauthorized
  */
 export type UpdateListForbiddenErrorData = {
@@ -58,52 +32,6 @@ export class UpdateListForbiddenError extends VerseDbError {
   }
 }
 
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export type UpdateListUnauthorizedErrorData = {
-  message: string;
-};
-
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export class UpdateListUnauthorizedError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: UpdateListUnauthorizedErrorData;
-
-  constructor(
-    err: UpdateListUnauthorizedErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "UpdateListUnauthorizedError";
-  }
-}
-
-/** @internal */
-export const UpdateListTooManyRequestsError$inboundSchema: z.ZodMiniType<
-  UpdateListTooManyRequestsError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new UpdateListTooManyRequestsError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
-
 /** @internal */
 export const UpdateListForbiddenError$inboundSchema: z.ZodMiniType<
   UpdateListForbiddenError,
@@ -117,26 +45,6 @@ export const UpdateListForbiddenError$inboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return new UpdateListForbiddenError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
-
-/** @internal */
-export const UpdateListUnauthorizedError$inboundSchema: z.ZodMiniType<
-  UpdateListUnauthorizedError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new UpdateListUnauthorizedError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

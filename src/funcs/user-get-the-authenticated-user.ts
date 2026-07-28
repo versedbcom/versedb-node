@@ -36,8 +36,8 @@ export function userGetTheAuthenticatedUser(
 ): APIPromise<
   Result<
     operations.GetTheAuthenticatedUserResponse,
-    | errors.GetTheAuthenticatedUserUnauthorizedError
-    | errors.GetTheAuthenticatedUserTooManyRequestsError
+    | errors.UnauthorizedError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -61,8 +61,8 @@ async function $do(
   [
     Result<
       operations.GetTheAuthenticatedUserResponse,
-      | errors.GetTheAuthenticatedUserUnauthorizedError
-      | errors.GetTheAuthenticatedUserTooManyRequestsError
+      | errors.UnauthorizedError
+      | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
       | ConnectionError
@@ -132,8 +132,8 @@ async function $do(
 
   const [result] = await M.match<
     operations.GetTheAuthenticatedUserResponse,
-    | errors.GetTheAuthenticatedUserUnauthorizedError
-    | errors.GetTheAuthenticatedUserTooManyRequestsError
+    | errors.UnauthorizedError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -147,15 +147,8 @@ async function $do(
       hdrs: true,
       key: "Result",
     }),
-    M.jsonErr(
-      401,
-      errors.GetTheAuthenticatedUserUnauthorizedError$inboundSchema,
-    ),
-    M.jsonErr(
-      429,
-      errors.GetTheAuthenticatedUserTooManyRequestsError$inboundSchema,
-      { hdrs: true },
-    ),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

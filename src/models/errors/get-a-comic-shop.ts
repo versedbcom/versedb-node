@@ -7,32 +7,6 @@ import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export type GetAComicShopTooManyRequestsErrorData = {
-  message: string;
-};
-
-/**
- * Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export class GetAComicShopTooManyRequestsError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: GetAComicShopTooManyRequestsErrorData;
-
-  constructor(
-    err: GetAComicShopTooManyRequestsErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "GetAComicShopTooManyRequestsError";
-  }
-}
-
-/**
  * Not Found
  */
 export type GetAComicShopNotFoundErrorData = {
@@ -58,52 +32,6 @@ export class GetAComicShopNotFoundError extends VerseDbError {
   }
 }
 
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export type GetAComicShopUnauthorizedErrorData = {
-  message: string;
-};
-
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export class GetAComicShopUnauthorizedError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: GetAComicShopUnauthorizedErrorData;
-
-  constructor(
-    err: GetAComicShopUnauthorizedErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "GetAComicShopUnauthorizedError";
-  }
-}
-
-/** @internal */
-export const GetAComicShopTooManyRequestsError$inboundSchema: z.ZodMiniType<
-  GetAComicShopTooManyRequestsError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new GetAComicShopTooManyRequestsError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
-
 /** @internal */
 export const GetAComicShopNotFoundError$inboundSchema: z.ZodMiniType<
   GetAComicShopNotFoundError,
@@ -117,26 +45,6 @@ export const GetAComicShopNotFoundError$inboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return new GetAComicShopNotFoundError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
-
-/** @internal */
-export const GetAComicShopUnauthorizedError$inboundSchema: z.ZodMiniType<
-  GetAComicShopUnauthorizedError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new GetAComicShopUnauthorizedError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

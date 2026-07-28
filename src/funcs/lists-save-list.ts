@@ -40,9 +40,9 @@ export function listsSaveList(
 ): APIPromise<
   Result<
     operations.SaveListResponse,
-    | errors.SaveListUnauthorizedError
+    | errors.UnauthorizedError
     | errors.SaveListForbiddenError
-    | errors.SaveListTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -68,9 +68,9 @@ async function $do(
   [
     Result<
       operations.SaveListResponse,
-      | errors.SaveListUnauthorizedError
+      | errors.UnauthorizedError
       | errors.SaveListForbiddenError
-      | errors.SaveListTooManyRequestsError
+      | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
       | ConnectionError
@@ -158,9 +158,9 @@ async function $do(
 
   const [result] = await M.match<
     operations.SaveListResponse,
-    | errors.SaveListUnauthorizedError
+    | errors.UnauthorizedError
     | errors.SaveListForbiddenError
-    | errors.SaveListTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -178,11 +178,9 @@ async function $do(
       hdrs: true,
       key: "Result",
     }),
-    M.jsonErr(401, errors.SaveListUnauthorizedError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
     M.jsonErr(403, errors.SaveListForbiddenError$inboundSchema),
-    M.jsonErr(429, errors.SaveListTooManyRequestsError$inboundSchema, {
-      hdrs: true,
-    }),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

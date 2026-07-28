@@ -40,8 +40,8 @@ export function charactersGetCharacterTeams(
 ): APIPromise<
   Result<
     operations.GetCharacterTeamsResponse,
-    | errors.GetCharacterTeamsUnauthorizedError
-    | errors.GetCharacterTeamsTooManyRequestsError
+    | errors.UnauthorizedError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -67,8 +67,8 @@ async function $do(
   [
     Result<
       operations.GetCharacterTeamsResponse,
-      | errors.GetCharacterTeamsUnauthorizedError
-      | errors.GetCharacterTeamsTooManyRequestsError
+      | errors.UnauthorizedError
+      | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
       | ConnectionError
@@ -165,8 +165,8 @@ async function $do(
 
   const [result] = await M.match<
     operations.GetCharacterTeamsResponse,
-    | errors.GetCharacterTeamsUnauthorizedError
-    | errors.GetCharacterTeamsTooManyRequestsError
+    | errors.UnauthorizedError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -180,10 +180,8 @@ async function $do(
       hdrs: true,
       key: "Result",
     }),
-    M.jsonErr(401, errors.GetCharacterTeamsUnauthorizedError$inboundSchema),
-    M.jsonErr(429, errors.GetCharacterTeamsTooManyRequestsError$inboundSchema, {
-      hdrs: true,
-    }),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

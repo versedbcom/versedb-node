@@ -49,9 +49,9 @@ export function titlesGetASpecificTitle(
 ): APIPromise<
   Result<
     operations.GetASpecificTitleResponse,
-    | errors.GetASpecificTitleUnauthorizedError
+    | errors.UnauthorizedError
     | errors.GetASpecificTitleNotFoundError
-    | errors.GetASpecificTitleTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -77,9 +77,9 @@ async function $do(
   [
     Result<
       operations.GetASpecificTitleResponse,
-      | errors.GetASpecificTitleUnauthorizedError
+      | errors.UnauthorizedError
       | errors.GetASpecificTitleNotFoundError
-      | errors.GetASpecificTitleTooManyRequestsError
+      | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
       | ConnectionError
@@ -168,9 +168,9 @@ async function $do(
 
   const [result] = await M.match<
     operations.GetASpecificTitleResponse,
-    | errors.GetASpecificTitleUnauthorizedError
+    | errors.UnauthorizedError
     | errors.GetASpecificTitleNotFoundError
-    | errors.GetASpecificTitleTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -184,11 +184,9 @@ async function $do(
       hdrs: true,
       key: "Result",
     }),
-    M.jsonErr(401, errors.GetASpecificTitleUnauthorizedError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
     M.jsonErr(404, errors.GetASpecificTitleNotFoundError$inboundSchema),
-    M.jsonErr(429, errors.GetASpecificTitleTooManyRequestsError$inboundSchema, {
-      hdrs: true,
-    }),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

@@ -7,32 +7,6 @@ import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export type SaveListTooManyRequestsErrorData = {
-  message: string;
-};
-
-/**
- * Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export class SaveListTooManyRequestsError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: SaveListTooManyRequestsErrorData;
-
-  constructor(
-    err: SaveListTooManyRequestsErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "SaveListTooManyRequestsError";
-  }
-}
-
-/**
  * Own List
  */
 export type SaveListForbiddenErrorData = {
@@ -58,52 +32,6 @@ export class SaveListForbiddenError extends VerseDbError {
   }
 }
 
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export type SaveListUnauthorizedErrorData = {
-  message: string;
-};
-
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export class SaveListUnauthorizedError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: SaveListUnauthorizedErrorData;
-
-  constructor(
-    err: SaveListUnauthorizedErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "SaveListUnauthorizedError";
-  }
-}
-
-/** @internal */
-export const SaveListTooManyRequestsError$inboundSchema: z.ZodMiniType<
-  SaveListTooManyRequestsError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new SaveListTooManyRequestsError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
-
 /** @internal */
 export const SaveListForbiddenError$inboundSchema: z.ZodMiniType<
   SaveListForbiddenError,
@@ -117,26 +45,6 @@ export const SaveListForbiddenError$inboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return new SaveListForbiddenError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
-
-/** @internal */
-export const SaveListUnauthorizedError$inboundSchema: z.ZodMiniType<
-  SaveListUnauthorizedError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new SaveListUnauthorizedError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

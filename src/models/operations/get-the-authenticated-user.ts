@@ -64,6 +64,9 @@ export type GetTheAuthenticatedUserData = {
   deletionScheduledFor?: string | null | undefined;
 };
 
+/**
+ * Success.
+ */
 export type GetTheAuthenticatedUserResponseBody = {
   data?: GetTheAuthenticatedUserData | undefined;
 };

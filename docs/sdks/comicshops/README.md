@@ -85,11 +85,11 @@ run();
 
 ### Errors
 
-| Error Type                                | Status Code                               | Content Type                              |
-| ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
-| errors.ListComicShopsUnauthorizedError    | 401                                       | application/json                          |
-| errors.ListComicShopsTooManyRequestsError | 429                                       | application/json                          |
-| errors.VerseDbDefaultError                | 4XX, 5XX                                  | \*/\*                                     |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
 
 ## getAComicShop
 
@@ -160,9 +160,9 @@ run();
 
 ### Errors
 
-| Error Type                               | Status Code                              | Content Type                             |
-| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
-| errors.GetAComicShopUnauthorizedError    | 401                                      | application/json                         |
-| errors.GetAComicShopNotFoundError        | 404                                      | application/json                         |
-| errors.GetAComicShopTooManyRequestsError | 429                                      | application/json                         |
-| errors.VerseDbDefaultError               | 4XX, 5XX                                 | \*/\*                                    |
+| Error Type                        | Status Code                       | Content Type                      |
+| --------------------------------- | --------------------------------- | --------------------------------- |
+| errors.UnauthorizedError          | 401                               | application/json                  |
+| errors.GetAComicShopNotFoundError | 404                               | application/json                  |
+| errors.TooManyRequestsError       | 429                               | application/json                  |
+| errors.VerseDbDefaultError        | 4XX, 5XX                          | \*/\*                             |

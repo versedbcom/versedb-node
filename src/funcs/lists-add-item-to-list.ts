@@ -40,10 +40,10 @@ export function listsAddItemToList(
 ): APIPromise<
   Result<
     operations.AddItemToListResponse,
-    | errors.AddItemToListUnauthorizedError
+    | errors.UnauthorizedError
     | errors.AddItemToListForbiddenError
     | errors.AddItemToListConflictError
-    | errors.AddItemToListTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -69,10 +69,10 @@ async function $do(
   [
     Result<
       operations.AddItemToListResponse,
-      | errors.AddItemToListUnauthorizedError
+      | errors.UnauthorizedError
       | errors.AddItemToListForbiddenError
       | errors.AddItemToListConflictError
-      | errors.AddItemToListTooManyRequestsError
+      | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
       | ConnectionError
@@ -161,10 +161,10 @@ async function $do(
 
   const [result] = await M.match<
     operations.AddItemToListResponse,
-    | errors.AddItemToListUnauthorizedError
+    | errors.UnauthorizedError
     | errors.AddItemToListForbiddenError
     | errors.AddItemToListConflictError
-    | errors.AddItemToListTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -178,12 +178,10 @@ async function $do(
       hdrs: true,
       key: "Result",
     }),
-    M.jsonErr(401, errors.AddItemToListUnauthorizedError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
     M.jsonErr(403, errors.AddItemToListForbiddenError$inboundSchema),
     M.jsonErr(409, errors.AddItemToListConflictError$inboundSchema),
-    M.jsonErr(429, errors.AddItemToListTooManyRequestsError$inboundSchema, {
-      hdrs: true,
-    }),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

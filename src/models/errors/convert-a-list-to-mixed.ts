@@ -7,32 +7,6 @@ import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export type ConvertAListToMixedTooManyRequestsErrorData = {
-  message: string;
-};
-
-/**
- * Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export class ConvertAListToMixedTooManyRequestsError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: ConvertAListToMixedTooManyRequestsErrorData;
-
-  constructor(
-    err: ConvertAListToMixedTooManyRequestsErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "ConvertAListToMixedTooManyRequestsError";
-  }
-}
-
-/**
  * Not convertible
  */
 export type ConvertAListToMixedUnprocessableEntityErrorData = {
@@ -84,50 +58,6 @@ export class ConvertAListToMixedForbiddenError extends VerseDbError {
   }
 }
 
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export type ConvertAListToMixedUnauthorizedErrorData = {
-  message: string;
-};
-
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export class ConvertAListToMixedUnauthorizedError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: ConvertAListToMixedUnauthorizedErrorData;
-
-  constructor(
-    err: ConvertAListToMixedUnauthorizedErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "ConvertAListToMixedUnauthorizedError";
-  }
-}
-
-/** @internal */
-export const ConvertAListToMixedTooManyRequestsError$inboundSchema:
-  z.ZodMiniType<ConvertAListToMixedTooManyRequestsError, unknown> = z.pipe(
-    z.object({
-      message: types.string(),
-      request$: z.custom<Request>(x => x instanceof Request),
-      response$: z.custom<Response>(x => x instanceof Response),
-      body$: z.string(),
-    }),
-    z.transform((v) => {
-      return new ConvertAListToMixedTooManyRequestsError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
-      });
-    }),
-  );
-
 /** @internal */
 export const ConvertAListToMixedUnprocessableEntityError$inboundSchema:
   z.ZodMiniType<ConvertAListToMixedUnprocessableEntityError, unknown> = z.pipe(
@@ -159,26 +89,6 @@ export const ConvertAListToMixedForbiddenError$inboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return new ConvertAListToMixedForbiddenError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
-
-/** @internal */
-export const ConvertAListToMixedUnauthorizedError$inboundSchema: z.ZodMiniType<
-  ConvertAListToMixedUnauthorizedError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new ConvertAListToMixedUnauthorizedError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

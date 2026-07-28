@@ -7,32 +7,6 @@ import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export type GetASpecificTeamTooManyRequestsErrorData = {
-  message: string;
-};
-
-/**
- * Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export class GetASpecificTeamTooManyRequestsError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: GetASpecificTeamTooManyRequestsErrorData;
-
-  constructor(
-    err: GetASpecificTeamTooManyRequestsErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "GetASpecificTeamTooManyRequestsError";
-  }
-}
-
-/**
  * Not Found
  */
 export type GetASpecificTeamNotFoundErrorData = {
@@ -58,52 +32,6 @@ export class GetASpecificTeamNotFoundError extends VerseDbError {
   }
 }
 
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export type GetASpecificTeamUnauthorizedErrorData = {
-  message: string;
-};
-
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export class GetASpecificTeamUnauthorizedError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: GetASpecificTeamUnauthorizedErrorData;
-
-  constructor(
-    err: GetASpecificTeamUnauthorizedErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "GetASpecificTeamUnauthorizedError";
-  }
-}
-
-/** @internal */
-export const GetASpecificTeamTooManyRequestsError$inboundSchema: z.ZodMiniType<
-  GetASpecificTeamTooManyRequestsError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new GetASpecificTeamTooManyRequestsError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
-
 /** @internal */
 export const GetASpecificTeamNotFoundError$inboundSchema: z.ZodMiniType<
   GetASpecificTeamNotFoundError,
@@ -117,26 +45,6 @@ export const GetASpecificTeamNotFoundError$inboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return new GetASpecificTeamNotFoundError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
-
-/** @internal */
-export const GetASpecificTeamUnauthorizedError$inboundSchema: z.ZodMiniType<
-  GetASpecificTeamUnauthorizedError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new GetASpecificTeamUnauthorizedError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

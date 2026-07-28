@@ -7,32 +7,6 @@ import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export type MarkAsReadTooManyRequestsErrorData = {
-  message: string;
-};
-
-/**
- * Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export class MarkAsReadTooManyRequestsError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: MarkAsReadTooManyRequestsErrorData;
-
-  constructor(
-    err: MarkAsReadTooManyRequestsErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "MarkAsReadTooManyRequestsError";
-  }
-}
-
-/**
  * Invalid Variant
  */
 export type MarkAsReadUnprocessableEntityErrorData = {
@@ -63,52 +37,6 @@ export class MarkAsReadUnprocessableEntityError extends VerseDbError {
   }
 }
 
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export type MarkAsReadUnauthorizedErrorData = {
-  message: string;
-};
-
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export class MarkAsReadUnauthorizedError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: MarkAsReadUnauthorizedErrorData;
-
-  constructor(
-    err: MarkAsReadUnauthorizedErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "MarkAsReadUnauthorizedError";
-  }
-}
-
-/** @internal */
-export const MarkAsReadTooManyRequestsError$inboundSchema: z.ZodMiniType<
-  MarkAsReadTooManyRequestsError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new MarkAsReadTooManyRequestsError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
-
 /** @internal */
 export const MarkAsReadUnprocessableEntityError$inboundSchema: z.ZodMiniType<
   MarkAsReadUnprocessableEntityError,
@@ -122,26 +50,6 @@ export const MarkAsReadUnprocessableEntityError$inboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return new MarkAsReadUnprocessableEntityError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
-
-/** @internal */
-export const MarkAsReadUnauthorizedError$inboundSchema: z.ZodMiniType<
-  MarkAsReadUnauthorizedError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new MarkAsReadUnauthorizedError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

@@ -8,32 +8,6 @@ import * as operations from "../operations/index.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export type AddToPullListTooManyRequestsErrorData = {
-  message: string;
-};
-
-/**
- * Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export class AddToPullListTooManyRequestsError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: AddToPullListTooManyRequestsErrorData;
-
-  constructor(
-    err: AddToPullListTooManyRequestsErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "AddToPullListTooManyRequestsError";
-  }
-}
-
-/**
  * Series Not Found
  */
 export type AddToPullListUnprocessableEntityErrorData = {
@@ -63,52 +37,6 @@ export class AddToPullListUnprocessableEntityError extends VerseDbError {
   }
 }
 
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export type AddToPullListUnauthorizedErrorData = {
-  message: string;
-};
-
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export class AddToPullListUnauthorizedError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: AddToPullListUnauthorizedErrorData;
-
-  constructor(
-    err: AddToPullListUnauthorizedErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "AddToPullListUnauthorizedError";
-  }
-}
-
-/** @internal */
-export const AddToPullListTooManyRequestsError$inboundSchema: z.ZodMiniType<
-  AddToPullListTooManyRequestsError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new AddToPullListTooManyRequestsError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
-
 /** @internal */
 export const AddToPullListUnprocessableEntityError$inboundSchema: z.ZodMiniType<
   AddToPullListUnprocessableEntityError,
@@ -123,26 +51,6 @@ export const AddToPullListUnprocessableEntityError$inboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return new AddToPullListUnprocessableEntityError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
-
-/** @internal */
-export const AddToPullListUnauthorizedError$inboundSchema: z.ZodMiniType<
-  AddToPullListUnauthorizedError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new AddToPullListUnauthorizedError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

@@ -40,9 +40,9 @@ export function issuesGetVariantDetails(
 ): APIPromise<
   Result<
     operations.GetVariantDetailsResponse,
-    | errors.GetVariantDetailsUnauthorizedError
+    | errors.UnauthorizedError
     | errors.GetVariantDetailsNotFoundError
-    | errors.GetVariantDetailsTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -68,9 +68,9 @@ async function $do(
   [
     Result<
       operations.GetVariantDetailsResponse,
-      | errors.GetVariantDetailsUnauthorizedError
+      | errors.UnauthorizedError
       | errors.GetVariantDetailsNotFoundError
-      | errors.GetVariantDetailsTooManyRequestsError
+      | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
       | ConnectionError
@@ -165,9 +165,9 @@ async function $do(
 
   const [result] = await M.match<
     operations.GetVariantDetailsResponse,
-    | errors.GetVariantDetailsUnauthorizedError
+    | errors.UnauthorizedError
     | errors.GetVariantDetailsNotFoundError
-    | errors.GetVariantDetailsTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -181,11 +181,9 @@ async function $do(
       hdrs: true,
       key: "Result",
     }),
-    M.jsonErr(401, errors.GetVariantDetailsUnauthorizedError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
     M.jsonErr(404, errors.GetVariantDetailsNotFoundError$inboundSchema),
-    M.jsonErr(429, errors.GetVariantDetailsTooManyRequestsError$inboundSchema, {
-      hdrs: true,
-    }),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

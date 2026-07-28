@@ -42,8 +42,8 @@ export function titlesListTitles(
 ): APIPromise<
   Result<
     operations.ListTitlesResponse,
-    | errors.ListTitlesUnauthorizedError
-    | errors.ListTitlesTooManyRequestsError
+    | errors.UnauthorizedError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -69,8 +69,8 @@ async function $do(
   [
     Result<
       operations.ListTitlesResponse,
-      | errors.ListTitlesUnauthorizedError
-      | errors.ListTitlesTooManyRequestsError
+      | errors.UnauthorizedError
+      | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
       | ConnectionError
@@ -160,8 +160,8 @@ async function $do(
 
   const [result] = await M.match<
     operations.ListTitlesResponse,
-    | errors.ListTitlesUnauthorizedError
-    | errors.ListTitlesTooManyRequestsError
+    | errors.UnauthorizedError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -175,10 +175,8 @@ async function $do(
       hdrs: true,
       key: "Result",
     }),
-    M.jsonErr(401, errors.ListTitlesUnauthorizedError$inboundSchema),
-    M.jsonErr(429, errors.ListTitlesTooManyRequestsError$inboundSchema, {
-      hdrs: true,
-    }),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

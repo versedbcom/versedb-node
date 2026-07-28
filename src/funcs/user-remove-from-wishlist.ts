@@ -42,8 +42,8 @@ export function userRemoveFromWishlist(
 ): APIPromise<
   Result<
     operations.RemoveFromWishlistResponse | undefined,
-    | errors.RemoveFromWishlistUnauthorizedError
-    | errors.RemoveFromWishlistTooManyRequestsError
+    | errors.UnauthorizedError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -69,8 +69,8 @@ async function $do(
   [
     Result<
       operations.RemoveFromWishlistResponse | undefined,
-      | errors.RemoveFromWishlistUnauthorizedError
-      | errors.RemoveFromWishlistTooManyRequestsError
+      | errors.UnauthorizedError
+      | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
       | ConnectionError
@@ -165,8 +165,8 @@ async function $do(
 
   const [result] = await M.match<
     operations.RemoveFromWishlistResponse | undefined,
-    | errors.RemoveFromWishlistUnauthorizedError
-    | errors.RemoveFromWishlistTooManyRequestsError
+    | errors.UnauthorizedError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -181,12 +181,8 @@ async function $do(
       types$.optional(operations.RemoveFromWishlistResponse$inboundSchema),
       { hdrs: true },
     ),
-    M.jsonErr(401, errors.RemoveFromWishlistUnauthorizedError$inboundSchema),
-    M.jsonErr(
-      429,
-      errors.RemoveFromWishlistTooManyRequestsError$inboundSchema,
-      { hdrs: true },
-    ),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

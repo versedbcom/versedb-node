@@ -81,11 +81,11 @@ run();
 
 ### Errors
 
-| Error Type                               | Status Code                              | Content Type                             |
-| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
-| errors.ListUniversesUnauthorizedError    | 401                                      | application/json                         |
-| errors.ListUniversesTooManyRequestsError | 429                                      | application/json                         |
-| errors.VerseDbDefaultError               | 4XX, 5XX                                 | \*/\*                                    |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
 
 ## getASpecificUniverse
 
@@ -160,8 +160,8 @@ run();
 
 ### Errors
 
-| Error Type                                      | Status Code                                     | Content Type                                    |
-| ----------------------------------------------- | ----------------------------------------------- | ----------------------------------------------- |
-| errors.GetASpecificUniverseUnauthorizedError    | 401                                             | application/json                                |
-| errors.GetASpecificUniverseTooManyRequestsError | 429                                             | application/json                                |
-| errors.VerseDbDefaultError                      | 4XX, 5XX                                        | \*/\*                                           |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |

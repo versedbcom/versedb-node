@@ -6,6 +6,7 @@ import { userAddIssueToCollection } from "../funcs/user-add-issue-to-collection.
 import { userAddToPullList } from "../funcs/user-add-to-pull-list.js";
 import { userAddToWishlist } from "../funcs/user-add-to-wishlist.js";
 import { userCheckFollowStatus } from "../funcs/user-check-follow-status.js";
+import { userCheckIssueInCollection } from "../funcs/user-check-issue-in-collection.js";
 import { userEditReadingDate } from "../funcs/user-edit-reading-date.js";
 import { userFollowContent } from "../funcs/user-follow-content.js";
 import { userGetActivityFeed } from "../funcs/user-get-activity-feed.js";
@@ -53,6 +54,23 @@ export class User extends ClientSDK {
     options?: RequestOptions,
   ): Promise<operations.ListCollectionResponse> {
     return unwrapAsync(userListCollection(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Check issue in collection.
+   *
+   * @remarks
+   * Checks if an issue (optionally a specific variant) is in the user's collection.
+   */
+  async checkIssueInCollection(
+    request: operations.CheckIssueInCollectionRequest,
+    options?: RequestOptions,
+  ): Promise<operations.CheckIssueInCollectionResponse> {
+    return unwrapAsync(userCheckIssueInCollection(
       this,
       request,
       options,

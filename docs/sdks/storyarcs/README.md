@@ -88,11 +88,11 @@ run();
 
 ### Errors
 
-| Error Type                                                    | Status Code                                                   | Content Type                                                  |
-| ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- |
-| errors.ListAllStoryArcsWithOptionalSearchUnauthorizedError    | 401                                                           | application/json                                              |
-| errors.ListAllStoryArcsWithOptionalSearchTooManyRequestsError | 429                                                           | application/json                                              |
-| errors.VerseDbDefaultError                                    | 4XX, 5XX                                                      | \*/\*                                                         |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
 
 ## getStoryArcDetail
 
@@ -170,11 +170,11 @@ run();
 
 ### Errors
 
-| Error Type                                   | Status Code                                  | Content Type                                 |
-| -------------------------------------------- | -------------------------------------------- | -------------------------------------------- |
-| errors.GetStoryArcDetailUnauthorizedError    | 401                                          | application/json                             |
-| errors.GetStoryArcDetailTooManyRequestsError | 429                                          | application/json                             |
-| errors.VerseDbDefaultError                   | 4XX, 5XX                                     | \*/\*                                        |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
 
 ## getStoryArcsForASpecificIssue
 
@@ -249,11 +249,11 @@ run();
 
 ### Errors
 
-| Error Type                                               | Status Code                                              | Content Type                                             |
-| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
-| errors.GetStoryArcsForASpecificIssueUnauthorizedError    | 401                                                      | application/json                                         |
-| errors.GetStoryArcsForASpecificIssueTooManyRequestsError | 429                                                      | application/json                                         |
-| errors.VerseDbDefaultError                               | 4XX, 5XX                                                 | \*/\*                                                    |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
 
 ## getStoryArcsForASpecificCharacter
 
@@ -328,11 +328,11 @@ run();
 
 ### Errors
 
-| Error Type                                                   | Status Code                                                  | Content Type                                                 |
-| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| errors.GetStoryArcsForASpecificCharacterUnauthorizedError    | 401                                                          | application/json                                             |
-| errors.GetStoryArcsForASpecificCharacterTooManyRequestsError | 429                                                          | application/json                                             |
-| errors.VerseDbDefaultError                                   | 4XX, 5XX                                                     | \*/\*                                                        |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
 
 ## getStoryArcsForASpecificUniverse
 
@@ -407,8 +407,8 @@ run();
 
 ### Errors
 
-| Error Type                                                  | Status Code                                                 | Content Type                                                |
-| ----------------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------- |
-| errors.GetStoryArcsForASpecificUniverseUnauthorizedError    | 401                                                         | application/json                                            |
-| errors.GetStoryArcsForASpecificUniverseTooManyRequestsError | 429                                                         | application/json                                            |
-| errors.VerseDbDefaultError                                  | 4XX, 5XX                                                    | \*/\*                                                       |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |

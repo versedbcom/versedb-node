@@ -84,14 +84,14 @@ run();
 
 ### Errors
 
-| Error Type                             | Status Code                            | Content Type                           |
-| -------------------------------------- | -------------------------------------- | -------------------------------------- |
-| errors.LookupByUPCUnauthorizedError    | 401                                    | application/json                       |
-| errors.LookupByUPCForbiddenError       | 403                                    | application/json                       |
-| errors.LookupByUPCNotFoundError        | 404                                    | application/json                       |
-| errors.LookupByUPCConflictError        | 409                                    | application/json                       |
-| errors.LookupByUPCTooManyRequestsError | 429                                    | application/json                       |
-| errors.VerseDbDefaultError             | 4XX, 5XX                               | \*/\*                                  |
+| Error Type                       | Status Code                      | Content Type                     |
+| -------------------------------- | -------------------------------- | -------------------------------- |
+| errors.UnauthorizedError         | 401                              | application/json                 |
+| errors.LookupByUPCForbiddenError | 403                              | application/json                 |
+| errors.LookupByUPCNotFoundError  | 404                              | application/json                 |
+| errors.LookupByUPCConflictError  | 409                              | application/json                 |
+| errors.TooManyRequestsError      | 429                              | application/json                 |
+| errors.VerseDbDefaultError       | 4XX, 5XX                         | \*/\*                            |
 
 ## lookupByISBN
 
@@ -164,10 +164,10 @@ run();
 
 ### Errors
 
-| Error Type                              | Status Code                             | Content Type                            |
-| --------------------------------------- | --------------------------------------- | --------------------------------------- |
-| errors.LookupByISBNUnauthorizedError    | 401                                     | application/json                        |
-| errors.LookupByISBNForbiddenError       | 403                                     | application/json                        |
-| errors.LookupByISBNNotFoundError        | 404                                     | application/json                        |
-| errors.LookupByISBNTooManyRequestsError | 429                                     | application/json                        |
-| errors.VerseDbDefaultError              | 4XX, 5XX                                | \*/\*                                   |
+| Error Type                        | Status Code                       | Content Type                      |
+| --------------------------------- | --------------------------------- | --------------------------------- |
+| errors.UnauthorizedError          | 401                               | application/json                  |
+| errors.LookupByISBNForbiddenError | 403                               | application/json                  |
+| errors.LookupByISBNNotFoundError  | 404                               | application/json                  |
+| errors.TooManyRequestsError       | 429                               | application/json                  |
+| errors.VerseDbDefaultError        | 4XX, 5XX                          | \*/\*                             |

@@ -7,32 +7,6 @@ import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export type GetListTooManyRequestsErrorData = {
-  message: string;
-};
-
-/**
- * Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export class GetListTooManyRequestsError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: GetListTooManyRequestsErrorData;
-
-  constructor(
-    err: GetListTooManyRequestsErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "GetListTooManyRequestsError";
-  }
-}
-
-/**
  * Not Found
  */
 export type GetListNotFoundErrorData = {
@@ -84,52 +58,6 @@ export class GetListForbiddenError extends VerseDbError {
   }
 }
 
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export type GetListUnauthorizedErrorData = {
-  message: string;
-};
-
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export class GetListUnauthorizedError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: GetListUnauthorizedErrorData;
-
-  constructor(
-    err: GetListUnauthorizedErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "GetListUnauthorizedError";
-  }
-}
-
-/** @internal */
-export const GetListTooManyRequestsError$inboundSchema: z.ZodMiniType<
-  GetListTooManyRequestsError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new GetListTooManyRequestsError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
-
 /** @internal */
 export const GetListNotFoundError$inboundSchema: z.ZodMiniType<
   GetListNotFoundError,
@@ -163,26 +91,6 @@ export const GetListForbiddenError$inboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return new GetListForbiddenError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
-
-/** @internal */
-export const GetListUnauthorizedError$inboundSchema: z.ZodMiniType<
-  GetListUnauthorizedError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new GetListUnauthorizedError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

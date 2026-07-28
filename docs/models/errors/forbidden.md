@@ -1,5 +1,7 @@
 # Forbidden
 
+Forbidden. The authenticated user may not perform this action.
+
 
 ## Supported Types
 

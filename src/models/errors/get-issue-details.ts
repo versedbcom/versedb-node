@@ -7,32 +7,6 @@ import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export type GetIssueDetailsTooManyRequestsErrorData = {
-  message: string;
-};
-
-/**
- * Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export class GetIssueDetailsTooManyRequestsError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: GetIssueDetailsTooManyRequestsErrorData;
-
-  constructor(
-    err: GetIssueDetailsTooManyRequestsErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "GetIssueDetailsTooManyRequestsError";
-  }
-}
-
-/**
  * Not Found
  */
 export type GetIssueDetailsNotFoundErrorData = {
@@ -58,52 +32,6 @@ export class GetIssueDetailsNotFoundError extends VerseDbError {
   }
 }
 
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export type GetIssueDetailsUnauthorizedErrorData = {
-  message: string;
-};
-
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export class GetIssueDetailsUnauthorizedError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: GetIssueDetailsUnauthorizedErrorData;
-
-  constructor(
-    err: GetIssueDetailsUnauthorizedErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "GetIssueDetailsUnauthorizedError";
-  }
-}
-
-/** @internal */
-export const GetIssueDetailsTooManyRequestsError$inboundSchema: z.ZodMiniType<
-  GetIssueDetailsTooManyRequestsError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new GetIssueDetailsTooManyRequestsError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
-
 /** @internal */
 export const GetIssueDetailsNotFoundError$inboundSchema: z.ZodMiniType<
   GetIssueDetailsNotFoundError,
@@ -117,26 +45,6 @@ export const GetIssueDetailsNotFoundError$inboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return new GetIssueDetailsNotFoundError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
-
-/** @internal */
-export const GetIssueDetailsUnauthorizedError$inboundSchema: z.ZodMiniType<
-  GetIssueDetailsUnauthorizedError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new GetIssueDetailsUnauthorizedError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

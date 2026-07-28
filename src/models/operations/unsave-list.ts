@@ -34,6 +34,9 @@ export type UnsaveListResponseBody1 = {
   savesCount?: number | undefined;
 };
 
+/**
+ * Success.
+ */
 export type UnsaveListResponseBody =
   | UnsaveListResponseBody1
   | UnsaveListResponseBody2;

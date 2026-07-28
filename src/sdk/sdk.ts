@@ -7,6 +7,7 @@ import { BarcodeLookup } from "./barcode-lookup.js";
 import { Characters } from "./characters.js";
 import { ComicShops } from "./comic-shops.js";
 import { Creators } from "./creators.js";
+import { Discovery } from "./discovery.js";
 import { Events } from "./events.js";
 import { Imprints } from "./imprints.js";
 import { Issues } from "./issues.js";
@@ -22,6 +23,11 @@ import { Universes } from "./universes.js";
 import { User } from "./user.js";
 
 export class VerseDB extends ClientSDK {
+  private _discovery?: Discovery;
+  get discovery(): Discovery {
+    return (this._discovery ??= new Discovery(this._options));
+  }
+
   private _titles?: Titles;
   get titles(): Titles {
     return (this._titles ??= new Titles(this._options));

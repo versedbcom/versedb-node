@@ -34,6 +34,9 @@ export type UnlikeListResponseBody1 = {
   likesCount?: number | undefined;
 };
 
+/**
+ * Success.
+ */
 export type UnlikeListResponseBody =
   | UnlikeListResponseBody1
   | UnlikeListResponseBody2;

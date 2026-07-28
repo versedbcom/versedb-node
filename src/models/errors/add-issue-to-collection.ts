@@ -7,32 +7,6 @@ import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export type AddIssueToCollectionTooManyRequestsErrorData = {
-  message: string;
-};
-
-/**
- * Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export class AddIssueToCollectionTooManyRequestsError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: AddIssueToCollectionTooManyRequestsErrorData;
-
-  constructor(
-    err: AddIssueToCollectionTooManyRequestsErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "AddIssueToCollectionTooManyRequestsError";
-  }
-}
-
-/**
  * Invalid Variant
  */
 export type AddIssueToCollectionUnprocessableEntityErrorData = {
@@ -94,50 +68,6 @@ export class AddIssueToCollectionForbiddenError extends VerseDbError {
   }
 }
 
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export type AddIssueToCollectionUnauthorizedErrorData = {
-  message: string;
-};
-
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export class AddIssueToCollectionUnauthorizedError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: AddIssueToCollectionUnauthorizedErrorData;
-
-  constructor(
-    err: AddIssueToCollectionUnauthorizedErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "AddIssueToCollectionUnauthorizedError";
-  }
-}
-
-/** @internal */
-export const AddIssueToCollectionTooManyRequestsError$inboundSchema:
-  z.ZodMiniType<AddIssueToCollectionTooManyRequestsError, unknown> = z.pipe(
-    z.object({
-      message: types.string(),
-      request$: z.custom<Request>(x => x instanceof Request),
-      response$: z.custom<Response>(x => x instanceof Response),
-      body$: z.string(),
-    }),
-    z.transform((v) => {
-      return new AddIssueToCollectionTooManyRequestsError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
-      });
-    }),
-  );
-
 /** @internal */
 export const AddIssueToCollectionUnprocessableEntityError$inboundSchema:
   z.ZodMiniType<AddIssueToCollectionUnprocessableEntityError, unknown> = z.pipe(
@@ -169,26 +99,6 @@ export const AddIssueToCollectionForbiddenError$inboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return new AddIssueToCollectionForbiddenError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
-
-/** @internal */
-export const AddIssueToCollectionUnauthorizedError$inboundSchema: z.ZodMiniType<
-  AddIssueToCollectionUnauthorizedError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new AddIssueToCollectionUnauthorizedError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

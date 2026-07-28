@@ -11,6 +11,7 @@ All endpoints in this group require authentication with a Bearer API token.
 
 * [getTheAuthenticatedUser](#gettheauthenticateduser) - Get the authenticated user.
 * [listCollection](#listcollection) - List collection.
+* [checkIssueInCollection](#checkissueincollection) - Check issue in collection.
 * [addIssueToCollection](#addissuetocollection) - Add issue to collection.
 * [updateCollectionItem](#updatecollectionitem) - Update collection item.
 * [removeIssueFromCollection](#removeissuefromcollection) - Remove issue from collection.
@@ -94,11 +95,11 @@ run();
 
 ### Errors
 
-| Error Type                                         | Status Code                                        | Content Type                                       |
-| -------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- |
-| errors.GetTheAuthenticatedUserUnauthorizedError    | 401                                                | application/json                                   |
-| errors.GetTheAuthenticatedUserTooManyRequestsError | 429                                                | application/json                                   |
-| errors.VerseDbDefaultError                         | 4XX, 5XX                                           | \*/\*                                              |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
 
 ## listCollection
 
@@ -199,11 +200,88 @@ run();
 
 ### Errors
 
-| Error Type                                | Status Code                               | Content Type                              |
-| ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
-| errors.ListCollectionUnauthorizedError    | 401                                       | application/json                          |
-| errors.ListCollectionTooManyRequestsError | 429                                       | application/json                          |
-| errors.VerseDbDefaultError                | 4XX, 5XX                                  | \*/\*                                     |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
+
+## checkIssueInCollection
+
+Checks if an issue (optionally a specific variant) is in the user's collection.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="checkIssueInCollection" method="get" path="/api/v1/issues/{issue_id}/collection/check" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.user.checkIssueInCollection({
+    issueId: 5432,
+    variantId: 789,
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { userCheckIssueInCollection } from "@versedbcom/sdk/funcs/user-check-issue-in-collection.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await userCheckIssueInCollection(verseDB, {
+    issueId: 5432,
+    variantId: 789,
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("userCheckIssueInCollection failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.CheckIssueInCollectionRequest](../../models/operations/check-issue-in-collection-request.md)                                                                       | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.CheckIssueInCollectionResponse](../../models/operations/check-issue-in-collection-response.md)\>**
+
+### Errors
+
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
 
 ## addIssueToCollection
 
@@ -337,10 +415,10 @@ run();
 
 | Error Type                                          | Status Code                                         | Content Type                                        |
 | --------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------- |
-| errors.AddIssueToCollectionUnauthorizedError        | 401                                                 | application/json                                    |
+| errors.UnauthorizedError                            | 401                                                 | application/json                                    |
 | errors.AddIssueToCollectionForbiddenError           | 403                                                 | application/json                                    |
 | errors.AddIssueToCollectionUnprocessableEntityError | 422                                                 | application/json                                    |
-| errors.AddIssueToCollectionTooManyRequestsError     | 429                                                 | application/json                                    |
+| errors.TooManyRequestsError                         | 429                                                 | application/json                                    |
 | errors.VerseDbDefaultError                          | 4XX, 5XX                                            | \*/\*                                               |
 
 ## updateCollectionItem
@@ -481,12 +559,12 @@ run();
 
 ### Errors
 
-| Error Type                                      | Status Code                                     | Content Type                                    |
-| ----------------------------------------------- | ----------------------------------------------- | ----------------------------------------------- |
-| errors.UpdateCollectionItemUnauthorizedError    | 401                                             | application/json                                |
-| errors.UpdateCollectionItemNotFoundError        | 404                                             | application/json                                |
-| errors.UpdateCollectionItemTooManyRequestsError | 429                                             | application/json                                |
-| errors.VerseDbDefaultError                      | 4XX, 5XX                                        | \*/\*                                           |
+| Error Type                               | Status Code                              | Content Type                             |
+| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| errors.UnauthorizedError                 | 401                                      | application/json                         |
+| errors.UpdateCollectionItemNotFoundError | 404                                      | application/json                         |
+| errors.TooManyRequestsError              | 429                                      | application/json                         |
+| errors.VerseDbDefaultError               | 4XX, 5XX                                 | \*/\*                                    |
 
 ## removeIssueFromCollection
 
@@ -569,12 +647,12 @@ run();
 
 ### Errors
 
-| Error Type                                           | Status Code                                          | Content Type                                         |
-| ---------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------- |
-| errors.RemoveIssueFromCollectionUnauthorizedError    | 401                                                  | application/json                                     |
-| errors.RemoveIssueFromCollectionNotFoundError        | 404                                                  | application/json                                     |
-| errors.RemoveIssueFromCollectionTooManyRequestsError | 429                                                  | application/json                                     |
-| errors.VerseDbDefaultError                           | 4XX, 5XX                                             | \*/\*                                                |
+| Error Type                                    | Status Code                                   | Content Type                                  |
+| --------------------------------------------- | --------------------------------------------- | --------------------------------------------- |
+| errors.UnauthorizedError                      | 401                                           | application/json                              |
+| errors.RemoveIssueFromCollectionNotFoundError | 404                                           | application/json                              |
+| errors.TooManyRequestsError                   | 429                                           | application/json                              |
+| errors.VerseDbDefaultError                    | 4XX, 5XX                                      | \*/\*                                         |
 
 ## listPullList
 
@@ -645,11 +723,11 @@ run();
 
 ### Errors
 
-| Error Type                              | Status Code                             | Content Type                            |
-| --------------------------------------- | --------------------------------------- | --------------------------------------- |
-| errors.ListPullListUnauthorizedError    | 401                                     | application/json                        |
-| errors.ListPullListTooManyRequestsError | 429                                     | application/json                        |
-| errors.VerseDbDefaultError              | 4XX, 5XX                                | \*/\*                                   |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
 
 ## addToPullList
 
@@ -722,9 +800,9 @@ run();
 
 | Error Type                                   | Status Code                                  | Content Type                                 |
 | -------------------------------------------- | -------------------------------------------- | -------------------------------------------- |
-| errors.AddToPullListUnauthorizedError        | 401                                          | application/json                             |
+| errors.UnauthorizedError                     | 401                                          | application/json                             |
 | errors.AddToPullListUnprocessableEntityError | 422                                          | application/json                             |
-| errors.AddToPullListTooManyRequestsError     | 429                                          | application/json                             |
+| errors.TooManyRequestsError                  | 429                                          | application/json                             |
 | errors.VerseDbDefaultError                   | 4XX, 5XX                                     | \*/\*                                        |
 
 ## removeFromPullList
@@ -796,11 +874,11 @@ run();
 
 ### Errors
 
-| Error Type                                    | Status Code                                   | Content Type                                  |
-| --------------------------------------------- | --------------------------------------------- | --------------------------------------------- |
-| errors.RemoveFromPullListUnauthorizedError    | 401                                           | application/json                              |
-| errors.RemoveFromPullListTooManyRequestsError | 429                                           | application/json                              |
-| errors.VerseDbDefaultError                    | 4XX, 5XX                                      | \*/\*                                         |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
 
 ## listReadStatus
 
@@ -873,11 +951,11 @@ run();
 
 ### Errors
 
-| Error Type                                | Status Code                               | Content Type                              |
-| ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
-| errors.ListReadStatusUnauthorizedError    | 401                                       | application/json                          |
-| errors.ListReadStatusTooManyRequestsError | 429                                       | application/json                          |
-| errors.VerseDbDefaultError                | 4XX, 5XX                                  | \*/\*                                     |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
 
 ## markAsRead
 
@@ -956,9 +1034,9 @@ run();
 
 | Error Type                                | Status Code                               | Content Type                              |
 | ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
-| errors.MarkAsReadUnauthorizedError        | 401                                       | application/json                          |
+| errors.UnauthorizedError                  | 401                                       | application/json                          |
 | errors.MarkAsReadUnprocessableEntityError | 422                                       | application/json                          |
-| errors.MarkAsReadTooManyRequestsError     | 429                                       | application/json                          |
+| errors.TooManyRequestsError               | 429                                       | application/json                          |
 | errors.VerseDbDefaultError                | 4XX, 5XX                                  | \*/\*                                     |
 
 ## editReadingDate
@@ -1039,11 +1117,11 @@ run();
 
 ### Errors
 
-| Error Type                                 | Status Code                                | Content Type                               |
-| ------------------------------------------ | ------------------------------------------ | ------------------------------------------ |
-| errors.EditReadingDateUnauthorizedError    | 401                                        | application/json                           |
-| errors.EditReadingDateTooManyRequestsError | 429                                        | application/json                           |
-| errors.VerseDbDefaultError                 | 4XX, 5XX                                   | \*/\*                                      |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
 
 ## markAsUnread
 
@@ -1120,11 +1198,11 @@ run();
 
 ### Errors
 
-| Error Type                              | Status Code                             | Content Type                            |
-| --------------------------------------- | --------------------------------------- | --------------------------------------- |
-| errors.MarkAsUnreadUnauthorizedError    | 401                                     | application/json                        |
-| errors.MarkAsUnreadTooManyRequestsError | 429                                     | application/json                        |
-| errors.VerseDbDefaultError              | 4XX, 5XX                                | \*/\*                                   |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
 
 ## listWishlist
 
@@ -1195,11 +1273,11 @@ run();
 
 ### Errors
 
-| Error Type                              | Status Code                             | Content Type                            |
-| --------------------------------------- | --------------------------------------- | --------------------------------------- |
-| errors.ListWishlistUnauthorizedError    | 401                                     | application/json                        |
-| errors.ListWishlistTooManyRequestsError | 429                                     | application/json                        |
-| errors.VerseDbDefaultError              | 4XX, 5XX                                | \*/\*                                   |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
 
 ## addToWishlist
 
@@ -1279,9 +1357,9 @@ run();
 
 | Error Type                                   | Status Code                                  | Content Type                                 |
 | -------------------------------------------- | -------------------------------------------- | -------------------------------------------- |
-| errors.AddToWishlistUnauthorizedError        | 401                                          | application/json                             |
+| errors.UnauthorizedError                     | 401                                          | application/json                             |
 | errors.AddToWishlistUnprocessableEntityError | 422                                          | application/json                             |
-| errors.AddToWishlistTooManyRequestsError     | 429                                          | application/json                             |
+| errors.TooManyRequestsError                  | 429                                          | application/json                             |
 | errors.VerseDbDefaultError                   | 4XX, 5XX                                     | \*/\*                                        |
 
 ## removeFromWishlist
@@ -1362,11 +1440,11 @@ run();
 
 ### Errors
 
-| Error Type                                    | Status Code                                   | Content Type                                  |
-| --------------------------------------------- | --------------------------------------------- | --------------------------------------------- |
-| errors.RemoveFromWishlistUnauthorizedError    | 401                                           | application/json                              |
-| errors.RemoveFromWishlistTooManyRequestsError | 429                                           | application/json                              |
-| errors.VerseDbDefaultError                    | 4XX, 5XX                                      | \*/\*                                         |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
 
 ## listFollows
 
@@ -1437,11 +1515,11 @@ run();
 
 ### Errors
 
-| Error Type                             | Status Code                            | Content Type                           |
-| -------------------------------------- | -------------------------------------- | -------------------------------------- |
-| errors.ListFollowsUnauthorizedError    | 401                                    | application/json                       |
-| errors.ListFollowsTooManyRequestsError | 429                                    | application/json                       |
-| errors.VerseDbDefaultError             | 4XX, 5XX                               | \*/\*                                  |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
 
 ## followContent
 
@@ -1522,12 +1600,12 @@ run();
 
 ### Errors
 
-| Error Type                               | Status Code                              | Content Type                             |
-| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
-| errors.FollowContentUnauthorizedError    | 401                                      | application/json                         |
-| errors.FollowContentNotFoundError        | 404                                      | application/json                         |
-| errors.FollowContentTooManyRequestsError | 429                                      | application/json                         |
-| errors.VerseDbDefaultError               | 4XX, 5XX                                 | \*/\*                                    |
+| Error Type                        | Status Code                       | Content Type                      |
+| --------------------------------- | --------------------------------- | --------------------------------- |
+| errors.UnauthorizedError          | 401                               | application/json                  |
+| errors.FollowContentNotFoundError | 404                               | application/json                  |
+| errors.TooManyRequestsError       | 429                               | application/json                  |
+| errors.VerseDbDefaultError        | 4XX, 5XX                          | \*/\*                             |
 
 ## unfollowContent
 
@@ -1600,12 +1678,12 @@ run();
 
 ### Errors
 
-| Error Type                                 | Status Code                                | Content Type                               |
-| ------------------------------------------ | ------------------------------------------ | ------------------------------------------ |
-| errors.UnfollowContentUnauthorizedError    | 401                                        | application/json                           |
-| errors.UnfollowContentNotFoundError        | 404                                        | application/json                           |
-| errors.UnfollowContentTooManyRequestsError | 429                                        | application/json                           |
-| errors.VerseDbDefaultError                 | 4XX, 5XX                                   | \*/\*                                      |
+| Error Type                          | Status Code                         | Content Type                        |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| errors.UnauthorizedError            | 401                                 | application/json                    |
+| errors.UnfollowContentNotFoundError | 404                                 | application/json                    |
+| errors.TooManyRequestsError         | 429                                 | application/json                    |
+| errors.VerseDbDefaultError          | 4XX, 5XX                            | \*/\*                               |
 
 ## checkFollowStatus
 
@@ -1678,11 +1756,11 @@ run();
 
 ### Errors
 
-| Error Type                                   | Status Code                                  | Content Type                                 |
-| -------------------------------------------- | -------------------------------------------- | -------------------------------------------- |
-| errors.CheckFollowStatusUnauthorizedError    | 401                                          | application/json                             |
-| errors.CheckFollowStatusTooManyRequestsError | 429                                          | application/json                             |
-| errors.VerseDbDefaultError                   | 4XX, 5XX                                     | \*/\*                                        |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
 
 ## getActivityFeed
 
@@ -1753,8 +1831,8 @@ run();
 
 ### Errors
 
-| Error Type                                 | Status Code                                | Content Type                               |
-| ------------------------------------------ | ------------------------------------------ | ------------------------------------------ |
-| errors.GetActivityFeedUnauthorizedError    | 401                                        | application/json                           |
-| errors.GetActivityFeedTooManyRequestsError | 429                                        | application/json                           |
-| errors.VerseDbDefaultError                 | 4XX, 5XX                                   | \*/\*                                      |
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |

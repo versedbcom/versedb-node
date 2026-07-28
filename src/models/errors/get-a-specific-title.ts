@@ -7,32 +7,6 @@ import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export type GetASpecificTitleTooManyRequestsErrorData = {
-  message: string;
-};
-
-/**
- * Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export class GetASpecificTitleTooManyRequestsError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: GetASpecificTitleTooManyRequestsErrorData;
-
-  constructor(
-    err: GetASpecificTitleTooManyRequestsErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "GetASpecificTitleTooManyRequestsError";
-  }
-}
-
-/**
  * Not Found
  */
 export type GetASpecificTitleNotFoundErrorData = {
@@ -58,52 +32,6 @@ export class GetASpecificTitleNotFoundError extends VerseDbError {
   }
 }
 
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export type GetASpecificTitleUnauthorizedErrorData = {
-  message: string;
-};
-
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export class GetASpecificTitleUnauthorizedError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: GetASpecificTitleUnauthorizedErrorData;
-
-  constructor(
-    err: GetASpecificTitleUnauthorizedErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "GetASpecificTitleUnauthorizedError";
-  }
-}
-
-/** @internal */
-export const GetASpecificTitleTooManyRequestsError$inboundSchema: z.ZodMiniType<
-  GetASpecificTitleTooManyRequestsError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new GetASpecificTitleTooManyRequestsError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
-
 /** @internal */
 export const GetASpecificTitleNotFoundError$inboundSchema: z.ZodMiniType<
   GetASpecificTitleNotFoundError,
@@ -117,26 +45,6 @@ export const GetASpecificTitleNotFoundError$inboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return new GetASpecificTitleNotFoundError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
-
-/** @internal */
-export const GetASpecificTitleUnauthorizedError$inboundSchema: z.ZodMiniType<
-  GetASpecificTitleUnauthorizedError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new GetASpecificTitleUnauthorizedError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

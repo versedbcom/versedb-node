@@ -37,8 +37,8 @@ export function teamsListAllTeamsWithOptionalSearch(
 ): APIPromise<
   Result<
     operations.ListAllTeamsWithOptionalSearchResponse,
-    | errors.ListAllTeamsWithOptionalSearchUnauthorizedError
-    | errors.ListAllTeamsWithOptionalSearchTooManyRequestsError
+    | errors.UnauthorizedError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -64,8 +64,8 @@ async function $do(
   [
     Result<
       operations.ListAllTeamsWithOptionalSearchResponse,
-      | errors.ListAllTeamsWithOptionalSearchUnauthorizedError
-      | errors.ListAllTeamsWithOptionalSearchTooManyRequestsError
+      | errors.UnauthorizedError
+      | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
       | ConnectionError
@@ -159,8 +159,8 @@ async function $do(
 
   const [result] = await M.match<
     operations.ListAllTeamsWithOptionalSearchResponse,
-    | errors.ListAllTeamsWithOptionalSearchUnauthorizedError
-    | errors.ListAllTeamsWithOptionalSearchTooManyRequestsError
+    | errors.UnauthorizedError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -175,15 +175,8 @@ async function $do(
       operations.ListAllTeamsWithOptionalSearchResponse$inboundSchema,
       { hdrs: true, key: "Result" },
     ),
-    M.jsonErr(
-      401,
-      errors.ListAllTeamsWithOptionalSearchUnauthorizedError$inboundSchema,
-    ),
-    M.jsonErr(
-      429,
-      errors.ListAllTeamsWithOptionalSearchTooManyRequestsError$inboundSchema,
-      { hdrs: true },
-    ),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

@@ -1,5 +1,7 @@
 # GetTheAuthenticatedUserResponseBody
 
+Success.
+
 ## Example Usage
 
 ```typescript

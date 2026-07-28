@@ -40,9 +40,9 @@ export function listsLikeList(
 ): APIPromise<
   Result<
     operations.LikeListResponse,
-    | errors.LikeListUnauthorizedError
+    | errors.UnauthorizedError
     | errors.LikeListForbiddenError
-    | errors.LikeListTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -68,9 +68,9 @@ async function $do(
   [
     Result<
       operations.LikeListResponse,
-      | errors.LikeListUnauthorizedError
+      | errors.UnauthorizedError
       | errors.LikeListForbiddenError
-      | errors.LikeListTooManyRequestsError
+      | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
       | ConnectionError
@@ -158,9 +158,9 @@ async function $do(
 
   const [result] = await M.match<
     operations.LikeListResponse,
-    | errors.LikeListUnauthorizedError
+    | errors.UnauthorizedError
     | errors.LikeListForbiddenError
-    | errors.LikeListTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -178,11 +178,9 @@ async function $do(
       hdrs: true,
       key: "Result",
     }),
-    M.jsonErr(401, errors.LikeListUnauthorizedError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
     M.jsonErr(403, errors.LikeListForbiddenError$inboundSchema),
-    M.jsonErr(429, errors.LikeListTooManyRequestsError$inboundSchema, {
-      hdrs: true,
-    }),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

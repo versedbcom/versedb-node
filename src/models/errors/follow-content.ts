@@ -7,32 +7,6 @@ import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export type FollowContentTooManyRequestsErrorData = {
-  message: string;
-};
-
-/**
- * Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.
- */
-export class FollowContentTooManyRequestsError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: FollowContentTooManyRequestsErrorData;
-
-  constructor(
-    err: FollowContentTooManyRequestsErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "FollowContentTooManyRequestsError";
-  }
-}
-
-/**
  * Not Found
  */
 export type FollowContentNotFoundErrorData = {
@@ -58,52 +32,6 @@ export class FollowContentNotFoundError extends VerseDbError {
   }
 }
 
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export type FollowContentUnauthorizedErrorData = {
-  message: string;
-};
-
-/**
- * Unauthenticated. The bearer token is missing, invalid, or revoked.
- */
-export class FollowContentUnauthorizedError extends VerseDbError {
-  /** The original data that was passed to this error instance. */
-  data$: FollowContentUnauthorizedErrorData;
-
-  constructor(
-    err: FollowContentUnauthorizedErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-
-    this.name = "FollowContentUnauthorizedError";
-  }
-}
-
-/** @internal */
-export const FollowContentTooManyRequestsError$inboundSchema: z.ZodMiniType<
-  FollowContentTooManyRequestsError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new FollowContentTooManyRequestsError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
-
 /** @internal */
 export const FollowContentNotFoundError$inboundSchema: z.ZodMiniType<
   FollowContentNotFoundError,
@@ -117,26 +45,6 @@ export const FollowContentNotFoundError$inboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return new FollowContentNotFoundError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
-
-/** @internal */
-export const FollowContentUnauthorizedError$inboundSchema: z.ZodMiniType<
-  FollowContentUnauthorizedError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new FollowContentUnauthorizedError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

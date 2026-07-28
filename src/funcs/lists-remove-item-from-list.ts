@@ -41,10 +41,10 @@ export function listsRemoveItemFromList(
 ): APIPromise<
   Result<
     operations.RemoveItemFromListResponse | undefined,
-    | errors.RemoveItemFromListUnauthorizedError
+    | errors.UnauthorizedError
     | errors.RemoveItemFromListForbiddenError
     | errors.RemoveItemFromListNotFoundError
-    | errors.RemoveItemFromListTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -70,10 +70,10 @@ async function $do(
   [
     Result<
       operations.RemoveItemFromListResponse | undefined,
-      | errors.RemoveItemFromListUnauthorizedError
+      | errors.UnauthorizedError
       | errors.RemoveItemFromListForbiddenError
       | errors.RemoveItemFromListNotFoundError
-      | errors.RemoveItemFromListTooManyRequestsError
+      | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
       | ConnectionError
@@ -168,10 +168,10 @@ async function $do(
 
   const [result] = await M.match<
     operations.RemoveItemFromListResponse | undefined,
-    | errors.RemoveItemFromListUnauthorizedError
+    | errors.UnauthorizedError
     | errors.RemoveItemFromListForbiddenError
     | errors.RemoveItemFromListNotFoundError
-    | errors.RemoveItemFromListTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -186,14 +186,10 @@ async function $do(
       types$.optional(operations.RemoveItemFromListResponse$inboundSchema),
       { hdrs: true },
     ),
-    M.jsonErr(401, errors.RemoveItemFromListUnauthorizedError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
     M.jsonErr(403, errors.RemoveItemFromListForbiddenError$inboundSchema),
     M.jsonErr(404, errors.RemoveItemFromListNotFoundError$inboundSchema),
-    M.jsonErr(
-      429,
-      errors.RemoveItemFromListTooManyRequestsError$inboundSchema,
-      { hdrs: true },
-    ),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

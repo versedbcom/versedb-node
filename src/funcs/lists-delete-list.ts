@@ -41,9 +41,9 @@ export function listsDeleteList(
 ): APIPromise<
   Result<
     operations.DeleteListResponse | undefined,
-    | errors.DeleteListUnauthorizedError
+    | errors.UnauthorizedError
     | errors.Forbidden
-    | errors.DeleteListTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -69,9 +69,9 @@ async function $do(
   [
     Result<
       operations.DeleteListResponse | undefined,
-      | errors.DeleteListUnauthorizedError
+      | errors.UnauthorizedError
       | errors.Forbidden
-      | errors.DeleteListTooManyRequestsError
+      | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
       | ConnectionError
@@ -159,9 +159,9 @@ async function $do(
 
   const [result] = await M.match<
     operations.DeleteListResponse | undefined,
-    | errors.DeleteListUnauthorizedError
+    | errors.UnauthorizedError
     | errors.Forbidden
-    | errors.DeleteListTooManyRequestsError
+    | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
     | ConnectionError
@@ -174,11 +174,9 @@ async function $do(
     M.nil(204, types$.optional(operations.DeleteListResponse$inboundSchema), {
       hdrs: true,
     }),
-    M.jsonErr(401, errors.DeleteListUnauthorizedError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
     M.jsonErr(403, errors.Forbidden$inboundSchema),
-    M.jsonErr(429, errors.DeleteListTooManyRequestsError$inboundSchema, {
-      hdrs: true,
-    }),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });
