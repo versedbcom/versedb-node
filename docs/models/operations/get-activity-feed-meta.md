@@ -8,8 +8,8 @@ import { GetActivityFeedMeta } from "@versedbcom/sdk/models/operations";
 let value: GetActivityFeedMeta = {
   currentPage: 1,
   perPage: 20,
-  total: 0,
-  lastPage: 0,
+  total: 84,
+  lastPage: 5,
 };
 ```
 
@@ -19,5 +19,5 @@ let value: GetActivityFeedMeta = {
 | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
 | `currentPage`      | *number*           | :heavy_minus_sign: | N/A                | 1                  |
 | `perPage`          | *number*           | :heavy_minus_sign: | N/A                | 20                 |
-| `total`            | *number*           | :heavy_minus_sign: | N/A                | 0                  |
-| `lastPage`         | *number*           | :heavy_minus_sign: | N/A                | 0                  |
+| `total`            | *number*           | :heavy_minus_sign: | N/A                | 84                 |
+| `lastPage`         | *number*           | :heavy_minus_sign: | N/A                | 5                  |

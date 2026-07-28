@@ -6,7 +6,7 @@
 import { GetTheAuthenticatedUserData } from "@versedbcom/sdk/models/operations";
 
 let value: GetTheAuthenticatedUserData = {
-  id: 12,
+  id: 14,
   name: "Scribe Test User",
   username: "scribe-test-user",
   email: "scribe-tester@internal.versedb.com",
@@ -23,7 +23,7 @@ let value: GetTheAuthenticatedUserData = {
   postalCode: null,
   formattedLocation: null,
   isPrivate: false,
-  isWishlistPublic: true,
+  isWishlistPublic: false,
   publicWishlistId: null,
   emailNotifications: true,
   contentEditNotifications: true,
@@ -45,18 +45,19 @@ let value: GetTheAuthenticatedUserData = {
     "en",
   ],
   locale: null,
-  onboardingCompletedAt: null,
-  onboardingStep: 0,
+  onboardingCompletedAt: "2025-04-11T01:29:50.000000Z",
+  onboardingStep: 5,
   aiDiscoveryEnabled: true,
   isPro: false,
+  canChangeUsername: true,
   level: 1,
   xp: 0,
   xpForNextLevel: 100,
   xpProgressPercent: 0,
   contributionsCount: 0,
-  levelName: "Newcomer",
-  createdAt: "2026-06-06T20:28:27.000000Z",
-  updatedAt: "2026-06-06T20:28:27.000000Z",
+  levelName: "Bystander",
+  createdAt: "2025-04-11T01:29:50.000000Z",
+  updatedAt: "2025-04-11T01:29:50.000000Z",
   hasPassword: true,
   deletionRequestedAt: null,
   deletionConfirmedAt: null,
@@ -68,7 +69,7 @@ let value: GetTheAuthenticatedUserData = {
 
 | Field                              | Type                               | Required                           | Description                        | Example                            |
 | ---------------------------------- | ---------------------------------- | ---------------------------------- | ---------------------------------- | ---------------------------------- |
-| `id`                               | *number*                           | :heavy_minus_sign:                 | N/A                                | 12                                 |
+| `id`                               | *number*                           | :heavy_minus_sign:                 | N/A                                | 14                                 |
 | `name`                             | *string*                           | :heavy_minus_sign:                 | N/A                                | Scribe Test User                   |
 | `username`                         | *string*                           | :heavy_minus_sign:                 | N/A                                | scribe-test-user                   |
 | `email`                            | *string*                           | :heavy_minus_sign:                 | N/A                                | scribe-tester@internal.versedb.com |
@@ -85,7 +86,7 @@ let value: GetTheAuthenticatedUserData = {
 | `postalCode`                       | *string*                           | :heavy_minus_sign:                 | N/A                                | null                               |
 | `formattedLocation`                | *string*                           | :heavy_minus_sign:                 | N/A                                | null                               |
 | `isPrivate`                        | *boolean*                          | :heavy_minus_sign:                 | N/A                                | false                              |
-| `isWishlistPublic`                 | *boolean*                          | :heavy_minus_sign:                 | N/A                                | true                               |
+| `isWishlistPublic`                 | *boolean*                          | :heavy_minus_sign:                 | N/A                                | false                              |
 | `publicWishlistId`                 | *string*                           | :heavy_minus_sign:                 | N/A                                | null                               |
 | `emailNotifications`               | *boolean*                          | :heavy_minus_sign:                 | N/A                                | true                               |
 | `contentEditNotifications`         | *boolean*                          | :heavy_minus_sign:                 | N/A                                | true                               |
@@ -103,18 +104,19 @@ let value: GetTheAuthenticatedUserData = {
 | `preferredGenres`                  | *any*[]                            | :heavy_minus_sign:                 | N/A                                | []                                 |
 | `preferredLanguages`               | *string*[]                         | :heavy_minus_sign:                 | N/A                                | [<br/>"en"<br/>]                   |
 | `locale`                           | *string*                           | :heavy_minus_sign:                 | N/A                                | null                               |
-| `onboardingCompletedAt`            | *string*                           | :heavy_minus_sign:                 | N/A                                | null                               |
-| `onboardingStep`                   | *number*                           | :heavy_minus_sign:                 | N/A                                | 0                                  |
+| `onboardingCompletedAt`            | *string*                           | :heavy_minus_sign:                 | N/A                                | 2025-04-11T01:29:50.000000Z        |
+| `onboardingStep`                   | *number*                           | :heavy_minus_sign:                 | N/A                                | 5                                  |
 | `aiDiscoveryEnabled`               | *boolean*                          | :heavy_minus_sign:                 | N/A                                | true                               |
 | `isPro`                            | *boolean*                          | :heavy_minus_sign:                 | N/A                                | false                              |
+| `canChangeUsername`                | *boolean*                          | :heavy_minus_sign:                 | N/A                                | true                               |
 | `level`                            | *number*                           | :heavy_minus_sign:                 | N/A                                | 1                                  |
 | `xp`                               | *number*                           | :heavy_minus_sign:                 | N/A                                | 0                                  |
 | `xpForNextLevel`                   | *number*                           | :heavy_minus_sign:                 | N/A                                | 100                                |
 | `xpProgressPercent`                | *number*                           | :heavy_minus_sign:                 | N/A                                | 0                                  |
 | `contributionsCount`               | *number*                           | :heavy_minus_sign:                 | N/A                                | 0                                  |
-| `levelName`                        | *string*                           | :heavy_minus_sign:                 | N/A                                | Newcomer                           |
-| `createdAt`                        | *string*                           | :heavy_minus_sign:                 | N/A                                | 2026-06-06T20:28:27.000000Z        |
-| `updatedAt`                        | *string*                           | :heavy_minus_sign:                 | N/A                                | 2026-06-06T20:28:27.000000Z        |
+| `levelName`                        | *string*                           | :heavy_minus_sign:                 | N/A                                | Bystander                          |
+| `createdAt`                        | *string*                           | :heavy_minus_sign:                 | N/A                                | 2025-04-11T01:29:50.000000Z        |
+| `updatedAt`                        | *string*                           | :heavy_minus_sign:                 | N/A                                | 2025-04-11T01:29:50.000000Z        |
 | `hasPassword`                      | *boolean*                          | :heavy_minus_sign:                 | N/A                                | true                               |
 | `deletionRequestedAt`              | *string*                           | :heavy_minus_sign:                 | N/A                                | null                               |
 | `deletionConfirmedAt`              | *string*                           | :heavy_minus_sign:                 | N/A                                | null                               |

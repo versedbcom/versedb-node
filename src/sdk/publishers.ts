@@ -13,7 +13,7 @@ export class Publishers extends ClientSDK {
    * List all publishers with optional search
    *
    * @remarks
-   * Returns: id, name, slug, founded_year, headquarters, status, logo_url
+   * Returns: id, name, founded_year, headquarters, status, logo_url
    */
   async listAllPublishersWithOptionalSearch(
     request?: operations.ListAllPublishersWithOptionalSearchRequest | undefined,
@@ -30,9 +30,8 @@ export class Publishers extends ClientSDK {
    * Get publisher details
    *
    * @remarks
-   * Returns: id, name, slug, description, founded_year, first_published_year,
-   * website, email, headquarters, parent_company, status, logo_url, aliases,
-   * titles_count, series_count, issues_count, characters_count
+   * Returns: id, name, description, founded_year, first_published_year,
+   * website, headquarters, parent_company, status, logo_url, aliases
    *
    * Use the related endpoints for relationship data:
    * - /series?publisher_id={id} - Get series by publisher

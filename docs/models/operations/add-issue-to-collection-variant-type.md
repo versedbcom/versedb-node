@@ -1,5 +1,7 @@
 # AddIssueToCollectionVariantType
 
+Variant classification (standard, cover_variant, retailer_exclusive, incentive_variant, ratio_variant, virgin_variant, etc.).
+
 ## Example Usage
 
 ```typescript

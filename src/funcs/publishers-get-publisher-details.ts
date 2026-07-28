@@ -31,9 +31,8 @@ import { Result } from "../types/fp.js";
  * Get publisher details
  *
  * @remarks
- * Returns: id, name, slug, description, founded_year, first_published_year,
- * website, email, headquarters, parent_company, status, logo_url, aliases,
- * titles_count, series_count, issues_count, characters_count
+ * Returns: id, name, description, founded_year, first_published_year,
+ * website, headquarters, parent_company, status, logo_url, aliases
  *
  * Use the related endpoints for relationship data:
  * - /series?publisher_id={id} - Get series by publisher
@@ -47,6 +46,7 @@ export function publishersGetPublisherDetails(
   Result<
     operations.GetPublisherDetailsResponse,
     | errors.GetPublisherDetailsUnauthorizedError
+    | errors.GetPublisherDetailsNotFoundError
     | errors.GetPublisherDetailsTooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -74,6 +74,7 @@ async function $do(
     Result<
       operations.GetPublisherDetailsResponse,
       | errors.GetPublisherDetailsUnauthorizedError
+      | errors.GetPublisherDetailsNotFoundError
       | errors.GetPublisherDetailsTooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -164,6 +165,7 @@ async function $do(
   const [result] = await M.match<
     operations.GetPublisherDetailsResponse,
     | errors.GetPublisherDetailsUnauthorizedError
+    | errors.GetPublisherDetailsNotFoundError
     | errors.GetPublisherDetailsTooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -179,6 +181,7 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.GetPublisherDetailsUnauthorizedError$inboundSchema),
+    M.jsonErr(404, errors.GetPublisherDetailsNotFoundError$inboundSchema),
     M.jsonErr(
       429,
       errors.GetPublisherDetailsTooManyRequestsError$inboundSchema,

@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * Get an event.
  *
  * @remarks
- * Returns full event details including description, links, map data.
+ * Returns full event details including links and map data.
  */
 export function eventsGetAnEvent(
   client: VerseDBCore,
@@ -41,6 +41,7 @@ export function eventsGetAnEvent(
   Result<
     operations.GetAnEventResponse,
     | errors.GetAnEventUnauthorizedError
+    | errors.GetAnEventNotFoundError
     | errors.GetAnEventTooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -68,6 +69,7 @@ async function $do(
     Result<
       operations.GetAnEventResponse,
       | errors.GetAnEventUnauthorizedError
+      | errors.GetAnEventNotFoundError
       | errors.GetAnEventTooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -157,6 +159,7 @@ async function $do(
   const [result] = await M.match<
     operations.GetAnEventResponse,
     | errors.GetAnEventUnauthorizedError
+    | errors.GetAnEventNotFoundError
     | errors.GetAnEventTooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -172,6 +175,7 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.GetAnEventUnauthorizedError$inboundSchema),
+    M.jsonErr(404, errors.GetAnEventNotFoundError$inboundSchema),
     M.jsonErr(429, errors.GetAnEventTooManyRequestsError$inboundSchema, {
       hdrs: true,
     }),

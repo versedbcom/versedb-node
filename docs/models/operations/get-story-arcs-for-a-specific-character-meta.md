@@ -8,7 +8,7 @@ import { GetStoryArcsForASpecificCharacterMeta } from "@versedbcom/sdk/models/op
 let value: GetStoryArcsForASpecificCharacterMeta = {
   currentPage: 1,
   lastPage: 3,
-  perPage: 15,
+  perPage: 20,
   total: 41,
 };
 ```
@@ -19,5 +19,5 @@ let value: GetStoryArcsForASpecificCharacterMeta = {
 | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
 | `currentPage`      | *number*           | :heavy_minus_sign: | N/A                | 1                  |
 | `lastPage`         | *number*           | :heavy_minus_sign: | N/A                | 3                  |
-| `perPage`          | *number*           | :heavy_minus_sign: | N/A                | 15                 |
+| `perPage`          | *number*           | :heavy_minus_sign: | N/A                | 20                 |
 | `total`            | *number*           | :heavy_minus_sign: | N/A                | 41                 |

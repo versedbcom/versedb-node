@@ -1,11 +1,13 @@
 # AddIssueToCollectionPrintNumber
 
+Which print this copy is (1st, 2nd, 3rd, … or other).
+
 ## Example Usage
 
 ```typescript
 import { AddIssueToCollectionPrintNumber } from "@versedbcom/sdk/models/operations";
 
-let value: AddIssueToCollectionPrintNumber = "4th";
+let value: AddIssueToCollectionPrintNumber = "1st";
 ```
 
 ## Values

@@ -1,11 +1,13 @@
 # UpdateCollectionItemVariantType
 
+Variant classification (standard, cover_variant, retailer_exclusive, incentive_variant, ratio_variant, virgin_variant, etc.).
+
 ## Example Usage
 
 ```typescript
 import { UpdateCollectionItemVariantType } from "@versedbcom/sdk/models/operations";
 
-let value: UpdateCollectionItemVariantType = "ratio_variant";
+let value: UpdateCollectionItemVariantType = "cover_variant";
 ```
 
 ## Values

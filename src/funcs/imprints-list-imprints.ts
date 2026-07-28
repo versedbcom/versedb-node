@@ -96,11 +96,9 @@ async function $do(
   const path = pathToFunc("/api/v1/imprints")();
 
   const query = encodeFormQuery({
-    "direction": payload?.direction,
     "limit": payload?.limit,
     "publisher_id": payload?.publisher_id,
     "q": payload?.q,
-    "sort": payload?.sort,
   });
 
   const headers = new Headers(compactMap({

@@ -29,8 +29,6 @@ async function run() {
   const result = await verseDB.imprints.listImprints({
     q: "vertigo",
     publisherId: 2,
-    sort: "name",
-    direction: "asc",
     limit: 20,
   });
 
@@ -58,8 +56,6 @@ async function run() {
   const res = await imprintsListImprints(verseDB, {
     q: "vertigo",
     publisherId: 2,
-    sort: "name",
-    direction: "asc",
     limit: 20,
   });
   if (res.ok) {

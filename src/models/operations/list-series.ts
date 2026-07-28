@@ -19,7 +19,15 @@ export type ListSeriesRequest = {
    */
   titleId?: number | undefined;
   /**
-   * Sort field (name, start_year, created_at, updated_at, average_rating).
+   * Filter by publisher ID.
+   */
+  publisherId?: number | undefined;
+  /**
+   * Filter by series status (Ongoing, Completed, Canceled).
+   */
+  status?: string | undefined;
+  /**
+   * Sort field (name, start_year, average_rating, latest_release_date, cached_issues_count).
    */
   sort?: string | undefined;
   /**
@@ -48,7 +56,8 @@ export type ListSeriesData = {
   cachedIssuesCount?: number | undefined;
   averageRating?: number | undefined;
   totalReviews?: number | undefined;
-  ageRating?: string | undefined;
+  contentRatingLabel?: string | undefined;
+  minAge?: number | undefined;
   isNsfw?: boolean | undefined;
 };
 
@@ -76,6 +85,8 @@ export type ListSeriesResponse = {
 export type ListSeriesRequest$Outbound = {
   q?: string | undefined;
   title_id?: number | undefined;
+  publisher_id?: number | undefined;
+  status?: string | undefined;
   sort?: string | undefined;
   direction?: string | undefined;
   limit?: number | undefined;
@@ -89,6 +100,8 @@ export const ListSeriesRequest$outboundSchema: z.ZodMiniType<
   z.object({
     q: z.optional(z.string()),
     titleId: z.optional(z.int()),
+    publisherId: z.optional(z.int()),
+    status: z.optional(z.string()),
     sort: z.optional(z.string()),
     direction: z.optional(z.string()),
     limit: z.optional(z.int()),
@@ -96,6 +109,7 @@ export const ListSeriesRequest$outboundSchema: z.ZodMiniType<
   z.transform((v) => {
     return remap$(v, {
       titleId: "title_id",
+      publisherId: "publisher_id",
     });
   }),
 );
@@ -129,7 +143,8 @@ export const ListSeriesData$inboundSchema: z.ZodMiniType<
     cached_issues_count: types.optional(types.number()),
     average_rating: types.optional(types.number()),
     total_reviews: types.optional(types.number()),
-    age_rating: types.optional(types.string()),
+    content_rating_label: types.optional(types.string()),
+    min_age: types.optional(types.number()),
     is_nsfw: types.optional(types.boolean()),
   }),
   z.transform((v) => {
@@ -143,7 +158,8 @@ export const ListSeriesData$inboundSchema: z.ZodMiniType<
       "cached_issues_count": "cachedIssuesCount",
       "average_rating": "averageRating",
       "total_reviews": "totalReviews",
-      "age_rating": "ageRating",
+      "content_rating_label": "contentRatingLabel",
+      "min_age": "minAge",
       "is_nsfw": "isNsfw",
     });
   }),

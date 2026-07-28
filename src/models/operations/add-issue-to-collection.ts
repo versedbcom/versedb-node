@@ -78,6 +78,9 @@ export type AddIssueToCollectionAcquisitionMethod = ClosedEnum<
   typeof AddIssueToCollectionAcquisitionMethod
 >;
 
+/**
+ * Variant classification (standard, cover_variant, retailer_exclusive, incentive_variant, ratio_variant, virgin_variant, etc.).
+ */
 export const AddIssueToCollectionVariantType = {
   Standard: "standard",
   CoverVariant: "cover_variant",
@@ -96,6 +99,9 @@ export const AddIssueToCollectionVariantType = {
   Reprint: "reprint",
   Other: "other",
 } as const;
+/**
+ * Variant classification (standard, cover_variant, retailer_exclusive, incentive_variant, ratio_variant, virgin_variant, etc.).
+ */
 export type AddIssueToCollectionVariantType = ClosedEnum<
   typeof AddIssueToCollectionVariantType
 >;
@@ -157,6 +163,9 @@ export type AddIssueToCollectionPageQuality = ClosedEnum<
   typeof AddIssueToCollectionPageQuality
 >;
 
+/**
+ * Which print this copy is (1st, 2nd, 3rd, … or other).
+ */
 export const AddIssueToCollectionPrintNumber = {
   Onest: "1st",
   Twond: "2nd",
@@ -170,10 +179,16 @@ export const AddIssueToCollectionPrintNumber = {
   Tenth: "10th",
   Other: "other",
 } as const;
+/**
+ * Which print this copy is (1st, 2nd, 3rd, … or other).
+ */
 export type AddIssueToCollectionPrintNumber = ClosedEnum<
   typeof AddIssueToCollectionPrintNumber
 >;
 
+/**
+ * Authentication of the signature (CGC, CBCS, JSA, PSA/DNA, witnessed_in_person, unwitnessed, other).
+ */
 export const AddIssueToCollectionSignatureWitness = {
   Cgc: "CGC",
   Cbcs: "CBCS",
@@ -183,6 +198,9 @@ export const AddIssueToCollectionSignatureWitness = {
   Unwitnessed: "unwitnessed",
   Other: "other",
 } as const;
+/**
+ * Authentication of the signature (CGC, CBCS, JSA, PSA/DNA, witnessed_in_person, unwitnessed, other).
+ */
 export type AddIssueToCollectionSignatureWitness = ClosedEnum<
   typeof AddIssueToCollectionSignatureWitness
 >;
@@ -213,7 +231,7 @@ export type AddIssueToCollectionRequestBody = {
    */
   purchaseSource?: AddIssueToCollectionPurchaseSource | null | undefined;
   /**
-   * ID of the specific comic shop the copy was purchased from. Self-reported; independent of purchase_source. The <code>id</code> of an existing record in the comic_shops table.
+   * ID of the specific comic shop the copy was purchased from. Self-reported; independent of purchase_source. Must match an existing stored value.
    */
   comicShopId?: number | null | undefined;
   /**
@@ -233,14 +251,20 @@ export type AddIssueToCollectionRequestBody = {
    */
   isSigned?: boolean | undefined;
   /**
-   * Name(s) of the creator(s) who signed the comic. Free-text — comma-separate multiple signers. Must not be greater than 255 characters.
+   * Name(s) of the creator(s) who signed the comic. Free-text. Comma-separate multiple signers. Must not be greater than 255 characters.
    */
   signedBy?: string | null | undefined;
+  /**
+   * Whether this copy is a variant cover.
+   */
   isVariant?: boolean | undefined;
   /**
-   * Must not be greater than 500 characters.
+   * Free-text description of the variant cover. Must not be greater than 500 characters.
    */
   variantDescription?: string | null | undefined;
+  /**
+   * Variant classification (standard, cover_variant, retailer_exclusive, incentive_variant, ratio_variant, virgin_variant, etc.).
+   */
   variantType?: AddIssueToCollectionVariantType | null | undefined;
   /**
    * Whether the comic is professionally graded.
@@ -270,7 +294,13 @@ export type AddIssueToCollectionRequestBody = {
    * Free-text notes printed on the slab label. Must not be greater than 2000 characters.
    */
   graderNotes?: string | null | undefined;
+  /**
+   * Which print this copy is (1st, 2nd, 3rd, … or other).
+   */
   printNumber?: AddIssueToCollectionPrintNumber | null | undefined;
+  /**
+   * Authentication of the signature (CGC, CBCS, JSA, PSA/DNA, witnessed_in_person, unwitnessed, other).
+   */
   signatureWitness?: AddIssueToCollectionSignatureWitness | null | undefined;
   /**
    * Current estimated value in dollars. Must be at least 0. Must not be greater than 999999.99.
@@ -324,6 +354,7 @@ export type AddIssueToCollectionData = {
  */
 export type AddIssueToCollectionResponseBody = {
   data?: AddIssueToCollectionData | undefined;
+  wasOnWishlist?: boolean | undefined;
 };
 
 export type AddIssueToCollectionResponse = {
@@ -613,9 +644,17 @@ export function addIssueToCollectionDataFromJSON(
 export const AddIssueToCollectionResponseBody$inboundSchema: z.ZodMiniType<
   AddIssueToCollectionResponseBody,
   unknown
-> = z.object({
-  data: types.optional(z.lazy(() => AddIssueToCollectionData$inboundSchema)),
-});
+> = z.pipe(
+  z.object({
+    data: types.optional(z.lazy(() => AddIssueToCollectionData$inboundSchema)),
+    was_on_wishlist: types.optional(types.boolean()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "was_on_wishlist": "wasOnWishlist",
+    });
+  }),
+);
 
 export function addIssueToCollectionResponseBodyFromJSON(
   jsonString: string,

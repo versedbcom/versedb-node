@@ -16,27 +16,30 @@ export type GetPublisherDetailsRequest = {
   publisherId: number;
 };
 
+export type GetPublisherDetailsImages = {
+  tileSm?: string | undefined;
+  profileMd?: string | undefined;
+  fullLg?: string | undefined;
+};
+
 export type GetPublisherDetailsData = {
   id?: number | undefined;
   name?: string | undefined;
-  slug?: string | undefined;
   description?: string | undefined;
   foundedYear?: number | undefined;
   website?: string | undefined;
-  email?: string | null | undefined;
   headquarters?: string | undefined;
-  parentCompany?: string | null | undefined;
+  parentCompany?: string | undefined;
   status?: string | undefined;
-  logoUrl?: string | null | undefined;
-  images?: string | null | undefined;
-  titlesCount?: number | undefined;
-  seriesCount?: number | undefined;
-  issuesCount?: number | undefined;
-  charactersCount?: number | undefined;
-  firstPublishedYear?: string | null | undefined;
-  aliases?: string | null | undefined;
+  logoUrl?: string | undefined;
+  images?: GetPublisherDetailsImages | undefined;
+  firstPublishedYear?: number | undefined;
+  aliases?: Array<string> | undefined;
 };
 
+/**
+ * Success
+ */
 export type GetPublisherDetailsResponseBody = {
   data?: GetPublisherDetailsData | undefined;
 };
@@ -75,6 +78,35 @@ export function getPublisherDetailsRequestToJSON(
 }
 
 /** @internal */
+export const GetPublisherDetailsImages$inboundSchema: z.ZodMiniType<
+  GetPublisherDetailsImages,
+  unknown
+> = z.pipe(
+  z.object({
+    tile_sm: types.optional(types.string()),
+    profile_md: types.optional(types.string()),
+    full_lg: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "tile_sm": "tileSm",
+      "profile_md": "profileMd",
+      "full_lg": "fullLg",
+    });
+  }),
+);
+
+export function getPublisherDetailsImagesFromJSON(
+  jsonString: string,
+): SafeParseResult<GetPublisherDetailsImages, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetPublisherDetailsImages$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetPublisherDetailsImages' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetPublisherDetailsData$inboundSchema: z.ZodMiniType<
   GetPublisherDetailsData,
   unknown
@@ -82,32 +114,24 @@ export const GetPublisherDetailsData$inboundSchema: z.ZodMiniType<
   z.object({
     id: types.optional(types.number()),
     name: types.optional(types.string()),
-    slug: types.optional(types.string()),
     description: types.optional(types.string()),
     founded_year: types.optional(types.number()),
     website: types.optional(types.string()),
-    email: z.optional(z.nullable(types.string())),
     headquarters: types.optional(types.string()),
-    parent_company: z.optional(z.nullable(types.string())),
+    parent_company: types.optional(types.string()),
     status: types.optional(types.string()),
-    logo_url: z.optional(z.nullable(types.string())),
-    images: z.optional(z.nullable(types.string())),
-    titles_count: types.optional(types.number()),
-    series_count: types.optional(types.number()),
-    issues_count: types.optional(types.number()),
-    characters_count: types.optional(types.number()),
-    first_published_year: z.optional(z.nullable(types.string())),
-    aliases: z.optional(z.nullable(types.string())),
+    logo_url: types.optional(types.string()),
+    images: types.optional(
+      z.lazy(() => GetPublisherDetailsImages$inboundSchema),
+    ),
+    first_published_year: types.optional(types.number()),
+    aliases: types.optional(z.array(types.string())),
   }),
   z.transform((v) => {
     return remap$(v, {
       "founded_year": "foundedYear",
       "parent_company": "parentCompany",
       "logo_url": "logoUrl",
-      "titles_count": "titlesCount",
-      "series_count": "seriesCount",
-      "issues_count": "issuesCount",
-      "characters_count": "charactersCount",
       "first_published_year": "firstPublishedYear",
     });
   }),

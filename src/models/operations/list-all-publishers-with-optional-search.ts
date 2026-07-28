@@ -29,7 +29,6 @@ export type ListAllPublishersWithOptionalSearchImages = {
 export type ListAllPublishersWithOptionalSearchData = {
   id?: number | undefined;
   name?: string | undefined;
-  slug?: string | undefined;
   foundedYear?: number | undefined;
   headquarters?: string | undefined;
   status?: string | undefined;
@@ -124,7 +123,6 @@ export const ListAllPublishersWithOptionalSearchData$inboundSchema:
     z.object({
       id: types.optional(types.number()),
       name: types.optional(types.string()),
-      slug: types.optional(types.string()),
       founded_year: types.optional(types.number()),
       headquarters: types.optional(types.string()),
       status: types.optional(types.string()),

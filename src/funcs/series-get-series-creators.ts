@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * Get series creators.
  *
  * @remarks
- * Returns paginated creators associated with a specific series. Requires PRO subscription.
+ * Returns paginated creators associated with a specific series.
  */
 export function seriesGetSeriesCreators(
   client: VerseDBCore,
@@ -41,7 +41,6 @@ export function seriesGetSeriesCreators(
   Result<
     operations.GetSeriesCreatorsResponse,
     | errors.GetSeriesCreatorsUnauthorizedError
-    | errors.GetSeriesCreatorsPaymentRequiredError
     | errors.GetSeriesCreatorsTooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -69,7 +68,6 @@ async function $do(
     Result<
       operations.GetSeriesCreatorsResponse,
       | errors.GetSeriesCreatorsUnauthorizedError
-      | errors.GetSeriesCreatorsPaymentRequiredError
       | errors.GetSeriesCreatorsTooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -160,7 +158,6 @@ async function $do(
   const [result] = await M.match<
     operations.GetSeriesCreatorsResponse,
     | errors.GetSeriesCreatorsUnauthorizedError
-    | errors.GetSeriesCreatorsPaymentRequiredError
     | errors.GetSeriesCreatorsTooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -176,7 +173,6 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.GetSeriesCreatorsUnauthorizedError$inboundSchema),
-    M.jsonErr(402, errors.GetSeriesCreatorsPaymentRequiredError$inboundSchema),
     M.jsonErr(429, errors.GetSeriesCreatorsTooManyRequestsError$inboundSchema, {
       hdrs: true,
     }),

@@ -1,54 +1,39 @@
 # ListImprintsResponseBody
 
+Success
+
 ## Example Usage
 
 ```typescript
 import { ListImprintsResponseBody } from "@versedbcom/sdk/models/operations";
 
 let value: ListImprintsResponseBody = {
-  data: [],
-  links: {
-    first: "http://localhost:8000/api/v1/imprints?page=1",
-    last: "http://localhost:8000/api/v1/imprints?page=1",
-    prev: null,
-    next: null,
-  },
+  data: [
+    {
+      id: 7,
+      name: "Vertigo",
+      slug: "vertigo",
+      description:
+        "DC's mature readers imprint, home to Sandman, Preacher, and Y: The Last Man.",
+      publisher: {
+        id: 2,
+        name: "DC Comics",
+        slug: "dc-comics",
+      },
+    },
+  ],
   meta: {
     currentPage: 1,
-    from: null,
-    lastPage: 1,
-    links: [
-      {
-        url: null,
-        label: "pagination.previous",
-        page: null,
-        active: false,
-      },
-      {
-        url: "http://localhost:8000/api/v1/imprints?page=1",
-        label: "1",
-        page: "1",
-        active: true,
-      },
-      {
-        url: null,
-        label: "pagination.next",
-        page: null,
-        active: false,
-      },
-    ],
-    path: "http://localhost:8000/api/v1/imprints",
+    lastPage: 3,
     perPage: 20,
-    to: null,
-    total: 0,
+    total: 45,
   },
 };
 ```
 
 ## Fields
 
-| Field                                                                          | Type                                                                           | Required                                                                       | Description                                                                    | Example                                                                        |
-| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
-| `data`                                                                         | *any*[]                                                                        | :heavy_minus_sign:                                                             | N/A                                                                            | []                                                                             |
-| `links`                                                                        | [operations.ListImprintsLinks](../../models/operations/list-imprints-links.md) | :heavy_minus_sign:                                                             | N/A                                                                            |                                                                                |
-| `meta`                                                                         | [operations.ListImprintsMeta](../../models/operations/list-imprints-meta.md)   | :heavy_minus_sign:                                                             | N/A                                                                            |                                                                                |
+| Field                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                     | Required                                                                                                                                                                                                                 | Description                                                                                                                                                                                                              | Example                                                                                                                                                                                                                  |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `data`                                                                                                                                                                                                                   | [operations.ListImprintsData](../../models/operations/list-imprints-data.md)[]                                                                                                                                           | :heavy_minus_sign:                                                                                                                                                                                                       | N/A                                                                                                                                                                                                                      | [<br/>{<br/>"id": 7,<br/>"name": "Vertigo",<br/>"slug": "vertigo",<br/>"description": "DC's mature readers imprint, home to Sandman, Preacher, and Y: The Last Man.",<br/>"publisher": {<br/>"id": 2,<br/>"name": "DC Comics",<br/>"slug": "dc-comics"<br/>}<br/>}<br/>] |
+| `meta`                                                                                                                                                                                                                   | [operations.ListImprintsMeta](../../models/operations/list-imprints-meta.md)                                                                                                                                             | :heavy_minus_sign:                                                                                                                                                                                                       | N/A                                                                                                                                                                                                                      |                                                                                                                                                                                                                          |

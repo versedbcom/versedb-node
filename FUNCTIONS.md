@@ -20,7 +20,7 @@ specific category of applications.
 
 ```typescript
 import { VerseDBCore } from "@versedbcom/sdk/core.js";
-import { activityGetActivityFeed } from "@versedbcom/sdk/funcs/activity-get-activity-feed.js";
+import { titlesListTitles } from "@versedbcom/sdk/funcs/titles-list-titles.js";
 
 // Use `VerseDBCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -29,14 +29,16 @@ const verseDB = new VerseDBCore({
 });
 
 async function run() {
-  const res = await activityGetActivityFeed(verseDB, {
-    perPage: 20,
+  const res = await titlesListTitles(verseDB, {
+    q: "spider-man",
+    publisher: 1,
+    limit: 20,
   });
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("activityGetActivityFeed failed:", res.error);
+    console.log("titlesListTitles failed:", res.error);
   }
 }
 

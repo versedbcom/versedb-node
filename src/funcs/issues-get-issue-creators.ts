@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * Get issue creators.
  *
  * @remarks
- * Returns paginated creators for a specific issue with their roles. Requires PRO subscription.
+ * Returns paginated creators for a specific issue with their roles.
  */
 export function issuesGetIssueCreators(
   client: VerseDBCore,
@@ -41,7 +41,6 @@ export function issuesGetIssueCreators(
   Result<
     operations.GetIssueCreatorsResponse,
     | errors.GetIssueCreatorsUnauthorizedError
-    | errors.GetIssueCreatorsPaymentRequiredError
     | errors.GetIssueCreatorsTooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -69,7 +68,6 @@ async function $do(
     Result<
       operations.GetIssueCreatorsResponse,
       | errors.GetIssueCreatorsUnauthorizedError
-      | errors.GetIssueCreatorsPaymentRequiredError
       | errors.GetIssueCreatorsTooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -160,7 +158,6 @@ async function $do(
   const [result] = await M.match<
     operations.GetIssueCreatorsResponse,
     | errors.GetIssueCreatorsUnauthorizedError
-    | errors.GetIssueCreatorsPaymentRequiredError
     | errors.GetIssueCreatorsTooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -176,7 +173,6 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.GetIssueCreatorsUnauthorizedError$inboundSchema),
-    M.jsonErr(402, errors.GetIssueCreatorsPaymentRequiredError$inboundSchema),
     M.jsonErr(429, errors.GetIssueCreatorsTooManyRequestsError$inboundSchema, {
       hdrs: true,
     }),

@@ -7,8 +7,8 @@ import { GetCharactersForASpecificTeammembersMeta } from "@versedbcom/sdk/models
 
 let value: GetCharactersForASpecificTeammembersMeta = {
   currentPage: 1,
-  lastPage: 2,
-  perPage: 50,
+  lastPage: 4,
+  perPage: 20,
   total: 67,
 };
 ```
@@ -18,6 +18,6 @@ let value: GetCharactersForASpecificTeammembersMeta = {
 | Field              | Type               | Required           | Description        | Example            |
 | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
 | `currentPage`      | *number*           | :heavy_minus_sign: | N/A                | 1                  |
-| `lastPage`         | *number*           | :heavy_minus_sign: | N/A                | 2                  |
-| `perPage`          | *number*           | :heavy_minus_sign: | N/A                | 50                 |
+| `lastPage`         | *number*           | :heavy_minus_sign: | N/A                | 4                  |
+| `perPage`          | *number*           | :heavy_minus_sign: | N/A                | 20                 |
 | `total`            | *number*           | :heavy_minus_sign: | N/A                | 67                 |

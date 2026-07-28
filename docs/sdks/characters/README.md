@@ -6,7 +6,6 @@
 Endpoints for browsing and searching comic book characters.
 
 Characters include heroes, villains, and supporting characters across all publishers.
-PRO subscription required for relationship endpoints (story arcs, appearances, etc.).
 
 ### Available Operations
 
@@ -33,8 +32,6 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.characters.listCharacters({
     q: "spider-man",
-    sort: "name",
-    direction: "asc",
     limit: 20,
   });
 
@@ -61,8 +58,6 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await charactersListCharacters(verseDB, {
     q: "spider-man",
-    sort: "name",
-    direction: "asc",
     limit: 20,
   });
   if (res.ok) {
@@ -179,9 +174,6 @@ run();
 
 Returns paginated series where the character appears.
 
-Requires PRO subscription on the User API (`/api/...`). Returns 402 Payment Required for non-PRO users on that prefix.
-The Mobile API (`/mobile/api/...`) is unrestricted — its route group does not apply the `pro.api` middleware.
-
 ### Example Usage
 
 <!-- UsageSnippet language="typescript" operationID="getCharacterSeries" method="get" path="/api/v1/characters/{character_id}/series" -->
@@ -196,6 +188,7 @@ async function run() {
   const result = await verseDB.characters.getCharacterSeries({
     characterId: 456,
     limit: 20,
+    q: "batman",
   });
 
   console.log(result);
@@ -222,6 +215,7 @@ async function run() {
   const res = await charactersGetCharacterSeries(verseDB, {
     characterId: 456,
     limit: 20,
+    q: "batman",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -252,16 +246,12 @@ run();
 | Error Type                                    | Status Code                                   | Content Type                                  |
 | --------------------------------------------- | --------------------------------------------- | --------------------------------------------- |
 | errors.GetCharacterSeriesUnauthorizedError    | 401                                           | application/json                              |
-| errors.GetCharacterSeriesPaymentRequiredError | 402                                           | application/json                              |
 | errors.GetCharacterSeriesTooManyRequestsError | 429                                           | application/json                              |
 | errors.VerseDbDefaultError                    | 4XX, 5XX                                      | \*/\*                                         |
 
 ## getCharacterIssues
 
 Returns paginated issues where the character appears, ordered by release date.
-
-Requires PRO subscription on the User API (`/api/...`). Returns 402 Payment Required for non-PRO users on that prefix.
-The Mobile API (`/mobile/api/...`) is unrestricted — its route group does not apply the `pro.api` middleware.
 
 ### Example Usage
 
@@ -277,6 +267,7 @@ async function run() {
   const result = await verseDB.characters.getCharacterIssues({
     characterId: 456,
     limit: 20,
+    q: "batman",
   });
 
   console.log(result);
@@ -303,6 +294,7 @@ async function run() {
   const res = await charactersGetCharacterIssues(verseDB, {
     characterId: 456,
     limit: 20,
+    q: "batman",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -333,16 +325,12 @@ run();
 | Error Type                                    | Status Code                                   | Content Type                                  |
 | --------------------------------------------- | --------------------------------------------- | --------------------------------------------- |
 | errors.GetCharacterIssuesUnauthorizedError    | 401                                           | application/json                              |
-| errors.GetCharacterIssuesPaymentRequiredError | 402                                           | application/json                              |
 | errors.GetCharacterIssuesTooManyRequestsError | 429                                           | application/json                              |
 | errors.VerseDbDefaultError                    | 4XX, 5XX                                      | \*/\*                                         |
 
 ## getCharacterTeams
 
 Returns paginated teams the character is a member of, including membership details.
-
-Requires PRO subscription on the User API (`/api/...`). Returns 402 Payment Required for non-PRO users on that prefix.
-The Mobile API (`/mobile/api/...`) is unrestricted — its route group does not apply the `pro.api` middleware.
 
 ### Example Usage
 
@@ -358,6 +346,7 @@ async function run() {
   const result = await verseDB.characters.getCharacterTeams({
     characterId: 456,
     limit: 20,
+    q: "batman",
   });
 
   console.log(result);
@@ -384,6 +373,7 @@ async function run() {
   const res = await charactersGetCharacterTeams(verseDB, {
     characterId: 456,
     limit: 20,
+    q: "batman",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -414,6 +404,5 @@ run();
 | Error Type                                   | Status Code                                  | Content Type                                 |
 | -------------------------------------------- | -------------------------------------------- | -------------------------------------------- |
 | errors.GetCharacterTeamsUnauthorizedError    | 401                                          | application/json                             |
-| errors.GetCharacterTeamsPaymentRequiredError | 402                                          | application/json                             |
 | errors.GetCharacterTeamsTooManyRequestsError | 429                                          | application/json                             |
 | errors.VerseDbDefaultError                   | 4XX, 5XX                                     | \*/\*                                        |

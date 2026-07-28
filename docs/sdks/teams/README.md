@@ -93,7 +93,7 @@ run();
 ## getASpecificTeam
 
 Returns team details without relationship data.
-Use PRO endpoints for relationship data:
+Use the relationship endpoints for related data:
 - /teams/{id}/characters - Get team members
 - /teams/{id}/series - Get team's series appearances
 - /teams/{id}/issues - Get team's issue appearances
@@ -166,14 +166,13 @@ run();
 | Error Type                                  | Status Code                                 | Content Type                                |
 | ------------------------------------------- | ------------------------------------------- | ------------------------------------------- |
 | errors.GetASpecificTeamUnauthorizedError    | 401                                         | application/json                            |
+| errors.GetASpecificTeamNotFoundError        | 404                                         | application/json                            |
 | errors.GetASpecificTeamTooManyRequestsError | 429                                         | application/json                            |
 | errors.VerseDbDefaultError                  | 4XX, 5XX                                    | \*/\*                                       |
 
 ## getCharactersForASpecificTeammembers
 
-On the User API (routes/api/data.php), this route is gated by the `pro.api` middleware and returns
-402 Payment Required for non-PRO users. The mobile API exposes it without
-that gate.
+Get characters for a specific team (members)
 
 ### Example Usage
 
@@ -188,6 +187,8 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.teams.getCharactersForASpecificTeammembers({
     teamId: 1,
+    q: "batman",
+    limit: 20,
   });
 
   console.log(result);
@@ -213,6 +214,8 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await teamsGetCharactersForASpecificTeammembers(verseDB, {
     teamId: 1,
+    q: "batman",
+    limit: 20,
   });
   if (res.ok) {
     const { value: result } = res;
@@ -248,9 +251,7 @@ run();
 
 ## getSeriesForASpecificTeam
 
-On the User API (routes/api/data.php), this route is gated by the `pro.api` middleware and returns
-402 Payment Required for non-PRO users. The mobile API exposes it without
-that gate.
+Get series for a specific team
 
 ### Example Usage
 
@@ -265,6 +266,8 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.teams.getSeriesForASpecificTeam({
     teamId: 1,
+    q: "batman",
+    limit: 20,
   });
 
   console.log(result);
@@ -290,6 +293,8 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await teamsGetSeriesForASpecificTeam(verseDB, {
     teamId: 1,
+    q: "batman",
+    limit: 20,
   });
   if (res.ok) {
     const { value: result } = res;
@@ -325,9 +330,7 @@ run();
 
 ## getIssuesForASpecificTeam
 
-On the User API (routes/api/data.php), this route is gated by the `pro.api` middleware and returns
-402 Payment Required for non-PRO users. The mobile API exposes it without
-that gate.
+Get issues for a specific team
 
 ### Example Usage
 
@@ -342,6 +345,8 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.teams.getIssuesForASpecificTeam({
     teamId: 1,
+    q: "batman",
+    limit: 20,
   });
 
   console.log(result);
@@ -367,6 +372,8 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await teamsGetIssuesForASpecificTeam(verseDB, {
     teamId: 1,
+    q: "batman",
+    limit: 20,
   });
   if (res.ok) {
     const { value: result } = res;

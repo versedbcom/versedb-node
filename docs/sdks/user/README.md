@@ -5,22 +5,30 @@
 
 Endpoints for managing the authenticated user's pull list, follows, and reading progress.
 
-All endpoints in this group require authentication via a mobile session token.
+All endpoints in this group require authentication with a Bearer API token.
 
 ### Available Operations
 
 * [getTheAuthenticatedUser](#gettheauthenticateduser) - Get the authenticated user.
+* [listCollection](#listcollection) - List collection.
+* [addIssueToCollection](#addissuetocollection) - Add issue to collection.
+* [updateCollectionItem](#updatecollectionitem) - Update collection item.
+* [removeIssueFromCollection](#removeissuefromcollection) - Remove issue from collection.
 * [listPullList](#listpulllist) - List pull list.
-* [listWishlist](#listwishlist) - List wishlist.
-* [listFollows](#listfollows) - List follows.
-* [listReadStatus](#listreadstatus) - List read status.
 * [addToPullList](#addtopulllist) - Add to pull list.
 * [removeFromPullList](#removefrompulllist) - Remove from pull list.
+* [listReadStatus](#listreadstatus) - List read status.
 * [markAsRead](#markasread) - Mark as read.
 * [editReadingDate](#editreadingdate) - Edit reading date.
 * [markAsUnread](#markasunread) - Mark as unread.
+* [listWishlist](#listwishlist) - List wishlist.
 * [addToWishlist](#addtowishlist) - Add to wishlist.
 * [removeFromWishlist](#removefromwishlist) - Remove from wishlist.
+* [listFollows](#listfollows) - List follows.
+* [followContent](#followcontent) - Follow content.
+* [unfollowContent](#unfollowcontent) - Unfollow content.
+* [checkFollowStatus](#checkfollowstatus) - Check follow status.
+* [getActivityFeed](#getactivityfeed) - Get activity feed.
 
 ## getTheAuthenticatedUser
 
@@ -91,6 +99,482 @@ run();
 | errors.GetTheAuthenticatedUserUnauthorizedError    | 401                                                | application/json                                   |
 | errors.GetTheAuthenticatedUserTooManyRequestsError | 429                                                | application/json                                   |
 | errors.VerseDbDefaultError                         | 4XX, 5XX                                           | \*/\*                                              |
+
+## listCollection
+
+Returns all issues in the user's collection with series and publisher info.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="listCollection" method="get" path="/api/v1/user/collections" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.user.listCollection({
+    perPage: 20,
+    page: 1,
+    search: "spider",
+    format: "single",
+    graded: true,
+    isSigned: true,
+    condition: "NM",
+    forSale: true,
+    forTrade: true,
+    readStatus: "unread",
+    publisherId: 1,
+    seriesId: 123,
+    gradeMin: 9,
+    gradeMax: 9.8,
+    sortBy: "title",
+    sortOrder: "asc",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { userListCollection } from "@versedbcom/sdk/funcs/user-list-collection.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await userListCollection(verseDB, {
+    perPage: 20,
+    page: 1,
+    search: "spider",
+    format: "single",
+    graded: true,
+    isSigned: true,
+    condition: "NM",
+    forSale: true,
+    forTrade: true,
+    readStatus: "unread",
+    publisherId: 1,
+    seriesId: 123,
+    gradeMin: 9,
+    gradeMax: 9.8,
+    sortBy: "title",
+    sortOrder: "asc",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("userListCollection failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.ListCollectionRequest](../../models/operations/list-collection-request.md)                                                                                         | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.ListCollectionResponse](../../models/operations/list-collection-response.md)\>**
+
+### Errors
+
+| Error Type                                | Status Code                               | Content Type                              |
+| ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
+| errors.ListCollectionUnauthorizedError    | 401                                       | application/json                          |
+| errors.ListCollectionTooManyRequestsError | 429                                       | application/json                          |
+| errors.VerseDbDefaultError                | 4XX, 5XX                                  | \*/\*                                     |
+
+## addIssueToCollection
+
+Adds an issue to the user's default collection. Works for all users (no PRO required).
+This is the recommended endpoint for mobile collection management.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="addIssueToCollection" method="post" path="/api/v1/issues/{issue_id}/collection" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.user.addIssueToCollection({
+    issueId: 5432,
+    body: {
+      variantId: 789,
+      condition: "NM",
+      notes: "First print, signed",
+      pricePaid: 4.99,
+      format: "standard",
+      purchaseSource: "comic_shop",
+      comicShopId: 412,
+      acquisitionMethod: "purchase",
+      purchasedAt: "2024-06-15",
+      storageLocation: "Long box #3",
+      isSigned: false,
+      signedBy: "Stan Lee",
+      isVariant: false,
+      variantDescription: "b",
+      variantType: "ratio_variant",
+      graded: false,
+      gradeScore: "9.8",
+      gradingCompany: "CGC",
+      gradingNumber: "1234567890",
+      labelType: "universal",
+      pageQuality: "white",
+      graderNotes: "Marvel Value Stamp #16 intact",
+      printNumber: "7th",
+      signatureWitness: "CBCS",
+      estimatedValue: 25,
+      forSale: false,
+      forTrade: false,
+      isPublic: true,
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { userAddIssueToCollection } from "@versedbcom/sdk/funcs/user-add-issue-to-collection.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await userAddIssueToCollection(verseDB, {
+    issueId: 5432,
+    body: {
+      variantId: 789,
+      condition: "NM",
+      notes: "First print, signed",
+      pricePaid: 4.99,
+      format: "standard",
+      purchaseSource: "comic_shop",
+      comicShopId: 412,
+      acquisitionMethod: "purchase",
+      purchasedAt: "2024-06-15",
+      storageLocation: "Long box #3",
+      isSigned: false,
+      signedBy: "Stan Lee",
+      isVariant: false,
+      variantDescription: "b",
+      variantType: "ratio_variant",
+      graded: false,
+      gradeScore: "9.8",
+      gradingCompany: "CGC",
+      gradingNumber: "1234567890",
+      labelType: "universal",
+      pageQuality: "white",
+      graderNotes: "Marvel Value Stamp #16 intact",
+      printNumber: "7th",
+      signatureWitness: "CBCS",
+      estimatedValue: 25,
+      forSale: false,
+      forTrade: false,
+      isPublic: true,
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("userAddIssueToCollection failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.AddIssueToCollectionRequest](../../models/operations/add-issue-to-collection-request.md)                                                                           | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.AddIssueToCollectionResponse](../../models/operations/add-issue-to-collection-response.md)\>**
+
+### Errors
+
+| Error Type                                          | Status Code                                         | Content Type                                        |
+| --------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------- |
+| errors.AddIssueToCollectionUnauthorizedError        | 401                                                 | application/json                                    |
+| errors.AddIssueToCollectionForbiddenError           | 403                                                 | application/json                                    |
+| errors.AddIssueToCollectionUnprocessableEntityError | 422                                                 | application/json                                    |
+| errors.AddIssueToCollectionTooManyRequestsError     | 429                                                 | application/json                                    |
+| errors.VerseDbDefaultError                          | 4XX, 5XX                                            | \*/\*                                               |
+
+## updateCollectionItem
+
+Updates metadata on an existing collection entry for an issue.
+Supports partial updates: only send the fields you want to change.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="updateCollectionItem" method="patch" path="/api/v1/issues/{issue_id}/collection" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.user.updateCollectionItem({
+    issueId: 5432,
+    variantId: 789,
+    collectionItemId: 1001,
+    body: {
+      variantId: 42,
+      condition: "NM",
+      notes: "First print, great condition",
+      pricePaid: 3.99,
+      format: "standard",
+      purchaseSource: "comic_shop",
+      comicShopId: 412,
+      acquisitionMethod: "purchase",
+      purchasedAt: "2024-06-15",
+      storageLocation: "Long box #3",
+      isSigned: false,
+      signedBy: "Stan Lee",
+      isVariant: true,
+      variantDescription: "b",
+      variantType: "facsimile",
+      graded: false,
+      gradeScore: "9.8",
+      gradingCompany: "CGC",
+      gradingNumber: "1234567890",
+      labelType: "universal",
+      pageQuality: "white",
+      graderNotes: "Marvel Value Stamp #16 intact",
+      printNumber: "10th",
+      signatureWitness: "JSA",
+      estimatedValue: 25,
+      forSale: false,
+      forTrade: false,
+      isPublic: true,
+      isRead: true,
+      readAt: "2024-06-15",
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { userUpdateCollectionItem } from "@versedbcom/sdk/funcs/user-update-collection-item.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await userUpdateCollectionItem(verseDB, {
+    issueId: 5432,
+    variantId: 789,
+    collectionItemId: 1001,
+    body: {
+      variantId: 42,
+      condition: "NM",
+      notes: "First print, great condition",
+      pricePaid: 3.99,
+      format: "standard",
+      purchaseSource: "comic_shop",
+      comicShopId: 412,
+      acquisitionMethod: "purchase",
+      purchasedAt: "2024-06-15",
+      storageLocation: "Long box #3",
+      isSigned: false,
+      signedBy: "Stan Lee",
+      isVariant: true,
+      variantDescription: "b",
+      variantType: "facsimile",
+      graded: false,
+      gradeScore: "9.8",
+      gradingCompany: "CGC",
+      gradingNumber: "1234567890",
+      labelType: "universal",
+      pageQuality: "white",
+      graderNotes: "Marvel Value Stamp #16 intact",
+      printNumber: "10th",
+      signatureWitness: "JSA",
+      estimatedValue: 25,
+      forSale: false,
+      forTrade: false,
+      isPublic: true,
+      isRead: true,
+      readAt: "2024-06-15",
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("userUpdateCollectionItem failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.UpdateCollectionItemRequest](../../models/operations/update-collection-item-request.md)                                                                            | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.UpdateCollectionItemResponse](../../models/operations/update-collection-item-response.md)\>**
+
+### Errors
+
+| Error Type                                      | Status Code                                     | Content Type                                    |
+| ----------------------------------------------- | ----------------------------------------------- | ----------------------------------------------- |
+| errors.UpdateCollectionItemUnauthorizedError    | 401                                             | application/json                                |
+| errors.UpdateCollectionItemNotFoundError        | 404                                             | application/json                                |
+| errors.UpdateCollectionItemTooManyRequestsError | 429                                             | application/json                                |
+| errors.VerseDbDefaultError                      | 4XX, 5XX                                        | \*/\*                                           |
+
+## removeIssueFromCollection
+
+Removes an issue (optionally a specific variant) from the user's collection.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="removeIssueFromCollection" method="delete" path="/api/v1/issues/{issue_id}/collection" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.user.removeIssueFromCollection({
+    issueId: 5432,
+    variantId: 789,
+    collectionItemId: 1001,
+    body: {
+      variantId: null,
+      collectionItemId: 16,
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { userRemoveIssueFromCollection } from "@versedbcom/sdk/funcs/user-remove-issue-from-collection.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await userRemoveIssueFromCollection(verseDB, {
+    issueId: 5432,
+    variantId: 789,
+    collectionItemId: 1001,
+    body: {
+      variantId: null,
+      collectionItemId: 16,
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("userRemoveIssueFromCollection failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.RemoveIssueFromCollectionRequest](../../models/operations/remove-issue-from-collection-request.md)                                                                 | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.RemoveIssueFromCollectionResponse](../../models/operations/remove-issue-from-collection-response.md)\>**
+
+### Errors
+
+| Error Type                                           | Status Code                                          | Content Type                                         |
+| ---------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------- |
+| errors.RemoveIssueFromCollectionUnauthorizedError    | 401                                                  | application/json                                     |
+| errors.RemoveIssueFromCollectionNotFoundError        | 404                                                  | application/json                                     |
+| errors.RemoveIssueFromCollectionTooManyRequestsError | 429                                                  | application/json                                     |
+| errors.VerseDbDefaultError                           | 4XX, 5XX                                             | \*/\*                                                |
 
 ## listPullList
 
@@ -166,233 +650,6 @@ run();
 | errors.ListPullListUnauthorizedError    | 401                                     | application/json                        |
 | errors.ListPullListTooManyRequestsError | 429                                     | application/json                        |
 | errors.VerseDbDefaultError              | 4XX, 5XX                                | \*/\*                                   |
-
-## listWishlist
-
-Returns the authenticated user's wishlist items (issues), most recently added first.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="listWishlist" method="get" path="/api/v1/user/wishlist" -->
-```typescript
-import { VerseDB } from "@versedbcom/sdk";
-
-const verseDB = new VerseDB({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const result = await verseDB.user.listWishlist({
-    perPage: 20,
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { VerseDBCore } from "@versedbcom/sdk/core.js";
-import { userListWishlist } from "@versedbcom/sdk/funcs/user-list-wishlist.js";
-
-// Use `VerseDBCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const verseDB = new VerseDBCore({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const res = await userListWishlist(verseDB, {
-    perPage: 20,
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("userListWishlist failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.ListWishlistRequest](../../models/operations/list-wishlist-request.md)                                                                                             | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[operations.ListWishlistResponse](../../models/operations/list-wishlist-response.md)\>**
-
-### Errors
-
-| Error Type                              | Status Code                             | Content Type                            |
-| --------------------------------------- | --------------------------------------- | --------------------------------------- |
-| errors.ListWishlistUnauthorizedError    | 401                                     | application/json                        |
-| errors.ListWishlistTooManyRequestsError | 429                                     | application/json                        |
-| errors.VerseDbDefaultError              | 4XX, 5XX                                | \*/\*                                   |
-
-## listFollows
-
-Returns all entities the user is following (titles, characters, podcasts, etc.).
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="listFollows" method="get" path="/api/v1/user/follows" -->
-```typescript
-import { VerseDB } from "@versedbcom/sdk";
-
-const verseDB = new VerseDB({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const result = await verseDB.user.listFollows({
-    perPage: 20,
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { VerseDBCore } from "@versedbcom/sdk/core.js";
-import { userListFollows } from "@versedbcom/sdk/funcs/user-list-follows.js";
-
-// Use `VerseDBCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const verseDB = new VerseDBCore({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const res = await userListFollows(verseDB, {
-    perPage: 20,
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("userListFollows failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.ListFollowsRequest](../../models/operations/list-follows-request.md)                                                                                               | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[operations.ListFollowsResponse](../../models/operations/list-follows-response.md)\>**
-
-### Errors
-
-| Error Type                             | Status Code                            | Content Type                           |
-| -------------------------------------- | -------------------------------------- | -------------------------------------- |
-| errors.ListFollowsUnauthorizedError    | 401                                    | application/json                       |
-| errors.ListFollowsTooManyRequestsError | 429                                    | application/json                       |
-| errors.VerseDbDefaultError             | 4XX, 5XX                               | \*/\*                                  |
-
-## listReadStatus
-
-Returns all issues the user has marked as read with timestamps.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="listReadStatus" method="get" path="/api/v1/user/read-status" -->
-```typescript
-import { VerseDB } from "@versedbcom/sdk";
-
-const verseDB = new VerseDB({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const result = await verseDB.user.listReadStatus({
-    perPage: 20,
-    unreviewed: true,
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { VerseDBCore } from "@versedbcom/sdk/core.js";
-import { userListReadStatus } from "@versedbcom/sdk/funcs/user-list-read-status.js";
-
-// Use `VerseDBCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const verseDB = new VerseDBCore({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const res = await userListReadStatus(verseDB, {
-    perPage: 20,
-    unreviewed: true,
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("userListReadStatus failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.ListReadStatusRequest](../../models/operations/list-read-status-request.md)                                                                                        | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[operations.ListReadStatusResponse](../../models/operations/list-read-status-response.md)\>**
-
-### Errors
-
-| Error Type                                | Status Code                               | Content Type                              |
-| ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
-| errors.ListReadStatusUnauthorizedError    | 401                                       | application/json                          |
-| errors.ListReadStatusTooManyRequestsError | 429                                       | application/json                          |
-| errors.VerseDbDefaultError                | 4XX, 5XX                                  | \*/\*                                     |
 
 ## addToPullList
 
@@ -544,6 +801,83 @@ run();
 | errors.RemoveFromPullListUnauthorizedError    | 401                                           | application/json                              |
 | errors.RemoveFromPullListTooManyRequestsError | 429                                           | application/json                              |
 | errors.VerseDbDefaultError                    | 4XX, 5XX                                      | \*/\*                                         |
+
+## listReadStatus
+
+Returns all issues the user has marked as read with timestamps.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="listReadStatus" method="get" path="/api/v1/user/read-status" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.user.listReadStatus({
+    perPage: 20,
+    unreviewed: true,
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { userListReadStatus } from "@versedbcom/sdk/funcs/user-list-read-status.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await userListReadStatus(verseDB, {
+    perPage: 20,
+    unreviewed: true,
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("userListReadStatus failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.ListReadStatusRequest](../../models/operations/list-read-status-request.md)                                                                                        | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.ListReadStatusResponse](../../models/operations/list-read-status-response.md)\>**
+
+### Errors
+
+| Error Type                                | Status Code                               | Content Type                              |
+| ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
+| errors.ListReadStatusUnauthorizedError    | 401                                       | application/json                          |
+| errors.ListReadStatusTooManyRequestsError | 429                                       | application/json                          |
+| errors.VerseDbDefaultError                | 4XX, 5XX                                  | \*/\*                                     |
 
 ## markAsRead
 
@@ -792,9 +1126,84 @@ run();
 | errors.MarkAsUnreadTooManyRequestsError | 429                                     | application/json                        |
 | errors.VerseDbDefaultError              | 4XX, 5XX                                | \*/\*                                   |
 
+## listWishlist
+
+Returns the authenticated user's wishlist items (issues), most recently added first.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="listWishlist" method="get" path="/api/v1/user/wishlist" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.user.listWishlist({
+    perPage: 20,
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { userListWishlist } from "@versedbcom/sdk/funcs/user-list-wishlist.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await userListWishlist(verseDB, {
+    perPage: 20,
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("userListWishlist failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.ListWishlistRequest](../../models/operations/list-wishlist-request.md)                                                                                             | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.ListWishlistResponse](../../models/operations/list-wishlist-response.md)\>**
+
+### Errors
+
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| errors.ListWishlistUnauthorizedError    | 401                                     | application/json                        |
+| errors.ListWishlistTooManyRequestsError | 429                                     | application/json                        |
+| errors.VerseDbDefaultError              | 4XX, 5XX                                | \*/\*                                   |
+
 ## addToWishlist
 
-Adds the issue to the authenticated user's wishlist. Idempotent — calling
+Adds the issue to the authenticated user's wishlist. Idempotent: calling
 with an issue already on the wishlist returns 200 without creating a duplicate.
 
 ### Example Usage
@@ -810,6 +1219,9 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.user.addToWishlist({
     issueId: 5432,
+    body: {
+      variantId: 7,
+    },
   });
 
   console.log(result);
@@ -835,6 +1247,9 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await userAddToWishlist(verseDB, {
     issueId: 5432,
+    body: {
+      variantId: 7,
+    },
   });
   if (res.ok) {
     const { value: result } = res;
@@ -871,7 +1286,7 @@ run();
 
 ## removeFromWishlist
 
-Removes the issue from the authenticated user's wishlist. Idempotent —
+Removes the issue from the authenticated user's wishlist. Idempotent:
 returns 204 whether or not the issue was on the wishlist.
 
 ### Example Usage
@@ -887,6 +1302,10 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.user.removeFromWishlist({
     issueId: 5432,
+    variantId: 7,
+    body: {
+      variantId: 7,
+    },
   });
 
   console.log(result);
@@ -912,6 +1331,10 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await userRemoveFromWishlist(verseDB, {
     issueId: 5432,
+    variantId: 7,
+    body: {
+      variantId: 7,
+    },
   });
   if (res.ok) {
     const { value: result } = res;
@@ -944,3 +1367,394 @@ run();
 | errors.RemoveFromWishlistUnauthorizedError    | 401                                           | application/json                              |
 | errors.RemoveFromWishlistTooManyRequestsError | 429                                           | application/json                              |
 | errors.VerseDbDefaultError                    | 4XX, 5XX                                      | \*/\*                                         |
+
+## listFollows
+
+Returns all entities the user is following (titles, characters, podcasts, etc.).
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="listFollows" method="get" path="/api/v1/user/follows" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.user.listFollows({
+    perPage: 20,
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { userListFollows } from "@versedbcom/sdk/funcs/user-list-follows.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await userListFollows(verseDB, {
+    perPage: 20,
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("userListFollows failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.ListFollowsRequest](../../models/operations/list-follows-request.md)                                                                                               | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.ListFollowsResponse](../../models/operations/list-follows-response.md)\>**
+
+### Errors
+
+| Error Type                             | Status Code                            | Content Type                           |
+| -------------------------------------- | -------------------------------------- | -------------------------------------- |
+| errors.ListFollowsUnauthorizedError    | 401                                    | application/json                       |
+| errors.ListFollowsTooManyRequestsError | 429                                    | application/json                       |
+| errors.VerseDbDefaultError             | 4XX, 5XX                               | \*/\*                                  |
+
+## followContent
+
+Follows a title, character, podcast, creator, publisher, team, story arc, comic shop, event, or user.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="followContent" method="post" path="/api/v1/follow" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.user.followContent({
+    type: "title",
+    id: 45,
+    preferences: {
+      emailNotifications: true,
+      pushNotifications: false,
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { userFollowContent } from "@versedbcom/sdk/funcs/user-follow-content.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await userFollowContent(verseDB, {
+    type: "title",
+    id: 45,
+    preferences: {
+      emailNotifications: true,
+      pushNotifications: false,
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("userFollowContent failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.FollowContentRequest](../../models/operations/follow-content-request.md)                                                                                           | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.FollowContentResponse](../../models/operations/follow-content-response.md)\>**
+
+### Errors
+
+| Error Type                               | Status Code                              | Content Type                             |
+| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| errors.FollowContentUnauthorizedError    | 401                                      | application/json                         |
+| errors.FollowContentNotFoundError        | 404                                      | application/json                         |
+| errors.FollowContentTooManyRequestsError | 429                                      | application/json                         |
+| errors.VerseDbDefaultError               | 4XX, 5XX                                 | \*/\*                                    |
+
+## unfollowContent
+
+Unfollow content.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="unfollowContent" method="delete" path="/api/v1/follow/{type}/{id}" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.user.unfollowContent({
+    type: "title",
+    id: 45,
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { userUnfollowContent } from "@versedbcom/sdk/funcs/user-unfollow-content.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await userUnfollowContent(verseDB, {
+    type: "title",
+    id: 45,
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("userUnfollowContent failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.UnfollowContentRequest](../../models/operations/unfollow-content-request.md)                                                                                       | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.UnfollowContentResponse](../../models/operations/unfollow-content-response.md)\>**
+
+### Errors
+
+| Error Type                                 | Status Code                                | Content Type                               |
+| ------------------------------------------ | ------------------------------------------ | ------------------------------------------ |
+| errors.UnfollowContentUnauthorizedError    | 401                                        | application/json                           |
+| errors.UnfollowContentNotFoundError        | 404                                        | application/json                           |
+| errors.UnfollowContentTooManyRequestsError | 429                                        | application/json                           |
+| errors.VerseDbDefaultError                 | 4XX, 5XX                                   | \*/\*                                      |
+
+## checkFollowStatus
+
+Check follow status.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="checkFollowStatus" method="get" path="/api/v1/follow/{type}/{id}/check" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.user.checkFollowStatus({
+    type: "title",
+    id: 45,
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { userCheckFollowStatus } from "@versedbcom/sdk/funcs/user-check-follow-status.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await userCheckFollowStatus(verseDB, {
+    type: "title",
+    id: 45,
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("userCheckFollowStatus failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.CheckFollowStatusRequest](../../models/operations/check-follow-status-request.md)                                                                                  | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.CheckFollowStatusResponse](../../models/operations/check-follow-status-response.md)\>**
+
+### Errors
+
+| Error Type                                   | Status Code                                  | Content Type                                 |
+| -------------------------------------------- | -------------------------------------------- | -------------------------------------------- |
+| errors.CheckFollowStatusUnauthorizedError    | 401                                          | application/json                             |
+| errors.CheckFollowStatusTooManyRequestsError | 429                                          | application/json                             |
+| errors.VerseDbDefaultError                   | 4XX, 5XX                                     | \*/\*                                        |
+
+## getActivityFeed
+
+Aggregates recent activity from collections, reads, follows, and reviews.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="getActivityFeed" method="get" path="/api/v1/user/activity" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.user.getActivityFeed({
+    perPage: 20,
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { userGetActivityFeed } from "@versedbcom/sdk/funcs/user-get-activity-feed.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await userGetActivityFeed(verseDB, {
+    perPage: 20,
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("userGetActivityFeed failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.GetActivityFeedRequest](../../models/operations/get-activity-feed-request.md)                                                                                      | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.GetActivityFeedResponse](../../models/operations/get-activity-feed-response.md)\>**
+
+### Errors
+
+| Error Type                                 | Status Code                                | Content Type                               |
+| ------------------------------------------ | ------------------------------------------ | ------------------------------------------ |
+| errors.GetActivityFeedUnauthorizedError    | 401                                        | application/json                           |
+| errors.GetActivityFeedTooManyRequestsError | 429                                        | application/json                           |
+| errors.VerseDbDefaultError                 | 4XX, 5XX                                   | \*/\*                                      |

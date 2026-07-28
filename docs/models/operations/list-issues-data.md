@@ -14,7 +14,8 @@ let value: ListIssuesData = {
   releaseDate: "2018-07-11",
   coverUrl: "https://...",
   isReprint: false,
-  ageRating: "teen",
+  contentRatingLabel: "15+",
+  minAge: 15,
   isNsfw: false,
 };
 ```
@@ -31,5 +32,6 @@ let value: ListIssuesData = {
 | `releaseDate`             | *string*                  | :heavy_minus_sign:        | N/A                       | 2018-07-11                |
 | `coverUrl`                | *string*                  | :heavy_minus_sign:        | N/A                       | https://...               |
 | `isReprint`               | *boolean*                 | :heavy_minus_sign:        | N/A                       | false                     |
-| `ageRating`               | *string*                  | :heavy_minus_sign:        | N/A                       | teen                      |
+| `contentRatingLabel`      | *string*                  | :heavy_minus_sign:        | N/A                       | 15+                       |
+| `minAge`                  | *number*                  | :heavy_minus_sign:        | N/A                       | 15                        |
 | `isNsfw`                  | *boolean*                 | :heavy_minus_sign:        | N/A                       | false                     |

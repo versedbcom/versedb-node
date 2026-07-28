@@ -3,6 +3,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { remap as remap$ } from "../../lib/primitives.js";
 import * as types from "../../types/primitives.js";
 import * as operations from "../operations/index.js";
 import { VerseDbError } from "./verse-db-error.js";
@@ -39,6 +40,7 @@ export class LookupByUPCTooManyRequestsError extends VerseDbError {
 export type LookupByUPCConflictErrorData = {
   message?: string | undefined;
   count?: number | undefined;
+  totalCount?: number | undefined;
   matches?: Array<operations.Match> | undefined;
 };
 
@@ -47,6 +49,7 @@ export type LookupByUPCConflictErrorData = {
  */
 export class LookupByUPCConflictError extends VerseDbError {
   count?: number | undefined;
+  totalCount?: number | undefined;
   matches?: Array<operations.Match> | undefined;
 
   /** The original data that was passed to this error instance. */
@@ -60,6 +63,7 @@ export class LookupByUPCConflictError extends VerseDbError {
     super(message, httpMeta);
     this.data$ = err;
     if (err.count != null) this.count = err.count;
+    if (err.totalCount != null) this.totalCount = err.totalCount;
     if (err.matches != null) this.matches = err.matches;
 
     this.name = "LookupByUPCConflictError";
@@ -172,6 +176,7 @@ export const LookupByUPCConflictError$inboundSchema: z.ZodMiniType<
   z.object({
     message: types.optional(types.string()),
     count: types.optional(types.number()),
+    total_count: types.optional(types.number()),
     matches: types.optional(
       z.array(z.lazy(() => operations.Match$inboundSchema)),
     ),
@@ -180,7 +185,11 @@ export const LookupByUPCConflictError$inboundSchema: z.ZodMiniType<
     body$: z.string(),
   }),
   z.transform((v) => {
-    return new LookupByUPCConflictError(v, {
+    const remapped = remap$(v, {
+      "total_count": "totalCount",
+    });
+
+    return new LookupByUPCConflictError(remapped, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

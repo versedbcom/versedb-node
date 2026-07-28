@@ -32,7 +32,6 @@ import { Result } from "../types/fp.js";
  *
  * @remarks
  * Returns key issue reasons for a specific issue (e.g., "1st Appearance", "Death").
- * Requires PRO subscription.
  */
 export function issuesGetKeyIssueReasons(
   client: VerseDBCore,
@@ -42,7 +41,6 @@ export function issuesGetKeyIssueReasons(
   Result<
     operations.GetKeyIssueReasonsResponse,
     | errors.GetKeyIssueReasonsUnauthorizedError
-    | errors.GetKeyIssueReasonsPaymentRequiredError
     | errors.GetKeyIssueReasonsTooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -70,7 +68,6 @@ async function $do(
     Result<
       operations.GetKeyIssueReasonsResponse,
       | errors.GetKeyIssueReasonsUnauthorizedError
-      | errors.GetKeyIssueReasonsPaymentRequiredError
       | errors.GetKeyIssueReasonsTooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -161,7 +158,6 @@ async function $do(
   const [result] = await M.match<
     operations.GetKeyIssueReasonsResponse,
     | errors.GetKeyIssueReasonsUnauthorizedError
-    | errors.GetKeyIssueReasonsPaymentRequiredError
     | errors.GetKeyIssueReasonsTooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -177,7 +173,6 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.GetKeyIssueReasonsUnauthorizedError$inboundSchema),
-    M.jsonErr(402, errors.GetKeyIssueReasonsPaymentRequiredError$inboundSchema),
     M.jsonErr(
       429,
       errors.GetKeyIssueReasonsTooManyRequestsError$inboundSchema,

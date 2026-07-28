@@ -41,6 +41,7 @@ export function comicShopsGetAComicShop(
   Result<
     operations.GetAComicShopResponse,
     | errors.GetAComicShopUnauthorizedError
+    | errors.GetAComicShopNotFoundError
     | errors.GetAComicShopTooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -68,6 +69,7 @@ async function $do(
     Result<
       operations.GetAComicShopResponse,
       | errors.GetAComicShopUnauthorizedError
+      | errors.GetAComicShopNotFoundError
       | errors.GetAComicShopTooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -157,6 +159,7 @@ async function $do(
   const [result] = await M.match<
     operations.GetAComicShopResponse,
     | errors.GetAComicShopUnauthorizedError
+    | errors.GetAComicShopNotFoundError
     | errors.GetAComicShopTooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -172,6 +175,7 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.GetAComicShopUnauthorizedError$inboundSchema),
+    M.jsonErr(404, errors.GetAComicShopNotFoundError$inboundSchema),
     M.jsonErr(429, errors.GetAComicShopTooManyRequestsError$inboundSchema, {
       hdrs: true,
     }),

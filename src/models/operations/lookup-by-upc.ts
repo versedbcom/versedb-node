@@ -16,6 +16,12 @@ export type LookupByUPCRequest = {
   upc: string;
 };
 
+export type MatchVariant = {
+  variantId?: string | null | undefined;
+  variantName?: string | undefined;
+  coverUrl?: string | undefined;
+};
+
 export type Match = {
   issueId?: number | undefined;
   seriesName?: string | undefined;
@@ -23,6 +29,8 @@ export type Match = {
   issueNumber?: string | undefined;
   coverUrl?: string | undefined;
   variantName?: string | null | undefined;
+  suggestedVariantId?: string | null | undefined;
+  variants?: Array<MatchVariant> | undefined;
   publisherName?: string | undefined;
   releaseDate?: string | undefined;
   startYear?: number | undefined;
@@ -58,11 +66,19 @@ export type LookupByUPCData = {
   publisher?: LookupByUPCPublisher | undefined;
 };
 
+export type LookupByUPCVariant = {
+  variantId?: string | null | undefined;
+  variantName?: string | undefined;
+  coverUrl?: string | undefined;
+};
+
 /**
  * Success
  */
 export type LookupByUPCResponseBody = {
   data?: LookupByUPCData | undefined;
+  suggestedVariantId?: number | undefined;
+  variants?: Array<LookupByUPCVariant> | undefined;
 };
 
 export type LookupByUPCResponse = {
@@ -92,6 +108,33 @@ export function lookupByUPCRequestToJSON(
 }
 
 /** @internal */
+export const MatchVariant$inboundSchema: z.ZodMiniType<MatchVariant, unknown> =
+  z.pipe(
+    z.object({
+      variant_id: z.optional(z.nullable(types.string())),
+      variant_name: types.optional(types.string()),
+      cover_url: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "variant_id": "variantId",
+        "variant_name": "variantName",
+        "cover_url": "coverUrl",
+      });
+    }),
+  );
+
+export function matchVariantFromJSON(
+  jsonString: string,
+): SafeParseResult<MatchVariant, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => MatchVariant$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'MatchVariant' from JSON`,
+  );
+}
+
+/** @internal */
 export const Match$inboundSchema: z.ZodMiniType<Match, unknown> = z.pipe(
   z.object({
     issue_id: types.optional(types.number()),
@@ -100,6 +143,8 @@ export const Match$inboundSchema: z.ZodMiniType<Match, unknown> = z.pipe(
     issue_number: types.optional(types.string()),
     cover_url: types.optional(types.string()),
     variant_name: z.optional(z.nullable(types.string())),
+    suggested_variant_id: z.optional(z.nullable(types.string())),
+    variants: types.optional(z.array(z.lazy(() => MatchVariant$inboundSchema))),
     publisher_name: types.optional(types.string()),
     release_date: types.optional(types.string()),
     start_year: types.optional(types.number()),
@@ -112,6 +157,7 @@ export const Match$inboundSchema: z.ZodMiniType<Match, unknown> = z.pipe(
       "issue_number": "issueNumber",
       "cover_url": "coverUrl",
       "variant_name": "variantName",
+      "suggested_variant_id": "suggestedVariantId",
       "publisher_name": "publisherName",
       "release_date": "releaseDate",
       "start_year": "startYear",
@@ -222,12 +268,52 @@ export function lookupByUPCDataFromJSON(
 }
 
 /** @internal */
+export const LookupByUPCVariant$inboundSchema: z.ZodMiniType<
+  LookupByUPCVariant,
+  unknown
+> = z.pipe(
+  z.object({
+    variant_id: z.optional(z.nullable(types.string())),
+    variant_name: types.optional(types.string()),
+    cover_url: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "variant_id": "variantId",
+      "variant_name": "variantName",
+      "cover_url": "coverUrl",
+    });
+  }),
+);
+
+export function lookupByUPCVariantFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByUPCVariant, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByUPCVariant$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByUPCVariant' from JSON`,
+  );
+}
+
+/** @internal */
 export const LookupByUPCResponseBody$inboundSchema: z.ZodMiniType<
   LookupByUPCResponseBody,
   unknown
-> = z.object({
-  data: types.optional(z.lazy(() => LookupByUPCData$inboundSchema)),
-});
+> = z.pipe(
+  z.object({
+    data: types.optional(z.lazy(() => LookupByUPCData$inboundSchema)),
+    suggested_variant_id: types.optional(types.number()),
+    variants: types.optional(
+      z.array(z.lazy(() => LookupByUPCVariant$inboundSchema)),
+    ),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "suggested_variant_id": "suggestedVariantId",
+    });
+  }),
+);
 
 export function lookupByUPCResponseBodyFromJSON(
   jsonString: string,

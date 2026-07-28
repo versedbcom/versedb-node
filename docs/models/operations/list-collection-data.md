@@ -70,7 +70,8 @@ let value: ListCollectionData = {
       coverLg: "https://versedb.com/storage/issues/5432/cover_lg.jpg",
     },
     isReprint: false,
-    ageRating: null,
+    contentRatingLabel: null,
+    minAge: null,
     isNsfw: false,
     averageRating: 4.5,
     series: {

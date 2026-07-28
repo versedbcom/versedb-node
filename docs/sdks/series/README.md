@@ -6,7 +6,6 @@
 Endpoints for browsing and searching comic book series.
 
 A series represents a specific volume or run of a title (e.g., "Amazing Spider-Man (2018)").
-PRO subscription required for relationship endpoints (/series/{id}/issues, etc.).
 
 ### Available Operations
 
@@ -34,6 +33,8 @@ async function run() {
   const result = await verseDB.series.listSeries({
     q: "spider-man",
     titleId: 1,
+    publisherId: 1,
+    status: "Ongoing",
     sort: "start_year",
     direction: "desc",
     limit: 20,
@@ -63,6 +64,8 @@ async function run() {
   const res = await seriesListSeries(verseDB, {
     q: "spider-man",
     titleId: 1,
+    publisherId: 1,
+    status: "Ongoing",
     sort: "start_year",
     direction: "desc",
     limit: 20,
@@ -102,7 +105,7 @@ run();
 ## getSeriesDetails
 
 Returns a single series with full details including related title, publishers, and genres.
-For relationship data (issues, creators, characters), use the PRO endpoints.
+For relationship data (issues, creators, characters), use the relationship endpoints.
 
 ### Example Usage
 
@@ -178,7 +181,7 @@ run();
 
 ## getSeriesIssues
 
-Returns paginated issues for a specific series. Requires PRO subscription.
+Returns paginated issues for a specific series.
 
 ### Example Usage
 
@@ -254,13 +257,12 @@ run();
 | Error Type                                 | Status Code                                | Content Type                               |
 | ------------------------------------------ | ------------------------------------------ | ------------------------------------------ |
 | errors.GetSeriesIssuesUnauthorizedError    | 401                                        | application/json                           |
-| errors.GetSeriesIssuesPaymentRequiredError | 402                                        | application/json                           |
 | errors.GetSeriesIssuesTooManyRequestsError | 429                                        | application/json                           |
 | errors.VerseDbDefaultError                 | 4XX, 5XX                                   | \*/\*                                      |
 
 ## getSeriesCreators
 
-Returns paginated creators associated with a specific series. Requires PRO subscription.
+Returns paginated creators associated with a specific series.
 
 ### Example Usage
 
@@ -330,13 +332,12 @@ run();
 | Error Type                                   | Status Code                                  | Content Type                                 |
 | -------------------------------------------- | -------------------------------------------- | -------------------------------------------- |
 | errors.GetSeriesCreatorsUnauthorizedError    | 401                                          | application/json                             |
-| errors.GetSeriesCreatorsPaymentRequiredError | 402                                          | application/json                             |
 | errors.GetSeriesCreatorsTooManyRequestsError | 429                                          | application/json                             |
 | errors.VerseDbDefaultError                   | 4XX, 5XX                                     | \*/\*                                        |
 
 ## getSeriesCharacters
 
-Returns paginated characters appearing in a specific series. Requires PRO subscription.
+Returns paginated characters appearing in a specific series.
 
 ### Example Usage
 
@@ -406,6 +407,5 @@ run();
 | Error Type                                     | Status Code                                    | Content Type                                   |
 | ---------------------------------------------- | ---------------------------------------------- | ---------------------------------------------- |
 | errors.GetSeriesCharactersUnauthorizedError    | 401                                            | application/json                               |
-| errors.GetSeriesCharactersPaymentRequiredError | 402                                            | application/json                               |
 | errors.GetSeriesCharactersTooManyRequestsError | 429                                            | application/json                               |
 | errors.VerseDbDefaultError                     | 4XX, 5XX                                       | \*/\*                                          |

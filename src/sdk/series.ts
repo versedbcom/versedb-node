@@ -34,7 +34,7 @@ export class Series extends ClientSDK {
    *
    * @remarks
    * Returns a single series with full details including related title, publishers, and genres.
-   * For relationship data (issues, creators, characters), use the PRO endpoints.
+   * For relationship data (issues, creators, characters), use the relationship endpoints.
    */
   async getSeriesDetails(
     request: operations.GetSeriesDetailsRequest,
@@ -51,7 +51,7 @@ export class Series extends ClientSDK {
    * Get series issues.
    *
    * @remarks
-   * Returns paginated issues for a specific series. Requires PRO subscription.
+   * Returns paginated issues for a specific series.
    */
   async getSeriesIssues(
     request: operations.GetSeriesIssuesRequest,
@@ -68,7 +68,7 @@ export class Series extends ClientSDK {
    * Get series creators.
    *
    * @remarks
-   * Returns paginated creators associated with a specific series. Requires PRO subscription.
+   * Returns paginated creators associated with a specific series.
    */
   async getSeriesCreators(
     request: operations.GetSeriesCreatorsRequest,
@@ -85,7 +85,7 @@ export class Series extends ClientSDK {
    * Get series characters.
    *
    * @remarks
-   * Returns paginated characters appearing in a specific series. Requires PRO subscription.
+   * Returns paginated characters appearing in a specific series.
    */
   async getSeriesCharacters(
     request: operations.GetSeriesCharactersRequest,

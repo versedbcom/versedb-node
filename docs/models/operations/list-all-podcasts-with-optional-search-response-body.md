@@ -1,54 +1,57 @@
 # ListAllPodcastsWithOptionalSearchResponseBody
 
+Success
+
 ## Example Usage
 
 ```typescript
 import { ListAllPodcastsWithOptionalSearchResponseBody } from "@versedbcom/sdk/models/operations";
 
 let value: ListAllPodcastsWithOptionalSearchResponseBody = {
-  data: [],
-  links: {
-    first: "http://localhost:8000/api/v1/podcasts?page=1",
-    last: "http://localhost:8000/api/v1/podcasts?page=1",
-    prev: null,
-    next: null,
-  },
+  data: [
+    {
+      id: 56,
+      name: "War Rocket Ajax",
+      slug: "war-rocket-ajax",
+      type: "podcast",
+      description:
+        "A weekly comic book podcast covering new releases and creator interviews.",
+      language: "en",
+      logoUrl:
+        "https://r2.versedb.com/uploads/podcasts/wra-56/wra-56-full_lg.webp",
+      images: {
+        tileSm:
+          "https://r2.versedb.com/uploads/podcasts/wra-56/wra-56-tile_sm.webp",
+        fullLg:
+          "https://r2.versedb.com/uploads/podcasts/wra-56/wra-56-full_lg.webp",
+      },
+      followerCount: 1240,
+      subscriberCount: 8800,
+      categories: [
+        "Comics",
+        "Pop Culture",
+      ],
+    },
+  ],
   meta: {
     currentPage: 1,
-    from: null,
-    lastPage: 1,
-    links: [
-      {
-        url: null,
-        label: "pagination.previous",
-        page: null,
-        active: false,
-      },
-      {
-        url: "http://localhost:8000/api/v1/podcasts?page=1",
-        label: "1",
-        page: "1",
-        active: true,
-      },
-      {
-        url: null,
-        label: "pagination.next",
-        page: null,
-        active: false,
-      },
-    ],
-    path: "http://localhost:8000/api/v1/podcasts",
+    lastPage: 15,
     perPage: 20,
-    to: null,
-    total: 0,
+    total: 300,
   },
+  languages: [
+    "en",
+    "es",
+    "fr",
+    "ja",
+  ],
 };
 ```
 
 ## Fields
 
-| Field                                                                                                                        | Type                                                                                                                         | Required                                                                                                                     | Description                                                                                                                  | Example                                                                                                                      |
-| ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| `data`                                                                                                                       | *any*[]                                                                                                                      | :heavy_minus_sign:                                                                                                           | N/A                                                                                                                          | []                                                                                                                           |
-| `links`                                                                                                                      | [operations.ListAllPodcastsWithOptionalSearchLinks](../../models/operations/list-all-podcasts-with-optional-search-links.md) | :heavy_minus_sign:                                                                                                           | N/A                                                                                                                          |                                                                                                                              |
-| `meta`                                                                                                                       | [operations.ListAllPodcastsWithOptionalSearchMeta](../../models/operations/list-all-podcasts-with-optional-search-meta.md)   | :heavy_minus_sign:                                                                                                           | N/A                                                                                                                          |                                                                                                                              |
+| Field                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Required                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | Example                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `data`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | [operations.ListAllPodcastsWithOptionalSearchData](../../models/operations/list-all-podcasts-with-optional-search-data.md)[]                                                                                                                                                                                                                                                                                                                                                                                                                                           | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | N/A                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | [<br/>{<br/>"id": 56,<br/>"name": "War Rocket Ajax",<br/>"slug": "war-rocket-ajax",<br/>"type": "podcast",<br/>"description": "A weekly comic book podcast covering new releases and creator interviews.",<br/>"language": "en",<br/>"logo_url": "https://r2.versedb.com/uploads/podcasts/wra-56/wra-56-full_lg.webp",<br/>"images": {<br/>"tile_sm": "https://r2.versedb.com/uploads/podcasts/wra-56/wra-56-tile_sm.webp",<br/>"full_lg": "https://r2.versedb.com/uploads/podcasts/wra-56/wra-56-full_lg.webp"<br/>},<br/>"follower_count": 1240,<br/>"subscriber_count": 8800,<br/>"categories": [<br/>"Comics",<br/>"Pop Culture"<br/>]<br/>}<br/>] |
+| `meta`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | [operations.ListAllPodcastsWithOptionalSearchMeta](../../models/operations/list-all-podcasts-with-optional-search-meta.md)                                                                                                                                                                                                                                                                                                                                                                                                                                             | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | N/A                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `languages`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | *string*[]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | N/A                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | [<br/>"en",<br/>"es",<br/>"fr",<br/>"ja"<br/>]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |

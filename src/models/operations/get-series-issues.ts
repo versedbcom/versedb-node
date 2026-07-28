@@ -15,7 +15,7 @@ export type GetSeriesIssuesRequest = {
    */
   id: number;
   /**
-   * Sort field (issue_number, release_date, created_at, name).
+   * Sort field (issue_number, release_date, name).
    */
   sort?: string | undefined;
   /**

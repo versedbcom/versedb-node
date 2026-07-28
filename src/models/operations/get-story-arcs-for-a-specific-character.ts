@@ -14,6 +14,14 @@ export type GetStoryArcsForASpecificCharacterRequest = {
    * The ID of the character.
    */
   characterId: number;
+  /**
+   * Optional case-insensitive search within these results.
+   */
+  q?: string | undefined;
+  /**
+   * Number of results per page (max 50).
+   */
+  limit?: number | undefined;
 };
 
 export type GetStoryArcsForASpecificCharacterImages = {
@@ -56,6 +64,8 @@ export type GetStoryArcsForASpecificCharacterResponse = {
 /** @internal */
 export type GetStoryArcsForASpecificCharacterRequest$Outbound = {
   character_id: number;
+  q?: string | undefined;
+  limit?: number | undefined;
 };
 
 /** @internal */
@@ -66,6 +76,8 @@ export const GetStoryArcsForASpecificCharacterRequest$outboundSchema:
   > = z.pipe(
     z.object({
       characterId: z.int(),
+      q: z.optional(z.string()),
+      limit: z.optional(z.int()),
     }),
     z.transform((v) => {
       return remap$(v, {

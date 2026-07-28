@@ -32,7 +32,7 @@ import { Result } from "../types/fp.js";
  *
  * @remarks
  * Returns: id, name, slug, description, start_year, end_year, status, type,
- * image_url, age_rating, is_nsfw, imprint_id, series_count,
+ * image_url, content_rating_label, min_age, is_nsfw, imprint_id, series_count,
  * issues_count, average_rating, total_reviews, aliases
  *
  * Use relationship endpoints for richer data:
@@ -50,6 +50,7 @@ export function titlesGetASpecificTitle(
   Result<
     operations.GetASpecificTitleResponse,
     | errors.GetASpecificTitleUnauthorizedError
+    | errors.GetASpecificTitleNotFoundError
     | errors.GetASpecificTitleTooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -77,6 +78,7 @@ async function $do(
     Result<
       operations.GetASpecificTitleResponse,
       | errors.GetASpecificTitleUnauthorizedError
+      | errors.GetASpecificTitleNotFoundError
       | errors.GetASpecificTitleTooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -167,6 +169,7 @@ async function $do(
   const [result] = await M.match<
     operations.GetASpecificTitleResponse,
     | errors.GetASpecificTitleUnauthorizedError
+    | errors.GetASpecificTitleNotFoundError
     | errors.GetASpecificTitleTooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -182,6 +185,7 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.GetASpecificTitleUnauthorizedError$inboundSchema),
+    M.jsonErr(404, errors.GetASpecificTitleNotFoundError$inboundSchema),
     M.jsonErr(429, errors.GetASpecificTitleTooManyRequestsError$inboundSchema, {
       hdrs: true,
     }),

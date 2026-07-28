@@ -10,11 +10,19 @@ import * as types from "../../types/primitives.js";
 import { smartUnion } from "../../types/smart-union.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
+export type AddToWishlistRequestBody = {
+  /**
+   * Optional cover variant to pin. Must belong to the issue. Omit for "any cover". The same issue may sit on the wishlist once per distinct variant plus once variant-less.
+   */
+  variantId?: number | null | undefined;
+};
+
 export type AddToWishlistRequest = {
   /**
    * The issue ID.
    */
   issueId: number;
+  body?: AddToWishlistRequestBody | undefined;
 };
 
 /**
@@ -22,6 +30,7 @@ export type AddToWishlistRequest = {
  */
 export type AddToWishlistResponseBody2 = {
   inWishlist?: boolean | undefined;
+  variantId?: number | undefined;
 };
 
 /**
@@ -29,6 +38,7 @@ export type AddToWishlistResponseBody2 = {
  */
 export type AddToWishlistResponseBody1 = {
   inWishlist?: boolean | undefined;
+  variantId?: number | undefined;
 };
 
 export type AddToWishlistResponseResult =
@@ -41,8 +51,37 @@ export type AddToWishlistResponse = {
 };
 
 /** @internal */
+export type AddToWishlistRequestBody$Outbound = {
+  variant_id?: number | null | undefined;
+};
+
+/** @internal */
+export const AddToWishlistRequestBody$outboundSchema: z.ZodMiniType<
+  AddToWishlistRequestBody$Outbound,
+  AddToWishlistRequestBody
+> = z.pipe(
+  z.object({
+    variantId: z.optional(z.nullable(z.int())),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      variantId: "variant_id",
+    });
+  }),
+);
+
+export function addToWishlistRequestBodyToJSON(
+  addToWishlistRequestBody: AddToWishlistRequestBody,
+): string {
+  return JSON.stringify(
+    AddToWishlistRequestBody$outboundSchema.parse(addToWishlistRequestBody),
+  );
+}
+
+/** @internal */
 export type AddToWishlistRequest$Outbound = {
   issue_id: number;
+  body?: AddToWishlistRequestBody$Outbound | undefined;
 };
 
 /** @internal */
@@ -52,6 +91,7 @@ export const AddToWishlistRequest$outboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     issueId: z.int(),
+    body: z.optional(z.lazy(() => AddToWishlistRequestBody$outboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -75,10 +115,12 @@ export const AddToWishlistResponseBody2$inboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     in_wishlist: types.optional(types.boolean()),
+    variant_id: types.optional(types.number()),
   }),
   z.transform((v) => {
     return remap$(v, {
       "in_wishlist": "inWishlist",
+      "variant_id": "variantId",
     });
   }),
 );
@@ -100,10 +142,12 @@ export const AddToWishlistResponseBody1$inboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     in_wishlist: types.optional(types.boolean()),
+    variant_id: types.optional(types.number()),
   }),
   z.transform((v) => {
     return remap$(v, {
       "in_wishlist": "inWishlist",
+      "variant_id": "variantId",
     });
   }),
 );

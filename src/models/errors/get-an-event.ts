@@ -33,6 +33,32 @@ export class GetAnEventTooManyRequestsError extends VerseDbError {
 }
 
 /**
+ * Not Found or Archived
+ */
+export type GetAnEventNotFoundErrorData = {
+  message?: string | undefined;
+};
+
+/**
+ * Not Found or Archived
+ */
+export class GetAnEventNotFoundError extends VerseDbError {
+  /** The original data that was passed to this error instance. */
+  data$: GetAnEventNotFoundErrorData;
+
+  constructor(
+    err: GetAnEventNotFoundErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+
+    this.name = "GetAnEventNotFoundError";
+  }
+}
+
+/**
  * Unauthenticated. The bearer token is missing, invalid, or revoked.
  */
 export type GetAnEventUnauthorizedErrorData = {
@@ -71,6 +97,26 @@ export const GetAnEventTooManyRequestsError$inboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return new GetAnEventTooManyRequestsError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
+export const GetAnEventNotFoundError$inboundSchema: z.ZodMiniType<
+  GetAnEventNotFoundError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.optional(types.string()),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new GetAnEventNotFoundError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

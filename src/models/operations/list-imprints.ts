@@ -19,47 +19,37 @@ export type ListImprintsRequest = {
    */
   publisherId?: number | undefined;
   /**
-   * Sort field (name, created_at, updated_at).
-   */
-  sort?: string | undefined;
-  /**
-   * Sort direction (asc, desc).
-   */
-  direction?: string | undefined;
-  /**
    * Number of results per page (max 50).
    */
   limit?: number | undefined;
 };
 
-export type ListImprintsLinks = {
-  first?: string | undefined;
-  last?: string | undefined;
-  prev?: string | null | undefined;
-  next?: string | null | undefined;
+export type ListImprintsPublisher = {
+  id?: number | undefined;
+  name?: string | undefined;
+  slug?: string | undefined;
 };
 
-export type ListImprintsLink = {
-  url?: string | null | undefined;
-  label?: string | undefined;
-  page?: string | null | undefined;
-  active?: boolean | undefined;
+export type ListImprintsData = {
+  id?: number | undefined;
+  name?: string | undefined;
+  slug?: string | undefined;
+  description?: string | undefined;
+  publisher?: ListImprintsPublisher | undefined;
 };
 
 export type ListImprintsMeta = {
   currentPage?: number | undefined;
-  from?: string | null | undefined;
   lastPage?: number | undefined;
-  links?: Array<ListImprintsLink> | undefined;
-  path?: string | undefined;
   perPage?: number | undefined;
-  to?: string | null | undefined;
   total?: number | undefined;
 };
 
+/**
+ * Success
+ */
 export type ListImprintsResponseBody = {
-  data?: Array<any> | undefined;
-  links?: ListImprintsLinks | undefined;
+  data?: Array<ListImprintsData> | undefined;
   meta?: ListImprintsMeta | undefined;
 };
 
@@ -72,8 +62,6 @@ export type ListImprintsResponse = {
 export type ListImprintsRequest$Outbound = {
   q?: string | undefined;
   publisher_id?: number | undefined;
-  sort?: string | undefined;
-  direction?: string | undefined;
   limit?: number | undefined;
 };
 
@@ -85,8 +73,6 @@ export const ListImprintsRequest$outboundSchema: z.ZodMiniType<
   z.object({
     q: z.optional(z.string()),
     publisherId: z.optional(z.int()),
-    sort: z.optional(z.string()),
-    direction: z.optional(z.string()),
     limit: z.optional(z.int()),
   }),
   z.transform((v) => {
@@ -105,44 +91,44 @@ export function listImprintsRequestToJSON(
 }
 
 /** @internal */
-export const ListImprintsLinks$inboundSchema: z.ZodMiniType<
-  ListImprintsLinks,
+export const ListImprintsPublisher$inboundSchema: z.ZodMiniType<
+  ListImprintsPublisher,
   unknown
 > = z.object({
-  first: types.optional(types.string()),
-  last: types.optional(types.string()),
-  prev: z.optional(z.nullable(types.string())),
-  next: z.optional(z.nullable(types.string())),
+  id: types.optional(types.number()),
+  name: types.optional(types.string()),
+  slug: types.optional(types.string()),
 });
 
-export function listImprintsLinksFromJSON(
+export function listImprintsPublisherFromJSON(
   jsonString: string,
-): SafeParseResult<ListImprintsLinks, SDKValidationError> {
+): SafeParseResult<ListImprintsPublisher, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => ListImprintsLinks$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ListImprintsLinks' from JSON`,
+    (x) => ListImprintsPublisher$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListImprintsPublisher' from JSON`,
   );
 }
 
 /** @internal */
-export const ListImprintsLink$inboundSchema: z.ZodMiniType<
-  ListImprintsLink,
+export const ListImprintsData$inboundSchema: z.ZodMiniType<
+  ListImprintsData,
   unknown
 > = z.object({
-  url: z.optional(z.nullable(types.string())),
-  label: types.optional(types.string()),
-  page: z.optional(z.nullable(types.string())),
-  active: types.optional(types.boolean()),
+  id: types.optional(types.number()),
+  name: types.optional(types.string()),
+  slug: types.optional(types.string()),
+  description: types.optional(types.string()),
+  publisher: types.optional(z.lazy(() => ListImprintsPublisher$inboundSchema)),
 });
 
-export function listImprintsLinkFromJSON(
+export function listImprintsDataFromJSON(
   jsonString: string,
-): SafeParseResult<ListImprintsLink, SDKValidationError> {
+): SafeParseResult<ListImprintsData, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => ListImprintsLink$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ListImprintsLink' from JSON`,
+    (x) => ListImprintsData$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListImprintsData' from JSON`,
   );
 }
 
@@ -153,14 +139,8 @@ export const ListImprintsMeta$inboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     current_page: types.optional(types.number()),
-    from: z.optional(z.nullable(types.string())),
     last_page: types.optional(types.number()),
-    links: types.optional(
-      z.array(z.lazy(() => ListImprintsLink$inboundSchema)),
-    ),
-    path: types.optional(types.string()),
     per_page: types.optional(types.number()),
-    to: z.optional(z.nullable(types.string())),
     total: types.optional(types.number()),
   }),
   z.transform((v) => {
@@ -187,8 +167,7 @@ export const ListImprintsResponseBody$inboundSchema: z.ZodMiniType<
   ListImprintsResponseBody,
   unknown
 > = z.object({
-  data: types.optional(z.array(z.any())),
-  links: types.optional(z.lazy(() => ListImprintsLinks$inboundSchema)),
+  data: types.optional(z.array(z.lazy(() => ListImprintsData$inboundSchema))),
   meta: types.optional(z.lazy(() => ListImprintsMeta$inboundSchema)),
 });
 

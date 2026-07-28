@@ -52,10 +52,6 @@ export class StoryArcs extends ClientSDK {
 
   /**
    * Get story arcs for a specific issue
-   *
-   * @remarks
-   * Requires PRO subscription on the User API (`/api/...`). Returns 402 Payment Required for non-PRO users on that prefix.
-   * The Mobile API (`/mobile/api/...`) is unrestricted — its route group does not apply the `pro.api` middleware.
    */
   async getStoryArcsForASpecificIssue(
     request: operations.GetStoryArcsForASpecificIssueRequest,
@@ -70,10 +66,6 @@ export class StoryArcs extends ClientSDK {
 
   /**
    * Get story arcs for a specific character
-   *
-   * @remarks
-   * Requires PRO subscription on the User API (`/api/...`). Returns 402 Payment Required for non-PRO users on that prefix.
-   * The Mobile API (`/mobile/api/...`) is unrestricted — its route group does not apply the `pro.api` middleware.
    */
   async getStoryArcsForASpecificCharacter(
     request: operations.GetStoryArcsForASpecificCharacterRequest,
@@ -88,10 +80,6 @@ export class StoryArcs extends ClientSDK {
 
   /**
    * Get story arcs for a specific universe
-   *
-   * @remarks
-   * Requires PRO subscription on the User API (`/api/...`). Returns 402 Payment Required for non-PRO users on that prefix.
-   * The Mobile API (`/mobile/api/...`) is unrestricted — its route group does not apply the `pro.api` middleware.
    */
   async getStoryArcsForASpecificUniverse(
     request: operations.GetStoryArcsForASpecificUniverseRequest,

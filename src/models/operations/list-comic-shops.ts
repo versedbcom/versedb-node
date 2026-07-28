@@ -11,29 +11,13 @@ import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type ListComicShopsRequest = {
   /**
-   * Filter by proximity — latitude of search centre.
-   */
-  latitude?: number | undefined;
-  /**
-   * Filter by proximity — longitude of search centre.
-   */
-  longitude?: number | undefined;
-  /**
-   * Search radius in miles (default: 25, max varies by distance from your IP).
-   */
-  radius?: number | undefined;
-  /**
-   * Filter by country — accepts ISO alpha-2 code or canonical country name.
+   * Filter by country. Accepts an ISO alpha-2 code or canonical country name.
    */
   country?: string | undefined;
   /**
    * Filter by state or province.
    */
   state?: string | undefined;
-  /**
-   * Filter by service type (e.g. pull_list, back_issues).
-   */
-  service?: string | undefined;
   /**
    * Search by shop name or city.
    */
@@ -55,11 +39,8 @@ export type ListComicShopsData = {
   city?: string | undefined;
   stateProvince?: string | undefined;
   country?: string | undefined;
-  latitude?: number | undefined;
-  longitude?: number | undefined;
   logoUrl?: string | undefined;
   images?: ListComicShopsImages | undefined;
-  isFavorited?: boolean | undefined;
 };
 
 export type ListComicShopsMeta = {
@@ -84,12 +65,8 @@ export type ListComicShopsResponse = {
 
 /** @internal */
 export type ListComicShopsRequest$Outbound = {
-  latitude?: number | undefined;
-  longitude?: number | undefined;
-  radius?: number | undefined;
   country?: string | undefined;
   state?: string | undefined;
-  service?: string | undefined;
   q?: string | undefined;
   limit?: number | undefined;
 };
@@ -99,12 +76,8 @@ export const ListComicShopsRequest$outboundSchema: z.ZodMiniType<
   ListComicShopsRequest$Outbound,
   ListComicShopsRequest
 > = z.object({
-  latitude: z.optional(z.number()),
-  longitude: z.optional(z.number()),
-  radius: z.optional(z.number()),
   country: z.optional(z.string()),
   state: z.optional(z.string()),
-  service: z.optional(z.string()),
   q: z.optional(z.string()),
   limit: z.optional(z.int()),
 });
@@ -155,17 +128,13 @@ export const ListComicShopsData$inboundSchema: z.ZodMiniType<
     city: types.optional(types.string()),
     state_province: types.optional(types.string()),
     country: types.optional(types.string()),
-    latitude: types.optional(types.number()),
-    longitude: types.optional(types.number()),
     logo_url: types.optional(types.string()),
     images: types.optional(z.lazy(() => ListComicShopsImages$inboundSchema)),
-    is_favorited: types.optional(types.boolean()),
   }),
   z.transform((v) => {
     return remap$(v, {
       "state_province": "stateProvince",
       "logo_url": "logoUrl",
-      "is_favorited": "isFavorited",
     });
   }),
 );

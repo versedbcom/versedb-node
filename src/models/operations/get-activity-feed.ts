@@ -16,6 +16,22 @@ export type GetActivityFeedRequest = {
   perPage?: number | undefined;
 };
 
+export type GetActivityFeedDataData = {
+  issueId?: number | undefined;
+  issueName?: string | undefined;
+  seriesName?: string | undefined;
+  seriesStartYear?: number | undefined;
+  coverUrl?: string | undefined;
+};
+
+export type GetActivityFeedData = {
+  id?: string | undefined;
+  type?: string | undefined;
+  action?: string | undefined;
+  createdAt?: string | undefined;
+  data?: GetActivityFeedDataData | undefined;
+};
+
 export type GetActivityFeedMeta = {
   currentPage?: number | undefined;
   perPage?: number | undefined;
@@ -23,8 +39,11 @@ export type GetActivityFeedMeta = {
   lastPage?: number | undefined;
 };
 
+/**
+ * Success
+ */
 export type GetActivityFeedResponseBody = {
-  data?: Array<any> | undefined;
+  data?: Array<GetActivityFeedData> | undefined;
   meta?: GetActivityFeedMeta | undefined;
 };
 
@@ -58,6 +77,68 @@ export function getActivityFeedRequestToJSON(
 ): string {
   return JSON.stringify(
     GetActivityFeedRequest$outboundSchema.parse(getActivityFeedRequest),
+  );
+}
+
+/** @internal */
+export const GetActivityFeedDataData$inboundSchema: z.ZodMiniType<
+  GetActivityFeedDataData,
+  unknown
+> = z.pipe(
+  z.object({
+    issue_id: types.optional(types.number()),
+    issue_name: types.optional(types.string()),
+    series_name: types.optional(types.string()),
+    series_start_year: types.optional(types.number()),
+    cover_url: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "issue_id": "issueId",
+      "issue_name": "issueName",
+      "series_name": "seriesName",
+      "series_start_year": "seriesStartYear",
+      "cover_url": "coverUrl",
+    });
+  }),
+);
+
+export function getActivityFeedDataDataFromJSON(
+  jsonString: string,
+): SafeParseResult<GetActivityFeedDataData, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetActivityFeedDataData$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetActivityFeedDataData' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetActivityFeedData$inboundSchema: z.ZodMiniType<
+  GetActivityFeedData,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.optional(types.string()),
+    type: types.optional(types.string()),
+    action: types.optional(types.string()),
+    created_at: types.optional(types.string()),
+    data: types.optional(z.lazy(() => GetActivityFeedDataData$inboundSchema)),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "created_at": "createdAt",
+    });
+  }),
+);
+
+export function getActivityFeedDataFromJSON(
+  jsonString: string,
+): SafeParseResult<GetActivityFeedData, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetActivityFeedData$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetActivityFeedData' from JSON`,
   );
 }
 
@@ -96,7 +177,9 @@ export const GetActivityFeedResponseBody$inboundSchema: z.ZodMiniType<
   GetActivityFeedResponseBody,
   unknown
 > = z.object({
-  data: types.optional(z.array(z.any())),
+  data: types.optional(
+    z.array(z.lazy(() => GetActivityFeedData$inboundSchema)),
+  ),
   meta: types.optional(z.lazy(() => GetActivityFeedMeta$inboundSchema)),
 });
 

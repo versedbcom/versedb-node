@@ -6,7 +6,6 @@
 Endpoints for browsing and searching comic book issues.
 
 An issue is a single publication in a series (e.g., "Amazing Spider-Man #1").
-PRO subscription required for variants and relationship endpoints.
 
 ### Available Operations
 
@@ -188,7 +187,7 @@ run();
 
 ## getIssueVariants
 
-Returns all variant covers for a specific issue. Requires PRO subscription.
+Returns all variant covers for a specific issue.
 
 ### Example Usage
 
@@ -258,13 +257,12 @@ run();
 | Error Type                                  | Status Code                                 | Content Type                                |
 | ------------------------------------------- | ------------------------------------------- | ------------------------------------------- |
 | errors.GetIssueVariantsUnauthorizedError    | 401                                         | application/json                            |
-| errors.GetIssueVariantsPaymentRequiredError | 402                                         | application/json                            |
 | errors.GetIssueVariantsTooManyRequestsError | 429                                         | application/json                            |
 | errors.VerseDbDefaultError                  | 4XX, 5XX                                    | \*/\*                                       |
 
 ## getVariantDetails
 
-Returns a specific variant cover with full details. Requires PRO subscription.
+Returns a specific variant cover with full details.
 
 ### Example Usage
 
@@ -336,14 +334,13 @@ run();
 | Error Type                                   | Status Code                                  | Content Type                                 |
 | -------------------------------------------- | -------------------------------------------- | -------------------------------------------- |
 | errors.GetVariantDetailsUnauthorizedError    | 401                                          | application/json                             |
-| errors.GetVariantDetailsPaymentRequiredError | 402                                          | application/json                             |
 | errors.GetVariantDetailsNotFoundError        | 404                                          | application/json                             |
 | errors.GetVariantDetailsTooManyRequestsError | 429                                          | application/json                             |
 | errors.VerseDbDefaultError                   | 4XX, 5XX                                     | \*/\*                                        |
 
 ## getIssueCreators
 
-Returns paginated creators for a specific issue with their roles. Requires PRO subscription.
+Returns paginated creators for a specific issue with their roles.
 
 ### Example Usage
 
@@ -413,13 +410,12 @@ run();
 | Error Type                                  | Status Code                                 | Content Type                                |
 | ------------------------------------------- | ------------------------------------------- | ------------------------------------------- |
 | errors.GetIssueCreatorsUnauthorizedError    | 401                                         | application/json                            |
-| errors.GetIssueCreatorsPaymentRequiredError | 402                                         | application/json                            |
 | errors.GetIssueCreatorsTooManyRequestsError | 429                                         | application/json                            |
 | errors.VerseDbDefaultError                  | 4XX, 5XX                                    | \*/\*                                       |
 
 ## getIssueCharacters
 
-Returns paginated characters appearing in a specific issue. Requires PRO subscription.
+Returns paginated characters appearing in a specific issue.
 
 ### Example Usage
 
@@ -489,14 +485,12 @@ run();
 | Error Type                                    | Status Code                                   | Content Type                                  |
 | --------------------------------------------- | --------------------------------------------- | --------------------------------------------- |
 | errors.GetIssueCharactersUnauthorizedError    | 401                                           | application/json                              |
-| errors.GetIssueCharactersPaymentRequiredError | 402                                           | application/json                              |
 | errors.GetIssueCharactersTooManyRequestsError | 429                                           | application/json                              |
 | errors.VerseDbDefaultError                    | 4XX, 5XX                                      | \*/\*                                         |
 
 ## getKeyIssueReasons
 
 Returns key issue reasons for a specific issue (e.g., "1st Appearance", "Death").
-Requires PRO subscription.
 
 ### Example Usage
 
@@ -566,6 +560,5 @@ run();
 | Error Type                                    | Status Code                                   | Content Type                                  |
 | --------------------------------------------- | --------------------------------------------- | --------------------------------------------- |
 | errors.GetKeyIssueReasonsUnauthorizedError    | 401                                           | application/json                              |
-| errors.GetKeyIssueReasonsPaymentRequiredError | 402                                           | application/json                              |
 | errors.GetKeyIssueReasonsTooManyRequestsError | 429                                           | application/json                              |
 | errors.VerseDbDefaultError                    | 4XX, 5XX                                      | \*/\*                                         |

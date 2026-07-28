@@ -6,7 +6,7 @@
 import { GetAnEventRequest } from "@versedbcom/sdk/models/operations";
 
 let value: GetAnEventRequest = {
-  eventId: 1,
+  eventId: 42,
 };
 ```
 
@@ -14,4 +14,4 @@ let value: GetAnEventRequest = {
 
 | Field              | Type               | Required           | Description        | Example            |
 | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
-| `eventId`          | *number*           | :heavy_check_mark: | The event ID.      | 1                  |
+| `eventId`          | *number*           | :heavy_check_mark: | The event ID.      | 42                 |

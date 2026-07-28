@@ -24,6 +24,8 @@ Users can save and like lists, and lists can be ranked or unranked.
 * [updateList](#updatelist) - Update list.
 * [deleteList](#deletelist) - Delete list.
 * [getUsersLists](#getuserslists) - Get user's lists.
+* [convertAListToMixed](#convertalisttomixed) - Convert a list to mixed.
+* [mergeAListIntoThisOne](#mergealistintothisone) - Merge a list into this one.
 * [addItemToList](#additemtolist) - Add item to list.
 * [removeItemFromList](#removeitemfromlist) - Remove item from list.
 * [reorderItems](#reorderitems) - Reorder items.
@@ -602,6 +604,171 @@ run();
 | errors.GetUsersListsTooManyRequestsError | 429                                      | application/json                         |
 | errors.VerseDbDefaultError               | 4XX, 5XX                                 | \*/\*                                    |
 
+## convertAListToMixed
+
+One-way: broadens a single-type list so it can hold items of any type. Existing items keep
+their own type. A mixed list cannot be narrowed back, and wishlists cannot be converted.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="convertAListToMixed" method="post" path="/api/v1/lists/{list_id}/convert-to-mixed" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.lists.convertAListToMixed({
+    listId: 101,
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { listsConvertAListToMixed } from "@versedbcom/sdk/funcs/lists-convert-a-list-to-mixed.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await listsConvertAListToMixed(verseDB, {
+    listId: 101,
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("listsConvertAListToMixed failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.ConvertAListToMixedRequest](../../models/operations/convert-a-list-to-mixed-request.md)                                                                            | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.ConvertAListToMixedResponse](../../models/operations/convert-a-list-to-mixed-response.md)\>**
+
+### Errors
+
+| Error Type                                         | Status Code                                        | Content Type                                       |
+| -------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- |
+| errors.ConvertAListToMixedUnauthorizedError        | 401                                                | application/json                                   |
+| errors.ConvertAListToMixedForbiddenError           | 403                                                | application/json                                   |
+| errors.ConvertAListToMixedUnprocessableEntityError | 422                                                | application/json                                   |
+| errors.ConvertAListToMixedTooManyRequestsError     | 429                                                | application/json                                   |
+| errors.VerseDbDefaultError                         | 4XX, 5XX                                           | \*/\*                                              |
+
+## mergeAListIntoThisOne
+
+Pulls every item from the source list into this (destination) list, skipping items already
+present (by entity + variant) and appending the rest. Both lists must be owned by the
+authenticated user. Merging items of a different type converts this list to `mixed`.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="mergeAListIntoThisOne" method="post" path="/api/v1/lists/{list_id}/merge" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.lists.mergeAListIntoThisOne({
+    listId: 101,
+    body: {
+      sourceListId: 207,
+      deleteSource: false,
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { listsMergeAListIntoThisOne } from "@versedbcom/sdk/funcs/lists-merge-a-list-into-this-one.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await listsMergeAListIntoThisOne(verseDB, {
+    listId: 101,
+    body: {
+      sourceListId: 207,
+      deleteSource: false,
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("listsMergeAListIntoThisOne failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.MergeAListIntoThisOneRequest](../../models/operations/merge-a-list-into-this-one-request.md)                                                                       | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.MergeAListIntoThisOneResponse](../../models/operations/merge-a-list-into-this-one-response.md)\>**
+
+### Errors
+
+| Error Type                                           | Status Code                                          | Content Type                                         |
+| ---------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------- |
+| errors.MergeAListIntoThisOneUnauthorizedError        | 401                                                  | application/json                                     |
+| errors.MergeAListIntoThisOneForbiddenError           | 403                                                  | application/json                                     |
+| errors.MergeAListIntoThisOneUnprocessableEntityError | 422                                                  | application/json                                     |
+| errors.MergeAListIntoThisOneTooManyRequestsError     | 429                                                  | application/json                                     |
+| errors.VerseDbDefaultError                           | 4XX, 5XX                                             | \*/\*                                                |
+
 ## addItemToList
 
 Adds an entity to a list. Free users: 100 items/list, PRO users: 500 items/list.
@@ -621,6 +788,8 @@ async function run() {
     listId: 101,
     body: {
       entityId: 5432,
+      entityType: "issues",
+      variantId: 7,
       position: 1,
       note: "My favorite issue!",
     },
@@ -651,6 +820,8 @@ async function run() {
     listId: 101,
     body: {
       entityId: 5432,
+      entityType: "issues",
+      variantId: 7,
       position: 1,
       note: "My favorite issue!",
     },

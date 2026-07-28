@@ -14,6 +14,14 @@ export type GetStoryArcsForASpecificUniverseRequest = {
    * The ID of the universe.
    */
   universeId: number;
+  /**
+   * Optional case-insensitive search within these results.
+   */
+  q?: string | undefined;
+  /**
+   * Number of results per page (max 50).
+   */
+  limit?: number | undefined;
 };
 
 export type GetStoryArcsForASpecificUniverseImages = {
@@ -56,6 +64,8 @@ export type GetStoryArcsForASpecificUniverseResponse = {
 /** @internal */
 export type GetStoryArcsForASpecificUniverseRequest$Outbound = {
   universe_id: number;
+  q?: string | undefined;
+  limit?: number | undefined;
 };
 
 /** @internal */
@@ -66,6 +76,8 @@ export const GetStoryArcsForASpecificUniverseRequest$outboundSchema:
   > = z.pipe(
     z.object({
       universeId: z.int(),
+      q: z.optional(z.string()),
+      limit: z.optional(z.int()),
     }),
     z.transform((v) => {
       return remap$(v, {

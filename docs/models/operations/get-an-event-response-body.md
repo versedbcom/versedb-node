@@ -1,5 +1,7 @@
 # GetAnEventResponseBody
 
+Success
+
 ## Example Usage
 
 ```typescript
@@ -7,44 +9,71 @@ import { GetAnEventResponseBody } from "@versedbcom/sdk/models/operations";
 
 let value: GetAnEventResponseBody = {
   data: {
-    id: 1,
-    slug: "east-adella-comic-con-2027-yiiv",
-    name: "East Adella Comic Con 2027",
-    description:
-      "Ut perferendis est reiciendis et. Ut dolorem qui iure et perferendis.\n\nSunt rerum officia unde numquam consequatur occaecati. Facilis perspiciatis qui voluptate nisi dolor. Ab unde aspernatur enim velit odit sit sed. Voluptatem laudantium vel accusantium sed repellat quibusdam vero.",
+    id: 42,
+    slug: "san-diego-comic-con-2026",
+    name: "San Diego Comic-Con 2026",
     type: "convention",
-    startDate: "2026-11-21",
-    endDate: "2026-11-24",
-    timezone: "America/New_York",
+    startDate: "2026-07-23",
+    endDate: "2026-07-26",
+    timezone: "America/Los_Angeles",
     isOnline: false,
     isFcbd: false,
-    venueName: "Graham LLC Convention Center",
-    streetAddress: "32943 Romaguera Loop Suite 435",
-    city: "Judgeland",
-    region: "Nebraska",
-    postalCode: "64928-8322",
-    countryCode: "GB",
-    latitude: "54.65276700",
-    longitude: "146.13021300",
-    fullLocation: "Graham LLC Convention Center, Judgeland, Nebraska",
-    googleMapsUrl:
-      "https://www.google.com/maps/search/?api=1&query=54.65276700,146.13021300",
-    logoUrl: null,
-    images: null,
-    staticMapUrl:
-      "https://maps.googleapis.com/maps/api/staticmap?center=54.65276700%2C146.13021300&zoom=15&size=600x300&scale=2&maptype=roadmap&markers=color%3Ared%7C54.65276700%2C146.13021300&key=AIzaSyCQEO2B-REE3GcmGSiTyHnhedqMe55U7Do&style=feature%3Aall%7Celement%3Ageometry%7Ccolor%3A0x242f3e&style=feature%3Aall%7Celement%3Alabels.text.stroke%7Ccolor%3A0x242f3e&style=feature%3Aall%7Celement%3Alabels.text.fill%7Ccolor%3A0x746855&style=feature%3Aadministrative.locality%7Celement%3Alabels.text.fill%7Ccolor%3A0xd59563&style=feature%3Apoi%7Celement%3Alabels.text.fill%7Ccolor%3A0xd59563&style=feature%3Apoi.park%7Celement%3Ageometry%7Ccolor%3A0x263c3f&style=feature%3Apoi.park%7Celement%3Alabels.text.fill%7Ccolor%3A0x6b9a76&style=feature%3Aroad%7Celement%3Ageometry%7Ccolor%3A0x38414e&style=feature%3Aroad%7Celement%3Ageometry.stroke%7Ccolor%3A0x212a37&style=feature%3Aroad%7Celement%3Alabels.text.fill%7Ccolor%3A0x9ca5b3&style=feature%3Aroad.highway%7Celement%3Ageometry%7Ccolor%3A0x746855&style=feature%3Aroad.highway%7Celement%3Ageometry.stroke%7Ccolor%3A0x1f2835&style=feature%3Aroad.highway%7Celement%3Alabels.text.fill%7Ccolor%3A0xf3d19c&style=feature%3Atransit%7Celement%3Ageometry%7Ccolor%3A0x2f3948&style=feature%3Atransit.station%7Celement%3Alabels.text.fill%7Ccolor%3A0xd59563&style=feature%3Awater%7Celement%3Ageometry%7Ccolor%3A0x17263c&style=feature%3Awater%7Celement%3Alabels.text.fill%7Ccolor%3A0x515c6d&style=feature%3Awater%7Celement%3Alabels.text.stroke%7Ccolor%3A0x17263c",
-    eventUrl: "http://walsh.com/",
-    ticketPriceMin: null,
-    ticketPriceMax: null,
-    ticketCurrency: null,
-    ticketPrice: null,
-    followerCount: 0,
-    creators: [],
+    venueName: "San Diego Convention Center",
+    streetAddress: "111 W Harbor Dr",
+    city: "San Diego",
+    region: "CA",
+    postalCode: "92101",
+    countryCode: "US",
+    latitude: 32.7065,
+    longitude: -117.1615,
+    fullLocation: "San Diego Convention Center, San Diego, CA, United States",
+    googleMapsUrl: "https://maps.google.com/?q=32.7065,-117.1615",
+    logoUrl: "https://cdn.versedb.com/events/42-full_lg.webp",
+    images: {
+      tileSm: "https://cdn.versedb.com/events/42-tile_sm.webp",
+      fullMd: "https://cdn.versedb.com/events/42-full_md.webp",
+      fullLg: "https://cdn.versedb.com/events/42-full_lg.webp",
+    },
+    staticMapUrl: "https://cdn.versedb.com/events/42-static-map.png",
+    eventUrl: "https://www.comic-con.org",
+    ticketPriceMin: "45.00",
+    ticketPriceMax: "150.00",
+    ticketCurrency: "USD",
+    ticketPrice: "$45.00 - $150.00",
+    followerCount: 320,
+    creators: [
+      {
+        id: 7,
+        name: "Stan Lee",
+        slug: "stan-lee",
+        photoUrl: "https://cdn.versedb.com/creators/7-profile_md.webp",
+        images: {},
+        country: "US",
+        appearanceTypes: [
+          "Special Guest",
+        ],
+      },
+    ],
     issues: [],
     issueVariants: [],
     attendeesPreview: {
-      total: 0,
-      users: [],
+      total: 320,
+      users: [
+        {
+          id: 1024,
+          username: "comic_fan_42",
+          name: "Comic Fan",
+          profileImageUrl: "https://cdn.versedb.com/users/1024-profile_sm.webp",
+          isPrivate: false,
+        },
+        {
+          id: 1536,
+          username: "panel_pusher",
+          name: "Riley",
+          profileImageUrl: "https://cdn.versedb.com/users/1536-profile_sm.webp",
+          isPrivate: false,
+        },
+      ],
     },
     relatedEvents: [],
   },

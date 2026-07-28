@@ -1,5 +1,7 @@
 # GetASpecificPodcastResponseBody
 
+Success
+
 ## Example Usage
 
 ```typescript
@@ -7,24 +9,38 @@ import { GetASpecificPodcastResponseBody } from "@versedbcom/sdk/models/operatio
 
 let value: GetASpecificPodcastResponseBody = {
   data: {
-    id: 1,
-    name: "Capes Coffee TT 6a1ede0212b9e",
-    slug: "capes-coffee-tt-6a1ede0212b9e",
-    type: "youtube",
-    description: "desc",
+    id: 56,
+    name: "War Rocket Ajax",
+    slug: "war-rocket-ajax",
+    type: "podcast",
+    description:
+      "A weekly comic book podcast covering new releases, industry news, and creator interviews.",
     language: "en",
-    logoUrl: null,
-    images: null,
-    websiteUrl: null,
-    rssFeedUrl: null,
-    youtubeChannelId: "UCabcdefghijklmnopqrstuv",
-    socialLinks: null,
-    platformLinks: {
-      youtube: "https://youtube.com/@x",
+    logoUrl:
+      "https://r2.versedb.com/uploads/podcasts/wra-56/wra-56-full_lg.webp",
+    images: {
+      tileSm:
+        "https://r2.versedb.com/uploads/podcasts/wra-56/wra-56-tile_sm.webp",
+      fullLg:
+        "https://r2.versedb.com/uploads/podcasts/wra-56/wra-56-full_lg.webp",
     },
-    followerCount: 0,
-    subscriberCount: null,
-    categories: [],
+    websiteUrl: "https://warrocketajax.com",
+    rssFeedUrl: "https://feeds.example.com/war-rocket-ajax",
+    youtubeChannelId: null,
+    socialLinks: {
+      website: "https://warrocketajax.com",
+      twitter: "https://twitter.com/warrocketajax",
+    },
+    platformLinks: {
+      apple: "https://podcasts.apple.com/us/podcast/id123456",
+      spotify: "https://open.spotify.com/show/abc123",
+    },
+    followerCount: 1240,
+    subscriberCount: 8800,
+    categories: [
+      "Comics",
+      "Pop Culture",
+    ],
   },
 };
 ```

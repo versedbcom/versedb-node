@@ -18,6 +18,10 @@ export type GetCharacterSeriesRequest = {
    * Results per page (max 50).
    */
   limit?: number | undefined;
+  /**
+   * Optional case-insensitive search within these results.
+   */
+  q?: string | undefined;
 };
 
 export type GetCharacterSeriesData = {
@@ -53,6 +57,7 @@ export type GetCharacterSeriesResponse = {
 export type GetCharacterSeriesRequest$Outbound = {
   character_id: number;
   limit?: number | undefined;
+  q?: string | undefined;
 };
 
 /** @internal */
@@ -63,6 +68,7 @@ export const GetCharacterSeriesRequest$outboundSchema: z.ZodMiniType<
   z.object({
     characterId: z.int(),
     limit: z.optional(z.int()),
+    q: z.optional(z.string()),
   }),
   z.transform((v) => {
     return remap$(v, {

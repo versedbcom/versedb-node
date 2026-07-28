@@ -12,7 +12,7 @@ Endpoints for browsing comic book publishers.
 
 ## listAllPublishersWithOptionalSearch
 
-Returns: id, name, slug, founded_year, headquarters, status, logo_url
+Returns: id, name, founded_year, headquarters, status, logo_url
 
 ### Example Usage
 
@@ -89,9 +89,8 @@ run();
 
 ## getPublisherDetails
 
-Returns: id, name, slug, description, founded_year, first_published_year,
-website, email, headquarters, parent_company, status, logo_url, aliases,
-titles_count, series_count, issues_count, characters_count
+Returns: id, name, description, founded_year, first_published_year,
+website, headquarters, parent_company, status, logo_url, aliases
 
 Use the related endpoints for relationship data:
 - /series?publisher_id={id} - Get series by publisher
@@ -165,5 +164,6 @@ run();
 | Error Type                                     | Status Code                                    | Content Type                                   |
 | ---------------------------------------------- | ---------------------------------------------- | ---------------------------------------------- |
 | errors.GetPublisherDetailsUnauthorizedError    | 401                                            | application/json                               |
+| errors.GetPublisherDetailsNotFoundError        | 404                                            | application/json                               |
 | errors.GetPublisherDetailsTooManyRequestsError | 429                                            | application/json                               |
 | errors.VerseDbDefaultError                     | 4XX, 5XX                                       | \*/\*                                          |

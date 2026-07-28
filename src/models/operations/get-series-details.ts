@@ -101,7 +101,8 @@ export type GetSeriesDetailsData = {
   cachedIssuesCount?: number | undefined;
   averageRating?: number | undefined;
   totalReviews?: number | undefined;
-  ageRating?: string | undefined;
+  contentRatingLabel?: string | undefined;
+  minAge?: number | undefined;
   isNsfw?: boolean | undefined;
   cachedCreatorsCount?: number | undefined;
   cachedCharactersCount?: number | undefined;
@@ -426,7 +427,8 @@ export const GetSeriesDetailsData$inboundSchema: z.ZodMiniType<
     cached_issues_count: types.optional(types.number()),
     average_rating: types.optional(types.number()),
     total_reviews: types.optional(types.number()),
-    age_rating: types.optional(types.string()),
+    content_rating_label: types.optional(types.string()),
+    min_age: types.optional(types.number()),
     is_nsfw: types.optional(types.boolean()),
     cached_creators_count: types.optional(types.number()),
     cached_characters_count: types.optional(types.number()),
@@ -468,7 +470,8 @@ export const GetSeriesDetailsData$inboundSchema: z.ZodMiniType<
       "cached_issues_count": "cachedIssuesCount",
       "average_rating": "averageRating",
       "total_reviews": "totalReviews",
-      "age_rating": "ageRating",
+      "content_rating_label": "contentRatingLabel",
+      "min_age": "minAge",
       "is_nsfw": "isNsfw",
       "cached_creators_count": "cachedCreatorsCount",
       "cached_characters_count": "cachedCharactersCount",

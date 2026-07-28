@@ -1,5 +1,7 @@
 # UpdateCollectionItemSignatureWitness
 
+Authentication of the signature (CGC, CBCS, JSA, PSA/DNA, witnessed_in_person, unwitnessed, other).
+
 ## Example Usage
 
 ```typescript

@@ -27,7 +27,7 @@ let value: GetSeriesForASpecificTeamResponseBody = {
   meta: {
     currentPage: 1,
     lastPage: 1,
-    perPage: 50,
+    perPage: 20,
     total: 12,
   },
 };

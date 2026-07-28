@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * Get series issues.
  *
  * @remarks
- * Returns paginated issues for a specific series. Requires PRO subscription.
+ * Returns paginated issues for a specific series.
  */
 export function seriesGetSeriesIssues(
   client: VerseDBCore,
@@ -41,7 +41,6 @@ export function seriesGetSeriesIssues(
   Result<
     operations.GetSeriesIssuesResponse,
     | errors.GetSeriesIssuesUnauthorizedError
-    | errors.GetSeriesIssuesPaymentRequiredError
     | errors.GetSeriesIssuesTooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -69,7 +68,6 @@ async function $do(
     Result<
       operations.GetSeriesIssuesResponse,
       | errors.GetSeriesIssuesUnauthorizedError
-      | errors.GetSeriesIssuesPaymentRequiredError
       | errors.GetSeriesIssuesTooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -166,7 +164,6 @@ async function $do(
   const [result] = await M.match<
     operations.GetSeriesIssuesResponse,
     | errors.GetSeriesIssuesUnauthorizedError
-    | errors.GetSeriesIssuesPaymentRequiredError
     | errors.GetSeriesIssuesTooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -182,7 +179,6 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.GetSeriesIssuesUnauthorizedError$inboundSchema),
-    M.jsonErr(402, errors.GetSeriesIssuesPaymentRequiredError$inboundSchema),
     M.jsonErr(429, errors.GetSeriesIssuesTooManyRequestsError$inboundSchema, {
       hdrs: true,
     }),

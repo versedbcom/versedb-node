@@ -32,7 +32,7 @@ import { Result } from "../types/fp.js";
  *
  * @remarks
  * Returns a single series with full details including related title, publishers, and genres.
- * For relationship data (issues, creators, characters), use the PRO endpoints.
+ * For relationship data (issues, creators, characters), use the relationship endpoints.
  */
 export function seriesGetSeriesDetails(
   client: VerseDBCore,

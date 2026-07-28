@@ -15,7 +15,7 @@ A title represents a franchise (e.g., "Batman"), which may have multiple series 
 ## listTitles
 
 Returns: id, name, slug, start_year, end_year, status, type, image_url,
-age_rating, is_nsfw, series_count, issues_count,
+content_rating_label, min_age, is_nsfw, series_count, issues_count,
 average_rating, total_reviews
 
 ### Example Usage
@@ -96,7 +96,7 @@ run();
 ## getASpecificTitle
 
 Returns: id, name, slug, description, start_year, end_year, status, type,
-image_url, age_rating, is_nsfw, imprint_id, series_count,
+image_url, content_rating_label, min_age, is_nsfw, imprint_id, series_count,
 issues_count, average_rating, total_reviews, aliases
 
 Use relationship endpoints for richer data:
@@ -174,5 +174,6 @@ run();
 | Error Type                                   | Status Code                                  | Content Type                                 |
 | -------------------------------------------- | -------------------------------------------- | -------------------------------------------- |
 | errors.GetASpecificTitleUnauthorizedError    | 401                                          | application/json                             |
+| errors.GetASpecificTitleNotFoundError        | 404                                          | application/json                             |
 | errors.GetASpecificTitleTooManyRequestsError | 429                                          | application/json                             |
 | errors.VerseDbDefaultError                   | 4XX, 5XX                                     | \*/\*                                        |

@@ -1,11 +1,13 @@
 # UpdateCollectionItemPrintNumber
 
+Which print this copy is (1st, 2nd, 3rd, … or other).
+
 ## Example Usage
 
 ```typescript
 import { UpdateCollectionItemPrintNumber } from "@versedbcom/sdk/models/operations";
 
-let value: UpdateCollectionItemPrintNumber = "8th";
+let value: UpdateCollectionItemPrintNumber = "1st";
 ```
 
 ## Values

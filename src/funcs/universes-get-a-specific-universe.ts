@@ -33,7 +33,7 @@ import { Result } from "../types/fp.js";
  * @remarks
  * Returns: id, name, description
  *
- * Use PRO endpoints for relationship data:
+ * Use the relationship endpoints for related data:
  * - /universes/{id}/story-arcs - Get story arcs in a universe
  * - /universes/{id}/characters - Get characters in a universe
  */

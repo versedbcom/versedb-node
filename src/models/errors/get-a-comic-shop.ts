@@ -33,6 +33,32 @@ export class GetAComicShopTooManyRequestsError extends VerseDbError {
 }
 
 /**
+ * Not Found
+ */
+export type GetAComicShopNotFoundErrorData = {
+  message?: string | undefined;
+};
+
+/**
+ * Not Found
+ */
+export class GetAComicShopNotFoundError extends VerseDbError {
+  /** The original data that was passed to this error instance. */
+  data$: GetAComicShopNotFoundErrorData;
+
+  constructor(
+    err: GetAComicShopNotFoundErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+
+    this.name = "GetAComicShopNotFoundError";
+  }
+}
+
+/**
  * Unauthenticated. The bearer token is missing, invalid, or revoked.
  */
 export type GetAComicShopUnauthorizedErrorData = {
@@ -71,6 +97,26 @@ export const GetAComicShopTooManyRequestsError$inboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return new GetAComicShopTooManyRequestsError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
+export const GetAComicShopNotFoundError$inboundSchema: z.ZodMiniType<
+  GetAComicShopNotFoundError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.optional(types.string()),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new GetAComicShopNotFoundError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

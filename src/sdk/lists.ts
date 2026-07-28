@@ -5,11 +5,13 @@
 import { listsAddItemToList } from "../funcs/lists-add-item-to-list.js";
 import { listsBrowseLists } from "../funcs/lists-browse-lists.js";
 import { listsBrowseSystemLists } from "../funcs/lists-browse-system-lists.js";
+import { listsConvertAListToMixed } from "../funcs/lists-convert-a-list-to-mixed.js";
 import { listsCreateList } from "../funcs/lists-create-list.js";
 import { listsDeleteList } from "../funcs/lists-delete-list.js";
 import { listsGetList } from "../funcs/lists-get-list.js";
 import { listsGetUsersLists } from "../funcs/lists-get-users-lists.js";
 import { listsLikeList } from "../funcs/lists-like-list.js";
+import { listsMergeAListIntoThisOne } from "../funcs/lists-merge-a-list-into-this-one.js";
 import { listsRemoveItemFromList } from "../funcs/lists-remove-item-from-list.js";
 import { listsReorderItems } from "../funcs/lists-reorder-items.js";
 import { listsSaveList } from "../funcs/lists-save-list.js";
@@ -135,6 +137,43 @@ export class Lists extends ClientSDK {
     options?: RequestOptions,
   ): Promise<operations.GetUsersListsResponse> {
     return unwrapAsync(listsGetUsersLists(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Convert a list to mixed.
+   *
+   * @remarks
+   * One-way: broadens a single-type list so it can hold items of any type. Existing items keep
+   * their own type. A mixed list cannot be narrowed back, and wishlists cannot be converted.
+   */
+  async convertAListToMixed(
+    request: operations.ConvertAListToMixedRequest,
+    options?: RequestOptions,
+  ): Promise<operations.ConvertAListToMixedResponse> {
+    return unwrapAsync(listsConvertAListToMixed(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Merge a list into this one.
+   *
+   * @remarks
+   * Pulls every item from the source list into this (destination) list, skipping items already
+   * present (by entity + variant) and appending the rest. Both lists must be owned by the
+   * authenticated user. Merging items of a different type converts this list to `mixed`.
+   */
+  async mergeAListIntoThisOne(
+    request: operations.MergeAListIntoThisOneRequest,
+    options?: RequestOptions,
+  ): Promise<operations.MergeAListIntoThisOneResponse> {
+    return unwrapAsync(listsMergeAListIntoThisOne(
       this,
       request,
       options,

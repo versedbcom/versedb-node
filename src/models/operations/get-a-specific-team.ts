@@ -16,23 +16,32 @@ export type GetASpecificTeamRequest = {
   teamId: number;
 };
 
+export type GetASpecificTeamImages = {
+  tileSm?: string | undefined;
+  profileMd?: string | undefined;
+  fullLg?: string | undefined;
+};
+
 export type GetASpecificTeamData = {
   id?: number | undefined;
   name?: string | undefined;
   slug?: string | undefined;
-  aliases?: Array<any> | undefined;
+  aliases?: Array<string> | undefined;
   description?: string | undefined;
   formationDate?: string | undefined;
-  disbandedDate?: string | undefined;
+  disbandedDate?: string | null | undefined;
   headquarters?: string | undefined;
   membersCount?: number | undefined;
   seriesCount?: number | undefined;
   appearancesCount?: number | undefined;
   listsCount?: number | undefined;
-  imageUrl?: string | null | undefined;
-  images?: string | null | undefined;
+  imageUrl?: string | undefined;
+  images?: GetASpecificTeamImages | undefined;
 };
 
+/**
+ * Success
+ */
 export type GetASpecificTeamResponseBody = {
   data?: GetASpecificTeamData | undefined;
 };
@@ -71,6 +80,35 @@ export function getASpecificTeamRequestToJSON(
 }
 
 /** @internal */
+export const GetASpecificTeamImages$inboundSchema: z.ZodMiniType<
+  GetASpecificTeamImages,
+  unknown
+> = z.pipe(
+  z.object({
+    tile_sm: types.optional(types.string()),
+    profile_md: types.optional(types.string()),
+    full_lg: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "tile_sm": "tileSm",
+      "profile_md": "profileMd",
+      "full_lg": "fullLg",
+    });
+  }),
+);
+
+export function getASpecificTeamImagesFromJSON(
+  jsonString: string,
+): SafeParseResult<GetASpecificTeamImages, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetASpecificTeamImages$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetASpecificTeamImages' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetASpecificTeamData$inboundSchema: z.ZodMiniType<
   GetASpecificTeamData,
   unknown
@@ -79,17 +117,17 @@ export const GetASpecificTeamData$inboundSchema: z.ZodMiniType<
     id: types.optional(types.number()),
     name: types.optional(types.string()),
     slug: types.optional(types.string()),
-    aliases: types.optional(z.array(z.any())),
+    aliases: types.optional(z.array(types.string())),
     description: types.optional(types.string()),
     formation_date: types.optional(types.string()),
-    disbanded_date: types.optional(types.string()),
+    disbanded_date: z.optional(z.nullable(types.string())),
     headquarters: types.optional(types.string()),
     members_count: types.optional(types.number()),
     series_count: types.optional(types.number()),
     appearances_count: types.optional(types.number()),
     lists_count: types.optional(types.number()),
-    image_url: z.optional(z.nullable(types.string())),
-    images: z.optional(z.nullable(types.string())),
+    image_url: types.optional(types.string()),
+    images: types.optional(z.lazy(() => GetASpecificTeamImages$inboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {

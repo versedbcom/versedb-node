@@ -30,8 +30,8 @@ let value: GetStoryArcsForASpecificUniverseResponseBody = {
   ],
   meta: {
     currentPage: 1,
-    lastPage: 4,
-    perPage: 15,
+    lastPage: 3,
+    perPage: 20,
     total: 56,
   },
 };

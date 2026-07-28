@@ -3,7 +3,6 @@
  */
 
 import * as z from "zod/v4-mini";
-import { remap as remap$ } from "../../lib/primitives.js";
 import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
@@ -30,39 +29,6 @@ export class GetKeyIssueReasonsTooManyRequestsError extends VerseDbError {
     this.data$ = err;
 
     this.name = "GetKeyIssueReasonsTooManyRequestsError";
-  }
-}
-
-/**
- * PRO Required
- */
-export type GetKeyIssueReasonsPaymentRequiredErrorData = {
-  message?: string | undefined;
-  error?: string | undefined;
-  upgradeUrl?: string | undefined;
-};
-
-/**
- * PRO Required
- */
-export class GetKeyIssueReasonsPaymentRequiredError extends VerseDbError {
-  error?: string | undefined;
-  upgradeUrl?: string | undefined;
-
-  /** The original data that was passed to this error instance. */
-  data$: GetKeyIssueReasonsPaymentRequiredErrorData;
-
-  constructor(
-    err: GetKeyIssueReasonsPaymentRequiredErrorData,
-    httpMeta: { response: Response; request: Request; body: string },
-  ) {
-    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
-    super(message, httpMeta);
-    this.data$ = err;
-    if (err.error != null) this.error = err.error;
-    if (err.upgradeUrl != null) this.upgradeUrl = err.upgradeUrl;
-
-    this.name = "GetKeyIssueReasonsPaymentRequiredError";
   }
 }
 
@@ -103,30 +69,6 @@ export const GetKeyIssueReasonsTooManyRequestsError$inboundSchema:
     }),
     z.transform((v) => {
       return new GetKeyIssueReasonsTooManyRequestsError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
-      });
-    }),
-  );
-
-/** @internal */
-export const GetKeyIssueReasonsPaymentRequiredError$inboundSchema:
-  z.ZodMiniType<GetKeyIssueReasonsPaymentRequiredError, unknown> = z.pipe(
-    z.object({
-      message: types.optional(types.string()),
-      error: types.optional(types.string()),
-      upgrade_url: types.optional(types.string()),
-      request$: z.custom<Request>(x => x instanceof Request),
-      response$: z.custom<Response>(x => x instanceof Response),
-      body$: z.string(),
-    }),
-    z.transform((v) => {
-      const remapped = remap$(v, {
-        "upgrade_url": "upgradeUrl",
-      });
-
-      return new GetKeyIssueReasonsPaymentRequiredError(remapped, {
         request: v.request$,
         response: v.response$,
         body: v.body$,

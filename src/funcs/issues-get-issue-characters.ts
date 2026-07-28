@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * Get issue characters.
  *
  * @remarks
- * Returns paginated characters appearing in a specific issue. Requires PRO subscription.
+ * Returns paginated characters appearing in a specific issue.
  */
 export function issuesGetIssueCharacters(
   client: VerseDBCore,
@@ -41,7 +41,6 @@ export function issuesGetIssueCharacters(
   Result<
     operations.GetIssueCharactersResponse,
     | errors.GetIssueCharactersUnauthorizedError
-    | errors.GetIssueCharactersPaymentRequiredError
     | errors.GetIssueCharactersTooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -69,7 +68,6 @@ async function $do(
     Result<
       operations.GetIssueCharactersResponse,
       | errors.GetIssueCharactersUnauthorizedError
-      | errors.GetIssueCharactersPaymentRequiredError
       | errors.GetIssueCharactersTooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -160,7 +158,6 @@ async function $do(
   const [result] = await M.match<
     operations.GetIssueCharactersResponse,
     | errors.GetIssueCharactersUnauthorizedError
-    | errors.GetIssueCharactersPaymentRequiredError
     | errors.GetIssueCharactersTooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -176,7 +173,6 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.GetIssueCharactersUnauthorizedError$inboundSchema),
-    M.jsonErr(402, errors.GetIssueCharactersPaymentRequiredError$inboundSchema),
     M.jsonErr(
       429,
       errors.GetIssueCharactersTooManyRequestsError$inboundSchema,

@@ -30,7 +30,7 @@ export class Events extends ClientSDK {
    * Get an event.
    *
    * @remarks
-   * Returns full event details including description, links, map data.
+   * Returns full event details including links and map data.
    */
   async getAnEvent(
     request: operations.GetAnEventRequest,

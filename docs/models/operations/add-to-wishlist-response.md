@@ -20,6 +20,7 @@ let value: AddToWishlistResponse = {
   },
   result: {
     inWishlist: true,
+    variantId: 7,
   },
 };
 ```

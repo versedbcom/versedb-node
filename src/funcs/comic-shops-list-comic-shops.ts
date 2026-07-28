@@ -100,12 +100,8 @@ async function $do(
 
   const query = encodeFormQuery({
     "country": payload?.country,
-    "latitude": payload?.latitude,
     "limit": payload?.limit,
-    "longitude": payload?.longitude,
     "q": payload?.q,
-    "radius": payload?.radius,
-    "service": payload?.service,
     "state": payload?.state,
   });
 

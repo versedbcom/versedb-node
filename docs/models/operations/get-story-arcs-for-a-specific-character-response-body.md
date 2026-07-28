@@ -45,7 +45,7 @@ let value: GetStoryArcsForASpecificCharacterResponseBody = {
   meta: {
     currentPage: 1,
     lastPage: 3,
-    perPage: 15,
+    perPage: 20,
     total: 41,
   },
 };

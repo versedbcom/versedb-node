@@ -101,7 +101,7 @@ run();
 
 ## getAnEvent
 
-Returns full event details including description, links, map data.
+Returns full event details including links and map data.
 
 ### Example Usage
 
@@ -171,5 +171,6 @@ run();
 | Error Type                            | Status Code                           | Content Type                          |
 | ------------------------------------- | ------------------------------------- | ------------------------------------- |
 | errors.GetAnEventUnauthorizedError    | 401                                   | application/json                      |
+| errors.GetAnEventNotFoundError        | 404                                   | application/json                      |
 | errors.GetAnEventTooManyRequestsError | 429                                   | application/json                      |
 | errors.VerseDbDefaultError            | 4XX, 5XX                              | \*/\*                                 |

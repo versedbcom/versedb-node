@@ -16,26 +16,36 @@ export type GetASpecificTitleRequest = {
   titleId: number;
 };
 
+export type GetASpecificTitleImages = {
+  coverSm?: string | undefined;
+  coverMd?: string | undefined;
+  coverLg?: string | undefined;
+};
+
 export type GetASpecificTitleData = {
   id?: number | undefined;
   name?: string | undefined;
   slug?: string | undefined;
   description?: string | undefined;
   startYear?: number | undefined;
-  endYear?: number | undefined;
+  endYear?: string | null | undefined;
   status?: string | undefined;
   type?: string | undefined;
-  imageUrl?: string | null | undefined;
-  images?: string | null | undefined;
-  ageRating?: string | undefined;
+  imageUrl?: string | undefined;
+  images?: GetASpecificTitleImages | undefined;
+  contentRatingLabel?: string | undefined;
+  minAge?: number | undefined;
   isNsfw?: boolean | undefined;
   imprintId?: string | null | undefined;
   seriesCount?: number | undefined;
   issuesCount?: number | undefined;
-  averageRating?: string | undefined;
-  aliases?: string | null | undefined;
+  averageRating?: number | undefined;
+  aliases?: Array<string> | undefined;
 };
 
+/**
+ * Success
+ */
 export type GetASpecificTitleResponseBody = {
   data?: GetASpecificTitleData | undefined;
 };
@@ -74,6 +84,35 @@ export function getASpecificTitleRequestToJSON(
 }
 
 /** @internal */
+export const GetASpecificTitleImages$inboundSchema: z.ZodMiniType<
+  GetASpecificTitleImages,
+  unknown
+> = z.pipe(
+  z.object({
+    cover_sm: types.optional(types.string()),
+    cover_md: types.optional(types.string()),
+    cover_lg: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "cover_sm": "coverSm",
+      "cover_md": "coverMd",
+      "cover_lg": "coverLg",
+    });
+  }),
+);
+
+export function getASpecificTitleImagesFromJSON(
+  jsonString: string,
+): SafeParseResult<GetASpecificTitleImages, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetASpecificTitleImages$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetASpecificTitleImages' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetASpecificTitleData$inboundSchema: z.ZodMiniType<
   GetASpecificTitleData,
   unknown
@@ -84,25 +123,27 @@ export const GetASpecificTitleData$inboundSchema: z.ZodMiniType<
     slug: types.optional(types.string()),
     description: types.optional(types.string()),
     start_year: types.optional(types.number()),
-    end_year: types.optional(types.number()),
+    end_year: z.optional(z.nullable(types.string())),
     status: types.optional(types.string()),
     type: types.optional(types.string()),
-    image_url: z.optional(z.nullable(types.string())),
-    images: z.optional(z.nullable(types.string())),
-    age_rating: types.optional(types.string()),
+    image_url: types.optional(types.string()),
+    images: types.optional(z.lazy(() => GetASpecificTitleImages$inboundSchema)),
+    content_rating_label: types.optional(types.string()),
+    min_age: types.optional(types.number()),
     is_nsfw: types.optional(types.boolean()),
     imprint_id: z.optional(z.nullable(types.string())),
     series_count: types.optional(types.number()),
     issues_count: types.optional(types.number()),
-    average_rating: types.optional(types.string()),
-    aliases: z.optional(z.nullable(types.string())),
+    average_rating: types.optional(types.number()),
+    aliases: types.optional(z.array(types.string())),
   }),
   z.transform((v) => {
     return remap$(v, {
       "start_year": "startYear",
       "end_year": "endYear",
       "image_url": "imageUrl",
-      "age_rating": "ageRating",
+      "content_rating_label": "contentRatingLabel",
+      "min_age": "minAge",
       "is_nsfw": "isNsfw",
       "imprint_id": "imprintId",
       "series_count": "seriesCount",

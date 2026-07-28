@@ -32,9 +32,6 @@ import { Result } from "../types/fp.js";
  *
  * @remarks
  * Returns paginated teams the character is a member of, including membership details.
- *
- * Requires PRO subscription on the User API (`/api/...`). Returns 402 Payment Required for non-PRO users on that prefix.
- * The Mobile API (`/mobile/api/...`) is unrestricted — its route group does not apply the `pro.api` middleware.
  */
 export function charactersGetCharacterTeams(
   client: VerseDBCore,
@@ -44,7 +41,6 @@ export function charactersGetCharacterTeams(
   Result<
     operations.GetCharacterTeamsResponse,
     | errors.GetCharacterTeamsUnauthorizedError
-    | errors.GetCharacterTeamsPaymentRequiredError
     | errors.GetCharacterTeamsTooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -72,7 +68,6 @@ async function $do(
     Result<
       operations.GetCharacterTeamsResponse,
       | errors.GetCharacterTeamsUnauthorizedError
-      | errors.GetCharacterTeamsPaymentRequiredError
       | errors.GetCharacterTeamsTooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -110,6 +105,7 @@ async function $do(
 
   const query = encodeFormQuery({
     "limit": payload.limit,
+    "q": payload.q,
   });
 
   const headers = new Headers(compactMap({
@@ -170,7 +166,6 @@ async function $do(
   const [result] = await M.match<
     operations.GetCharacterTeamsResponse,
     | errors.GetCharacterTeamsUnauthorizedError
-    | errors.GetCharacterTeamsPaymentRequiredError
     | errors.GetCharacterTeamsTooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -186,7 +181,6 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.GetCharacterTeamsUnauthorizedError$inboundSchema),
-    M.jsonErr(402, errors.GetCharacterTeamsPaymentRequiredError$inboundSchema),
     M.jsonErr(429, errors.GetCharacterTeamsTooManyRequestsError$inboundSchema, {
       hdrs: true,
     }),

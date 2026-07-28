@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { VerseDBCore } from "../core.js";
-import { encodeSimple } from "../lib/encodings.js";
+import { encodeFormQuery, encodeJSON, encodeSimple } from "../lib/encodings.js";
 import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
@@ -32,7 +32,7 @@ import * as types$ from "../types/primitives.js";
  * Remove from wishlist.
  *
  * @remarks
- * Removes the issue from the authenticated user's wishlist. Idempotent —
+ * Removes the issue from the authenticated user's wishlist. Idempotent:
  * returns 204 whether or not the issue was on the wishlist.
  */
 export function userRemoveFromWishlist(
@@ -93,7 +93,7 @@ async function $do(
     return [parsed, { status: "invalid" }];
   }
   const payload = parsed.value;
-  const body = null;
+  const body = encodeJSON("body", payload.body, { explode: true });
 
   const pathParams = {
     issue_id: encodeSimple("issue_id", payload.issue_id, {
@@ -103,7 +103,12 @@ async function $do(
   };
   const path = pathToFunc("/api/v1/issues/{issue_id}/wishlist")(pathParams);
 
+  const query = encodeFormQuery({
+    "variant_id": payload.variant_id,
+  });
+
   const headers = new Headers(compactMap({
+    "Content-Type": "application/json",
     Accept: "application/json",
   }));
 
@@ -132,6 +137,7 @@ async function $do(
     baseURL: options?.serverURL,
     path: path,
     headers: headers,
+    query: query,
     body: body,
     userAgent: client._options.userAgent,
     timeoutMs: options?.timeoutMs || client._options.timeoutMs || -1,

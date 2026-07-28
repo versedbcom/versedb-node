@@ -14,6 +14,14 @@ export type GetSeriesForASpecificTeamRequest = {
    * The ID of the team.
    */
   teamId: number;
+  /**
+   * Optional case-insensitive search within these results.
+   */
+  q?: string | undefined;
+  /**
+   * Number of results per page (max 50).
+   */
+  limit?: number | undefined;
 };
 
 export type GetSeriesForASpecificTeamData = {
@@ -54,6 +62,8 @@ export type GetSeriesForASpecificTeamResponse = {
 /** @internal */
 export type GetSeriesForASpecificTeamRequest$Outbound = {
   team_id: number;
+  q?: string | undefined;
+  limit?: number | undefined;
 };
 
 /** @internal */
@@ -63,6 +73,8 @@ export const GetSeriesForASpecificTeamRequest$outboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     teamId: z.int(),
+    q: z.optional(z.string()),
+    limit: z.optional(z.int()),
   }),
   z.transform((v) => {
     return remap$(v, {

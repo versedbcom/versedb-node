@@ -18,6 +18,10 @@ export type GetCharacterTeamsRequest = {
    * Results per page (max 50).
    */
   limit?: number | undefined;
+  /**
+   * Optional case-insensitive search within these results.
+   */
+  q?: string | undefined;
 };
 
 export type Membership = {
@@ -58,6 +62,7 @@ export type GetCharacterTeamsResponse = {
 export type GetCharacterTeamsRequest$Outbound = {
   character_id: number;
   limit?: number | undefined;
+  q?: string | undefined;
 };
 
 /** @internal */
@@ -68,6 +73,7 @@ export const GetCharacterTeamsRequest$outboundSchema: z.ZodMiniType<
   z.object({
     characterId: z.int(),
     limit: z.optional(z.int()),
+    q: z.optional(z.string()),
   }),
   z.transform((v) => {
     return remap$(v, {

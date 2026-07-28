@@ -33,6 +33,32 @@ export class GetPublisherDetailsTooManyRequestsError extends VerseDbError {
 }
 
 /**
+ * Not Found
+ */
+export type GetPublisherDetailsNotFoundErrorData = {
+  message?: string | undefined;
+};
+
+/**
+ * Not Found
+ */
+export class GetPublisherDetailsNotFoundError extends VerseDbError {
+  /** The original data that was passed to this error instance. */
+  data$: GetPublisherDetailsNotFoundErrorData;
+
+  constructor(
+    err: GetPublisherDetailsNotFoundErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+
+    this.name = "GetPublisherDetailsNotFoundError";
+  }
+}
+
+/**
  * Unauthenticated. The bearer token is missing, invalid, or revoked.
  */
 export type GetPublisherDetailsUnauthorizedErrorData = {
@@ -75,6 +101,26 @@ export const GetPublisherDetailsTooManyRequestsError$inboundSchema:
       });
     }),
   );
+
+/** @internal */
+export const GetPublisherDetailsNotFoundError$inboundSchema: z.ZodMiniType<
+  GetPublisherDetailsNotFoundError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.optional(types.string()),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new GetPublisherDetailsNotFoundError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
 
 /** @internal */
 export const GetPublisherDetailsUnauthorizedError$inboundSchema: z.ZodMiniType<

@@ -45,10 +45,11 @@ export type GetTheAuthenticatedUserData = {
   preferredGenres?: Array<any> | undefined;
   preferredLanguages?: Array<string> | undefined;
   locale?: string | null | undefined;
-  onboardingCompletedAt?: string | null | undefined;
+  onboardingCompletedAt?: string | undefined;
   onboardingStep?: number | undefined;
   aiDiscoveryEnabled?: boolean | undefined;
   isPro?: boolean | undefined;
+  canChangeUsername?: boolean | undefined;
   level?: number | undefined;
   xp?: number | undefined;
   xpForNextLevel?: number | undefined;
@@ -113,10 +114,11 @@ export const GetTheAuthenticatedUserData$inboundSchema: z.ZodMiniType<
     preferred_genres: types.optional(z.array(z.any())),
     preferred_languages: types.optional(z.array(types.string())),
     locale: z.optional(z.nullable(types.string())),
-    onboarding_completed_at: z.optional(z.nullable(types.string())),
+    onboarding_completed_at: types.optional(types.string()),
     onboarding_step: types.optional(types.number()),
     ai_discovery_enabled: types.optional(types.boolean()),
     is_pro: types.optional(types.boolean()),
+    can_change_username: types.optional(types.boolean()),
     level: types.optional(types.number()),
     xp: types.optional(types.number()),
     xp_for_next_level: types.optional(types.number()),
@@ -162,6 +164,7 @@ export const GetTheAuthenticatedUserData$inboundSchema: z.ZodMiniType<
       "onboarding_step": "onboardingStep",
       "ai_discovery_enabled": "aiDiscoveryEnabled",
       "is_pro": "isPro",
+      "can_change_username": "canChangeUsername",
       "xp_for_next_level": "xpForNextLevel",
       "xp_progress_percent": "xpProgressPercent",
       "contributions_count": "contributionsCount",

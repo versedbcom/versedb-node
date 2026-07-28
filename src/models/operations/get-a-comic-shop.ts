@@ -16,6 +16,17 @@ export type GetAComicShopRequest = {
   shopId: number;
 };
 
+export type GetAComicShopImages = {
+  tileSm?: string | undefined;
+  fullLg?: string | undefined;
+};
+
+export type OperatingHours = {
+  monday?: string | undefined;
+  saturday?: string | undefined;
+  sunday?: string | undefined;
+};
+
 export type GetAComicShopData = {
   id?: number | undefined;
   name?: string | undefined;
@@ -25,20 +36,18 @@ export type GetAComicShopData = {
   stateProvince?: string | undefined;
   postalCode?: string | undefined;
   country?: string | undefined;
-  phone?: string | undefined;
-  website?: string | null | undefined;
-  email?: string | undefined;
-  latitude?: string | undefined;
-  longitude?: string | undefined;
+  website?: string | undefined;
   fullAddress?: string | undefined;
-  logoUrl?: string | null | undefined;
-  images?: string | null | undefined;
-  operatingHours?: string | null | undefined;
-  services?: Array<any> | undefined;
+  logoUrl?: string | undefined;
+  images?: GetAComicShopImages | undefined;
+  operatingHours?: OperatingHours | undefined;
+  services?: Array<string> | undefined;
   events?: Array<any> | undefined;
-  isFavorited?: boolean | undefined;
 };
 
+/**
+ * Success
+ */
 export type GetAComicShopResponseBody = {
   data?: GetAComicShopData | undefined;
 };
@@ -77,6 +86,53 @@ export function getAComicShopRequestToJSON(
 }
 
 /** @internal */
+export const GetAComicShopImages$inboundSchema: z.ZodMiniType<
+  GetAComicShopImages,
+  unknown
+> = z.pipe(
+  z.object({
+    tile_sm: types.optional(types.string()),
+    full_lg: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "tile_sm": "tileSm",
+      "full_lg": "fullLg",
+    });
+  }),
+);
+
+export function getAComicShopImagesFromJSON(
+  jsonString: string,
+): SafeParseResult<GetAComicShopImages, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetAComicShopImages$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetAComicShopImages' from JSON`,
+  );
+}
+
+/** @internal */
+export const OperatingHours$inboundSchema: z.ZodMiniType<
+  OperatingHours,
+  unknown
+> = z.object({
+  monday: types.optional(types.string()),
+  saturday: types.optional(types.string()),
+  sunday: types.optional(types.string()),
+});
+
+export function operatingHoursFromJSON(
+  jsonString: string,
+): SafeParseResult<OperatingHours, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => OperatingHours$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'OperatingHours' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetAComicShopData$inboundSchema: z.ZodMiniType<
   GetAComicShopData,
   unknown
@@ -90,18 +146,13 @@ export const GetAComicShopData$inboundSchema: z.ZodMiniType<
     state_province: types.optional(types.string()),
     postal_code: types.optional(types.string()),
     country: types.optional(types.string()),
-    phone: types.optional(types.string()),
-    website: z.optional(z.nullable(types.string())),
-    email: types.optional(types.string()),
-    latitude: types.optional(types.string()),
-    longitude: types.optional(types.string()),
+    website: types.optional(types.string()),
     full_address: types.optional(types.string()),
-    logo_url: z.optional(z.nullable(types.string())),
-    images: z.optional(z.nullable(types.string())),
-    operating_hours: z.optional(z.nullable(types.string())),
-    services: types.optional(z.array(z.any())),
+    logo_url: types.optional(types.string()),
+    images: types.optional(z.lazy(() => GetAComicShopImages$inboundSchema)),
+    operating_hours: types.optional(z.lazy(() => OperatingHours$inboundSchema)),
+    services: types.optional(z.array(types.string())),
     events: types.optional(z.array(z.any())),
-    is_favorited: types.optional(types.boolean()),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -110,7 +161,6 @@ export const GetAComicShopData$inboundSchema: z.ZodMiniType<
       "full_address": "fullAddress",
       "logo_url": "logoUrl",
       "operating_hours": "operatingHours",
-      "is_favorited": "isFavorited",
     });
   }),
 );

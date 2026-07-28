@@ -55,6 +55,10 @@ export type ListCollectionRequest = {
    */
   publisherId?: number | undefined;
   /**
+   * Filter to copies of issues in a series.
+   */
+  seriesId?: number | undefined;
+  /**
    * Filter to copies with a numeric grade at or above this value.
    */
   gradeMin?: number | undefined;
@@ -128,7 +132,8 @@ export type Collectable = {
   coverUrl?: string | undefined;
   images?: ListCollectionImages | undefined;
   isReprint?: boolean | undefined;
-  ageRating?: string | null | undefined;
+  contentRatingLabel?: string | null | undefined;
+  minAge?: string | null | undefined;
   isNsfw?: boolean | undefined;
   averageRating?: number | undefined;
   series?: ListCollectionSeries | undefined;
@@ -224,6 +229,7 @@ export type ListCollectionRequest$Outbound = {
   for_trade?: boolean | undefined;
   read_status?: string | undefined;
   publisher_id?: number | undefined;
+  series_id?: number | undefined;
   grade_min?: number | undefined;
   grade_max?: number | undefined;
   sort_by?: string | undefined;
@@ -247,6 +253,7 @@ export const ListCollectionRequest$outboundSchema: z.ZodMiniType<
     forTrade: z.optional(z.boolean()),
     readStatus: z.optional(z.string()),
     publisherId: z.optional(z.int()),
+    seriesId: z.optional(z.int()),
     gradeMin: z.optional(z.number()),
     gradeMax: z.optional(z.number()),
     sortBy: z.optional(z.string()),
@@ -260,6 +267,7 @@ export const ListCollectionRequest$outboundSchema: z.ZodMiniType<
       forTrade: "for_trade",
       readStatus: "read_status",
       publisherId: "publisher_id",
+      seriesId: "series_id",
       gradeMin: "grade_min",
       gradeMax: "grade_max",
       sortBy: "sort_by",
@@ -439,7 +447,8 @@ export const Collectable$inboundSchema: z.ZodMiniType<Collectable, unknown> = z
       cover_url: types.optional(types.string()),
       images: types.optional(z.lazy(() => ListCollectionImages$inboundSchema)),
       is_reprint: types.optional(types.boolean()),
-      age_rating: z.optional(z.nullable(types.string())),
+      content_rating_label: z.optional(z.nullable(types.string())),
+      min_age: z.optional(z.nullable(types.string())),
       is_nsfw: types.optional(types.boolean()),
       average_rating: types.optional(types.number()),
       series: types.optional(z.lazy(() => ListCollectionSeries$inboundSchema)),
@@ -456,7 +465,8 @@ export const Collectable$inboundSchema: z.ZodMiniType<Collectable, unknown> = z
         "foc_date": "focDate",
         "cover_url": "coverUrl",
         "is_reprint": "isReprint",
-        "age_rating": "ageRating",
+        "content_rating_label": "contentRatingLabel",
+        "min_age": "minAge",
         "is_nsfw": "isNsfw",
         "average_rating": "averageRating",
         "key_issue_reasons": "keyIssueReasons",

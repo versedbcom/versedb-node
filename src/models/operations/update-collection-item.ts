@@ -109,6 +109,9 @@ export type UpdateCollectionItemAcquisitionMethod = ClosedEnum<
   typeof UpdateCollectionItemAcquisitionMethod
 >;
 
+/**
+ * Variant classification (standard, cover_variant, retailer_exclusive, incentive_variant, ratio_variant, virgin_variant, etc.).
+ */
 export const UpdateCollectionItemVariantType = {
   Standard: "standard",
   CoverVariant: "cover_variant",
@@ -127,6 +130,9 @@ export const UpdateCollectionItemVariantType = {
   Reprint: "reprint",
   Other: "other",
 } as const;
+/**
+ * Variant classification (standard, cover_variant, retailer_exclusive, incentive_variant, ratio_variant, virgin_variant, etc.).
+ */
 export type UpdateCollectionItemVariantType = ClosedEnum<
   typeof UpdateCollectionItemVariantType
 >;
@@ -188,6 +194,9 @@ export type UpdateCollectionItemPageQuality = ClosedEnum<
   typeof UpdateCollectionItemPageQuality
 >;
 
+/**
+ * Which print this copy is (1st, 2nd, 3rd, … or other).
+ */
 export const UpdateCollectionItemPrintNumber = {
   Onest: "1st",
   Twond: "2nd",
@@ -201,10 +210,16 @@ export const UpdateCollectionItemPrintNumber = {
   Tenth: "10th",
   Other: "other",
 } as const;
+/**
+ * Which print this copy is (1st, 2nd, 3rd, … or other).
+ */
 export type UpdateCollectionItemPrintNumber = ClosedEnum<
   typeof UpdateCollectionItemPrintNumber
 >;
 
+/**
+ * Authentication of the signature (CGC, CBCS, JSA, PSA/DNA, witnessed_in_person, unwitnessed, other).
+ */
 export const UpdateCollectionItemSignatureWitness = {
   Cgc: "CGC",
   Cbcs: "CBCS",
@@ -214,13 +229,16 @@ export const UpdateCollectionItemSignatureWitness = {
   Unwitnessed: "unwitnessed",
   Other: "other",
 } as const;
+/**
+ * Authentication of the signature (CGC, CBCS, JSA, PSA/DNA, witnessed_in_person, unwitnessed, other).
+ */
 export type UpdateCollectionItemSignatureWitness = ClosedEnum<
   typeof UpdateCollectionItemSignatureWitness
 >;
 
 export type UpdateCollectionItemRequestBody = {
   /**
-   * Link to a specific issue variant. Must belong to the issue. The <code>id</code> of an existing record in the issue_variants table.
+   * Link to a specific issue variant. Must belong to the issue. Must match an existing stored value.
    */
   variantId?: number | null | undefined;
   /**
@@ -244,7 +262,7 @@ export type UpdateCollectionItemRequestBody = {
    */
   purchaseSource?: UpdateCollectionItemPurchaseSource | null | undefined;
   /**
-   * ID of the specific comic shop the copy was purchased from. Self-reported; independent of purchase_source. The <code>id</code> of an existing record in the comic_shops table.
+   * ID of the specific comic shop the copy was purchased from. Self-reported; independent of purchase_source. Must match an existing stored value.
    */
   comicShopId?: number | null | undefined;
   /**
@@ -264,14 +282,20 @@ export type UpdateCollectionItemRequestBody = {
    */
   isSigned?: boolean | undefined;
   /**
-   * Name(s) of the creator(s) who signed the comic. Free-text — comma-separate multiple signers. Must not be greater than 255 characters.
+   * Name(s) of the creator(s) who signed the comic. Free-text. Comma-separate multiple signers. Must not be greater than 255 characters.
    */
   signedBy?: string | null | undefined;
+  /**
+   * Whether this copy is a variant cover.
+   */
   isVariant?: boolean | undefined;
   /**
-   * Must not be greater than 500 characters.
+   * Free-text description of the variant cover. Must not be greater than 500 characters.
    */
   variantDescription?: string | null | undefined;
+  /**
+   * Variant classification (standard, cover_variant, retailer_exclusive, incentive_variant, ratio_variant, virgin_variant, etc.).
+   */
   variantType?: UpdateCollectionItemVariantType | null | undefined;
   /**
    * Whether the comic is professionally graded.
@@ -301,7 +325,13 @@ export type UpdateCollectionItemRequestBody = {
    * Free-text notes printed on the slab label. Must not be greater than 2000 characters.
    */
   graderNotes?: string | null | undefined;
+  /**
+   * Which print this copy is (1st, 2nd, 3rd, … or other).
+   */
   printNumber?: UpdateCollectionItemPrintNumber | null | undefined;
+  /**
+   * Authentication of the signature (CGC, CBCS, JSA, PSA/DNA, witnessed_in_person, unwitnessed, other).
+   */
   signatureWitness?: UpdateCollectionItemSignatureWitness | null | undefined;
   /**
    * Current estimated value in dollars. Must be at least 0. Must not be greater than 999999.99.

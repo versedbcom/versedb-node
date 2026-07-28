@@ -38,6 +38,7 @@ export function podcastsGetASpecificPodcast(
   Result<
     operations.GetASpecificPodcastResponse,
     | errors.GetASpecificPodcastUnauthorizedError
+    | errors.GetASpecificPodcastNotFoundError
     | errors.GetASpecificPodcastTooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -65,6 +66,7 @@ async function $do(
     Result<
       operations.GetASpecificPodcastResponse,
       | errors.GetASpecificPodcastUnauthorizedError
+      | errors.GetASpecificPodcastNotFoundError
       | errors.GetASpecificPodcastTooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -155,6 +157,7 @@ async function $do(
   const [result] = await M.match<
     operations.GetASpecificPodcastResponse,
     | errors.GetASpecificPodcastUnauthorizedError
+    | errors.GetASpecificPodcastNotFoundError
     | errors.GetASpecificPodcastTooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -170,6 +173,7 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.GetASpecificPodcastUnauthorizedError$inboundSchema),
+    M.jsonErr(404, errors.GetASpecificPodcastNotFoundError$inboundSchema),
     M.jsonErr(
       429,
       errors.GetASpecificPodcastTooManyRequestsError$inboundSchema,

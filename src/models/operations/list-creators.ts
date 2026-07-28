@@ -15,14 +15,6 @@ export type ListCreatorsRequest = {
    */
   q?: string | undefined;
   /**
-   * Sort field (name, created_at, updated_at).
-   */
-  sort?: string | undefined;
-  /**
-   * Sort direction (asc, desc).
-   */
-  direction?: string | undefined;
-  /**
    * Results per page (max 50).
    */
   limit?: number | undefined;
@@ -44,6 +36,7 @@ export type ListCreatorsData = {
   name?: string | undefined;
   slug?: string | undefined;
   role?: ListCreatorsRole | undefined;
+  roles?: Array<ListCreatorsRole> | undefined;
   photoUrl?: string | undefined;
   images?: ListCreatorsImages | undefined;
 };
@@ -71,8 +64,6 @@ export type ListCreatorsResponse = {
 /** @internal */
 export type ListCreatorsRequest$Outbound = {
   q?: string | undefined;
-  sort?: string | undefined;
-  direction?: string | undefined;
   limit?: number | undefined;
 };
 
@@ -82,8 +73,6 @@ export const ListCreatorsRequest$outboundSchema: z.ZodMiniType<
   ListCreatorsRequest
 > = z.object({
   q: z.optional(z.string()),
-  sort: z.optional(z.string()),
-  direction: z.optional(z.string()),
   limit: z.optional(z.int()),
 });
 
@@ -153,6 +142,9 @@ export const ListCreatorsData$inboundSchema: z.ZodMiniType<
     name: types.optional(types.string()),
     slug: types.optional(types.string()),
     role: types.optional(z.lazy(() => ListCreatorsRole$inboundSchema)),
+    roles: types.optional(
+      z.array(z.lazy(() => ListCreatorsRole$inboundSchema)),
+    ),
     photo_url: types.optional(types.string()),
     images: types.optional(z.lazy(() => ListCreatorsImages$inboundSchema)),
   }),

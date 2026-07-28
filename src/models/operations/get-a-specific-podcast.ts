@@ -16,8 +16,19 @@ export type GetASpecificPodcastRequest = {
   podcastId: number;
 };
 
+export type GetASpecificPodcastImages = {
+  tileSm?: string | undefined;
+  fullLg?: string | undefined;
+};
+
+export type SocialLinks = {
+  website?: string | undefined;
+  twitter?: string | undefined;
+};
+
 export type PlatformLinks = {
-  youtube?: string | undefined;
+  apple?: string | undefined;
+  spotify?: string | undefined;
 };
 
 export type GetASpecificPodcastData = {
@@ -27,18 +38,21 @@ export type GetASpecificPodcastData = {
   type?: string | undefined;
   description?: string | undefined;
   language?: string | undefined;
-  logoUrl?: string | null | undefined;
-  images?: string | null | undefined;
-  websiteUrl?: string | null | undefined;
-  rssFeedUrl?: string | null | undefined;
-  youtubeChannelId?: string | undefined;
-  socialLinks?: string | null | undefined;
+  logoUrl?: string | undefined;
+  images?: GetASpecificPodcastImages | undefined;
+  websiteUrl?: string | undefined;
+  rssFeedUrl?: string | undefined;
+  youtubeChannelId?: string | null | undefined;
+  socialLinks?: SocialLinks | undefined;
   platformLinks?: PlatformLinks | undefined;
   followerCount?: number | undefined;
-  subscriberCount?: string | null | undefined;
-  categories?: Array<any> | undefined;
+  subscriberCount?: number | undefined;
+  categories?: Array<string> | undefined;
 };
 
+/**
+ * Success
+ */
 export type GetASpecificPodcastResponseBody = {
   data?: GetASpecificPodcastData | undefined;
 };
@@ -77,11 +91,56 @@ export function getASpecificPodcastRequestToJSON(
 }
 
 /** @internal */
+export const GetASpecificPodcastImages$inboundSchema: z.ZodMiniType<
+  GetASpecificPodcastImages,
+  unknown
+> = z.pipe(
+  z.object({
+    tile_sm: types.optional(types.string()),
+    full_lg: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "tile_sm": "tileSm",
+      "full_lg": "fullLg",
+    });
+  }),
+);
+
+export function getASpecificPodcastImagesFromJSON(
+  jsonString: string,
+): SafeParseResult<GetASpecificPodcastImages, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetASpecificPodcastImages$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetASpecificPodcastImages' from JSON`,
+  );
+}
+
+/** @internal */
+export const SocialLinks$inboundSchema: z.ZodMiniType<SocialLinks, unknown> = z
+  .object({
+    website: types.optional(types.string()),
+    twitter: types.optional(types.string()),
+  });
+
+export function socialLinksFromJSON(
+  jsonString: string,
+): SafeParseResult<SocialLinks, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => SocialLinks$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'SocialLinks' from JSON`,
+  );
+}
+
+/** @internal */
 export const PlatformLinks$inboundSchema: z.ZodMiniType<
   PlatformLinks,
   unknown
 > = z.object({
-  youtube: types.optional(types.string()),
+  apple: types.optional(types.string()),
+  spotify: types.optional(types.string()),
 });
 
 export function platformLinksFromJSON(
@@ -106,16 +165,18 @@ export const GetASpecificPodcastData$inboundSchema: z.ZodMiniType<
     type: types.optional(types.string()),
     description: types.optional(types.string()),
     language: types.optional(types.string()),
-    logo_url: z.optional(z.nullable(types.string())),
-    images: z.optional(z.nullable(types.string())),
-    website_url: z.optional(z.nullable(types.string())),
-    rss_feed_url: z.optional(z.nullable(types.string())),
-    youtube_channel_id: types.optional(types.string()),
-    social_links: z.optional(z.nullable(types.string())),
+    logo_url: types.optional(types.string()),
+    images: types.optional(
+      z.lazy(() => GetASpecificPodcastImages$inboundSchema),
+    ),
+    website_url: types.optional(types.string()),
+    rss_feed_url: types.optional(types.string()),
+    youtube_channel_id: z.optional(z.nullable(types.string())),
+    social_links: types.optional(z.lazy(() => SocialLinks$inboundSchema)),
     platform_links: types.optional(z.lazy(() => PlatformLinks$inboundSchema)),
     follower_count: types.optional(types.number()),
-    subscriber_count: z.optional(z.nullable(types.string())),
-    categories: types.optional(z.array(z.any())),
+    subscriber_count: types.optional(types.number()),
+    categories: types.optional(z.array(types.string())),
   }),
   z.transform((v) => {
     return remap$(v, {

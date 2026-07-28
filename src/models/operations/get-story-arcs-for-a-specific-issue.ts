@@ -14,6 +14,14 @@ export type GetStoryArcsForASpecificIssueRequest = {
    * The ID of the issue.
    */
   issueId: number;
+  /**
+   * Optional case-insensitive search within these results.
+   */
+  q?: string | undefined;
+  /**
+   * Number of results per page (max 50).
+   */
+  limit?: number | undefined;
 };
 
 export type GetStoryArcsForASpecificIssueImages = {
@@ -56,6 +64,8 @@ export type GetStoryArcsForASpecificIssueResponse = {
 /** @internal */
 export type GetStoryArcsForASpecificIssueRequest$Outbound = {
   issue_id: number;
+  q?: string | undefined;
+  limit?: number | undefined;
 };
 
 /** @internal */
@@ -65,6 +75,8 @@ export const GetStoryArcsForASpecificIssueRequest$outboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     issueId: z.int(),
+    q: z.optional(z.string()),
+    limit: z.optional(z.int()),
   }),
   z.transform((v) => {
     return remap$(v, {

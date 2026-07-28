@@ -26,7 +26,8 @@ let value: ListTitlesData = {
   averageRating: 4.3,
   seriesCount: 25,
   issuesCount: 1450,
-  ageRating: "Teen",
+  contentRatingLabel: "15+",
+  minAge: 15,
   isNsfw: false,
 };
 ```
@@ -47,5 +48,6 @@ let value: ListTitlesData = {
 | `averageRating`                                                                | *number*                                                                       | :heavy_minus_sign:                                                             | N/A                                                                            | 4.3                                                                            |
 | `seriesCount`                                                                  | *number*                                                                       | :heavy_minus_sign:                                                             | N/A                                                                            | 25                                                                             |
 | `issuesCount`                                                                  | *number*                                                                       | :heavy_minus_sign:                                                             | N/A                                                                            | 1450                                                                           |
-| `ageRating`                                                                    | *string*                                                                       | :heavy_minus_sign:                                                             | N/A                                                                            | Teen                                                                           |
+| `contentRatingLabel`                                                           | *string*                                                                       | :heavy_minus_sign:                                                             | N/A                                                                            | 15+                                                                            |
+| `minAge`                                                                       | *number*                                                                       | :heavy_minus_sign:                                                             | N/A                                                                            | 15                                                                             |
 | `isNsfw`                                                                       | *boolean*                                                                      | :heavy_minus_sign:                                                             | N/A                                                                            | false                                                                          |

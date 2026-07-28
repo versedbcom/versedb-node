@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { VerseDBCore } from "../core.js";
-import { encodeSimple } from "../lib/encodings.js";
+import { encodeJSON, encodeSimple } from "../lib/encodings.js";
 import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * Add to wishlist.
  *
  * @remarks
- * Adds the issue to the authenticated user's wishlist. Idempotent — calling
+ * Adds the issue to the authenticated user's wishlist. Idempotent: calling
  * with an issue already on the wishlist returns 200 without creating a duplicate.
  */
 export function userAddToWishlist(
@@ -93,7 +93,7 @@ async function $do(
     return [parsed, { status: "invalid" }];
   }
   const payload = parsed.value;
-  const body = null;
+  const body = encodeJSON("body", payload.body, { explode: true });
 
   const pathParams = {
     issue_id: encodeSimple("issue_id", payload.issue_id, {
@@ -104,6 +104,7 @@ async function $do(
   const path = pathToFunc("/api/v1/issues/{issue_id}/wishlist")(pathParams);
 
   const headers = new Headers(compactMap({
+    "Content-Type": "application/json",
     Accept: "application/json",
   }));
 

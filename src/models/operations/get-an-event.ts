@@ -16,16 +16,41 @@ export type GetAnEventRequest = {
   eventId: number;
 };
 
+export type GetAnEventImages = {
+  tileSm?: string | undefined;
+  fullMd?: string | undefined;
+  fullLg?: string | undefined;
+};
+
+export type CreatorImages = {};
+
+export type GetAnEventCreator = {
+  id?: number | undefined;
+  name?: string | undefined;
+  slug?: string | undefined;
+  photoUrl?: string | undefined;
+  images?: CreatorImages | undefined;
+  country?: string | undefined;
+  appearanceTypes?: Array<string> | undefined;
+};
+
+export type GetAnEventUser = {
+  id?: number | undefined;
+  username?: string | undefined;
+  name?: string | undefined;
+  profileImageUrl?: string | undefined;
+  isPrivate?: boolean | undefined;
+};
+
 export type AttendeesPreview = {
   total?: number | undefined;
-  users?: Array<any> | undefined;
+  users?: Array<GetAnEventUser> | undefined;
 };
 
 export type GetAnEventData = {
   id?: number | undefined;
   slug?: string | undefined;
   name?: string | undefined;
-  description?: string | undefined;
   type?: string | undefined;
   startDate?: string | undefined;
   endDate?: string | undefined;
@@ -38,26 +63,29 @@ export type GetAnEventData = {
   region?: string | undefined;
   postalCode?: string | undefined;
   countryCode?: string | undefined;
-  latitude?: string | undefined;
-  longitude?: string | undefined;
+  latitude?: number | undefined;
+  longitude?: number | undefined;
   fullLocation?: string | undefined;
   googleMapsUrl?: string | undefined;
-  logoUrl?: string | null | undefined;
-  images?: string | null | undefined;
+  logoUrl?: string | undefined;
+  images?: GetAnEventImages | undefined;
   staticMapUrl?: string | undefined;
   eventUrl?: string | undefined;
-  ticketPriceMin?: string | null | undefined;
-  ticketPriceMax?: string | null | undefined;
-  ticketCurrency?: string | null | undefined;
-  ticketPrice?: string | null | undefined;
+  ticketPriceMin?: string | undefined;
+  ticketPriceMax?: string | undefined;
+  ticketCurrency?: string | undefined;
+  ticketPrice?: string | undefined;
   followerCount?: number | undefined;
-  creators?: Array<any> | undefined;
+  creators?: Array<GetAnEventCreator> | undefined;
   issues?: Array<any> | undefined;
   issueVariants?: Array<any> | undefined;
   attendeesPreview?: AttendeesPreview | undefined;
   relatedEvents?: Array<any> | undefined;
 };
 
+/**
+ * Success
+ */
 export type GetAnEventResponseBody = {
   data?: GetAnEventData | undefined;
 };
@@ -96,12 +124,119 @@ export function getAnEventRequestToJSON(
 }
 
 /** @internal */
+export const GetAnEventImages$inboundSchema: z.ZodMiniType<
+  GetAnEventImages,
+  unknown
+> = z.pipe(
+  z.object({
+    tile_sm: types.optional(types.string()),
+    full_md: types.optional(types.string()),
+    full_lg: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "tile_sm": "tileSm",
+      "full_md": "fullMd",
+      "full_lg": "fullLg",
+    });
+  }),
+);
+
+export function getAnEventImagesFromJSON(
+  jsonString: string,
+): SafeParseResult<GetAnEventImages, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetAnEventImages$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetAnEventImages' from JSON`,
+  );
+}
+
+/** @internal */
+export const CreatorImages$inboundSchema: z.ZodMiniType<
+  CreatorImages,
+  unknown
+> = z.object({});
+
+export function creatorImagesFromJSON(
+  jsonString: string,
+): SafeParseResult<CreatorImages, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => CreatorImages$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'CreatorImages' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetAnEventCreator$inboundSchema: z.ZodMiniType<
+  GetAnEventCreator,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.optional(types.number()),
+    name: types.optional(types.string()),
+    slug: types.optional(types.string()),
+    photo_url: types.optional(types.string()),
+    images: types.optional(z.lazy(() => CreatorImages$inboundSchema)),
+    country: types.optional(types.string()),
+    appearance_types: types.optional(z.array(types.string())),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "photo_url": "photoUrl",
+      "appearance_types": "appearanceTypes",
+    });
+  }),
+);
+
+export function getAnEventCreatorFromJSON(
+  jsonString: string,
+): SafeParseResult<GetAnEventCreator, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetAnEventCreator$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetAnEventCreator' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetAnEventUser$inboundSchema: z.ZodMiniType<
+  GetAnEventUser,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.optional(types.number()),
+    username: types.optional(types.string()),
+    name: types.optional(types.string()),
+    profile_image_url: types.optional(types.string()),
+    is_private: types.optional(types.boolean()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "profile_image_url": "profileImageUrl",
+      "is_private": "isPrivate",
+    });
+  }),
+);
+
+export function getAnEventUserFromJSON(
+  jsonString: string,
+): SafeParseResult<GetAnEventUser, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetAnEventUser$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetAnEventUser' from JSON`,
+  );
+}
+
+/** @internal */
 export const AttendeesPreview$inboundSchema: z.ZodMiniType<
   AttendeesPreview,
   unknown
 > = z.object({
   total: types.optional(types.number()),
-  users: types.optional(z.array(z.any())),
+  users: types.optional(z.array(z.lazy(() => GetAnEventUser$inboundSchema))),
 });
 
 export function attendeesPreviewFromJSON(
@@ -123,7 +258,6 @@ export const GetAnEventData$inboundSchema: z.ZodMiniType<
     id: types.optional(types.number()),
     slug: types.optional(types.string()),
     name: types.optional(types.string()),
-    description: types.optional(types.string()),
     type: types.optional(types.string()),
     start_date: types.optional(types.string()),
     end_date: types.optional(types.string()),
@@ -136,20 +270,22 @@ export const GetAnEventData$inboundSchema: z.ZodMiniType<
     region: types.optional(types.string()),
     postal_code: types.optional(types.string()),
     country_code: types.optional(types.string()),
-    latitude: types.optional(types.string()),
-    longitude: types.optional(types.string()),
+    latitude: types.optional(types.number()),
+    longitude: types.optional(types.number()),
     full_location: types.optional(types.string()),
     google_maps_url: types.optional(types.string()),
-    logo_url: z.optional(z.nullable(types.string())),
-    images: z.optional(z.nullable(types.string())),
+    logo_url: types.optional(types.string()),
+    images: types.optional(z.lazy(() => GetAnEventImages$inboundSchema)),
     static_map_url: types.optional(types.string()),
     event_url: types.optional(types.string()),
-    ticket_price_min: z.optional(z.nullable(types.string())),
-    ticket_price_max: z.optional(z.nullable(types.string())),
-    ticket_currency: z.optional(z.nullable(types.string())),
-    ticket_price: z.optional(z.nullable(types.string())),
+    ticket_price_min: types.optional(types.string()),
+    ticket_price_max: types.optional(types.string()),
+    ticket_currency: types.optional(types.string()),
+    ticket_price: types.optional(types.string()),
     follower_count: types.optional(types.number()),
-    creators: types.optional(z.array(z.any())),
+    creators: types.optional(
+      z.array(z.lazy(() => GetAnEventCreator$inboundSchema)),
+    ),
     issues: types.optional(z.array(z.any())),
     issue_variants: types.optional(z.array(z.any())),
     attendees_preview: types.optional(

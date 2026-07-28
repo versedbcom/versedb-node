@@ -15,14 +15,6 @@ export type ListCharactersRequest = {
    */
   q?: string | undefined;
   /**
-   * Sort field (name, created_at, updated_at).
-   */
-  sort?: string | undefined;
-  /**
-   * Sort direction (asc, desc).
-   */
-  direction?: string | undefined;
-  /**
    * Results per page (max 50).
    */
   limit?: number | undefined;
@@ -67,8 +59,6 @@ export type ListCharactersResponse = {
 /** @internal */
 export type ListCharactersRequest$Outbound = {
   q?: string | undefined;
-  sort?: string | undefined;
-  direction?: string | undefined;
   limit?: number | undefined;
 };
 
@@ -78,8 +68,6 @@ export const ListCharactersRequest$outboundSchema: z.ZodMiniType<
   ListCharactersRequest
 > = z.object({
   q: z.optional(z.string()),
-  sort: z.optional(z.string()),
-  direction: z.optional(z.string()),
   limit: z.optional(z.int()),
 });
 

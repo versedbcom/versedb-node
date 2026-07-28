@@ -31,7 +31,7 @@ let value: GetStoryArcsForASpecificIssueResponseBody = {
   meta: {
     currentPage: 1,
     lastPage: 1,
-    perPage: 15,
+    perPage: 20,
     total: 1,
   },
 };

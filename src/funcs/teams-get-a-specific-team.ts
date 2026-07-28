@@ -32,7 +32,7 @@ import { Result } from "../types/fp.js";
  *
  * @remarks
  * Returns team details without relationship data.
- * Use PRO endpoints for relationship data:
+ * Use the relationship endpoints for related data:
  * - /teams/{id}/characters - Get team members
  * - /teams/{id}/series - Get team's series appearances
  * - /teams/{id}/issues - Get team's issue appearances
@@ -45,6 +45,7 @@ export function teamsGetASpecificTeam(
   Result<
     operations.GetASpecificTeamResponse,
     | errors.GetASpecificTeamUnauthorizedError
+    | errors.GetASpecificTeamNotFoundError
     | errors.GetASpecificTeamTooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -72,6 +73,7 @@ async function $do(
     Result<
       operations.GetASpecificTeamResponse,
       | errors.GetASpecificTeamUnauthorizedError
+      | errors.GetASpecificTeamNotFoundError
       | errors.GetASpecificTeamTooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -162,6 +164,7 @@ async function $do(
   const [result] = await M.match<
     operations.GetASpecificTeamResponse,
     | errors.GetASpecificTeamUnauthorizedError
+    | errors.GetASpecificTeamNotFoundError
     | errors.GetASpecificTeamTooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -177,6 +180,7 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.GetASpecificTeamUnauthorizedError$inboundSchema),
+    M.jsonErr(404, errors.GetASpecificTeamNotFoundError$inboundSchema),
     M.jsonErr(429, errors.GetASpecificTeamTooManyRequestsError$inboundSchema, {
       hdrs: true,
     }),

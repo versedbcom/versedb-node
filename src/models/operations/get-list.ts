@@ -22,16 +22,41 @@ export type GetListUser = {
   name?: string | undefined;
 };
 
-export type GetListListable = {
+export type GetListVariant = {
   id?: number | undefined;
-  number?: string | undefined;
+  name?: string | undefined;
+  coverImageUrl?: string | undefined;
+};
+
+export type GetListSeries = {
+  id?: number | undefined;
+  name?: string | undefined;
+  slug?: string | undefined;
+  startYear?: number | undefined;
+};
+
+export type GetListEntity = {
+  id?: number | undefined;
+  slug?: string | undefined;
+  name?: string | undefined;
+  issueNumber?: string | undefined;
+  releaseDate?: string | undefined;
+  imageUrl?: string | undefined;
+  isNsfw?: boolean | undefined;
+  publisher?: string | undefined;
+  series?: GetListSeries | undefined;
 };
 
 export type GetListItem = {
   id?: number | undefined;
   position?: number | undefined;
   note?: string | undefined;
-  listable?: GetListListable | undefined;
+  createdAt?: string | undefined;
+  updatedAt?: string | undefined;
+  variantId?: number | undefined;
+  variant?: GetListVariant | undefined;
+  entityType?: string | undefined;
+  entity?: GetListEntity | undefined;
 };
 
 export type GetListData = {
@@ -104,32 +129,119 @@ export function getListUserFromJSON(
 }
 
 /** @internal */
-export const GetListListable$inboundSchema: z.ZodMiniType<
-  GetListListable,
+export const GetListVariant$inboundSchema: z.ZodMiniType<
+  GetListVariant,
   unknown
-> = z.object({
-  id: types.optional(types.number()),
-  number: types.optional(types.string()),
-});
+> = z.pipe(
+  z.object({
+    id: types.optional(types.number()),
+    name: types.optional(types.string()),
+    cover_image_url: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "cover_image_url": "coverImageUrl",
+    });
+  }),
+);
 
-export function getListListableFromJSON(
+export function getListVariantFromJSON(
   jsonString: string,
-): SafeParseResult<GetListListable, SDKValidationError> {
+): SafeParseResult<GetListVariant, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => GetListListable$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'GetListListable' from JSON`,
+    (x) => GetListVariant$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetListVariant' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetListSeries$inboundSchema: z.ZodMiniType<
+  GetListSeries,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.optional(types.number()),
+    name: types.optional(types.string()),
+    slug: types.optional(types.string()),
+    start_year: types.optional(types.number()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "start_year": "startYear",
+    });
+  }),
+);
+
+export function getListSeriesFromJSON(
+  jsonString: string,
+): SafeParseResult<GetListSeries, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetListSeries$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetListSeries' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetListEntity$inboundSchema: z.ZodMiniType<
+  GetListEntity,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.optional(types.number()),
+    slug: types.optional(types.string()),
+    name: types.optional(types.string()),
+    issue_number: types.optional(types.string()),
+    release_date: types.optional(types.string()),
+    image_url: types.optional(types.string()),
+    is_nsfw: types.optional(types.boolean()),
+    publisher: types.optional(types.string()),
+    series: types.optional(z.lazy(() => GetListSeries$inboundSchema)),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "issue_number": "issueNumber",
+      "release_date": "releaseDate",
+      "image_url": "imageUrl",
+      "is_nsfw": "isNsfw",
+    });
+  }),
+);
+
+export function getListEntityFromJSON(
+  jsonString: string,
+): SafeParseResult<GetListEntity, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetListEntity$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetListEntity' from JSON`,
   );
 }
 
 /** @internal */
 export const GetListItem$inboundSchema: z.ZodMiniType<GetListItem, unknown> = z
-  .object({
-    id: types.optional(types.number()),
-    position: types.optional(types.number()),
-    note: types.optional(types.string()),
-    listable: types.optional(z.lazy(() => GetListListable$inboundSchema)),
-  });
+  .pipe(
+    z.object({
+      id: types.optional(types.number()),
+      position: types.optional(types.number()),
+      note: types.optional(types.string()),
+      created_at: types.optional(types.string()),
+      updated_at: types.optional(types.string()),
+      variant_id: types.optional(types.number()),
+      variant: types.optional(z.lazy(() => GetListVariant$inboundSchema)),
+      entity_type: types.optional(types.string()),
+      entity: types.optional(z.lazy(() => GetListEntity$inboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+        "variant_id": "variantId",
+        "entity_type": "entityType",
+      });
+    }),
+  );
 
 export function getListItemFromJSON(
   jsonString: string,

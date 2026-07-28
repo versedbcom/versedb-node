@@ -12,7 +12,7 @@ import { SDKValidationError } from "../errors/sdk-validation-error.js";
 /**
  * Notification preferences.
  */
-export type FollowContentPreferences = {
+export type Preferences = {
   /**
    * Receive email notifications.
    */
@@ -35,7 +35,7 @@ export type FollowContentRequest = {
   /**
    * Notification preferences.
    */
-  preferences?: FollowContentPreferences | null | undefined;
+  preferences?: Preferences | null | undefined;
 };
 
 /**
@@ -52,15 +52,15 @@ export type FollowContentResponse = {
 };
 
 /** @internal */
-export type FollowContentPreferences$Outbound = {
+export type Preferences$Outbound = {
   email_notifications?: boolean | undefined;
   push_notifications?: boolean | undefined;
 };
 
 /** @internal */
-export const FollowContentPreferences$outboundSchema: z.ZodMiniType<
-  FollowContentPreferences$Outbound,
-  FollowContentPreferences
+export const Preferences$outboundSchema: z.ZodMiniType<
+  Preferences$Outbound,
+  Preferences
 > = z.pipe(
   z.object({
     emailNotifications: z.optional(z.boolean()),
@@ -74,19 +74,15 @@ export const FollowContentPreferences$outboundSchema: z.ZodMiniType<
   }),
 );
 
-export function followContentPreferencesToJSON(
-  followContentPreferences: FollowContentPreferences,
-): string {
-  return JSON.stringify(
-    FollowContentPreferences$outboundSchema.parse(followContentPreferences),
-  );
+export function preferencesToJSON(preferences: Preferences): string {
+  return JSON.stringify(Preferences$outboundSchema.parse(preferences));
 }
 
 /** @internal */
 export type FollowContentRequest$Outbound = {
   type: string;
   id: number;
-  preferences?: FollowContentPreferences$Outbound | null | undefined;
+  preferences?: Preferences$Outbound | null | undefined;
 };
 
 /** @internal */
@@ -96,9 +92,7 @@ export const FollowContentRequest$outboundSchema: z.ZodMiniType<
 > = z.object({
   type: z.string(),
   id: z.int(),
-  preferences: z.optional(
-    z.nullable(z.lazy(() => FollowContentPreferences$outboundSchema)),
-  ),
+  preferences: z.optional(z.nullable(z.lazy(() => Preferences$outboundSchema))),
 });
 
 export function followContentRequestToJSON(

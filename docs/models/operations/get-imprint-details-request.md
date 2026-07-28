@@ -6,7 +6,7 @@
 import { GetImprintDetailsRequest } from "@versedbcom/sdk/models/operations";
 
 let value: GetImprintDetailsRequest = {
-  imprintId: 16,
+  imprintId: 6,
 };
 ```
 
@@ -14,4 +14,4 @@ let value: GetImprintDetailsRequest = {
 
 | Field                  | Type                   | Required               | Description            | Example                |
 | ---------------------- | ---------------------- | ---------------------- | ---------------------- | ---------------------- |
-| `imprintId`            | *number*               | :heavy_check_mark:     | The ID of the imprint. | 16                     |
+| `imprintId`            | *number*               | :heavy_check_mark:     | The ID of the imprint. | 6                      |

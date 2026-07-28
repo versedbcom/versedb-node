@@ -7,8 +7,10 @@ const verseDB = new VerseDB({
 });
 
 async function run() {
-  const result = await verseDB.activity.getActivityFeed({
-    perPage: 20,
+  const result = await verseDB.titles.listTitles({
+    q: "spider-man",
+    publisher: 1,
+    limit: 20,
   });
 
   console.log(result);

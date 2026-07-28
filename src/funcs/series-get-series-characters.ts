@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * Get series characters.
  *
  * @remarks
- * Returns paginated characters appearing in a specific series. Requires PRO subscription.
+ * Returns paginated characters appearing in a specific series.
  */
 export function seriesGetSeriesCharacters(
   client: VerseDBCore,
@@ -41,7 +41,6 @@ export function seriesGetSeriesCharacters(
   Result<
     operations.GetSeriesCharactersResponse,
     | errors.GetSeriesCharactersUnauthorizedError
-    | errors.GetSeriesCharactersPaymentRequiredError
     | errors.GetSeriesCharactersTooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -69,7 +68,6 @@ async function $do(
     Result<
       operations.GetSeriesCharactersResponse,
       | errors.GetSeriesCharactersUnauthorizedError
-      | errors.GetSeriesCharactersPaymentRequiredError
       | errors.GetSeriesCharactersTooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -160,7 +158,6 @@ async function $do(
   const [result] = await M.match<
     operations.GetSeriesCharactersResponse,
     | errors.GetSeriesCharactersUnauthorizedError
-    | errors.GetSeriesCharactersPaymentRequiredError
     | errors.GetSeriesCharactersTooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -176,10 +173,6 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.GetSeriesCharactersUnauthorizedError$inboundSchema),
-    M.jsonErr(
-      402,
-      errors.GetSeriesCharactersPaymentRequiredError$inboundSchema,
-    ),
     M.jsonErr(
       429,
       errors.GetSeriesCharactersTooManyRequestsError$inboundSchema,

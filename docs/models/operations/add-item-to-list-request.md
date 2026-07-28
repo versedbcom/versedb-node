@@ -9,6 +9,8 @@ let value: AddItemToListRequest = {
   listId: 101,
   body: {
     entityId: 5432,
+    entityType: "issues",
+    variantId: 7,
     position: 1,
     note: "My favorite issue!",
   },

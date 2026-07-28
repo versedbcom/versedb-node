@@ -14,6 +14,14 @@ export type GetCharactersForASpecificTeammembersRequest = {
    * The ID of the team.
    */
   teamId: number;
+  /**
+   * Optional case-insensitive search within these results.
+   */
+  q?: string | undefined;
+  /**
+   * Number of results per page (max 50).
+   */
+  limit?: number | undefined;
 };
 
 export type GetCharactersForASpecificTeammembersImages = {
@@ -35,7 +43,6 @@ export type GetCharactersForASpecificTeammembersData = {
   publisherName?: string | undefined;
   pivotRole?: string | undefined;
   pivotJoinedDate?: string | undefined;
-  pivotIsSpoiler?: boolean | undefined;
 };
 
 export type GetCharactersForASpecificTeammembersMeta = {
@@ -61,6 +68,8 @@ export type GetCharactersForASpecificTeammembersResponse = {
 /** @internal */
 export type GetCharactersForASpecificTeammembersRequest$Outbound = {
   team_id: number;
+  q?: string | undefined;
+  limit?: number | undefined;
 };
 
 /** @internal */
@@ -71,6 +80,8 @@ export const GetCharactersForASpecificTeammembersRequest$outboundSchema:
   > = z.pipe(
     z.object({
       teamId: z.int(),
+      q: z.optional(z.string()),
+      limit: z.optional(z.int()),
     }),
     z.transform((v) => {
       return remap$(v, {
@@ -141,7 +152,6 @@ export const GetCharactersForASpecificTeammembersData$inboundSchema:
       publisher_name: types.optional(types.string()),
       pivot_role: types.optional(types.string()),
       pivot_joined_date: types.optional(types.string()),
-      pivot_is_spoiler: types.optional(types.boolean()),
     }),
     z.transform((v) => {
       return remap$(v, {
@@ -151,7 +161,6 @@ export const GetCharactersForASpecificTeammembersData$inboundSchema:
         "publisher_name": "publisherName",
         "pivot_role": "pivotRole",
         "pivot_joined_date": "pivotJoinedDate",
-        "pivot_is_spoiler": "pivotIsSpoiler",
       });
     }),
   );

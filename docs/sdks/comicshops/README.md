@@ -26,12 +26,8 @@ const verseDB = new VerseDB({
 
 async function run() {
   const result = await verseDB.comicShops.listComicShops({
-    latitude: 40.7128,
-    longitude: -74.006,
-    radius: 25,
     country: "US",
     state: "NY",
-    service: "pull_list",
     q: "manhattan",
     limit: 20,
   });
@@ -58,12 +54,8 @@ const verseDB = new VerseDBCore({
 
 async function run() {
   const res = await comicShopsListComicShops(verseDB, {
-    latitude: 40.7128,
-    longitude: -74.006,
-    radius: 25,
     country: "US",
     state: "NY",
-    service: "pull_list",
     q: "manhattan",
     limit: 20,
   });
@@ -171,5 +163,6 @@ run();
 | Error Type                               | Status Code                              | Content Type                             |
 | ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
 | errors.GetAComicShopUnauthorizedError    | 401                                      | application/json                         |
+| errors.GetAComicShopNotFoundError        | 404                                      | application/json                         |
 | errors.GetAComicShopTooManyRequestsError | 429                                      | application/json                         |
 | errors.VerseDbDefaultError               | 4XX, 5XX                                 | \*/\*                                    |

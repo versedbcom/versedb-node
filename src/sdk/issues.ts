@@ -53,7 +53,7 @@ export class Issues extends ClientSDK {
    * Get issue variants.
    *
    * @remarks
-   * Returns all variant covers for a specific issue. Requires PRO subscription.
+   * Returns all variant covers for a specific issue.
    */
   async getIssueVariants(
     request: operations.GetIssueVariantsRequest,
@@ -70,7 +70,7 @@ export class Issues extends ClientSDK {
    * Get variant details.
    *
    * @remarks
-   * Returns a specific variant cover with full details. Requires PRO subscription.
+   * Returns a specific variant cover with full details.
    */
   async getVariantDetails(
     request: operations.GetVariantDetailsRequest,
@@ -87,7 +87,7 @@ export class Issues extends ClientSDK {
    * Get issue creators.
    *
    * @remarks
-   * Returns paginated creators for a specific issue with their roles. Requires PRO subscription.
+   * Returns paginated creators for a specific issue with their roles.
    */
   async getIssueCreators(
     request: operations.GetIssueCreatorsRequest,
@@ -104,7 +104,7 @@ export class Issues extends ClientSDK {
    * Get issue characters.
    *
    * @remarks
-   * Returns paginated characters appearing in a specific issue. Requires PRO subscription.
+   * Returns paginated characters appearing in a specific issue.
    */
   async getIssueCharacters(
     request: operations.GetIssueCharactersRequest,
@@ -122,7 +122,6 @@ export class Issues extends ClientSDK {
    *
    * @remarks
    * Returns key issue reasons for a specific issue (e.g., "1st Appearance", "Death").
-   * Requires PRO subscription.
    */
   async getKeyIssueReasons(
     request: operations.GetKeyIssueReasonsRequest,

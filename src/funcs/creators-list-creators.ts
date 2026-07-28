@@ -96,10 +96,8 @@ async function $do(
   const path = pathToFunc("/api/v1/creators")();
 
   const query = encodeFormQuery({
-    "direction": payload?.direction,
     "limit": payload?.limit,
     "q": payload?.q,
-    "sort": payload?.sort,
   });
 
   const headers = new Headers(compactMap({

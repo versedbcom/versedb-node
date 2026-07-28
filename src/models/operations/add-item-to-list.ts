@@ -15,6 +15,14 @@ export type AddItemToListRequestBody = {
    */
   entityId: number;
   /**
+   * Required only for mixed lists: the type of the entity being added (issues, series, characters, creators, story_arcs, teams). Ignored on single-type lists.
+   */
+  entityType?: string | null | undefined;
+  /**
+   * Optional cover variant of the issue (issue items only, must belong to entity_id). Omit for "any cover".
+   */
+  variantId?: number | null | undefined;
+  /**
    * Position in list (auto-assigned if omitted).
    */
   position?: number | null | undefined;
@@ -32,21 +40,78 @@ export type AddItemToListRequest = {
   body: AddItemToListRequestBody;
 };
 
+export type AddItemToListConflictVariant = {
+  id?: number | undefined;
+  name?: string | undefined;
+  coverImageUrl?: string | undefined;
+};
+
+export type ConflictSeries = {
+  id?: number | undefined;
+  name?: string | undefined;
+  slug?: string | undefined;
+  startYear?: number | undefined;
+};
+
+export type ConflictEntity = {
+  id?: number | undefined;
+  slug?: string | undefined;
+  name?: string | undefined;
+  issueNumber?: string | undefined;
+  releaseDate?: string | undefined;
+  imageUrl?: string | undefined;
+  isNsfw?: boolean | undefined;
+  publisher?: string | undefined;
+  series?: ConflictSeries | undefined;
+};
+
 export type AddItemToListItem = {
   id?: number | undefined;
   position?: number | undefined;
+  note?: string | undefined;
+  createdAt?: string | undefined;
+  updatedAt?: string | undefined;
+  variantId?: number | undefined;
+  variant?: AddItemToListConflictVariant | undefined;
+  entityType?: string | undefined;
+  entity?: ConflictEntity | undefined;
 };
 
-export type AddItemToListListable = {
+export type AddItemToListDataVariant = {
   id?: number | undefined;
-  number?: string | undefined;
+  name?: string | undefined;
+  coverImageUrl?: string | undefined;
+};
+
+export type AddItemToListDataSeries = {
+  id?: number | undefined;
+  name?: string | undefined;
+  slug?: string | undefined;
+  startYear?: number | undefined;
+};
+
+export type AddItemToListDataEntity = {
+  id?: number | undefined;
+  slug?: string | undefined;
+  name?: string | undefined;
+  issueNumber?: string | undefined;
+  releaseDate?: string | undefined;
+  imageUrl?: string | undefined;
+  isNsfw?: boolean | undefined;
+  publisher?: string | undefined;
+  series?: AddItemToListDataSeries | undefined;
 };
 
 export type AddItemToListData = {
   id?: number | undefined;
   position?: number | undefined;
   note?: string | undefined;
-  listable?: AddItemToListListable | undefined;
+  createdAt?: string | undefined;
+  updatedAt?: string | undefined;
+  variantId?: number | undefined;
+  variant?: AddItemToListDataVariant | undefined;
+  entityType?: string | undefined;
+  entity?: AddItemToListDataEntity | undefined;
 };
 
 /**
@@ -64,6 +129,8 @@ export type AddItemToListResponse = {
 /** @internal */
 export type AddItemToListRequestBody$Outbound = {
   entity_id: number;
+  entity_type?: string | null | undefined;
+  variant_id?: number | null | undefined;
   position?: number | null | undefined;
   note?: string | null | undefined;
 };
@@ -75,12 +142,16 @@ export const AddItemToListRequestBody$outboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     entityId: z.int(),
+    entityType: z.optional(z.nullable(z.string())),
+    variantId: z.optional(z.nullable(z.int())),
     position: z.optional(z.nullable(z.int())),
     note: z.optional(z.nullable(z.string())),
   }),
   z.transform((v) => {
     return remap$(v, {
       entityId: "entity_id",
+      entityType: "entity_type",
+      variantId: "variant_id",
     });
   }),
 );
@@ -124,13 +195,123 @@ export function addItemToListRequestToJSON(
 }
 
 /** @internal */
+export const AddItemToListConflictVariant$inboundSchema: z.ZodMiniType<
+  AddItemToListConflictVariant,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.optional(types.number()),
+    name: types.optional(types.string()),
+    cover_image_url: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "cover_image_url": "coverImageUrl",
+    });
+  }),
+);
+
+export function addItemToListConflictVariantFromJSON(
+  jsonString: string,
+): SafeParseResult<AddItemToListConflictVariant, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => AddItemToListConflictVariant$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'AddItemToListConflictVariant' from JSON`,
+  );
+}
+
+/** @internal */
+export const ConflictSeries$inboundSchema: z.ZodMiniType<
+  ConflictSeries,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.optional(types.number()),
+    name: types.optional(types.string()),
+    slug: types.optional(types.string()),
+    start_year: types.optional(types.number()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "start_year": "startYear",
+    });
+  }),
+);
+
+export function conflictSeriesFromJSON(
+  jsonString: string,
+): SafeParseResult<ConflictSeries, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ConflictSeries$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ConflictSeries' from JSON`,
+  );
+}
+
+/** @internal */
+export const ConflictEntity$inboundSchema: z.ZodMiniType<
+  ConflictEntity,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.optional(types.number()),
+    slug: types.optional(types.string()),
+    name: types.optional(types.string()),
+    issue_number: types.optional(types.string()),
+    release_date: types.optional(types.string()),
+    image_url: types.optional(types.string()),
+    is_nsfw: types.optional(types.boolean()),
+    publisher: types.optional(types.string()),
+    series: types.optional(z.lazy(() => ConflictSeries$inboundSchema)),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "issue_number": "issueNumber",
+      "release_date": "releaseDate",
+      "image_url": "imageUrl",
+      "is_nsfw": "isNsfw",
+    });
+  }),
+);
+
+export function conflictEntityFromJSON(
+  jsonString: string,
+): SafeParseResult<ConflictEntity, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ConflictEntity$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ConflictEntity' from JSON`,
+  );
+}
+
+/** @internal */
 export const AddItemToListItem$inboundSchema: z.ZodMiniType<
   AddItemToListItem,
   unknown
-> = z.object({
-  id: types.optional(types.number()),
-  position: types.optional(types.number()),
-});
+> = z.pipe(
+  z.object({
+    id: types.optional(types.number()),
+    position: types.optional(types.number()),
+    note: types.optional(types.string()),
+    created_at: types.optional(types.string()),
+    updated_at: types.optional(types.string()),
+    variant_id: types.optional(types.number()),
+    variant: types.optional(
+      z.lazy(() => AddItemToListConflictVariant$inboundSchema),
+    ),
+    entity_type: types.optional(types.string()),
+    entity: types.optional(z.lazy(() => ConflictEntity$inboundSchema)),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "created_at": "createdAt",
+      "updated_at": "updatedAt",
+      "variant_id": "variantId",
+      "entity_type": "entityType",
+    });
+  }),
+);
 
 export function addItemToListItemFromJSON(
   jsonString: string,
@@ -143,21 +324,93 @@ export function addItemToListItemFromJSON(
 }
 
 /** @internal */
-export const AddItemToListListable$inboundSchema: z.ZodMiniType<
-  AddItemToListListable,
+export const AddItemToListDataVariant$inboundSchema: z.ZodMiniType<
+  AddItemToListDataVariant,
   unknown
-> = z.object({
-  id: types.optional(types.number()),
-  number: types.optional(types.string()),
-});
+> = z.pipe(
+  z.object({
+    id: types.optional(types.number()),
+    name: types.optional(types.string()),
+    cover_image_url: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "cover_image_url": "coverImageUrl",
+    });
+  }),
+);
 
-export function addItemToListListableFromJSON(
+export function addItemToListDataVariantFromJSON(
   jsonString: string,
-): SafeParseResult<AddItemToListListable, SDKValidationError> {
+): SafeParseResult<AddItemToListDataVariant, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => AddItemToListListable$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'AddItemToListListable' from JSON`,
+    (x) => AddItemToListDataVariant$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'AddItemToListDataVariant' from JSON`,
+  );
+}
+
+/** @internal */
+export const AddItemToListDataSeries$inboundSchema: z.ZodMiniType<
+  AddItemToListDataSeries,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.optional(types.number()),
+    name: types.optional(types.string()),
+    slug: types.optional(types.string()),
+    start_year: types.optional(types.number()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "start_year": "startYear",
+    });
+  }),
+);
+
+export function addItemToListDataSeriesFromJSON(
+  jsonString: string,
+): SafeParseResult<AddItemToListDataSeries, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => AddItemToListDataSeries$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'AddItemToListDataSeries' from JSON`,
+  );
+}
+
+/** @internal */
+export const AddItemToListDataEntity$inboundSchema: z.ZodMiniType<
+  AddItemToListDataEntity,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.optional(types.number()),
+    slug: types.optional(types.string()),
+    name: types.optional(types.string()),
+    issue_number: types.optional(types.string()),
+    release_date: types.optional(types.string()),
+    image_url: types.optional(types.string()),
+    is_nsfw: types.optional(types.boolean()),
+    publisher: types.optional(types.string()),
+    series: types.optional(z.lazy(() => AddItemToListDataSeries$inboundSchema)),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "issue_number": "issueNumber",
+      "release_date": "releaseDate",
+      "image_url": "imageUrl",
+      "is_nsfw": "isNsfw",
+    });
+  }),
+);
+
+export function addItemToListDataEntityFromJSON(
+  jsonString: string,
+): SafeParseResult<AddItemToListDataEntity, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => AddItemToListDataEntity$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'AddItemToListDataEntity' from JSON`,
   );
 }
 
@@ -165,12 +418,29 @@ export function addItemToListListableFromJSON(
 export const AddItemToListData$inboundSchema: z.ZodMiniType<
   AddItemToListData,
   unknown
-> = z.object({
-  id: types.optional(types.number()),
-  position: types.optional(types.number()),
-  note: types.optional(types.string()),
-  listable: types.optional(z.lazy(() => AddItemToListListable$inboundSchema)),
-});
+> = z.pipe(
+  z.object({
+    id: types.optional(types.number()),
+    position: types.optional(types.number()),
+    note: types.optional(types.string()),
+    created_at: types.optional(types.string()),
+    updated_at: types.optional(types.string()),
+    variant_id: types.optional(types.number()),
+    variant: types.optional(
+      z.lazy(() => AddItemToListDataVariant$inboundSchema),
+    ),
+    entity_type: types.optional(types.string()),
+    entity: types.optional(z.lazy(() => AddItemToListDataEntity$inboundSchema)),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "created_at": "createdAt",
+      "updated_at": "updatedAt",
+      "variant_id": "variantId",
+      "entity_type": "entityType",
+    });
+  }),
+);
 
 export function addItemToListDataFromJSON(
   jsonString: string,

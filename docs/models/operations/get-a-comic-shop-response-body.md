@@ -1,5 +1,7 @@
 # GetAComicShopResponseBody
 
+Success
+
 ## Example Usage
 
 ```typescript
@@ -7,27 +9,36 @@ import { GetAComicShopResponseBody } from "@versedbcom/sdk/models/operations";
 
 let value: GetAComicShopResponseBody = {
   data: {
-    id: 1,
-    name: "Turner-Terry Comics",
-    description:
-      "Et molestiae qui earum non vero iure quia. Recusandae qui est quos necessitatibus eveniet qui pariatur. Animi voluptas magni aut. Fuga explicabo sint ea rem cum consequatur dolorem.",
-    address: "91757 Stokes Tunnel",
-    city: "Kutchland",
-    stateProvince: "VT",
-    postalCode: "80263",
-    country: "United States",
-    phone: "786.543.2275",
-    website: null,
-    email: "aiyana38@example.net",
-    latitude: "44.55880280",
-    longitude: "-72.57784150",
-    fullAddress: "91757 Stokes Tunnel, Kutchland, VT, 80263, United States",
-    logoUrl: null,
-    images: null,
-    operatingHours: null,
-    services: [],
+    id: 42,
+    name: "Midtown Comics",
+    description: "Flagship comic shop in the heart of Manhattan.",
+    address: "200 W 40th St",
+    city: "New York",
+    stateProvince: "NY",
+    postalCode: "10018",
+    country: "US",
+    website: "https://www.midtowncomics.com",
+    fullAddress: "200 W 40th St, New York, NY 10018",
+    logoUrl:
+      "https://r2.versedb.com/uploads/shops/midtown-42/midtown-42-full_lg.webp",
+    images: {
+      tileSm:
+        "https://r2.versedb.com/uploads/shops/midtown-42/midtown-42-tile_sm.webp",
+      fullLg:
+        "https://r2.versedb.com/uploads/shops/midtown-42/midtown-42-full_lg.webp",
+    },
+    operatingHours: {
+      monday: "10am - 8pm",
+      saturday: "10am - 9pm",
+      sunday: "11am - 6pm",
+    },
+    services: [
+      "New Comics",
+      "Back Issues",
+      "Pull Lists",
+      "Grading",
+    ],
     events: [],
-    isFavorited: false,
   },
 };
 ```

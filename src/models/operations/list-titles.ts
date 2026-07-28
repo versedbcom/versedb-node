@@ -43,7 +43,8 @@ export type ListTitlesData = {
   averageRating?: number | undefined;
   seriesCount?: number | undefined;
   issuesCount?: number | undefined;
-  ageRating?: string | undefined;
+  contentRatingLabel?: string | undefined;
+  minAge?: number | undefined;
   isNsfw?: boolean | undefined;
 };
 
@@ -139,7 +140,8 @@ export const ListTitlesData$inboundSchema: z.ZodMiniType<
     average_rating: types.optional(types.number()),
     series_count: types.optional(types.number()),
     issues_count: types.optional(types.number()),
-    age_rating: types.optional(types.string()),
+    content_rating_label: types.optional(types.string()),
+    min_age: types.optional(types.number()),
     is_nsfw: types.optional(types.boolean()),
   }),
   z.transform((v) => {
@@ -150,7 +152,8 @@ export const ListTitlesData$inboundSchema: z.ZodMiniType<
       "average_rating": "averageRating",
       "series_count": "seriesCount",
       "issues_count": "issuesCount",
-      "age_rating": "ageRating",
+      "content_rating_label": "contentRatingLabel",
+      "min_age": "minAge",
       "is_nsfw": "isNsfw",
     });
   }),

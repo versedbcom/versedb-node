@@ -23,7 +23,7 @@ let value: GetIssuesForASpecificTeamResponseBody = {
   meta: {
     currentPage: 1,
     lastPage: 25,
-    perPage: 50,
+    perPage: 20,
     total: 1250,
   },
 };

@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * List all publishers with optional search
  *
  * @remarks
- * Returns: id, name, slug, founded_year, headquarters, status, logo_url
+ * Returns: id, name, founded_year, headquarters, status, logo_url
  */
 export function publishersListAllPublishersWithOptionalSearch(
   client: VerseDBCore,

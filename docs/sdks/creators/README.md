@@ -32,8 +32,6 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.creators.listCreators({
     q: "alan moore",
-    sort: "name",
-    direction: "asc",
     limit: 20,
   });
 
@@ -60,8 +58,6 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await creatorsListCreators(verseDB, {
     q: "alan moore",
-    sort: "name",
-    direction: "asc",
     limit: 20,
   });
   if (res.ok) {
@@ -267,6 +263,7 @@ async function run() {
   const result = await verseDB.creators.getCreatorsIssues({
     creatorId: 789,
     limit: 20,
+    q: "batman",
   });
 
   console.log(result);
@@ -293,6 +290,7 @@ async function run() {
   const res = await creatorsGetCreatorsIssues(verseDB, {
     creatorId: 789,
     limit: 20,
+    q: "batman",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -344,6 +342,7 @@ async function run() {
   const result = await verseDB.creators.getCreatorsSeries({
     creatorId: 789,
     limit: 20,
+    q: "batman",
   });
 
   console.log(result);
@@ -370,6 +369,7 @@ async function run() {
   const res = await creatorsGetCreatorsSeries(verseDB, {
     creatorId: 789,
     limit: 20,
+    q: "batman",
   });
   if (res.ok) {
     const { value: result } = res;

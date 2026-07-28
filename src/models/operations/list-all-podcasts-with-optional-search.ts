@@ -28,35 +28,39 @@ export type ListAllPodcastsWithOptionalSearchRequest = {
   limit?: number | undefined;
 };
 
-export type ListAllPodcastsWithOptionalSearchLinks = {
-  first?: string | undefined;
-  last?: string | undefined;
-  prev?: string | null | undefined;
-  next?: string | null | undefined;
+export type ListAllPodcastsWithOptionalSearchImages = {
+  tileSm?: string | undefined;
+  fullLg?: string | undefined;
 };
 
-export type ListAllPodcastsWithOptionalSearchLink = {
-  url?: string | null | undefined;
-  label?: string | undefined;
-  page?: string | null | undefined;
-  active?: boolean | undefined;
+export type ListAllPodcastsWithOptionalSearchData = {
+  id?: number | undefined;
+  name?: string | undefined;
+  slug?: string | undefined;
+  type?: string | undefined;
+  description?: string | undefined;
+  language?: string | undefined;
+  logoUrl?: string | undefined;
+  images?: ListAllPodcastsWithOptionalSearchImages | undefined;
+  followerCount?: number | undefined;
+  subscriberCount?: number | undefined;
+  categories?: Array<string> | undefined;
 };
 
 export type ListAllPodcastsWithOptionalSearchMeta = {
   currentPage?: number | undefined;
-  from?: string | null | undefined;
   lastPage?: number | undefined;
-  links?: Array<ListAllPodcastsWithOptionalSearchLink> | undefined;
-  path?: string | undefined;
   perPage?: number | undefined;
-  to?: string | null | undefined;
   total?: number | undefined;
 };
 
+/**
+ * Success
+ */
 export type ListAllPodcastsWithOptionalSearchResponseBody = {
-  data?: Array<any> | undefined;
-  links?: ListAllPodcastsWithOptionalSearchLinks | undefined;
+  data?: Array<ListAllPodcastsWithOptionalSearchData> | undefined;
   meta?: ListAllPodcastsWithOptionalSearchMeta | undefined;
+  languages?: Array<string> | undefined;
 };
 
 export type ListAllPodcastsWithOptionalSearchResponse = {
@@ -96,44 +100,73 @@ export function listAllPodcastsWithOptionalSearchRequestToJSON(
 }
 
 /** @internal */
-export const ListAllPodcastsWithOptionalSearchLinks$inboundSchema:
-  z.ZodMiniType<ListAllPodcastsWithOptionalSearchLinks, unknown> = z.object({
-    first: types.optional(types.string()),
-    last: types.optional(types.string()),
-    prev: z.optional(z.nullable(types.string())),
-    next: z.optional(z.nullable(types.string())),
-  });
+export const ListAllPodcastsWithOptionalSearchImages$inboundSchema:
+  z.ZodMiniType<ListAllPodcastsWithOptionalSearchImages, unknown> = z.pipe(
+    z.object({
+      tile_sm: types.optional(types.string()),
+      full_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "tile_sm": "tileSm",
+        "full_lg": "fullLg",
+      });
+    }),
+  );
 
-export function listAllPodcastsWithOptionalSearchLinksFromJSON(
+export function listAllPodcastsWithOptionalSearchImagesFromJSON(
   jsonString: string,
-): SafeParseResult<ListAllPodcastsWithOptionalSearchLinks, SDKValidationError> {
+): SafeParseResult<
+  ListAllPodcastsWithOptionalSearchImages,
+  SDKValidationError
+> {
   return safeParse(
     jsonString,
     (x) =>
-      ListAllPodcastsWithOptionalSearchLinks$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ListAllPodcastsWithOptionalSearchLinks' from JSON`,
+      ListAllPodcastsWithOptionalSearchImages$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'ListAllPodcastsWithOptionalSearchImages' from JSON`,
   );
 }
 
 /** @internal */
-export const ListAllPodcastsWithOptionalSearchLink$inboundSchema: z.ZodMiniType<
-  ListAllPodcastsWithOptionalSearchLink,
+export const ListAllPodcastsWithOptionalSearchData$inboundSchema: z.ZodMiniType<
+  ListAllPodcastsWithOptionalSearchData,
   unknown
-> = z.object({
-  url: z.optional(z.nullable(types.string())),
-  label: types.optional(types.string()),
-  page: z.optional(z.nullable(types.string())),
-  active: types.optional(types.boolean()),
-});
+> = z.pipe(
+  z.object({
+    id: types.optional(types.number()),
+    name: types.optional(types.string()),
+    slug: types.optional(types.string()),
+    type: types.optional(types.string()),
+    description: types.optional(types.string()),
+    language: types.optional(types.string()),
+    logo_url: types.optional(types.string()),
+    images: types.optional(
+      z.lazy(() => ListAllPodcastsWithOptionalSearchImages$inboundSchema),
+    ),
+    follower_count: types.optional(types.number()),
+    subscriber_count: types.optional(types.number()),
+    categories: types.optional(z.array(types.string())),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "logo_url": "logoUrl",
+      "follower_count": "followerCount",
+      "subscriber_count": "subscriberCount",
+    });
+  }),
+);
 
-export function listAllPodcastsWithOptionalSearchLinkFromJSON(
+export function listAllPodcastsWithOptionalSearchDataFromJSON(
   jsonString: string,
-): SafeParseResult<ListAllPodcastsWithOptionalSearchLink, SDKValidationError> {
+): SafeParseResult<ListAllPodcastsWithOptionalSearchData, SDKValidationError> {
   return safeParse(
     jsonString,
     (x) =>
-      ListAllPodcastsWithOptionalSearchLink$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ListAllPodcastsWithOptionalSearchLink' from JSON`,
+      ListAllPodcastsWithOptionalSearchData$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListAllPodcastsWithOptionalSearchData' from JSON`,
   );
 }
 
@@ -144,16 +177,8 @@ export const ListAllPodcastsWithOptionalSearchMeta$inboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     current_page: types.optional(types.number()),
-    from: z.optional(z.nullable(types.string())),
     last_page: types.optional(types.number()),
-    links: types.optional(
-      z.array(
-        z.lazy(() => ListAllPodcastsWithOptionalSearchLink$inboundSchema),
-      ),
-    ),
-    path: types.optional(types.string()),
     per_page: types.optional(types.number()),
-    to: z.optional(z.nullable(types.string())),
     total: types.optional(types.number()),
   }),
   z.transform((v) => {
@@ -180,13 +205,15 @@ export function listAllPodcastsWithOptionalSearchMetaFromJSON(
 export const ListAllPodcastsWithOptionalSearchResponseBody$inboundSchema:
   z.ZodMiniType<ListAllPodcastsWithOptionalSearchResponseBody, unknown> = z
     .object({
-      data: types.optional(z.array(z.any())),
-      links: types.optional(
-        z.lazy(() => ListAllPodcastsWithOptionalSearchLinks$inboundSchema),
+      data: types.optional(
+        z.array(
+          z.lazy(() => ListAllPodcastsWithOptionalSearchData$inboundSchema),
+        ),
       ),
       meta: types.optional(
         z.lazy(() => ListAllPodcastsWithOptionalSearchMeta$inboundSchema),
       ),
+      languages: types.optional(z.array(types.string())),
     });
 
 export function listAllPodcastsWithOptionalSearchResponseBodyFromJSON(

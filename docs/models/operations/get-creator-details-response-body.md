@@ -16,6 +16,16 @@ let value: GetCreatorDetailsResponseBody = {
       id: 1,
       name: "Writer",
     },
+    roles: [
+      {
+        id: 1,
+        name: "Writer",
+      },
+      {
+        id: 2,
+        name: "Artist",
+      },
+    ],
     photoUrl: "https://...-full_lg.webp",
     images: {
       tileSm: "https://...-tile_sm.webp",

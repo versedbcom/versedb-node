@@ -8,7 +8,7 @@ import { GetIssuesForASpecificTeamMeta } from "@versedbcom/sdk/models/operations
 let value: GetIssuesForASpecificTeamMeta = {
   currentPage: 1,
   lastPage: 25,
-  perPage: 50,
+  perPage: 20,
   total: 1250,
 };
 ```
@@ -19,5 +19,5 @@ let value: GetIssuesForASpecificTeamMeta = {
 | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
 | `currentPage`      | *number*           | :heavy_minus_sign: | N/A                | 1                  |
 | `lastPage`         | *number*           | :heavy_minus_sign: | N/A                | 25                 |
-| `perPage`          | *number*           | :heavy_minus_sign: | N/A                | 50                 |
+| `perPage`          | *number*           | :heavy_minus_sign: | N/A                | 20                 |
 | `total`            | *number*           | :heavy_minus_sign: | N/A                | 1250               |

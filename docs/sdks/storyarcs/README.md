@@ -178,8 +178,7 @@ run();
 
 ## getStoryArcsForASpecificIssue
 
-Requires PRO subscription on the User API (`/api/...`). Returns 402 Payment Required for non-PRO users on that prefix.
-The Mobile API (`/mobile/api/...`) is unrestricted — its route group does not apply the `pro.api` middleware.
+Get story arcs for a specific issue
 
 ### Example Usage
 
@@ -194,6 +193,8 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.storyArcs.getStoryArcsForASpecificIssue({
     issueId: 3,
+    q: "batman",
+    limit: 20,
   });
 
   console.log(result);
@@ -219,6 +220,8 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await storyArcsGetStoryArcsForASpecificIssue(verseDB, {
     issueId: 3,
+    q: "batman",
+    limit: 20,
   });
   if (res.ok) {
     const { value: result } = res;
@@ -249,14 +252,12 @@ run();
 | Error Type                                               | Status Code                                              | Content Type                                             |
 | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
 | errors.GetStoryArcsForASpecificIssueUnauthorizedError    | 401                                                      | application/json                                         |
-| errors.GetStoryArcsForASpecificIssuePaymentRequiredError | 402                                                      | application/json                                         |
 | errors.GetStoryArcsForASpecificIssueTooManyRequestsError | 429                                                      | application/json                                         |
 | errors.VerseDbDefaultError                               | 4XX, 5XX                                                 | \*/\*                                                    |
 
 ## getStoryArcsForASpecificCharacter
 
-Requires PRO subscription on the User API (`/api/...`). Returns 402 Payment Required for non-PRO users on that prefix.
-The Mobile API (`/mobile/api/...`) is unrestricted — its route group does not apply the `pro.api` middleware.
+Get story arcs for a specific character
 
 ### Example Usage
 
@@ -271,6 +272,8 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.storyArcs.getStoryArcsForASpecificCharacter({
     characterId: 16,
+    q: "batman",
+    limit: 20,
   });
 
   console.log(result);
@@ -296,6 +299,8 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await storyArcsGetStoryArcsForASpecificCharacter(verseDB, {
     characterId: 16,
+    q: "batman",
+    limit: 20,
   });
   if (res.ok) {
     const { value: result } = res;
@@ -326,14 +331,12 @@ run();
 | Error Type                                                   | Status Code                                                  | Content Type                                                 |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | errors.GetStoryArcsForASpecificCharacterUnauthorizedError    | 401                                                          | application/json                                             |
-| errors.GetStoryArcsForASpecificCharacterPaymentRequiredError | 402                                                          | application/json                                             |
 | errors.GetStoryArcsForASpecificCharacterTooManyRequestsError | 429                                                          | application/json                                             |
 | errors.VerseDbDefaultError                                   | 4XX, 5XX                                                     | \*/\*                                                        |
 
 ## getStoryArcsForASpecificUniverse
 
-Requires PRO subscription on the User API (`/api/...`). Returns 402 Payment Required for non-PRO users on that prefix.
-The Mobile API (`/mobile/api/...`) is unrestricted — its route group does not apply the `pro.api` middleware.
+Get story arcs for a specific universe
 
 ### Example Usage
 
@@ -348,6 +351,8 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.storyArcs.getStoryArcsForASpecificUniverse({
     universeId: 16,
+    q: "batman",
+    limit: 20,
   });
 
   console.log(result);
@@ -373,6 +378,8 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await storyArcsGetStoryArcsForASpecificUniverse(verseDB, {
     universeId: 16,
+    q: "batman",
+    limit: 20,
   });
   if (res.ok) {
     const { value: result } = res;
@@ -403,6 +410,5 @@ run();
 | Error Type                                                  | Status Code                                                 | Content Type                                                |
 | ----------------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------- |
 | errors.GetStoryArcsForASpecificUniverseUnauthorizedError    | 401                                                         | application/json                                            |
-| errors.GetStoryArcsForASpecificUniversePaymentRequiredError | 402                                                         | application/json                                            |
 | errors.GetStoryArcsForASpecificUniverseTooManyRequestsError | 429                                                         | application/json                                            |
 | errors.VerseDbDefaultError                                  | 4XX, 5XX                                                    | \*/\*                                                       |

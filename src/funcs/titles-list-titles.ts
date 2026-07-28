@@ -32,7 +32,7 @@ import { Result } from "../types/fp.js";
  *
  * @remarks
  * Returns: id, name, slug, start_year, end_year, status, type, image_url,
- * age_rating, is_nsfw, series_count, issues_count,
+ * content_rating_label, min_age, is_nsfw, series_count, issues_count,
  * average_rating, total_reviews
  */
 export function titlesListTitles(

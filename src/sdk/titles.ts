@@ -14,7 +14,7 @@ export class Titles extends ClientSDK {
    *
    * @remarks
    * Returns: id, name, slug, start_year, end_year, status, type, image_url,
-   * age_rating, is_nsfw, series_count, issues_count,
+   * content_rating_label, min_age, is_nsfw, series_count, issues_count,
    * average_rating, total_reviews
    */
   async listTitles(
@@ -33,7 +33,7 @@ export class Titles extends ClientSDK {
    *
    * @remarks
    * Returns: id, name, slug, description, start_year, end_year, status, type,
-   * image_url, age_rating, is_nsfw, imprint_id, series_count,
+   * image_url, content_rating_label, min_age, is_nsfw, imprint_id, series_count,
    * issues_count, average_rating, total_reviews, aliases
    *
    * Use relationship endpoints for richer data:

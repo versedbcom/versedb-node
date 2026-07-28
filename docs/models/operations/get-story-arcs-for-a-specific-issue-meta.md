@@ -8,7 +8,7 @@ import { GetStoryArcsForASpecificIssueMeta } from "@versedbcom/sdk/models/operat
 let value: GetStoryArcsForASpecificIssueMeta = {
   currentPage: 1,
   lastPage: 1,
-  perPage: 15,
+  perPage: 20,
   total: 1,
 };
 ```
@@ -19,5 +19,5 @@ let value: GetStoryArcsForASpecificIssueMeta = {
 | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
 | `currentPage`      | *number*           | :heavy_minus_sign: | N/A                | 1                  |
 | `lastPage`         | *number*           | :heavy_minus_sign: | N/A                | 1                  |
-| `perPage`          | *number*           | :heavy_minus_sign: | N/A                | 15                 |
+| `perPage`          | *number*           | :heavy_minus_sign: | N/A                | 20                 |
 | `total`            | *number*           | :heavy_minus_sign: | N/A                | 1                  |

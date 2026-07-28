@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * Get variant details.
  *
  * @remarks
- * Returns a specific variant cover with full details. Requires PRO subscription.
+ * Returns a specific variant cover with full details.
  */
 export function issuesGetVariantDetails(
   client: VerseDBCore,
@@ -41,7 +41,6 @@ export function issuesGetVariantDetails(
   Result<
     operations.GetVariantDetailsResponse,
     | errors.GetVariantDetailsUnauthorizedError
-    | errors.GetVariantDetailsPaymentRequiredError
     | errors.GetVariantDetailsNotFoundError
     | errors.GetVariantDetailsTooManyRequestsError
     | VerseDbError
@@ -70,7 +69,6 @@ async function $do(
     Result<
       operations.GetVariantDetailsResponse,
       | errors.GetVariantDetailsUnauthorizedError
-      | errors.GetVariantDetailsPaymentRequiredError
       | errors.GetVariantDetailsNotFoundError
       | errors.GetVariantDetailsTooManyRequestsError
       | VerseDbError
@@ -168,7 +166,6 @@ async function $do(
   const [result] = await M.match<
     operations.GetVariantDetailsResponse,
     | errors.GetVariantDetailsUnauthorizedError
-    | errors.GetVariantDetailsPaymentRequiredError
     | errors.GetVariantDetailsNotFoundError
     | errors.GetVariantDetailsTooManyRequestsError
     | VerseDbError
@@ -185,7 +182,6 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.GetVariantDetailsUnauthorizedError$inboundSchema),
-    M.jsonErr(402, errors.GetVariantDetailsPaymentRequiredError$inboundSchema),
     M.jsonErr(404, errors.GetVariantDetailsNotFoundError$inboundSchema),
     M.jsonErr(429, errors.GetVariantDetailsTooManyRequestsError$inboundSchema, {
       hdrs: true,

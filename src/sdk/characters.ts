@@ -53,9 +53,6 @@ export class Characters extends ClientSDK {
    *
    * @remarks
    * Returns paginated series where the character appears.
-   *
-   * Requires PRO subscription on the User API (`/api/...`). Returns 402 Payment Required for non-PRO users on that prefix.
-   * The Mobile API (`/mobile/api/...`) is unrestricted — its route group does not apply the `pro.api` middleware.
    */
   async getCharacterSeries(
     request: operations.GetCharacterSeriesRequest,
@@ -73,9 +70,6 @@ export class Characters extends ClientSDK {
    *
    * @remarks
    * Returns paginated issues where the character appears, ordered by release date.
-   *
-   * Requires PRO subscription on the User API (`/api/...`). Returns 402 Payment Required for non-PRO users on that prefix.
-   * The Mobile API (`/mobile/api/...`) is unrestricted — its route group does not apply the `pro.api` middleware.
    */
   async getCharacterIssues(
     request: operations.GetCharacterIssuesRequest,
@@ -93,9 +87,6 @@ export class Characters extends ClientSDK {
    *
    * @remarks
    * Returns paginated teams the character is a member of, including membership details.
-   *
-   * Requires PRO subscription on the User API (`/api/...`). Returns 402 Payment Required for non-PRO users on that prefix.
-   * The Mobile API (`/mobile/api/...`) is unrestricted — its route group does not apply the `pro.api` middleware.
    */
   async getCharacterTeams(
     request: operations.GetCharacterTeamsRequest,

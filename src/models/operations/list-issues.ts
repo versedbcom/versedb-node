@@ -35,7 +35,7 @@ export type ListIssuesRequest = {
    */
   include?: string | undefined;
   /**
-   * Sort field (issue_number, release_date, created_at, name).
+   * Sort field (issue_number, release_date, name).
    */
   sort?: string | undefined;
   /**
@@ -57,7 +57,8 @@ export type ListIssuesData = {
   releaseDate?: string | undefined;
   coverUrl?: string | undefined;
   isReprint?: boolean | undefined;
-  ageRating?: string | undefined;
+  contentRatingLabel?: string | undefined;
+  minAge?: number | undefined;
   isNsfw?: boolean | undefined;
 };
 
@@ -142,7 +143,8 @@ export const ListIssuesData$inboundSchema: z.ZodMiniType<
     release_date: types.optional(types.string()),
     cover_url: types.optional(types.string()),
     is_reprint: types.optional(types.boolean()),
-    age_rating: types.optional(types.string()),
+    content_rating_label: types.optional(types.string()),
+    min_age: types.optional(types.number()),
     is_nsfw: types.optional(types.boolean()),
   }),
   z.transform((v) => {
@@ -152,7 +154,8 @@ export const ListIssuesData$inboundSchema: z.ZodMiniType<
       "release_date": "releaseDate",
       "cover_url": "coverUrl",
       "is_reprint": "isReprint",
-      "age_rating": "ageRating",
+      "content_rating_label": "contentRatingLabel",
+      "min_age": "minAge",
       "is_nsfw": "isNsfw",
     });
   }),

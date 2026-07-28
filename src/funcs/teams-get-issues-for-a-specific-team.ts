@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { VerseDBCore } from "../core.js";
-import { encodeSimple } from "../lib/encodings.js";
+import { encodeFormQuery, encodeSimple } from "../lib/encodings.js";
 import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
@@ -29,11 +29,6 @@ import { Result } from "../types/fp.js";
 
 /**
  * Get issues for a specific team
- *
- * @remarks
- * On the User API (routes/api/data.php), this route is gated by the `pro.api` middleware and returns
- * 402 Payment Required for non-PRO users. The mobile API exposes it without
- * that gate.
  */
 export function teamsGetIssuesForASpecificTeam(
   client: VerseDBCore,
@@ -106,6 +101,11 @@ async function $do(
   };
   const path = pathToFunc("/api/v1/teams/{team_id}/issues")(pathParams);
 
+  const query = encodeFormQuery({
+    "limit": payload.limit,
+    "q": payload.q,
+  });
+
   const headers = new Headers(compactMap({
     Accept: "application/json",
   }));
@@ -135,6 +135,7 @@ async function $do(
     baseURL: options?.serverURL,
     path: path,
     headers: headers,
+    query: query,
     body: body,
     userAgent: client._options.userAgent,
     timeoutMs: options?.timeoutMs || client._options.timeoutMs || -1,

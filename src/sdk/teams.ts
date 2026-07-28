@@ -31,7 +31,7 @@ export class Teams extends ClientSDK {
    *
    * @remarks
    * Returns team details without relationship data.
-   * Use PRO endpoints for relationship data:
+   * Use the relationship endpoints for related data:
    * - /teams/{id}/characters - Get team members
    * - /teams/{id}/series - Get team's series appearances
    * - /teams/{id}/issues - Get team's issue appearances
@@ -49,11 +49,6 @@ export class Teams extends ClientSDK {
 
   /**
    * Get characters for a specific team (members)
-   *
-   * @remarks
-   * On the User API (routes/api/data.php), this route is gated by the `pro.api` middleware and returns
-   * 402 Payment Required for non-PRO users. The mobile API exposes it without
-   * that gate.
    */
   async getCharactersForASpecificTeammembers(
     request: operations.GetCharactersForASpecificTeammembersRequest,
@@ -68,11 +63,6 @@ export class Teams extends ClientSDK {
 
   /**
    * Get series for a specific team
-   *
-   * @remarks
-   * On the User API (routes/api/data.php), this route is gated by the `pro.api` middleware and returns
-   * 402 Payment Required for non-PRO users. The mobile API exposes it without
-   * that gate.
    */
   async getSeriesForASpecificTeam(
     request: operations.GetSeriesForASpecificTeamRequest,
@@ -87,11 +77,6 @@ export class Teams extends ClientSDK {
 
   /**
    * Get issues for a specific team
-   *
-   * @remarks
-   * On the User API (routes/api/data.php), this route is gated by the `pro.api` middleware and returns
-   * 402 Payment Required for non-PRO users. The mobile API exposes it without
-   * that gate.
    */
   async getIssuesForASpecificTeam(
     request: operations.GetIssuesForASpecificTeamRequest,
