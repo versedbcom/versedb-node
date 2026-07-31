@@ -6,9 +6,9 @@
 import { OperatingHours } from "@versedbcom/sdk/models/operations";
 
 let value: OperatingHours = {
-  monday: "10am - 8pm",
-  saturday: "10am - 9pm",
-  sunday: "11am - 6pm",
+  monday: "10:00-20:00",
+  saturday: "10:00-21:00",
+  sunday: "closed",
 };
 ```
 
@@ -16,6 +16,6 @@ let value: OperatingHours = {
 
 | Field              | Type               | Required           | Description        | Example            |
 | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
-| `monday`           | *string*           | :heavy_minus_sign: | N/A                | 10am - 8pm         |
-| `saturday`         | *string*           | :heavy_minus_sign: | N/A                | 10am - 9pm         |
-| `sunday`           | *string*           | :heavy_minus_sign: | N/A                | 11am - 6pm         |
+| `monday`           | *string*           | :heavy_minus_sign: | N/A                | 10:00-20:00        |
+| `saturday`         | *string*           | :heavy_minus_sign: | N/A                | 10:00-21:00        |
+| `sunday`           | *string*           | :heavy_minus_sign: | N/A                | closed             |

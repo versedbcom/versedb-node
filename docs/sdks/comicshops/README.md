@@ -95,6 +95,11 @@ run();
 
 Returns full shop details including services offered.
 
+`operating_hours` is keyed Monday-first by lowercase day name. Each value is
+either `closed` or one or more 24-hour `HH:MM-HH:MM` ranges joined by commas
+(a split shift reads `09:00-13:00,15:00-19:00`). A day missing from the map
+has unknown hours — that is not the same as the shop being closed that day.
+
 ### Example Usage
 
 <!-- UsageSnippet language="typescript" operationID="getAComicShop" method="get" path="/api/v1/shops/{shop_id}" -->

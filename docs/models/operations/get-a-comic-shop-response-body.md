@@ -28,9 +28,9 @@ let value: GetAComicShopResponseBody = {
         "https://r2.versedb.com/uploads/shops/midtown-42/midtown-42-full_lg.webp",
     },
     operatingHours: {
-      monday: "10am - 8pm",
-      saturday: "10am - 9pm",
-      sunday: "11am - 6pm",
+      monday: "10:00-20:00",
+      saturday: "10:00-21:00",
+      sunday: "closed",
     },
     services: [
       "New Comics",

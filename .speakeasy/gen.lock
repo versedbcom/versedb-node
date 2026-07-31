@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: d54ae284-e171-41f5-99d0-d4027d6f02b4
 management:
-  docChecksum: d54b1e090a923d641fd11e56347e41af
+  docChecksum: d06e4408c7abd5f802aab9aae558bf8d
   docVersion: 1.0.0
   speakeasyVersion: 1.791.0
   generationVersion: 2.924.0
-  releaseVersion: 2.0.3
-  configChecksum: 2edecb812da5465fa034d6e1d18b7cad
+  releaseVersion: 2.0.4
+  configChecksum: 81c556743c5b4f087019b0e99ce5ae97
   repoURL: https://github.com/versedbcom/versedb-node.git
   installationURL: https://github.com/versedbcom/versedb-node
   published: true
 persistentEdits:
-  generation_id: 7354d7d2-4d34-4bf4-9d99-0eac0ac1dc21
-  pristine_commit_hash: d44419437fedaeff983f3cadaac05cbd446d65b8
-  pristine_tree_hash: 3820180933d0d89157586c2684320569553f1173
+  generation_id: 80fc889b-0e19-442f-ad3a-bfa7bfcbd2ac
+  pristine_commit_hash: 65b321036b256b853b09b450be4d01b553dfc8cf
+  pristine_tree_hash: 2f5bac565a26f74a16458c59b25794f28418ca37
 features:
   typescript:
     additionalDependencies: 0.1.0
@@ -664,8 +664,8 @@ trackedFiles:
     pristine_git_object: d7af42be60676cc3af51e2f2a8cfef2488855f14
   docs/models/operations/get-a-comic-shop-data.md:
     id: 55357c15891a
-    last_write_checksum: sha1:b30ba7b84d8ab97a8e8889e97b8b2cbeecbec6b1
-    pristine_git_object: a1819ec5c71a3cc700c1305e66a95227b8dccf38
+    last_write_checksum: sha1:49fd6533a9b363e2d6824d4a75b1b8082baf73a4
+    pristine_git_object: e71472ccb283cce412af615c78a1ec36dc869dea
   docs/models/operations/get-a-comic-shop-images.md:
     id: fb2454b30d82
     last_write_checksum: sha1:9f94aec50683b517965ed33fcc8b2df0d9692289
@@ -676,12 +676,12 @@ trackedFiles:
     pristine_git_object: 25cf05d6cbf4612f06d0f394766249d8ace30549
   docs/models/operations/get-a-comic-shop-response-body.md:
     id: d552640424a0
-    last_write_checksum: sha1:01ad3cb7ae3ba5e483c5ad83cb742a218cbcfad6
-    pristine_git_object: 030a4f51346dfb946774783a1d7dead735682559
+    last_write_checksum: sha1:aac5a4d51b7249f941c69fb882edeb068076b6b8
+    pristine_git_object: 29562ef1f3ebab65200939a47828694be70f498d
   docs/models/operations/get-a-comic-shop-response.md:
     id: ea3b77a69951
-    last_write_checksum: sha1:74e50d7b94dcd8d9592b39b08bd014ff74368656
-    pristine_git_object: 78fe41c7e4534a243a6a5f36b80871413d38fdc2
+    last_write_checksum: sha1:8271176f7607577950a2437b7ef846037b97edf1
+    pristine_git_object: 032a2dd2e2c3b0db5413610640aff894a71b87b6
   docs/models/operations/get-a-specific-podcast-data.md:
     id: 0ccef1f6c572
     last_write_checksum: sha1:e9acfd3dd9027238f2ce85d6516458dfe60d3e86
@@ -692,8 +692,8 @@ trackedFiles:
     pristine_git_object: c363d501dfa498a8f979188e550af47f7cabb86b
   docs/models/operations/get-a-specific-podcast-request.md:
     id: f700c855b0ab
-    last_write_checksum: sha1:0ad6111ed49ab2ca53900857eed8684ecda17bb0
-    pristine_git_object: 0affd4071f6af06e71f493792844211e232c9ad1
+    last_write_checksum: sha1:9fc762067a64143d06f20afa70e58d9aef0ca20a
+    pristine_git_object: bc4ce9dac7ce8c184640920f4a9f613a2a4703c9
   docs/models/operations/get-a-specific-podcast-response-body.md:
     id: c6ea4a86d9cf
     last_write_checksum: sha1:e497527a0640572af4a0d9b0aa890013a4bf8ac4
@@ -712,8 +712,8 @@ trackedFiles:
     pristine_git_object: 1ad287c70fcbf2db3e74c6dd3e32a804617de83d
   docs/models/operations/get-a-specific-team-request.md:
     id: 3e09ef8f9db1
-    last_write_checksum: sha1:f66e4c4e7e5454b57e30b3429a288e8f1844d6a4
-    pristine_git_object: 7d00a5a03c88f4be0ce48782df037e391f0af82a
+    last_write_checksum: sha1:67ad5c24c45b089ec14457da2f27529ffb1ff41f
+    pristine_git_object: ee00f9aa575de5f57fb6366fa3689545bd183a83
   docs/models/operations/get-a-specific-team-response-body.md:
     id: ab42ae26edbc
     last_write_checksum: sha1:a3550d645a3e777b5c3aefc8f39d6ca9d13d3597
@@ -912,8 +912,8 @@ trackedFiles:
     pristine_git_object: 8d2458f1c9406946cb88507c48f82f2f9761c5f5
   docs/models/operations/get-characters-for-a-specific-teammembers-request.md:
     id: b29efeaf9550
-    last_write_checksum: sha1:2d9b0714146add0798c4f7fbc5e7f3184bf6461b
-    pristine_git_object: 0609dbd6904abb4f24ff0aa9eb4a348c68970106
+    last_write_checksum: sha1:3ffa1f52a460c4c2163bdc3b5800745ce479b901
+    pristine_git_object: 621894e11c95d7a5e090a6fa97c464d7f885367a
   docs/models/operations/get-characters-for-a-specific-teammembers-response-body.md:
     id: 984dbf368a34
     last_write_checksum: sha1:cbf92aa5511d5f4e207a79ee295610dae98d9f00
@@ -1144,8 +1144,8 @@ trackedFiles:
     pristine_git_object: ebee2131671a859b59d7111c28f3b611b4f81f65
   docs/models/operations/get-issues-for-a-specific-team-request.md:
     id: c206b38a44be
-    last_write_checksum: sha1:ea4556c0b4399e72a6ab9bdbc5f9616a0c27f7f6
-    pristine_git_object: 97681461149fe7faf41f1cea220fc97091a7e103
+    last_write_checksum: sha1:2ba3a6d687d767d42c76ad3654362ee5fceb17de
+    pristine_git_object: 1aaebe293d8ed269e4a36487856a898fd25dbfc7
   docs/models/operations/get-issues-for-a-specific-team-response-body.md:
     id: db60a64a0020
     last_write_checksum: sha1:7b3fb2e1820b8c65c3761fd8bdf8041802e953e6
@@ -1216,8 +1216,8 @@ trackedFiles:
     pristine_git_object: 341dd36f11cd68009040a974474019faf3ca9868
   docs/models/operations/get-publisher-details-request.md:
     id: cbcdd9d73997
-    last_write_checksum: sha1:8d2ae8c1868896d5a28979379ad2d0f00e53f44c
-    pristine_git_object: 6ce0a992afb57195e6740c2c968c12f94f869e0c
+    last_write_checksum: sha1:9b38945c42a9039bb9da23605698df55a5aaf64c
+    pristine_git_object: 1c6ac89ed4177d0a0d1cefa5cb7b3ec596c42168
   docs/models/operations/get-publisher-details-response-body.md:
     id: 124cf4616b88
     last_write_checksum: sha1:32704d92ab65ae23693d5fe401a9cc1fa62329bd
@@ -1316,8 +1316,8 @@ trackedFiles:
     pristine_git_object: dd6deef68c36c4ae6eeb14780dc94372e9288fa6
   docs/models/operations/get-series-for-a-specific-team-request.md:
     id: 3f04278f4ffb
-    last_write_checksum: sha1:cbec90cbb5d2ed9e7a25fc819b92f421961327db
-    pristine_git_object: d5c98986912a471828521909f04f3b0c855a5930
+    last_write_checksum: sha1:fa4bbb0728e2d7203ef0bc59e6e278126c289407
+    pristine_git_object: 8119101855f5bffd5656fcf0269b56cba9825af9
   docs/models/operations/get-series-for-a-specific-team-response-body.md:
     id: a1e740d054d8
     last_write_checksum: sha1:2dbd4e804f31cdfea8052ec814c0c89388f74bdc
@@ -1388,8 +1388,8 @@ trackedFiles:
     pristine_git_object: fccd0add637a4b0a1553c28143968650241b68fd
   docs/models/operations/get-story-arcs-for-a-specific-character-request.md:
     id: fb4ecf5020cb
-    last_write_checksum: sha1:556d219e75317877d4793d86008acc1fa4a0d172
-    pristine_git_object: dd75c2a4ee830d04766743310cb33510b8b03789
+    last_write_checksum: sha1:35ced945291b95f4c670f76b2d3606412b2f20e4
+    pristine_git_object: 0c59cff1ca23aaceffeeef89816fcebb49163bf7
   docs/models/operations/get-story-arcs-for-a-specific-character-response-body.md:
     id: 4026aa6bd796
     last_write_checksum: sha1:ac7df32050ef2476f8acdcd1b4f1123e51cbc7ff
@@ -1412,8 +1412,8 @@ trackedFiles:
     pristine_git_object: 1528416d1d587de185866bccd5a6c9391eb4852a
   docs/models/operations/get-story-arcs-for-a-specific-issue-request.md:
     id: bef671b3ad36
-    last_write_checksum: sha1:ab4026a92fe4042bc58b2180ed26483a097377b2
-    pristine_git_object: 9d05ddfd784d2fc4eb2668981c207a3598773953
+    last_write_checksum: sha1:972f297bc16f620c12afec4b35d9c5addedead01
+    pristine_git_object: 2d76bfe3e68e95666431bae558a727d0b273f7ed
   docs/models/operations/get-story-arcs-for-a-specific-issue-response-body.md:
     id: 391009ff2209
     last_write_checksum: sha1:d672ff32c70f5ce028c840d3b12054413e9a3c6f
@@ -2104,8 +2104,8 @@ trackedFiles:
     pristine_git_object: 12d4bc2d97c9d648ddc1d1bb819d51f1268f7301
   docs/models/operations/operating-hours.md:
     id: d691efe8e88b
-    last_write_checksum: sha1:ae512a8cbc476f5ef39d3d53352d18ad24345c5b
-    pristine_git_object: c606ee73ae78d8221ced93b76ff44830e804104c
+    last_write_checksum: sha1:d613d089cd36de1b8e87830a6d03e9bc27db76e9
+    pristine_git_object: 5407c265bef487098b135e0175723632227bc04d
   docs/models/operations/platform-links.md:
     id: 62dc5d939b1b
     last_write_checksum: sha1:c3a1ba73c51d8806f460be21a1fe81ac21ec63b9
@@ -2400,8 +2400,8 @@ trackedFiles:
     pristine_git_object: 0a1fea379cdb607dfe9ab05077814d2ba3911881
   docs/sdks/comicshops/README.md:
     id: 5baff3a5fdc2
-    last_write_checksum: sha1:3d0e4ba922a46b9b21d79ddacc0f9651b0345052
-    pristine_git_object: 99bd3b5a88d6811f5cd8284aaa8fa5aa63e06325
+    last_write_checksum: sha1:f60837c1920906fbbf074d758ea882ddd7aee35a
+    pristine_git_object: def09518d423de76aa114bfe24a7b51086700e1e
   docs/sdks/creators/README.md:
     id: 95be68eedece
     last_write_checksum: sha1:256750038ff3dce2f14d2573f380ee080be44c11
@@ -2480,12 +2480,12 @@ trackedFiles:
     pristine_git_object: ce4a6a85b8bc46789323545a102bb0515c686b36
   jsr.json:
     id: 7f6ab7767282
-    last_write_checksum: sha1:8f3728cacb9f77e209ab1fac4f70fb2e4dae3fce
-    pristine_git_object: 50e68316a868e16d2cb10d89f5567b7707d3fc47
+    last_write_checksum: sha1:5e358b224dabd37232a5a49248d10b77bcdc71d3
+    pristine_git_object: 692ed3da3f224ee3a906c19fccad31309f146e65
   package.json:
     id: 7030d0b2f71b
-    last_write_checksum: sha1:b4e42f0c1d730e574839617cd2badf3d449893df
-    pristine_git_object: d657fc901b539fb0619da1c6a70135ca2b76bec2
+    last_write_checksum: sha1:0e86a22763897676243fb765b282be4e8ebf7e4e
+    pristine_git_object: 846ccc37a39b222dffe0f290799974b5f0d961a2
   src/core.ts:
     id: f431fdbcd144
     last_write_checksum: sha1:ad0063bee03825028052e52cef3fa240c6101bdf
@@ -2520,8 +2520,8 @@ trackedFiles:
     pristine_git_object: 2d6813d17ccad8e8b1534d898512c8f9e897dabe
   src/funcs/comic-shops-get-a-comic-shop.ts:
     id: 6fd558659ef7
-    last_write_checksum: sha1:7b7851187f89b213c58b73126be641bf25d97e75
-    pristine_git_object: 20e857b68d51020eba90a5e538856c58b1292702
+    last_write_checksum: sha1:6625c453547e5df0268f75914fd1d2a8818859bf
+    pristine_git_object: 464eea2595f21e10ba37c93509b09bc8709dcd2f
   src/funcs/comic-shops-list-comic-shops.ts:
     id: 5f93aa78ebf8
     last_write_checksum: sha1:0e8eb70b60c37d30f43fe9c87a4860230614c328
@@ -2868,8 +2868,8 @@ trackedFiles:
     pristine_git_object: 44be0eae8246521b230e8e711a88eff738fc015d
   src/lib/config.ts:
     id: 320761608fb3
-    last_write_checksum: sha1:85d630738afed7e82496ea72028ecc23b5cde77a
-    pristine_git_object: a2cafe3b1813e4e3738f4240614332a060d30a6a
+    last_write_checksum: sha1:b3c4336ae5ce106daed3c85c8f5897c4b3a9daef
+    pristine_git_object: ec690baa1dc089a9a12dc5d009e9ab6891345de2
   src/lib/encodings.ts:
     id: 3bd8ead98afd
     last_write_checksum: sha1:7533dcb79b22b8c84ac7b90aec94317d12bad5f8
@@ -3448,8 +3448,8 @@ trackedFiles:
     pristine_git_object: 0e15d24bfbe1e7683d779dc3d506fcc1f7934798
   src/sdk/comic-shops.ts:
     id: 710dfc060207
-    last_write_checksum: sha1:0c29ed7cbc1b84020cac9cf090a5b9299c0a405d
-    pristine_git_object: fac02d58b570429f04ce2d2463b7399a0728bc9c
+    last_write_checksum: sha1:42c45c4f36dd31e5fcef381c87161ac137ed4df6
+    pristine_git_object: 4402b1bc18cbd2f5e9d3d155c55ce127a1888243
   src/sdk/creators.ts:
     id: fb22b4147894
     last_write_checksum: sha1:9bede24ca3369724e95b5957677f0d31640d6217
@@ -3727,7 +3727,7 @@ examples:
           shop_id: 1
       responses:
         "200":
-          application/json: {"data": {"id": 42, "name": "Midtown Comics", "description": "Flagship comic shop in the heart of Manhattan.", "address": "200 W 40th St", "city": "New York", "state_province": "NY", "postal_code": "10018", "country": "US", "website": "https://www.midtowncomics.com", "full_address": "200 W 40th St, New York, NY 10018", "logo_url": "https://r2.versedb.com/uploads/shops/midtown-42/midtown-42-full_lg.webp", "images": {"tile_sm": "https://r2.versedb.com/uploads/shops/midtown-42/midtown-42-tile_sm.webp", "full_lg": "https://r2.versedb.com/uploads/shops/midtown-42/midtown-42-full_lg.webp"}, "operating_hours": {"monday": "10am - 8pm", "saturday": "10am - 9pm", "sunday": "11am - 6pm"}, "services": ["New Comics", "Back Issues", "Pull Lists", "Grading"], "events": []}}
+          application/json: {"data": {"id": 42, "name": "Midtown Comics", "description": "Flagship comic shop in the heart of Manhattan.", "address": "200 W 40th St", "city": "New York", "state_province": "NY", "postal_code": "10018", "country": "US", "website": "https://www.midtowncomics.com", "full_address": "200 W 40th St, New York, NY 10018", "logo_url": "https://r2.versedb.com/uploads/shops/midtown-42/midtown-42-full_lg.webp", "images": {"tile_sm": "https://r2.versedb.com/uploads/shops/midtown-42/midtown-42-tile_sm.webp", "full_lg": "https://r2.versedb.com/uploads/shops/midtown-42/midtown-42-full_lg.webp"}, "operating_hours": {"monday": "10:00-20:00", "saturday": "10:00-21:00", "sunday": "closed"}, "services": ["New Comics", "Back Issues", "Pull Lists", "Grading"], "events": []}}
         "401":
           application/json: {"message": "Unauthenticated."}
         "429":
