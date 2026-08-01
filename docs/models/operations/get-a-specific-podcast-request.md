@@ -6,7 +6,7 @@
 import { GetASpecificPodcastRequest } from "@versedbcom/sdk/models/operations";
 
 let value: GetASpecificPodcastRequest = {
-  podcastId: 489,
+  podcastId: 238,
 };
 ```
 
@@ -14,4 +14,4 @@ let value: GetASpecificPodcastRequest = {
 
 | Field                  | Type                   | Required               | Description            | Example                |
 | ---------------------- | ---------------------- | ---------------------- | ---------------------- | ---------------------- |
-| `podcastId`            | *number*               | :heavy_check_mark:     | The ID of the podcast. | 489                    |
+| `podcastId`            | *number*               | :heavy_check_mark:     | The ID of the podcast. | 238                    |
