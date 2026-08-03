@@ -6,7 +6,7 @@
 import { GetPublisherDetailsRequest } from "@versedbcom/sdk/models/operations";
 
 let value: GetPublisherDetailsRequest = {
-  publisherId: 3,
+  publisherId: 64445,
 };
 ```
 
@@ -14,4 +14,4 @@ let value: GetPublisherDetailsRequest = {
 
 | Field                    | Type                     | Required                 | Description              | Example                  |
 | ------------------------ | ------------------------ | ------------------------ | ------------------------ | ------------------------ |
-| `publisherId`            | *number*                 | :heavy_check_mark:       | The ID of the publisher. | 3                        |
+| `publisherId`            | *number*                 | :heavy_check_mark:       | The ID of the publisher. | 64445                    |

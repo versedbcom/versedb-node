@@ -6,7 +6,7 @@
 import { GetStoryArcsForASpecificCharacterRequest } from "@versedbcom/sdk/models/operations";
 
 let value: GetStoryArcsForASpecificCharacterRequest = {
-  characterId: 183512,
+  characterId: 17907,
   q: "batman",
   limit: 20,
 };
@@ -16,6 +16,6 @@ let value: GetStoryArcsForASpecificCharacterRequest = {
 
 | Field                                                  | Type                                                   | Required                                               | Description                                            | Example                                                |
 | ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ |
-| `characterId`                                          | *number*                                               | :heavy_check_mark:                                     | The ID of the character.                               | 183512                                                 |
+| `characterId`                                          | *number*                                               | :heavy_check_mark:                                     | The ID of the character.                               | 17907                                                  |
 | `q`                                                    | *string*                                               | :heavy_minus_sign:                                     | Optional case-insensitive search within these results. | batman                                                 |
 | `limit`                                                | *number*                                               | :heavy_minus_sign:                                     | Number of results per page (max 50).                   | 20                                                     |
