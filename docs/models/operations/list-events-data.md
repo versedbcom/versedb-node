@@ -10,6 +10,7 @@ let value: ListEventsData = {
   slug: "san-diego-comic-con-2026",
   name: "San Diego Comic-Con 2026",
   type: "convention",
+  status: "scheduled",
   startDate: "2026-07-23",
   endDate: "2026-07-26",
   isOnline: false,
@@ -38,6 +39,7 @@ let value: ListEventsData = {
 | `slug`                                                                       | *string*                                                                     | :heavy_minus_sign:                                                           | N/A                                                                          | san-diego-comic-con-2026                                                     |
 | `name`                                                                       | *string*                                                                     | :heavy_minus_sign:                                                           | N/A                                                                          | San Diego Comic-Con 2026                                                     |
 | `type`                                                                       | *string*                                                                     | :heavy_minus_sign:                                                           | N/A                                                                          | convention                                                                   |
+| `status`                                                                     | *string*                                                                     | :heavy_minus_sign:                                                           | N/A                                                                          | scheduled                                                                    |
 | `startDate`                                                                  | *string*                                                                     | :heavy_minus_sign:                                                           | N/A                                                                          | 2026-07-23                                                                   |
 | `endDate`                                                                    | *string*                                                                     | :heavy_minus_sign:                                                           | N/A                                                                          | 2026-07-26                                                                   |
 | `isOnline`                                                                   | *boolean*                                                                    | :heavy_minus_sign:                                                           | N/A                                                                          | false                                                                        |

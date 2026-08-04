@@ -55,6 +55,7 @@ export type ListEventsData = {
   slug?: string | undefined;
   name?: string | undefined;
   type?: string | undefined;
+  status?: string | undefined;
   startDate?: string | undefined;
   endDate?: string | undefined;
   isOnline?: boolean | undefined;
@@ -173,6 +174,7 @@ export const ListEventsData$inboundSchema: z.ZodMiniType<
     slug: types.optional(types.string()),
     name: types.optional(types.string()),
     type: types.optional(types.string()),
+    status: types.optional(types.string()),
     start_date: types.optional(types.string()),
     end_date: types.optional(types.string()),
     is_online: types.optional(types.boolean()),

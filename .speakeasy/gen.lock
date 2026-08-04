@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: d54ae284-e171-41f5-99d0-d4027d6f02b4
 management:
-  docChecksum: 98698f329e522267d07563f426b0b849
+  docChecksum: a9d470298421bf985831ab5c6b6cee5c
   docVersion: 1.0.0
-  speakeasyVersion: 1.791.0
-  generationVersion: 2.924.0
-  releaseVersion: 2.0.7
-  configChecksum: 3e0484885a165739db9fde5f5db41727
+  speakeasyVersion: 1.791.1
+  generationVersion: 2.926.2
+  releaseVersion: 2.0.8
+  configChecksum: 771b8ab568698bcdb3271726a5e69586
   repoURL: https://github.com/versedbcom/versedb-node.git
   installationURL: https://github.com/versedbcom/versedb-node
   published: true
 persistentEdits:
-  generation_id: e00e01ed-b420-48c9-956a-4d26425af9bf
-  pristine_commit_hash: c21ba27b9ac4edd2a36e9c8518a53380736b5369
-  pristine_tree_hash: 14fbc29aecc31f48e9bcf30038b06d9294d3c354
+  generation_id: 0246d908-96dd-4325-97ef-dab40221230c
+  pristine_commit_hash: d0cc874d56262743f988c945501aac913d554979
+  pristine_tree_hash: 01e4c9f0ba51a4fee1225d591b904339cccfe8d7
 features:
   typescript:
     additionalDependencies: 0.1.0
@@ -692,8 +692,8 @@ trackedFiles:
     pristine_git_object: c363d501dfa498a8f979188e550af47f7cabb86b
   docs/models/operations/get-a-specific-podcast-request.md:
     id: f700c855b0ab
-    last_write_checksum: sha1:0ad6111ed49ab2ca53900857eed8684ecda17bb0
-    pristine_git_object: 0affd4071f6af06e71f493792844211e232c9ad1
+    last_write_checksum: sha1:fce2a9b57fcd81861957130ae1f89ce78ee92988
+    pristine_git_object: e7d9960aecdaa5d014585a553945fbd96e606e3f
   docs/models/operations/get-a-specific-podcast-response-body.md:
     id: c6ea4a86d9cf
     last_write_checksum: sha1:e497527a0640572af4a0d9b0aa890013a4bf8ac4
@@ -788,8 +788,8 @@ trackedFiles:
     pristine_git_object: 58e817b62254c03866076c023094f82dcdfe8c7e
   docs/models/operations/get-an-event-data.md:
     id: 0a959affcb34
-    last_write_checksum: sha1:205751764219650c09f44dbd36299d0cf72b08f5
-    pristine_git_object: 0e54f0b84415aac836edafdf3c7c15c3e7927494
+    last_write_checksum: sha1:56c527e1d7aef35e5775bb3272adb343346db97f
+    pristine_git_object: 5bdc371d0a539dc669312f2843e39f8e7d7dfb06
   docs/models/operations/get-an-event-images.md:
     id: 5511e44a977e
     last_write_checksum: sha1:1ee26ff8f1318464c44177bd07bcf969352e54a8
@@ -800,12 +800,12 @@ trackedFiles:
     pristine_git_object: a6a81abf16f959c40ba0055ad9af310c166c0760
   docs/models/operations/get-an-event-response-body.md:
     id: 167a264442e0
-    last_write_checksum: sha1:55d45e9a8a7cec349af48527144bef0469d7bc8a
-    pristine_git_object: 176af9110281f6f30646c3086f5996cb917172da
+    last_write_checksum: sha1:e2d5af2aaefb872bf5a7bac8da5727f4e7dc636d
+    pristine_git_object: 7fcad7c877317774873aeb8cbb6852d12f0d1eb4
   docs/models/operations/get-an-event-response.md:
     id: 67b6cdcdacdb
-    last_write_checksum: sha1:1e43900c679d977bd74340228d5dee95cc83004f
-    pristine_git_object: 2e1f2527b9602d1674d9d81d644c9f5618ae6847
+    last_write_checksum: sha1:531938b135a491e52cec7a92fba4c5b20a1c02c7
+    pristine_git_object: 5d6de975692a0c5cb69a586e4ebb54cbfd775678
   docs/models/operations/get-an-event-user.md:
     id: 855e5e4df32b
     last_write_checksum: sha1:fb44aa37145b60ca6663ed7596d30e08e3f1a4ee
@@ -1736,8 +1736,8 @@ trackedFiles:
     pristine_git_object: 6ba34c40a1a035eb0d1b2efc88b302890d30934a
   docs/models/operations/list-events-data.md:
     id: 8406ae098a7e
-    last_write_checksum: sha1:fadd7c28b4c7ea5c656894c80e92f16d1749feec
-    pristine_git_object: 15bfd932210b500074e0f0ebfb42fb612c428b36
+    last_write_checksum: sha1:063f8d54bac0d078e2d1eb71b1830877f3a1a1f0
+    pristine_git_object: 897f5319b8e4cf9f74bae85ee282afafb5e17332
   docs/models/operations/list-events-images.md:
     id: 751eadda72fe
     last_write_checksum: sha1:ff6ba0c8bdd0b75d4f140dc3a35111f21f882742
@@ -1752,12 +1752,12 @@ trackedFiles:
     pristine_git_object: 658a0b826f53e59a75ef3d9ef56633b379c00406
   docs/models/operations/list-events-response-body.md:
     id: b8ccdc98e6fc
-    last_write_checksum: sha1:0a77fdb93aee0b73a6319eac260d54c305a6cea2
-    pristine_git_object: 006989f34a0883570fac8d98a1b601db4e48637a
+    last_write_checksum: sha1:64f901e51620fcf4c6ce9c76b405e6b4c2143582
+    pristine_git_object: 6ef85df1e89664e6f7be1491161673a592c68c2e
   docs/models/operations/list-events-response.md:
     id: 1c5652da6850
-    last_write_checksum: sha1:b787415e43b2bc419383be8899cdcba76d5d4c10
-    pristine_git_object: ace380309d03a4f19d74fbe40731f7b926fb8622
+    last_write_checksum: sha1:2d7ae375f5342910811da7dfdf64244d40590642
+    pristine_git_object: bd2a5f18382cc3911436edd8ec5a85f45224cafc
   docs/models/operations/list-follows-data.md:
     id: efa8664da42f
     last_write_checksum: sha1:f384b7228b5e1d905aea3b603806ef954ced5715
@@ -2480,12 +2480,12 @@ trackedFiles:
     pristine_git_object: ce4a6a85b8bc46789323545a102bb0515c686b36
   jsr.json:
     id: 7f6ab7767282
-    last_write_checksum: sha1:c0b296d3a16b2e45450781b0dc609edf7ba2d489
-    pristine_git_object: d65d0931566310788bd59d1ebf687fd2d2ae9743
+    last_write_checksum: sha1:23c0b527833022aead511421218509a00ebb0f85
+    pristine_git_object: 1acf3197dc905b402119115dc3b7f71d99020def
   package.json:
     id: 7030d0b2f71b
-    last_write_checksum: sha1:206ff0ffee5782717e9147ceb0abd93d2a0061f7
-    pristine_git_object: 056e98da1f6c88bb90b5c15f68008b5a98c84653
+    last_write_checksum: sha1:2c1aed2f70e1955f02b8c1fa604ac059bbae754f
+    pristine_git_object: 4f0a6eb264b4991b74cf6fc2c3d65f02556bad86
   src/core.ts:
     id: f431fdbcd144
     last_write_checksum: sha1:ad0063bee03825028052e52cef3fa240c6101bdf
@@ -2868,8 +2868,8 @@ trackedFiles:
     pristine_git_object: 44be0eae8246521b230e8e711a88eff738fc015d
   src/lib/config.ts:
     id: 320761608fb3
-    last_write_checksum: sha1:367fa81d791fbb66994202d103806c7c13338aa0
-    pristine_git_object: bde1dcea3a9ca77355af67781b404d5347eb5ac9
+    last_write_checksum: sha1:5cdebc1c5e9d5f7bb9f30907a32a35b7bd3e259f
+    pristine_git_object: b7cd2c042e89788c6702a0be2988dd5fd6a39b73
   src/lib/encodings.ts:
     id: 3bd8ead98afd
     last_write_checksum: sha1:7533dcb79b22b8c84ac7b90aec94317d12bad5f8
@@ -3160,8 +3160,8 @@ trackedFiles:
     pristine_git_object: 5767161754a5e28f4a4b5fe7d51878d59a347489
   src/models/operations/get-an-event.ts:
     id: d3385386f28b
-    last_write_checksum: sha1:6f072496a055695a76556cd1dd7762b92fc0c0eb
-    pristine_git_object: bab851f9eaf5d81da36d1f773bffcdaae138532e
+    last_write_checksum: sha1:38b016100f76a14ad3c6b6baf9d245470bba9a3d
+    pristine_git_object: 98b715f558564f9efc424e2aa9e87de77023dc54
   src/models/operations/get-character-details.ts:
     id: 9208f9e9388a
     last_write_checksum: sha1:b324298954d260e8cd5398f538ea121b4b343fef
@@ -3324,8 +3324,8 @@ trackedFiles:
     pristine_git_object: 98681fb103566dfaaea8ac5bb3501ccec9bb32ea
   src/models/operations/list-events.ts:
     id: e4c493cc1166
-    last_write_checksum: sha1:32a0a89c799b50f24c79e681f91bf58756feb741
-    pristine_git_object: c32730f5540df88299ffaea660f933af9b09cda6
+    last_write_checksum: sha1:b65322afd192444caf1e848141de855d60d25492
+    pristine_git_object: fa3bcc4d2a37cda50ebd2d65f2a45a263469f789
   src/models/operations/list-follows.ts:
     id: 7edf3d60086e
     last_write_checksum: sha1:b838f5ef3929a789e98cb30239d7c2c5954c46f6
@@ -3821,7 +3821,7 @@ examples:
           limit: 20
       responses:
         "200":
-          application/json: {"data": [{"id": 42, "slug": "san-diego-comic-con-2026", "name": "San Diego Comic-Con 2026", "type": "convention", "start_date": "2026-07-23", "end_date": "2026-07-26", "is_online": false, "is_fcbd": false, "venue_name": "San Diego Convention Center", "city": "San Diego", "region": "CA", "country_code": "US", "full_location": "San Diego Convention Center, San Diego, CA, United States", "logo_url": "https://...-tile_sm.webp", "images": {"tile_sm": "https://...-tile_sm.webp", "full_md": "https://...-full_md.webp", "full_lg": "https://...-full_lg.webp"}, "ticket_price": "$45.00 - $150.00", "follower_count": 320}], "meta": {"current_page": 1, "last_page": 8, "per_page": 20, "total": 156}}
+          application/json: {"data": [{"id": 42, "slug": "san-diego-comic-con-2026", "name": "San Diego Comic-Con 2026", "type": "convention", "status": "scheduled", "start_date": "2026-07-23", "end_date": "2026-07-26", "is_online": false, "is_fcbd": false, "venue_name": "San Diego Convention Center", "city": "San Diego", "region": "CA", "country_code": "US", "full_location": "San Diego Convention Center, San Diego, CA, United States", "logo_url": "https://...-tile_sm.webp", "images": {"tile_sm": "https://...-tile_sm.webp", "full_md": "https://...-full_md.webp", "full_lg": "https://...-full_lg.webp"}, "ticket_price": "$45.00 - $150.00", "follower_count": 320}], "meta": {"current_page": 1, "last_page": 8, "per_page": 20, "total": 156}}
         "401":
           application/json: {"message": "Unauthenticated."}
         "429":
@@ -3833,7 +3833,7 @@ examples:
           event_id: 1
       responses:
         "200":
-          application/json: {"data": {"id": 42, "slug": "san-diego-comic-con-2026", "name": "San Diego Comic-Con 2026", "type": "convention", "start_date": "2026-07-23", "end_date": "2026-07-26", "timezone": "America/Los_Angeles", "is_online": false, "is_fcbd": false, "venue_name": "San Diego Convention Center", "street_address": "111 W Harbor Dr", "city": "San Diego", "region": "CA", "postal_code": "92101", "country_code": "US", "latitude": 32.7065, "longitude": -117.1615, "full_location": "San Diego Convention Center, San Diego, CA, United States", "google_maps_url": "https://maps.google.com/?q=32.7065,-117.1615", "logo_url": "https://cdn.versedb.com/events/42-full_lg.webp", "images": {"tile_sm": "https://cdn.versedb.com/events/42-tile_sm.webp", "full_md": "https://cdn.versedb.com/events/42-full_md.webp", "full_lg": "https://cdn.versedb.com/events/42-full_lg.webp"}, "static_map_url": "https://cdn.versedb.com/events/42-static-map.png", "event_url": "https://www.comic-con.org", "ticket_price_min": "45.00", "ticket_price_max": "150.00", "ticket_currency": "USD", "ticket_price": "$45.00 - $150.00", "follower_count": 320, "creators": [{"id": 7, "name": "Stan Lee", "slug": "stan-lee", "photo_url": "https://cdn.versedb.com/creators/7-profile_md.webp", "images": {}, "country": "US", "appearance_types": ["Special Guest"]}], "issues": [], "issue_variants": [], "attendees_preview": {"total": 320, "users": [{"id": 1024, "username": "comic_fan_42", "name": "Comic Fan", "profile_image_url": "https://cdn.versedb.com/users/1024-profile_sm.webp", "is_private": false}, {"id": 1536, "username": "panel_pusher", "name": "Riley", "profile_image_url": "https://cdn.versedb.com/users/1536-profile_sm.webp", "is_private": false}]}, "related_events": []}}
+          application/json: {"data": {"id": 42, "slug": "san-diego-comic-con-2026", "name": "San Diego Comic-Con 2026", "type": "convention", "status": "scheduled", "start_date": "2026-07-23", "end_date": "2026-07-26", "timezone": "America/Los_Angeles", "is_online": false, "is_fcbd": false, "venue_name": "San Diego Convention Center", "street_address": "111 W Harbor Dr", "city": "San Diego", "region": "CA", "postal_code": "92101", "country_code": "US", "latitude": 32.7065, "longitude": -117.1615, "full_location": "San Diego Convention Center, San Diego, CA, United States", "google_maps_url": "https://maps.google.com/?q=32.7065,-117.1615", "logo_url": "https://cdn.versedb.com/events/42-full_lg.webp", "images": {"tile_sm": "https://cdn.versedb.com/events/42-tile_sm.webp", "full_md": "https://cdn.versedb.com/events/42-full_md.webp", "full_lg": "https://cdn.versedb.com/events/42-full_lg.webp"}, "static_map_url": "https://cdn.versedb.com/events/42-static-map.png", "event_url": "https://www.comic-con.org", "ticket_price_min": "45.00", "ticket_price_max": "150.00", "ticket_currency": "USD", "ticket_price": "$45.00 - $150.00", "follower_count": 320, "creators": [{"id": 7, "name": "Stan Lee", "slug": "stan-lee", "photo_url": "https://cdn.versedb.com/creators/7-profile_md.webp", "images": {}, "country": "US", "appearance_types": ["Special Guest"]}], "issues": [], "issue_variants": [], "attendees_preview": {"total": 320, "users": [{"id": 1024, "username": "comic_fan_42", "name": "Comic Fan", "profile_image_url": "https://cdn.versedb.com/users/1024-profile_sm.webp", "is_private": false}, {"id": 1536, "username": "panel_pusher", "name": "Riley", "profile_image_url": "https://cdn.versedb.com/users/1536-profile_sm.webp", "is_private": false}]}, "related_events": []}}
         "401":
           application/json: {"message": "Unauthenticated."}
         "429":
@@ -5044,3 +5044,7 @@ examples:
         "429":
           application/json: {"message": "Too Many Attempts."}
 examplesVersion: 1.0.2
+releaseNotes: |
+  ## Typescript SDK Changes:
+  * `versedb.events.listEvents()`:  `response.data[].status` **Added**
+  * `versedb.events.getAnEvent()`:  `response.data.status` **Added**

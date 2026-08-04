@@ -13,6 +13,7 @@ let value: GetAnEventResponseBody = {
     slug: "san-diego-comic-con-2026",
     name: "San Diego Comic-Con 2026",
     type: "convention",
+    status: "scheduled",
     startDate: "2026-07-23",
     endDate: "2026-07-26",
     timezone: "America/Los_Angeles",

@@ -52,6 +52,7 @@ export type GetAnEventData = {
   slug?: string | undefined;
   name?: string | undefined;
   type?: string | undefined;
+  status?: string | undefined;
   startDate?: string | undefined;
   endDate?: string | undefined;
   timezone?: string | undefined;
@@ -259,6 +260,7 @@ export const GetAnEventData$inboundSchema: z.ZodMiniType<
     slug: types.optional(types.string()),
     name: types.optional(types.string()),
     type: types.optional(types.string()),
+    status: types.optional(types.string()),
     start_date: types.optional(types.string()),
     end_date: types.optional(types.string()),
     timezone: types.optional(types.string()),
