@@ -1,6 +1,6 @@
 {
   "name": "@versedbcom/sdk",
-  "version": "2.0.9",
+  "version": "2.0.10",
   "author": "VerseDB",
   "license": "MIT",
   "type": "module",
@@ -49,7 +49,7 @@
     "url": "https://github.com/versedbcom/versedb-node.git"
   },
   "scripts": {
-    "lint": "oxlint --max-warnings=0 --deny-warnings src/**/*.ts src/**/*.tsx",
+    "lint": "oxlint --max-warnings=0 --deny-warnings --no-error-on-unmatched-pattern src",
     "build": "tsgo",
     "prepublishOnly": "npm run build"
   },
