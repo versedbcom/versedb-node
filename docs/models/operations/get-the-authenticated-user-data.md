@@ -28,8 +28,6 @@ let value: GetTheAuthenticatedUserData = {
   emailNotifications: true,
   contentEditNotifications: true,
   commentReplyNotifications: true,
-  pushNotificationsEnabled: true,
-  inappNotificationsEnabled: true,
   showNsfwWarnings: true,
   birthDate: null,
   canViewNsfw: false,
@@ -91,8 +89,6 @@ let value: GetTheAuthenticatedUserData = {
 | `emailNotifications`               | *boolean*                          | :heavy_minus_sign:                 | N/A                                | true                               |
 | `contentEditNotifications`         | *boolean*                          | :heavy_minus_sign:                 | N/A                                | true                               |
 | `commentReplyNotifications`        | *boolean*                          | :heavy_minus_sign:                 | N/A                                | true                               |
-| `pushNotificationsEnabled`         | *boolean*                          | :heavy_minus_sign:                 | N/A                                | true                               |
-| `inappNotificationsEnabled`        | *boolean*                          | :heavy_minus_sign:                 | N/A                                | true                               |
 | `showNsfwWarnings`                 | *boolean*                          | :heavy_minus_sign:                 | N/A                                | true                               |
 | `birthDate`                        | *string*                           | :heavy_minus_sign:                 | N/A                                | null                               |
 | `canViewNsfw`                      | *boolean*                          | :heavy_minus_sign:                 | N/A                                | false                              |

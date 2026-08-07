@@ -32,8 +32,6 @@ export type GetTheAuthenticatedUserData = {
   emailNotifications?: boolean | undefined;
   contentEditNotifications?: boolean | undefined;
   commentReplyNotifications?: boolean | undefined;
-  pushNotificationsEnabled?: boolean | undefined;
-  inappNotificationsEnabled?: boolean | undefined;
   showNsfwWarnings?: boolean | undefined;
   birthDate?: string | null | undefined;
   canViewNsfw?: boolean | undefined;
@@ -104,8 +102,6 @@ export const GetTheAuthenticatedUserData$inboundSchema: z.ZodMiniType<
     email_notifications: types.optional(types.boolean()),
     content_edit_notifications: types.optional(types.boolean()),
     comment_reply_notifications: types.optional(types.boolean()),
-    push_notifications_enabled: types.optional(types.boolean()),
-    inapp_notifications_enabled: types.optional(types.boolean()),
     show_nsfw_warnings: types.optional(types.boolean()),
     birth_date: z.optional(z.nullable(types.string())),
     can_view_nsfw: types.optional(types.boolean()),
@@ -151,8 +147,6 @@ export const GetTheAuthenticatedUserData$inboundSchema: z.ZodMiniType<
       "email_notifications": "emailNotifications",
       "content_edit_notifications": "contentEditNotifications",
       "comment_reply_notifications": "commentReplyNotifications",
-      "push_notifications_enabled": "pushNotificationsEnabled",
-      "inapp_notifications_enabled": "inappNotificationsEnabled",
       "show_nsfw_warnings": "showNsfwWarnings",
       "birth_date": "birthDate",
       "can_view_nsfw": "canViewNsfw",

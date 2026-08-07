@@ -31,8 +31,6 @@ let value: GetTheAuthenticatedUserResponseBody = {
     emailNotifications: true,
     contentEditNotifications: true,
     commentReplyNotifications: true,
-    pushNotificationsEnabled: true,
-    inappNotificationsEnabled: true,
     showNsfwWarnings: true,
     birthDate: null,
     canViewNsfw: false,

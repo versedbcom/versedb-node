@@ -6,7 +6,7 @@
 import { GetCharactersForASpecificTeammembersRequest } from "@versedbcom/sdk/models/operations";
 
 let value: GetCharactersForASpecificTeammembersRequest = {
-  teamId: 18676,
+  teamId: 23473,
   q: "batman",
   limit: 20,
 };
@@ -16,6 +16,6 @@ let value: GetCharactersForASpecificTeammembersRequest = {
 
 | Field                                                  | Type                                                   | Required                                               | Description                                            | Example                                                |
 | ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ |
-| `teamId`                                               | *number*                                               | :heavy_check_mark:                                     | The ID of the team.                                    | 18676                                                  |
+| `teamId`                                               | *number*                                               | :heavy_check_mark:                                     | The ID of the team.                                    | 23473                                                  |
 | `q`                                                    | *string*                                               | :heavy_minus_sign:                                     | Optional case-insensitive search within these results. | batman                                                 |
 | `limit`                                                | *number*                                               | :heavy_minus_sign:                                     | Number of results per page (max 50).                   | 20                                                     |
