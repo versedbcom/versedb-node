@@ -15,6 +15,10 @@ export type GetSeriesIssuesRequest = {
    */
   id: number;
   /**
+   * Search within this series' issues (number, name).
+   */
+  q?: string | undefined;
+  /**
    * Sort field (issue_number, release_date, name).
    */
   sort?: string | undefined;
@@ -60,6 +64,7 @@ export type GetSeriesIssuesResponse = {
 /** @internal */
 export type GetSeriesIssuesRequest$Outbound = {
   id: number;
+  q?: string | undefined;
   sort?: string | undefined;
   direction?: string | undefined;
   limit?: number | undefined;
@@ -71,6 +76,7 @@ export const GetSeriesIssuesRequest$outboundSchema: z.ZodMiniType<
   GetSeriesIssuesRequest
 > = z.object({
   id: z.int(),
+  q: z.optional(z.string()),
   sort: z.optional(z.string()),
   direction: z.optional(z.string()),
   limit: z.optional(z.int()),

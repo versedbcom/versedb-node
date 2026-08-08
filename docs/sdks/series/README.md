@@ -196,6 +196,7 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.series.getSeriesIssues({
     id: 123,
+    q: "247",
     sort: "issue_number",
     direction: "asc",
     limit: 20,
@@ -224,6 +225,7 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await seriesGetSeriesIssues(verseDB, {
     id: 123,
+    q: "247",
     sort: "issue_number",
     direction: "asc",
     limit: 20,

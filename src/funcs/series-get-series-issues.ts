@@ -103,6 +103,7 @@ async function $do(
   const query = encodeFormQuery({
     "direction": payload.direction,
     "limit": payload.limit,
+    "q": payload.q,
     "sort": payload.sort,
   });
 
