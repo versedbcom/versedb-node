@@ -1,0 +1,11 @@
+overlay: 1.0.0
+info:
+  title: Pin SDK operation names
+  version: 1.0.0
+actions:
+  # The endpoint's summary moved off the word "mixed" — every list holds any
+  # mix of types now, so only the wire value still says it. The generated
+  # symbols are a published contract, so they keep the name they shipped under.
+  - target: $.paths["/api/v1/lists/{list_id}/convert-to-mixed"].post
+    update:
+      x-speakeasy-name-override: convertAListToMixed

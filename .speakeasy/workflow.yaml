@@ -4,6 +4,8 @@ sources:
     versedb-api:
         inputs:
             - location: https://versedb.com/api/docs.openapi
+        overlays:
+            - location: ./.speakeasy/overlays/pin-operation-names.yaml
         registry:
             location: registry.speakeasyapi.dev/versedb/versedb/versedb-api
 targets:
