@@ -33,7 +33,7 @@ export class Creators extends ClientSDK {
    * Get creator details.
    *
    * @remarks
-   * Returns a single creator with full details including biography, role, and awards.
+   * Returns a single creator with full details including role and awards.
    */
   async getCreatorDetails(
     request: operations.GetCreatorDetailsRequest,

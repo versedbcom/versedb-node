@@ -29,6 +29,9 @@ import { Result } from "../types/fp.js";
 
 /**
  * Get story arcs for a specific character
+ *
+ * @remarks
+ * Returns every story arc the given character appears in.
  */
 export function storyArcsGetStoryArcsForASpecificCharacter(
   client: VerseDBCore,

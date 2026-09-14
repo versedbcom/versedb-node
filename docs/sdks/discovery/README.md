@@ -174,8 +174,13 @@ run();
 
 ## followUpdates
 
-Returns recent releases from titles, series, characters, and creators the user follows.
-Each item includes a context string explaining why it's shown (e.g. "New in X-Men", "Featuring Superman").
+Returns recent releases from the titles, characters, creators, and teams the user
+follows. A Series is not followable — it reaches this feed through its Title, and
+every volume of that title counts.
+
+`follow_contexts` and `follow_types` are top-level maps keyed by issue id: the
+context explains why the issue is shown ("New in X-Men"), the type is one of
+`title`, `character`, `creator`, `team`.
 
 ### Example Usage
 
@@ -189,7 +194,6 @@ const verseDB = new VerseDB({
 
 async function run() {
   const result = await verseDB.discovery.followUpdates({
-    limit: 20,
     days: 30,
     page: 1,
     perPage: 20,
@@ -217,7 +221,6 @@ const verseDB = new VerseDBCore({
 
 async function run() {
   const res = await discoveryFollowUpdates(verseDB, {
-    limit: 20,
     days: 30,
     page: 1,
     perPage: 20,

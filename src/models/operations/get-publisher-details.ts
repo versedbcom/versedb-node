@@ -25,7 +25,6 @@ export type GetPublisherDetailsImages = {
 export type GetPublisherDetailsData = {
   id?: number | undefined;
   name?: string | undefined;
-  description?: string | undefined;
   foundedYear?: number | undefined;
   website?: string | undefined;
   headquarters?: string | undefined;
@@ -114,7 +113,6 @@ export const GetPublisherDetailsData$inboundSchema: z.ZodMiniType<
   z.object({
     id: types.optional(types.number()),
     name: types.optional(types.string()),
-    description: types.optional(types.string()),
     founded_year: types.optional(types.number()),
     website: types.optional(types.string()),
     headquarters: types.optional(types.string()),

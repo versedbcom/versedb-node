@@ -12,8 +12,9 @@ export class KeyIssueReasons extends ClientSDK {
    * List key issue reasons.
    *
    * @remarks
-   * Returns all active key issue reasons, optionally filtered by category.
-   * Useful for client-side pickers and filters.
+   * Returns active key issue reasons, optionally filtered by category or name. Reasons are written
+   * per issue rather than drawn from a fixed vocabulary, so there are far more of them than the
+   * category list suggests — pass `q` and `limit` for a picker rather than fetching the lot.
    */
   async listKeyIssueReasons(
     request?: operations.ListKeyIssueReasonsRequest | undefined,

@@ -99,6 +99,7 @@ async function $do(
   const path = pathToFunc("/api/v1/shops")();
 
   const query = encodeFormQuery({
+    "city": payload?.city,
     "country": payload?.country,
     "limit": payload?.limit,
     "q": payload?.q,

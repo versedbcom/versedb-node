@@ -14,6 +14,10 @@ export type GetActivityFeedRequest = {
    * Number of results per page (max 100).
    */
   perPage?: number | undefined;
+  /**
+   * Page of results to return.
+   */
+  page?: number | undefined;
 };
 
 export type GetActivityFeedDataData = {
@@ -55,6 +59,7 @@ export type GetActivityFeedResponse = {
 /** @internal */
 export type GetActivityFeedRequest$Outbound = {
   per_page?: number | undefined;
+  page?: number | undefined;
 };
 
 /** @internal */
@@ -64,6 +69,7 @@ export const GetActivityFeedRequest$outboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     perPage: z.optional(z.int()),
+    page: z.optional(z.int()),
   }),
   z.transform((v) => {
     return remap$(v, {

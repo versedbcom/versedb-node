@@ -102,6 +102,7 @@ async function $do(
     "limit": payload?.limit,
     "past": payload?.past,
     "q": payload?.q,
+    "region": payload?.region,
     "type": payload?.type,
     "upcoming": payload?.upcoming,
   });

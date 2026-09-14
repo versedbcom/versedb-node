@@ -14,7 +14,8 @@ let value: GetIssueDetailsResponseBody = {
     seriesId: 123,
     issueNumber: "1",
     name: "The Amazing Spider-Man #1",
-    description: "Nick Spencer and Ryan Ottley begin a new era...",
+    solicitation:
+      "THE AMAZING SPIDER-MAN #1 ... the publisher's own solicitation text, verbatim, or null",
     releaseDate: "2018-07-11",
     coverDate: "2018-09-01",
     coverUrl: "https://...",

@@ -39,6 +39,10 @@ export type ListCollectionRequest = {
    */
   condition?: string | undefined;
   /**
+   * Which copies to return: owned, for_sale, sold, or all. Sold copies are excluded by default.
+   */
+  status?: string | undefined;
+  /**
    * Filter to copies marked for sale.
    */
   forSale?: boolean | undefined;
@@ -225,6 +229,7 @@ export type ListCollectionRequest$Outbound = {
   graded?: boolean | undefined;
   is_signed?: boolean | undefined;
   condition?: string | undefined;
+  status?: string | undefined;
   for_sale?: boolean | undefined;
   for_trade?: boolean | undefined;
   read_status?: string | undefined;
@@ -249,6 +254,7 @@ export const ListCollectionRequest$outboundSchema: z.ZodMiniType<
     graded: z.optional(z.boolean()),
     isSigned: z.optional(z.boolean()),
     condition: z.optional(z.string()),
+    status: z.optional(z.string()),
     forSale: z.optional(z.boolean()),
     forTrade: z.optional(z.boolean()),
     readStatus: z.optional(z.string()),

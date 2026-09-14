@@ -32,7 +32,6 @@ let value: GetCreatorDetailsResponseBody = {
       profileMd: "https://...-profile_md.webp",
       fullLg: "https://...-full_lg.webp",
     },
-    biography: "Alan Moore is a British comic book writer...",
     gender: "male",
     birth: "1953-11-18",
     death: null,

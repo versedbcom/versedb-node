@@ -14,6 +14,10 @@ import { unwrapAsync } from "../types/fp.js";
 export class StoryArcs extends ClientSDK {
   /**
    * List all story arcs with optional search
+   *
+   * @remarks
+   * Returns a paginated list of story arcs and crossover events, newest first.
+   * Narrow the results with `q`, `status`, or `type`.
    */
   async listAllStoryArcsWithOptionalSearch(
     request?: operations.ListAllStoryArcsWithOptionalSearchRequest | undefined,
@@ -52,6 +56,9 @@ export class StoryArcs extends ClientSDK {
 
   /**
    * Get story arcs for a specific issue
+   *
+   * @remarks
+   * Returns every story arc the given issue is part of.
    */
   async getStoryArcsForASpecificIssue(
     request: operations.GetStoryArcsForASpecificIssueRequest,
@@ -66,6 +73,9 @@ export class StoryArcs extends ClientSDK {
 
   /**
    * Get story arcs for a specific character
+   *
+   * @remarks
+   * Returns every story arc the given character appears in.
    */
   async getStoryArcsForASpecificCharacter(
     request: operations.GetStoryArcsForASpecificCharacterRequest,
@@ -80,6 +90,9 @@ export class StoryArcs extends ClientSDK {
 
   /**
    * Get story arcs for a specific universe
+   *
+   * @remarks
+   * Returns every story arc that takes place in the given universe.
    */
   async getStoryArcsForASpecificUniverse(
     request: operations.GetStoryArcsForASpecificUniverseRequest,

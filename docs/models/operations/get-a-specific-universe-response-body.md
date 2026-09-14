@@ -11,8 +11,6 @@ let value: GetASpecificUniverseResponseBody = {
   data: {
     id: 1,
     name: "Marvel Universe (616)",
-    description:
-      "The primary continuity of Marvel Comics, home to most mainline Marvel stories since 1961.",
   },
 };
 ```

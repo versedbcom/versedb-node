@@ -11,7 +11,7 @@ import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type GetIssuesForASpecificTeamRequest = {
   /**
-   * The ID of the team.
+   * The team ID.
    */
   teamId: number;
   /**
@@ -22,6 +22,10 @@ export type GetIssuesForASpecificTeamRequest = {
    * Number of results per page (max 50).
    */
   limit?: number | undefined;
+  /**
+   * Comma-separated series mediums to filter by (comic, manga, manhwa, manhua, bande_dessinee, magazine).
+   */
+  medium?: string | undefined;
 };
 
 export type GetIssuesForASpecificTeamData = {
@@ -60,6 +64,7 @@ export type GetIssuesForASpecificTeamRequest$Outbound = {
   team_id: number;
   q?: string | undefined;
   limit?: number | undefined;
+  medium?: string | undefined;
 };
 
 /** @internal */
@@ -71,6 +76,7 @@ export const GetIssuesForASpecificTeamRequest$outboundSchema: z.ZodMiniType<
     teamId: z.int(),
     q: z.optional(z.string()),
     limit: z.optional(z.int()),
+    medium: z.optional(z.string()),
   }),
   z.transform((v) => {
     return remap$(v, {

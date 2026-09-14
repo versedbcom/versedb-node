@@ -29,6 +29,9 @@ import { Result } from "../types/fp.js";
 
 /**
  * Get story arcs for a specific universe
+ *
+ * @remarks
+ * Returns every story arc that takes place in the given universe.
  */
 export function storyArcsGetStoryArcsForASpecificUniverse(
   client: VerseDBCore,

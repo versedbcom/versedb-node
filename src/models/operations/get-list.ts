@@ -14,6 +14,16 @@ export type GetListRequest = {
    * The list ID.
    */
   listId: number;
+  /**
+   * How to order the items. Omit for the list's own order — by
+   *
+   * @remarks
+   * position when it is ranked, newest added first when it is not. `recent` and `oldest`
+   * work on any list; the remaining values are the sortable fields for the list's entity
+   * type (`name`, `release_date`, `start_year`, `issues_count`, `launch_date`, `arc_order`),
+   * and are ignored on a mixed list, whose items span several tables.
+   */
+  sort?: string | undefined;
 };
 
 export type GetListUser = {
@@ -89,6 +99,7 @@ export type GetListResponse = {
 /** @internal */
 export type GetListRequest$Outbound = {
   list_id: number;
+  sort?: string | undefined;
 };
 
 /** @internal */
@@ -98,6 +109,7 @@ export const GetListRequest$outboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     listId: z.int(),
+    sort: z.optional(z.string()),
   }),
   z.transform((v) => {
     return remap$(v, {

@@ -11,6 +11,7 @@ import { userEditReadingDate } from "../funcs/user-edit-reading-date.js";
 import { userFollowContent } from "../funcs/user-follow-content.js";
 import { userGetActivityFeed } from "../funcs/user-get-activity-feed.js";
 import { userGetTheAuthenticatedUser } from "../funcs/user-get-the-authenticated-user.js";
+import { userLendACopyOut } from "../funcs/user-lend-a-copy-out.js";
 import { userListCollection } from "../funcs/user-list-collection.js";
 import { userListFollows } from "../funcs/user-list-follows.js";
 import { userListPullList } from "../funcs/user-list-pull-list.js";
@@ -18,6 +19,7 @@ import { userListReadStatus } from "../funcs/user-list-read-status.js";
 import { userListWishlist } from "../funcs/user-list-wishlist.js";
 import { userMarkAsRead } from "../funcs/user-mark-as-read.js";
 import { userMarkAsUnread } from "../funcs/user-mark-as-unread.js";
+import { userMarkTheCopysOpenLoanReturned } from "../funcs/user-mark-the-copys-open-loan-returned.js";
 import { userRemoveFromPullList } from "../funcs/user-remove-from-pull-list.js";
 import { userRemoveFromWishlist } from "../funcs/user-remove-from-wishlist.js";
 import { userRemoveIssueFromCollection } from "../funcs/user-remove-issue-from-collection.js";
@@ -166,6 +168,9 @@ export class User extends ClientSDK {
 
   /**
    * Remove from pull list.
+   *
+   * @remarks
+   * Removes a series from the authenticated user's pull list.
    */
   async removeFromPullList(
     request: operations.RemoveFromPullListRequest,
@@ -251,7 +256,7 @@ export class User extends ClientSDK {
    * List wishlist.
    *
    * @remarks
-   * Returns the authenticated user's wishlist items (issues), most recently added first.
+   * Returns the authenticated user's wishlist issues, most recently added first.
    */
   async listWishlist(
     request?: operations.ListWishlistRequest | undefined,
@@ -318,10 +323,27 @@ export class User extends ClientSDK {
   }
 
   /**
+   * Check follow status.
+   *
+   * @remarks
+   * Reports whether the authenticated user currently follows the given entity.
+   */
+  async checkFollowStatus(
+    request: operations.CheckFollowStatusRequest,
+    options?: RequestOptions,
+  ): Promise<operations.CheckFollowStatusResponse> {
+    return unwrapAsync(userCheckFollowStatus(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
    * Follow content.
    *
    * @remarks
-   * Follows a title, character, podcast, creator, publisher, team, story arc, comic shop, event, or user.
+   * Follows a title, character, podcast, creator, publisher, team, story arc, comic shop, event, event franchise, or user.
    */
   async followContent(
     request: operations.FollowContentRequest,
@@ -336,6 +358,9 @@ export class User extends ClientSDK {
 
   /**
    * Unfollow content.
+   *
+   * @remarks
+   * Stops following the given entity for the authenticated user.
    */
   async unfollowContent(
     request: operations.UnfollowContentRequest,
@@ -349,13 +374,18 @@ export class User extends ClientSDK {
   }
 
   /**
-   * Check follow status.
+   * Get activity feed.
+   *
+   * @remarks
+   * Aggregates recent activity from collections, reads, follows, and reviews.
+   *
+   * @deprecated method: This will be removed in a future release, please migrate away from it as soon as possible.
    */
-  async checkFollowStatus(
-    request: operations.CheckFollowStatusRequest,
+  async getActivityFeed(
+    request?: operations.GetActivityFeedRequest | undefined,
     options?: RequestOptions,
-  ): Promise<operations.CheckFollowStatusResponse> {
-    return unwrapAsync(userCheckFollowStatus(
+  ): Promise<operations.GetActivityFeedResponse> {
+    return unwrapAsync(userGetActivityFeed(
       this,
       request,
       options,
@@ -363,16 +393,32 @@ export class User extends ClientSDK {
   }
 
   /**
-   * Get activity feed.
+   * Lend a copy out.
    *
    * @remarks
-   * Aggregates recent activity from collections, reads, follows, and reviews.
+   * A copy already out is a 409 rather than a silent replacement: two open loans on one
+   * physical comic is a mistake to report, and overwriting the first would lose who actually
+   * has it. Return it, then lend it again.
    */
-  async getActivityFeed(
-    request?: operations.GetActivityFeedRequest | undefined,
+  async lendACopyOut(
+    request: operations.LendACopyOutRequest,
     options?: RequestOptions,
-  ): Promise<operations.GetActivityFeedResponse> {
-    return unwrapAsync(userGetActivityFeed(
+  ): Promise<operations.LendACopyOutResponse | undefined> {
+    return unwrapAsync(userLendACopyOut(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Mark the copy's open loan returned.
+   */
+  async markTheCopysOpenLoanReturned(
+    request: operations.MarkTheCopysOpenLoanReturnedRequest,
+    options?: RequestOptions,
+  ): Promise<operations.MarkTheCopysOpenLoanReturnedResponse | undefined> {
+    return unwrapAsync(userMarkTheCopysOpenLoanReturned(
       this,
       request,
       options,

@@ -14,26 +14,18 @@ export type GetTheAuthenticatedUserData = {
   name?: string | undefined;
   username?: string | undefined;
   email?: string | undefined;
-  bio?: string | null | undefined;
-  avatar?: string | null | undefined;
-  profileImage?: string | null | undefined;
-  profileImageUrl?: string | null | undefined;
+  bio?: string | undefined;
+  profileImageUrl?: string | undefined;
   glowColor?: string | undefined;
-  bannerPath?: string | null | undefined;
   bannerUrl?: string | null | undefined;
-  countryCode?: string | null | undefined;
-  city?: string | null | undefined;
-  region?: string | null | undefined;
-  postalCode?: string | null | undefined;
-  formattedLocation?: string | null | undefined;
+  countryCode?: string | undefined;
+  city?: string | undefined;
+  region?: string | undefined;
+  postalCode?: string | undefined;
+  formattedLocation?: string | undefined;
   isPrivate?: boolean | undefined;
   isWishlistPublic?: boolean | undefined;
-  publicWishlistId?: string | null | undefined;
-  emailNotifications?: boolean | undefined;
-  contentEditNotifications?: boolean | undefined;
-  commentReplyNotifications?: boolean | undefined;
   showNsfwWarnings?: boolean | undefined;
-  birthDate?: string | null | undefined;
   canViewNsfw?: boolean | undefined;
   showReadingList?: boolean | undefined;
   showCollection?: boolean | undefined;
@@ -42,28 +34,21 @@ export type GetTheAuthenticatedUserData = {
   preferredMediums?: Array<string> | undefined;
   preferredGenres?: Array<any> | undefined;
   preferredLanguages?: Array<string> | undefined;
-  locale?: string | null | undefined;
-  onboardingCompletedAt?: string | undefined;
-  onboardingStep?: number | undefined;
-  aiDiscoveryEnabled?: boolean | undefined;
+  locale?: string | undefined;
   isPro?: boolean | undefined;
-  canChangeUsername?: boolean | undefined;
   level?: number | undefined;
   xp?: number | undefined;
   xpForNextLevel?: number | undefined;
   xpProgressPercent?: number | undefined;
   contributionsCount?: number | undefined;
   levelName?: string | undefined;
+  hasPassword?: boolean | undefined;
   createdAt?: string | undefined;
   updatedAt?: string | undefined;
-  hasPassword?: boolean | undefined;
-  deletionRequestedAt?: string | null | undefined;
-  deletionConfirmedAt?: string | null | undefined;
-  deletionScheduledFor?: string | null | undefined;
 };
 
 /**
- * Success.
+ * Success
  */
 export type GetTheAuthenticatedUserResponseBody = {
   data?: GetTheAuthenticatedUserData | undefined;
@@ -84,26 +69,18 @@ export const GetTheAuthenticatedUserData$inboundSchema: z.ZodMiniType<
     name: types.optional(types.string()),
     username: types.optional(types.string()),
     email: types.optional(types.string()),
-    bio: z.optional(z.nullable(types.string())),
-    avatar: z.optional(z.nullable(types.string())),
-    profile_image: z.optional(z.nullable(types.string())),
-    profile_image_url: z.optional(z.nullable(types.string())),
+    bio: types.optional(types.string()),
+    profile_image_url: types.optional(types.string()),
     glow_color: types.optional(types.string()),
-    banner_path: z.optional(z.nullable(types.string())),
     banner_url: z.optional(z.nullable(types.string())),
-    country_code: z.optional(z.nullable(types.string())),
-    city: z.optional(z.nullable(types.string())),
-    region: z.optional(z.nullable(types.string())),
-    postal_code: z.optional(z.nullable(types.string())),
-    formatted_location: z.optional(z.nullable(types.string())),
+    country_code: types.optional(types.string()),
+    city: types.optional(types.string()),
+    region: types.optional(types.string()),
+    postal_code: types.optional(types.string()),
+    formatted_location: types.optional(types.string()),
     is_private: types.optional(types.boolean()),
     is_wishlist_public: types.optional(types.boolean()),
-    public_wishlist_id: z.optional(z.nullable(types.string())),
-    email_notifications: types.optional(types.boolean()),
-    content_edit_notifications: types.optional(types.boolean()),
-    comment_reply_notifications: types.optional(types.boolean()),
     show_nsfw_warnings: types.optional(types.boolean()),
-    birth_date: z.optional(z.nullable(types.string())),
     can_view_nsfw: types.optional(types.boolean()),
     show_reading_list: types.optional(types.boolean()),
     show_collection: types.optional(types.boolean()),
@@ -112,43 +89,29 @@ export const GetTheAuthenticatedUserData$inboundSchema: z.ZodMiniType<
     preferred_mediums: types.optional(z.array(types.string())),
     preferred_genres: types.optional(z.array(z.any())),
     preferred_languages: types.optional(z.array(types.string())),
-    locale: z.optional(z.nullable(types.string())),
-    onboarding_completed_at: types.optional(types.string()),
-    onboarding_step: types.optional(types.number()),
-    ai_discovery_enabled: types.optional(types.boolean()),
+    locale: types.optional(types.string()),
     is_pro: types.optional(types.boolean()),
-    can_change_username: types.optional(types.boolean()),
     level: types.optional(types.number()),
     xp: types.optional(types.number()),
     xp_for_next_level: types.optional(types.number()),
     xp_progress_percent: types.optional(types.number()),
     contributions_count: types.optional(types.number()),
     level_name: types.optional(types.string()),
+    has_password: types.optional(types.boolean()),
     created_at: types.optional(types.string()),
     updated_at: types.optional(types.string()),
-    has_password: types.optional(types.boolean()),
-    deletion_requested_at: z.optional(z.nullable(types.string())),
-    deletion_confirmed_at: z.optional(z.nullable(types.string())),
-    deletion_scheduled_for: z.optional(z.nullable(types.string())),
   }),
   z.transform((v) => {
     return remap$(v, {
-      "profile_image": "profileImage",
       "profile_image_url": "profileImageUrl",
       "glow_color": "glowColor",
-      "banner_path": "bannerPath",
       "banner_url": "bannerUrl",
       "country_code": "countryCode",
       "postal_code": "postalCode",
       "formatted_location": "formattedLocation",
       "is_private": "isPrivate",
       "is_wishlist_public": "isWishlistPublic",
-      "public_wishlist_id": "publicWishlistId",
-      "email_notifications": "emailNotifications",
-      "content_edit_notifications": "contentEditNotifications",
-      "comment_reply_notifications": "commentReplyNotifications",
       "show_nsfw_warnings": "showNsfwWarnings",
-      "birth_date": "birthDate",
       "can_view_nsfw": "canViewNsfw",
       "show_reading_list": "showReadingList",
       "show_collection": "showCollection",
@@ -157,21 +120,14 @@ export const GetTheAuthenticatedUserData$inboundSchema: z.ZodMiniType<
       "preferred_mediums": "preferredMediums",
       "preferred_genres": "preferredGenres",
       "preferred_languages": "preferredLanguages",
-      "onboarding_completed_at": "onboardingCompletedAt",
-      "onboarding_step": "onboardingStep",
-      "ai_discovery_enabled": "aiDiscoveryEnabled",
       "is_pro": "isPro",
-      "can_change_username": "canChangeUsername",
       "xp_for_next_level": "xpForNextLevel",
       "xp_progress_percent": "xpProgressPercent",
       "contributions_count": "contributionsCount",
       "level_name": "levelName",
+      "has_password": "hasPassword",
       "created_at": "createdAt",
       "updated_at": "updatedAt",
-      "has_password": "hasPassword",
-      "deletion_requested_at": "deletionRequestedAt",
-      "deletion_confirmed_at": "deletionConfirmedAt",
-      "deletion_scheduled_for": "deletionScheduledFor",
     });
   }),
 );

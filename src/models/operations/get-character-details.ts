@@ -36,7 +36,6 @@ export type GetCharacterDetailsData = {
   aliases?: Array<string> | undefined;
   imageUrl?: string | undefined;
   images?: GetCharacterDetailsImages | undefined;
-  description?: string | undefined;
   alterEgo?: Array<any> | undefined;
   gender?: string | undefined;
   race?: string | undefined;
@@ -154,7 +153,6 @@ export const GetCharacterDetailsData$inboundSchema: z.ZodMiniType<
     images: types.optional(
       z.lazy(() => GetCharacterDetailsImages$inboundSchema),
     ),
-    description: types.optional(types.string()),
     alter_ego: types.optional(z.array(z.any())),
     gender: types.optional(types.string()),
     race: types.optional(types.string()),

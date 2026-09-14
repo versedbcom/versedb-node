@@ -15,6 +15,7 @@ import { listsMergeAListIntoThisOne } from "../funcs/lists-merge-a-list-into-thi
 import { listsRemoveItemFromList } from "../funcs/lists-remove-item-from-list.js";
 import { listsReorderItems } from "../funcs/lists-reorder-items.js";
 import { listsSaveList } from "../funcs/lists-save-list.js";
+import { listsStopAListUpdatingItself } from "../funcs/lists-stop-a-list-updating-itself.js";
 import { listsUnlikeList } from "../funcs/lists-unlike-list.js";
 import { listsUnsaveList } from "../funcs/lists-unsave-list.js";
 import { listsUpdateList } from "../funcs/lists-update-list.js";
@@ -144,17 +145,36 @@ export class Lists extends ClientSDK {
   }
 
   /**
-   * Convert a list to mixed.
+   * Open a list to any type.
    *
    * @remarks
    * One-way: broadens a single-type list so it can hold items of any type. Existing items keep
-   * their own type. A mixed list cannot be narrowed back, and wishlists cannot be converted.
+   * their own type. It cannot be narrowed back, and a wishlist already holds any type.
    */
   async convertAListToMixed(
-    request: operations.ConvertAListToMixedRequest,
+    request: operations.OpenAListToAnyTypeRequest,
     options?: RequestOptions,
-  ): Promise<operations.ConvertAListToMixedResponse> {
+  ): Promise<operations.OpenAListToAnyTypeResponse> {
     return unwrapAsync(listsConvertAListToMixed(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Stop a list updating itself.
+   *
+   * @remarks
+   * One-way: drops a smart list's rule and keeps every item the last refresh left,
+   * handing the contents back for editing by hand. A rule is only ever attached when
+   * a list is created, so it cannot be put back.
+   */
+  async stopAListUpdatingItself(
+    request: operations.StopAListUpdatingItselfRequest,
+    options?: RequestOptions,
+  ): Promise<operations.StopAListUpdatingItselfResponse> {
+    return unwrapAsync(listsStopAListUpdatingItself(
       this,
       request,
       options,
@@ -167,7 +187,7 @@ export class Lists extends ClientSDK {
    * @remarks
    * Pulls every item from the source list into this (destination) list, skipping items already
    * present (by entity + variant) and appending the rest. Both lists must be owned by the
-   * authenticated user. Merging items of a different type converts this list to `mixed`.
+   * authenticated user. Merging items of a different type opens this list to any type.
    */
   async mergeAListIntoThisOne(
     request: operations.MergeAListIntoThisOneRequest,

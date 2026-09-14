@@ -29,6 +29,9 @@ import { Result } from "../types/fp.js";
 
 /**
  * Check follow status.
+ *
+ * @remarks
+ * Reports whether the authenticated user currently follows the given entity.
  */
 export function userCheckFollowStatus(
   client: VerseDBCore,

@@ -35,7 +35,7 @@ export type LookupByISBNData = {
   titleId?: number | undefined;
   issueNumber?: string | undefined;
   name?: string | undefined;
-  description?: string | undefined;
+  solicitation?: string | undefined;
   releaseDate?: string | undefined;
   isbn?: string | undefined;
   format?: string | undefined;
@@ -128,7 +128,7 @@ export const LookupByISBNData$inboundSchema: z.ZodMiniType<
     title_id: types.optional(types.number()),
     issue_number: types.optional(types.string()),
     name: types.optional(types.string()),
-    description: types.optional(types.string()),
+    solicitation: types.optional(types.string()),
     release_date: types.optional(types.string()),
     isbn: types.optional(types.string()),
     format: types.optional(types.string()),

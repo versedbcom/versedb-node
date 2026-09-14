@@ -21,6 +21,8 @@ let value: ListSeriesData = {
   cachedIssuesCount: 75,
   averageRating: 4.2,
   totalReviews: 150,
+  issuesAverageRating: 4.05,
+  issuesRatedCount: 812,
   contentRatingLabel: "15+",
   minAge: 15,
   isNsfw: false,
@@ -46,6 +48,8 @@ let value: ListSeriesData = {
 | `cachedIssuesCount`     | *number*                | :heavy_minus_sign:      | N/A                     | 75                      |
 | `averageRating`         | *number*                | :heavy_minus_sign:      | N/A                     | 4.2                     |
 | `totalReviews`          | *number*                | :heavy_minus_sign:      | N/A                     | 150                     |
+| `issuesAverageRating`   | *number*                | :heavy_minus_sign:      | N/A                     | 4.05                    |
+| `issuesRatedCount`      | *number*                | :heavy_minus_sign:      | N/A                     | 812                     |
 | `contentRatingLabel`    | *string*                | :heavy_minus_sign:      | N/A                     | 15+                     |
 | `minAge`                | *number*                | :heavy_minus_sign:      | N/A                     | 15                      |
 | `isNsfw`                | *boolean*               | :heavy_minus_sign:      | N/A                     | false                   |

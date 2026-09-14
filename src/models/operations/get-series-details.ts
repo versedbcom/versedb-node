@@ -93,7 +93,7 @@ export type GetSeriesDetailsData = {
   startYear?: number | undefined;
   endYear?: number | undefined;
   coverUrl?: string | undefined;
-  description?: string | undefined;
+  publisherDescription?: string | undefined;
   publicationType?: string | undefined;
   format?: string | undefined;
   status?: string | undefined;
@@ -101,6 +101,8 @@ export type GetSeriesDetailsData = {
   cachedIssuesCount?: number | undefined;
   averageRating?: number | undefined;
   totalReviews?: number | undefined;
+  issuesAverageRating?: number | undefined;
+  issuesRatedCount?: number | undefined;
   contentRatingLabel?: string | undefined;
   minAge?: number | undefined;
   isNsfw?: boolean | undefined;
@@ -419,7 +421,7 @@ export const GetSeriesDetailsData$inboundSchema: z.ZodMiniType<
     start_year: types.optional(types.number()),
     end_year: types.optional(types.number()),
     cover_url: types.optional(types.string()),
-    description: types.optional(types.string()),
+    publisher_description: types.optional(types.string()),
     publication_type: types.optional(types.string()),
     format: types.optional(types.string()),
     status: types.optional(types.string()),
@@ -427,6 +429,8 @@ export const GetSeriesDetailsData$inboundSchema: z.ZodMiniType<
     cached_issues_count: types.optional(types.number()),
     average_rating: types.optional(types.number()),
     total_reviews: types.optional(types.number()),
+    issues_average_rating: types.optional(types.number()),
+    issues_rated_count: types.optional(types.number()),
     content_rating_label: types.optional(types.string()),
     min_age: types.optional(types.number()),
     is_nsfw: types.optional(types.boolean()),
@@ -465,11 +469,14 @@ export const GetSeriesDetailsData$inboundSchema: z.ZodMiniType<
       "start_year": "startYear",
       "end_year": "endYear",
       "cover_url": "coverUrl",
+      "publisher_description": "publisherDescription",
       "publication_type": "publicationType",
       "original_language": "originalLanguage",
       "cached_issues_count": "cachedIssuesCount",
       "average_rating": "averageRating",
       "total_reviews": "totalReviews",
+      "issues_average_rating": "issuesAverageRating",
+      "issues_rated_count": "issuesRatedCount",
       "content_rating_label": "contentRatingLabel",
       "min_age": "minAge",
       "is_nsfw": "isNsfw",

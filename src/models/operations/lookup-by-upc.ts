@@ -20,6 +20,7 @@ export type MatchVariant = {
   variantId?: string | null | undefined;
   variantName?: string | undefined;
   coverUrl?: string | undefined;
+  upc?: string | undefined;
 };
 
 export type Match = {
@@ -57,7 +58,7 @@ export type LookupByUPCData = {
   titleId?: number | undefined;
   issueNumber?: string | undefined;
   name?: string | undefined;
-  description?: string | undefined;
+  solicitation?: string | undefined;
   releaseDate?: string | undefined;
   coverDate?: string | undefined;
   coverUrl?: string | undefined;
@@ -70,6 +71,7 @@ export type LookupByUPCVariant = {
   variantId?: string | null | undefined;
   variantName?: string | undefined;
   coverUrl?: string | undefined;
+  upc?: string | undefined;
 };
 
 /**
@@ -114,6 +116,7 @@ export const MatchVariant$inboundSchema: z.ZodMiniType<MatchVariant, unknown> =
       variant_id: z.optional(z.nullable(types.string())),
       variant_name: types.optional(types.string()),
       cover_url: types.optional(types.string()),
+      upc: types.optional(types.string()),
     }),
     z.transform((v) => {
       return remap$(v, {
@@ -237,7 +240,7 @@ export const LookupByUPCData$inboundSchema: z.ZodMiniType<
     title_id: types.optional(types.number()),
     issue_number: types.optional(types.string()),
     name: types.optional(types.string()),
-    description: types.optional(types.string()),
+    solicitation: types.optional(types.string()),
     release_date: types.optional(types.string()),
     cover_date: types.optional(types.string()),
     cover_url: types.optional(types.string()),
@@ -276,6 +279,7 @@ export const LookupByUPCVariant$inboundSchema: z.ZodMiniType<
     variant_id: z.optional(z.nullable(types.string())),
     variant_name: types.optional(types.string()),
     cover_url: types.optional(types.string()),
+    upc: types.optional(types.string()),
   }),
   z.transform((v) => {
     return remap$(v, {

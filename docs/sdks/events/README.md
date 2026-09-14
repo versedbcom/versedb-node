@@ -33,6 +33,7 @@ async function run() {
     isOnline: false,
     isFcbd: true,
     countryCode: "US",
+    region: "California",
     limit: 20,
   });
 
@@ -65,6 +66,7 @@ async function run() {
     isOnline: false,
     isFcbd: true,
     countryCode: "US",
+    region: "California",
     limit: 20,
   });
   if (res.ok) {

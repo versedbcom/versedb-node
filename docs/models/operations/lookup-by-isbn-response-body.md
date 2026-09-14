@@ -15,7 +15,7 @@ let value: LookupByISBNResponseBody = {
     titleId: 45,
     issueNumber: "1",
     name: "Spider-Man: Life Story TP",
-    description: "A story of Peter Parker...",
+    solicitation: "The publisher's own solicitation text, verbatim, or null",
     releaseDate: "2019-10-02",
     isbn: "978-1302913847",
     format: "trade_paperback",

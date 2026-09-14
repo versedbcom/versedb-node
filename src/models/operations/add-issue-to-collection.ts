@@ -205,6 +205,21 @@ export type AddIssueToCollectionSignatureWitness = ClosedEnum<
   typeof AddIssueToCollectionSignatureWitness
 >;
 
+/**
+ * Whether the copy is owned, for_sale, or sold. A sold copy keeps its record but leaves the collection totals.
+ */
+export const AddIssueToCollectionStatus = {
+  Owned: "owned",
+  ForSale: "for_sale",
+  Sold: "sold",
+} as const;
+/**
+ * Whether the copy is owned, for_sale, or sold. A sold copy keeps its record but leaves the collection totals.
+ */
+export type AddIssueToCollectionStatus = ClosedEnum<
+  typeof AddIssueToCollectionStatus
+>;
+
 export type AddIssueToCollectionRequestBody = {
   /**
    * Specific variant ID (optional).
@@ -230,6 +245,26 @@ export type AddIssueToCollectionRequestBody = {
    * Where the comic was purchased.
    */
   purchaseSource?: AddIssueToCollectionPurchaseSource | null | undefined;
+  /**
+   * Name of the store the copy was bought from, as free text. Use comic_shop_id instead where the shop is one VerseDB catalogs. Must not be greater than 255 characters.
+   */
+  purchaseStore?: string | null | undefined;
+  /**
+   * The collector's own label for this copy. Free-text and unrelated to a slab label. Must not be greater than 255 characters.
+   */
+  customLabel?: string | null | undefined;
+  /**
+   * Date the copy was bagged and boarded (YYYY-MM-DD). Must be a valid date.
+   */
+  baggedAt?: string | null | undefined;
+  /**
+   * The collector's own rating of this copy, in half stars from 0.5 to 5. Private to the copy: it is not a review and feeds no community average.
+   */
+  personalRating?: number | null | undefined;
+  /**
+   * Must not be greater than 100 characters.
+   */
+  tags?: Array<string> | undefined;
   /**
    * ID of the specific comic shop the copy was purchased from. Self-reported; independent of purchase_source. Must match an existing stored value.
    */
@@ -310,6 +345,18 @@ export type AddIssueToCollectionRequestBody = {
    * Whether the item is for sale.
    */
   forSale?: boolean | undefined;
+  /**
+   * Whether the copy is owned, for_sale, or sold. A sold copy keeps its record but leaves the collection totals.
+   */
+  status?: AddIssueToCollectionStatus | undefined;
+  /**
+   * Date the copy was sold. Must be a valid date.
+   */
+  soldAt?: string | null | undefined;
+  /**
+   * What the copy sold for, in dollars. Must be at least 0. Must not be greater than 99999999.99.
+   */
+  priceSold?: number | null | undefined;
   /**
    * Whether the item is available for trade.
    */
@@ -409,6 +456,11 @@ export const AddIssueToCollectionSignatureWitness$outboundSchema: z.ZodMiniEnum<
 > = z.enum(AddIssueToCollectionSignatureWitness);
 
 /** @internal */
+export const AddIssueToCollectionStatus$outboundSchema: z.ZodMiniEnum<
+  typeof AddIssueToCollectionStatus
+> = z.enum(AddIssueToCollectionStatus);
+
+/** @internal */
 export type AddIssueToCollectionRequestBody$Outbound = {
   variant_id?: number | null | undefined;
   condition?: string | null | undefined;
@@ -416,6 +468,11 @@ export type AddIssueToCollectionRequestBody$Outbound = {
   price_paid?: number | null | undefined;
   format?: string | null | undefined;
   purchase_source?: string | null | undefined;
+  purchase_store?: string | null | undefined;
+  custom_label?: string | null | undefined;
+  bagged_at?: string | null | undefined;
+  personal_rating?: number | null | undefined;
+  tags?: Array<string> | undefined;
   comic_shop_id?: number | null | undefined;
   acquisition_method?: string | null | undefined;
   purchased_at?: string | null | undefined;
@@ -436,6 +493,9 @@ export type AddIssueToCollectionRequestBody$Outbound = {
   signature_witness?: string | null | undefined;
   estimated_value?: number | null | undefined;
   for_sale?: boolean | undefined;
+  status?: string | undefined;
+  sold_at?: string | null | undefined;
+  price_sold?: number | null | undefined;
   for_trade?: boolean | undefined;
   is_public?: boolean | undefined;
 };
@@ -454,6 +514,11 @@ export const AddIssueToCollectionRequestBody$outboundSchema: z.ZodMiniType<
     purchaseSource: z.optional(
       z.nullable(AddIssueToCollectionPurchaseSource$outboundSchema),
     ),
+    purchaseStore: z.optional(z.nullable(z.string())),
+    customLabel: z.optional(z.nullable(z.string())),
+    baggedAt: z.optional(z.nullable(z.string())),
+    personalRating: z.optional(z.nullable(z.number())),
+    tags: z.optional(z.array(z.string())),
     comicShopId: z.optional(z.nullable(z.int())),
     acquisitionMethod: z.optional(
       z.nullable(AddIssueToCollectionAcquisitionMethod$outboundSchema),
@@ -488,6 +553,9 @@ export const AddIssueToCollectionRequestBody$outboundSchema: z.ZodMiniType<
     ),
     estimatedValue: z.optional(z.nullable(z.number())),
     forSale: z.optional(z.boolean()),
+    status: z.optional(AddIssueToCollectionStatus$outboundSchema),
+    soldAt: z.optional(z.nullable(z.string())),
+    priceSold: z.optional(z.nullable(z.number())),
     forTrade: z.optional(z.boolean()),
     isPublic: z.optional(z.boolean()),
   }),
@@ -496,6 +564,10 @@ export const AddIssueToCollectionRequestBody$outboundSchema: z.ZodMiniType<
       variantId: "variant_id",
       pricePaid: "price_paid",
       purchaseSource: "purchase_source",
+      purchaseStore: "purchase_store",
+      customLabel: "custom_label",
+      baggedAt: "bagged_at",
+      personalRating: "personal_rating",
       comicShopId: "comic_shop_id",
       acquisitionMethod: "acquisition_method",
       purchasedAt: "purchased_at",
@@ -515,6 +587,8 @@ export const AddIssueToCollectionRequestBody$outboundSchema: z.ZodMiniType<
       signatureWitness: "signature_witness",
       estimatedValue: "estimated_value",
       forSale: "for_sale",
+      soldAt: "sold_at",
+      priceSold: "price_sold",
       forTrade: "for_trade",
       isPublic: "is_public",
     });

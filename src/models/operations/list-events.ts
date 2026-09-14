@@ -39,6 +39,10 @@ export type ListEventsRequest = {
    */
   countryCode?: string | undefined;
   /**
+   * Filter by region, matched exactly against the stored value. Use the values from /events/regions.
+   */
+  region?: string | undefined;
+  /**
    * Number of results per page (max 50).
    */
   limit?: number | undefined;
@@ -58,6 +62,9 @@ export type ListEventsData = {
   status?: string | undefined;
   startDate?: string | undefined;
   endDate?: string | undefined;
+  startTime?: string | null | undefined;
+  endTime?: string | null | undefined;
+  timezone?: string | undefined;
   isOnline?: boolean | undefined;
   isFcbd?: boolean | undefined;
   venueName?: string | undefined;
@@ -100,6 +107,7 @@ export type ListEventsRequest$Outbound = {
   is_online?: boolean | undefined;
   is_fcbd?: boolean | undefined;
   country_code?: string | undefined;
+  region?: string | undefined;
   limit?: number | undefined;
 };
 
@@ -116,6 +124,7 @@ export const ListEventsRequest$outboundSchema: z.ZodMiniType<
     isOnline: z.optional(z.boolean()),
     isFcbd: z.optional(z.boolean()),
     countryCode: z.optional(z.string()),
+    region: z.optional(z.string()),
     limit: z.optional(z.int()),
   }),
   z.transform((v) => {
@@ -177,6 +186,9 @@ export const ListEventsData$inboundSchema: z.ZodMiniType<
     status: types.optional(types.string()),
     start_date: types.optional(types.string()),
     end_date: types.optional(types.string()),
+    start_time: z.optional(z.nullable(types.string())),
+    end_time: z.optional(z.nullable(types.string())),
+    timezone: types.optional(types.string()),
     is_online: types.optional(types.boolean()),
     is_fcbd: types.optional(types.boolean()),
     venue_name: types.optional(types.string()),
@@ -193,6 +205,8 @@ export const ListEventsData$inboundSchema: z.ZodMiniType<
     return remap$(v, {
       "start_date": "startDate",
       "end_date": "endDate",
+      "start_time": "startTime",
+      "end_time": "endTime",
       "is_online": "isOnline",
       "is_fcbd": "isFcbd",
       "venue_name": "venueName",

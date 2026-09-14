@@ -9,6 +9,7 @@ import { CheckIssueInCollectionResponseBody2 } from "@versedbcom/sdk/models/oper
 
 let value: CheckIssueInCollectionResponseBody2 = {
   inCollection: false,
+  isUnreleased: false,
   copiesCount: 0,
   copies: [],
   data: null,
@@ -20,6 +21,7 @@ let value: CheckIssueInCollectionResponseBody2 = {
 | Field              | Type               | Required           | Description        | Example            |
 | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
 | `inCollection`     | *boolean*          | :heavy_minus_sign: | N/A                | false              |
+| `isUnreleased`     | *boolean*          | :heavy_minus_sign: | N/A                | false              |
 | `copiesCount`      | *number*           | :heavy_minus_sign: | N/A                | 0                  |
 | `copies`           | *any*[]            | :heavy_minus_sign: | N/A                | []                 |
 | `data`             | *string*           | :heavy_minus_sign: | N/A                | null               |

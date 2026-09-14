@@ -30,7 +30,6 @@ export type OperatingHours = {
 export type GetAComicShopData = {
   id?: number | undefined;
   name?: string | undefined;
-  description?: string | undefined;
   address?: string | undefined;
   city?: string | undefined;
   stateProvince?: string | undefined;
@@ -140,7 +139,6 @@ export const GetAComicShopData$inboundSchema: z.ZodMiniType<
   z.object({
     id: types.optional(types.number()),
     name: types.optional(types.string()),
-    description: types.optional(types.string()),
     address: types.optional(types.string()),
     city: types.optional(types.string()),
     state_province: types.optional(types.string()),

@@ -9,58 +9,58 @@ import { VerseDbError } from "./verse-db-error.js";
 /**
  * Not convertible
  */
-export type ConvertAListToMixedUnprocessableEntityErrorData = {
+export type OpenAListToAnyTypeUnprocessableEntityErrorData = {
   message?: string | undefined;
 };
 
 /**
  * Not convertible
  */
-export class ConvertAListToMixedUnprocessableEntityError extends VerseDbError {
+export class OpenAListToAnyTypeUnprocessableEntityError extends VerseDbError {
   /** The original data that was passed to this error instance. */
-  data$: ConvertAListToMixedUnprocessableEntityErrorData;
+  data$: OpenAListToAnyTypeUnprocessableEntityErrorData;
 
   constructor(
-    err: ConvertAListToMixedUnprocessableEntityErrorData,
+    err: OpenAListToAnyTypeUnprocessableEntityErrorData,
     httpMeta: { response: Response; request: Request; body: string },
   ) {
     const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
     super(message, httpMeta);
     this.data$ = err;
 
-    this.name = "ConvertAListToMixedUnprocessableEntityError";
+    this.name = "OpenAListToAnyTypeUnprocessableEntityError";
   }
 }
 
 /**
  * Unauthorized
  */
-export type ConvertAListToMixedForbiddenErrorData = {
+export type OpenAListToAnyTypeForbiddenErrorData = {
   message?: string | undefined;
 };
 
 /**
  * Unauthorized
  */
-export class ConvertAListToMixedForbiddenError extends VerseDbError {
+export class OpenAListToAnyTypeForbiddenError extends VerseDbError {
   /** The original data that was passed to this error instance. */
-  data$: ConvertAListToMixedForbiddenErrorData;
+  data$: OpenAListToAnyTypeForbiddenErrorData;
 
   constructor(
-    err: ConvertAListToMixedForbiddenErrorData,
+    err: OpenAListToAnyTypeForbiddenErrorData,
     httpMeta: { response: Response; request: Request; body: string },
   ) {
     const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
     super(message, httpMeta);
     this.data$ = err;
 
-    this.name = "ConvertAListToMixedForbiddenError";
+    this.name = "OpenAListToAnyTypeForbiddenError";
   }
 }
 
 /** @internal */
-export const ConvertAListToMixedUnprocessableEntityError$inboundSchema:
-  z.ZodMiniType<ConvertAListToMixedUnprocessableEntityError, unknown> = z.pipe(
+export const OpenAListToAnyTypeUnprocessableEntityError$inboundSchema:
+  z.ZodMiniType<OpenAListToAnyTypeUnprocessableEntityError, unknown> = z.pipe(
     z.object({
       message: types.optional(types.string()),
       request$: z.custom<Request>(x => x instanceof Request),
@@ -68,7 +68,7 @@ export const ConvertAListToMixedUnprocessableEntityError$inboundSchema:
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new ConvertAListToMixedUnprocessableEntityError(v, {
+      return new OpenAListToAnyTypeUnprocessableEntityError(v, {
         request: v.request$,
         response: v.response$,
         body: v.body$,
@@ -77,8 +77,8 @@ export const ConvertAListToMixedUnprocessableEntityError$inboundSchema:
   );
 
 /** @internal */
-export const ConvertAListToMixedForbiddenError$inboundSchema: z.ZodMiniType<
-  ConvertAListToMixedForbiddenError,
+export const OpenAListToAnyTypeForbiddenError$inboundSchema: z.ZodMiniType<
+  OpenAListToAnyTypeForbiddenError,
   unknown
 > = z.pipe(
   z.object({
@@ -88,7 +88,7 @@ export const ConvertAListToMixedForbiddenError$inboundSchema: z.ZodMiniType<
     body$: z.string(),
   }),
   z.transform((v) => {
-    return new ConvertAListToMixedForbiddenError(v, {
+    return new OpenAListToAnyTypeForbiddenError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

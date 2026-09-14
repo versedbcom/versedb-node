@@ -30,6 +30,9 @@ import * as types$ from "../types/primitives.js";
 
 /**
  * Remove from pull list.
+ *
+ * @remarks
+ * Removes a series from the authenticated user's pull list.
  */
 export function userRemoveFromPullList(
   client: VerseDBCore,

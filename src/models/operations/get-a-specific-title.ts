@@ -26,7 +26,6 @@ export type GetASpecificTitleData = {
   id?: number | undefined;
   name?: string | undefined;
   slug?: string | undefined;
-  description?: string | undefined;
   startYear?: number | undefined;
   endYear?: string | null | undefined;
   status?: string | undefined;
@@ -121,7 +120,6 @@ export const GetASpecificTitleData$inboundSchema: z.ZodMiniType<
     id: types.optional(types.number()),
     name: types.optional(types.string()),
     slug: types.optional(types.string()),
-    description: types.optional(types.string()),
     start_year: types.optional(types.number()),
     end_year: z.optional(z.nullable(types.string())),
     status: types.optional(types.string()),

@@ -30,6 +30,10 @@ let value: ListComicShopsResponseBody = {
     lastPage: 8,
     perPage: 20,
     total: 150,
+    ipLocation: {
+      latitude: 40.71,
+      longitude: -74.01,
+    },
   },
 };
 ```

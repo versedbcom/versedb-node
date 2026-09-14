@@ -89,7 +89,7 @@ run();
 
 ## getASpecificUniverse
 
-Returns: id, name, description
+Returns: id, name
 
 Use the relationship endpoints for related data:
 - /universes/{id}/story-arcs - Get story arcs in a universe

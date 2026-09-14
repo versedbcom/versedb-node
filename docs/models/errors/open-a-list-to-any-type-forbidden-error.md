@@ -1,11 +1,11 @@
-# ConvertAListToMixedForbiddenError
+# OpenAListToAnyTypeForbiddenError
 
 Unauthorized
 
 ## Example Usage
 
 ```typescript
-import { ConvertAListToMixedForbiddenError } from "@versedbcom/sdk/models/errors";
+import { OpenAListToAnyTypeForbiddenError } from "@versedbcom/sdk/models/errors";
 
 // No examples available for this model
 ```

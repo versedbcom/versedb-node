@@ -50,8 +50,13 @@ export class Discovery extends ClientSDK {
    * Follow updates.
    *
    * @remarks
-   * Returns recent releases from titles, series, characters, and creators the user follows.
-   * Each item includes a context string explaining why it's shown (e.g. "New in X-Men", "Featuring Superman").
+   * Returns recent releases from the titles, characters, creators, and teams the user
+   * follows. A Series is not followable — it reaches this feed through its Title, and
+   * every volume of that title counts.
+   *
+   * `follow_contexts` and `follow_types` are top-level maps keyed by issue id: the
+   * context explains why the issue is shown ("New in X-Men"), the type is one of
+   * `title`, `character`, `creator`, `team`.
    */
   async followUpdates(
     request?: operations.FollowUpdatesRequest | undefined,

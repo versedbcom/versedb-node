@@ -12,8 +12,9 @@ These are reusable labels that can be attached to issues to indicate significanc
 
 ## listKeyIssueReasons
 
-Returns all active key issue reasons, optionally filtered by category.
-Useful for client-side pickers and filters.
+Returns active key issue reasons, optionally filtered by category or name. Reasons are written
+per issue rather than drawn from a fixed vocabulary, so there are far more of them than the
+category list suggests — pass `q` and `limit` for a picker rather than fetching the lot.
 
 ### Example Usage
 
@@ -28,6 +29,8 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.keyIssueReasons.listKeyIssueReasons({
     category: "appearance",
+    q: "1st appearance",
+    limit: 12,
   });
 
   console.log(result);
@@ -53,6 +56,8 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await keyIssueReasonsListKeyIssueReasons(verseDB, {
     category: "appearance",
+    q: "1st appearance",
+    limit: 12,
   });
   if (res.ok) {
     const { value: result } = res;

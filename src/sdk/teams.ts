@@ -14,6 +14,9 @@ import { unwrapAsync } from "../types/fp.js";
 export class Teams extends ClientSDK {
   /**
    * List all teams with optional search
+   *
+   * @remarks
+   * Returns a paginated list of teams. Use `q` to search by team name.
    */
   async listAllTeamsWithOptionalSearch(
     request?: operations.ListAllTeamsWithOptionalSearchRequest | undefined,
@@ -49,6 +52,9 @@ export class Teams extends ClientSDK {
 
   /**
    * Get characters for a specific team (members)
+   *
+   * @remarks
+   * Returns the team's character roster.
    */
   async getCharactersForASpecificTeammembers(
     request: operations.GetCharactersForASpecificTeammembersRequest,
@@ -63,6 +69,9 @@ export class Teams extends ClientSDK {
 
   /**
    * Get series for a specific team
+   *
+   * @remarks
+   * Returns the series the team appears in.
    */
   async getSeriesForASpecificTeam(
     request: operations.GetSeriesForASpecificTeamRequest,
@@ -77,6 +86,9 @@ export class Teams extends ClientSDK {
 
   /**
    * Get issues for a specific team
+   *
+   * @remarks
+   * Returns the issues the team appears in.
    */
   async getIssuesForASpecificTeam(
     request: operations.GetIssuesForASpecificTeamRequest,

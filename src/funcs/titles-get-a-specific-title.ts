@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * Get a specific title
  *
  * @remarks
- * Returns: id, name, slug, description, start_year, end_year, status, type,
+ * Returns: id, name, slug, start_year, end_year, status, type,
  * image_url, content_rating_label, min_age, is_nsfw, imprint_id, series_count,
  * issues_count, average_rating, total_reviews, aliases
  *

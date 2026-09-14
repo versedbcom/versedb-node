@@ -15,7 +15,8 @@ Endpoints for browsing story arcs and crossover events.
 
 ## listAllStoryArcsWithOptionalSearch
 
-List all story arcs with optional search
+Returns a paginated list of story arcs and crossover events, newest first.
+Narrow the results with `q`, `status`, or `type`.
 
 ### Example Usage
 
@@ -178,7 +179,7 @@ run();
 
 ## getStoryArcsForASpecificIssue
 
-Get story arcs for a specific issue
+Returns every story arc the given issue is part of.
 
 ### Example Usage
 
@@ -257,7 +258,7 @@ run();
 
 ## getStoryArcsForASpecificCharacter
 
-Get story arcs for a specific character
+Returns every story arc the given character appears in.
 
 ### Example Usage
 
@@ -336,7 +337,7 @@ run();
 
 ## getStoryArcsForASpecificUniverse
 
-Get story arcs for a specific universe
+Returns every story arc that takes place in the given universe.
 
 ### Example Usage
 

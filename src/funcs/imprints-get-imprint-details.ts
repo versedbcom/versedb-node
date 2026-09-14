@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * Get imprint details
  *
  * @remarks
- * Returns: id, name, slug, description, publisher, series_count, titles_count
+ * Returns: id, name, slug, publisher, series_count, titles_count
  */
 export function imprintsGetImprintDetails(
   client: VerseDBCore,

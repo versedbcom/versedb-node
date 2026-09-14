@@ -101,6 +101,7 @@ async function $do(
     "limit": payload?.limit,
     "q": payload?.q,
     "sort": payload?.sort,
+    "type": payload?.type,
   });
 
   const headers = new Headers(compactMap({

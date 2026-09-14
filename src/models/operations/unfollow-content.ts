@@ -11,7 +11,7 @@ import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type UnfollowContentRequest = {
   /**
-   * The content type (title, character, podcast, creator, publisher, team, story_arc, comic_shop, event, user).
+   * The content type (title, character, podcast, creator, publisher, team, story_arc, comic_shop, event, event_franchise, user).
    */
   type: string;
   /**

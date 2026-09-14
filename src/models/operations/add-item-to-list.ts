@@ -15,7 +15,7 @@ export type AddItemToListRequestBody = {
    */
   entityId: number;
   /**
-   * Required only for mixed lists: the type of the entity being added (issues, series, characters, creators, story_arcs, teams). Ignored on single-type lists.
+   * Required when the list holds any type: the type of the entity being added (issues, series, characters, creators, story_arcs, teams). Ignored on a single-type list.
    */
   entityType?: string | null | undefined;
   /**

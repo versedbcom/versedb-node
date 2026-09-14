@@ -15,5 +15,5 @@ let value: Upcoming1IssuesRequest = {
 
 | Field                            | Type                             | Required                         | Description                      | Example                          |
 | -------------------------------- | -------------------------------- | -------------------------------- | -------------------------------- | -------------------------------- |
-| `limit`                          | *number*                         | :heavy_minus_sign:               | Max results (1-25).              | 10                               |
+| `limit`                          | *number*                         | :heavy_minus_sign:               | Max results (1-50).              | 10                               |
 | `days`                           | *number*                         | :heavy_minus_sign:               | Lookahead window in days (1-90). | 60                               |

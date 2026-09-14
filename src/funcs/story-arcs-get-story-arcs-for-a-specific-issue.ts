@@ -29,6 +29,9 @@ import { Result } from "../types/fp.js";
 
 /**
  * Get story arcs for a specific issue
+ *
+ * @remarks
+ * Returns every story arc the given issue is part of.
  */
 export function storyArcsGetStoryArcsForASpecificIssue(
   client: VerseDBCore,

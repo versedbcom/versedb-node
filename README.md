@@ -302,7 +302,8 @@ run();
 * [updateList](docs/sdks/lists/README.md#updatelist) - Update list.
 * [deleteList](docs/sdks/lists/README.md#deletelist) - Delete list.
 * [getUsersLists](docs/sdks/lists/README.md#getuserslists) - Get user's lists.
-* [convertAListToMixed](docs/sdks/lists/README.md#convertalisttomixed) - Convert a list to mixed.
+* [convertAListToMixed](docs/sdks/lists/README.md#convertalisttomixed) - Open a list to any type.
+* [stopAListUpdatingItself](docs/sdks/lists/README.md#stopalistupdatingitself) - Stop a list updating itself.
 * [mergeAListIntoThisOne](docs/sdks/lists/README.md#mergealistintothisone) - Merge a list into this one.
 * [addItemToList](docs/sdks/lists/README.md#additemtolist) - Add item to list.
 * [removeItemFromList](docs/sdks/lists/README.md#removeitemfromlist) - Remove item from list.
@@ -375,10 +376,12 @@ run();
 * [addToWishlist](docs/sdks/user/README.md#addtowishlist) - Add to wishlist.
 * [removeFromWishlist](docs/sdks/user/README.md#removefromwishlist) - Remove from wishlist.
 * [listFollows](docs/sdks/user/README.md#listfollows) - List follows.
+* [checkFollowStatus](docs/sdks/user/README.md#checkfollowstatus) - Check follow status.
 * [followContent](docs/sdks/user/README.md#followcontent) - Follow content.
 * [unfollowContent](docs/sdks/user/README.md#unfollowcontent) - Unfollow content.
-* [checkFollowStatus](docs/sdks/user/README.md#checkfollowstatus) - Check follow status.
-* [getActivityFeed](docs/sdks/user/README.md#getactivityfeed) - Get activity feed.
+* [~~getActivityFeed~~](docs/sdks/user/README.md#getactivityfeed) - Get activity feed. :warning: **Deprecated**
+* [lendACopyOut](docs/sdks/user/README.md#lendacopyout) - Lend a copy out.
+* [markTheCopysOpenLoanReturned](docs/sdks/user/README.md#markthecopysopenloanreturned) - Mark the copy's open loan returned.
 
 </details>
 <!-- End Available Resources and Operations [operations] -->
@@ -430,7 +433,7 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`listsAddItemToList`](docs/sdks/lists/README.md#additemtolist) - Add item to list.
 - [`listsBrowseLists`](docs/sdks/lists/README.md#browselists) - Browse lists.
 - [`listsBrowseSystemLists`](docs/sdks/lists/README.md#browsesystemlists) - Browse system lists.
-- [`listsConvertAListToMixed`](docs/sdks/lists/README.md#convertalisttomixed) - Convert a list to mixed.
+- [`listsConvertAListToMixed`](docs/sdks/lists/README.md#convertalisttomixed) - Open a list to any type.
 - [`listsCreateList`](docs/sdks/lists/README.md#createlist) - Create list.
 - [`listsDeleteList`](docs/sdks/lists/README.md#deletelist) - Delete list.
 - [`listsGetList`](docs/sdks/lists/README.md#getlist) - Get list.
@@ -440,6 +443,7 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`listsRemoveItemFromList`](docs/sdks/lists/README.md#removeitemfromlist) - Remove item from list.
 - [`listsReorderItems`](docs/sdks/lists/README.md#reorderitems) - Reorder items.
 - [`listsSaveList`](docs/sdks/lists/README.md#savelist) - Save list.
+- [`listsStopAListUpdatingItself`](docs/sdks/lists/README.md#stopalistupdatingitself) - Stop a list updating itself.
 - [`listsUnlikeList`](docs/sdks/lists/README.md#unlikelist) - Unlike list.
 - [`listsUnsaveList`](docs/sdks/lists/README.md#unsavelist) - Unsave list.
 - [`listsUpdateList`](docs/sdks/lists/README.md#updatelist) - Update list.
@@ -473,8 +477,8 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`userCheckIssueInCollection`](docs/sdks/user/README.md#checkissueincollection) - Check issue in collection.
 - [`userEditReadingDate`](docs/sdks/user/README.md#editreadingdate) - Edit reading date.
 - [`userFollowContent`](docs/sdks/user/README.md#followcontent) - Follow content.
-- [`userGetActivityFeed`](docs/sdks/user/README.md#getactivityfeed) - Get activity feed.
 - [`userGetTheAuthenticatedUser`](docs/sdks/user/README.md#gettheauthenticateduser) - Get the authenticated user.
+- [`userLendACopyOut`](docs/sdks/user/README.md#lendacopyout) - Lend a copy out.
 - [`userListCollection`](docs/sdks/user/README.md#listcollection) - List collection.
 - [`userListFollows`](docs/sdks/user/README.md#listfollows) - List follows.
 - [`userListPullList`](docs/sdks/user/README.md#listpulllist) - List pull list.
@@ -482,11 +486,13 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`userListWishlist`](docs/sdks/user/README.md#listwishlist) - List wishlist.
 - [`userMarkAsRead`](docs/sdks/user/README.md#markasread) - Mark as read.
 - [`userMarkAsUnread`](docs/sdks/user/README.md#markasunread) - Mark as unread.
+- [`userMarkTheCopysOpenLoanReturned`](docs/sdks/user/README.md#markthecopysopenloanreturned) - Mark the copy's open loan returned.
 - [`userRemoveFromPullList`](docs/sdks/user/README.md#removefrompulllist) - Remove from pull list.
 - [`userRemoveFromWishlist`](docs/sdks/user/README.md#removefromwishlist) - Remove from wishlist.
 - [`userRemoveIssueFromCollection`](docs/sdks/user/README.md#removeissuefromcollection) - Remove issue from collection.
 - [`userUnfollowContent`](docs/sdks/user/README.md#unfollowcontent) - Unfollow content.
 - [`userUpdateCollectionItem`](docs/sdks/user/README.md#updatecollectionitem) - Update collection item.
+- ~~[`userGetActivityFeed`](docs/sdks/user/README.md#getactivityfeed)~~ - Get activity feed. :warning: **Deprecated**
 
 </details>
 <!-- End Standalone functions [standalone-funcs] -->
@@ -620,7 +626,7 @@ run();
   * [`UnauthorizedError`](./src/models/errors/unauthorized-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`.
   * [`TooManyRequestsError`](./src/models/errors/too-many-requests-error.ts): Status code `429`.
 
-<details><summary>Less common errors (47)</summary>
+<details><summary>Less common errors (48)</summary>
 
 <br />
 
@@ -633,47 +639,48 @@ run();
 
 
 **Inherit from [`VerseDbError`](./src/models/errors/verse-db-error.ts)**:
-* [`CreateListForbiddenError`](./src/models/errors/create-list-forbidden-error.ts): Limit Reached. Status code `403`. Applicable to 1 of 89 methods.*
-* [`GetListForbiddenError`](./src/models/errors/get-list-forbidden-error.ts): Private List. Status code `403`. Applicable to 1 of 89 methods.*
-* [`UpdateListForbiddenError`](./src/models/errors/update-list-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 89 methods.*
-* [`ResponseBodyError1`](./src/models/errors/response-body-error1.ts): Wishlist. Status code `403`. Applicable to 1 of 89 methods.*
-* [`ResponseBodyError2`](./src/models/errors/response-body-error2.ts): Unauthorized. Status code `403`. Applicable to 1 of 89 methods.*
-* [`ConvertAListToMixedForbiddenError`](./src/models/errors/convert-a-list-to-mixed-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 89 methods.*
-* [`MergeAListIntoThisOneForbiddenError`](./src/models/errors/merge-a-list-into-this-one-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 89 methods.*
-* [`AddItemToListForbiddenError`](./src/models/errors/add-item-to-list-forbidden-error.ts): Item Limit. Status code `403`. Applicable to 1 of 89 methods.*
-* [`RemoveItemFromListForbiddenError`](./src/models/errors/remove-item-from-list-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 89 methods.*
-* [`SaveListForbiddenError`](./src/models/errors/save-list-forbidden-error.ts): Own List. Status code `403`. Applicable to 1 of 89 methods.*
-* [`LikeListForbiddenError`](./src/models/errors/like-list-forbidden-error.ts): Own List. Status code `403`. Applicable to 1 of 89 methods.*
-* [`LookupByUPCForbiddenError`](./src/models/errors/lookup-by-upc-forbidden-error.ts): Missing Ability. Status code `403`. Applicable to 1 of 89 methods.*
-* [`LookupByISBNForbiddenError`](./src/models/errors/lookup-by-isbn-forbidden-error.ts): Missing Ability. Status code `403`. Applicable to 1 of 89 methods.*
-* [`AddIssueToCollectionForbiddenError`](./src/models/errors/add-issue-to-collection-forbidden-error.ts): Account Pending Deletion. Status code `403`. Applicable to 1 of 89 methods.*
-* [`GetASpecificTitleNotFoundError`](./src/models/errors/get-a-specific-title-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
-* [`GetSeriesDetailsNotFoundError`](./src/models/errors/get-series-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
-* [`GetIssueDetailsNotFoundError`](./src/models/errors/get-issue-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
-* [`GetVariantDetailsNotFoundError`](./src/models/errors/get-variant-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
-* [`GetPublisherDetailsNotFoundError`](./src/models/errors/get-publisher-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
-* [`GetCreatorDetailsNotFoundError`](./src/models/errors/get-creator-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
-* [`GetCharacterDetailsNotFoundError`](./src/models/errors/get-character-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
-* [`GetASpecificTeamNotFoundError`](./src/models/errors/get-a-specific-team-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
-* [`GetAnEventNotFoundError`](./src/models/errors/get-an-event-not-found-error.ts): Not Found or Archived. Status code `404`. Applicable to 1 of 89 methods.*
-* [`GetAComicShopNotFoundError`](./src/models/errors/get-a-comic-shop-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
-* [`GetASpecificPodcastNotFoundError`](./src/models/errors/get-a-specific-podcast-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
-* [`GetListNotFoundError`](./src/models/errors/get-list-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
-* [`RemoveItemFromListNotFoundError`](./src/models/errors/remove-item-from-list-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
-* [`LookupByUPCNotFoundError`](./src/models/errors/lookup-by-upc-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
-* [`LookupByISBNNotFoundError`](./src/models/errors/lookup-by-isbn-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
-* [`UpdateCollectionItemNotFoundError`](./src/models/errors/update-collection-item-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
-* [`RemoveIssueFromCollectionNotFoundError`](./src/models/errors/remove-issue-from-collection-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
-* [`FollowContentNotFoundError`](./src/models/errors/follow-content-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
-* [`UnfollowContentNotFoundError`](./src/models/errors/unfollow-content-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 89 methods.*
-* [`AddItemToListConflictError`](./src/models/errors/add-item-to-list-conflict-error.ts): Already Exists. Status code `409`. Applicable to 1 of 89 methods.*
-* [`LookupByUPCConflictError`](./src/models/errors/lookup-by-upc-conflict-error.ts): Multiple Matches. Status code `409`. Applicable to 1 of 89 methods.*
-* [`ConvertAListToMixedUnprocessableEntityError`](./src/models/errors/convert-a-list-to-mixed-unprocessable-entity-error.ts): Not convertible. Status code `422`. Applicable to 1 of 89 methods.*
-* [`MergeAListIntoThisOneUnprocessableEntityError`](./src/models/errors/merge-a-list-into-this-one-unprocessable-entity-error.ts): Invalid merge. Status code `422`. Applicable to 1 of 89 methods.*
-* [`AddIssueToCollectionUnprocessableEntityError`](./src/models/errors/add-issue-to-collection-unprocessable-entity-error.ts): Invalid Variant. Status code `422`. Applicable to 1 of 89 methods.*
-* [`AddToPullListUnprocessableEntityError`](./src/models/errors/add-to-pull-list-unprocessable-entity-error.ts): Series Not Found. Status code `422`. Applicable to 1 of 89 methods.*
-* [`MarkAsReadUnprocessableEntityError`](./src/models/errors/mark-as-read-unprocessable-entity-error.ts): Invalid Variant. Status code `422`. Applicable to 1 of 89 methods.*
-* [`AddToWishlistUnprocessableEntityError`](./src/models/errors/add-to-wishlist-unprocessable-entity-error.ts): Wishlist Full. Status code `422`. Applicable to 1 of 89 methods.*
+* [`CreateListForbiddenError`](./src/models/errors/create-list-forbidden-error.ts): Limit Reached. Status code `403`. Applicable to 1 of 92 methods.*
+* [`GetListForbiddenError`](./src/models/errors/get-list-forbidden-error.ts): Private List. Status code `403`. Applicable to 1 of 92 methods.*
+* [`UpdateListForbiddenError`](./src/models/errors/update-list-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 92 methods.*
+* [`ResponseBodyError1`](./src/models/errors/response-body-error1.ts): Wishlist. Status code `403`. Applicable to 1 of 92 methods.*
+* [`ResponseBodyError2`](./src/models/errors/response-body-error2.ts): Unauthorized. Status code `403`. Applicable to 1 of 92 methods.*
+* [`OpenAListToAnyTypeForbiddenError`](./src/models/errors/open-a-list-to-any-type-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 92 methods.*
+* [`MergeAListIntoThisOneForbiddenError`](./src/models/errors/merge-a-list-into-this-one-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 92 methods.*
+* [`AddItemToListForbiddenError`](./src/models/errors/add-item-to-list-forbidden-error.ts): Item Limit. Status code `403`. Applicable to 1 of 92 methods.*
+* [`RemoveItemFromListForbiddenError`](./src/models/errors/remove-item-from-list-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 92 methods.*
+* [`SaveListForbiddenError`](./src/models/errors/save-list-forbidden-error.ts): Own List. Status code `403`. Applicable to 1 of 92 methods.*
+* [`LikeListForbiddenError`](./src/models/errors/like-list-forbidden-error.ts): Own List. Status code `403`. Applicable to 1 of 92 methods.*
+* [`LookupByUPCForbiddenError`](./src/models/errors/lookup-by-upc-forbidden-error.ts): Missing Ability. Status code `403`. Applicable to 1 of 92 methods.*
+* [`LookupByISBNForbiddenError`](./src/models/errors/lookup-by-isbn-forbidden-error.ts): Missing Ability. Status code `403`. Applicable to 1 of 92 methods.*
+* [`AddIssueToCollectionForbiddenError`](./src/models/errors/add-issue-to-collection-forbidden-error.ts): Account Pending Deletion. Status code `403`. Applicable to 1 of 92 methods.*
+* [`GetASpecificTitleNotFoundError`](./src/models/errors/get-a-specific-title-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 92 methods.*
+* [`GetSeriesDetailsNotFoundError`](./src/models/errors/get-series-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 92 methods.*
+* [`GetIssueDetailsNotFoundError`](./src/models/errors/get-issue-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 92 methods.*
+* [`GetVariantDetailsNotFoundError`](./src/models/errors/get-variant-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 92 methods.*
+* [`GetPublisherDetailsNotFoundError`](./src/models/errors/get-publisher-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 92 methods.*
+* [`GetCreatorDetailsNotFoundError`](./src/models/errors/get-creator-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 92 methods.*
+* [`GetCharacterDetailsNotFoundError`](./src/models/errors/get-character-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 92 methods.*
+* [`GetASpecificTeamNotFoundError`](./src/models/errors/get-a-specific-team-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 92 methods.*
+* [`GetAnEventNotFoundError`](./src/models/errors/get-an-event-not-found-error.ts): Not Found or Archived. Status code `404`. Applicable to 1 of 92 methods.*
+* [`GetAComicShopNotFoundError`](./src/models/errors/get-a-comic-shop-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 92 methods.*
+* [`GetASpecificPodcastNotFoundError`](./src/models/errors/get-a-specific-podcast-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 92 methods.*
+* [`GetListNotFoundError`](./src/models/errors/get-list-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 92 methods.*
+* [`RemoveItemFromListNotFoundError`](./src/models/errors/remove-item-from-list-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 92 methods.*
+* [`LookupByUPCNotFoundError`](./src/models/errors/lookup-by-upc-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 92 methods.*
+* [`LookupByISBNNotFoundError`](./src/models/errors/lookup-by-isbn-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 92 methods.*
+* [`UpdateCollectionItemNotFoundError`](./src/models/errors/update-collection-item-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 92 methods.*
+* [`RemoveIssueFromCollectionNotFoundError`](./src/models/errors/remove-issue-from-collection-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 92 methods.*
+* [`FollowContentNotFoundError`](./src/models/errors/follow-content-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 92 methods.*
+* [`UnfollowContentNotFoundError`](./src/models/errors/unfollow-content-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 92 methods.*
+* [`AddItemToListConflictError`](./src/models/errors/add-item-to-list-conflict-error.ts): Already Exists. Status code `409`. Applicable to 1 of 92 methods.*
+* [`LookupByUPCConflictError`](./src/models/errors/lookup-by-upc-conflict-error.ts): Multiple Matches. Status code `409`. Applicable to 1 of 92 methods.*
+* [`OpenAListToAnyTypeUnprocessableEntityError`](./src/models/errors/open-a-list-to-any-type-unprocessable-entity-error.ts): Not convertible. Status code `422`. Applicable to 1 of 92 methods.*
+* [`StopAListUpdatingItselfUnprocessableEntityError`](./src/models/errors/stop-a-list-updating-itself-unprocessable-entity-error.ts): Not rule-built. Status code `422`. Applicable to 1 of 92 methods.*
+* [`MergeAListIntoThisOneUnprocessableEntityError`](./src/models/errors/merge-a-list-into-this-one-unprocessable-entity-error.ts): Invalid merge. Status code `422`. Applicable to 1 of 92 methods.*
+* [`AddIssueToCollectionUnprocessableEntityError`](./src/models/errors/add-issue-to-collection-unprocessable-entity-error.ts): Invalid Variant. Status code `422`. Applicable to 1 of 92 methods.*
+* [`AddToPullListUnprocessableEntityError`](./src/models/errors/add-to-pull-list-unprocessable-entity-error.ts): Series Not Found. Status code `422`. Applicable to 1 of 92 methods.*
+* [`MarkAsReadUnprocessableEntityError`](./src/models/errors/mark-as-read-unprocessable-entity-error.ts): Invalid Variant. Status code `422`. Applicable to 1 of 92 methods.*
+* [`AddToWishlistUnprocessableEntityError`](./src/models/errors/add-to-wishlist-unprocessable-entity-error.ts): Wishlist Full. Status code `422`. Applicable to 1 of 92 methods.*
 * [`ResponseValidationError`](./src/models/errors/response-validation-error.ts): Type mismatch between the data returned from the server and the structure expected by the SDK. See `error.rawValue` for the raw value and `error.pretty()` for a nicely formatted multi-line string.
 
 </details>

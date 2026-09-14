@@ -34,7 +34,6 @@ export type ListImprintsData = {
   id?: number | undefined;
   name?: string | undefined;
   slug?: string | undefined;
-  description?: string | undefined;
   publisher?: ListImprintsPublisher | undefined;
 };
 
@@ -118,7 +117,6 @@ export const ListImprintsData$inboundSchema: z.ZodMiniType<
   id: types.optional(types.number()),
   name: types.optional(types.string()),
   slug: types.optional(types.string()),
-  description: types.optional(types.string()),
   publisher: types.optional(z.lazy(() => ListImprintsPublisher$inboundSchema)),
 });
 

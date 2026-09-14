@@ -52,7 +52,7 @@ export type GetIssueDetailsData = {
   seriesId?: number | undefined;
   issueNumber?: string | undefined;
   name?: string | undefined;
-  description?: string | undefined;
+  solicitation?: string | undefined;
   releaseDate?: string | undefined;
   coverDate?: string | undefined;
   coverUrl?: string | undefined;
@@ -221,7 +221,7 @@ export const GetIssueDetailsData$inboundSchema: z.ZodMiniType<
     series_id: types.optional(types.number()),
     issue_number: types.optional(types.string()),
     name: types.optional(types.string()),
-    description: types.optional(types.string()),
+    solicitation: types.optional(types.string()),
     release_date: types.optional(types.string()),
     cover_date: types.optional(types.string()),
     cover_url: types.optional(types.string()),

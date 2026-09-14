@@ -13,8 +13,6 @@ let value: GetASpecificPodcastResponseBody = {
     name: "War Rocket Ajax",
     slug: "war-rocket-ajax",
     type: "podcast",
-    description:
-      "A weekly comic book podcast covering new releases, industry news, and creator interviews.",
     language: "en",
     logoUrl:
       "https://r2.versedb.com/uploads/podcasts/wra-56/wra-56-full_lg.webp",

@@ -29,6 +29,9 @@ import { Result } from "../types/fp.js";
 
 /**
  * Get a specific podcast.
+ *
+ * @remarks
+ * Returns full detail for one podcast, including its feed, platform links, and categories.
  */
 export function podcastsGetASpecificPodcast(
   client: VerseDBCore,

@@ -11,8 +11,6 @@ let value: GetPublisherDetailsResponseBody = {
   data: {
     id: 1,
     name: "Marvel Comics",
-    description:
-      "American comic book publisher, home to Spider-Man, the X-Men, and the Avengers.",
     foundedYear: 1939,
     website: "https://www.marvel.com",
     headquarters: "New York, NY",

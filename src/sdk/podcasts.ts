@@ -11,6 +11,10 @@ import { unwrapAsync } from "../types/fp.js";
 export class Podcasts extends ClientSDK {
   /**
    * List all podcasts with optional search
+   *
+   * @remarks
+   * Returns a paginated list of comic book podcasts and YouTube channels, plus
+   * the set of languages present in the catalog. Filter with `q`, `type`, or `language`.
    */
   async listAllPodcastsWithOptionalSearch(
     request?: operations.ListAllPodcastsWithOptionalSearchRequest | undefined,
@@ -25,6 +29,9 @@ export class Podcasts extends ClientSDK {
 
   /**
    * Get a specific podcast.
+   *
+   * @remarks
+   * Returns full detail for one podcast, including its feed, platform links, and categories.
    */
   async getASpecificPodcast(
     request: operations.GetASpecificPodcastRequest,

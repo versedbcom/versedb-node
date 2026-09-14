@@ -28,22 +28,22 @@ import { APICall, APIPromise } from "../types/async.js";
 import { Result } from "../types/fp.js";
 
 /**
- * Convert a list to mixed.
+ * Open a list to any type.
  *
  * @remarks
  * One-way: broadens a single-type list so it can hold items of any type. Existing items keep
- * their own type. A mixed list cannot be narrowed back, and wishlists cannot be converted.
+ * their own type. It cannot be narrowed back, and a wishlist already holds any type.
  */
 export function listsConvertAListToMixed(
   client: VerseDBCore,
-  request: operations.ConvertAListToMixedRequest,
+  request: operations.OpenAListToAnyTypeRequest,
   options?: RequestOptions,
 ): APIPromise<
   Result<
-    operations.ConvertAListToMixedResponse,
+    operations.OpenAListToAnyTypeResponse,
     | errors.UnauthorizedError
-    | errors.ConvertAListToMixedForbiddenError
-    | errors.ConvertAListToMixedUnprocessableEntityError
+    | errors.OpenAListToAnyTypeForbiddenError
+    | errors.OpenAListToAnyTypeUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -64,15 +64,15 @@ export function listsConvertAListToMixed(
 
 async function $do(
   client: VerseDBCore,
-  request: operations.ConvertAListToMixedRequest,
+  request: operations.OpenAListToAnyTypeRequest,
   options?: RequestOptions,
 ): Promise<
   [
     Result<
-      operations.ConvertAListToMixedResponse,
+      operations.OpenAListToAnyTypeResponse,
       | errors.UnauthorizedError
-      | errors.ConvertAListToMixedForbiddenError
-      | errors.ConvertAListToMixedUnprocessableEntityError
+      | errors.OpenAListToAnyTypeForbiddenError
+      | errors.OpenAListToAnyTypeUnprocessableEntityError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -89,7 +89,7 @@ async function $do(
   const parsed = safeParse(
     request,
     (value) =>
-      z.parse(operations.ConvertAListToMixedRequest$outboundSchema, value),
+      z.parse(operations.OpenAListToAnyTypeRequest$outboundSchema, value),
     "Input validation failed",
   );
   if (!parsed.ok) {
@@ -119,7 +119,7 @@ async function $do(
   const context = {
     options: client._options,
     baseURL: options?.serverURL ?? client._baseURL ?? "",
-    operationID: "convertAListToMixed",
+    operationID: "openAListToAnyType",
     oAuth2Scopes: null,
 
     resolvedSecurity: requestSecurity,
@@ -163,10 +163,10 @@ async function $do(
   };
 
   const [result] = await M.match<
-    operations.ConvertAListToMixedResponse,
+    operations.OpenAListToAnyTypeResponse,
     | errors.UnauthorizedError
-    | errors.ConvertAListToMixedForbiddenError
-    | errors.ConvertAListToMixedUnprocessableEntityError
+    | errors.OpenAListToAnyTypeForbiddenError
+    | errors.OpenAListToAnyTypeUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -177,15 +177,15 @@ async function $do(
     | UnexpectedClientError
     | SDKValidationError
   >(
-    M.json(200, operations.ConvertAListToMixedResponse$inboundSchema, {
+    M.json(200, operations.OpenAListToAnyTypeResponse$inboundSchema, {
       hdrs: true,
       key: "Result",
     }),
     M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
-    M.jsonErr(403, errors.ConvertAListToMixedForbiddenError$inboundSchema),
+    M.jsonErr(403, errors.OpenAListToAnyTypeForbiddenError$inboundSchema),
     M.jsonErr(
       422,
-      errors.ConvertAListToMixedUnprocessableEntityError$inboundSchema,
+      errors.OpenAListToAnyTypeUnprocessableEntityError$inboundSchema,
     ),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),

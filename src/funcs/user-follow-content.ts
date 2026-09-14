@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * Follow content.
  *
  * @remarks
- * Follows a title, character, podcast, creator, publisher, team, story arc, comic shop, event, or user.
+ * Follows a title, character, podcast, creator, publisher, team, story arc, comic shop, event, event franchise, or user.
  */
 export function userFollowContent(
   client: VerseDBCore,

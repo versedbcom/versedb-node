@@ -29,6 +29,9 @@ import { Result } from "../types/fp.js";
 
 /**
  * Unfollow content.
+ *
+ * @remarks
+ * Stops following the given entity for the authenticated user.
  */
 export function userUnfollowContent(
   client: VerseDBCore,

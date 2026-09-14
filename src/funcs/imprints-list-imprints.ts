@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * List imprints
  *
  * @remarks
- * Returns: id, name, slug, description, publisher
+ * Returns: id, name, slug, publisher
  */
 export function imprintsListImprints(
   client: VerseDBCore,

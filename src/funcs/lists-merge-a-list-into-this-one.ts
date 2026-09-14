@@ -33,7 +33,7 @@ import { Result } from "../types/fp.js";
  * @remarks
  * Pulls every item from the source list into this (destination) list, skipping items already
  * present (by entity + variant) and appending the rest. Both lists must be owned by the
- * authenticated user. Merging items of a different type converts this list to `mixed`.
+ * authenticated user. Merging items of a different type opens this list to any type.
  */
 export function listsMergeAListIntoThisOne(
   client: VerseDBCore,

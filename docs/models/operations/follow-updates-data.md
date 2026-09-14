@@ -14,8 +14,6 @@ let value: FollowUpdatesData = {
     name: "X-Men",
     startYear: 2024,
   },
-  followContext: "New in X-Men",
-  followType: "title",
 };
 ```
 
@@ -28,5 +26,3 @@ let value: FollowUpdatesData = {
 | `coverUrl`                                                                         | *string*                                                                           | :heavy_minus_sign:                                                                 | N/A                                                                                | ...                                                                                |
 | `releaseDate`                                                                      | *string*                                                                           | :heavy_minus_sign:                                                                 | N/A                                                                                | 2026-03-04                                                                         |
 | `series`                                                                           | [operations.FollowUpdatesSeries](../../models/operations/follow-updates-series.md) | :heavy_minus_sign:                                                                 | N/A                                                                                |                                                                                    |
-| `followContext`                                                                    | *string*                                                                           | :heavy_minus_sign:                                                                 | N/A                                                                                | New in X-Men                                                                       |
-| `followType`                                                                       | *string*                                                                           | :heavy_minus_sign:                                                                 | N/A                                                                                | title                                                                              |

@@ -9,27 +9,36 @@ import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
+/**
+ * A smart-list rule. Supply it to have the list built and kept current from a query instead of by hand. Requires a Pro subscription, and forces `is_ranked` to false because the rule carries its own sort. Fetch the field catalog from `/lists/rule-vocabulary` and validate a draft against `/lists/rule-preview`.
+ */
+export type CreateListRules = {};
+
 export type CreateListRequest = {
   /**
    * List title (max 100 chars).
    */
   title: string;
   /**
-   * List description (max 500 chars).
+   * List description (max 2000 chars).
    */
   description?: string | null | undefined;
   /**
-   * Entity type (issues, series, characters, creators, story_arcs, teams).
+   * The kind of item a smart-list rule matches (issues, series, characters, creators, story_arcs, teams). Required, and never `mixed`, when `rules` is supplied; ignored without it, because a list you fill by hand holds any combination of types.
    */
-  entityType: string;
+  entityType?: string | null | undefined;
   /**
-   * Whether items are ranked/ordered.
+   * Whether items are ranked/ordered. Defaults to true.
    */
   isRanked?: boolean | undefined;
   /**
-   * Whether the list is private.
+   * Whether the list is private. Requires a Pro subscription. Defaults to false.
    */
   isPrivate?: boolean | undefined;
+  /**
+   * A smart-list rule. Supply it to have the list built and kept current from a query instead of by hand. Requires a Pro subscription, and forces `is_ranked` to false because the rule carries its own sort. Fetch the field catalog from `/lists/rule-vocabulary` and validate a draft against `/lists/rule-preview`.
+   */
+  rules?: CreateListRules | null | undefined;
 };
 
 export type CreateListUser = {
@@ -61,12 +70,28 @@ export type CreateListResponse = {
 };
 
 /** @internal */
+export type CreateListRules$Outbound = {};
+
+/** @internal */
+export const CreateListRules$outboundSchema: z.ZodMiniType<
+  CreateListRules$Outbound,
+  CreateListRules
+> = z.object({});
+
+export function createListRulesToJSON(
+  createListRules: CreateListRules,
+): string {
+  return JSON.stringify(CreateListRules$outboundSchema.parse(createListRules));
+}
+
+/** @internal */
 export type CreateListRequest$Outbound = {
   title: string;
   description?: string | null | undefined;
-  entity_type: string;
+  entity_type?: string | null | undefined;
   is_ranked?: boolean | undefined;
   is_private?: boolean | undefined;
+  rules?: CreateListRules$Outbound | null | undefined;
 };
 
 /** @internal */
@@ -77,9 +102,10 @@ export const CreateListRequest$outboundSchema: z.ZodMiniType<
   z.object({
     title: z.string(),
     description: z.optional(z.nullable(z.string())),
-    entityType: z.string(),
+    entityType: z.optional(z.nullable(z.string())),
     isRanked: z.optional(z.boolean()),
     isPrivate: z.optional(z.boolean()),
+    rules: z.optional(z.nullable(z.lazy(() => CreateListRules$outboundSchema))),
   }),
   z.transform((v) => {
     return remap$(v, {

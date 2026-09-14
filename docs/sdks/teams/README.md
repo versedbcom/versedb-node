@@ -15,7 +15,7 @@ Endpoints for browsing superhero teams and their members.
 
 ## listAllTeamsWithOptionalSearch
 
-List all teams with optional search
+Returns a paginated list of teams. Use `q` to search by team name.
 
 ### Example Usage
 
@@ -172,7 +172,7 @@ run();
 
 ## getCharactersForASpecificTeammembers
 
-Get characters for a specific team (members)
+Returns the team's character roster.
 
 ### Example Usage
 
@@ -251,7 +251,7 @@ run();
 
 ## getSeriesForASpecificTeam
 
-Get series for a specific team
+Returns the series the team appears in.
 
 ### Example Usage
 
@@ -268,6 +268,7 @@ async function run() {
     teamId: 1,
     q: "batman",
     limit: 20,
+    medium: "comic,manga",
   });
 
   console.log(result);
@@ -295,6 +296,7 @@ async function run() {
     teamId: 1,
     q: "batman",
     limit: 20,
+    medium: "comic,manga",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -330,7 +332,7 @@ run();
 
 ## getIssuesForASpecificTeam
 
-Get issues for a specific team
+Returns the issues the team appears in.
 
 ### Example Usage
 
@@ -347,6 +349,7 @@ async function run() {
     teamId: 1,
     q: "batman",
     limit: 20,
+    medium: "comic,manga",
   });
 
   console.log(result);
@@ -374,6 +377,7 @@ async function run() {
     teamId: 1,
     q: "batman",
     limit: 20,
+    medium: "comic,manga",
   });
   if (res.ok) {
     const { value: result } = res;

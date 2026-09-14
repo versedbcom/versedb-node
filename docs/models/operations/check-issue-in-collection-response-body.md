@@ -10,6 +10,7 @@ Success.
 ```typescript
 const value: operations.CheckIssueInCollectionResponseBody1 = {
   inCollection: true,
+  isUnreleased: false,
   copiesCount: 1,
   copies: [
     {
@@ -47,6 +48,7 @@ const value: operations.CheckIssueInCollectionResponseBody1 = {
 ```typescript
 const value: operations.CheckIssueInCollectionResponseBody2 = {
   inCollection: false,
+  isUnreleased: false,
   copiesCount: 0,
   copies: [],
   data: null,

@@ -15,8 +15,6 @@ let value: GetASpecificTeamResponseBody = {
     aliases: [
       "Earth's Mightiest Heroes",
     ],
-    description:
-      "A team of superheroes formed to confront threats no single hero could withstand.",
     formationDate: "1963-09-01",
     disbandedDate: null,
     headquarters: "Avengers Tower, New York",

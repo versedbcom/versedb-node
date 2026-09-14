@@ -24,7 +24,6 @@ let value: GetCharacterDetailsResponseBody = {
       profileMd: "https://...-profile_md.webp",
       fullLg: "https://...-full_lg.webp",
     },
-    description: "Peter Parker was bitten by a radioactive spider...",
     alterEgo: [],
     gender: "male",
     race: "Human",

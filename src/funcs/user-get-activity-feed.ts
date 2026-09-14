@@ -32,6 +32,8 @@ import { Result } from "../types/fp.js";
  *
  * @remarks
  * Aggregates recent activity from collections, reads, follows, and reviews.
+ *
+ * @deprecated method: This will be removed in a future release, please migrate away from it as soon as possible.
  */
 export function userGetActivityFeed(
   client: VerseDBCore,
@@ -99,6 +101,7 @@ async function $do(
   const path = pathToFunc("/api/v1/user/activity")();
 
   const query = encodeFormQuery({
+    "page": payload?.page,
     "per_page": payload?.per_page,
   });
 

@@ -29,6 +29,9 @@ import { Result } from "../types/fp.js";
 
 /**
  * Get characters for a specific team (members)
+ *
+ * @remarks
+ * Returns the team's character roster.
  */
 export function teamsGetCharactersForASpecificTeammembers(
   client: VerseDBCore,

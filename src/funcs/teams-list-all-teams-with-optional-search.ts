@@ -29,6 +29,9 @@ import { Result } from "../types/fp.js";
 
 /**
  * List all teams with optional search
+ *
+ * @remarks
+ * Returns a paginated list of teams. Use `q` to search by team name.
  */
 export function teamsListAllTeamsWithOptionalSearch(
   client: VerseDBCore,

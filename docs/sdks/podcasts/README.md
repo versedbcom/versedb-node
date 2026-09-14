@@ -12,7 +12,8 @@ Endpoints for browsing comic book podcasts and episodes.
 
 ## listAllPodcastsWithOptionalSearch
 
-List all podcasts with optional search
+Returns a paginated list of comic book podcasts and YouTube channels, plus
+the set of languages present in the catalog. Filter with `q`, `type`, or `language`.
 
 ### Example Usage
 
@@ -93,7 +94,7 @@ run();
 
 ## getASpecificPodcast
 
-Get a specific podcast.
+Returns full detail for one podcast, including its feed, platform links, and categories.
 
 ### Example Usage
 

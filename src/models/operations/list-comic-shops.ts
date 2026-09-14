@@ -19,6 +19,10 @@ export type ListComicShopsRequest = {
    */
   state?: string | undefined;
   /**
+   * Filter by city. Accepts the city name or its URL slug, case-insensitive.
+   */
+  city?: string | undefined;
+  /**
    * Search by shop name or city.
    */
   q?: string | undefined;
@@ -43,11 +47,17 @@ export type ListComicShopsData = {
   images?: ListComicShopsImages | undefined;
 };
 
+export type IpLocation = {
+  latitude?: number | undefined;
+  longitude?: number | undefined;
+};
+
 export type ListComicShopsMeta = {
   currentPage?: number | undefined;
   lastPage?: number | undefined;
   perPage?: number | undefined;
   total?: number | undefined;
+  ipLocation?: IpLocation | undefined;
 };
 
 /**
@@ -67,6 +77,7 @@ export type ListComicShopsResponse = {
 export type ListComicShopsRequest$Outbound = {
   country?: string | undefined;
   state?: string | undefined;
+  city?: string | undefined;
   q?: string | undefined;
   limit?: number | undefined;
 };
@@ -78,6 +89,7 @@ export const ListComicShopsRequest$outboundSchema: z.ZodMiniType<
 > = z.object({
   country: z.optional(z.string()),
   state: z.optional(z.string()),
+  city: z.optional(z.string()),
   q: z.optional(z.string()),
   limit: z.optional(z.int()),
 });
@@ -150,6 +162,23 @@ export function listComicShopsDataFromJSON(
 }
 
 /** @internal */
+export const IpLocation$inboundSchema: z.ZodMiniType<IpLocation, unknown> = z
+  .object({
+    latitude: types.optional(types.number()),
+    longitude: types.optional(types.number()),
+  });
+
+export function ipLocationFromJSON(
+  jsonString: string,
+): SafeParseResult<IpLocation, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => IpLocation$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'IpLocation' from JSON`,
+  );
+}
+
+/** @internal */
 export const ListComicShopsMeta$inboundSchema: z.ZodMiniType<
   ListComicShopsMeta,
   unknown
@@ -159,12 +188,14 @@ export const ListComicShopsMeta$inboundSchema: z.ZodMiniType<
     last_page: types.optional(types.number()),
     per_page: types.optional(types.number()),
     total: types.optional(types.number()),
+    ip_location: types.optional(z.lazy(() => IpLocation$inboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {
       "current_page": "currentPage",
       "last_page": "lastPage",
       "per_page": "perPage",
+      "ip_location": "ipLocation",
     });
   }),
 );

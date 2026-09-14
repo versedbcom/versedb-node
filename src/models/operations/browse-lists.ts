@@ -11,13 +11,17 @@ import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type BrowseListsRequest = {
   /**
-   * Search by list title.
+   * Search by list title or description.
    */
   q?: string | undefined;
   /**
-   * Filter by entity type (issues, series, characters, creators, story_arcs, teams).
+   * Filter by entity type (issues, series, characters, creators, story_arcs, teams). Matches lists declared as that type plus unrestricted lists holding at least one item of it.
    */
   entityType?: string | undefined;
+  /**
+   * Filter by who made it — `curated` for staff lists, `community` for everyone else. Omit for both.
+   */
+  type?: string | undefined;
   /**
    * Sort order (featured, newest, popular, most_saved). Default: featured.
    */
@@ -76,6 +80,7 @@ export type BrowseListsResponse = {
 export type BrowseListsRequest$Outbound = {
   q?: string | undefined;
   entity_type?: string | undefined;
+  type?: string | undefined;
   sort?: string | undefined;
   limit?: number | undefined;
 };
@@ -88,6 +93,7 @@ export const BrowseListsRequest$outboundSchema: z.ZodMiniType<
   z.object({
     q: z.optional(z.string()),
     entityType: z.optional(z.string()),
+    type: z.optional(z.string()),
     sort: z.optional(z.string()),
     limit: z.optional(z.int()),
   }),

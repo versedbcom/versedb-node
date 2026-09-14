@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * List wishlist.
  *
  * @remarks
- * Returns the authenticated user's wishlist items (issues), most recently added first.
+ * Returns the authenticated user's wishlist issues, most recently added first.
  */
 export function userListWishlist(
   client: VerseDBCore,

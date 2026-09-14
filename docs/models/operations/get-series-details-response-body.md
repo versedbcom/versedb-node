@@ -17,7 +17,8 @@ let value: GetSeriesDetailsResponseBody = {
     startYear: 2018,
     endYear: 2022,
     coverUrl: "https://...",
-    description: "The sixth volume of Amazing Spider-Man...",
+    publisherDescription:
+      "The publisher's own standing synopsis for the run, verbatim, or null",
     publicationType: "ongoing",
     format: "comic",
     status: "ended",
@@ -25,6 +26,8 @@ let value: GetSeriesDetailsResponseBody = {
     cachedIssuesCount: 75,
     averageRating: 4.2,
     totalReviews: 150,
+    issuesAverageRating: 4.05,
+    issuesRatedCount: 812,
     contentRatingLabel: "15+",
     minAge: 15,
     isNsfw: false,

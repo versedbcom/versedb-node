@@ -189,6 +189,7 @@ async function run() {
     characterId: 456,
     limit: 20,
     q: "batman",
+    medium: "comic,manga",
   });
 
   console.log(result);
@@ -216,6 +217,7 @@ async function run() {
     characterId: 456,
     limit: 20,
     q: "batman",
+    medium: "comic,manga",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -268,6 +270,7 @@ async function run() {
     characterId: 456,
     limit: 20,
     q: "batman",
+    medium: "comic,manga",
   });
 
   console.log(result);
@@ -295,6 +298,7 @@ async function run() {
     characterId: 456,
     limit: 20,
     q: "batman",
+    medium: "comic,manga",
   });
   if (res.ok) {
     const { value: result } = res;

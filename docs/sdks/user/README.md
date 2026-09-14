@@ -26,10 +26,12 @@ All endpoints in this group require authentication with a Bearer API token.
 * [addToWishlist](#addtowishlist) - Add to wishlist.
 * [removeFromWishlist](#removefromwishlist) - Remove from wishlist.
 * [listFollows](#listfollows) - List follows.
+* [checkFollowStatus](#checkfollowstatus) - Check follow status.
 * [followContent](#followcontent) - Follow content.
 * [unfollowContent](#unfollowcontent) - Unfollow content.
-* [checkFollowStatus](#checkfollowstatus) - Check follow status.
-* [getActivityFeed](#getactivityfeed) - Get activity feed.
+* [~~getActivityFeed~~](#getactivityfeed) - Get activity feed. :warning: **Deprecated**
+* [lendACopyOut](#lendacopyout) - Lend a copy out.
+* [markTheCopysOpenLoanReturned](#markthecopysopenloanreturned) - Mark the copy's open loan returned.
 
 ## getTheAuthenticatedUser
 
@@ -124,6 +126,7 @@ async function run() {
     graded: true,
     isSigned: true,
     condition: "NM",
+    status: "sold",
     forSale: true,
     forTrade: true,
     readStatus: "unread",
@@ -164,6 +167,7 @@ async function run() {
     graded: true,
     isSigned: true,
     condition: "NM",
+    status: "sold",
     forSale: true,
     forTrade: true,
     readStatus: "unread",
@@ -308,6 +312,13 @@ async function run() {
       pricePaid: 4.99,
       format: "standard",
       purchaseSource: "comic_shop",
+      purchaseStore: "Third Eye Comics",
+      customLabel: "Longbox A / row 3",
+      baggedAt: "2024-07-01",
+      personalRating: 4.5,
+      tags: [
+        "b",
+      ],
       comicShopId: 412,
       acquisitionMethod: "purchase",
       purchasedAt: "2024-06-15",
@@ -328,6 +339,9 @@ async function run() {
       signatureWitness: "CBCS",
       estimatedValue: 25,
       forSale: false,
+      status: "sold",
+      soldAt: "2026-08-14",
+      priceSold: 40,
       forTrade: false,
       isPublic: true,
     },
@@ -363,6 +377,13 @@ async function run() {
       pricePaid: 4.99,
       format: "standard",
       purchaseSource: "comic_shop",
+      purchaseStore: "Third Eye Comics",
+      customLabel: "Longbox A / row 3",
+      baggedAt: "2024-07-01",
+      personalRating: 4.5,
+      tags: [
+        "b",
+      ],
       comicShopId: 412,
       acquisitionMethod: "purchase",
       purchasedAt: "2024-06-15",
@@ -383,6 +404,9 @@ async function run() {
       signatureWitness: "CBCS",
       estimatedValue: 25,
       forSale: false,
+      status: "sold",
+      soldAt: "2026-08-14",
+      priceSold: 40,
       forTrade: false,
       isPublic: true,
     },
@@ -448,6 +472,13 @@ async function run() {
       pricePaid: 3.99,
       format: "standard",
       purchaseSource: "comic_shop",
+      purchaseStore: "Third Eye Comics",
+      customLabel: "Longbox A / row 3",
+      baggedAt: "2024-07-01",
+      personalRating: 4.5,
+      tags: [
+        "b",
+      ],
       comicShopId: 412,
       acquisitionMethod: "purchase",
       purchasedAt: "2024-06-15",
@@ -468,6 +499,9 @@ async function run() {
       signatureWitness: "JSA",
       estimatedValue: 25,
       forSale: false,
+      status: "sold",
+      soldAt: "2026-08-14",
+      priceSold: 40,
       forTrade: false,
       isPublic: true,
       isRead: true,
@@ -507,6 +541,13 @@ async function run() {
       pricePaid: 3.99,
       format: "standard",
       purchaseSource: "comic_shop",
+      purchaseStore: "Third Eye Comics",
+      customLabel: "Longbox A / row 3",
+      baggedAt: "2024-07-01",
+      personalRating: 4.5,
+      tags: [
+        "b",
+      ],
       comicShopId: 412,
       acquisitionMethod: "purchase",
       purchasedAt: "2024-06-15",
@@ -527,6 +568,9 @@ async function run() {
       signatureWitness: "JSA",
       estimatedValue: 25,
       forSale: false,
+      status: "sold",
+      soldAt: "2026-08-14",
+      priceSold: 40,
       forTrade: false,
       isPublic: true,
       isRead: true,
@@ -807,7 +851,7 @@ run();
 
 ## removeFromPullList
 
-Remove from pull list.
+Removes a series from the authenticated user's pull list.
 
 ### Example Usage
 
@@ -1206,7 +1250,7 @@ run();
 
 ## listWishlist
 
-Returns the authenticated user's wishlist items (issues), most recently added first.
+Returns the authenticated user's wishlist issues, most recently added first.
 
 ### Example Usage
 
@@ -1521,9 +1565,86 @@ run();
 | errors.TooManyRequestsError | 429                         | application/json            |
 | errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
 
+## checkFollowStatus
+
+Reports whether the authenticated user currently follows the given entity.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="checkFollowStatus" method="get" path="/api/v1/follow/{type}/{id}/check" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.user.checkFollowStatus({
+    type: "title",
+    id: 45,
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { userCheckFollowStatus } from "@versedbcom/sdk/funcs/user-check-follow-status.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await userCheckFollowStatus(verseDB, {
+    type: "title",
+    id: 45,
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("userCheckFollowStatus failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.CheckFollowStatusRequest](../../models/operations/check-follow-status-request.md)                                                                                  | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.CheckFollowStatusResponse](../../models/operations/check-follow-status-response.md)\>**
+
+### Errors
+
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
+
 ## followContent
 
-Follows a title, character, podcast, creator, publisher, team, story arc, comic shop, event, or user.
+Follows a title, character, podcast, creator, publisher, team, story arc, comic shop, event, event franchise, or user.
 
 ### Example Usage
 
@@ -1609,7 +1730,7 @@ run();
 
 ## unfollowContent
 
-Unfollow content.
+Stops following the given entity for the authenticated user.
 
 ### Example Usage
 
@@ -1685,86 +1806,11 @@ run();
 | errors.TooManyRequestsError         | 429                                 | application/json                    |
 | errors.VerseDbDefaultError          | 4XX, 5XX                            | \*/\*                               |
 
-## checkFollowStatus
-
-Check follow status.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="checkFollowStatus" method="get" path="/api/v1/follow/{type}/{id}/check" -->
-```typescript
-import { VerseDB } from "@versedbcom/sdk";
-
-const verseDB = new VerseDB({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const result = await verseDB.user.checkFollowStatus({
-    type: "title",
-    id: 45,
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { VerseDBCore } from "@versedbcom/sdk/core.js";
-import { userCheckFollowStatus } from "@versedbcom/sdk/funcs/user-check-follow-status.js";
-
-// Use `VerseDBCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const verseDB = new VerseDBCore({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const res = await userCheckFollowStatus(verseDB, {
-    type: "title",
-    id: 45,
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("userCheckFollowStatus failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.CheckFollowStatusRequest](../../models/operations/check-follow-status-request.md)                                                                                  | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[operations.CheckFollowStatusResponse](../../models/operations/check-follow-status-response.md)\>**
-
-### Errors
-
-| Error Type                  | Status Code                 | Content Type                |
-| --------------------------- | --------------------------- | --------------------------- |
-| errors.UnauthorizedError    | 401                         | application/json            |
-| errors.TooManyRequestsError | 429                         | application/json            |
-| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
-
-## getActivityFeed
+## ~~getActivityFeed~~
 
 Aggregates recent activity from collections, reads, follows, and reviews.
+
+> :warning: **DEPRECATED**: This will be removed in a future release, please migrate away from it as soon as possible.
 
 ### Example Usage
 
@@ -1779,6 +1825,7 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.user.getActivityFeed({
     perPage: 20,
+    page: 1,
   });
 
   console.log(result);
@@ -1804,6 +1851,7 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await userGetActivityFeed(verseDB, {
     perPage: 20,
+    page: 1,
   });
   if (res.ok) {
     const { value: result } = res;
@@ -1828,6 +1876,176 @@ run();
 ### Response
 
 **Promise\<[operations.GetActivityFeedResponse](../../models/operations/get-activity-feed-response.md)\>**
+
+### Errors
+
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
+
+## lendACopyOut
+
+A copy already out is a 409 rather than a silent replacement: two open loans on one
+physical comic is a mistake to report, and overwriting the first would lose who actually
+has it. Return it, then lend it again.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="lendACopyOut" method="post" path="/api/v1/user/collections/{collectionItem_id}/loan" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.user.lendACopyOut({
+    collectionItemId: 16401,
+    body: {
+      loanedTo: "Dan from the shop",
+      loanedAt: "2026-09-01",
+      dueAt: "2026-10-01",
+      notes: "Lent at the Saturday meetup",
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { userLendACopyOut } from "@versedbcom/sdk/funcs/user-lend-a-copy-out.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await userLendACopyOut(verseDB, {
+    collectionItemId: 16401,
+    body: {
+      loanedTo: "Dan from the shop",
+      loanedAt: "2026-09-01",
+      dueAt: "2026-10-01",
+      notes: "Lent at the Saturday meetup",
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("userLendACopyOut failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.LendACopyOutRequest](../../models/operations/lend-a-copy-out-request.md)                                                                                           | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.LendACopyOutResponse](../../models/operations/lend-a-copy-out-response.md)\>**
+
+### Errors
+
+| Error Type                  | Status Code                 | Content Type                |
+| --------------------------- | --------------------------- | --------------------------- |
+| errors.UnauthorizedError    | 401                         | application/json            |
+| errors.TooManyRequestsError | 429                         | application/json            |
+| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
+
+## markTheCopysOpenLoanReturned
+
+Mark the copy's open loan returned.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="markTheCopysOpenLoanReturned" method="delete" path="/api/v1/user/collections/{collectionItem_id}/loan" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.user.markTheCopysOpenLoanReturned({
+    collectionItemId: 16401,
+    body: {
+      returnedAt: "2026-09-20",
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { userMarkTheCopysOpenLoanReturned } from "@versedbcom/sdk/funcs/user-mark-the-copys-open-loan-returned.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await userMarkTheCopysOpenLoanReturned(verseDB, {
+    collectionItemId: 16401,
+    body: {
+      returnedAt: "2026-09-20",
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("userMarkTheCopysOpenLoanReturned failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.MarkTheCopysOpenLoanReturnedRequest](../../models/operations/mark-the-copys-open-loan-returned-request.md)                                                         | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.MarkTheCopysOpenLoanReturnedResponse](../../models/operations/mark-the-copys-open-loan-returned-response.md)\>**
 
 ### Errors
 

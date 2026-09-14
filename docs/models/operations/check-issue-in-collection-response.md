@@ -11,6 +11,7 @@ let value: CheckIssueInCollectionResponse = {
   },
   result: {
     inCollection: true,
+    isUnreleased: false,
     copiesCount: 1,
     copies: [
       {

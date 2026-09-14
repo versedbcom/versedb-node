@@ -29,6 +29,10 @@ import { Result } from "../types/fp.js";
 
 /**
  * List all story arcs with optional search
+ *
+ * @remarks
+ * Returns a paginated list of story arcs and crossover events, newest first.
+ * Narrow the results with `q`, `status`, or `type`.
  */
 export function storyArcsListAllStoryArcsWithOptionalSearch(
   client: VerseDBCore,

@@ -16,6 +16,8 @@ let value: GetAnEventResponseBody = {
     status: "scheduled",
     startDate: "2026-07-23",
     endDate: "2026-07-26",
+    startTime: null,
+    endTime: null,
     timezone: "America/Los_Angeles",
     isOnline: false,
     isFcbd: false,

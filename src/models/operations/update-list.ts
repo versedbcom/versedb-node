@@ -13,14 +13,19 @@ import { SDKValidationError } from "../errors/sdk-validation-error.js";
 /**
  * The list status. One of: `published`, `draft`.
  */
-export const Status = {
+export const UpdateListStatus = {
   Published: "published",
   Draft: "draft",
 } as const;
 /**
  * The list status. One of: `published`, `draft`.
  */
-export type Status = ClosedEnum<typeof Status>;
+export type UpdateListStatus = ClosedEnum<typeof UpdateListStatus>;
+
+/**
+ * A replacement smart-list rule. Accepted only on a list that was created rule-built — a rule is tuned here, never introduced or removed. Fetch the field catalog from `/lists/rule-vocabulary` and validate a draft against `/lists/rule-preview`.
+ */
+export type UpdateListRules = {};
 
 export type UpdateListRequestBody = {
   /**
@@ -28,7 +33,7 @@ export type UpdateListRequestBody = {
    */
   title?: string | undefined;
   /**
-   * List description (max 500 chars).
+   * List description (max 2000 chars).
    */
   description?: string | null | undefined;
   /**
@@ -36,13 +41,17 @@ export type UpdateListRequestBody = {
    */
   isRanked?: boolean | undefined;
   /**
-   * Whether the list is private.
+   * Whether the list is private. Non-wishlist private lists require a Pro subscription.
    */
   isPrivate?: boolean | undefined;
   /**
    * The list status. One of: `published`, `draft`.
    */
-  status?: Status | undefined;
+  status?: UpdateListStatus | undefined;
+  /**
+   * A replacement smart-list rule. Accepted only on a list that was created rule-built — a rule is tuned here, never introduced or removed. Fetch the field catalog from `/lists/rule-vocabulary` and validate a draft against `/lists/rule-preview`.
+   */
+  rules?: UpdateListRules | undefined;
 };
 
 export type UpdateListRequest = {
@@ -72,9 +81,24 @@ export type UpdateListResponse = {
 };
 
 /** @internal */
-export const Status$outboundSchema: z.ZodMiniEnum<typeof Status> = z.enum(
-  Status,
-);
+export const UpdateListStatus$outboundSchema: z.ZodMiniEnum<
+  typeof UpdateListStatus
+> = z.enum(UpdateListStatus);
+
+/** @internal */
+export type UpdateListRules$Outbound = {};
+
+/** @internal */
+export const UpdateListRules$outboundSchema: z.ZodMiniType<
+  UpdateListRules$Outbound,
+  UpdateListRules
+> = z.object({});
+
+export function updateListRulesToJSON(
+  updateListRules: UpdateListRules,
+): string {
+  return JSON.stringify(UpdateListRules$outboundSchema.parse(updateListRules));
+}
 
 /** @internal */
 export type UpdateListRequestBody$Outbound = {
@@ -83,6 +107,7 @@ export type UpdateListRequestBody$Outbound = {
   is_ranked?: boolean | undefined;
   is_private?: boolean | undefined;
   status?: string | undefined;
+  rules?: UpdateListRules$Outbound | undefined;
 };
 
 /** @internal */
@@ -95,7 +120,8 @@ export const UpdateListRequestBody$outboundSchema: z.ZodMiniType<
     description: z.optional(z.nullable(z.string())),
     isRanked: z.optional(z.boolean()),
     isPrivate: z.optional(z.boolean()),
-    status: z.optional(Status$outboundSchema),
+    status: z.optional(UpdateListStatus$outboundSchema),
+    rules: z.optional(z.lazy(() => UpdateListRules$outboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {

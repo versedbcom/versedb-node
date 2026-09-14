@@ -13,7 +13,7 @@ Vertigo under DC, Icon under Marvel).
 
 ## listImprints
 
-Returns: id, name, slug, description, publisher
+Returns: id, name, slug, publisher
 
 ### Example Usage
 
@@ -92,7 +92,7 @@ run();
 
 ## getImprintDetails
 
-Returns: id, name, slug, description, publisher, series_count, titles_count
+Returns: id, name, slug, publisher, series_count, titles_count
 
 ### Example Usage
 

@@ -17,7 +17,19 @@ export type ListTitlesRequest = {
   /**
    * Filter by publisher ID.
    */
+  publisherId?: number | undefined;
+  /**
+   * Deprecated alias for publisher_id, kept for existing callers.
+   */
   publisher?: number | undefined;
+  /**
+   * Sort field. One of name, start_year, average_rating; anything else falls back to name. Passing sort replaces the relevance ordering applied to q results.
+   */
+  sort?: string | undefined;
+  /**
+   * Sort direction, asc or desc. Anything else falls back to asc.
+   */
+  direction?: string | undefined;
   /**
    * Number of results per page (max 50).
    */
@@ -71,7 +83,10 @@ export type ListTitlesResponse = {
 /** @internal */
 export type ListTitlesRequest$Outbound = {
   q?: string | undefined;
+  publisher_id?: number | undefined;
   publisher?: number | undefined;
+  sort?: string | undefined;
+  direction?: string | undefined;
   limit?: number | undefined;
 };
 
@@ -79,11 +94,21 @@ export type ListTitlesRequest$Outbound = {
 export const ListTitlesRequest$outboundSchema: z.ZodMiniType<
   ListTitlesRequest$Outbound,
   ListTitlesRequest
-> = z.object({
-  q: z.optional(z.string()),
-  publisher: z.optional(z.int()),
-  limit: z.optional(z.int()),
-});
+> = z.pipe(
+  z.object({
+    q: z.optional(z.string()),
+    publisherId: z.optional(z.int()),
+    publisher: z.optional(z.int()),
+    sort: z.optional(z.string()),
+    direction: z.optional(z.string()),
+    limit: z.optional(z.int()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      publisherId: "publisher_id",
+    });
+  }),
+);
 
 export function listTitlesRequestToJSON(
   listTitlesRequest: ListTitlesRequest,

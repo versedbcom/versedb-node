@@ -12,8 +12,6 @@ let value: GetImprintDetailsResponseBody = {
     id: 7,
     name: "Vertigo",
     slug: "vertigo",
-    description:
-      "DC's mature readers imprint, home to Sandman, Preacher, and Y: The Last Man.",
     publisher: {
       id: 2,
       name: "DC Comics",

@@ -6,16 +6,18 @@
 import { GetSeriesForASpecificTeamRequest } from "@versedbcom/sdk/models/operations";
 
 let value: GetSeriesForASpecificTeamRequest = {
-  teamId: 18676,
+  teamId: 10,
   q: "batman",
   limit: 20,
+  medium: "comic,manga",
 };
 ```
 
 ## Fields
 
-| Field                                                  | Type                                                   | Required                                               | Description                                            | Example                                                |
-| ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ |
-| `teamId`                                               | *number*                                               | :heavy_check_mark:                                     | The ID of the team.                                    | 18676                                                  |
-| `q`                                                    | *string*                                               | :heavy_minus_sign:                                     | Optional case-insensitive search within these results. | batman                                                 |
-| `limit`                                                | *number*                                               | :heavy_minus_sign:                                     | Number of results per page (max 50).                   | 20                                                     |
+| Field                                                                                                 | Type                                                                                                  | Required                                                                                              | Description                                                                                           | Example                                                                                               |
+| ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `teamId`                                                                                              | *number*                                                                                              | :heavy_check_mark:                                                                                    | The team ID.                                                                                          | 10                                                                                                    |
+| `q`                                                                                                   | *string*                                                                                              | :heavy_minus_sign:                                                                                    | Optional case-insensitive search within these results.                                                | batman                                                                                                |
+| `limit`                                                                                               | *number*                                                                                              | :heavy_minus_sign:                                                                                    | Number of results per page (max 50).                                                                  | 20                                                                                                    |
+| `medium`                                                                                              | *string*                                                                                              | :heavy_minus_sign:                                                                                    | Comma-separated series mediums to filter by (comic, manga, manhwa, manhua, bande_dessinee, magazine). | comic,manga                                                                                           |

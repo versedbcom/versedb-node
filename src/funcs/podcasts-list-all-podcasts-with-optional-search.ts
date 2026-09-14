@@ -29,6 +29,10 @@ import { Result } from "../types/fp.js";
 
 /**
  * List all podcasts with optional search
+ *
+ * @remarks
+ * Returns a paginated list of comic book podcasts and YouTube channels, plus
+ * the set of languages present in the catalog. Filter with `q`, `type`, or `language`.
  */
 export function podcastsListAllPodcastsWithOptionalSearch(
   client: VerseDBCore,

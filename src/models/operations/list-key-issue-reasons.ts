@@ -14,6 +14,14 @@ export type ListKeyIssueReasonsRequest = {
    * Filter by category (appearance, story, creator, market, media).
    */
   category?: string | undefined;
+  /**
+   * Match reasons whose name contains this.
+   */
+  q?: string | undefined;
+  /**
+   * Cap the number returned (1-100). Applied only when q is present.
+   */
+  limit?: number | undefined;
 };
 
 export type ListKeyIssueReasonsData = {
@@ -38,6 +46,8 @@ export type ListKeyIssueReasonsResponse = {
 /** @internal */
 export type ListKeyIssueReasonsRequest$Outbound = {
   category?: string | undefined;
+  q?: string | undefined;
+  limit?: number | undefined;
 };
 
 /** @internal */
@@ -46,6 +56,8 @@ export const ListKeyIssueReasonsRequest$outboundSchema: z.ZodMiniType<
   ListKeyIssueReasonsRequest
 > = z.object({
   category: z.optional(z.string()),
+  q: z.optional(z.string()),
+  limit: z.optional(z.int()),
 });
 
 export function listKeyIssueReasonsRequestToJSON(

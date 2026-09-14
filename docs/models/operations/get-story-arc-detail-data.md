@@ -9,7 +9,6 @@ let value: GetStoryArcDetailData = {
   id: 16,
   name: "Civil War",
   slug: "civil-war",
-  description: "A superhero registration act divides the Marvel Universe...",
   type: "crossover_event",
   status: "ended",
   imageUrl: "https://cdn.versedb.com/story_arcs/civil-war-md.jpg",
@@ -24,7 +23,6 @@ let value: GetStoryArcDetailData = {
   primaryUniverse: {
     id: 1,
     name: "Earth-616",
-    description: "The primary continuity of the Marvel Universe.",
   },
   universes: [
     {
@@ -82,7 +80,6 @@ let value: GetStoryArcDetailData = {
 | `id`                                                                                                            | *number*                                                                                                        | :heavy_minus_sign:                                                                                              | N/A                                                                                                             | 16                                                                                                              |
 | `name`                                                                                                          | *string*                                                                                                        | :heavy_minus_sign:                                                                                              | N/A                                                                                                             | Civil War                                                                                                       |
 | `slug`                                                                                                          | *string*                                                                                                        | :heavy_minus_sign:                                                                                              | N/A                                                                                                             | civil-war                                                                                                       |
-| `description`                                                                                                   | *string*                                                                                                        | :heavy_minus_sign:                                                                                              | N/A                                                                                                             | A superhero registration act divides the Marvel Universe...                                                     |
 | `type`                                                                                                          | *string*                                                                                                        | :heavy_minus_sign:                                                                                              | N/A                                                                                                             | crossover_event                                                                                                 |
 | `status`                                                                                                        | *string*                                                                                                        | :heavy_minus_sign:                                                                                              | N/A                                                                                                             | ended                                                                                                           |
 | `imageUrl`                                                                                                      | *string*                                                                                                        | :heavy_minus_sign:                                                                                              | N/A                                                                                                             | https://cdn.versedb.com/story_arcs/civil-war-md.jpg                                                             |

@@ -11,7 +11,7 @@ import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type Upcoming1IssuesRequest = {
   /**
-   * Max results (1-25).
+   * Max results (1-50).
    */
   limit?: number | undefined;
   /**

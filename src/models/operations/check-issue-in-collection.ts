@@ -26,6 +26,7 @@ export type CheckIssueInCollectionRequest = {
  */
 export type CheckIssueInCollectionResponseBody2 = {
   inCollection?: boolean | undefined;
+  isUnreleased?: boolean | undefined;
   copiesCount?: number | undefined;
   copies?: Array<any> | undefined;
   data?: string | null | undefined;
@@ -66,6 +67,7 @@ export type CheckIssueInCollectionData = {
  */
 export type CheckIssueInCollectionResponseBody1 = {
   inCollection?: boolean | undefined;
+  isUnreleased?: boolean | undefined;
   copiesCount?: number | undefined;
   copies?: Array<Copy> | undefined;
   data?: CheckIssueInCollectionData | undefined;
@@ -125,6 +127,7 @@ export const CheckIssueInCollectionResponseBody2$inboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     in_collection: types.optional(types.boolean()),
+    is_unreleased: types.optional(types.boolean()),
     copies_count: types.optional(types.number()),
     copies: types.optional(z.array(z.any())),
     data: z.optional(z.nullable(types.string())),
@@ -132,6 +135,7 @@ export const CheckIssueInCollectionResponseBody2$inboundSchema: z.ZodMiniType<
   z.transform((v) => {
     return remap$(v, {
       "in_collection": "inCollection",
+      "is_unreleased": "isUnreleased",
       "copies_count": "copiesCount",
     });
   }),
@@ -255,6 +259,7 @@ export const CheckIssueInCollectionResponseBody1$inboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     in_collection: types.optional(types.boolean()),
+    is_unreleased: types.optional(types.boolean()),
     copies_count: types.optional(types.number()),
     copies: types.optional(z.array(z.lazy(() => Copy$inboundSchema))),
     data: types.optional(
@@ -264,6 +269,7 @@ export const CheckIssueInCollectionResponseBody1$inboundSchema: z.ZodMiniType<
   z.transform((v) => {
     return remap$(v, {
       "in_collection": "inCollection",
+      "is_unreleased": "isUnreleased",
       "copies_count": "copiesCount",
     });
   }),

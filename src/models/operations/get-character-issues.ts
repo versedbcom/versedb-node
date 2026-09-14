@@ -22,6 +22,10 @@ export type GetCharacterIssuesRequest = {
    * Optional case-insensitive search within these results.
    */
   q?: string | undefined;
+  /**
+   * Comma-separated series mediums to filter by (comic, manga, manhwa, manhua, bande_dessinee, magazine).
+   */
+  medium?: string | undefined;
 };
 
 export type GetCharacterIssuesSeries = {
@@ -63,6 +67,7 @@ export type GetCharacterIssuesRequest$Outbound = {
   character_id: number;
   limit?: number | undefined;
   q?: string | undefined;
+  medium?: string | undefined;
 };
 
 /** @internal */
@@ -74,6 +79,7 @@ export const GetCharacterIssuesRequest$outboundSchema: z.ZodMiniType<
     characterId: z.int(),
     limit: z.optional(z.int()),
     q: z.optional(z.string()),
+    medium: z.optional(z.string()),
   }),
   z.transform((v) => {
     return remap$(v, {

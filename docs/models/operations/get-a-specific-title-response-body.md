@@ -12,8 +12,6 @@ let value: GetASpecificTitleResponseBody = {
     id: 12,
     name: "Batman",
     slug: "batman",
-    description:
-      "The continuing adventures of the Dark Knight across his many series.",
     startYear: 1939,
     endYear: null,
     status: "ongoing",

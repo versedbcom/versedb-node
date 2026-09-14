@@ -45,7 +45,6 @@ export type GetCreatorDetailsData = {
   roles?: Array<GetCreatorDetailsRole> | undefined;
   photoUrl?: string | undefined;
   images?: GetCreatorDetailsImages | undefined;
-  biography?: string | undefined;
   gender?: string | undefined;
   birth?: string | undefined;
   death?: string | null | undefined;
@@ -194,7 +193,6 @@ export const GetCreatorDetailsData$inboundSchema: z.ZodMiniType<
     ),
     photo_url: types.optional(types.string()),
     images: types.optional(z.lazy(() => GetCreatorDetailsImages$inboundSchema)),
-    biography: types.optional(types.string()),
     gender: types.optional(types.string()),
     birth: types.optional(types.string()),
     death: z.optional(z.nullable(types.string())),

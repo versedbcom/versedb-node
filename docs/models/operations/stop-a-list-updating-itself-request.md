@@ -1,11 +1,11 @@
-# ConvertAListToMixedRequest
+# StopAListUpdatingItselfRequest
 
 ## Example Usage
 
 ```typescript
-import { ConvertAListToMixedRequest } from "@versedbcom/sdk/models/operations";
+import { StopAListUpdatingItselfRequest } from "@versedbcom/sdk/models/operations";
 
-let value: ConvertAListToMixedRequest = {
+let value: StopAListUpdatingItselfRequest = {
   listId: 101,
 };
 ```

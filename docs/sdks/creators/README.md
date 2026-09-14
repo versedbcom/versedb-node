@@ -94,7 +94,7 @@ run();
 
 ## getCreatorDetails
 
-Returns a single creator with full details including biography, role, and awards.
+Returns a single creator with full details including role and awards.
 
 ### Example Usage
 
@@ -264,6 +264,7 @@ async function run() {
     creatorId: 789,
     limit: 20,
     q: "batman",
+    medium: "comic,manga",
   });
 
   console.log(result);
@@ -291,6 +292,7 @@ async function run() {
     creatorId: 789,
     limit: 20,
     q: "batman",
+    medium: "comic,manga",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -343,6 +345,7 @@ async function run() {
     creatorId: 789,
     limit: 20,
     q: "batman",
+    medium: "comic,manga",
   });
 
   console.log(result);
@@ -370,6 +373,7 @@ async function run() {
     creatorId: 789,
     limit: 20,
     q: "batman",
+    medium: "comic,manga",
   });
   if (res.ok) {
     const { value: result } = res;

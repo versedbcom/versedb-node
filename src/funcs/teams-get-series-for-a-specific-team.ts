@@ -29,6 +29,9 @@ import { Result } from "../types/fp.js";
 
 /**
  * Get series for a specific team
+ *
+ * @remarks
+ * Returns the series the team appears in.
  */
 export function teamsGetSeriesForASpecificTeam(
   client: VerseDBCore,
@@ -103,6 +106,7 @@ async function $do(
 
   const query = encodeFormQuery({
     "limit": payload.limit,
+    "medium": payload.medium,
     "q": payload.q,
   });
 

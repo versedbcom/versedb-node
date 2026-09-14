@@ -1,11 +1,11 @@
-# ConvertAListToMixedData
+# OpenAListToAnyTypeData
 
 ## Example Usage
 
 ```typescript
-import { ConvertAListToMixedData } from "@versedbcom/sdk/models/operations";
+import { OpenAListToAnyTypeData } from "@versedbcom/sdk/models/operations";
 
-let value: ConvertAListToMixedData = {
+let value: OpenAListToAnyTypeData = {
   id: 101,
   entityType: "mixed",
 };

@@ -25,7 +25,6 @@ export type GetStoryArcDetailImages = {
 export type GetStoryArcDetailPrimaryUniverse = {
   id?: number | undefined;
   name?: string | undefined;
-  description?: string | undefined;
 };
 
 export type Universe = {
@@ -88,7 +87,6 @@ export type GetStoryArcDetailData = {
   id?: number | undefined;
   name?: string | undefined;
   slug?: string | undefined;
-  description?: string | undefined;
   type?: string | undefined;
   status?: string | undefined;
   imageUrl?: string | undefined;
@@ -179,7 +177,6 @@ export const GetStoryArcDetailPrimaryUniverse$inboundSchema: z.ZodMiniType<
 > = z.object({
   id: types.optional(types.number()),
   name: types.optional(types.string()),
-  description: types.optional(types.string()),
 });
 
 export function getStoryArcDetailPrimaryUniverseFromJSON(
@@ -415,7 +412,6 @@ export const GetStoryArcDetailData$inboundSchema: z.ZodMiniType<
     id: types.optional(types.number()),
     name: types.optional(types.string()),
     slug: types.optional(types.string()),
-    description: types.optional(types.string()),
     type: types.optional(types.string()),
     status: types.optional(types.string()),
     image_url: types.optional(types.string()),

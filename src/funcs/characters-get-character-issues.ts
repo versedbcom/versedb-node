@@ -105,6 +105,7 @@ async function $do(
 
   const query = encodeFormQuery({
     "limit": payload.limit,
+    "medium": payload.medium,
     "q": payload.q,
   });
 

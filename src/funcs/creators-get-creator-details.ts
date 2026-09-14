@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * Get creator details.
  *
  * @remarks
- * Returns a single creator with full details including biography, role, and awards.
+ * Returns a single creator with full details including role and awards.
  */
 export function creatorsGetCreatorDetails(
   client: VerseDBCore,

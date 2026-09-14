@@ -36,7 +36,6 @@ export type GetASpecificPodcastData = {
   name?: string | undefined;
   slug?: string | undefined;
   type?: string | undefined;
-  description?: string | undefined;
   language?: string | undefined;
   logoUrl?: string | undefined;
   images?: GetASpecificPodcastImages | undefined;
@@ -163,7 +162,6 @@ export const GetASpecificPodcastData$inboundSchema: z.ZodMiniType<
     name: types.optional(types.string()),
     slug: types.optional(types.string()),
     type: types.optional(types.string()),
-    description: types.optional(types.string()),
     language: types.optional(types.string()),
     logo_url: types.optional(types.string()),
     images: types.optional(

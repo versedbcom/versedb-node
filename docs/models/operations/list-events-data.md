@@ -13,6 +13,9 @@ let value: ListEventsData = {
   status: "scheduled",
   startDate: "2026-07-23",
   endDate: "2026-07-26",
+  startTime: null,
+  endTime: null,
+  timezone: "America/Los_Angeles",
   isOnline: false,
   isFcbd: false,
   venueName: "San Diego Convention Center",
@@ -42,6 +45,9 @@ let value: ListEventsData = {
 | `status`                                                                     | *string*                                                                     | :heavy_minus_sign:                                                           | N/A                                                                          | scheduled                                                                    |
 | `startDate`                                                                  | *string*                                                                     | :heavy_minus_sign:                                                           | N/A                                                                          | 2026-07-23                                                                   |
 | `endDate`                                                                    | *string*                                                                     | :heavy_minus_sign:                                                           | N/A                                                                          | 2026-07-26                                                                   |
+| `startTime`                                                                  | *string*                                                                     | :heavy_minus_sign:                                                           | N/A                                                                          | null                                                                         |
+| `endTime`                                                                    | *string*                                                                     | :heavy_minus_sign:                                                           | N/A                                                                          | null                                                                         |
+| `timezone`                                                                   | *string*                                                                     | :heavy_minus_sign:                                                           | N/A                                                                          | America/Los_Angeles                                                          |
 | `isOnline`                                                                   | *boolean*                                                                    | :heavy_minus_sign:                                                           | N/A                                                                          | false                                                                        |
 | `isFcbd`                                                                     | *boolean*                                                                    | :heavy_minus_sign:                                                           | N/A                                                                          | false                                                                        |
 | `venueName`                                                                  | *string*                                                                     | :heavy_minus_sign:                                                           | N/A                                                                          | San Diego Convention Center                                                  |

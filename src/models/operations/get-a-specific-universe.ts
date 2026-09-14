@@ -19,7 +19,6 @@ export type GetASpecificUniverseRequest = {
 export type GetASpecificUniverseData = {
   id?: number | undefined;
   name?: string | undefined;
-  description?: string | undefined;
 };
 
 /**
@@ -71,7 +70,6 @@ export const GetASpecificUniverseData$inboundSchema: z.ZodMiniType<
 > = z.object({
   id: types.optional(types.number()),
   name: types.optional(types.string()),
-  description: types.optional(types.string()),
 });
 
 export function getASpecificUniverseDataFromJSON(

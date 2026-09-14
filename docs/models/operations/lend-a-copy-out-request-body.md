@@ -1,0 +1,23 @@
+# LendACopyOutRequestBody
+
+## Example Usage
+
+```typescript
+import { LendACopyOutRequestBody } from "@versedbcom/sdk/models/operations";
+
+let value: LendACopyOutRequestBody = {
+  loanedTo: "Dan from the shop",
+  loanedAt: "2026-09-01",
+  dueAt: "2026-10-01",
+  notes: "Lent at the Saturday meetup",
+};
+```
+
+## Fields
+
+| Field                                                                                                                                         | Type                                                                                                                                          | Required                                                                                                                                      | Description                                                                                                                                   | Example                                                                                                                                       |
+| --------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `loanedTo`                                                                                                                                    | *string*                                                                                                                                      | :heavy_check_mark:                                                                                                                            | Who has the comic. Free text — the borrower does not need a VerseDB account. Must not be greater than 255 characters.                         | Dan from the shop                                                                                                                             |
+| `loanedAt`                                                                                                                                    | *string*                                                                                                                                      | :heavy_minus_sign:                                                                                                                            | The day it left (YYYY-MM-DD). Defaults to today. Must be a valid date.                                                                        | 2026-09-01                                                                                                                                    |
+| `dueAt`                                                                                                                                       | *string*                                                                                                                                      | :heavy_minus_sign:                                                                                                                            | When it is due back (YYYY-MM-DD). Omit for an open-ended loan. Must be a valid date. Must be a date after or equal to <code>loaned_at</code>. | 2026-10-01                                                                                                                                    |
+| `notes`                                                                                                                                       | *string*                                                                                                                                      | :heavy_minus_sign:                                                                                                                            | Anything worth recording about the loan. Must not be greater than 1000 characters.                                                            | Lent at the Saturday meetup                                                                                                                   |

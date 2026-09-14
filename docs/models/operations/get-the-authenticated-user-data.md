@@ -6,31 +6,24 @@
 import { GetTheAuthenticatedUserData } from "@versedbcom/sdk/models/operations";
 
 let value: GetTheAuthenticatedUserData = {
-  id: 14,
-  name: "Scribe Test User",
-  username: "scribe-test-user",
-  email: "scribe-tester@internal.versedb.com",
-  bio: null,
-  avatar: null,
-  profileImage: null,
-  profileImageUrl: null,
-  glowColor: "#FF5722",
-  bannerPath: null,
+  id: 123,
+  name: "John Doe",
+  username: "comic_fan_42",
+  email: "john@example.com",
+  bio: "Comic collector since 1985",
+  profileImageUrl:
+    "https://r2.versedb.com/uploads/users/comic-fan-42/comic-fan-42-abc123-profile_md.webp",
+  glowColor: "#FF5733",
   bannerUrl: null,
-  countryCode: null,
-  city: null,
-  region: null,
-  postalCode: null,
-  formattedLocation: null,
+  countryCode: "US",
+  city: "New York",
+  region: "NY",
+  postalCode: "10001",
+  formattedLocation: "New York, NY",
   isPrivate: false,
-  isWishlistPublic: false,
-  publicWishlistId: null,
-  emailNotifications: true,
-  contentEditNotifications: true,
-  commentReplyNotifications: true,
+  isWishlistPublic: true,
   showNsfwWarnings: true,
-  birthDate: null,
-  canViewNsfw: false,
+  canViewNsfw: true,
   showReadingList: true,
   showCollection: true,
   showActivity: true,
@@ -42,78 +35,56 @@ let value: GetTheAuthenticatedUserData = {
   preferredLanguages: [
     "en",
   ],
-  locale: null,
-  onboardingCompletedAt: "2025-04-11T01:29:50.000000Z",
-  onboardingStep: 5,
-  aiDiscoveryEnabled: true,
-  isPro: false,
-  canChangeUsername: true,
-  level: 1,
-  xp: 0,
-  xpForNextLevel: 100,
-  xpProgressPercent: 0,
-  contributionsCount: 0,
-  levelName: "Bystander",
-  createdAt: "2025-04-11T01:29:50.000000Z",
-  updatedAt: "2025-04-11T01:29:50.000000Z",
+  locale: "en",
+  isPro: true,
+  level: 5,
+  xp: 1200,
+  xpForNextLevel: 2000,
+  xpProgressPercent: 60,
+  contributionsCount: 42,
+  levelName: "Collector",
   hasPassword: true,
-  deletionRequestedAt: null,
-  deletionConfirmedAt: null,
-  deletionScheduledFor: null,
+  createdAt: "2024-01-15T10:30:00.000000Z",
+  updatedAt: "2026-06-20T14:32:00.000000Z",
 };
 ```
 
 ## Fields
 
-| Field                              | Type                               | Required                           | Description                        | Example                            |
-| ---------------------------------- | ---------------------------------- | ---------------------------------- | ---------------------------------- | ---------------------------------- |
-| `id`                               | *number*                           | :heavy_minus_sign:                 | N/A                                | 14                                 |
-| `name`                             | *string*                           | :heavy_minus_sign:                 | N/A                                | Scribe Test User                   |
-| `username`                         | *string*                           | :heavy_minus_sign:                 | N/A                                | scribe-test-user                   |
-| `email`                            | *string*                           | :heavy_minus_sign:                 | N/A                                | scribe-tester@internal.versedb.com |
-| `bio`                              | *string*                           | :heavy_minus_sign:                 | N/A                                | null                               |
-| `avatar`                           | *string*                           | :heavy_minus_sign:                 | N/A                                | null                               |
-| `profileImage`                     | *string*                           | :heavy_minus_sign:                 | N/A                                | null                               |
-| `profileImageUrl`                  | *string*                           | :heavy_minus_sign:                 | N/A                                | null                               |
-| `glowColor`                        | *string*                           | :heavy_minus_sign:                 | N/A                                | #FF5722                            |
-| `bannerPath`                       | *string*                           | :heavy_minus_sign:                 | N/A                                | null                               |
-| `bannerUrl`                        | *string*                           | :heavy_minus_sign:                 | N/A                                | null                               |
-| `countryCode`                      | *string*                           | :heavy_minus_sign:                 | N/A                                | null                               |
-| `city`                             | *string*                           | :heavy_minus_sign:                 | N/A                                | null                               |
-| `region`                           | *string*                           | :heavy_minus_sign:                 | N/A                                | null                               |
-| `postalCode`                       | *string*                           | :heavy_minus_sign:                 | N/A                                | null                               |
-| `formattedLocation`                | *string*                           | :heavy_minus_sign:                 | N/A                                | null                               |
-| `isPrivate`                        | *boolean*                          | :heavy_minus_sign:                 | N/A                                | false                              |
-| `isWishlistPublic`                 | *boolean*                          | :heavy_minus_sign:                 | N/A                                | false                              |
-| `publicWishlistId`                 | *string*                           | :heavy_minus_sign:                 | N/A                                | null                               |
-| `emailNotifications`               | *boolean*                          | :heavy_minus_sign:                 | N/A                                | true                               |
-| `contentEditNotifications`         | *boolean*                          | :heavy_minus_sign:                 | N/A                                | true                               |
-| `commentReplyNotifications`        | *boolean*                          | :heavy_minus_sign:                 | N/A                                | true                               |
-| `showNsfwWarnings`                 | *boolean*                          | :heavy_minus_sign:                 | N/A                                | true                               |
-| `birthDate`                        | *string*                           | :heavy_minus_sign:                 | N/A                                | null                               |
-| `canViewNsfw`                      | *boolean*                          | :heavy_minus_sign:                 | N/A                                | false                              |
-| `showReadingList`                  | *boolean*                          | :heavy_minus_sign:                 | N/A                                | true                               |
-| `showCollection`                   | *boolean*                          | :heavy_minus_sign:                 | N/A                                | true                               |
-| `showActivity`                     | *boolean*                          | :heavy_minus_sign:                 | N/A                                | true                               |
-| `showSpoilers`                     | *boolean*                          | :heavy_minus_sign:                 | N/A                                | false                              |
-| `preferredMediums`                 | *string*[]                         | :heavy_minus_sign:                 | N/A                                | [<br/>"comic"<br/>]                |
-| `preferredGenres`                  | *any*[]                            | :heavy_minus_sign:                 | N/A                                | []                                 |
-| `preferredLanguages`               | *string*[]                         | :heavy_minus_sign:                 | N/A                                | [<br/>"en"<br/>]                   |
-| `locale`                           | *string*                           | :heavy_minus_sign:                 | N/A                                | null                               |
-| `onboardingCompletedAt`            | *string*                           | :heavy_minus_sign:                 | N/A                                | 2025-04-11T01:29:50.000000Z        |
-| `onboardingStep`                   | *number*                           | :heavy_minus_sign:                 | N/A                                | 5                                  |
-| `aiDiscoveryEnabled`               | *boolean*                          | :heavy_minus_sign:                 | N/A                                | true                               |
-| `isPro`                            | *boolean*                          | :heavy_minus_sign:                 | N/A                                | false                              |
-| `canChangeUsername`                | *boolean*                          | :heavy_minus_sign:                 | N/A                                | true                               |
-| `level`                            | *number*                           | :heavy_minus_sign:                 | N/A                                | 1                                  |
-| `xp`                               | *number*                           | :heavy_minus_sign:                 | N/A                                | 0                                  |
-| `xpForNextLevel`                   | *number*                           | :heavy_minus_sign:                 | N/A                                | 100                                |
-| `xpProgressPercent`                | *number*                           | :heavy_minus_sign:                 | N/A                                | 0                                  |
-| `contributionsCount`               | *number*                           | :heavy_minus_sign:                 | N/A                                | 0                                  |
-| `levelName`                        | *string*                           | :heavy_minus_sign:                 | N/A                                | Bystander                          |
-| `createdAt`                        | *string*                           | :heavy_minus_sign:                 | N/A                                | 2025-04-11T01:29:50.000000Z        |
-| `updatedAt`                        | *string*                           | :heavy_minus_sign:                 | N/A                                | 2025-04-11T01:29:50.000000Z        |
-| `hasPassword`                      | *boolean*                          | :heavy_minus_sign:                 | N/A                                | true                               |
-| `deletionRequestedAt`              | *string*                           | :heavy_minus_sign:                 | N/A                                | null                               |
-| `deletionConfirmedAt`              | *string*                           | :heavy_minus_sign:                 | N/A                                | null                               |
-| `deletionScheduledFor`             | *string*                           | :heavy_minus_sign:                 | N/A                                | null                               |
+| Field                                                                                 | Type                                                                                  | Required                                                                              | Description                                                                           | Example                                                                               |
+| ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `id`                                                                                  | *number*                                                                              | :heavy_minus_sign:                                                                    | N/A                                                                                   | 123                                                                                   |
+| `name`                                                                                | *string*                                                                              | :heavy_minus_sign:                                                                    | N/A                                                                                   | John Doe                                                                              |
+| `username`                                                                            | *string*                                                                              | :heavy_minus_sign:                                                                    | N/A                                                                                   | comic_fan_42                                                                          |
+| `email`                                                                               | *string*                                                                              | :heavy_minus_sign:                                                                    | N/A                                                                                   | john@example.com                                                                      |
+| `bio`                                                                                 | *string*                                                                              | :heavy_minus_sign:                                                                    | N/A                                                                                   | Comic collector since 1985                                                            |
+| `profileImageUrl`                                                                     | *string*                                                                              | :heavy_minus_sign:                                                                    | N/A                                                                                   | https://r2.versedb.com/uploads/users/comic-fan-42/comic-fan-42-abc123-profile_md.webp |
+| `glowColor`                                                                           | *string*                                                                              | :heavy_minus_sign:                                                                    | N/A                                                                                   | #FF5733                                                                               |
+| `bannerUrl`                                                                           | *string*                                                                              | :heavy_minus_sign:                                                                    | N/A                                                                                   | null                                                                                  |
+| `countryCode`                                                                         | *string*                                                                              | :heavy_minus_sign:                                                                    | N/A                                                                                   | US                                                                                    |
+| `city`                                                                                | *string*                                                                              | :heavy_minus_sign:                                                                    | N/A                                                                                   | New York                                                                              |
+| `region`                                                                              | *string*                                                                              | :heavy_minus_sign:                                                                    | N/A                                                                                   | NY                                                                                    |
+| `postalCode`                                                                          | *string*                                                                              | :heavy_minus_sign:                                                                    | N/A                                                                                   | 10001                                                                                 |
+| `formattedLocation`                                                                   | *string*                                                                              | :heavy_minus_sign:                                                                    | N/A                                                                                   | New York, NY                                                                          |
+| `isPrivate`                                                                           | *boolean*                                                                             | :heavy_minus_sign:                                                                    | N/A                                                                                   | false                                                                                 |
+| `isWishlistPublic`                                                                    | *boolean*                                                                             | :heavy_minus_sign:                                                                    | N/A                                                                                   | true                                                                                  |
+| `showNsfwWarnings`                                                                    | *boolean*                                                                             | :heavy_minus_sign:                                                                    | N/A                                                                                   | true                                                                                  |
+| `canViewNsfw`                                                                         | *boolean*                                                                             | :heavy_minus_sign:                                                                    | N/A                                                                                   | true                                                                                  |
+| `showReadingList`                                                                     | *boolean*                                                                             | :heavy_minus_sign:                                                                    | N/A                                                                                   | true                                                                                  |
+| `showCollection`                                                                      | *boolean*                                                                             | :heavy_minus_sign:                                                                    | N/A                                                                                   | true                                                                                  |
+| `showActivity`                                                                        | *boolean*                                                                             | :heavy_minus_sign:                                                                    | N/A                                                                                   | true                                                                                  |
+| `showSpoilers`                                                                        | *boolean*                                                                             | :heavy_minus_sign:                                                                    | N/A                                                                                   | false                                                                                 |
+| `preferredMediums`                                                                    | *string*[]                                                                            | :heavy_minus_sign:                                                                    | N/A                                                                                   | [<br/>"comic"<br/>]                                                                   |
+| `preferredGenres`                                                                     | *any*[]                                                                               | :heavy_minus_sign:                                                                    | N/A                                                                                   | []                                                                                    |
+| `preferredLanguages`                                                                  | *string*[]                                                                            | :heavy_minus_sign:                                                                    | N/A                                                                                   | [<br/>"en"<br/>]                                                                      |
+| `locale`                                                                              | *string*                                                                              | :heavy_minus_sign:                                                                    | N/A                                                                                   | en                                                                                    |
+| `isPro`                                                                               | *boolean*                                                                             | :heavy_minus_sign:                                                                    | N/A                                                                                   | true                                                                                  |
+| `level`                                                                               | *number*                                                                              | :heavy_minus_sign:                                                                    | N/A                                                                                   | 5                                                                                     |
+| `xp`                                                                                  | *number*                                                                              | :heavy_minus_sign:                                                                    | N/A                                                                                   | 1200                                                                                  |
+| `xpForNextLevel`                                                                      | *number*                                                                              | :heavy_minus_sign:                                                                    | N/A                                                                                   | 2000                                                                                  |
+| `xpProgressPercent`                                                                   | *number*                                                                              | :heavy_minus_sign:                                                                    | N/A                                                                                   | 60                                                                                    |
+| `contributionsCount`                                                                  | *number*                                                                              | :heavy_minus_sign:                                                                    | N/A                                                                                   | 42                                                                                    |
+| `levelName`                                                                           | *string*                                                                              | :heavy_minus_sign:                                                                    | N/A                                                                                   | Collector                                                                             |
+| `hasPassword`                                                                         | *boolean*                                                                             | :heavy_minus_sign:                                                                    | N/A                                                                                   | true                                                                                  |
+| `createdAt`                                                                           | *string*                                                                              | :heavy_minus_sign:                                                                    | N/A                                                                                   | 2024-01-15T10:30:00.000000Z                                                           |
+| `updatedAt`                                                                           | *string*                                                                              | :heavy_minus_sign:                                                                    | N/A                                                                                   | 2026-06-20T14:32:00.000000Z                                                           |

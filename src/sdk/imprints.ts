@@ -13,7 +13,7 @@ export class Imprints extends ClientSDK {
    * List imprints
    *
    * @remarks
-   * Returns: id, name, slug, description, publisher
+   * Returns: id, name, slug, publisher
    */
   async listImprints(
     request?: operations.ListImprintsRequest | undefined,
@@ -30,7 +30,7 @@ export class Imprints extends ClientSDK {
    * Get imprint details
    *
    * @remarks
-   * Returns: id, name, slug, description, publisher, series_count, titles_count
+   * Returns: id, name, slug, publisher, series_count, titles_count
    */
   async getImprintDetails(
     request: operations.GetImprintDetailsRequest,

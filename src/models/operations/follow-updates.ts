@@ -11,10 +11,6 @@ import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type FollowUpdatesRequest = {
   /**
-   * Max results (1-50).
-   */
-  limit?: number | undefined;
-  /**
    * Lookback window in days (1-90).
    */
   days?: number | undefined;
@@ -40,13 +36,23 @@ export type FollowUpdatesData = {
   coverUrl?: string | undefined;
   releaseDate?: string | undefined;
   series?: FollowUpdatesSeries | undefined;
-  followContext?: string | undefined;
-  followType?: string | undefined;
+};
+
+export type FollowContexts = {
+  fiveThousandFourHundredAndThirtyTwo?: string | undefined;
+};
+
+export type FollowTypes = {
+  fiveThousandFourHundredAndThirtyTwo?: string | undefined;
 };
 
 export type FollowUpdatesMeta = {
   days?: number | undefined;
   totalFollows?: number | undefined;
+  currentPage?: number | undefined;
+  perPage?: number | undefined;
+  total?: number | undefined;
+  lastPage?: number | undefined;
 };
 
 /**
@@ -54,6 +60,8 @@ export type FollowUpdatesMeta = {
  */
 export type FollowUpdatesResponseBody = {
   data?: Array<FollowUpdatesData> | undefined;
+  followContexts?: FollowContexts | undefined;
+  followTypes?: FollowTypes | undefined;
   meta?: FollowUpdatesMeta | undefined;
 };
 
@@ -64,7 +72,6 @@ export type FollowUpdatesResponse = {
 
 /** @internal */
 export type FollowUpdatesRequest$Outbound = {
-  limit?: number | undefined;
   days?: number | undefined;
   page?: number | undefined;
   per_page?: number | undefined;
@@ -76,7 +83,6 @@ export const FollowUpdatesRequest$outboundSchema: z.ZodMiniType<
   FollowUpdatesRequest
 > = z.pipe(
   z.object({
-    limit: z.optional(z.int()),
     days: z.optional(z.int()),
     page: z.optional(z.int()),
     perPage: z.optional(z.int()),
@@ -134,16 +140,12 @@ export const FollowUpdatesData$inboundSchema: z.ZodMiniType<
     cover_url: types.optional(types.string()),
     release_date: types.optional(types.string()),
     series: types.optional(z.lazy(() => FollowUpdatesSeries$inboundSchema)),
-    follow_context: types.optional(types.string()),
-    follow_type: types.optional(types.string()),
   }),
   z.transform((v) => {
     return remap$(v, {
       "issue_number": "issueNumber",
       "cover_url": "coverUrl",
       "release_date": "releaseDate",
-      "follow_context": "followContext",
-      "follow_type": "followType",
     });
   }),
 );
@@ -159,6 +161,54 @@ export function followUpdatesDataFromJSON(
 }
 
 /** @internal */
+export const FollowContexts$inboundSchema: z.ZodMiniType<
+  FollowContexts,
+  unknown
+> = z.pipe(
+  z.object({
+    "5432": types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "5432": "fiveThousandFourHundredAndThirtyTwo",
+    });
+  }),
+);
+
+export function followContextsFromJSON(
+  jsonString: string,
+): SafeParseResult<FollowContexts, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => FollowContexts$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'FollowContexts' from JSON`,
+  );
+}
+
+/** @internal */
+export const FollowTypes$inboundSchema: z.ZodMiniType<FollowTypes, unknown> = z
+  .pipe(
+    z.object({
+      "5432": types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "5432": "fiveThousandFourHundredAndThirtyTwo",
+      });
+    }),
+  );
+
+export function followTypesFromJSON(
+  jsonString: string,
+): SafeParseResult<FollowTypes, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => FollowTypes$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'FollowTypes' from JSON`,
+  );
+}
+
+/** @internal */
 export const FollowUpdatesMeta$inboundSchema: z.ZodMiniType<
   FollowUpdatesMeta,
   unknown
@@ -166,10 +216,17 @@ export const FollowUpdatesMeta$inboundSchema: z.ZodMiniType<
   z.object({
     days: types.optional(types.number()),
     total_follows: types.optional(types.number()),
+    current_page: types.optional(types.number()),
+    per_page: types.optional(types.number()),
+    total: types.optional(types.number()),
+    last_page: types.optional(types.number()),
   }),
   z.transform((v) => {
     return remap$(v, {
       "total_follows": "totalFollows",
+      "current_page": "currentPage",
+      "per_page": "perPage",
+      "last_page": "lastPage",
     });
   }),
 );
@@ -188,10 +245,22 @@ export function followUpdatesMetaFromJSON(
 export const FollowUpdatesResponseBody$inboundSchema: z.ZodMiniType<
   FollowUpdatesResponseBody,
   unknown
-> = z.object({
-  data: types.optional(z.array(z.lazy(() => FollowUpdatesData$inboundSchema))),
-  meta: types.optional(z.lazy(() => FollowUpdatesMeta$inboundSchema)),
-});
+> = z.pipe(
+  z.object({
+    data: types.optional(
+      z.array(z.lazy(() => FollowUpdatesData$inboundSchema)),
+    ),
+    follow_contexts: types.optional(z.lazy(() => FollowContexts$inboundSchema)),
+    follow_types: types.optional(z.lazy(() => FollowTypes$inboundSchema)),
+    meta: types.optional(z.lazy(() => FollowUpdatesMeta$inboundSchema)),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "follow_contexts": "followContexts",
+      "follow_types": "followTypes",
+    });
+  }),
+);
 
 export function followUpdatesResponseBodyFromJSON(
   jsonString: string,

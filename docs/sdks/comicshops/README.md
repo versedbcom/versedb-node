@@ -28,6 +28,7 @@ async function run() {
   const result = await verseDB.comicShops.listComicShops({
     country: "US",
     state: "NY",
+    city: "New York",
     q: "manhattan",
     limit: 20,
   });
@@ -56,6 +57,7 @@ async function run() {
   const res = await comicShopsListComicShops(verseDB, {
     country: "US",
     state: "NY",
+    city: "New York",
     q: "manhattan",
     limit: 20,
   });

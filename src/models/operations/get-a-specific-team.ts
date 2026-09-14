@@ -27,7 +27,6 @@ export type GetASpecificTeamData = {
   name?: string | undefined;
   slug?: string | undefined;
   aliases?: Array<string> | undefined;
-  description?: string | undefined;
   formationDate?: string | undefined;
   disbandedDate?: string | null | undefined;
   headquarters?: string | undefined;
@@ -118,7 +117,6 @@ export const GetASpecificTeamData$inboundSchema: z.ZodMiniType<
     name: types.optional(types.string()),
     slug: types.optional(types.string()),
     aliases: types.optional(z.array(types.string())),
-    description: types.optional(types.string()),
     formation_date: types.optional(types.string()),
     disbanded_date: z.optional(z.nullable(types.string())),
     headquarters: types.optional(types.string()),

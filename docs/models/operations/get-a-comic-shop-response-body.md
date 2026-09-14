@@ -11,7 +11,6 @@ let value: GetAComicShopResponseBody = {
   data: {
     id: 42,
     name: "Midtown Comics",
-    description: "Flagship comic shop in the heart of Manhattan.",
     address: "200 W 40th St",
     city: "New York",
     stateProvince: "NY",

@@ -115,6 +115,7 @@ async function $do(
     "series_id": payload?.series_id,
     "sort_by": payload?.sort_by,
     "sort_order": payload?.sort_order,
+    "status": payload?.status,
   });
 
   const headers = new Headers(compactMap({

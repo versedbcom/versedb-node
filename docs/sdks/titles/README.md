@@ -31,7 +31,10 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.titles.listTitles({
     q: "spider-man",
+    publisherId: 1,
     publisher: 1,
+    sort: "start_year",
+    direction: "desc",
     limit: 20,
   });
 
@@ -58,7 +61,10 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await titlesListTitles(verseDB, {
     q: "spider-man",
+    publisherId: 1,
     publisher: 1,
+    sort: "start_year",
+    direction: "desc",
     limit: 20,
   });
   if (res.ok) {
@@ -95,7 +101,7 @@ run();
 
 ## getASpecificTitle
 
-Returns: id, name, slug, description, start_year, end_year, status, type,
+Returns: id, name, slug, start_year, end_year, status, type,
 image_url, content_rating_label, min_age, is_nsfw, imprint_id, series_count,
 issues_count, average_rating, total_reviews, aliases
 

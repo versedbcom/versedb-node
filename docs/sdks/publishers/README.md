@@ -89,7 +89,7 @@ run();
 
 ## getPublisherDetails
 
-Returns: id, name, description, founded_year, first_published_year,
+Returns: id, name, founded_year, first_published_year,
 website, headquarters, parent_company, status, logo_url, aliases
 
 Use the related endpoints for relationship data:
