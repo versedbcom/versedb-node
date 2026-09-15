@@ -9,9 +9,7 @@ let value: ReorderItemsRequest = {
   listId: 101,
   body: {
     itemIds: [
-      503,
-      501,
-      502,
+      3,
     ],
   },
 };

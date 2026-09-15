@@ -13,7 +13,7 @@ import { SDKValidationError } from "../errors/sdk-validation-error.js";
 /**
  * Comic condition grade (CGC scale).
  */
-export const Condition = {
+export const UpdateCollectionItemCondition = {
   Mint: "MT",
   NearMintMint: "NM/MT",
   NearMintPlus: "NM+",
@@ -39,7 +39,9 @@ export const Condition = {
 /**
  * Comic condition grade (CGC scale).
  */
-export type Condition = ClosedEnum<typeof Condition>;
+export type UpdateCollectionItemCondition = ClosedEnum<
+  typeof UpdateCollectionItemCondition
+>;
 
 /**
  * Physical format of the copy.
@@ -259,7 +261,7 @@ export type UpdateCollectionItemRequestBody = {
   /**
    * Comic condition grade (CGC scale).
    */
-  condition?: Condition | null | undefined;
+  condition?: UpdateCollectionItemCondition | null | undefined;
   /**
    * User notes about this copy. Must not be greater than 1000 characters.
    */
@@ -293,7 +295,7 @@ export type UpdateCollectionItemRequestBody = {
    */
   personalRating?: number | null | undefined;
   /**
-   * Must not be greater than 100 characters.
+   * The collector's own labels for this copy. Private to the account — one user's tags are never visible to another. Must not be greater than 100 characters.
    */
   tags?: Array<string> | undefined;
   /**
@@ -442,9 +444,9 @@ export type UpdateCollectionItemResponse = {
 };
 
 /** @internal */
-export const Condition$outboundSchema: z.ZodMiniEnum<typeof Condition> = z.enum(
-  Condition,
-);
+export const UpdateCollectionItemCondition$outboundSchema: z.ZodMiniEnum<
+  typeof UpdateCollectionItemCondition
+> = z.enum(UpdateCollectionItemCondition);
 
 /** @internal */
 export const UpdateCollectionItemFormat$outboundSchema: z.ZodMiniEnum<
@@ -546,7 +548,9 @@ export const UpdateCollectionItemRequestBody$outboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     variantId: z.optional(z.nullable(z.int())),
-    condition: z.optional(z.nullable(Condition$outboundSchema)),
+    condition: z.optional(
+      z.nullable(UpdateCollectionItemCondition$outboundSchema),
+    ),
     notes: z.optional(z.nullable(z.string())),
     pricePaid: z.optional(z.nullable(z.number())),
     format: z.optional(z.nullable(UpdateCollectionItemFormat$outboundSchema)),

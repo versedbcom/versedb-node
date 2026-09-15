@@ -11,7 +11,7 @@ import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type ReorderItemsRequestBody = {
   /**
-   * Array of item IDs in desired order.
+   * The list item IDs in their new order. All IDs must belong to this list with no duplicates.
    */
   itemIds: Array<number>;
 };

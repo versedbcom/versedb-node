@@ -1,13 +1,13 @@
-# Condition
+# AddIssueToCollectionCondition
 
 Comic condition grade (CGC scale).
 
 ## Example Usage
 
 ```typescript
-import { Condition } from "@versedbcom/sdk/models/operations";
+import { AddIssueToCollectionCondition } from "@versedbcom/sdk/models/operations";
 
-let value: Condition = "NM";
+let value: AddIssueToCollectionCondition = "NM";
 ```
 
 ## Values

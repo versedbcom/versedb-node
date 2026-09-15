@@ -7,15 +7,13 @@ import { ReorderItemsRequestBody } from "@versedbcom/sdk/models/operations";
 
 let value: ReorderItemsRequestBody = {
   itemIds: [
-    503,
-    501,
-    502,
+    3,
   ],
 };
 ```
 
 ## Fields
 
-| Field                               | Type                                | Required                            | Description                         | Example                             |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| `itemIds`                           | *number*[]                          | :heavy_check_mark:                  | Array of item IDs in desired order. | [<br/>503,<br/>501,<br/>502<br/>]   |
+| Field                                                                                      | Type                                                                                       | Required                                                                                   | Description                                                                                | Example                                                                                    |
+| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
+| `itemIds`                                                                                  | *number*[]                                                                                 | :heavy_check_mark:                                                                         | The list item IDs in their new order. All IDs must belong to this list with no duplicates. | [<br/>3<br/>]                                                                              |

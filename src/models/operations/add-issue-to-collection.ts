@@ -11,6 +11,39 @@ import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 /**
+ * Comic condition grade (CGC scale).
+ */
+export const AddIssueToCollectionCondition = {
+  Mint: "MT",
+  NearMintMint: "NM/MT",
+  NearMintPlus: "NM+",
+  NearMint: "NM",
+  NearMintMinus: "NM-",
+  VeryFineNearMint: "VF/NM",
+  VeryFinePlus: "VF+",
+  VeryFine: "VF",
+  VeryFineMinus: "VF-",
+  FineVeryFine: "F/VF",
+  FinePlus: "F+",
+  Fine: "F",
+  FineMinus: "F-",
+  VeryGoodFine: "VG/F",
+  VeryGoodPlus: "VG+",
+  VeryGood: "VG",
+  VeryGoodMinus: "VG-",
+  GoodVeryGood: "G/VG",
+  Good: "G",
+  Fair: "FR",
+  Poor: "PR",
+} as const;
+/**
+ * Comic condition grade (CGC scale).
+ */
+export type AddIssueToCollectionCondition = ClosedEnum<
+  typeof AddIssueToCollectionCondition
+>;
+
+/**
  * Physical format of the copy.
  */
 export const AddIssueToCollectionFormat = {
@@ -222,19 +255,19 @@ export type AddIssueToCollectionStatus = ClosedEnum<
 
 export type AddIssueToCollectionRequestBody = {
   /**
-   * Specific variant ID (optional).
+   * Link to a specific issue variant. Must belong to the issue. Must match an existing stored value.
    */
   variantId?: number | null | undefined;
   /**
-   * Condition grade (e.g., NM, VF, FN, VG, G, FR, PR).
+   * Comic condition grade (CGC scale).
    */
-  condition?: string | null | undefined;
+  condition?: AddIssueToCollectionCondition | null | undefined;
   /**
-   * Personal notes (max 1000 chars).
+   * User notes about this copy. Must not be greater than 1000 characters.
    */
   notes?: string | null | undefined;
   /**
-   * Price paid (max 999999.99).
+   * Purchase price in dollars. Must be at least 0. Must not be greater than 999999.99.
    */
   pricePaid?: number | null | undefined;
   /**
@@ -262,7 +295,7 @@ export type AddIssueToCollectionRequestBody = {
    */
   personalRating?: number | null | undefined;
   /**
-   * Must not be greater than 100 characters.
+   * The collector's own labels for this copy. Private to the account — one user's tags are never visible to another. Must not be greater than 100 characters.
    */
   tags?: Array<string> | undefined;
   /**
@@ -410,6 +443,11 @@ export type AddIssueToCollectionResponse = {
 };
 
 /** @internal */
+export const AddIssueToCollectionCondition$outboundSchema: z.ZodMiniEnum<
+  typeof AddIssueToCollectionCondition
+> = z.enum(AddIssueToCollectionCondition);
+
+/** @internal */
 export const AddIssueToCollectionFormat$outboundSchema: z.ZodMiniEnum<
   typeof AddIssueToCollectionFormat
 > = z.enum(AddIssueToCollectionFormat);
@@ -507,7 +545,9 @@ export const AddIssueToCollectionRequestBody$outboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     variantId: z.optional(z.nullable(z.int())),
-    condition: z.optional(z.nullable(z.string())),
+    condition: z.optional(
+      z.nullable(AddIssueToCollectionCondition$outboundSchema),
+    ),
     notes: z.optional(z.nullable(z.string())),
     pricePaid: z.optional(z.nullable(z.number())),
     format: z.optional(z.nullable(AddIssueToCollectionFormat$outboundSchema)),
