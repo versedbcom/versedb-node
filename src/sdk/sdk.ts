@@ -15,6 +15,7 @@ import { KeyIssueReasons } from "./key-issue-reasons.js";
 import { Lists } from "./lists.js";
 import { Podcasts } from "./podcasts.js";
 import { Publishers } from "./publishers.js";
+import { Reading } from "./reading.js";
 import { Series } from "./series.js";
 import { StoryArcs } from "./story-arcs.js";
 import { Teams } from "./teams.js";
@@ -106,6 +107,11 @@ export class VerseDB extends ClientSDK {
   private _barcodeLookup?: BarcodeLookup;
   get barcodeLookup(): BarcodeLookup {
     return (this._barcodeLookup ??= new BarcodeLookup(this._options));
+  }
+
+  private _reading?: Reading;
+  get reading(): Reading {
+    return (this._reading ??= new Reading(this._options));
   }
 
   private _user?: User;

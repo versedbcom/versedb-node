@@ -40,7 +40,7 @@ export function userAddToPullList(
 ): APIPromise<
   Result<
     operations.AddToPullListResponse,
-    | errors.UnauthorizedError
+    | errors.UnauthorizedErrorError
     | errors.AddToPullListUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
@@ -68,7 +68,7 @@ async function $do(
   [
     Result<
       operations.AddToPullListResponse,
-      | errors.UnauthorizedError
+      | errors.UnauthorizedErrorError
       | errors.AddToPullListUnprocessableEntityError
       | errors.TooManyRequestsError
       | VerseDbError
@@ -153,7 +153,7 @@ async function $do(
 
   const [result] = await M.match<
     operations.AddToPullListResponse,
-    | errors.UnauthorizedError
+    | errors.UnauthorizedErrorError
     | errors.AddToPullListUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
@@ -169,7 +169,7 @@ async function $do(
       hdrs: true,
       key: "Result",
     }),
-    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
     M.jsonErr(422, errors.AddToPullListUnprocessableEntityError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),

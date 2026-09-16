@@ -41,7 +41,7 @@ export function listsRemoveItemFromList(
 ): APIPromise<
   Result<
     operations.RemoveItemFromListResponse | undefined,
-    | errors.UnauthorizedError
+    | errors.UnauthorizedErrorError
     | errors.RemoveItemFromListForbiddenError
     | errors.RemoveItemFromListNotFoundError
     | errors.TooManyRequestsError
@@ -70,7 +70,7 @@ async function $do(
   [
     Result<
       operations.RemoveItemFromListResponse | undefined,
-      | errors.UnauthorizedError
+      | errors.UnauthorizedErrorError
       | errors.RemoveItemFromListForbiddenError
       | errors.RemoveItemFromListNotFoundError
       | errors.TooManyRequestsError
@@ -168,7 +168,7 @@ async function $do(
 
   const [result] = await M.match<
     operations.RemoveItemFromListResponse | undefined,
-    | errors.UnauthorizedError
+    | errors.UnauthorizedErrorError
     | errors.RemoveItemFromListForbiddenError
     | errors.RemoveItemFromListNotFoundError
     | errors.TooManyRequestsError
@@ -186,7 +186,7 @@ async function $do(
       types$.optional(operations.RemoveItemFromListResponse$inboundSchema),
       { hdrs: true },
     ),
-    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
     M.jsonErr(403, errors.RemoveItemFromListForbiddenError$inboundSchema),
     M.jsonErr(404, errors.RemoveItemFromListNotFoundError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),

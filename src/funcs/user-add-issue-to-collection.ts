@@ -41,7 +41,7 @@ export function userAddIssueToCollection(
 ): APIPromise<
   Result<
     operations.AddIssueToCollectionResponse,
-    | errors.UnauthorizedError
+    | errors.UnauthorizedErrorError
     | errors.AddIssueToCollectionForbiddenError
     | errors.AddIssueToCollectionUnprocessableEntityError
     | errors.TooManyRequestsError
@@ -70,7 +70,7 @@ async function $do(
   [
     Result<
       operations.AddIssueToCollectionResponse,
-      | errors.UnauthorizedError
+      | errors.UnauthorizedErrorError
       | errors.AddIssueToCollectionForbiddenError
       | errors.AddIssueToCollectionUnprocessableEntityError
       | errors.TooManyRequestsError
@@ -163,7 +163,7 @@ async function $do(
 
   const [result] = await M.match<
     operations.AddIssueToCollectionResponse,
-    | errors.UnauthorizedError
+    | errors.UnauthorizedErrorError
     | errors.AddIssueToCollectionForbiddenError
     | errors.AddIssueToCollectionUnprocessableEntityError
     | errors.TooManyRequestsError
@@ -180,7 +180,7 @@ async function $do(
       hdrs: true,
       key: "Result",
     }),
-    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
     M.jsonErr(403, errors.AddIssueToCollectionForbiddenError$inboundSchema),
     M.jsonErr(
       422,

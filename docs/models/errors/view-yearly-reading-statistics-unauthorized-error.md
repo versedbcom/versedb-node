@@ -1,9 +1,11 @@
-# UnauthorizedError
+# ViewYearlyReadingStatisticsUnauthorizedError
+
+The request could not be processed.
 
 ## Example Usage
 
 ```typescript
-import { UnauthorizedError } from "@versedbcom/sdk/models/errors";
+import { ViewYearlyReadingStatisticsUnauthorizedError } from "@versedbcom/sdk/models/errors";
 
 // No examples available for this model
 ```
@@ -12,4 +14,4 @@ import { UnauthorizedError } from "@versedbcom/sdk/models/errors";
 
 | Field              | Type               | Required           | Description        | Example            |
 | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
-| `message`          | *string*           | :heavy_check_mark: | N/A                | Unauthenticated.   |
+| `message`          | *string*           | :heavy_minus_sign: | N/A                | Unauthenticated.   |

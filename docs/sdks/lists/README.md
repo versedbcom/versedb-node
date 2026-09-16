@@ -113,11 +113,11 @@ run();
 
 ### Errors
 
-| Error Type                  | Status Code                 | Content Type                |
-| --------------------------- | --------------------------- | --------------------------- |
-| errors.UnauthorizedError    | 401                         | application/json            |
-| errors.TooManyRequestsError | 429                         | application/json            |
-| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| errors.UnauthorizedErrorError | 401                           | application/json              |
+| errors.TooManyRequestsError   | 429                           | application/json              |
+| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
 
 ## createList
 
@@ -200,7 +200,7 @@ run();
 
 | Error Type                      | Status Code                     | Content Type                    |
 | ------------------------------- | ------------------------------- | ------------------------------- |
-| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.UnauthorizedErrorError   | 401                             | application/json                |
 | errors.CreateListForbiddenError | 403                             | application/json                |
 | errors.TooManyRequestsError     | 429                             | application/json                |
 | errors.VerseDbDefaultError      | 4XX, 5XX                        | \*/\*                           |
@@ -278,11 +278,11 @@ run();
 
 ### Errors
 
-| Error Type                  | Status Code                 | Content Type                |
-| --------------------------- | --------------------------- | --------------------------- |
-| errors.UnauthorizedError    | 401                         | application/json            |
-| errors.TooManyRequestsError | 429                         | application/json            |
-| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| errors.UnauthorizedErrorError | 401                           | application/json              |
+| errors.TooManyRequestsError   | 429                           | application/json              |
+| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
 
 ## getList
 
@@ -355,13 +355,13 @@ run();
 
 ### Errors
 
-| Error Type                   | Status Code                  | Content Type                 |
-| ---------------------------- | ---------------------------- | ---------------------------- |
-| errors.UnauthorizedError     | 401                          | application/json             |
-| errors.GetListForbiddenError | 403                          | application/json             |
-| errors.GetListNotFoundError  | 404                          | application/json             |
-| errors.TooManyRequestsError  | 429                          | application/json             |
-| errors.VerseDbDefaultError   | 4XX, 5XX                     | \*/\*                        |
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| errors.UnauthorizedErrorError | 401                           | application/json              |
+| errors.GetListForbiddenError  | 403                           | application/json              |
+| errors.GetListNotFoundError   | 404                           | application/json              |
+| errors.TooManyRequestsError   | 429                           | application/json              |
+| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
 
 ## updateList
 
@@ -450,7 +450,7 @@ run();
 
 | Error Type                      | Status Code                     | Content Type                    |
 | ------------------------------- | ------------------------------- | ------------------------------- |
-| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.UnauthorizedErrorError   | 401                             | application/json                |
 | errors.UpdateListForbiddenError | 403                             | application/json                |
 | errors.TooManyRequestsError     | 429                             | application/json                |
 | errors.VerseDbDefaultError      | 4XX, 5XX                        | \*/\*                           |
@@ -524,13 +524,13 @@ run();
 
 ### Errors
 
-| Error Type                  | Status Code                 | Content Type                |
-| --------------------------- | --------------------------- | --------------------------- |
-| errors.UnauthorizedError    | 401                         | application/json            |
-| errors.ResponseBodyError1   | 403                         | application/json            |
-| errors.ResponseBodyError2   | 403                         | application/json            |
-| errors.TooManyRequestsError | 429                         | application/json            |
-| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| errors.UnauthorizedErrorError | 401                           | application/json              |
+| errors.ResponseBodyError1     | 403                           | application/json              |
+| errors.ResponseBodyError2     | 403                           | application/json              |
+| errors.TooManyRequestsError   | 429                           | application/json              |
+| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
 
 ## getUsersLists
 
@@ -607,11 +607,11 @@ run();
 
 ### Errors
 
-| Error Type                  | Status Code                 | Content Type                |
-| --------------------------- | --------------------------- | --------------------------- |
-| errors.UnauthorizedError    | 401                         | application/json            |
-| errors.TooManyRequestsError | 429                         | application/json            |
-| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| errors.UnauthorizedErrorError | 401                           | application/json              |
+| errors.TooManyRequestsError   | 429                           | application/json              |
+| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
 
 ## convertAListToMixed
 
@@ -685,7 +685,7 @@ run();
 
 | Error Type                                        | Status Code                                       | Content Type                                      |
 | ------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------- |
-| errors.UnauthorizedError                          | 401                                               | application/json                                  |
+| errors.UnauthorizedErrorError                     | 401                                               | application/json                                  |
 | errors.OpenAListToAnyTypeForbiddenError           | 403                                               | application/json                                  |
 | errors.OpenAListToAnyTypeUnprocessableEntityError | 422                                               | application/json                                  |
 | errors.TooManyRequestsError                       | 429                                               | application/json                                  |
@@ -764,7 +764,7 @@ run();
 
 | Error Type                                             | Status Code                                            | Content Type                                           |
 | ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ |
-| errors.UnauthorizedError                               | 401                                                    | application/json                                       |
+| errors.UnauthorizedErrorError                          | 401                                                    | application/json                                       |
 | errors.StopAListUpdatingItselfUnprocessableEntityError | 422                                                    | application/json                                       |
 | errors.TooManyRequestsError                            | 429                                                    | application/json                                       |
 | errors.VerseDbDefaultError                             | 4XX, 5XX                                               | \*/\*                                                  |
@@ -850,7 +850,7 @@ run();
 
 | Error Type                                           | Status Code                                          | Content Type                                         |
 | ---------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------- |
-| errors.UnauthorizedError                             | 401                                                  | application/json                                     |
+| errors.UnauthorizedErrorError                        | 401                                                  | application/json                                     |
 | errors.MergeAListIntoThisOneForbiddenError           | 403                                                  | application/json                                     |
 | errors.MergeAListIntoThisOneUnprocessableEntityError | 422                                                  | application/json                                     |
 | errors.TooManyRequestsError                          | 429                                                  | application/json                                     |
@@ -941,7 +941,7 @@ run();
 
 | Error Type                         | Status Code                        | Content Type                       |
 | ---------------------------------- | ---------------------------------- | ---------------------------------- |
-| errors.UnauthorizedError           | 401                                | application/json                   |
+| errors.UnauthorizedErrorError      | 401                                | application/json                   |
 | errors.AddItemToListForbiddenError | 403                                | application/json                   |
 | errors.AddItemToListConflictError  | 409                                | application/json                   |
 | errors.TooManyRequestsError        | 429                                | application/json                   |
@@ -1020,7 +1020,7 @@ run();
 
 | Error Type                              | Status Code                             | Content Type                            |
 | --------------------------------------- | --------------------------------------- | --------------------------------------- |
-| errors.UnauthorizedError                | 401                                     | application/json                        |
+| errors.UnauthorizedErrorError           | 401                                     | application/json                        |
 | errors.RemoveItemFromListForbiddenError | 403                                     | application/json                        |
 | errors.RemoveItemFromListNotFoundError  | 404                                     | application/json                        |
 | errors.TooManyRequestsError             | 429                                     | application/json                        |
@@ -1109,11 +1109,11 @@ run();
 
 ### Errors
 
-| Error Type                  | Status Code                 | Content Type                |
-| --------------------------- | --------------------------- | --------------------------- |
-| errors.UnauthorizedError    | 401                         | application/json            |
-| errors.TooManyRequestsError | 429                         | application/json            |
-| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| errors.UnauthorizedErrorError | 401                           | application/json              |
+| errors.TooManyRequestsError   | 429                           | application/json              |
+| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
 
 ## saveList
 
@@ -1186,7 +1186,7 @@ run();
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| errors.UnauthorizedError      | 401                           | application/json              |
+| errors.UnauthorizedErrorError | 401                           | application/json              |
 | errors.SaveListForbiddenError | 403                           | application/json              |
 | errors.TooManyRequestsError   | 429                           | application/json              |
 | errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
@@ -1260,11 +1260,11 @@ run();
 
 ### Errors
 
-| Error Type                  | Status Code                 | Content Type                |
-| --------------------------- | --------------------------- | --------------------------- |
-| errors.UnauthorizedError    | 401                         | application/json            |
-| errors.TooManyRequestsError | 429                         | application/json            |
-| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| errors.UnauthorizedErrorError | 401                           | application/json              |
+| errors.TooManyRequestsError   | 429                           | application/json              |
+| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
 
 ## likeList
 
@@ -1337,7 +1337,7 @@ run();
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
-| errors.UnauthorizedError      | 401                           | application/json              |
+| errors.UnauthorizedErrorError | 401                           | application/json              |
 | errors.LikeListForbiddenError | 403                           | application/json              |
 | errors.TooManyRequestsError   | 429                           | application/json              |
 | errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
@@ -1411,8 +1411,8 @@ run();
 
 ### Errors
 
-| Error Type                  | Status Code                 | Content Type                |
-| --------------------------- | --------------------------- | --------------------------- |
-| errors.UnauthorizedError    | 401                         | application/json            |
-| errors.TooManyRequestsError | 429                         | application/json            |
-| errors.VerseDbDefaultError  | 4XX, 5XX                    | \*/\*                       |
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| errors.UnauthorizedErrorError | 401                           | application/json              |
+| errors.TooManyRequestsError   | 429                           | application/json              |
+| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |

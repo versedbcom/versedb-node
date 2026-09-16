@@ -94,3 +94,6 @@ export * from "./unsave-list.js";
 export * from "./upcoming1-issues.js";
 export * from "./update-collection-item.js";
 export * from "./update-list.js";
+export * from "./view-yearly-reading-statistics.js";
+export * from "./view-your-monthly-reading-calendar.js";
+export * from "./view-your-reading-goal.js";

@@ -41,7 +41,7 @@ export function userUpdateCollectionItem(
 ): APIPromise<
   Result<
     operations.UpdateCollectionItemResponse,
-    | errors.UnauthorizedError
+    | errors.UnauthorizedErrorError
     | errors.UpdateCollectionItemNotFoundError
     | errors.TooManyRequestsError
     | VerseDbError
@@ -69,7 +69,7 @@ async function $do(
   [
     Result<
       operations.UpdateCollectionItemResponse,
-      | errors.UnauthorizedError
+      | errors.UnauthorizedErrorError
       | errors.UpdateCollectionItemNotFoundError
       | errors.TooManyRequestsError
       | VerseDbError
@@ -167,7 +167,7 @@ async function $do(
 
   const [result] = await M.match<
     operations.UpdateCollectionItemResponse,
-    | errors.UnauthorizedError
+    | errors.UnauthorizedErrorError
     | errors.UpdateCollectionItemNotFoundError
     | errors.TooManyRequestsError
     | VerseDbError
@@ -183,7 +183,7 @@ async function $do(
       hdrs: true,
       key: "Result",
     }),
-    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
     M.jsonErr(404, errors.UpdateCollectionItemNotFoundError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),

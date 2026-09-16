@@ -42,7 +42,7 @@ export function listsMergeAListIntoThisOne(
 ): APIPromise<
   Result<
     operations.MergeAListIntoThisOneResponse,
-    | errors.UnauthorizedError
+    | errors.UnauthorizedErrorError
     | errors.MergeAListIntoThisOneForbiddenError
     | errors.MergeAListIntoThisOneUnprocessableEntityError
     | errors.TooManyRequestsError
@@ -71,7 +71,7 @@ async function $do(
   [
     Result<
       operations.MergeAListIntoThisOneResponse,
-      | errors.UnauthorizedError
+      | errors.UnauthorizedErrorError
       | errors.MergeAListIntoThisOneForbiddenError
       | errors.MergeAListIntoThisOneUnprocessableEntityError
       | errors.TooManyRequestsError
@@ -164,7 +164,7 @@ async function $do(
 
   const [result] = await M.match<
     operations.MergeAListIntoThisOneResponse,
-    | errors.UnauthorizedError
+    | errors.UnauthorizedErrorError
     | errors.MergeAListIntoThisOneForbiddenError
     | errors.MergeAListIntoThisOneUnprocessableEntityError
     | errors.TooManyRequestsError
@@ -181,7 +181,7 @@ async function $do(
       hdrs: true,
       key: "Result",
     }),
-    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
     M.jsonErr(403, errors.MergeAListIntoThisOneForbiddenError$inboundSchema),
     M.jsonErr(
       422,

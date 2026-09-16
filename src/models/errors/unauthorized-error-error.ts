@@ -6,29 +6,29 @@ import * as z from "zod/v4-mini";
 import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
-export type UnauthorizedErrorData = {
+export type UnauthorizedErrorErrorData = {
   message: string;
 };
 
-export class UnauthorizedError extends VerseDbError {
+export class UnauthorizedErrorError extends VerseDbError {
   /** The original data that was passed to this error instance. */
-  data$: UnauthorizedErrorData;
+  data$: UnauthorizedErrorErrorData;
 
   constructor(
-    err: UnauthorizedErrorData,
+    err: UnauthorizedErrorErrorData,
     httpMeta: { response: Response; request: Request; body: string },
   ) {
     const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
     super(message, httpMeta);
     this.data$ = err;
 
-    this.name = "UnauthorizedError";
+    this.name = "UnauthorizedErrorError";
   }
 }
 
 /** @internal */
-export const UnauthorizedError$inboundSchema: z.ZodMiniType<
-  UnauthorizedError,
+export const UnauthorizedErrorError$inboundSchema: z.ZodMiniType<
+  UnauthorizedErrorError,
   unknown
 > = z.pipe(
   z.object({
@@ -38,7 +38,7 @@ export const UnauthorizedError$inboundSchema: z.ZodMiniType<
     body$: z.string(),
   }),
   z.transform((v) => {
-    return new UnauthorizedError(v, {
+    return new UnauthorizedErrorError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

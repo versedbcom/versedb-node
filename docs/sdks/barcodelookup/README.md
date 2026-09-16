@@ -88,7 +88,7 @@ run();
 
 | Error Type                       | Status Code                      | Content Type                     |
 | -------------------------------- | -------------------------------- | -------------------------------- |
-| errors.UnauthorizedError         | 401                              | application/json                 |
+| errors.UnauthorizedErrorError    | 401                              | application/json                 |
 | errors.LookupByUPCForbiddenError | 403                              | application/json                 |
 | errors.LookupByUPCNotFoundError  | 404                              | application/json                 |
 | errors.LookupByUPCConflictError  | 409                              | application/json                 |
@@ -168,7 +168,7 @@ run();
 
 | Error Type                        | Status Code                       | Content Type                      |
 | --------------------------------- | --------------------------------- | --------------------------------- |
-| errors.UnauthorizedError          | 401                               | application/json                  |
+| errors.UnauthorizedErrorError     | 401                               | application/json                  |
 | errors.LookupByISBNForbiddenError | 403                               | application/json                  |
 | errors.LookupByISBNNotFoundError  | 404                               | application/json                  |
 | errors.TooManyRequestsError       | 429                               | application/json                  |

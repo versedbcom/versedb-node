@@ -41,7 +41,7 @@ export function userRemoveIssueFromCollection(
 ): APIPromise<
   Result<
     operations.RemoveIssueFromCollectionResponse | undefined,
-    | errors.UnauthorizedError
+    | errors.UnauthorizedErrorError
     | errors.RemoveIssueFromCollectionNotFoundError
     | errors.TooManyRequestsError
     | VerseDbError
@@ -69,7 +69,7 @@ async function $do(
   [
     Result<
       operations.RemoveIssueFromCollectionResponse | undefined,
-      | errors.UnauthorizedError
+      | errors.UnauthorizedErrorError
       | errors.RemoveIssueFromCollectionNotFoundError
       | errors.TooManyRequestsError
       | VerseDbError
@@ -170,7 +170,7 @@ async function $do(
 
   const [result] = await M.match<
     operations.RemoveIssueFromCollectionResponse | undefined,
-    | errors.UnauthorizedError
+    | errors.UnauthorizedErrorError
     | errors.RemoveIssueFromCollectionNotFoundError
     | errors.TooManyRequestsError
     | VerseDbError
@@ -189,7 +189,7 @@ async function $do(
       ),
       { hdrs: true },
     ),
-    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
     M.jsonErr(404, errors.RemoveIssueFromCollectionNotFoundError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),

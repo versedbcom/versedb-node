@@ -41,7 +41,7 @@ export function barcodeLookupLookupByUPC(
 ): APIPromise<
   Result<
     operations.LookupByUPCResponse,
-    | errors.UnauthorizedError
+    | errors.UnauthorizedErrorError
     | errors.LookupByUPCForbiddenError
     | errors.LookupByUPCNotFoundError
     | errors.LookupByUPCConflictError
@@ -71,7 +71,7 @@ async function $do(
   [
     Result<
       operations.LookupByUPCResponse,
-      | errors.UnauthorizedError
+      | errors.UnauthorizedErrorError
       | errors.LookupByUPCForbiddenError
       | errors.LookupByUPCNotFoundError
       | errors.LookupByUPCConflictError
@@ -163,7 +163,7 @@ async function $do(
 
   const [result] = await M.match<
     operations.LookupByUPCResponse,
-    | errors.UnauthorizedError
+    | errors.UnauthorizedErrorError
     | errors.LookupByUPCForbiddenError
     | errors.LookupByUPCNotFoundError
     | errors.LookupByUPCConflictError
@@ -181,7 +181,7 @@ async function $do(
       hdrs: true,
       key: "Result",
     }),
-    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
     M.jsonErr(403, errors.LookupByUPCForbiddenError$inboundSchema),
     M.jsonErr(404, errors.LookupByUPCNotFoundError$inboundSchema),
     M.jsonErr(409, errors.LookupByUPCConflictError$inboundSchema),

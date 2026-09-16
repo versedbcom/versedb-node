@@ -42,7 +42,7 @@ export function listsStopAListUpdatingItself(
 ): APIPromise<
   Result<
     operations.StopAListUpdatingItselfResponse,
-    | errors.UnauthorizedError
+    | errors.UnauthorizedErrorError
     | errors.StopAListUpdatingItselfUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
@@ -70,7 +70,7 @@ async function $do(
   [
     Result<
       operations.StopAListUpdatingItselfResponse,
-      | errors.UnauthorizedError
+      | errors.UnauthorizedErrorError
       | errors.StopAListUpdatingItselfUnprocessableEntityError
       | errors.TooManyRequestsError
       | VerseDbError
@@ -161,7 +161,7 @@ async function $do(
 
   const [result] = await M.match<
     operations.StopAListUpdatingItselfResponse,
-    | errors.UnauthorizedError
+    | errors.UnauthorizedErrorError
     | errors.StopAListUpdatingItselfUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
@@ -177,7 +177,7 @@ async function $do(
       hdrs: true,
       key: "Result",
     }),
-    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
     M.jsonErr(
       422,
       errors.StopAListUpdatingItselfUnprocessableEntityError$inboundSchema,

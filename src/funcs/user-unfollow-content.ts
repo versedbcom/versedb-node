@@ -40,7 +40,7 @@ export function userUnfollowContent(
 ): APIPromise<
   Result<
     operations.UnfollowContentResponse,
-    | errors.UnauthorizedError
+    | errors.UnauthorizedErrorError
     | errors.UnfollowContentNotFoundError
     | errors.TooManyRequestsError
     | VerseDbError
@@ -68,7 +68,7 @@ async function $do(
   [
     Result<
       operations.UnfollowContentResponse,
-      | errors.UnauthorizedError
+      | errors.UnauthorizedErrorError
       | errors.UnfollowContentNotFoundError
       | errors.TooManyRequestsError
       | VerseDbError
@@ -162,7 +162,7 @@ async function $do(
 
   const [result] = await M.match<
     operations.UnfollowContentResponse,
-    | errors.UnauthorizedError
+    | errors.UnauthorizedErrorError
     | errors.UnfollowContentNotFoundError
     | errors.TooManyRequestsError
     | VerseDbError
@@ -178,7 +178,7 @@ async function $do(
       hdrs: true,
       key: "Result",
     }),
-    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
     M.jsonErr(404, errors.UnfollowContentNotFoundError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),

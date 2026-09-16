@@ -41,7 +41,7 @@ export function podcastsListAllPodcastsWithOptionalSearch(
 ): APIPromise<
   Result<
     operations.ListAllPodcastsWithOptionalSearchResponse,
-    | errors.UnauthorizedError
+    | errors.UnauthorizedErrorError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -68,7 +68,7 @@ async function $do(
   [
     Result<
       operations.ListAllPodcastsWithOptionalSearchResponse,
-      | errors.UnauthorizedError
+      | errors.UnauthorizedErrorError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -165,7 +165,7 @@ async function $do(
 
   const [result] = await M.match<
     operations.ListAllPodcastsWithOptionalSearchResponse,
-    | errors.UnauthorizedError
+    | errors.UnauthorizedErrorError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -181,7 +181,7 @@ async function $do(
       operations.ListAllPodcastsWithOptionalSearchResponse$inboundSchema,
       { hdrs: true, key: "Result" },
     ),
-    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),
