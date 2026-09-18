@@ -22,7 +22,7 @@ export * from "./get-publisher-details.js";
 export * from "./get-series-details.js";
 export * from "./get-variant-details.js";
 export * from "./http-client-errors.js";
-export * from "./like-list.js";
+export * from "./like-list-or-react-to-it.js";
 export * from "./lookup-by-isbn.js";
 export * from "./lookup-by-upc.js";
 export * from "./mark-as-read.js";

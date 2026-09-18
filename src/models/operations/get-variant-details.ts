@@ -35,6 +35,8 @@ export type GetVariantDetailsData = {
   ratio?: string | undefined;
   coverUrl?: string | undefined;
   price?: string | undefined;
+  currencyCode?: string | undefined;
+  formattedPrice?: string | undefined;
   ean?: string | undefined;
   creators?: Array<GetVariantDetailsCreator> | undefined;
 };
@@ -116,6 +118,8 @@ export const GetVariantDetailsData$inboundSchema: z.ZodMiniType<
     ratio: types.optional(types.string()),
     cover_url: types.optional(types.string()),
     price: types.optional(types.string()),
+    currency_code: types.optional(types.string()),
+    formatted_price: types.optional(types.string()),
     ean: types.optional(types.string()),
     creators: types.optional(
       z.array(z.lazy(() => GetVariantDetailsCreator$inboundSchema)),
@@ -127,6 +131,8 @@ export const GetVariantDetailsData$inboundSchema: z.ZodMiniType<
       "variant_name": "variantName",
       "variant_type": "variantType",
       "cover_url": "coverUrl",
+      "currency_code": "currencyCode",
+      "formatted_price": "formattedPrice",
     });
   }),
 );

@@ -310,7 +310,7 @@ run();
 * [reorderItems](docs/sdks/lists/README.md#reorderitems) - Reorder items.
 * [saveList](docs/sdks/lists/README.md#savelist) - Save list.
 * [unsaveList](docs/sdks/lists/README.md#unsavelist) - Unsave list.
-* [likeList](docs/sdks/lists/README.md#likelist) - Like list.
+* [likeListOrReactToIt](docs/sdks/lists/README.md#likelistorreacttoit) - Like list, or react to it.
 * [unlikeList](docs/sdks/lists/README.md#unlikelist) - Unlike list.
 
 ### [Podcasts](docs/sdks/podcasts/README.md)
@@ -444,7 +444,7 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`listsDeleteList`](docs/sdks/lists/README.md#deletelist) - Delete list.
 - [`listsGetList`](docs/sdks/lists/README.md#getlist) - Get list.
 - [`listsGetUsersLists`](docs/sdks/lists/README.md#getuserslists) - Get user's lists.
-- [`listsLikeList`](docs/sdks/lists/README.md#likelist) - Like list.
+- [`listsLikeListOrReactToIt`](docs/sdks/lists/README.md#likelistorreacttoit) - Like list, or react to it.
 - [`listsMergeAListIntoThisOne`](docs/sdks/lists/README.md#mergealistintothisone) - Merge a list into this one.
 - [`listsRemoveItemFromList`](docs/sdks/lists/README.md#removeitemfromlist) - Remove item from list.
 - [`listsReorderItems`](docs/sdks/lists/README.md#reorderitems) - Reorder items.
@@ -635,7 +635,7 @@ run();
   * [`TooManyRequestsError`](./src/models/errors/too-many-requests-error.ts): Status code `429`.
   * [`UnauthorizedErrorError`](./src/models/errors/unauthorized-error-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. *
 
-<details><summary>Less common errors (53)</summary>
+<details><summary>Less common errors (54)</summary>
 
 <br />
 
@@ -661,7 +661,7 @@ run();
 * [`AddItemToListForbiddenError`](./src/models/errors/add-item-to-list-forbidden-error.ts): Item Limit. Status code `403`. Applicable to 1 of 95 methods.*
 * [`RemoveItemFromListForbiddenError`](./src/models/errors/remove-item-from-list-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 95 methods.*
 * [`SaveListForbiddenError`](./src/models/errors/save-list-forbidden-error.ts): Own List. Status code `403`. Applicable to 1 of 95 methods.*
-* [`LikeListForbiddenError`](./src/models/errors/like-list-forbidden-error.ts): Own List. Status code `403`. Applicable to 1 of 95 methods.*
+* [`LikeListOrReactToItForbiddenError`](./src/models/errors/like-list-or-react-to-it-forbidden-error.ts): Own List. Status code `403`. Applicable to 1 of 95 methods.*
 * [`LookupByUPCForbiddenError`](./src/models/errors/lookup-by-upc-forbidden-error.ts): Missing Ability. Status code `403`. Applicable to 1 of 95 methods.*
 * [`LookupByISBNForbiddenError`](./src/models/errors/lookup-by-isbn-forbidden-error.ts): Missing Ability. Status code `403`. Applicable to 1 of 95 methods.*
 * [`ViewYearlyReadingStatisticsForbiddenError`](./src/models/errors/view-yearly-reading-statistics-forbidden-error.ts): Forbidden. The authenticated user may not perform this action. Status code `403`. Applicable to 1 of 95 methods.*
@@ -691,6 +691,7 @@ run();
 * [`OpenAListToAnyTypeUnprocessableEntityError`](./src/models/errors/open-a-list-to-any-type-unprocessable-entity-error.ts): Not convertible. Status code `422`. Applicable to 1 of 95 methods.*
 * [`StopAListUpdatingItselfUnprocessableEntityError`](./src/models/errors/stop-a-list-updating-itself-unprocessable-entity-error.ts): Not rule-built. Status code `422`. Applicable to 1 of 95 methods.*
 * [`MergeAListIntoThisOneUnprocessableEntityError`](./src/models/errors/merge-a-list-into-this-one-unprocessable-entity-error.ts): Invalid merge. Status code `422`. Applicable to 1 of 95 methods.*
+* [`LikeListOrReactToItUnprocessableEntityError`](./src/models/errors/like-list-or-react-to-it-unprocessable-entity-error.ts): Unknown reaction. Status code `422`. Applicable to 1 of 95 methods.*
 * [`AddIssueToCollectionUnprocessableEntityError`](./src/models/errors/add-issue-to-collection-unprocessable-entity-error.ts): Invalid Variant. Status code `422`. Applicable to 1 of 95 methods.*
 * [`AddToPullListUnprocessableEntityError`](./src/models/errors/add-to-pull-list-unprocessable-entity-error.ts): Series Not Found. Status code `422`. Applicable to 1 of 95 methods.*
 * [`MarkAsReadUnprocessableEntityError`](./src/models/errors/mark-as-read-unprocessable-entity-error.ts): Invalid Variant. Status code `422`. Applicable to 1 of 95 methods.*

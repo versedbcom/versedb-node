@@ -10,7 +10,7 @@ import { listsCreateList } from "../funcs/lists-create-list.js";
 import { listsDeleteList } from "../funcs/lists-delete-list.js";
 import { listsGetList } from "../funcs/lists-get-list.js";
 import { listsGetUsersLists } from "../funcs/lists-get-users-lists.js";
-import { listsLikeList } from "../funcs/lists-like-list.js";
+import { listsLikeListOrReactToIt } from "../funcs/lists-like-list-or-react-to-it.js";
 import { listsMergeAListIntoThisOne } from "../funcs/lists-merge-a-list-into-this-one.js";
 import { listsRemoveItemFromList } from "../funcs/lists-remove-item-from-list.js";
 import { listsReorderItems } from "../funcs/lists-reorder-items.js";
@@ -286,16 +286,18 @@ export class Lists extends ClientSDK {
   }
 
   /**
-   * Like list.
+   * Like list, or react to it.
    *
    * @remarks
-   * Likes a list. Cannot like your own lists.
+   * With no body this likes the list. Send `reaction` to leave that reaction instead, or to
+   * change the one already held; `DELETE` takes it back whichever it is. A member holds one
+   * reaction per list and every reaction counts toward `likes_count`. Cannot like your own lists.
    */
-  async likeList(
-    request: operations.LikeListRequest,
+  async likeListOrReactToIt(
+    request: operations.LikeListOrReactToItRequest,
     options?: RequestOptions,
-  ): Promise<operations.LikeListResponse> {
-    return unwrapAsync(listsLikeList(
+  ): Promise<operations.LikeListOrReactToItResponse> {
+    return unwrapAsync(listsLikeListOrReactToIt(
       this,
       request,
       options,
@@ -306,7 +308,7 @@ export class Lists extends ClientSDK {
    * Unlike list.
    *
    * @remarks
-   * Removes the user's like from a list.
+   * Removes the user's like or reaction from a list.
    */
   async unlikeList(
     request: operations.UnlikeListRequest,

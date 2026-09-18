@@ -1,11 +1,11 @@
-# LikeListForbiddenError
+# LikeListOrReactToItForbiddenError
 
 Own List
 
 ## Example Usage
 
 ```typescript
-import { LikeListForbiddenError } from "@versedbcom/sdk/models/errors";
+import { LikeListOrReactToItForbiddenError } from "@versedbcom/sdk/models/errors";
 
 // No examples available for this model
 ```

@@ -54,7 +54,7 @@ export * from "./get-the-authenticated-user.js";
 export * from "./get-users-lists.js";
 export * from "./get-variant-details.js";
 export * from "./lend-a-copy-out.js";
-export * from "./like-list.js";
+export * from "./like-list-or-react-to-it.js";
 export * from "./list-all-podcasts-with-optional-search.js";
 export * from "./list-all-publishers-with-optional-search.js";
 export * from "./list-all-story-arcs-with-optional-search.js";

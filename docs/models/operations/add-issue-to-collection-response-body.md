@@ -25,6 +25,12 @@ let value: AddIssueToCollectionResponseBody = {
     notes: "First print, signed",
   },
   wasOnWishlist: true,
+  followUp: {
+    prompt: true,
+    canMarkRead: true,
+    canReview: true,
+    hasReview: false,
+  },
 };
 ```
 
@@ -34,3 +40,4 @@ let value: AddIssueToCollectionResponseBody = {
 | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
 | `data`                                                                                         | [operations.AddIssueToCollectionData](../../models/operations/add-issue-to-collection-data.md) | :heavy_minus_sign:                                                                             | N/A                                                                                            |                                                                                                |
 | `wasOnWishlist`                                                                                | *boolean*                                                                                      | :heavy_minus_sign:                                                                             | N/A                                                                                            | true                                                                                           |
+| `followUp`                                                                                     | [operations.FollowUp](../../models/operations/follow-up.md)                                    | :heavy_minus_sign:                                                                             | N/A                                                                                            |                                                                                                |

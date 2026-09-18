@@ -32,7 +32,7 @@ Users can save and like lists, and lists can be ranked or unranked.
 * [reorderItems](#reorderitems) - Reorder items.
 * [saveList](#savelist) - Save list.
 * [unsaveList](#unsavelist) - Unsave list.
-* [likeList](#likelist) - Like list.
+* [likeListOrReactToIt](#likelistorreacttoit) - Like list, or react to it.
 * [unlikeList](#unlikelist) - Unlike list.
 
 ## browseLists
@@ -1266,13 +1266,15 @@ run();
 | errors.TooManyRequestsError   | 429                           | application/json              |
 | errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
 
-## likeList
+## likeListOrReactToIt
 
-Likes a list. Cannot like your own lists.
+With no body this likes the list. Send `reaction` to leave that reaction instead, or to
+change the one already held; `DELETE` takes it back whichever it is. A member holds one
+reaction per list and every reaction counts toward `likes_count`. Cannot like your own lists.
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="likeList" method="post" path="/api/v1/lists/{list_id}/like" -->
+<!-- UsageSnippet language="typescript" operationID="likeListOrReactToIt" method="post" path="/api/v1/lists/{list_id}/like" -->
 ```typescript
 import { VerseDB } from "@versedbcom/sdk";
 
@@ -1281,8 +1283,11 @@ const verseDB = new VerseDB({
 });
 
 async function run() {
-  const result = await verseDB.lists.likeList({
+  const result = await verseDB.lists.likeListOrReactToIt({
     listId: 101,
+    body: {
+      reaction: "clap",
+    },
   });
 
   console.log(result);
@@ -1297,7 +1302,7 @@ The standalone function version of this method:
 
 ```typescript
 import { VerseDBCore } from "@versedbcom/sdk/core.js";
-import { listsLikeList } from "@versedbcom/sdk/funcs/lists-like-list.js";
+import { listsLikeListOrReactToIt } from "@versedbcom/sdk/funcs/lists-like-list-or-react-to-it.js";
 
 // Use `VerseDBCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -1306,14 +1311,17 @@ const verseDB = new VerseDBCore({
 });
 
 async function run() {
-  const res = await listsLikeList(verseDB, {
+  const res = await listsLikeListOrReactToIt(verseDB, {
     listId: 101,
+    body: {
+      reaction: "clap",
+    },
   });
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("listsLikeList failed:", res.error);
+    console.log("listsLikeListOrReactToIt failed:", res.error);
   }
 }
 
@@ -1324,27 +1332,28 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.LikeListRequest](../../models/operations/like-list-request.md)                                                                                                     | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.LikeListOrReactToItRequest](../../models/operations/like-list-or-react-to-it-request.md)                                                                           | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.LikeListResponse](../../models/operations/like-list-response.md)\>**
+**Promise\<[operations.LikeListOrReactToItResponse](../../models/operations/like-list-or-react-to-it-response.md)\>**
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| errors.UnauthorizedErrorError | 401                           | application/json              |
-| errors.LikeListForbiddenError | 403                           | application/json              |
-| errors.TooManyRequestsError   | 429                           | application/json              |
-| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
+| Error Type                                         | Status Code                                        | Content Type                                       |
+| -------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- |
+| errors.UnauthorizedErrorError                      | 401                                                | application/json                                   |
+| errors.LikeListOrReactToItForbiddenError           | 403                                                | application/json                                   |
+| errors.LikeListOrReactToItUnprocessableEntityError | 422                                                | application/json                                   |
+| errors.TooManyRequestsError                        | 429                                                | application/json                                   |
+| errors.VerseDbDefaultError                         | 4XX, 5XX                                           | \*/\*                                              |
 
 ## unlikeList
 
-Removes the user's like from a list.
+Removes the user's like or reaction from a list.
 
 ### Example Usage
 

@@ -1,0 +1,23 @@
+# LikeListOrReactToItReaction1
+
+## Example Usage
+
+```typescript
+import { LikeListOrReactToItReaction1 } from "@versedbcom/sdk/models/operations";
+
+let value: LikeListOrReactToItReaction1 = {
+  reaction: "heart",
+  emoji: "❤️",
+  label: "Love",
+  count: 150,
+};
+```
+
+## Fields
+
+| Field              | Type               | Required           | Description        | Example            |
+| ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
+| `reaction`         | *string*           | :heavy_minus_sign: | N/A                | heart              |
+| `emoji`            | *string*           | :heavy_minus_sign: | N/A                | ❤️                 |
+| `label`            | *string*           | :heavy_minus_sign: | N/A                | Love               |
+| `count`            | *number*           | :heavy_minus_sign: | N/A                | 150                |

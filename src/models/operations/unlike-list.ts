@@ -25,6 +25,13 @@ export type UnlikeListResponseBody2 = {
   liked?: boolean | undefined;
 };
 
+export type UnlikeListReaction = {
+  reaction?: string | undefined;
+  emoji?: string | undefined;
+  label?: string | undefined;
+  count?: number | undefined;
+};
+
 /**
  * Unliked
  */
@@ -32,6 +39,8 @@ export type UnlikeListResponseBody1 = {
   message?: string | undefined;
   liked?: boolean | undefined;
   likesCount?: number | undefined;
+  myReaction?: string | null | undefined;
+  reactions?: Array<UnlikeListReaction> | undefined;
 };
 
 /**
@@ -94,6 +103,27 @@ export function unlikeListResponseBody2FromJSON(
 }
 
 /** @internal */
+export const UnlikeListReaction$inboundSchema: z.ZodMiniType<
+  UnlikeListReaction,
+  unknown
+> = z.object({
+  reaction: types.optional(types.string()),
+  emoji: types.optional(types.string()),
+  label: types.optional(types.string()),
+  count: types.optional(types.number()),
+});
+
+export function unlikeListReactionFromJSON(
+  jsonString: string,
+): SafeParseResult<UnlikeListReaction, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => UnlikeListReaction$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'UnlikeListReaction' from JSON`,
+  );
+}
+
+/** @internal */
 export const UnlikeListResponseBody1$inboundSchema: z.ZodMiniType<
   UnlikeListResponseBody1,
   unknown
@@ -102,10 +132,15 @@ export const UnlikeListResponseBody1$inboundSchema: z.ZodMiniType<
     message: types.optional(types.string()),
     liked: types.optional(types.boolean()),
     likes_count: types.optional(types.number()),
+    my_reaction: z.optional(z.nullable(types.string())),
+    reactions: types.optional(
+      z.array(z.lazy(() => UnlikeListReaction$inboundSchema)),
+    ),
   }),
   z.transform((v) => {
     return remap$(v, {
       "likes_count": "likesCount",
+      "my_reaction": "myReaction",
     });
   }),
 );

@@ -28,6 +28,9 @@ export type GetIssueVariantsData = {
   variantType?: string | undefined;
   ratio?: string | undefined;
   coverUrl?: string | undefined;
+  price?: string | undefined;
+  currencyCode?: string | undefined;
+  formattedPrice?: string | undefined;
   creators?: Array<GetIssueVariantsCreator> | undefined;
 };
 
@@ -102,6 +105,9 @@ export const GetIssueVariantsData$inboundSchema: z.ZodMiniType<
     variant_type: types.optional(types.string()),
     ratio: types.optional(types.string()),
     cover_url: types.optional(types.string()),
+    price: types.optional(types.string()),
+    currency_code: types.optional(types.string()),
+    formatted_price: types.optional(types.string()),
     creators: types.optional(
       z.array(z.lazy(() => GetIssueVariantsCreator$inboundSchema)),
     ),
@@ -111,6 +117,8 @@ export const GetIssueVariantsData$inboundSchema: z.ZodMiniType<
       "variant_name": "variantName",
       "variant_type": "variantType",
       "cover_url": "coverUrl",
+      "currency_code": "currencyCode",
+      "formatted_price": "formattedPrice",
     });
   }),
 );

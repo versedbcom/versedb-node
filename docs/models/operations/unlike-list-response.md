@@ -22,6 +22,15 @@ let value: UnlikeListResponse = {
     message: "List unliked successfully.",
     liked: false,
     likesCount: 150,
+    myReaction: null,
+    reactions: [
+      {
+        reaction: "heart",
+        emoji: "❤️",
+        label: "Love",
+        count: 150,
+      },
+    ],
   },
 };
 ```

@@ -429,12 +429,20 @@ export type AddIssueToCollectionData = {
   notes?: string | undefined;
 };
 
+export type FollowUp = {
+  prompt?: boolean | undefined;
+  canMarkRead?: boolean | undefined;
+  canReview?: boolean | undefined;
+  hasReview?: boolean | undefined;
+};
+
 /**
  * Added
  */
 export type AddIssueToCollectionResponseBody = {
   data?: AddIssueToCollectionData | undefined;
   wasOnWishlist?: boolean | undefined;
+  followUp?: FollowUp | undefined;
 };
 
 export type AddIssueToCollectionResponse = {
@@ -755,6 +763,33 @@ export function addIssueToCollectionDataFromJSON(
 }
 
 /** @internal */
+export const FollowUp$inboundSchema: z.ZodMiniType<FollowUp, unknown> = z.pipe(
+  z.object({
+    prompt: types.optional(types.boolean()),
+    can_mark_read: types.optional(types.boolean()),
+    can_review: types.optional(types.boolean()),
+    has_review: types.optional(types.boolean()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "can_mark_read": "canMarkRead",
+      "can_review": "canReview",
+      "has_review": "hasReview",
+    });
+  }),
+);
+
+export function followUpFromJSON(
+  jsonString: string,
+): SafeParseResult<FollowUp, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => FollowUp$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'FollowUp' from JSON`,
+  );
+}
+
+/** @internal */
 export const AddIssueToCollectionResponseBody$inboundSchema: z.ZodMiniType<
   AddIssueToCollectionResponseBody,
   unknown
@@ -762,10 +797,12 @@ export const AddIssueToCollectionResponseBody$inboundSchema: z.ZodMiniType<
   z.object({
     data: types.optional(z.lazy(() => AddIssueToCollectionData$inboundSchema)),
     was_on_wishlist: types.optional(types.boolean()),
+    follow_up: types.optional(z.lazy(() => FollowUp$inboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {
       "was_on_wishlist": "wasOnWishlist",
+      "follow_up": "followUp",
     });
   }),
 );

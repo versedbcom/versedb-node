@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { VerseDBCore } from "../core.js";
-import { encodeSimple } from "../lib/encodings.js";
+import { encodeJSON, encodeSimple } from "../lib/encodings.js";
 import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
@@ -28,20 +28,23 @@ import { APICall, APIPromise } from "../types/async.js";
 import { Result } from "../types/fp.js";
 
 /**
- * Like list.
+ * Like list, or react to it.
  *
  * @remarks
- * Likes a list. Cannot like your own lists.
+ * With no body this likes the list. Send `reaction` to leave that reaction instead, or to
+ * change the one already held; `DELETE` takes it back whichever it is. A member holds one
+ * reaction per list and every reaction counts toward `likes_count`. Cannot like your own lists.
  */
-export function listsLikeList(
+export function listsLikeListOrReactToIt(
   client: VerseDBCore,
-  request: operations.LikeListRequest,
+  request: operations.LikeListOrReactToItRequest,
   options?: RequestOptions,
 ): APIPromise<
   Result<
-    operations.LikeListResponse,
+    operations.LikeListOrReactToItResponse,
     | errors.UnauthorizedErrorError
-    | errors.LikeListForbiddenError
+    | errors.LikeListOrReactToItForbiddenError
+    | errors.LikeListOrReactToItUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -62,14 +65,15 @@ export function listsLikeList(
 
 async function $do(
   client: VerseDBCore,
-  request: operations.LikeListRequest,
+  request: operations.LikeListOrReactToItRequest,
   options?: RequestOptions,
 ): Promise<
   [
     Result<
-      operations.LikeListResponse,
+      operations.LikeListOrReactToItResponse,
       | errors.UnauthorizedErrorError
-      | errors.LikeListForbiddenError
+      | errors.LikeListOrReactToItForbiddenError
+      | errors.LikeListOrReactToItUnprocessableEntityError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -85,14 +89,15 @@ async function $do(
 > {
   const parsed = safeParse(
     request,
-    (value) => z.parse(operations.LikeListRequest$outboundSchema, value),
+    (value) =>
+      z.parse(operations.LikeListOrReactToItRequest$outboundSchema, value),
     "Input validation failed",
   );
   if (!parsed.ok) {
     return [parsed, { status: "invalid" }];
   }
   const payload = parsed.value;
-  const body = null;
+  const body = encodeJSON("body", payload.body, { explode: true });
 
   const pathParams = {
     list_id: encodeSimple("list_id", payload.list_id, {
@@ -103,6 +108,7 @@ async function $do(
   const path = pathToFunc("/api/v1/lists/{list_id}/like")(pathParams);
 
   const headers = new Headers(compactMap({
+    "Content-Type": "application/json",
     Accept: "application/json",
   }));
 
@@ -113,7 +119,7 @@ async function $do(
   const context = {
     options: client._options,
     baseURL: options?.serverURL ?? client._baseURL ?? "",
-    operationID: "likeList",
+    operationID: "likeListOrReactToIt",
     oAuth2Scopes: null,
 
     resolvedSecurity: requestSecurity,
@@ -157,9 +163,10 @@ async function $do(
   };
 
   const [result] = await M.match<
-    operations.LikeListResponse,
+    operations.LikeListOrReactToItResponse,
     | errors.UnauthorizedErrorError
-    | errors.LikeListForbiddenError
+    | errors.LikeListOrReactToItForbiddenError
+    | errors.LikeListOrReactToItUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -170,16 +177,20 @@ async function $do(
     | UnexpectedClientError
     | SDKValidationError
   >(
-    M.json(200, operations.LikeListResponse$inboundSchema, {
+    M.json(200, operations.LikeListOrReactToItResponse$inboundSchema, {
       hdrs: true,
       key: "Result",
     }),
-    M.json(201, operations.LikeListResponse$inboundSchema, {
+    M.json(201, operations.LikeListOrReactToItResponse$inboundSchema, {
       hdrs: true,
       key: "Result",
     }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
-    M.jsonErr(403, errors.LikeListForbiddenError$inboundSchema),
+    M.jsonErr(403, errors.LikeListOrReactToItForbiddenError$inboundSchema),
+    M.jsonErr(
+      422,
+      errors.LikeListOrReactToItUnprocessableEntityError$inboundSchema,
+    ),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

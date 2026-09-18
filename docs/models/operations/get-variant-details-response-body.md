@@ -16,6 +16,8 @@ let value: GetVariantDetailsResponseBody = {
     ratio: "1:25",
     coverUrl: "https://...",
     price: "49.99",
+    currencyCode: "USD",
+    formattedPrice: "USD $49.99",
     ean: "75960608936700121",
     creators: [
       {

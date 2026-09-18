@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * Unlike list.
  *
  * @remarks
- * Removes the user's like from a list.
+ * Removes the user's like or reaction from a list.
  */
 export function listsUnlikeList(
   client: VerseDBCore,

@@ -1,13 +1,13 @@
-# LikeListResponseBody1
+# LikeListOrReactToItResponseBody2
 
 Already Liked
 
 ## Example Usage
 
 ```typescript
-import { LikeListResponseBody1 } from "@versedbcom/sdk/models/operations";
+import { LikeListOrReactToItResponseBody2 } from "@versedbcom/sdk/models/operations";
 
-let value: LikeListResponseBody1 = {
+let value: LikeListOrReactToItResponseBody2 = {
   message: "List is already liked.",
   liked: true,
 };

@@ -12,6 +12,15 @@ const value: operations.UnlikeListResponseBody1 = {
   message: "List unliked successfully.",
   liked: false,
   likesCount: 150,
+  myReaction: null,
+  reactions: [
+    {
+      reaction: "heart",
+      emoji: "❤️",
+      label: "Love",
+      count: 150,
+    },
+  ],
 };
 ```
 
