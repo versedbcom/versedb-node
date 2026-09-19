@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: d54ae284-e171-41f5-99d0-d4027d6f02b4
 management:
-  docChecksum: 9d378103726f20d270602a3ed9983427
+  docChecksum: 3443e6fcadffd7f088808aef518e84b7
   docVersion: 1.0.0
-  speakeasyVersion: 1.797.0
-  generationVersion: 2.937.18
-  releaseVersion: 2.1.4
-  configChecksum: 42a854a998523f023d94b8da0a7de882
+  speakeasyVersion: 1.798.0
+  generationVersion: 2.938.0
+  releaseVersion: 2.1.5
+  configChecksum: 6831b5b7f0aaee058e110c2cbb398ff2
   repoURL: https://github.com/versedbcom/versedb-node.git
   installationURL: https://github.com/versedbcom/versedb-node
   published: true
 persistentEdits:
-  generation_id: 224e362e-0334-44f1-ac81-fd9558946e33
-  pristine_commit_hash: a1b2abd675a238d585ae4102dfe4ce7b1481e0ce
-  pristine_tree_hash: 3ad875a4f220b05c429c087e2f3938104efc5952
+  generation_id: 05deade5-54b2-40f5-8d23-d38bcf9130b8
+  pristine_commit_hash: 485eea1e930c7fe9ed4afc05c5ca18b981479723
+  pristine_tree_hash: ebb203968a2a528394d715773477699626b04580
 features:
   typescript:
     additionalDependencies: 0.1.0
@@ -318,12 +318,12 @@ trackedFiles:
     pristine_git_object: b499c1220a4c3e0750f4b10c65e44db3c72535e0
   docs/models/operations/add-issue-to-collection-response-body.md:
     id: 14a25f50daf3
-    last_write_checksum: sha1:b50d7ffe826533f2891e71751557d4380c36540f
-    pristine_git_object: 4af2d155613d75a87011db214af0d903e472d6cd
+    last_write_checksum: sha1:012905c6120f2648d0b0d0644eb40e474fcf6bea
+    pristine_git_object: 573dde88f32c9b770ae21b304d533b8f4c772f81
   docs/models/operations/add-issue-to-collection-response.md:
     id: c1fa1277be87
-    last_write_checksum: sha1:8c4a384ce6440cf47b3400c3e406b0e88ed4c032
-    pristine_git_object: a8a62d300eede47c4b590cc1f755ac375ca2b6bf
+    last_write_checksum: sha1:5f6bb66b99ecae46eac46a5967cde363537096b7
+    pristine_git_object: 6dd56c826eb3b5a7eaed1f9c50b3fc74a531ecb7
   docs/models/operations/add-issue-to-collection-series.md:
     id: 83b847b7bca4
     last_write_checksum: sha1:5acbcf59f7e6c6df03192896de6d84e99b1d575a
@@ -668,10 +668,6 @@ trackedFiles:
     id: 5ff43c56a90b
     last_write_checksum: sha1:de894e574dc1d95255f90779e9aa8a591881147d
     pristine_git_object: 30d4f6888c0137e47ec55818e2fc50457b551cd9
-  docs/models/operations/follow-up.md:
-    id: 34fe73e26645
-    last_write_checksum: sha1:05d7ad7bc7c6cc5d97ac1e0fc1b44f09726bee41
-    pristine_git_object: 1b7e218bcd04861129f25d5dafc5500077629548
   docs/models/operations/follow-updates-data.md:
     id: ca75754814cf
     last_write_checksum: sha1:714c383a053f2934bf77873efd77af66d4d02d4b
@@ -734,8 +730,8 @@ trackedFiles:
     pristine_git_object: c363d501dfa498a8f979188e550af47f7cabb86b
   docs/models/operations/get-a-specific-podcast-request.md:
     id: f700c855b0ab
-    last_write_checksum: sha1:c42613f915143fe5fc200e20bc82fa8c6f443900
-    pristine_git_object: b029eb6fbcf610edeb7b88a7e37d00a09740d9cf
+    last_write_checksum: sha1:ab0ad455dee3f5a9617ef1b4de48d898eb91f79b
+    pristine_git_object: 01eeb59f9a88936e6b01ad4303fb149724977ab7
   docs/models/operations/get-a-specific-podcast-response-body.md:
     id: c6ea4a86d9cf
     last_write_checksum: sha1:ff4b266662b1b01381f3707e2e746406686f2c01
@@ -2674,12 +2670,12 @@ trackedFiles:
     pristine_git_object: ce4a6a85b8bc46789323545a102bb0515c686b36
   jsr.json:
     id: 7f6ab7767282
-    last_write_checksum: sha1:0af046f623da47a3d937e6bbe04215556936d946
-    pristine_git_object: c21d49d9e925a2bccc793d3aa34a545ceb54d261
+    last_write_checksum: sha1:d225180e56e804901f2f30affbf6e620c1f36a64
+    pristine_git_object: c609ffcc3cf6f72704566ab5c3821ba5706e0a7e
   package.json:
     id: 7030d0b2f71b
-    last_write_checksum: sha1:0a93f794b1de897f3b3c65628566fe0f138f1912
-    pristine_git_object: 442aae7da5f1270e9f89ad008a8117e71425e335
+    last_write_checksum: sha1:9e81853fca792d321592d27443fcee06b914c85a
+    pristine_git_object: 11e1e85eb7027180f23d66b5c8679fcafe4e972d
   src/core.ts:
     id: f431fdbcd144
     last_write_checksum: sha1:ad0063bee03825028052e52cef3fa240c6101bdf
@@ -3086,8 +3082,8 @@ trackedFiles:
     pristine_git_object: 44be0eae8246521b230e8e711a88eff738fc015d
   src/lib/config.ts:
     id: 320761608fb3
-    last_write_checksum: sha1:9091f1ee438686d1e35edf10df71391a040bfce7
-    pristine_git_object: e1ead4645a43b52a2edb0d8ba27309bb0d3538ca
+    last_write_checksum: sha1:f63137b73023ed12e7d8114071bd2ca39ca79177
+    pristine_git_object: fc21ccca5e656c8164e3d7036f5b3cd9e92313a0
   src/lib/encodings.ts:
     id: 3bd8ead98afd
     last_write_checksum: sha1:4481b2a380f8a16856ef92c66fb370299f56d135
@@ -3310,8 +3306,8 @@ trackedFiles:
     pristine_git_object: 2edb51c4860cdd2d34f0e40b67aa4d2aed7af6af
   src/models/operations/add-issue-to-collection.ts:
     id: 74347025b887
-    last_write_checksum: sha1:438a597e91e97ef7c84032f0d5337a08aab7c2ab
-    pristine_git_object: d42a076847579a5d2df34cdd84947175d4066339
+    last_write_checksum: sha1:cb5cb38ff2e0bd6d3a127d3a914f4f15dcedf192
+    pristine_git_object: 246bd9700d5c4b7bcf03726c6ee4e1a6e9c89ef3
   src/models/operations/add-item-to-list.ts:
     id: fbd5a14d7b7e
     last_write_checksum: sha1:08e4127fc6095c855b182f121f777b24381c35d2
@@ -5189,7 +5185,7 @@ examples:
         application/json: {"variant_id": 789, "condition": "NM", "notes": "First print, signed", "price_paid": 4.99, "format": "standard", "purchase_source": "comic_shop", "purchase_store": "Third Eye Comics", "custom_label": "Longbox A / row 3", "bagged_at": "2024-07-01", "personal_rating": 4.5, "tags": ["b"], "comic_shop_id": 412, "acquisition_method": "purchase", "purchased_at": "2024-06-15", "storage_location": "Long box #3", "is_signed": false, "signed_by": "Stan Lee", "is_variant": false, "variant_description": "b", "variant_type": "ratio_variant", "graded": false, "grade_score": "9.8", "grading_company": "CGC", "grading_number": "1234567890", "label_type": "universal", "page_quality": "white", "grader_notes": "Marvel Value Stamp #16 intact", "print_number": "7th", "signature_witness": "CBCS", "estimated_value": 25, "for_sale": false, "status": "sold", "sold_at": "2026-08-14", "price_sold": 40, "for_trade": false, "is_public": true}
       responses:
         "201":
-          application/json: {"data": {"id": 1001, "issue": {"id": 5432, "number": "1", "title": "First Issue"}, "series": {"id": 123, "name": "Amazing Spider-Man"}, "variant_id": null, "condition": "NM", "price_paid": 4.99, "notes": "First print, signed"}, "was_on_wishlist": true, "follow_up": {"prompt": true, "can_mark_read": true, "can_review": true, "has_review": false}}
+          application/json: {"data": {"id": 1001, "issue": {"id": 5432, "number": "1", "title": "First Issue"}, "series": {"id": 123, "name": "Amazing Spider-Man"}, "variant_id": null, "condition": "NM", "price_paid": 4.99, "notes": "First print, signed"}, "was_on_wishlist": true}
         "401":
           application/json: {"message": "Unauthenticated."}
         "403":
@@ -5443,9 +5439,4 @@ examples:
 examplesVersion: 1.0.2
 releaseNotes: |
   ## Typescript SDK Changes:
-  * `versedb.lists.likeListOrReactToIt()`: **Added**
-  * `versedb.lists.likeList()`: **Removed** (Breaking ⚠️)
-  * `versedb.issues.getIssueVariants()`:  `response.data[]` **Changed**
-  * `versedb.issues.getVariantDetails()`:  `response.data` **Changed**
-  * `versedb.lists.unlikeList()`:  `response.union(class (0))` **Changed**
-  * `versedb.user.addIssueToCollection()`:  `response.followUp` **Added**
+  * `versedb.user.addIssueToCollection()`:  `response.followUp` **Removed** (Breaking ⚠️)
