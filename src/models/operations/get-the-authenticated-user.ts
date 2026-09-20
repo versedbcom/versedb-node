@@ -16,7 +16,6 @@ export type GetTheAuthenticatedUserData = {
   email?: string | undefined;
   bio?: string | undefined;
   profileImageUrl?: string | undefined;
-  glowColor?: string | undefined;
   bannerUrl?: string | null | undefined;
   countryCode?: string | undefined;
   city?: string | undefined;
@@ -71,7 +70,6 @@ export const GetTheAuthenticatedUserData$inboundSchema: z.ZodMiniType<
     email: types.optional(types.string()),
     bio: types.optional(types.string()),
     profile_image_url: types.optional(types.string()),
-    glow_color: types.optional(types.string()),
     banner_url: z.optional(z.nullable(types.string())),
     country_code: types.optional(types.string()),
     city: types.optional(types.string()),
@@ -104,7 +102,6 @@ export const GetTheAuthenticatedUserData$inboundSchema: z.ZodMiniType<
   z.transform((v) => {
     return remap$(v, {
       "profile_image_url": "profileImageUrl",
-      "glow_color": "glowColor",
       "banner_url": "bannerUrl",
       "country_code": "countryCode",
       "postal_code": "postalCode",

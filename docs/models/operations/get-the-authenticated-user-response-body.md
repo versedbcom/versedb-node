@@ -16,7 +16,6 @@ let value: GetTheAuthenticatedUserResponseBody = {
     bio: "Comic collector since 1985",
     profileImageUrl:
       "https://r2.versedb.com/uploads/users/comic-fan-42/comic-fan-42-abc123-profile_md.webp",
-    glowColor: "#FF5733",
     bannerUrl: null,
     countryCode: "US",
     city: "New York",

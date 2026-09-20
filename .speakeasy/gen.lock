@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: d54ae284-e171-41f5-99d0-d4027d6f02b4
 management:
-  docChecksum: 7e5dd86285811b053c51f9f47aef3853
+  docChecksum: f1d323a869dab99f45cdba5f58fb76b1
   docVersion: 1.0.0
   speakeasyVersion: 1.798.0
   generationVersion: 2.938.0
-  releaseVersion: 2.1.6
-  configChecksum: 971f654642d605f459041a242f1f6822
+  releaseVersion: 2.1.7
+  configChecksum: 76090dd1a2855ce10c51f0b311aaae08
   repoURL: https://github.com/versedbcom/versedb-node.git
   installationURL: https://github.com/versedbcom/versedb-node
   published: true
 persistentEdits:
-  generation_id: 73ba8fdb-ae3d-47d6-831f-5c367a5f2337
-  pristine_commit_hash: 123edfb072dac0f88e1de66d5a0cb5319eff81d8
-  pristine_tree_hash: 760582cead8bd4eb56791a8e5361f9a007712f8b
+  generation_id: bbfabd6d-a1d2-49a7-aab2-9e94afa5c7d4
+  pristine_commit_hash: 3a0558d84fd420f43d3880b8a3e226feeb0f8991
+  pristine_tree_hash: e0592722294a0e81a338e71b2e203a0a7685aeea
 features:
   typescript:
     additionalDependencies: 0.1.0
@@ -1490,16 +1490,16 @@ trackedFiles:
     pristine_git_object: 092ea10acdab0904da2387a425c2d093728908a1
   docs/models/operations/get-the-authenticated-user-data.md:
     id: 9c0c8b83a976
-    last_write_checksum: sha1:25773ea16f0374ed48581ea47e0c9cc1e96105ba
-    pristine_git_object: dd48dc790e6a1d029a959f621fae8a33feb297d2
+    last_write_checksum: sha1:fa39c2e0271c4f15da64a72a2599d4e124dc0555
+    pristine_git_object: 485ef37738d79b6aee75c6c274b46ee851628bd9
   docs/models/operations/get-the-authenticated-user-response-body.md:
     id: a0bcdba05323
-    last_write_checksum: sha1:95067343f7f340c9eaadde7c550dc5f44f44bc7d
-    pristine_git_object: 780a5b14c85922d988597eb5a18c303a0dc2b1fb
+    last_write_checksum: sha1:99ecc91a2ec1d33914c18da8de5282ce06261054
+    pristine_git_object: 7f2a6e44e397dab85572663471cc2890bd08f784
   docs/models/operations/get-the-authenticated-user-response.md:
     id: 09c7381f1dea
-    last_write_checksum: sha1:dd318e869ecb0c01181c082f19c65cce832521fd
-    pristine_git_object: 411334df74f9ef3c6fa2defe3d9cd706289e66ed
+    last_write_checksum: sha1:9d248c1f6d34a2b0d3e43fd64ef50e8a3c6b1c1a
+    pristine_git_object: 2e2f4972def3d3ee49eb9741c26ecfa04c707cf7
   docs/models/operations/get-users-lists-data.md:
     id: 086d88ed9a59
     last_write_checksum: sha1:a61b1ef7b633b87a25c4afcff1620177d4a06d59
@@ -2674,12 +2674,12 @@ trackedFiles:
     pristine_git_object: ce4a6a85b8bc46789323545a102bb0515c686b36
   jsr.json:
     id: 7f6ab7767282
-    last_write_checksum: sha1:623a6bda514671b95590951ddb4f021acc1ac0d4
-    pristine_git_object: 8ebeee0a2a8ce4cf6c3ee44104c21bb9e0cd6549
+    last_write_checksum: sha1:b7a8686a2ef6d2948e29fadf58d7a28039165597
+    pristine_git_object: 49e68afd76cfe568aee87d6f53d2d3d5d48c7e54
   package.json:
     id: 7030d0b2f71b
-    last_write_checksum: sha1:3a9777cfad87767fcceaf6a794d806e088f3cf80
-    pristine_git_object: 6127d33d53b064f924a52a4a7e34ab8ba08c0c79
+    last_write_checksum: sha1:5d9db8f5502db9b74c98d8d76a81566ebbaf2acc
+    pristine_git_object: 9ea42c22cbf3a6d26cfa90c6097092401aa78fae
   src/core.ts:
     id: f431fdbcd144
     last_write_checksum: sha1:ad0063bee03825028052e52cef3fa240c6101bdf
@@ -3086,8 +3086,8 @@ trackedFiles:
     pristine_git_object: 44be0eae8246521b230e8e711a88eff738fc015d
   src/lib/config.ts:
     id: 320761608fb3
-    last_write_checksum: sha1:4f598932c8945bbae1bc80dc577facbf8be98656
-    pristine_git_object: 778061f76b68aa11a40f02088aa41e7a0f58a622
+    last_write_checksum: sha1:ecf507aee39f59f4dbf91c61aaebceb2f387222d
+    pristine_git_object: ffb2a623c82e533d38641842e9af2a9c1a5e0395
   src/lib/encodings.ts:
     id: 3bd8ead98afd
     last_write_checksum: sha1:4481b2a380f8a16856ef92c66fb370299f56d135
@@ -3502,8 +3502,8 @@ trackedFiles:
     pristine_git_object: c3621fd557eea7b5e563dceb2f2c20cb231cd74e
   src/models/operations/get-the-authenticated-user.ts:
     id: b03052e6c2fd
-    last_write_checksum: sha1:a3d2f2a8ea0425823a5db89f195a50ef02159ea8
-    pristine_git_object: f25f5d83bfab8e98930fe03b3d8619b17dece705
+    last_write_checksum: sha1:712027fe0bf2c59f67f72973313cd50c0da99052
+    pristine_git_object: 8409402da42c32cb7a1a5cd870dfc240812ade5a
   src/models/operations/get-users-lists.ts:
     id: 0245b0c42919
     last_write_checksum: sha1:227ee7b0982addf4e6b47eaaea406af90e726964
@@ -4674,7 +4674,7 @@ examples:
           username: "comic_fan_42"
       responses:
         "200":
-          application/json: {"data": {"id": 123, "username": "comic_fan_42", "name": "John Doe", "bio": "Comic collector since 1985", "avatar_url": "https://...", "banner_url": "https://...", "glow_color": "#FF5733", "is_pro": true, "is_private": false, "is_self": false, "created_at": "2024-01-15T10:30:00Z", "level": 5, "xp": 1200, "xp_for_next_level": 2000, "xp_progress_percent": 60, "contributions_count": 42, "visibility": {"show_activity": true, "show_collection": true, "show_reading_list": false, "is_wishlist_public": true}, "stats": {"reviews_count": 15, "collection_count": 200, "reading_count": 150, "lists_count": 5}, "activity": [{"type": "review", "title": "Reviewed", "entity_type": "Issue", "entity_name": "The Amazing Spider-Man #1", "entity_id": 5432, "timestamp": "2024-06-01T18:00:00Z"}, {"type": "collection", "title": "Added to Collection", "entity_type": "Issue", "entity_name": "The Amazing Spider-Man #2", "entity_id": 5433, "timestamp": "2024-05-30T21:15:00Z"}]}}
+          application/json: {"data": {"id": 123, "username": "comic_fan_42", "name": "John Doe", "bio": "Comic collector since 1985", "avatar_url": "https://...", "banner_url": "https://...", "is_pro": true, "is_private": false, "is_self": false, "created_at": "2024-01-15T10:30:00Z", "level": 5, "xp": 1200, "xp_for_next_level": 2000, "xp_progress_percent": 60, "contributions_count": 42, "visibility": {"show_activity": true, "show_collection": true, "show_reading_list": false, "is_wishlist_public": true}, "stats": {"reviews_count": 15, "collection_count": 200, "reading_count": 150, "lists_count": 5}, "activity": [{"type": "review", "title": "Reviewed", "entity_type": "Issue", "entity_name": "The Amazing Spider-Man #1", "entity_id": 5432, "timestamp": "2024-06-01T18:00:00Z"}, {"type": "collection", "title": "Added to Collection", "entity_type": "Issue", "entity_name": "The Amazing Spider-Man #2", "entity_id": 5433, "timestamp": "2024-05-30T21:15:00Z"}]}}
         "401":
           application/json: {"message": "Unauthenticated."}
         "404":
@@ -5011,7 +5011,7 @@ examples:
     speakeasy-default-get-the-authenticated-user:
       responses:
         "200":
-          application/json: {"data": {"id": 123, "name": "John Doe", "username": "comic_fan_42", "email": "john@example.com", "bio": "Comic collector since 1985", "profile_image_url": "https://r2.versedb.com/uploads/users/comic-fan-42/comic-fan-42-abc123-profile_md.webp", "glow_color": "#FF5733", "banner_url": null, "country_code": "US", "city": "New York", "region": "NY", "postal_code": "10001", "formatted_location": "New York, NY", "is_private": false, "is_wishlist_public": true, "show_nsfw_warnings": true, "can_view_nsfw": true, "show_reading_list": true, "show_collection": true, "show_activity": true, "show_spoilers": false, "preferred_mediums": ["comic"], "preferred_genres": [], "preferred_languages": ["en"], "locale": "en", "is_pro": true, "level": 5, "xp": 1200, "xp_for_next_level": 2000, "xp_progress_percent": 60, "contributions_count": 42, "level_name": "Collector", "has_password": true, "created_at": "2024-01-15T10:30:00.000000Z", "updated_at": "2026-06-20T14:32:00.000000Z"}}
+          application/json: {"data": {"id": 123, "name": "John Doe", "username": "comic_fan_42", "email": "john@example.com", "bio": "Comic collector since 1985", "profile_image_url": "https://r2.versedb.com/uploads/users/comic-fan-42/comic-fan-42-abc123-profile_md.webp", "banner_url": null, "country_code": "US", "city": "New York", "region": "NY", "postal_code": "10001", "formatted_location": "New York, NY", "is_private": false, "is_wishlist_public": true, "show_nsfw_warnings": true, "can_view_nsfw": true, "show_reading_list": true, "show_collection": true, "show_activity": true, "show_spoilers": false, "preferred_mediums": ["comic"], "preferred_genres": [], "preferred_languages": ["en"], "locale": "en", "is_pro": true, "level": 5, "xp": 1200, "xp_for_next_level": 2000, "xp_progress_percent": 60, "contributions_count": 42, "level_name": "Collector", "has_password": true, "created_at": "2024-01-15T10:30:00.000000Z", "updated_at": "2026-06-20T14:32:00.000000Z"}}
         "401":
           application/json: {"message": "Unauthenticated."}
         "429":
@@ -5453,7 +5453,3 @@ examples:
         "429":
           application/json: {"message": "Too Many Attempts."}
 examplesVersion: 1.0.2
-releaseNotes: |
-  ## Typescript SDK Changes:
-  * `versedb.series.listSeries()`:  `request` **Changed**
-  * `versedb.user.addIssueToCollection()`:  `response.followUp` **Added**
