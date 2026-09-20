@@ -27,6 +27,54 @@ export type ListSeriesRequest = {
    */
   status?: string | undefined;
   /**
+   * Comma-separated genre IDs. Returns a series carrying any one of them.
+   */
+  genreIds?: string | undefined;
+  /**
+   * Comma-separated publisher IDs. Returns a series published by any one of them; use this instead of publisher_id to pass more than one.
+   */
+  publisherIds?: string | undefined;
+  /**
+   * Comma-separated creator IDs. Returns a series credited to any one of them.
+   */
+  creatorIds?: string | undefined;
+  /**
+   * Comma-separated character IDs. Returns a series any one of them appears in.
+   */
+  characterIds?: string | undefined;
+  /**
+   * Comma-separated ISO 639-1 language codes. Returns a series published in any one of them.
+   */
+  languages?: string | undefined;
+  /**
+   * Filter by medium (comic, manga, manhwa, manhua, bande_dessinee, magazine).
+   */
+  medium?: string | undefined;
+  /**
+   * Filter by publication type (regular_series, limited_series, one_shot, graphic_novel, graphic_novel_series, collected_edition, special).
+   */
+  publicationType?: string | undefined;
+  /**
+   * Filter by physical format (Standard, Deluxe, Omnibus, TPB, Hardcover, Other).
+   */
+  format?: string | undefined;
+  /**
+   * Filter by the year the series began.
+   */
+  startYear?: number | undefined;
+  /**
+   * Filter by the year the series ended.
+   */
+  endYear?: number | undefined;
+  /**
+   * Filter by the decade the series began, written as a four-digit year ending in s. Accepts 1900s through the current decade.
+   */
+  decade?: string | undefined;
+  /**
+   * Return only series whose start year has already arrived.
+   */
+  hideUnreleased?: boolean | undefined;
+  /**
    * Sort field (name, start_year, average_rating, latest_release_date, cached_issues_count).
    */
   sort?: string | undefined;
@@ -89,6 +137,18 @@ export type ListSeriesRequest$Outbound = {
   title_id?: number | undefined;
   publisher_id?: number | undefined;
   status?: string | undefined;
+  genre_ids?: string | undefined;
+  publisher_ids?: string | undefined;
+  creator_ids?: string | undefined;
+  character_ids?: string | undefined;
+  languages?: string | undefined;
+  medium?: string | undefined;
+  publication_type?: string | undefined;
+  format?: string | undefined;
+  start_year?: number | undefined;
+  end_year?: number | undefined;
+  decade?: string | undefined;
+  hide_unreleased?: boolean | undefined;
   sort?: string | undefined;
   direction?: string | undefined;
   limit?: number | undefined;
@@ -104,6 +164,18 @@ export const ListSeriesRequest$outboundSchema: z.ZodMiniType<
     titleId: z.optional(z.int()),
     publisherId: z.optional(z.int()),
     status: z.optional(z.string()),
+    genreIds: z.optional(z.string()),
+    publisherIds: z.optional(z.string()),
+    creatorIds: z.optional(z.string()),
+    characterIds: z.optional(z.string()),
+    languages: z.optional(z.string()),
+    medium: z.optional(z.string()),
+    publicationType: z.optional(z.string()),
+    format: z.optional(z.string()),
+    startYear: z.optional(z.int()),
+    endYear: z.optional(z.int()),
+    decade: z.optional(z.string()),
+    hideUnreleased: z.optional(z.boolean()),
     sort: z.optional(z.string()),
     direction: z.optional(z.string()),
     limit: z.optional(z.int()),
@@ -112,6 +184,14 @@ export const ListSeriesRequest$outboundSchema: z.ZodMiniType<
     return remap$(v, {
       titleId: "title_id",
       publisherId: "publisher_id",
+      genreIds: "genre_ids",
+      publisherIds: "publisher_ids",
+      creatorIds: "creator_ids",
+      characterIds: "character_ids",
+      publicationType: "publication_type",
+      startYear: "start_year",
+      endYear: "end_year",
+      hideUnreleased: "hide_unreleased",
     });
   }),
 );

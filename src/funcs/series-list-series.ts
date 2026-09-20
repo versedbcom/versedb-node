@@ -96,11 +96,23 @@ async function $do(
   const path = pathToFunc("/api/v1/series")();
 
   const query = encodeFormQuery({
+    "character_ids": payload?.character_ids,
+    "creator_ids": payload?.creator_ids,
+    "decade": payload?.decade,
     "direction": payload?.direction,
+    "end_year": payload?.end_year,
+    "format": payload?.format,
+    "genre_ids": payload?.genre_ids,
+    "hide_unreleased": payload?.hide_unreleased,
+    "languages": payload?.languages,
     "limit": payload?.limit,
+    "medium": payload?.medium,
+    "publication_type": payload?.publication_type,
     "publisher_id": payload?.publisher_id,
+    "publisher_ids": payload?.publisher_ids,
     "q": payload?.q,
     "sort": payload?.sort,
+    "start_year": payload?.start_year,
     "status": payload?.status,
     "title_id": payload?.title_id,
   });
