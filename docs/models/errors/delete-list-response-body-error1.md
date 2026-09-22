@@ -1,11 +1,11 @@
-# ResponseBodyError1
+# DeleteListResponseBodyError1
 
 Wishlist
 
 ## Example Usage
 
 ```typescript
-import { ResponseBodyError1 } from "@versedbcom/sdk/models/errors";
+import { DeleteListResponseBodyError1 } from "@versedbcom/sdk/models/errors";
 
 // No examples available for this model
 ```

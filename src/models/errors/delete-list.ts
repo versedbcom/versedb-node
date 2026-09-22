@@ -13,63 +13,65 @@ import { VerseDbError } from "./verse-db-error.js";
 /**
  * Unauthorized
  */
-export type ResponseBodyError2Data = {
+export type DeleteListResponseBodyError2Data = {
   message?: string | undefined;
 };
 
 /**
  * Unauthorized
  */
-export class ResponseBodyError2 extends VerseDbError {
+export class DeleteListResponseBodyError2 extends VerseDbError {
   /** The original data that was passed to this error instance. */
-  data$: ResponseBodyError2Data;
+  data$: DeleteListResponseBodyError2Data;
 
   constructor(
-    err: ResponseBodyError2Data,
+    err: DeleteListResponseBodyError2Data,
     httpMeta: { response: Response; request: Request; body: string },
   ) {
     const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
     super(message, httpMeta);
     this.data$ = err;
 
-    this.name = "ResponseBodyError2";
+    this.name = "DeleteListResponseBodyError2";
   }
 }
 
 /**
  * Wishlist
  */
-export type ResponseBodyError1Data = {
+export type DeleteListResponseBodyError1Data = {
   message?: string | undefined;
 };
 
 /**
  * Wishlist
  */
-export class ResponseBodyError1 extends VerseDbError {
+export class DeleteListResponseBodyError1 extends VerseDbError {
   /** The original data that was passed to this error instance. */
-  data$: ResponseBodyError1Data;
+  data$: DeleteListResponseBodyError1Data;
 
   constructor(
-    err: ResponseBodyError1Data,
+    err: DeleteListResponseBodyError1Data,
     httpMeta: { response: Response; request: Request; body: string },
   ) {
     const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
     super(message, httpMeta);
     this.data$ = err;
 
-    this.name = "ResponseBodyError1";
+    this.name = "DeleteListResponseBodyError1";
   }
 }
 
 /**
  * Forbidden. The authenticated user may not perform this action.
  */
-export type Forbidden = ResponseBodyError1 | ResponseBodyError2;
+export type Forbidden =
+  | DeleteListResponseBodyError1
+  | DeleteListResponseBodyError2;
 
 /** @internal */
-export const ResponseBodyError2$inboundSchema: z.ZodMiniType<
-  ResponseBodyError2,
+export const DeleteListResponseBodyError2$inboundSchema: z.ZodMiniType<
+  DeleteListResponseBodyError2,
   unknown
 > = z.pipe(
   z.object({
@@ -79,7 +81,7 @@ export const ResponseBodyError2$inboundSchema: z.ZodMiniType<
     body$: z.string(),
   }),
   z.transform((v) => {
-    return new ResponseBodyError2(v, {
+    return new DeleteListResponseBodyError2(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,
@@ -88,8 +90,8 @@ export const ResponseBodyError2$inboundSchema: z.ZodMiniType<
 );
 
 /** @internal */
-export const ResponseBodyError1$inboundSchema: z.ZodMiniType<
-  ResponseBodyError1,
+export const DeleteListResponseBodyError1$inboundSchema: z.ZodMiniType<
+  DeleteListResponseBodyError1,
   unknown
 > = z.pipe(
   z.object({
@@ -99,7 +101,7 @@ export const ResponseBodyError1$inboundSchema: z.ZodMiniType<
     body$: z.string(),
   }),
   z.transform((v) => {
-    return new ResponseBodyError1(v, {
+    return new DeleteListResponseBodyError1(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,
@@ -110,8 +112,8 @@ export const ResponseBodyError1$inboundSchema: z.ZodMiniType<
 /** @internal */
 export const Forbidden$inboundSchema: z.ZodMiniType<Forbidden, unknown> =
   smartUnion([
-    z.lazy(() => ResponseBodyError1$inboundSchema),
-    z.lazy(() => ResponseBodyError2$inboundSchema),
+    z.lazy(() => DeleteListResponseBodyError1$inboundSchema),
+    z.lazy(() => DeleteListResponseBodyError2$inboundSchema),
   ]);
 
 export function forbiddenFromJSON(

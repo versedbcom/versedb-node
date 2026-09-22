@@ -26,10 +26,13 @@ import { VerseDbError } from "../models/errors/verse-db-error.js";
 import * as operations from "../models/operations/index.js";
 import { APICall, APIPromise } from "../types/async.js";
 import { Result } from "../types/fp.js";
-import * as types$ from "../types/primitives.js";
 
 /**
  * Mark the copy's open loan returned.
+ *
+ * @remarks
+ * Closes the open loan and hands custody back to the owner. A copy with no open loan is a
+ * 404, so a repeat call does not silently succeed.
  */
 export function userMarkTheCopysOpenLoanReturned(
   client: VerseDBCore,
@@ -37,8 +40,9 @@ export function userMarkTheCopysOpenLoanReturned(
   options?: RequestOptions,
 ): APIPromise<
   Result<
-    operations.MarkTheCopysOpenLoanReturnedResponse | undefined,
+    operations.MarkTheCopysOpenLoanReturnedResponse,
     | errors.UnauthorizedErrorError
+    | errors.NotFound
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -64,8 +68,9 @@ async function $do(
 ): Promise<
   [
     Result<
-      operations.MarkTheCopysOpenLoanReturnedResponse | undefined,
+      operations.MarkTheCopysOpenLoanReturnedResponse,
       | errors.UnauthorizedErrorError
+      | errors.NotFound
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -161,8 +166,9 @@ async function $do(
   };
 
   const [result] = await M.match<
-    operations.MarkTheCopysOpenLoanReturnedResponse | undefined,
+    operations.MarkTheCopysOpenLoanReturnedResponse,
     | errors.UnauthorizedErrorError
+    | errors.NotFound
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -173,14 +179,13 @@ async function $do(
     | UnexpectedClientError
     | SDKValidationError
   >(
+    M.json(200, operations.MarkTheCopysOpenLoanReturnedResponse$inboundSchema, {
+      hdrs: true,
+      key: "Result",
+    }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
+    M.jsonErr(404, errors.NotFound$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
-    M.nil(
-      "2XX",
-      types$.optional(
-        operations.MarkTheCopysOpenLoanReturnedResponse$inboundSchema,
-      ),
-    ),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

@@ -133,6 +133,43 @@ export class User extends ClientSDK {
   }
 
   /**
+   * Lend a copy out.
+   *
+   * @remarks
+   * A copy already out is a 409 rather than a silent replacement: two open loans on one
+   * physical comic is a mistake to report, and overwriting the first would lose who actually
+   * has it. Return it, then lend it again.
+   */
+  async lendACopyOut(
+    request: operations.LendACopyOutRequest,
+    options?: RequestOptions,
+  ): Promise<operations.LendACopyOutResponse> {
+    return unwrapAsync(userLendACopyOut(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Mark the copy's open loan returned.
+   *
+   * @remarks
+   * Closes the open loan and hands custody back to the owner. A copy with no open loan is a
+   * 404, so a repeat call does not silently succeed.
+   */
+  async markTheCopysOpenLoanReturned(
+    request: operations.MarkTheCopysOpenLoanReturnedRequest,
+    options?: RequestOptions,
+  ): Promise<operations.MarkTheCopysOpenLoanReturnedResponse> {
+    return unwrapAsync(userMarkTheCopysOpenLoanReturned(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
    * List pull list.
    *
    * @remarks
@@ -386,39 +423,6 @@ export class User extends ClientSDK {
     options?: RequestOptions,
   ): Promise<operations.GetActivityFeedResponse> {
     return unwrapAsync(userGetActivityFeed(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
-   * Lend a copy out.
-   *
-   * @remarks
-   * A copy already out is a 409 rather than a silent replacement: two open loans on one
-   * physical comic is a mistake to report, and overwriting the first would lose who actually
-   * has it. Return it, then lend it again.
-   */
-  async lendACopyOut(
-    request: operations.LendACopyOutRequest,
-    options?: RequestOptions,
-  ): Promise<operations.LendACopyOutResponse | undefined> {
-    return unwrapAsync(userLendACopyOut(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
-   * Mark the copy's open loan returned.
-   */
-  async markTheCopysOpenLoanReturned(
-    request: operations.MarkTheCopysOpenLoanReturnedRequest,
-    options?: RequestOptions,
-  ): Promise<operations.MarkTheCopysOpenLoanReturnedResponse | undefined> {
-    return unwrapAsync(userMarkTheCopysOpenLoanReturned(
       this,
       request,
       options,

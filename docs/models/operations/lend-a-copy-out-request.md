@@ -6,7 +6,7 @@
 import { LendACopyOutRequest } from "@versedbcom/sdk/models/operations";
 
 let value: LendACopyOutRequest = {
-  collectionItemId: 16401,
+  collectionItemId: 1001,
   body: {
     loanedTo: "Dan from the shop",
     loanedAt: "2026-09-01",
@@ -20,5 +20,5 @@ let value: LendACopyOutRequest = {
 
 | Field                                                                                         | Type                                                                                          | Required                                                                                      | Description                                                                                   | Example                                                                                       |
 | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| `collectionItemId`                                                                            | *number*                                                                                      | :heavy_check_mark:                                                                            | The ID of the collectionItem.                                                                 | 16401                                                                                         |
+| `collectionItemId`                                                                            | *number*                                                                                      | :heavy_check_mark:                                                                            | The collection item ID.                                                                       | 1001                                                                                          |
 | `body`                                                                                        | [operations.LendACopyOutRequestBody](../../models/operations/lend-a-copy-out-request-body.md) | :heavy_check_mark:                                                                            | N/A                                                                                           |                                                                                               |

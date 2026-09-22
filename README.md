@@ -371,6 +371,8 @@ run();
 * [addIssueToCollection](docs/sdks/user/README.md#addissuetocollection) - Add issue to collection.
 * [updateCollectionItem](docs/sdks/user/README.md#updatecollectionitem) - Update collection item.
 * [removeIssueFromCollection](docs/sdks/user/README.md#removeissuefromcollection) - Remove issue from collection.
+* [lendACopyOut](docs/sdks/user/README.md#lendacopyout) - Lend a copy out.
+* [markTheCopysOpenLoanReturned](docs/sdks/user/README.md#markthecopysopenloanreturned) - Mark the copy's open loan returned.
 * [listPullList](docs/sdks/user/README.md#listpulllist) - List pull list.
 * [addToPullList](docs/sdks/user/README.md#addtopulllist) - Add to pull list.
 * [removeFromPullList](docs/sdks/user/README.md#removefrompulllist) - Remove from pull list.
@@ -386,8 +388,6 @@ run();
 * [followContent](docs/sdks/user/README.md#followcontent) - Follow content.
 * [unfollowContent](docs/sdks/user/README.md#unfollowcontent) - Unfollow content.
 * [~~getActivityFeed~~](docs/sdks/user/README.md#getactivityfeed) - Get activity feed. :warning: **Deprecated**
-* [lendACopyOut](docs/sdks/user/README.md#lendacopyout) - Lend a copy out.
-* [markTheCopysOpenLoanReturned](docs/sdks/user/README.md#markthecopysopenloanreturned) - Mark the copy's open loan returned.
 
 </details>
 <!-- End Available Resources and Operations [operations] -->
@@ -635,7 +635,7 @@ run();
   * [`TooManyRequestsError`](./src/models/errors/too-many-requests-error.ts): Status code `429`.
   * [`UnauthorizedErrorError`](./src/models/errors/unauthorized-error-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. *
 
-<details><summary>Less common errors (54)</summary>
+<details><summary>Less common errors (58)</summary>
 
 <br />
 
@@ -654,8 +654,8 @@ run();
 * [`CreateListForbiddenError`](./src/models/errors/create-list-forbidden-error.ts): Limit Reached. Status code `403`. Applicable to 1 of 95 methods.*
 * [`GetListForbiddenError`](./src/models/errors/get-list-forbidden-error.ts): Private List. Status code `403`. Applicable to 1 of 95 methods.*
 * [`UpdateListForbiddenError`](./src/models/errors/update-list-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 95 methods.*
-* [`ResponseBodyError1`](./src/models/errors/response-body-error1.ts): Wishlist. Status code `403`. Applicable to 1 of 95 methods.*
-* [`ResponseBodyError2`](./src/models/errors/response-body-error2.ts): Unauthorized. Status code `403`. Applicable to 1 of 95 methods.*
+* [`DeleteListResponseBodyError1`](./src/models/errors/delete-list-response-body-error1.ts): Wishlist. Status code `403`. Applicable to 1 of 95 methods.*
+* [`DeleteListResponseBodyError2`](./src/models/errors/delete-list-response-body-error2.ts): Unauthorized. Status code `403`. Applicable to 1 of 95 methods.*
 * [`OpenAListToAnyTypeForbiddenError`](./src/models/errors/open-a-list-to-any-type-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 95 methods.*
 * [`MergeAListIntoThisOneForbiddenError`](./src/models/errors/merge-a-list-into-this-one-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 95 methods.*
 * [`AddItemToListForbiddenError`](./src/models/errors/add-item-to-list-forbidden-error.ts): Item Limit. Status code `403`. Applicable to 1 of 95 methods.*
@@ -684,10 +684,14 @@ run();
 * [`LookupByISBNNotFoundError`](./src/models/errors/lookup-by-isbn-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 95 methods.*
 * [`UpdateCollectionItemNotFoundError`](./src/models/errors/update-collection-item-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 95 methods.*
 * [`RemoveIssueFromCollectionNotFoundError`](./src/models/errors/remove-issue-from-collection-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 95 methods.*
+* [`LendACopyOutNotFoundError`](./src/models/errors/lend-a-copy-out-not-found-error.ts): Not Owner. Status code `404`. Applicable to 1 of 95 methods.*
+* [`MarkTheCopysOpenLoanReturnedResponseBodyError1`](./src/models/errors/mark-the-copys-open-loan-returned-response-body-error1.ts): Not Owner. Status code `404`. Applicable to 1 of 95 methods.*
+* [`MarkTheCopysOpenLoanReturnedResponseBodyError2`](./src/models/errors/mark-the-copys-open-loan-returned-response-body-error2.ts): Not On Loan. Status code `404`. Applicable to 1 of 95 methods.*
 * [`FollowContentNotFoundError`](./src/models/errors/follow-content-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 95 methods.*
 * [`UnfollowContentNotFoundError`](./src/models/errors/unfollow-content-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 95 methods.*
 * [`AddItemToListConflictError`](./src/models/errors/add-item-to-list-conflict-error.ts): Already Exists. Status code `409`. Applicable to 1 of 95 methods.*
 * [`LookupByUPCConflictError`](./src/models/errors/lookup-by-upc-conflict-error.ts): Multiple Matches. Status code `409`. Applicable to 1 of 95 methods.*
+* [`LendACopyOutConflictError`](./src/models/errors/lend-a-copy-out-conflict-error.ts): Already On Loan. Status code `409`. Applicable to 1 of 95 methods.*
 * [`OpenAListToAnyTypeUnprocessableEntityError`](./src/models/errors/open-a-list-to-any-type-unprocessable-entity-error.ts): Not convertible. Status code `422`. Applicable to 1 of 95 methods.*
 * [`StopAListUpdatingItselfUnprocessableEntityError`](./src/models/errors/stop-a-list-updating-itself-unprocessable-entity-error.ts): Not rule-built. Status code `422`. Applicable to 1 of 95 methods.*
 * [`MergeAListIntoThisOneUnprocessableEntityError`](./src/models/errors/merge-a-list-into-this-one-unprocessable-entity-error.ts): Invalid merge. Status code `422`. Applicable to 1 of 95 methods.*

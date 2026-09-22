@@ -15,6 +15,8 @@ All endpoints in this group require authentication with a Bearer API token.
 * [addIssueToCollection](#addissuetocollection) - Add issue to collection.
 * [updateCollectionItem](#updatecollectionitem) - Update collection item.
 * [removeIssueFromCollection](#removeissuefromcollection) - Remove issue from collection.
+* [lendACopyOut](#lendacopyout) - Lend a copy out.
+* [markTheCopysOpenLoanReturned](#markthecopysopenloanreturned) - Mark the copy's open loan returned.
 * [listPullList](#listpulllist) - List pull list.
 * [addToPullList](#addtopulllist) - Add to pull list.
 * [removeFromPullList](#removefrompulllist) - Remove from pull list.
@@ -30,8 +32,6 @@ All endpoints in this group require authentication with a Bearer API token.
 * [followContent](#followcontent) - Follow content.
 * [unfollowContent](#unfollowcontent) - Unfollow content.
 * [~~getActivityFeed~~](#getactivityfeed) - Get activity feed. :warning: **Deprecated**
-* [lendACopyOut](#lendacopyout) - Lend a copy out.
-* [markTheCopysOpenLoanReturned](#markthecopysopenloanreturned) - Mark the copy's open loan returned.
 
 ## getTheAuthenticatedUser
 
@@ -697,6 +697,181 @@ run();
 | errors.RemoveIssueFromCollectionNotFoundError | 404                                           | application/json                              |
 | errors.TooManyRequestsError                   | 429                                           | application/json                              |
 | errors.VerseDbDefaultError                    | 4XX, 5XX                                      | \*/\*                                         |
+
+## lendACopyOut
+
+A copy already out is a 409 rather than a silent replacement: two open loans on one
+physical comic is a mistake to report, and overwriting the first would lose who actually
+has it. Return it, then lend it again.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="lendACopyOut" method="post" path="/api/v1/user/collections/{collectionItem_id}/loan" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.user.lendACopyOut({
+    collectionItemId: 16401,
+    body: {
+      loanedTo: "Dan from the shop",
+      loanedAt: "2026-09-01",
+      dueAt: "2026-10-01",
+      notes: "Lent at the Saturday meetup",
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { userLendACopyOut } from "@versedbcom/sdk/funcs/user-lend-a-copy-out.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await userLendACopyOut(verseDB, {
+    collectionItemId: 16401,
+    body: {
+      loanedTo: "Dan from the shop",
+      loanedAt: "2026-09-01",
+      dueAt: "2026-10-01",
+      notes: "Lent at the Saturday meetup",
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("userLendACopyOut failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.LendACopyOutRequest](../../models/operations/lend-a-copy-out-request.md)                                                                                           | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.LendACopyOutResponse](../../models/operations/lend-a-copy-out-response.md)\>**
+
+### Errors
+
+| Error Type                       | Status Code                      | Content Type                     |
+| -------------------------------- | -------------------------------- | -------------------------------- |
+| errors.UnauthorizedErrorError    | 401                              | application/json                 |
+| errors.LendACopyOutNotFoundError | 404                              | application/json                 |
+| errors.LendACopyOutConflictError | 409                              | application/json                 |
+| errors.TooManyRequestsError      | 429                              | application/json                 |
+| errors.VerseDbDefaultError       | 4XX, 5XX                         | \*/\*                            |
+
+## markTheCopysOpenLoanReturned
+
+Closes the open loan and hands custody back to the owner. A copy with no open loan is a
+404, so a repeat call does not silently succeed.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="markTheCopysOpenLoanReturned" method="delete" path="/api/v1/user/collections/{collectionItem_id}/loan" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.user.markTheCopysOpenLoanReturned({
+    collectionItemId: 16401,
+    body: {
+      returnedAt: "2026-09-20",
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { userMarkTheCopysOpenLoanReturned } from "@versedbcom/sdk/funcs/user-mark-the-copys-open-loan-returned.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await userMarkTheCopysOpenLoanReturned(verseDB, {
+    collectionItemId: 16401,
+    body: {
+      returnedAt: "2026-09-20",
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("userMarkTheCopysOpenLoanReturned failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.MarkTheCopysOpenLoanReturnedRequest](../../models/operations/mark-the-copys-open-loan-returned-request.md)                                                         | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.MarkTheCopysOpenLoanReturnedResponse](../../models/operations/mark-the-copys-open-loan-returned-response.md)\>**
+
+### Errors
+
+| Error Type                                            | Status Code                                           | Content Type                                          |
+| ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
+| errors.UnauthorizedErrorError                         | 401                                                   | application/json                                      |
+| errors.MarkTheCopysOpenLoanReturnedResponseBodyError1 | 404                                                   | application/json                                      |
+| errors.MarkTheCopysOpenLoanReturnedResponseBodyError2 | 404                                                   | application/json                                      |
+| errors.TooManyRequestsError                           | 429                                                   | application/json                                      |
+| errors.VerseDbDefaultError                            | 4XX, 5XX                                              | \*/\*                                                 |
 
 ## listPullList
 
@@ -1876,176 +2051,6 @@ run();
 ### Response
 
 **Promise\<[operations.GetActivityFeedResponse](../../models/operations/get-activity-feed-response.md)\>**
-
-### Errors
-
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| errors.UnauthorizedErrorError | 401                           | application/json              |
-| errors.TooManyRequestsError   | 429                           | application/json              |
-| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
-
-## lendACopyOut
-
-A copy already out is a 409 rather than a silent replacement: two open loans on one
-physical comic is a mistake to report, and overwriting the first would lose who actually
-has it. Return it, then lend it again.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="lendACopyOut" method="post" path="/api/v1/user/collections/{collectionItem_id}/loan" -->
-```typescript
-import { VerseDB } from "@versedbcom/sdk";
-
-const verseDB = new VerseDB({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const result = await verseDB.user.lendACopyOut({
-    collectionItemId: 16401,
-    body: {
-      loanedTo: "Dan from the shop",
-      loanedAt: "2026-09-01",
-      dueAt: "2026-10-01",
-      notes: "Lent at the Saturday meetup",
-    },
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { VerseDBCore } from "@versedbcom/sdk/core.js";
-import { userLendACopyOut } from "@versedbcom/sdk/funcs/user-lend-a-copy-out.js";
-
-// Use `VerseDBCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const verseDB = new VerseDBCore({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const res = await userLendACopyOut(verseDB, {
-    collectionItemId: 16401,
-    body: {
-      loanedTo: "Dan from the shop",
-      loanedAt: "2026-09-01",
-      dueAt: "2026-10-01",
-      notes: "Lent at the Saturday meetup",
-    },
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("userLendACopyOut failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.LendACopyOutRequest](../../models/operations/lend-a-copy-out-request.md)                                                                                           | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[operations.LendACopyOutResponse](../../models/operations/lend-a-copy-out-response.md)\>**
-
-### Errors
-
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| errors.UnauthorizedErrorError | 401                           | application/json              |
-| errors.TooManyRequestsError   | 429                           | application/json              |
-| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
-
-## markTheCopysOpenLoanReturned
-
-Mark the copy's open loan returned.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="markTheCopysOpenLoanReturned" method="delete" path="/api/v1/user/collections/{collectionItem_id}/loan" -->
-```typescript
-import { VerseDB } from "@versedbcom/sdk";
-
-const verseDB = new VerseDB({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const result = await verseDB.user.markTheCopysOpenLoanReturned({
-    collectionItemId: 16401,
-    body: {
-      returnedAt: "2026-09-20",
-    },
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { VerseDBCore } from "@versedbcom/sdk/core.js";
-import { userMarkTheCopysOpenLoanReturned } from "@versedbcom/sdk/funcs/user-mark-the-copys-open-loan-returned.js";
-
-// Use `VerseDBCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const verseDB = new VerseDBCore({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const res = await userMarkTheCopysOpenLoanReturned(verseDB, {
-    collectionItemId: 16401,
-    body: {
-      returnedAt: "2026-09-20",
-    },
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("userMarkTheCopysOpenLoanReturned failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.MarkTheCopysOpenLoanReturnedRequest](../../models/operations/mark-the-copys-open-loan-returned-request.md)                                                         | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[operations.MarkTheCopysOpenLoanReturnedResponse](../../models/operations/mark-the-copys-open-loan-returned-response.md)\>**
 
 ### Errors
 

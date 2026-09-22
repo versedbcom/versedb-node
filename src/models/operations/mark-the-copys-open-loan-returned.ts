@@ -6,6 +6,7 @@ import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
 import { safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
+import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type MarkTheCopysOpenLoanReturnedRequestBody = {
@@ -17,14 +18,27 @@ export type MarkTheCopysOpenLoanReturnedRequestBody = {
 
 export type MarkTheCopysOpenLoanReturnedRequest = {
   /**
-   * The ID of the collectionItem.
+   * The collection item ID.
    */
   collectionItemId: number;
   body?: MarkTheCopysOpenLoanReturnedRequestBody | undefined;
 };
 
+export type MarkTheCopysOpenLoanReturnedData = {
+  id?: number | undefined;
+  loan?: string | null | undefined;
+};
+
+/**
+ * Returned
+ */
+export type MarkTheCopysOpenLoanReturnedResponseBody = {
+  data?: MarkTheCopysOpenLoanReturnedData | undefined;
+};
+
 export type MarkTheCopysOpenLoanReturnedResponse = {
   headers: { [k: string]: Array<string> };
+  result: MarkTheCopysOpenLoanReturnedResponseBody;
 };
 
 /** @internal */
@@ -94,16 +108,63 @@ export function markTheCopysOpenLoanReturnedRequestToJSON(
 }
 
 /** @internal */
+export const MarkTheCopysOpenLoanReturnedData$inboundSchema: z.ZodMiniType<
+  MarkTheCopysOpenLoanReturnedData,
+  unknown
+> = z.object({
+  id: types.optional(types.number()),
+  loan: z.optional(z.nullable(types.string())),
+});
+
+export function markTheCopysOpenLoanReturnedDataFromJSON(
+  jsonString: string,
+): SafeParseResult<MarkTheCopysOpenLoanReturnedData, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => MarkTheCopysOpenLoanReturnedData$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'MarkTheCopysOpenLoanReturnedData' from JSON`,
+  );
+}
+
+/** @internal */
+export const MarkTheCopysOpenLoanReturnedResponseBody$inboundSchema:
+  z.ZodMiniType<MarkTheCopysOpenLoanReturnedResponseBody, unknown> = z.object({
+    data: types.optional(
+      z.lazy(() => MarkTheCopysOpenLoanReturnedData$inboundSchema),
+    ),
+  });
+
+export function markTheCopysOpenLoanReturnedResponseBodyFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  MarkTheCopysOpenLoanReturnedResponseBody,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      MarkTheCopysOpenLoanReturnedResponseBody$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'MarkTheCopysOpenLoanReturnedResponseBody' from JSON`,
+  );
+}
+
+/** @internal */
 export const MarkTheCopysOpenLoanReturnedResponse$inboundSchema: z.ZodMiniType<
   MarkTheCopysOpenLoanReturnedResponse,
   unknown
 > = z.pipe(
   z.object({
     Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+    Result: z.lazy(() =>
+      MarkTheCopysOpenLoanReturnedResponseBody$inboundSchema
+    ),
   }),
   z.transform((v) => {
     return remap$(v, {
       "Headers": "headers",
+      "Result": "result",
     });
   }),
 );

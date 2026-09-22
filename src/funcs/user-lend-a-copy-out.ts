@@ -26,7 +26,6 @@ import { VerseDbError } from "../models/errors/verse-db-error.js";
 import * as operations from "../models/operations/index.js";
 import { APICall, APIPromise } from "../types/async.js";
 import { Result } from "../types/fp.js";
-import * as types$ from "../types/primitives.js";
 
 /**
  * Lend a copy out.
@@ -42,8 +41,10 @@ export function userLendACopyOut(
   options?: RequestOptions,
 ): APIPromise<
   Result<
-    operations.LendACopyOutResponse | undefined,
+    operations.LendACopyOutResponse,
     | errors.UnauthorizedErrorError
+    | errors.LendACopyOutNotFoundError
+    | errors.LendACopyOutConflictError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -69,8 +70,10 @@ async function $do(
 ): Promise<
   [
     Result<
-      operations.LendACopyOutResponse | undefined,
+      operations.LendACopyOutResponse,
       | errors.UnauthorizedErrorError
+      | errors.LendACopyOutNotFoundError
+      | errors.LendACopyOutConflictError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -162,8 +165,10 @@ async function $do(
   };
 
   const [result] = await M.match<
-    operations.LendACopyOutResponse | undefined,
+    operations.LendACopyOutResponse,
     | errors.UnauthorizedErrorError
+    | errors.LendACopyOutNotFoundError
+    | errors.LendACopyOutConflictError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -174,12 +179,14 @@ async function $do(
     | UnexpectedClientError
     | SDKValidationError
   >(
+    M.json(200, operations.LendACopyOutResponse$inboundSchema, {
+      hdrs: true,
+      key: "Result",
+    }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
+    M.jsonErr(404, errors.LendACopyOutNotFoundError$inboundSchema),
+    M.jsonErr(409, errors.LendACopyOutConflictError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
-    M.nil(
-      "2XX",
-      types$.optional(operations.LendACopyOutResponse$inboundSchema),
-    ),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

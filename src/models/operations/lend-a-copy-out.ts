@@ -6,6 +6,7 @@ import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
 import { safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
+import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type LendACopyOutRequestBody = {
@@ -29,14 +30,36 @@ export type LendACopyOutRequestBody = {
 
 export type LendACopyOutRequest = {
   /**
-   * The ID of the collectionItem.
+   * The collection item ID.
    */
   collectionItemId: number;
   body: LendACopyOutRequestBody;
 };
 
+export type Loan = {
+  id?: number | undefined;
+  loanedTo?: string | undefined;
+  loanedAt?: string | undefined;
+  dueAt?: string | undefined;
+  isOverdue?: boolean | undefined;
+  daysUntilDue?: number | undefined;
+};
+
+export type LendACopyOutData = {
+  id?: number | undefined;
+  loan?: Loan | undefined;
+};
+
+/**
+ * Lent
+ */
+export type LendACopyOutResponseBody = {
+  data?: LendACopyOutData | undefined;
+};
+
 export type LendACopyOutResponse = {
   headers: { [k: string]: Array<string> };
+  result: LendACopyOutResponseBody;
 };
 
 /** @internal */
@@ -106,16 +129,86 @@ export function lendACopyOutRequestToJSON(
 }
 
 /** @internal */
+export const Loan$inboundSchema: z.ZodMiniType<Loan, unknown> = z.pipe(
+  z.object({
+    id: types.optional(types.number()),
+    loaned_to: types.optional(types.string()),
+    loaned_at: types.optional(types.string()),
+    due_at: types.optional(types.string()),
+    is_overdue: types.optional(types.boolean()),
+    days_until_due: types.optional(types.number()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "loaned_to": "loanedTo",
+      "loaned_at": "loanedAt",
+      "due_at": "dueAt",
+      "is_overdue": "isOverdue",
+      "days_until_due": "daysUntilDue",
+    });
+  }),
+);
+
+export function loanFromJSON(
+  jsonString: string,
+): SafeParseResult<Loan, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => Loan$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'Loan' from JSON`,
+  );
+}
+
+/** @internal */
+export const LendACopyOutData$inboundSchema: z.ZodMiniType<
+  LendACopyOutData,
+  unknown
+> = z.object({
+  id: types.optional(types.number()),
+  loan: types.optional(z.lazy(() => Loan$inboundSchema)),
+});
+
+export function lendACopyOutDataFromJSON(
+  jsonString: string,
+): SafeParseResult<LendACopyOutData, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LendACopyOutData$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LendACopyOutData' from JSON`,
+  );
+}
+
+/** @internal */
+export const LendACopyOutResponseBody$inboundSchema: z.ZodMiniType<
+  LendACopyOutResponseBody,
+  unknown
+> = z.object({
+  data: types.optional(z.lazy(() => LendACopyOutData$inboundSchema)),
+});
+
+export function lendACopyOutResponseBodyFromJSON(
+  jsonString: string,
+): SafeParseResult<LendACopyOutResponseBody, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LendACopyOutResponseBody$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LendACopyOutResponseBody' from JSON`,
+  );
+}
+
+/** @internal */
 export const LendACopyOutResponse$inboundSchema: z.ZodMiniType<
   LendACopyOutResponse,
   unknown
 > = z.pipe(
   z.object({
     Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+    Result: z.lazy(() => LendACopyOutResponseBody$inboundSchema),
   }),
   z.transform((v) => {
     return remap$(v, {
       "Headers": "headers",
+      "Result": "result",
     });
   }),
 );

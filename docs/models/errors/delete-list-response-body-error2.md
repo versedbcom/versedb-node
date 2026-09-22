@@ -1,11 +1,11 @@
-# ResponseBodyError2
+# DeleteListResponseBodyError2
 
 Unauthorized
 
 ## Example Usage
 
 ```typescript
-import { ResponseBodyError2 } from "@versedbcom/sdk/models/errors";
+import { DeleteListResponseBodyError2 } from "@versedbcom/sdk/models/errors";
 
 // No examples available for this model
 ```
