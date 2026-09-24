@@ -101,8 +101,11 @@ async function $do(
   const path = pathToFunc("/api/v1/publishers")();
 
   const query = encodeFormQuery({
+    "direction": payload?.direction,
     "limit": payload?.limit,
+    "medium": payload?.medium,
     "q": payload?.q,
+    "sort": payload?.sort,
   });
 
   const headers = new Headers(compactMap({

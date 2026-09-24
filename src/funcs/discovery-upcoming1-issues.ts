@@ -102,6 +102,7 @@ async function $do(
   const query = encodeFormQuery({
     "days": payload?.days,
     "limit": payload?.limit,
+    "page": payload?.page,
   });
 
   const headers = new Headers(compactMap({

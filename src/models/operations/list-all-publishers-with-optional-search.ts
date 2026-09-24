@@ -15,6 +15,18 @@ export type ListAllPublishersWithOptionalSearchRequest = {
    */
   q?: string | undefined;
   /**
+   * Filter by primary medium (comic, manga, manhwa, manhua, bande_dessinee, magazine).
+   */
+  medium?: string | undefined;
+  /**
+   * Sort field (name, founded_year, cached_titles_count, cached_series_count, cached_issues_count). Passing sort replaces the relevance ordering applied to q results.
+   */
+  sort?: string | undefined;
+  /**
+   * Sort direction (asc, desc).
+   */
+  direction?: string | undefined;
+  /**
    * Number of results per page (max 50).
    */
   limit?: number | undefined;
@@ -60,6 +72,9 @@ export type ListAllPublishersWithOptionalSearchResponse = {
 /** @internal */
 export type ListAllPublishersWithOptionalSearchRequest$Outbound = {
   q?: string | undefined;
+  medium?: string | undefined;
+  sort?: string | undefined;
+  direction?: string | undefined;
   limit?: number | undefined;
 };
 
@@ -70,6 +85,9 @@ export const ListAllPublishersWithOptionalSearchRequest$outboundSchema:
     ListAllPublishersWithOptionalSearchRequest
   > = z.object({
     q: z.optional(z.string()),
+    medium: z.optional(z.string()),
+    sort: z.optional(z.string()),
+    direction: z.optional(z.string()),
     limit: z.optional(z.int()),
   });
 

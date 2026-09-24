@@ -31,7 +31,7 @@ export type ListCollectionRequest = {
    */
   graded?: boolean | undefined;
   /**
-   * Filter to signed (true) or unsigned (false) copies.
+   * Filter to signed (true) or unsigned (false) copies. PRO; ignored for other members.
    */
   isSigned?: boolean | undefined;
   /**
@@ -63,11 +63,11 @@ export type ListCollectionRequest = {
    */
   seriesId?: number | undefined;
   /**
-   * Filter to copies with a numeric grade at or above this value.
+   * Filter to copies with a numeric grade at or above this value. PRO; ignored for other members.
    */
   gradeMin?: number | undefined;
   /**
-   * Filter to copies with a numeric grade at or below this value.
+   * Filter to copies with a numeric grade at or below this value. PRO; ignored for other members.
    */
   gradeMax?: number | undefined;
   /**

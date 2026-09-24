@@ -27,6 +27,9 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.publishers.listAllPublishersWithOptionalSearch({
     q: "marvel",
+    medium: "manga",
+    sort: "cached_issues_count",
+    direction: "desc",
     limit: 20,
   });
 
@@ -53,6 +56,9 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await publishersListAllPublishersWithOptionalSearch(verseDB, {
     q: "marvel",
+    medium: "manga",
+    sort: "cached_issues_count",
+    direction: "desc",
     limit: 20,
   });
   if (res.ok) {

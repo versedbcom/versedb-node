@@ -112,6 +112,7 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.discovery.upcoming1Issues({
     limit: 10,
+    page: 1,
     days: 60,
   });
 
@@ -138,6 +139,7 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await discoveryUpcoming1Issues(verseDB, {
     limit: 10,
+    page: 1,
     days: 60,
   });
   if (res.ok) {

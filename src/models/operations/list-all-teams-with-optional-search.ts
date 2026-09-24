@@ -15,6 +15,22 @@ export type ListAllTeamsWithOptionalSearchRequest = {
    */
   q?: string | undefined;
   /**
+   * Comma-separated character IDs. Returns a team every one of them has been a member of.
+   */
+  characterIds?: string | undefined;
+  /**
+   * Filter by status: active (never disbanded) or disbanded.
+   */
+  status?: string | undefined;
+  /**
+   * Sort field (name, formation_date, cached_characters_count, cached_issues_count). Passing sort replaces the relevance ordering applied to q results.
+   */
+  sort?: string | undefined;
+  /**
+   * Sort direction (asc, desc).
+   */
+  direction?: string | undefined;
+  /**
    * Number of results per page (max 50).
    */
   limit?: number | undefined;
@@ -61,6 +77,10 @@ export type ListAllTeamsWithOptionalSearchResponse = {
 /** @internal */
 export type ListAllTeamsWithOptionalSearchRequest$Outbound = {
   q?: string | undefined;
+  character_ids?: string | undefined;
+  status?: string | undefined;
+  sort?: string | undefined;
+  direction?: string | undefined;
   limit?: number | undefined;
 };
 
@@ -69,10 +89,21 @@ export const ListAllTeamsWithOptionalSearchRequest$outboundSchema:
   z.ZodMiniType<
     ListAllTeamsWithOptionalSearchRequest$Outbound,
     ListAllTeamsWithOptionalSearchRequest
-  > = z.object({
-    q: z.optional(z.string()),
-    limit: z.optional(z.int()),
-  });
+  > = z.pipe(
+    z.object({
+      q: z.optional(z.string()),
+      characterIds: z.optional(z.string()),
+      status: z.optional(z.string()),
+      sort: z.optional(z.string()),
+      direction: z.optional(z.string()),
+      limit: z.optional(z.int()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        characterIds: "character_ids",
+      });
+    }),
+  );
 
 export function listAllTeamsWithOptionalSearchRequestToJSON(
   listAllTeamsWithOptionalSearchRequest: ListAllTeamsWithOptionalSearchRequest,

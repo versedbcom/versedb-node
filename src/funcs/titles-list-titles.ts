@@ -99,9 +99,11 @@ async function $do(
 
   const query = encodeFormQuery({
     "direction": payload?.direction,
+    "hide_unreleased": payload?.hide_unreleased,
     "limit": payload?.limit,
     "publisher": payload?.publisher,
     "publisher_id": payload?.publisher_id,
+    "publisher_ids": payload?.publisher_ids,
     "q": payload?.q,
     "sort": payload?.sort,
   });

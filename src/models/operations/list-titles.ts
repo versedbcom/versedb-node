@@ -23,7 +23,15 @@ export type ListTitlesRequest = {
    */
   publisher?: number | undefined;
   /**
-   * Sort field. One of name, start_year, average_rating; anything else falls back to name. Passing sort replaces the relevance ordering applied to q results.
+   * Comma-separated publisher IDs. Returns a title published by any one of them.
+   */
+  publisherIds?: string | undefined;
+  /**
+   * Return only titles whose start year has already arrived.
+   */
+  hideUnreleased?: boolean | undefined;
+  /**
+   * Sort field. One of name, start_year, average_rating, cached_series_count, cached_issues_count; anything else falls back to name. Passing sort replaces the relevance ordering applied to q results.
    */
   sort?: string | undefined;
   /**
@@ -85,6 +93,8 @@ export type ListTitlesRequest$Outbound = {
   q?: string | undefined;
   publisher_id?: number | undefined;
   publisher?: number | undefined;
+  publisher_ids?: string | undefined;
+  hide_unreleased?: boolean | undefined;
   sort?: string | undefined;
   direction?: string | undefined;
   limit?: number | undefined;
@@ -99,6 +109,8 @@ export const ListTitlesRequest$outboundSchema: z.ZodMiniType<
     q: z.optional(z.string()),
     publisherId: z.optional(z.int()),
     publisher: z.optional(z.int()),
+    publisherIds: z.optional(z.string()),
+    hideUnreleased: z.optional(z.boolean()),
     sort: z.optional(z.string()),
     direction: z.optional(z.string()),
     limit: z.optional(z.int()),
@@ -106,6 +118,8 @@ export const ListTitlesRequest$outboundSchema: z.ZodMiniType<
   z.transform((v) => {
     return remap$(v, {
       publisherId: "publisher_id",
+      publisherIds: "publisher_ids",
+      hideUnreleased: "hide_unreleased",
     });
   }),
 );

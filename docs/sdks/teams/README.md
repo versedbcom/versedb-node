@@ -30,6 +30,10 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.teams.listAllTeamsWithOptionalSearch({
     q: "avengers",
+    characterIds: "55,204",
+    status: "active",
+    sort: "cached_characters_count",
+    direction: "desc",
     limit: 20,
   });
 
@@ -56,6 +60,10 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await teamsListAllTeamsWithOptionalSearch(verseDB, {
     q: "avengers",
+    characterIds: "55,204",
+    status: "active",
+    sort: "cached_characters_count",
+    direction: "desc",
     limit: 20,
   });
   if (res.ok) {

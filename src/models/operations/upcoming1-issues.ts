@@ -11,9 +11,13 @@ import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type Upcoming1IssuesRequest = {
   /**
-   * Max results (1-50).
+   * Results per page (1-50).
    */
   limit?: number | undefined;
+  /**
+   * Page number; meta.last_page says where the list ends.
+   */
+  page?: number | undefined;
   /**
    * Lookahead window in days (1-90).
    */
@@ -58,6 +62,7 @@ export type Upcoming1IssuesResponse = {
 /** @internal */
 export type Upcoming1IssuesRequest$Outbound = {
   limit?: number | undefined;
+  page?: number | undefined;
   days?: number | undefined;
 };
 
@@ -67,6 +72,7 @@ export const Upcoming1IssuesRequest$outboundSchema: z.ZodMiniType<
   Upcoming1IssuesRequest
 > = z.object({
   limit: z.optional(z.int()),
+  page: z.optional(z.int()),
   days: z.optional(z.int()),
 });
 
