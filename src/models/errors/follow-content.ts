@@ -3,6 +3,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { remap as remap$ } from "../../lib/primitives.js";
 import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
@@ -32,6 +33,39 @@ export class FollowContentNotFoundError extends VerseDbError {
   }
 }
 
+/**
+ * Refused
+ */
+export type FollowContentForbiddenErrorData = {
+  message?: string | undefined;
+  code?: string | undefined;
+  isFollowing?: boolean | undefined;
+};
+
+/**
+ * Refused
+ */
+export class FollowContentForbiddenError extends VerseDbError {
+  code?: string | undefined;
+  isFollowing?: boolean | undefined;
+
+  /** The original data that was passed to this error instance. */
+  data$: FollowContentForbiddenErrorData;
+
+  constructor(
+    err: FollowContentForbiddenErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+    if (err.code != null) this.code = err.code;
+    if (err.isFollowing != null) this.isFollowing = err.isFollowing;
+
+    this.name = "FollowContentForbiddenError";
+  }
+}
+
 /** @internal */
 export const FollowContentNotFoundError$inboundSchema: z.ZodMiniType<
   FollowContentNotFoundError,
@@ -45,6 +79,32 @@ export const FollowContentNotFoundError$inboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return new FollowContentNotFoundError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
+export const FollowContentForbiddenError$inboundSchema: z.ZodMiniType<
+  FollowContentForbiddenError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.optional(types.string()),
+    code: types.optional(types.string()),
+    is_following: types.optional(types.boolean()),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    const remapped = remap$(v, {
+      "is_following": "isFollowing",
+    });
+
+    return new FollowContentForbiddenError(remapped, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

@@ -96,15 +96,24 @@ async function $do(
   const path = pathToFunc("/api/v1/issues")();
 
   const query = encodeFormQuery({
+    "character_ids": payload?.character_ids,
     "direction": payload?.direction,
+    "genre_ids": payload?.genre_ids,
+    "hide_unreleased": payload?.hide_unreleased,
     "include": payload?.include,
+    "key_issues_only": payload?.key_issues_only,
+    "languages": payload?.languages,
     "limit": payload?.limit,
+    "medium": payload?.medium,
     "publisher_id": payload?.publisher_id,
+    "publisher_ids": payload?.publisher_ids,
     "q": payload?.q,
     "release_date_from": payload?.release_date_from,
     "release_date_to": payload?.release_date_to,
     "series_id": payload?.series_id,
+    "series_ids": payload?.series_ids,
     "sort": payload?.sort,
+    "title_ids": payload?.title_ids,
   });
 
   const headers = new Headers(compactMap({

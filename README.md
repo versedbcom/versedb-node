@@ -635,7 +635,7 @@ run();
   * [`TooManyRequestsError`](./src/models/errors/too-many-requests-error.ts): Status code `429`.
   * [`UnauthorizedErrorError`](./src/models/errors/unauthorized-error-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. *
 
-<details><summary>Less common errors (58)</summary>
+<details><summary>Less common errors (59)</summary>
 
 <br />
 
@@ -667,6 +667,7 @@ run();
 * [`ViewYearlyReadingStatisticsForbiddenError`](./src/models/errors/view-yearly-reading-statistics-forbidden-error.ts): Forbidden. The authenticated user may not perform this action. Status code `403`. Applicable to 1 of 95 methods.*
 * [`ViewYourMonthlyReadingCalendarForbiddenError`](./src/models/errors/view-your-monthly-reading-calendar-forbidden-error.ts): Forbidden. The authenticated user may not perform this action. Status code `403`. Applicable to 1 of 95 methods.*
 * [`AddIssueToCollectionForbiddenError`](./src/models/errors/add-issue-to-collection-forbidden-error.ts): Account Pending Deletion. Status code `403`. Applicable to 1 of 95 methods.*
+* [`FollowContentForbiddenError`](./src/models/errors/follow-content-forbidden-error.ts): Refused. Status code `403`. Applicable to 1 of 95 methods.*
 * [`GetASpecificTitleNotFoundError`](./src/models/errors/get-a-specific-title-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 95 methods.*
 * [`GetSeriesDetailsNotFoundError`](./src/models/errors/get-series-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 95 methods.*
 * [`GetIssueDetailsNotFoundError`](./src/models/errors/get-issue-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 95 methods.*

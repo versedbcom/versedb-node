@@ -41,6 +41,7 @@ export function userFollowContent(
   Result<
     operations.FollowContentResponse,
     | errors.UnauthorizedErrorError
+    | errors.FollowContentForbiddenError
     | errors.FollowContentNotFoundError
     | errors.TooManyRequestsError
     | VerseDbError
@@ -69,6 +70,7 @@ async function $do(
     Result<
       operations.FollowContentResponse,
       | errors.UnauthorizedErrorError
+      | errors.FollowContentForbiddenError
       | errors.FollowContentNotFoundError
       | errors.TooManyRequestsError
       | VerseDbError
@@ -154,6 +156,7 @@ async function $do(
   const [result] = await M.match<
     operations.FollowContentResponse,
     | errors.UnauthorizedErrorError
+    | errors.FollowContentForbiddenError
     | errors.FollowContentNotFoundError
     | errors.TooManyRequestsError
     | VerseDbError
@@ -170,6 +173,7 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
+    M.jsonErr(403, errors.FollowContentForbiddenError$inboundSchema),
     M.jsonErr(404, errors.FollowContentNotFoundError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),

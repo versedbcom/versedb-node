@@ -31,6 +31,42 @@ export type ListIssuesRequest = {
    */
   releaseDateTo?: string | undefined;
   /**
+   * Comma-separated publisher IDs; matches issues from any of them.
+   */
+  publisherIds?: string | undefined;
+  /**
+   * Comma-separated series IDs; matches issues in any of them.
+   */
+  seriesIds?: string | undefined;
+  /**
+   * Comma-separated title (franchise) IDs; matches issues whose series belongs to any of them.
+   */
+  titleIds?: string | undefined;
+  /**
+   * Comma-separated character IDs, up to 10; an issue must feature every one.
+   */
+  characterIds?: string | undefined;
+  /**
+   * Comma-separated genre IDs; matches issues whose series carries any of them.
+   */
+  genreIds?: string | undefined;
+  /**
+   * Comma-separated series language codes (en, ja, fr, ...).
+   */
+  languages?: string | undefined;
+  /**
+   * Series medium (comic, manga, manhwa, manhua, bande_dessinee, magazine).
+   */
+  medium?: string | undefined;
+  /**
+   * Only return issues with at least one key issue reason.
+   */
+  keyIssuesOnly?: boolean | undefined;
+  /**
+   * Leave out issues whose release date is in the future.
+   */
+  hideUnreleased?: boolean | undefined;
+  /**
    * Comma-separated relationships to include (series).
    */
   include?: string | undefined;
@@ -89,6 +125,15 @@ export type ListIssuesRequest$Outbound = {
   publisher_id?: number | undefined;
   release_date_from?: string | undefined;
   release_date_to?: string | undefined;
+  publisher_ids?: string | undefined;
+  series_ids?: string | undefined;
+  title_ids?: string | undefined;
+  character_ids?: string | undefined;
+  genre_ids?: string | undefined;
+  languages?: string | undefined;
+  medium?: string | undefined;
+  key_issues_only?: boolean | undefined;
+  hide_unreleased?: boolean | undefined;
   include?: string | undefined;
   sort?: string | undefined;
   direction?: string | undefined;
@@ -106,6 +151,15 @@ export const ListIssuesRequest$outboundSchema: z.ZodMiniType<
     publisherId: z.optional(z.int()),
     releaseDateFrom: z.optional(z.string()),
     releaseDateTo: z.optional(z.string()),
+    publisherIds: z.optional(z.string()),
+    seriesIds: z.optional(z.string()),
+    titleIds: z.optional(z.string()),
+    characterIds: z.optional(z.string()),
+    genreIds: z.optional(z.string()),
+    languages: z.optional(z.string()),
+    medium: z.optional(z.string()),
+    keyIssuesOnly: z.optional(z.boolean()),
+    hideUnreleased: z.optional(z.boolean()),
     include: z.optional(z.string()),
     sort: z.optional(z.string()),
     direction: z.optional(z.string()),
@@ -117,6 +171,13 @@ export const ListIssuesRequest$outboundSchema: z.ZodMiniType<
       publisherId: "publisher_id",
       releaseDateFrom: "release_date_from",
       releaseDateTo: "release_date_to",
+      publisherIds: "publisher_ids",
+      seriesIds: "series_ids",
+      titleIds: "title_ids",
+      characterIds: "character_ids",
+      genreIds: "genre_ids",
+      keyIssuesOnly: "key_issues_only",
+      hideUnreleased: "hide_unreleased",
     });
   }),
 );

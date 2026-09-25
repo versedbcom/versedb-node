@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: d54ae284-e171-41f5-99d0-d4027d6f02b4
 management:
-  docChecksum: 92942c67bde333ecf978e5f46de765b0
+  docChecksum: 779381e657580eee6c74bdb7c6f5162c
   docVersion: 1.0.0
-  speakeasyVersion: 1.798.0
-  generationVersion: 2.938.0
-  releaseVersion: 2.1.11
-  configChecksum: 9aea393d131cfc52a18e15e30db0d1fd
+  speakeasyVersion: 1.799.0
+  generationVersion: 2.941.0
+  releaseVersion: 2.1.12
+  configChecksum: 13fd10d5eb5bd3a6f33c054f22597e56
   repoURL: https://github.com/versedbcom/versedb-node.git
   installationURL: https://github.com/versedbcom/versedb-node
   published: true
 persistentEdits:
-  generation_id: 2850d4ac-e2f4-4127-8f48-3027d916a8b3
-  pristine_commit_hash: 2f0008a50ffccacccb959cdc19cdc70171183527
-  pristine_tree_hash: d354e984ab67afbd20a5c600b519e4fca70775d6
+  generation_id: 29fc3428-6354-4b61-a63a-1ed1552a33ef
+  pristine_commit_hash: 627c5e13cc6eb6d345d9dbb9a6e39106cf87b8c2
+  pristine_tree_hash: 16cb4b96d4988daaddf0a26fea77f00836384520
 features:
   typescript:
     additionalDependencies: 0.1.0
@@ -100,6 +100,10 @@ trackedFiles:
     id: 96c63650e0ca
     last_write_checksum: sha1:f3a25100917dcddb172647f5fbeb7db62b4199be
     pristine_git_object: 798982a83ffde566396dca98966d9501988e7652
+  docs/models/errors/follow-content-forbidden-error.md:
+    id: 4067d5cd0d51
+    last_write_checksum: sha1:6715999fe4dc37d2ef5e3485d8f4dbc156ce3b91
+    pristine_git_object: 1ef027e53a55dc2534458c8160371d0ef7ca7067
   docs/models/errors/follow-content-not-found-error.md:
     id: 4654c2354c98
     last_write_checksum: sha1:db762fce60d296c59967ef0394a8bf5e3e6f40d2
@@ -754,8 +758,8 @@ trackedFiles:
     pristine_git_object: c363d501dfa498a8f979188e550af47f7cabb86b
   docs/models/operations/get-a-specific-podcast-request.md:
     id: f700c855b0ab
-    last_write_checksum: sha1:70a9906beabcb4bd84965e0c19fb9950b3b6def2
-    pristine_git_object: 9629f31928cb8b878aea78fff507cdcbd0c1ada7
+    last_write_checksum: sha1:9c359f8c654c185e6cfd4b4187bef1ab02958008
+    pristine_git_object: 838563ef441de84c54cfa15a8afb60af10e869af
   docs/models/operations/get-a-specific-podcast-response-body.md:
     id: c6ea4a86d9cf
     last_write_checksum: sha1:ff4b266662b1b01381f3707e2e746406686f2c01
@@ -1278,8 +1282,8 @@ trackedFiles:
     pristine_git_object: 341dd36f11cd68009040a974474019faf3ca9868
   docs/models/operations/get-publisher-details-request.md:
     id: cbcdd9d73997
-    last_write_checksum: sha1:eaa5a7e5fd2bd6ca64cb51d272951a226195125e
-    pristine_git_object: 915e7a9f25152d78844eb8f9163d9c4a646bf712
+    last_write_checksum: sha1:9b38945c42a9039bb9da23605698df55a5aaf64c
+    pristine_git_object: 1c6ac89ed4177d0a0d1cefa5cb7b3ec596c42168
   docs/models/operations/get-publisher-details-response-body.md:
     id: 124cf4616b88
     last_write_checksum: sha1:f5becdf7e2aa860502d0f780aaa4e5d945a8dd3c
@@ -1918,8 +1922,8 @@ trackedFiles:
     pristine_git_object: 5ab22369357a9868bef4faec0c6ee7962bb25d83
   docs/models/operations/list-issues-request.md:
     id: e775492f8d75
-    last_write_checksum: sha1:1e330c3ef66681456044a55f7c1dfcd27a51b5a6
-    pristine_git_object: 9da56dc9b0f2b17bac1e3192c09fd61a7b24e462
+    last_write_checksum: sha1:02b6aa07ea361a3db2af264d636f40c06b7eb2b7
+    pristine_git_object: c7ef87a585a459915edf03908333322bcce95bb9
   docs/models/operations/list-issues-response-body.md:
     id: 2b9fa80c25e6
     last_write_checksum: sha1:c27b6f5e2021e31d4585d762d521b78a63f533c2
@@ -2622,8 +2626,8 @@ trackedFiles:
     pristine_git_object: 930f828b9efc3d22e6580f131328c6bb99a0ce2a
   docs/sdks/barcodelookup/README.md:
     id: 447c7c5fd677
-    last_write_checksum: sha1:72610f2f7803c2999899ffc179ca7ea8cff65018
-    pristine_git_object: d0bb84f33a75e0f7d8d30dc69c380cca6f679b35
+    last_write_checksum: sha1:6119e98ea8a1b11e614e43a63393faac78629c93
+    pristine_git_object: e545b6261f46c7d00414dd55ffe421c9a13eb3a7
   docs/sdks/characters/README.md:
     id: 8eebfa79b3b6
     last_write_checksum: sha1:6a0bc19747ad63c65131bdee22d5979d1d1c960b
@@ -2650,8 +2654,8 @@ trackedFiles:
     pristine_git_object: be0ae931e94344f5b631d0b6d8f4c5d59f12644b
   docs/sdks/issues/README.md:
     id: cbb80cd6efef
-    last_write_checksum: sha1:d49babb4f52704d78a3241a8c31609263ba4b504
-    pristine_git_object: b36ac489c40eaf9cb9e6701701b67c92618acd3b
+    last_write_checksum: sha1:92b58519c660faae44c40f8ea7e6df0858806706
+    pristine_git_object: 4bfdc2de7091aa102101c8777f4861830eb6585e
   docs/sdks/keyissuereasons/README.md:
     id: aa8561fba17e
     last_write_checksum: sha1:a617dae7bbb419083f86edc4cb286eac872156db
@@ -2694,8 +2698,8 @@ trackedFiles:
     pristine_git_object: 3acc041fe78cede1e5494c38b412aa4020d5a050
   docs/sdks/user/README.md:
     id: 437dd7dc6e30
-    last_write_checksum: sha1:7c1a57e7f28bb9ee1384b58cf8c2983a6b67c468
-    pristine_git_object: b438a072fc850be576a5b435e471d37c2b6b867b
+    last_write_checksum: sha1:a32257e4cc7312e35f2d36e2c9a476f4629ff34a
+    pristine_git_object: 81fc595836db572d9d4f9c3bcc201c57e9d3bfdc
   examples/.env.template:
     id: 52cbe5afed92
     last_write_checksum: sha1:3715b3a4166fddd0b45f707892f15189725085e4
@@ -2714,12 +2718,12 @@ trackedFiles:
     pristine_git_object: ce4a6a85b8bc46789323545a102bb0515c686b36
   jsr.json:
     id: 7f6ab7767282
-    last_write_checksum: sha1:e9350b6c222d28f96cd28d2e005b50feab7fadb9
-    pristine_git_object: 013368e7ff831c89ba8c58e7afd9a11d5f4447db
+    last_write_checksum: sha1:e5df8c1ba12843b05ce98998a4c3570477f54ca7
+    pristine_git_object: 936abf8fd2befd7e6f32f8f9477513826a850d22
   package.json:
     id: 7030d0b2f71b
-    last_write_checksum: sha1:e04f6a387ecd0cf29ff17580eb6cd5aa194b2968
-    pristine_git_object: 6ca014d1ba2fe9ceb15d5e085b592c1243da99a5
+    last_write_checksum: sha1:d2a9078e58f59ca6af7dae2dd062f7ffd06b0c4a
+    pristine_git_object: 12d60a18ccb794e060a83f752484e619494448ee
   src/core.ts:
     id: f431fdbcd144
     last_write_checksum: sha1:ad0063bee03825028052e52cef3fa240c6101bdf
@@ -2834,8 +2838,8 @@ trackedFiles:
     pristine_git_object: 0e13d263d9fd0890dcfcd46055983a0e563c8967
   src/funcs/issues-list-issues.ts:
     id: f6494f13faf8
-    last_write_checksum: sha1:49af4ee42e2d70b643a54e7ac153db56c4af60c0
-    pristine_git_object: c1274173e69d46a2b38e1ff5aaaeb2b8abef1fb7
+    last_write_checksum: sha1:9210ebfcec1d1bf584f3597b77befc43d7e3e2e2
+    pristine_git_object: a6536c92bbbc0f6add582d7a552ae02e7cfedc50
   src/funcs/key-issue-reasons-list-key-issue-reasons.ts:
     id: 7a0d6812a43d
     last_write_checksum: sha1:f8e5f0bd8e4cd3326968df322593b3b6b58a2e1a
@@ -3038,8 +3042,8 @@ trackedFiles:
     pristine_git_object: c5e53aef43968311838ba0ed183b7d14e1d8a14e
   src/funcs/user-follow-content.ts:
     id: fdf786bcbeb0
-    last_write_checksum: sha1:1cd517a86f92bf2bf92f4465e04834a10137de1d
-    pristine_git_object: 6cd29b8d3c70350a6942dc1682b60bd13a1b08cb
+    last_write_checksum: sha1:2a7dee0fbd4369b5977730d078267a74b2d90c9d
+    pristine_git_object: 4a41c60d791b5a0a2f1c14e1b55ef1a878ea5779
   src/funcs/user-get-activity-feed.ts:
     id: bf8fb55a860f
     last_write_checksum: sha1:c3b7db653758db838f85c47e47b6fc4e9a45e11a
@@ -3126,8 +3130,8 @@ trackedFiles:
     pristine_git_object: 44be0eae8246521b230e8e711a88eff738fc015d
   src/lib/config.ts:
     id: 320761608fb3
-    last_write_checksum: sha1:e51eb59f129207a7114b73e4bcc13968f9443189
-    pristine_git_object: 1c12aea344fe2ba5abcb8a9f8934c94fe5c00f4d
+    last_write_checksum: sha1:4538e0acd3652c4fc96fd65edf2dbf718be6f9ef
+    pristine_git_object: bded7869256edfa152cdf152c3b3f345132aa779
   src/lib/encodings.ts:
     id: 3bd8ead98afd
     last_write_checksum: sha1:4481b2a380f8a16856ef92c66fb370299f56d135
@@ -3198,8 +3202,8 @@ trackedFiles:
     pristine_git_object: d9c1e13ee61418d3231be195e0cf961eca6003bc
   src/models/errors/follow-content.ts:
     id: f75371f837ed
-    last_write_checksum: sha1:839ea8cfef6eff3897076a4daf958ceba4b1df95
-    pristine_git_object: 00a330f087f3be9549e33f14026c0e5516e2687f
+    last_write_checksum: sha1:656dd4606ea72a2b4bdc61298c4ab778e7163ed3
+    pristine_git_object: 00d1ad92cdd27cdd54656b1ea0a26bfa07fdcc64
   src/models/errors/get-a-comic-shop.ts:
     id: b3cd33672f82
     last_write_checksum: sha1:c41fd590f6ca6ee2daeb0b4c16e3dd3f410f1cb0
@@ -3618,8 +3622,8 @@ trackedFiles:
     pristine_git_object: 8732104eae22ae680e1c5196b1f286bc72452c5e
   src/models/operations/list-issues.ts:
     id: 2ee8457d4567
-    last_write_checksum: sha1:3b2ab7137444a425548f0b290c91ec1613009564
-    pristine_git_object: 3ed646a0f58139e5881b6654118816bcd78adaf5
+    last_write_checksum: sha1:325fb575199591d1ecb83dc5030502c47983caf0
+    pristine_git_object: bfc4f29dd8264d0129560278207c35f0cdf96fac
   src/models/operations/list-key-issue-reasons.ts:
     id: 589cdc1c01b7
     last_write_checksum: sha1:1f3559db68f7cb3ced46204d223f6cfbcc5c0a81
@@ -4170,6 +4174,8 @@ examples:
           application/json: {"message": "Title not found"}
         "429":
           application/json: {"message": "Too Many Attempts."}
+        "403":
+          application/json: {"message": "This profile is private, so it cannot be followed.", "code": "private_profile", "is_following": false}
   unfollowContent:
     speakeasy-default-unfollow-content:
       parameters:
@@ -4269,6 +4275,15 @@ examples:
           sort: "release_date"
           direction: "desc"
           limit: 20
+          publisher_ids: "1,2"
+          series_ids: "123,456"
+          title_ids: "10"
+          character_ids: "1,2"
+          genre_ids: "3"
+          languages: "en,ja"
+          medium: "comic"
+          key_issues_only: false
+          hide_unreleased: false
       responses:
         "200":
           application/json: {"data": [{"id": 5432, "slug": "amazing-spider-man-1", "series_id": 123, "issue_number": "1", "name": "The Amazing Spider-Man #1", "release_date": "2018-07-11", "cover_url": "https://...", "is_reprint": false, "content_rating_label": "15+", "min_age": 15, "is_nsfw": false}], "meta": {"current_page": 1, "last_page": 10, "per_page": 20, "total": 200}}
@@ -5521,4 +5536,7 @@ examples:
         "429":
           application/json: {"message": "Too Many Attempts."}
 examplesVersion: 1.0.2
-releaseNotes: "## Typescript SDK Changes:\n* `versedb.discovery.upcoming1Issues()`: \n  *  `request.page` **Added**\n* `versedb.titles.listTitles()`:  `request` **Changed**\n* `versedb.publishers.listAllPublishersWithOptionalSearch()`:  `request` **Changed**\n* `versedb.teams.listAllTeamsWithOptionalSearch()`:  `request` **Changed**\n"
+releaseNotes: |
+  ## Typescript SDK Changes:
+  * `versedb.issues.listIssues()`:  `request` **Changed**
+  * `versedb.user.followContent()`:  `error.status[403]` **Added**

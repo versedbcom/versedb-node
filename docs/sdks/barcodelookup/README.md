@@ -7,9 +7,11 @@ Endpoints for looking up comics by barcode (UPC or ISBN).
 Used by the mobile app's barcode scanning feature and exposed
 to User API tokens via the `lookup:barcode` ability.
 
-On the Mobile API the GET lookups take optional auth — tokenless requests
-are served as guests (the iOS App Clip and the signed-out app). On the
-public User API they require the `lookup:barcode` token ability.
+On the Mobile API the GET lookups sit on the App Clip mode of the first-party
+door: the clip scans without an account, so a tokenless request is answered,
+as a guest while `mobile-api.guest_access` is on and with the preview payload
+once it is off (#3044). On the public User API they require the
+`lookup:barcode` token ability, and carry no market quote.
 
 ### Available Operations
 

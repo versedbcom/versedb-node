@@ -1896,12 +1896,13 @@ run();
 
 ### Errors
 
-| Error Type                        | Status Code                       | Content Type                      |
-| --------------------------------- | --------------------------------- | --------------------------------- |
-| errors.UnauthorizedErrorError     | 401                               | application/json                  |
-| errors.FollowContentNotFoundError | 404                               | application/json                  |
-| errors.TooManyRequestsError       | 429                               | application/json                  |
-| errors.VerseDbDefaultError        | 4XX, 5XX                          | \*/\*                             |
+| Error Type                         | Status Code                        | Content Type                       |
+| ---------------------------------- | ---------------------------------- | ---------------------------------- |
+| errors.UnauthorizedErrorError      | 401                                | application/json                   |
+| errors.FollowContentForbiddenError | 403                                | application/json                   |
+| errors.FollowContentNotFoundError  | 404                                | application/json                   |
+| errors.TooManyRequestsError        | 429                                | application/json                   |
+| errors.VerseDbDefaultError         | 4XX, 5XX                           | \*/\*                              |
 
 ## unfollowContent
 
