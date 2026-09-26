@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: d54ae284-e171-41f5-99d0-d4027d6f02b4
 management:
-  docChecksum: 779381e657580eee6c74bdb7c6f5162c
+  docChecksum: e43b42b95c87a702b49e76072252ae0e
   docVersion: 1.0.0
   speakeasyVersion: 1.799.0
   generationVersion: 2.941.0
-  releaseVersion: 2.1.12
-  configChecksum: 13fd10d5eb5bd3a6f33c054f22597e56
+  releaseVersion: 2.1.13
+  configChecksum: c650e52dfe5ee59fb7fac8d151e3c937
   repoURL: https://github.com/versedbcom/versedb-node.git
   installationURL: https://github.com/versedbcom/versedb-node
   published: true
 persistentEdits:
-  generation_id: 29fc3428-6354-4b61-a63a-1ed1552a33ef
-  pristine_commit_hash: 627c5e13cc6eb6d345d9dbb9a6e39106cf87b8c2
-  pristine_tree_hash: 16cb4b96d4988daaddf0a26fea77f00836384520
+  generation_id: fcf8226d-79b0-4268-b790-6c82946f4f21
+  pristine_commit_hash: 501bfc72b3b8dadf2a7f5aa97a92f8f0cd36c91d
+  pristine_tree_hash: 8c6c5df9373f212d24384aaa3e3f4035bcf5c7bf
 features:
   typescript:
     additionalDependencies: 0.1.0
@@ -758,8 +758,8 @@ trackedFiles:
     pristine_git_object: c363d501dfa498a8f979188e550af47f7cabb86b
   docs/models/operations/get-a-specific-podcast-request.md:
     id: f700c855b0ab
-    last_write_checksum: sha1:9c359f8c654c185e6cfd4b4187bef1ab02958008
-    pristine_git_object: 838563ef441de84c54cfa15a8afb60af10e869af
+    last_write_checksum: sha1:8812731fb268bcd21f66354e35544bdad5fbb3d9
+    pristine_git_object: ae4a76b366689a3e2488544744f819ace0a0a43c
   docs/models/operations/get-a-specific-podcast-response-body.md:
     id: c6ea4a86d9cf
     last_write_checksum: sha1:ff4b266662b1b01381f3707e2e746406686f2c01
@@ -2718,12 +2718,12 @@ trackedFiles:
     pristine_git_object: ce4a6a85b8bc46789323545a102bb0515c686b36
   jsr.json:
     id: 7f6ab7767282
-    last_write_checksum: sha1:e5df8c1ba12843b05ce98998a4c3570477f54ca7
-    pristine_git_object: 936abf8fd2befd7e6f32f8f9477513826a850d22
+    last_write_checksum: sha1:d88fce2871ff03e1afff40a7bf75baed7e336c60
+    pristine_git_object: d0b90f10d4b59b0909351b1855a405e3a9cd04b8
   package.json:
     id: 7030d0b2f71b
-    last_write_checksum: sha1:d2a9078e58f59ca6af7dae2dd062f7ffd06b0c4a
-    pristine_git_object: 12d60a18ccb794e060a83f752484e619494448ee
+    last_write_checksum: sha1:02556c08c086dda0610f40ba0b3981ba7696215d
+    pristine_git_object: eeb7eba2b03fe293c910c0cecccd923cbd105087
   src/core.ts:
     id: f431fdbcd144
     last_write_checksum: sha1:ad0063bee03825028052e52cef3fa240c6101bdf
@@ -3130,8 +3130,8 @@ trackedFiles:
     pristine_git_object: 44be0eae8246521b230e8e711a88eff738fc015d
   src/lib/config.ts:
     id: 320761608fb3
-    last_write_checksum: sha1:4538e0acd3652c4fc96fd65edf2dbf718be6f9ef
-    pristine_git_object: bded7869256edfa152cdf152c3b3f345132aa779
+    last_write_checksum: sha1:8e3b087d083176f5023754ce1dc7f97829c0066b
+    pristine_git_object: a304e5989f34c9e0daa62f9ec5846e397a02bc21
   src/lib/encodings.ts:
     id: 3bd8ead98afd
     last_write_checksum: sha1:4481b2a380f8a16856ef92c66fb370299f56d135
@@ -5536,7 +5536,3 @@ examples:
         "429":
           application/json: {"message": "Too Many Attempts."}
 examplesVersion: 1.0.2
-releaseNotes: |
-  ## Typescript SDK Changes:
-  * `versedb.issues.listIssues()`:  `request` **Changed**
-  * `versedb.user.followContent()`:  `error.status[403]` **Added**
