@@ -8,10 +8,10 @@ Used by the mobile app's barcode scanning feature and exposed
 to User API tokens via the `lookup:barcode` ability.
 
 On the Mobile API the GET lookups sit on the App Clip mode of the first-party
-door: the clip scans without an account, so a tokenless request is answered,
-as a guest while `mobile-api.guest_access` is on and with the preview payload
-once it is off (#3044). On the public User API they require the
-`lookup:barcode` token ability, and carry no market quote.
+door: a signed-in session gets the full payload, and the App Clip, which has no
+account, gets the preview payload with its attested clip token (#3044). On the
+public User API they require the `lookup:barcode` token ability, and carry no
+market quote.
 
 ### Available Operations
 
