@@ -11,9 +11,13 @@ import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type FOCDeadlinesRequest = {
   /**
-   * Max results (1-50).
+   * Results per page (1-50).
    */
   limit?: number | undefined;
+  /**
+   * Page number; meta.last_page says where the list ends.
+   */
+  page?: number | undefined;
   /**
    * FOC window in days (1-30).
    */
@@ -40,6 +44,10 @@ export type FOCDeadlinesData = {
 };
 
 export type FOCDeadlinesMeta = {
+  currentPage?: number | undefined;
+  lastPage?: number | undefined;
+  perPage?: number | undefined;
+  total?: number | undefined;
   focWindowDays?: number | undefined;
   focStart?: string | undefined;
   focEnd?: string | undefined;
@@ -62,6 +70,7 @@ export type FOCDeadlinesResponse = {
 /** @internal */
 export type FOCDeadlinesRequest$Outbound = {
   limit?: number | undefined;
+  page?: number | undefined;
   days?: number | undefined;
   start_date?: string | undefined;
 };
@@ -73,6 +82,7 @@ export const FOCDeadlinesRequest$outboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     limit: z.optional(z.int()),
+    page: z.optional(z.int()),
     days: z.optional(z.int()),
     startDate: z.optional(z.string()),
   }),
@@ -149,6 +159,10 @@ export const FOCDeadlinesMeta$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
+    current_page: types.optional(types.number()),
+    last_page: types.optional(types.number()),
+    per_page: types.optional(types.number()),
+    total: types.optional(types.number()),
     foc_window_days: types.optional(types.number()),
     foc_start: types.optional(types.string()),
     foc_end: types.optional(types.string()),
@@ -156,6 +170,9 @@ export const FOCDeadlinesMeta$inboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return remap$(v, {
+      "current_page": "currentPage",
+      "last_page": "lastPage",
+      "per_page": "perPage",
       "foc_window_days": "focWindowDays",
       "foc_start": "focStart",
       "foc_end": "focEnd",

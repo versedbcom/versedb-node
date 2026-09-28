@@ -25,7 +25,7 @@ export type Preferences = {
 
 export type FollowContentRequest = {
   /**
-   * The content type (title, character, podcast, creator, publisher, team, story_arc, comic_shop, event, event_franchise, user). An event_franchise is the recurring convention itself, so the follow covers every future edition.
+   * The content type (title, character, podcast, creator, publisher, team, story_arc, comic_shop, event, event_franchise, user). An event_franchise is the recurring convention itself, so the follow covers every edition, including ones added later. Following an event that belongs to a franchise follows the franchise too, and unfollowing either clears both.
    */
   type: string;
   /**

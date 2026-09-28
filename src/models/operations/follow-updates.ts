@@ -38,14 +38,6 @@ export type FollowUpdatesData = {
   series?: FollowUpdatesSeries | undefined;
 };
 
-export type FollowContexts = {
-  fiveThousandFourHundredAndThirtyTwo?: string | undefined;
-};
-
-export type FollowTypes = {
-  fiveThousandFourHundredAndThirtyTwo?: string | undefined;
-};
-
 export type FollowUpdatesMeta = {
   days?: number | undefined;
   totalFollows?: number | undefined;
@@ -60,8 +52,8 @@ export type FollowUpdatesMeta = {
  */
 export type FollowUpdatesResponseBody = {
   data?: Array<FollowUpdatesData> | undefined;
-  followContexts?: FollowContexts | undefined;
-  followTypes?: FollowTypes | undefined;
+  followContexts?: { [k: string]: string } | undefined;
+  followTypes?: { [k: string]: string } | undefined;
   meta?: FollowUpdatesMeta | undefined;
 };
 
@@ -161,54 +153,6 @@ export function followUpdatesDataFromJSON(
 }
 
 /** @internal */
-export const FollowContexts$inboundSchema: z.ZodMiniType<
-  FollowContexts,
-  unknown
-> = z.pipe(
-  z.object({
-    "5432": types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "5432": "fiveThousandFourHundredAndThirtyTwo",
-    });
-  }),
-);
-
-export function followContextsFromJSON(
-  jsonString: string,
-): SafeParseResult<FollowContexts, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => FollowContexts$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'FollowContexts' from JSON`,
-  );
-}
-
-/** @internal */
-export const FollowTypes$inboundSchema: z.ZodMiniType<FollowTypes, unknown> = z
-  .pipe(
-    z.object({
-      "5432": types.optional(types.string()),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "5432": "fiveThousandFourHundredAndThirtyTwo",
-      });
-    }),
-  );
-
-export function followTypesFromJSON(
-  jsonString: string,
-): SafeParseResult<FollowTypes, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => FollowTypes$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'FollowTypes' from JSON`,
-  );
-}
-
-/** @internal */
 export const FollowUpdatesMeta$inboundSchema: z.ZodMiniType<
   FollowUpdatesMeta,
   unknown
@@ -250,8 +194,8 @@ export const FollowUpdatesResponseBody$inboundSchema: z.ZodMiniType<
     data: types.optional(
       z.array(z.lazy(() => FollowUpdatesData$inboundSchema)),
     ),
-    follow_contexts: types.optional(z.lazy(() => FollowContexts$inboundSchema)),
-    follow_types: types.optional(z.lazy(() => FollowTypes$inboundSchema)),
+    follow_contexts: types.optional(z.record(z.string(), types.string())),
+    follow_types: types.optional(z.record(z.string(), types.string())),
     meta: types.optional(z.lazy(() => FollowUpdatesMeta$inboundSchema)),
   }),
   z.transform((v) => {

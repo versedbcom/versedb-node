@@ -99,6 +99,7 @@ async function $do(
   const query = encodeFormQuery({
     "days": payload?.days,
     "limit": payload?.limit,
+    "page": payload?.page,
     "start_date": payload?.start_date,
   });
 

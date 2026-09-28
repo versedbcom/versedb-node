@@ -29,7 +29,7 @@ let value: ListEventsData = {
     fullMd: "https://...-full_md.webp",
     fullLg: "https://...-full_lg.webp",
   },
-  ticketPrice: "$45.00 - $150.00",
+  ticketPrice: "USD $45.00 – $150.00",
   followerCount: 320,
 };
 ```
@@ -57,5 +57,5 @@ let value: ListEventsData = {
 | `fullLocation`                                                               | *string*                                                                     | :heavy_minus_sign:                                                           | N/A                                                                          | San Diego Convention Center, San Diego, CA, United States                    |
 | `logoUrl`                                                                    | *string*                                                                     | :heavy_minus_sign:                                                           | N/A                                                                          | https://...-tile_sm.webp                                                     |
 | `images`                                                                     | [operations.ListEventsImages](../../models/operations/list-events-images.md) | :heavy_minus_sign:                                                           | N/A                                                                          |                                                                              |
-| `ticketPrice`                                                                | *string*                                                                     | :heavy_minus_sign:                                                           | N/A                                                                          | $45.00 - $150.00                                                             |
+| `ticketPrice`                                                                | *string*                                                                     | :heavy_minus_sign:                                                           | N/A                                                                          | USD $45.00 – $150.00                                                         |
 | `followerCount`                                                              | *number*                                                                     | :heavy_minus_sign:                                                           | N/A                                                                          | 320                                                                          |

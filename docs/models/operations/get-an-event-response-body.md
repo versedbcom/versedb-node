@@ -39,11 +39,12 @@ let value: GetAnEventResponseBody = {
     },
     staticMapUrl: "https://cdn.versedb.com/events/42-static-map.png",
     eventUrl: "https://www.comic-con.org",
-    ticketPriceMin: "45.00",
-    ticketPriceMax: "150.00",
+    ticketPriceMin: 4500,
+    ticketPriceMax: 15000,
     ticketCurrency: "USD",
-    ticketPrice: "$45.00 - $150.00",
+    ticketPrice: "USD $45.00 – $150.00",
     followerCount: 320,
+    eventFranchiseId: 12,
     creators: [
       {
         id: 7,

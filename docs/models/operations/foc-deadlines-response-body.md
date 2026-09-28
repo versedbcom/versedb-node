@@ -22,6 +22,10 @@ let value: FOCDeadlinesResponseBody = {
     },
   ],
   meta: {
+    currentPage: 1,
+    lastPage: 3,
+    perPage: 10,
+    total: 28,
     focWindowDays: 7,
     focStart: "2024-01-15",
     focEnd: "2024-01-22",

@@ -31,6 +31,7 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await discoveryFOCDeadlines(verseDB, {
     limit: 10,
+    page: 1,
     days: 7,
     startDate: "2026-03-15",
   });

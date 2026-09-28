@@ -185,6 +185,7 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.discovery.fOCDeadlines({
     limit: 10,
+    page: 1,
     days: 7,
     startDate: "2026-03-15",
   });
@@ -219,6 +220,7 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.discovery.fOCDeadlines({
     limit: 10,
+    page: 1,
     days: 7,
     startDate: "2026-03-15",
   });
@@ -522,6 +524,7 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.discovery.fOCDeadlines({
     limit: 10,
+    page: 1,
     days: 7,
     startDate: "2026-03-15",
   }, {
@@ -565,6 +568,7 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.discovery.fOCDeadlines({
     limit: 10,
+    page: 1,
     days: 7,
     startDate: "2026-03-15",
   });
@@ -604,6 +608,7 @@ async function run() {
   try {
     const result = await verseDB.discovery.fOCDeadlines({
       limit: 10,
+      page: 1,
       days: 7,
       startDate: "2026-03-15",
     });
@@ -725,6 +730,7 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.discovery.fOCDeadlines({
     limit: 10,
+    page: 1,
     days: 7,
     startDate: "2026-03-15",
   });

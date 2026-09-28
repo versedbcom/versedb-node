@@ -74,11 +74,12 @@ export type GetAnEventData = {
   images?: GetAnEventImages | undefined;
   staticMapUrl?: string | undefined;
   eventUrl?: string | undefined;
-  ticketPriceMin?: string | undefined;
-  ticketPriceMax?: string | undefined;
+  ticketPriceMin?: number | undefined;
+  ticketPriceMax?: number | undefined;
   ticketCurrency?: string | undefined;
   ticketPrice?: string | undefined;
   followerCount?: number | undefined;
+  eventFranchiseId?: number | undefined;
   creators?: Array<GetAnEventCreator> | undefined;
   issues?: Array<any> | undefined;
   issueVariants?: Array<any> | undefined;
@@ -284,11 +285,12 @@ export const GetAnEventData$inboundSchema: z.ZodMiniType<
     images: types.optional(z.lazy(() => GetAnEventImages$inboundSchema)),
     static_map_url: types.optional(types.string()),
     event_url: types.optional(types.string()),
-    ticket_price_min: types.optional(types.string()),
-    ticket_price_max: types.optional(types.string()),
+    ticket_price_min: types.optional(types.number()),
+    ticket_price_max: types.optional(types.number()),
     ticket_currency: types.optional(types.string()),
     ticket_price: types.optional(types.string()),
     follower_count: types.optional(types.number()),
+    event_franchise_id: types.optional(types.number()),
     creators: types.optional(
       z.array(z.lazy(() => GetAnEventCreator$inboundSchema)),
     ),
@@ -321,6 +323,7 @@ export const GetAnEventData$inboundSchema: z.ZodMiniType<
       "ticket_currency": "ticketCurrency",
       "ticket_price": "ticketPrice",
       "follower_count": "followerCount",
+      "event_franchise_id": "eventFranchiseId",
       "issue_variants": "issueVariants",
       "attendees_preview": "attendeesPreview",
       "related_events": "relatedEvents",

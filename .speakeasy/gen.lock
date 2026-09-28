@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: d54ae284-e171-41f5-99d0-d4027d6f02b4
 management:
-  docChecksum: 08563c457a070a9d83437227ed6b3859
+  docChecksum: 263e989bee6925079164c73ce6f682f9
   docVersion: 1.0.0
   speakeasyVersion: 1.799.0
   generationVersion: 2.941.0
-  releaseVersion: 2.1.14
-  configChecksum: 1148d896d903e7b1abaebc2989f31c0e
+  releaseVersion: 2.1.15
+  configChecksum: ffaf844d201066501188580abb2c3533
   repoURL: https://github.com/versedbcom/versedb-node.git
   installationURL: https://github.com/versedbcom/versedb-node
   published: true
 persistentEdits:
-  generation_id: 116da025-1c6f-41f7-9fec-1a878279f9da
-  pristine_commit_hash: 3c5b98b7f33035822f933b9444d067402c8225ad
-  pristine_tree_hash: 1288e71c6aa37cc47aac810d6e829acf05806092
+  generation_id: f864cc00-bc73-4d3c-a794-3a1ee4c53ea7
+  pristine_commit_hash: eb0d76122592ac08de6181eb95c6bf9cb30d6762
+  pristine_tree_hash: 971353467f7454343d76aae14ab46227f0b27b90
 features:
   typescript:
     additionalDependencies: 0.1.0
@@ -50,16 +50,16 @@ trackedFiles:
     pristine_git_object: 6ee2921010070a544e252596defc55d501e1c1ae
   FUNCTIONS.md:
     id: 21b9df02aaeb
-    last_write_checksum: sha1:cda9a27ac168e5b6031930f8f64e16bfbf94a460
-    pristine_git_object: b80dbe43076e48599322e31d6aa81ebaf5aaf686
+    last_write_checksum: sha1:5c33257645816e0e211a45799a450416db97999a
+    pristine_git_object: 93363689aa1d5ecf92ceab094a4b45180c0b3738
   RUNTIMES.md:
     id: 620c490847b6
     last_write_checksum: sha1:e45b854f02c357cbcfdb8c3663000e8339e16505
     pristine_git_object: 27731c3b5ace66bedc454ed5acbe15075aacd3dc
   USAGE.md:
     id: 3aed33ce6e6f
-    last_write_checksum: sha1:257a9c3e61f3d5b0e45cc0bebc59a9d9f52b363a
-    pristine_git_object: 20f71d24b5c4cfb33286da1956fe940de88c98bd
+    last_write_checksum: sha1:90e21c6e9c6b254f17cc2c7c3f612e6cac17ba22
+    pristine_git_object: afbe749ac125a1c1bc202d7e94974b6d204c5c03
   docs/lib/utils/retryconfig.md:
     id: 0ce9707cb848
     last_write_checksum: sha1:bc4454e196fcd219f5a78da690375a884f5ed07b
@@ -650,20 +650,20 @@ trackedFiles:
     pristine_git_object: 32a325b9a8e63047d1380afb07d38e0ff2d6388b
   docs/models/operations/foc-deadlines-meta.md:
     id: 3042ea889b44
-    last_write_checksum: sha1:309c620e76463f305a39bc3ae8b355ee3f550875
-    pristine_git_object: dc02b0dcdb7c2602183181935f5ec6df8815bf16
+    last_write_checksum: sha1:24fd7c62b62724dc0b9ce8f56449c9506fa2e268
+    pristine_git_object: 4975b1d7483acff38cb4648da0ab174a023b5a1b
   docs/models/operations/foc-deadlines-request.md:
     id: 9a32607140a0
-    last_write_checksum: sha1:8fa4f7978732e92f533b9a06c8d236733e8e8ab3
-    pristine_git_object: 9caacf3bf629439af91087cc701bd41862716632
+    last_write_checksum: sha1:d0792d02c14d2a8a4dfe9f2c105e70219b6fd6b1
+    pristine_git_object: f00e674ed69d76342c05be37e2df00240c59ec65
   docs/models/operations/foc-deadlines-response-body.md:
     id: 723bdcc99d1a
-    last_write_checksum: sha1:922f283a9e789840c8f98e0ac81a7db0a7d5dc4c
-    pristine_git_object: 11c93126d11198f7a06d86cb26147e73e7f90368
+    last_write_checksum: sha1:f343e3640ddb81ece3b9337c9030b3a15adb547c
+    pristine_git_object: f33befa4cbdc43a2359f357057317ae085805437
   docs/models/operations/foc-deadlines-response.md:
     id: 0dc74e3c1366
-    last_write_checksum: sha1:ceecb8cc71f14b299a1a3e7ccc5a1ac2eddb2300
-    pristine_git_object: 99852c2ca44875628ac7413c29efd85e84b2879a
+    last_write_checksum: sha1:535b589fd5f9378b0c7980b08bdc11e5e030a54f
+    pristine_git_object: 0a96ececf0c75d16c50d9049edfefe6502a67d48
   docs/models/operations/foc-deadlines-series.md:
     id: 7d37ba9ab2d1
     last_write_checksum: sha1:b0e0ef8e01c8175b6a2339c69ceb32a483eb3503
@@ -674,8 +674,8 @@ trackedFiles:
     pristine_git_object: d0dbf26cd9d6108e96f77781743ee2e3e7323258
   docs/models/operations/follow-content-request.md:
     id: 16d34d671483
-    last_write_checksum: sha1:7482e6edc8f52b279ccce3c95aca5a7ed929e240
-    pristine_git_object: 4ad53cc4d7663da6d8f52a58bf39dbadafd12e71
+    last_write_checksum: sha1:d8b0551ed0ec3ce7270341ef6be6cac8a13148b2
+    pristine_git_object: 6bd64f94fd207f044159f9d2b150b18cfc8dd11f
   docs/models/operations/follow-content-response-body.md:
     id: d58a3bf8da95
     last_write_checksum: sha1:d2711e3e4ce1c656461268820ba8173f00a4b997
@@ -684,14 +684,6 @@ trackedFiles:
     id: c2cb9d5ab193
     last_write_checksum: sha1:ff874713a389c1efba67fddbf1382549867feb03
     pristine_git_object: ff4e34adf028739978bb3361c191f4384237f5e9
-  docs/models/operations/follow-contexts.md:
-    id: 0d4f7df2c2fc
-    last_write_checksum: sha1:7142af37af86bfadf945acc46efc968069e2e32d
-    pristine_git_object: 35c5cfe53730ece55a1e0df126486576ea9f784c
-  docs/models/operations/follow-types.md:
-    id: 5ff43c56a90b
-    last_write_checksum: sha1:de894e574dc1d95255f90779e9aa8a591881147d
-    pristine_git_object: 30d4f6888c0137e47ec55818e2fc50457b551cd9
   docs/models/operations/follow-up.md:
     id: 34fe73e26645
     last_write_checksum: sha1:05d7ad7bc7c6cc5d97ac1e0fc1b44f09726bee41
@@ -710,12 +702,12 @@ trackedFiles:
     pristine_git_object: 755e4ac35341738f21234f340eadb307cd8833a6
   docs/models/operations/follow-updates-response-body.md:
     id: ed0e61793561
-    last_write_checksum: sha1:7f82d2ac7c823991893e02de91e68285c8143fe0
-    pristine_git_object: 40f8ffd666b679cfed6b07ddb89ee7e7868367e8
+    last_write_checksum: sha1:7e53f3fccf8dbe72b5a160e13d7c84e3b38fb5e7
+    pristine_git_object: c5cb9e00479b6da9059991219aae0d65e5faf487
   docs/models/operations/follow-updates-response.md:
     id: 81e819f5d1cb
-    last_write_checksum: sha1:f433ac396a98762575dad143f920a37c482035ce
-    pristine_git_object: b78715fe7b4c0a7227c3ff6023f3005f8e978437
+    last_write_checksum: sha1:9b35bdae95c6cdf10a4e96387cba336c3811f87d
+    pristine_git_object: 567a13b1c8d7abed7415d1f7f298a2408686707b
   docs/models/operations/follow-updates-series.md:
     id: a12ee7aea88f
     last_write_checksum: sha1:c8b430d76af655060d6eb62155bef3640283266b
@@ -758,8 +750,8 @@ trackedFiles:
     pristine_git_object: c363d501dfa498a8f979188e550af47f7cabb86b
   docs/models/operations/get-a-specific-podcast-request.md:
     id: f700c855b0ab
-    last_write_checksum: sha1:9c359f8c654c185e6cfd4b4187bef1ab02958008
-    pristine_git_object: 838563ef441de84c54cfa15a8afb60af10e869af
+    last_write_checksum: sha1:70a9906beabcb4bd84965e0c19fb9950b3b6def2
+    pristine_git_object: 9629f31928cb8b878aea78fff507cdcbd0c1ada7
   docs/models/operations/get-a-specific-podcast-response-body.md:
     id: c6ea4a86d9cf
     last_write_checksum: sha1:ff4b266662b1b01381f3707e2e746406686f2c01
@@ -854,8 +846,8 @@ trackedFiles:
     pristine_git_object: 58e817b62254c03866076c023094f82dcdfe8c7e
   docs/models/operations/get-an-event-data.md:
     id: 0a959affcb34
-    last_write_checksum: sha1:66df896b247d4a0887fe58661a6405fe87921d60
-    pristine_git_object: 76a11917d2915ba0d3e76243597eb98b53ad1874
+    last_write_checksum: sha1:f60e4fdd2bf6ff0b31761dd8284a97347a525da9
+    pristine_git_object: bf7b2ee36435fe348461bb1193198ec713234cde
   docs/models/operations/get-an-event-images.md:
     id: 5511e44a977e
     last_write_checksum: sha1:1ee26ff8f1318464c44177bd07bcf969352e54a8
@@ -866,12 +858,12 @@ trackedFiles:
     pristine_git_object: a6a81abf16f959c40ba0055ad9af310c166c0760
   docs/models/operations/get-an-event-response-body.md:
     id: 167a264442e0
-    last_write_checksum: sha1:00d2f72f2bcb37a6f9bd665213b3ec1f6980cce5
-    pristine_git_object: f08edbedd011eb65b885939f40790f91a5072c56
+    last_write_checksum: sha1:4f5b5b5772bf2c74610c484d2faec1abe0a4dbd0
+    pristine_git_object: 0557218381b044b152281d4a9cd3981261f32268
   docs/models/operations/get-an-event-response.md:
     id: 67b6cdcdacdb
-    last_write_checksum: sha1:ee39c73efada2389d4ae8f529732a5b6721b936c
-    pristine_git_object: 1e6b5a289b88d562a141dcd04770083f97d37c90
+    last_write_checksum: sha1:2162c6db1827b135c69d279b3a121e1f3825616a
+    pristine_git_object: c73770047f0efa74ff95907f6bf497100d419dd6
   docs/models/operations/get-an-event-user.md:
     id: 855e5e4df32b
     last_write_checksum: sha1:fb44aa37145b60ca6663ed7596d30e08e3f1a4ee
@@ -1846,8 +1838,8 @@ trackedFiles:
     pristine_git_object: 6ba34c40a1a035eb0d1b2efc88b302890d30934a
   docs/models/operations/list-events-data.md:
     id: 8406ae098a7e
-    last_write_checksum: sha1:82de2a1f2eadcb2c86f58f4c887c0b5393c2cb9e
-    pristine_git_object: 404198b1c72132a29e3ffca18509768c75849a52
+    last_write_checksum: sha1:02c81e4298c3809b1ac134306e96ff62c238790b
+    pristine_git_object: 4554da4d642201db737e00209e5acc4a056c7af7
   docs/models/operations/list-events-images.md:
     id: 751eadda72fe
     last_write_checksum: sha1:ff6ba0c8bdd0b75d4f140dc3a35111f21f882742
@@ -1862,12 +1854,12 @@ trackedFiles:
     pristine_git_object: 300b8597c47950628ffb6eeaaa5dbd6de7953b10
   docs/models/operations/list-events-response-body.md:
     id: b8ccdc98e6fc
-    last_write_checksum: sha1:bf81009469d28b3c2e44947fa7785a74f523f7cd
-    pristine_git_object: 7070401e1278e3fc1f1555bd96d1b57617b227fb
+    last_write_checksum: sha1:697ca7c8cc0abc076a7f88e74b6facc83aad1fe1
+    pristine_git_object: 791c7ce5486bcb85d5285a65dd71e61688bfd297
   docs/models/operations/list-events-response.md:
     id: 1c5652da6850
-    last_write_checksum: sha1:d15b063576d01c61bb148dbc626ccb60c044746b
-    pristine_git_object: c292777820820ea5766cdecae517692a657095d1
+    last_write_checksum: sha1:73220ea5519cbf5a0d0bec29f7a788174dec1388
+    pristine_git_object: 22610ffdec5e0ba7ed5d601d8b2857846cb5f6d0
   docs/models/operations/list-follows-data.md:
     id: efa8664da42f
     last_write_checksum: sha1:f384b7228b5e1d905aea3b603806ef954ced5715
@@ -2642,8 +2634,8 @@ trackedFiles:
     pristine_git_object: e604f4918ed6e668f7685fae257c42dbdc13c0a7
   docs/sdks/discovery/README.md:
     id: 905f3ba62cd7
-    last_write_checksum: sha1:8dd816412069f040aee45c1c36fa8e1e6f9c4282
-    pristine_git_object: a12e50b5fb6c589dcaeefb1d3b4db64131aed836
+    last_write_checksum: sha1:cde6423477e0b24bdd6b6fb315ceecade9b61b1a
+    pristine_git_object: 0aa28ee04236f046ba75b0db0ecded4f5a019b9f
   docs/sdks/events/README.md:
     id: cf45a4390b9b
     last_write_checksum: sha1:3c66c28baeb3ecf7f0dea8f36d457d3145f3a5c0
@@ -2710,20 +2702,20 @@ trackedFiles:
     pristine_git_object: 1f86bfe8293b374de0f0e8a3115280d4d196ffd4
   examples/discoveryFOCDeadlines.example.ts:
     id: 612e56becfc7
-    last_write_checksum: sha1:1090b553e4c9c521c7aafe13d94c01c916758706
-    pristine_git_object: 3812d520fa61c912b49e6d398c35526cb1066f2d
+    last_write_checksum: sha1:e45a370ecb6421d78f5ecddb665293c67379b148
+    pristine_git_object: 4946cc809d732daa4c7946bf049c7187b622f778
   examples/package.json:
     id: c1d7b0ec8e7e
     last_write_checksum: sha1:f0c40a6995dc437ed1fc4449f0d2d20d92ab9d92
     pristine_git_object: ce4a6a85b8bc46789323545a102bb0515c686b36
   jsr.json:
     id: 7f6ab7767282
-    last_write_checksum: sha1:85d69a2293ddfe3cf27c1b213854425733157f4d
-    pristine_git_object: d9050194c98d444d3e6cbf231f8aac1a58a2dd32
+    last_write_checksum: sha1:89236038ceaaf51fc692721503a2b1c83a1d8136
+    pristine_git_object: b804bbdcb64472ee0bebefca040ef46f061ce481
   package.json:
     id: 7030d0b2f71b
-    last_write_checksum: sha1:67561beb3a533ca4b1595631c220c2550261cfad
-    pristine_git_object: 66409eb0ef5bbd5a5c689b67bcc963e568773b9d
+    last_write_checksum: sha1:4c4e01645ae7dd43003cdd6f937efa6c581c64bd
+    pristine_git_object: 76efd1aadcbbbc506a6130e94e8d21a89922dff5
   src/core.ts:
     id: f431fdbcd144
     last_write_checksum: sha1:ad0063bee03825028052e52cef3fa240c6101bdf
@@ -2786,8 +2778,8 @@ trackedFiles:
     pristine_git_object: 7cca24e1bf9a0d3de933d6ddbb9817ae90a57e5d
   src/funcs/discovery-foc-deadlines.ts:
     id: bd4627d01bba
-    last_write_checksum: sha1:a1ce8a1fb50a0db2ed4db9697b5aca6ea7db84cb
-    pristine_git_object: 49ee2cfcceb8e7c94da79294181e70eb5cfa8bef
+    last_write_checksum: sha1:3779e4eb10575d41c3772b4aa3a23e13f7f32a7d
+    pristine_git_object: 13586c87e706e697fc197896d8a5128f852c1544
   src/funcs/discovery-follow-updates.ts:
     id: 550952d16e11
     last_write_checksum: sha1:dc1496fcbc02d89731979d46251d776bfc42cc15
@@ -3130,8 +3122,8 @@ trackedFiles:
     pristine_git_object: 44be0eae8246521b230e8e711a88eff738fc015d
   src/lib/config.ts:
     id: 320761608fb3
-    last_write_checksum: sha1:7e19d7b0a2d5406016ce659daf052c88159f3cbf
-    pristine_git_object: 1d9759d77a09d3abeeb3ece9742cf15bbfb23b2b
+    last_write_checksum: sha1:c3d4e799a3a401701bfb2f1fc7069cce31fbe414
+    pristine_git_object: dd764f5480a20e269bde60fe59287c99275b121b
   src/lib/encodings.ts:
     id: 3bd8ead98afd
     last_write_checksum: sha1:4481b2a380f8a16856ef92c66fb370299f56d135
@@ -3406,16 +3398,16 @@ trackedFiles:
     pristine_git_object: c880ced5d9b3eb32e6bbe98d7ebb3b3c4463e794
   src/models/operations/f-oc-deadlines.ts:
     id: ba50053f12ee
-    last_write_checksum: sha1:88bee8f942640b6fce920f5c53ce62e44e372e2d
-    pristine_git_object: f74c76cf8c86c2f2d63b30bddd0b64161cec15f5
+    last_write_checksum: sha1:fe4b32600d9aae190d43117090df4d9d39839be5
+    pristine_git_object: 4ce31797ad2adbc9f7fae0af15a4231ac1df47a6
   src/models/operations/follow-content.ts:
     id: 08974a3cf578
-    last_write_checksum: sha1:11eeb6ffb9dea15adfccbf51b2298159ca23621d
-    pristine_git_object: f3cdd53e51b799adac5e745aecc2f08ae8d7a941
+    last_write_checksum: sha1:df6acd795ce379466b56dffac26b6d890e6328cc
+    pristine_git_object: 91dd5c3b3dea93f77a0fa7d5282d54ad21f3fc69
   src/models/operations/follow-updates.ts:
     id: d994fb641e32
-    last_write_checksum: sha1:173d8f0b876dbc5da2a811fde6ffeffc812c890f
-    pristine_git_object: 331c717d50815f4097195546491c86f2f996016f
+    last_write_checksum: sha1:16722ace6119084b8871fbe204f55821feed807a
+    pristine_git_object: d12d85f61702ba3a0ec7a75caa968843eae121ec
   src/models/operations/get-a-comic-shop.ts:
     id: e8454d05708b
     last_write_checksum: sha1:bb51c6fb8e2ad2db5596ba5861aec89c2ee4db2a
@@ -3442,8 +3434,8 @@ trackedFiles:
     pristine_git_object: 58c5a2d244015af2446d26711b4fa598911c7379
   src/models/operations/get-an-event.ts:
     id: d3385386f28b
-    last_write_checksum: sha1:c7d0781207248a4f1696e88d580e974b4d3ad1d4
-    pristine_git_object: da979041a2d0662fc6546418bb73ec3339cab2d4
+    last_write_checksum: sha1:d47eb3f2e74338ab7d0a05a1820598d348021007
+    pristine_git_object: ea12461afbb41156f4c73a795a2796d46893813d
   src/models/operations/get-character-details.ts:
     id: 9208f9e9388a
     last_write_checksum: sha1:0746603434a9032c3ee19583aa17f0132a16349e
@@ -4142,7 +4134,7 @@ examples:
           region: "California"
       responses:
         "200":
-          application/json: {"data": [{"id": 42, "slug": "san-diego-comic-con-2026", "name": "San Diego Comic-Con 2026", "type": "convention", "status": "scheduled", "start_date": "2026-07-23", "end_date": "2026-07-26", "start_time": null, "end_time": null, "timezone": "America/Los_Angeles", "is_online": false, "is_fcbd": false, "venue_name": "San Diego Convention Center", "city": "San Diego", "region": "CA", "country_code": "US", "full_location": "San Diego Convention Center, San Diego, CA, United States", "logo_url": "https://...-tile_sm.webp", "images": {"tile_sm": "https://...-tile_sm.webp", "full_md": "https://...-full_md.webp", "full_lg": "https://...-full_lg.webp"}, "ticket_price": "$45.00 - $150.00", "follower_count": 320}], "meta": {"current_page": 1, "last_page": 8, "per_page": 20, "total": 156}}
+          application/json: {"data": [{"id": 42, "slug": "san-diego-comic-con-2026", "name": "San Diego Comic-Con 2026", "type": "convention", "status": "scheduled", "start_date": "2026-07-23", "end_date": "2026-07-26", "start_time": null, "end_time": null, "timezone": "America/Los_Angeles", "is_online": false, "is_fcbd": false, "venue_name": "San Diego Convention Center", "city": "San Diego", "region": "CA", "country_code": "US", "full_location": "San Diego Convention Center, San Diego, CA, United States", "logo_url": "https://...-tile_sm.webp", "images": {"tile_sm": "https://...-tile_sm.webp", "full_md": "https://...-full_md.webp", "full_lg": "https://...-full_lg.webp"}, "ticket_price": "USD $45.00 – $150.00", "follower_count": 320}], "meta": {"current_page": 1, "last_page": 8, "per_page": 20, "total": 156}}
         "401":
           application/json: {"message": "Unauthenticated."}
         "429":
@@ -4154,7 +4146,7 @@ examples:
           event_id: 1
       responses:
         "200":
-          application/json: {"data": {"id": 42, "slug": "san-diego-comic-con-2026", "name": "San Diego Comic-Con 2026", "type": "convention", "status": "scheduled", "start_date": "2026-07-23", "end_date": "2026-07-26", "start_time": null, "end_time": null, "timezone": "America/Los_Angeles", "is_online": false, "is_fcbd": false, "venue_name": "San Diego Convention Center", "street_address": "111 W Harbor Dr", "city": "San Diego", "region": "CA", "postal_code": "92101", "country_code": "US", "latitude": 32.7065, "longitude": -117.1615, "full_location": "San Diego Convention Center, San Diego, CA, United States", "google_maps_url": "https://maps.google.com/?q=32.7065,-117.1615", "logo_url": "https://cdn.versedb.com/events/42-full_lg.webp", "images": {"tile_sm": "https://cdn.versedb.com/events/42-tile_sm.webp", "full_md": "https://cdn.versedb.com/events/42-full_md.webp", "full_lg": "https://cdn.versedb.com/events/42-full_lg.webp"}, "static_map_url": "https://cdn.versedb.com/events/42-static-map.png", "event_url": "https://www.comic-con.org", "ticket_price_min": "45.00", "ticket_price_max": "150.00", "ticket_currency": "USD", "ticket_price": "$45.00 - $150.00", "follower_count": 320, "creators": [{"id": 7, "name": "Stan Lee", "slug": "stan-lee", "photo_url": "https://cdn.versedb.com/creators/7-profile_md.webp", "images": {}, "country": "US", "appearance_types": ["Special Guest"]}], "issues": [], "issue_variants": [], "attendees_preview": {"total": 320, "users": [{"id": 1024, "username": "comic_fan_42", "name": "Comic Fan", "profile_image_url": "https://cdn.versedb.com/users/1024-profile_sm.webp", "is_private": false}, {"id": 1536, "username": "panel_pusher", "name": "Riley", "profile_image_url": "https://cdn.versedb.com/users/1536-profile_sm.webp", "is_private": false}]}, "related_events": []}}
+          application/json: {"data": {"id": 42, "slug": "san-diego-comic-con-2026", "name": "San Diego Comic-Con 2026", "type": "convention", "status": "scheduled", "start_date": "2026-07-23", "end_date": "2026-07-26", "start_time": null, "end_time": null, "timezone": "America/Los_Angeles", "is_online": false, "is_fcbd": false, "venue_name": "San Diego Convention Center", "street_address": "111 W Harbor Dr", "city": "San Diego", "region": "CA", "postal_code": "92101", "country_code": "US", "latitude": 32.7065, "longitude": -117.1615, "full_location": "San Diego Convention Center, San Diego, CA, United States", "google_maps_url": "https://maps.google.com/?q=32.7065,-117.1615", "logo_url": "https://cdn.versedb.com/events/42-full_lg.webp", "images": {"tile_sm": "https://cdn.versedb.com/events/42-tile_sm.webp", "full_md": "https://cdn.versedb.com/events/42-full_md.webp", "full_lg": "https://cdn.versedb.com/events/42-full_lg.webp"}, "static_map_url": "https://cdn.versedb.com/events/42-static-map.png", "event_url": "https://www.comic-con.org", "ticket_price_min": 4500, "ticket_price_max": 15000, "ticket_currency": "USD", "ticket_price": "USD $45.00 – $150.00", "follower_count": 320, "event_franchise_id": 12, "creators": [{"id": 7, "name": "Stan Lee", "slug": "stan-lee", "photo_url": "https://cdn.versedb.com/creators/7-profile_md.webp", "images": {}, "country": "US", "appearance_types": ["Special Guest"]}], "issues": [], "issue_variants": [], "attendees_preview": {"total": 320, "users": [{"id": 1024, "username": "comic_fan_42", "name": "Comic Fan", "profile_image_url": "https://cdn.versedb.com/users/1024-profile_sm.webp", "is_private": false}, {"id": 1536, "username": "panel_pusher", "name": "Riley", "profile_image_url": "https://cdn.versedb.com/users/1536-profile_sm.webp", "is_private": false}]}, "related_events": []}}
         "401":
           application/json: {"message": "Unauthenticated."}
         "429":
@@ -5359,9 +5351,10 @@ examples:
           limit: 10
           days: 7
           start_date: "2026-03-15"
+          page: 1
       responses:
         "200":
-          application/json: {"data": [{"id": 5432, "number": "1", "title": "Amazing Spider-Man", "cover_url": "...", "release_date": "2024-02-01", "foc_date": "2024-01-18", "series": {"id": 123, "name": "Amazing Spider-Man"}}], "meta": {"foc_window_days": 7, "foc_start": "2024-01-15", "foc_end": "2024-01-22", "note": "FOC dates are estimates based on release_date - 14 days"}}
+          application/json: {"data": [{"id": 5432, "number": "1", "title": "Amazing Spider-Man", "cover_url": "...", "release_date": "2024-02-01", "foc_date": "2024-01-18", "series": {"id": 123, "name": "Amazing Spider-Man"}}], "meta": {"current_page": 1, "last_page": 3, "per_page": 10, "total": 28, "foc_window_days": 7, "foc_start": "2024-01-15", "foc_end": "2024-01-22", "note": "FOC dates are estimates based on release_date - 14 days"}}
         "401":
           application/json: {"message": "Unauthenticated."}
         "429":
@@ -5536,3 +5529,4 @@ examples:
         "429":
           application/json: {"message": "Too Many Attempts."}
 examplesVersion: 1.0.2
+releaseNotes: "## Typescript SDK Changes:\n* `versedb.discovery.followUpdates()`:  `response` **Changed** (Breaking ⚠️)\n* `versedb.events.getAnEvent()`:  `response.data` **Changed** (Breaking ⚠️)\n* `versedb.discovery.fOcDeadlines()`: \n  *  `request.page` **Added**\n  *  `response.meta` **Changed**\n"

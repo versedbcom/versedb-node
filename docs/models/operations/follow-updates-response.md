@@ -21,10 +21,10 @@ let value: FollowUpdatesResponse = {
       },
     ],
     followContexts: {
-      fiveThousandFourHundredAndThirtyTwo: "New in X-Men",
+      "5432": "New in X-Men",
     },
     followTypes: {
-      fiveThousandFourHundredAndThirtyTwo: "title",
+      "5432": "title",
     },
     meta: {
       days: 30,
