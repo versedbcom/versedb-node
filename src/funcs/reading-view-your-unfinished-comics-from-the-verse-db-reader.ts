@@ -28,22 +28,23 @@ import { APICall, APIPromise } from "../types/async.js";
 import { Result } from "../types/fp.js";
 
 /**
- * View your reading goal.
+ * View your unfinished comics from the VerseDB reader.
  *
  * @remarks
- * Available to every authenticated member. Returns only the caller's goal.
- *
- * Needs `read:user` or `read:showcase`. A `read:showcase` token gets the goal without
- * `notify_milestones`, `notify_lapses` and `email_updates`.
+ * Available with read:user or read:showcase. Returns display fields only;
+ * page URLs, resume positions and private account data are excluded.
+ * Finished and unavailable books are omitted, with content preferences applied.
  */
-export function readingViewYourReadingGoal(
+export function readingViewYourUnfinishedComicsFromTheVerseDBReader(
   client: VerseDBCore,
-  request?: operations.ViewYourReadingGoalRequest | undefined,
+  request?:
+    | operations.ViewYourUnfinishedComicsFromTheVerseDBReaderRequest
+    | undefined,
   options?: RequestOptions,
 ): APIPromise<
   Result<
-    operations.ViewYourReadingGoalResponse,
-    | errors.ViewYourReadingGoalUnauthorizedError
+    operations.ViewYourUnfinishedComicsFromTheVerseDBReaderResponse,
+    | errors.UnauthorizedErrorError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -64,13 +65,15 @@ export function readingViewYourReadingGoal(
 
 async function $do(
   client: VerseDBCore,
-  request?: operations.ViewYourReadingGoalRequest | undefined,
+  request?:
+    | operations.ViewYourUnfinishedComicsFromTheVerseDBReaderRequest
+    | undefined,
   options?: RequestOptions,
 ): Promise<
   [
     Result<
-      operations.ViewYourReadingGoalResponse,
-      | errors.ViewYourReadingGoalUnauthorizedError
+      operations.ViewYourUnfinishedComicsFromTheVerseDBReaderResponse,
+      | errors.UnauthorizedErrorError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -88,7 +91,10 @@ async function $do(
     request,
     (value) =>
       z.parse(
-        z.optional(operations.ViewYourReadingGoalRequest$outboundSchema),
+        z.optional(
+          operations
+            .ViewYourUnfinishedComicsFromTheVerseDBReaderRequest$outboundSchema,
+        ),
         value,
       ),
     "Input validation failed",
@@ -99,10 +105,11 @@ async function $do(
   const payload = parsed.value;
   const body = null;
 
-  const path = pathToFunc("/api/v1/user/reading-goal")();
+  const path = pathToFunc("/api/v1/user/reading/in-progress")();
 
   const query = encodeFormQuery({
-    "year": payload?.year,
+    "limit": payload?.limit,
+    "page": payload?.page,
   });
 
   const headers = new Headers(compactMap({
@@ -116,7 +123,7 @@ async function $do(
   const context = {
     options: client._options,
     baseURL: options?.serverURL ?? client._baseURL ?? "",
-    operationID: "viewYourReadingGoal",
+    operationID: "viewYourUnfinishedComicsFromTheVerseDBReader",
     oAuth2Scopes: null,
 
     resolvedSecurity: requestSecurity,
@@ -161,8 +168,8 @@ async function $do(
   };
 
   const [result] = await M.match<
-    operations.ViewYourReadingGoalResponse,
-    | errors.ViewYourReadingGoalUnauthorizedError
+    operations.ViewYourUnfinishedComicsFromTheVerseDBReaderResponse,
+    | errors.UnauthorizedErrorError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -173,11 +180,13 @@ async function $do(
     | UnexpectedClientError
     | SDKValidationError
   >(
-    M.json(200, operations.ViewYourReadingGoalResponse$inboundSchema, {
-      hdrs: true,
-      key: "Result",
-    }),
-    M.jsonErr(401, errors.ViewYourReadingGoalUnauthorizedError$inboundSchema),
+    M.json(
+      200,
+      operations
+        .ViewYourUnfinishedComicsFromTheVerseDBReaderResponse$inboundSchema,
+      { hdrs: true, key: "Result" },
+    ),
+    M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

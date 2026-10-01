@@ -37,6 +37,11 @@ All endpoints in this group require authentication with a Bearer API token.
 
 Returns the profile of the user the token belongs to.
 
+Needs `read:user` or `read:showcase`. A `read:showcase` token gets only `id`, `name`,
+`username`, `bio`, the avatar and banner fields, `is_pro`, the level and XP fields,
+`created_at` and `updated_at`: no email, location, birth date, preferences, or
+notification and account settings.
+
 ### Example Usage
 
 <!-- UsageSnippet language="typescript" operationID="getTheAuthenticatedUser" method="get" path="/api/v1/user" -->
@@ -106,6 +111,13 @@ run();
 ## listCollection
 
 Returns all issues in the user's collection with series and publisher info.
+
+Needs `read:user` or `read:showcase`. A `read:showcase` token gets each copy without
+`price_paid`, `estimated_value`, `value_last_updated`, `price_sold`, `sold_at`,
+`purchased_at`, `purchase_source`, `purchase_store`, `acquisition_method`,
+`comic_shop_id`, `comic_shop`, `notes`, `grader_notes`, `storage_location`,
+`custom_label`, `bagged_at`, `personal_rating`, `tags` or `loan`, leaves out copies
+marked not public, and the `estimated_value` and `price_paid` sorts fall back to `date_added`.
 
 ### Example Usage
 
@@ -877,6 +889,10 @@ run();
 
 Returns all series on the user's pull list (series they're tracking for new releases).
 
+Needs `read:user` or `read:showcase`. A `read:showcase` token gets each entry without
+`personal_notes`, `notify_on_release`, `notification_settings`, `auto_pull`,
+`last_pulled_at`, `preferred_cover_type`, `pull_priority` or the pull source fields.
+
 ### Example Usage
 
 <!-- UsageSnippet language="typescript" operationID="listPullList" method="get" path="/api/v1/user/pull-list" -->
@@ -1102,6 +1118,8 @@ run();
 ## listReadStatus
 
 Returns all issues the user has marked as read with timestamps.
+
+Needs `read:user` or `read:showcase`; both get the same response.
 
 ### Example Usage
 
@@ -1426,6 +1444,8 @@ run();
 ## listWishlist
 
 Returns the authenticated user's wishlist issues, most recently added first.
+
+Needs `read:user` or `read:showcase`. A `read:showcase` token gets each item without `note`.
 
 ### Example Usage
 

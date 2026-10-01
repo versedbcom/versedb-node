@@ -84,7 +84,9 @@ export class Creators extends ClientSDK {
    * Get creator's series.
    *
    * @remarks
-   * Returns paginated series where the creator has worked.
+   * Returns paginated series where the creator has worked. `creator_issues_count` is how many
+   * of the series' issues credit this creator; `cached_issues_count` is the whole series.
+   * A series credited to the creator without any issue credits reports 0.
    */
   async getCreatorsSeries(
     request: operations.GetCreatorsSeriesRequest,

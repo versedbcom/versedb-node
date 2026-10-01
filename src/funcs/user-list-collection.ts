@@ -32,6 +32,13 @@ import { Result } from "../types/fp.js";
  *
  * @remarks
  * Returns all issues in the user's collection with series and publisher info.
+ *
+ * Needs `read:user` or `read:showcase`. A `read:showcase` token gets each copy without
+ * `price_paid`, `estimated_value`, `value_last_updated`, `price_sold`, `sold_at`,
+ * `purchased_at`, `purchase_source`, `purchase_store`, `acquisition_method`,
+ * `comic_shop_id`, `comic_shop`, `notes`, `grader_notes`, `storage_location`,
+ * `custom_label`, `bagged_at`, `personal_rating`, `tags` or `loan`, leaves out copies
+ * marked not public, and the `estimated_value` and `price_paid` sorts fall back to `date_added`.
  */
 export function userListCollection(
   client: VerseDBCore,

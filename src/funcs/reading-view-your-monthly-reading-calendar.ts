@@ -32,6 +32,8 @@ import { Result } from "../types/fp.js";
  *
  * @remarks
  * Pro feature. Returns up to 60 reads per page, newest first.
+ *
+ * Needs `read:user` or `read:showcase`; both get the same response.
  */
 export function readingViewYourMonthlyReadingCalendar(
   client: VerseDBCore,

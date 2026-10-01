@@ -32,6 +32,8 @@ import { Result } from "../types/fp.js";
  *
  * @remarks
  * Returns the authenticated user's wishlist issues, most recently added first.
+ *
+ * Needs `read:user` or `read:showcase`. A `read:showcase` token gets each item without `note`.
  */
 export function userListWishlist(
   client: VerseDBCore,

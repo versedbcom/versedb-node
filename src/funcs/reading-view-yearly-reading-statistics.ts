@@ -33,6 +33,9 @@ import { Result } from "../types/fp.js";
  * @remarks
  * Pro feature. Includes goal progress, daily and monthly counts, pace,
  * streaks, rankings and completed series for the authenticated member.
+ *
+ * Needs `read:user` or `read:showcase`. A `read:showcase` token gets `progress` without
+ * `notify_milestones`, `notify_lapses` and `email_updates`.
  */
 export function readingViewYearlyReadingStatistics(
   client: VerseDBCore,

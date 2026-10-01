@@ -8,6 +8,7 @@ export * from "./add-to-pull-list.js";
 export * from "./add-to-wishlist.js";
 export * from "./create-list.js";
 export * from "./delete-list.js";
+export * from "./exchange-a-connect-code-for-a-token.js";
 export * from "./follow-content.js";
 export * from "./get-a-comic-shop.js";
 export * from "./get-a-specific-podcast.js";

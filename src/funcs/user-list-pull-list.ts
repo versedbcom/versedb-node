@@ -32,6 +32,10 @@ import { Result } from "../types/fp.js";
  *
  * @remarks
  * Returns all series on the user's pull list (series they're tracking for new releases).
+ *
+ * Needs `read:user` or `read:showcase`. A `read:showcase` token gets each entry without
+ * `personal_notes`, `notify_on_release`, `notification_settings`, `auto_pull`,
+ * `last_pulled_at`, `preferred_cover_type`, `pull_priority` or the pull source fields.
  */
 export function userListPullList(
   client: VerseDBCore,

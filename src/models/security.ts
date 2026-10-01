@@ -5,12 +5,12 @@
 import * as z from "zod/v4-mini";
 
 export type Security = {
-  token: string;
+  token?: string | undefined;
 };
 
 /** @internal */
 export type Security$Outbound = {
-  token: string;
+  token?: string | undefined;
 };
 
 /** @internal */
@@ -18,7 +18,7 @@ export const Security$outboundSchema: z.ZodMiniType<
   Security$Outbound,
   Security
 > = z.object({
-  token: z.string(),
+  token: z.optional(z.string()),
 });
 
 export function securityToJSON(security: Security): string {

@@ -5,17 +5,42 @@
 import { readingViewYearlyReadingStatistics } from "../funcs/reading-view-yearly-reading-statistics.js";
 import { readingViewYourMonthlyReadingCalendar } from "../funcs/reading-view-your-monthly-reading-calendar.js";
 import { readingViewYourReadingGoal } from "../funcs/reading-view-your-reading-goal.js";
+import { readingViewYourUnfinishedComicsFromTheVerseDBReader } from "../funcs/reading-view-your-unfinished-comics-from-the-verse-db-reader.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as operations from "../models/operations/index.js";
 import { unwrapAsync } from "../types/fp.js";
 
 export class Reading extends ClientSDK {
   /**
+   * View your unfinished comics from the VerseDB reader.
+   *
+   * @remarks
+   * Available with read:user or read:showcase. Returns display fields only;
+   * page URLs, resume positions and private account data are excluded.
+   * Finished and unavailable books are omitted, with content preferences applied.
+   */
+  async viewYourUnfinishedComicsFromTheVerseDBReader(
+    request?:
+      | operations.ViewYourUnfinishedComicsFromTheVerseDBReaderRequest
+      | undefined,
+    options?: RequestOptions,
+  ): Promise<operations.ViewYourUnfinishedComicsFromTheVerseDBReaderResponse> {
+    return unwrapAsync(readingViewYourUnfinishedComicsFromTheVerseDBReader(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
    * View yearly reading statistics.
    *
    * @remarks
    * Pro feature. Includes goal progress, daily and monthly counts, pace,
    * streaks, rankings and completed series for the authenticated member.
+   *
+   * Needs `read:user` or `read:showcase`. A `read:showcase` token gets `progress` without
+   * `notify_milestones`, `notify_lapses` and `email_updates`.
    */
   async viewYearlyReadingStatistics(
     request?: operations.ViewYearlyReadingStatisticsRequest | undefined,
@@ -33,6 +58,8 @@ export class Reading extends ClientSDK {
    *
    * @remarks
    * Pro feature. Returns up to 60 reads per page, newest first.
+   *
+   * Needs `read:user` or `read:showcase`; both get the same response.
    */
   async viewYourMonthlyReadingCalendar(
     request?: operations.ViewYourMonthlyReadingCalendarRequest | undefined,
@@ -50,6 +77,9 @@ export class Reading extends ClientSDK {
    *
    * @remarks
    * Available to every authenticated member. Returns only the caller's goal.
+   *
+   * Needs `read:user` or `read:showcase`. A `read:showcase` token gets the goal without
+   * `notify_milestones`, `notify_lapses` and `email_updates`.
    */
   async viewYourReadingGoal(
     request?: operations.ViewYourReadingGoalRequest | undefined,

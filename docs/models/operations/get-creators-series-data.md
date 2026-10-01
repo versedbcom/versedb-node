@@ -13,17 +13,19 @@ let value: GetCreatorsSeriesData = {
   endYear: 2020,
   coverUrl: "https://...",
   cachedIssuesCount: 85,
+  creatorIssuesCount: 12,
 };
 ```
 
 ## Fields
 
-| Field               | Type                | Required            | Description         | Example             |
-| ------------------- | ------------------- | ------------------- | ------------------- | ------------------- |
-| `id`                | *number*            | :heavy_minus_sign:  | N/A                 | 456                 |
-| `name`              | *string*            | :heavy_minus_sign:  | N/A                 | Batman              |
-| `slug`              | *string*            | :heavy_minus_sign:  | N/A                 | batman              |
-| `startYear`         | *number*            | :heavy_minus_sign:  | N/A                 | 2016                |
-| `endYear`           | *number*            | :heavy_minus_sign:  | N/A                 | 2020                |
-| `coverUrl`          | *string*            | :heavy_minus_sign:  | N/A                 | https://...         |
-| `cachedIssuesCount` | *number*            | :heavy_minus_sign:  | N/A                 | 85                  |
+| Field                | Type                 | Required             | Description          | Example              |
+| -------------------- | -------------------- | -------------------- | -------------------- | -------------------- |
+| `id`                 | *number*             | :heavy_minus_sign:   | N/A                  | 456                  |
+| `name`               | *string*             | :heavy_minus_sign:   | N/A                  | Batman               |
+| `slug`               | *string*             | :heavy_minus_sign:   | N/A                  | batman               |
+| `startYear`          | *number*             | :heavy_minus_sign:   | N/A                  | 2016                 |
+| `endYear`            | *number*             | :heavy_minus_sign:   | N/A                  | 2020                 |
+| `coverUrl`           | *string*             | :heavy_minus_sign:   | N/A                  | https://...          |
+| `cachedIssuesCount`  | *number*             | :heavy_minus_sign:   | N/A                  | 85                   |
+| `creatorIssuesCount` | *number*             | :heavy_minus_sign:   | N/A                  | 12                   |

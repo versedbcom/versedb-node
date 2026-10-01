@@ -36,6 +36,7 @@ export type GetCreatorsSeriesData = {
   endYear?: number | undefined;
   coverUrl?: string | undefined;
   cachedIssuesCount?: number | undefined;
+  creatorIssuesCount?: number | undefined;
 };
 
 export type GetCreatorsSeriesMeta = {
@@ -105,6 +106,7 @@ export const GetCreatorsSeriesData$inboundSchema: z.ZodMiniType<
     end_year: types.optional(types.number()),
     cover_url: types.optional(types.string()),
     cached_issues_count: types.optional(types.number()),
+    creator_issues_count: types.optional(types.number()),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -112,6 +114,7 @@ export const GetCreatorsSeriesData$inboundSchema: z.ZodMiniType<
       "end_year": "endYear",
       "cover_url": "coverUrl",
       "cached_issues_count": "cachedIssuesCount",
+      "creator_issues_count": "creatorIssuesCount",
     });
   }),
 );

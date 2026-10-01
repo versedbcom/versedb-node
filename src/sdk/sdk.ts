@@ -6,6 +6,7 @@ import { ClientSDK } from "../lib/sdks.js";
 import { BarcodeLookup } from "./barcode-lookup.js";
 import { Characters } from "./characters.js";
 import { ComicShops } from "./comic-shops.js";
+import { ConnectToVerseDB } from "./connect-to-verse-db.js";
 import { Creators } from "./creators.js";
 import { Discovery } from "./discovery.js";
 import { Events } from "./events.js";
@@ -117,5 +118,10 @@ export class VerseDB extends ClientSDK {
   private _user?: User;
   get user(): User {
     return (this._user ??= new User(this._options));
+  }
+
+  private _connectToVerseDB?: ConnectToVerseDB;
+  get connectToVerseDB(): ConnectToVerseDB {
+    return (this._connectToVerseDB ??= new ConnectToVerseDB(this._options));
   }
 }

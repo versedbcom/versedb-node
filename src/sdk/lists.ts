@@ -131,7 +131,8 @@ export class Lists extends ClientSDK {
    * Get user's lists.
    *
    * @remarks
-   * Returns a user's public lists. If viewing your own profile, also includes private lists.
+   * Returns a user's public lists. Your own lists also include private and draft ones when the
+   * token has `read:user`.
    */
   async getUsersLists(
     request: operations.GetUsersListsRequest,

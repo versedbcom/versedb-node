@@ -29,6 +29,11 @@ import { Result } from "../types/fp.js";
  *
  * @remarks
  * Returns the profile of the user the token belongs to.
+ *
+ * Needs `read:user` or `read:showcase`. A `read:showcase` token gets only `id`, `name`,
+ * `username`, `bio`, the avatar and banner fields, `is_pro`, the level and XP fields,
+ * `created_at` and `updated_at`: no email, location, birth date, preferences, or
+ * notification and account settings.
  */
 export function userGetTheAuthenticatedUser(
   client: VerseDBCore,

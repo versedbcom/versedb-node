@@ -32,6 +32,8 @@ import { Result } from "../types/fp.js";
  *
  * @remarks
  * Returns all issues the user has marked as read with timestamps.
+ *
+ * Needs `read:user` or `read:showcase`; both get the same response.
  */
 export function userListReadStatus(
   client: VerseDBCore,

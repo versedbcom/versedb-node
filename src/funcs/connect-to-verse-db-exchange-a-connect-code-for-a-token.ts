@@ -4,13 +4,12 @@
 
 import * as z from "zod/v4-mini";
 import { VerseDBCore } from "../core.js";
-import { encodeFormQuery } from "../lib/encodings.js";
+import { encodeJSON } from "../lib/encodings.js";
 import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
 import { RequestOptions } from "../lib/sdks.js";
-import { extractSecurity, resolveGlobalSecurity } from "../lib/security.js";
 import { pathToFunc } from "../lib/url.js";
 import {
   ConnectionError,
@@ -28,22 +27,20 @@ import { APICall, APIPromise } from "../types/async.js";
 import { Result } from "../types/fp.js";
 
 /**
- * View your reading goal.
+ * Exchange a Connect code for a token
  *
  * @remarks
- * Available to every authenticated member. Returns only the caller's goal.
- *
- * Needs `read:user` or `read:showcase`. A `read:showcase` token gets the goal without
- * `notify_milestones`, `notify_lapses` and `email_updates`.
+ * Redeems the single-use code from the Connect redirect. A code works once: a second attempt,
+ * a wrong `code_verifier` or a different `redirect_uri` fails and the code cannot be used again.
  */
-export function readingViewYourReadingGoal(
+export function connectToVerseDBExchangeAConnectCodeForAToken(
   client: VerseDBCore,
-  request?: operations.ViewYourReadingGoalRequest | undefined,
+  request: operations.ExchangeAConnectCodeForATokenRequest,
   options?: RequestOptions,
 ): APIPromise<
   Result<
-    operations.ViewYourReadingGoalResponse,
-    | errors.ViewYourReadingGoalUnauthorizedError
+    operations.ExchangeAConnectCodeForATokenResponse,
+    | errors.BadRequestError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -64,13 +61,13 @@ export function readingViewYourReadingGoal(
 
 async function $do(
   client: VerseDBCore,
-  request?: operations.ViewYourReadingGoalRequest | undefined,
+  request: operations.ExchangeAConnectCodeForATokenRequest,
   options?: RequestOptions,
 ): Promise<
   [
     Result<
-      operations.ViewYourReadingGoalResponse,
-      | errors.ViewYourReadingGoalUnauthorizedError
+      operations.ExchangeAConnectCodeForATokenResponse,
+      | errors.BadRequestError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -88,7 +85,7 @@ async function $do(
     request,
     (value) =>
       z.parse(
-        z.optional(operations.ViewYourReadingGoalRequest$outboundSchema),
+        operations.ExchangeAConnectCodeForATokenRequest$outboundSchema,
         value,
       ),
     "Input validation failed",
@@ -97,31 +94,24 @@ async function $do(
     return [parsed, { status: "invalid" }];
   }
   const payload = parsed.value;
-  const body = null;
+  const body = encodeJSON("body", payload, { explode: true });
 
-  const path = pathToFunc("/api/v1/user/reading-goal")();
-
-  const query = encodeFormQuery({
-    "year": payload?.year,
-  });
+  const path = pathToFunc("/api/v1/connect/token")();
 
   const headers = new Headers(compactMap({
+    "Content-Type": "application/json",
     Accept: "application/json",
   }));
-
-  const secConfig = await extractSecurity(client._options.token);
-  const securityInput = secConfig == null ? {} : { token: secConfig };
-  const requestSecurity = resolveGlobalSecurity(securityInput);
 
   const context = {
     options: client._options,
     baseURL: options?.serverURL ?? client._baseURL ?? "",
-    operationID: "viewYourReadingGoal",
+    operationID: "exchangeAConnectCodeForAToken",
     oAuth2Scopes: null,
 
-    resolvedSecurity: requestSecurity,
+    resolvedSecurity: null,
 
-    securitySource: client._options.token,
+    securitySource: null,
     retryConfig: options?.retries
       || client._options.retryConfig
       || { strategy: "none" },
@@ -129,12 +119,10 @@ async function $do(
   };
 
   const requestRes = client._createRequest(context, {
-    security: requestSecurity,
-    method: "GET",
+    method: "POST",
     baseURL: options?.serverURL,
     path: path,
     headers: headers,
-    query: query,
     body: body,
     userAgent: client._options.userAgent,
     timeoutMs: options?.timeoutMs || client._options.timeoutMs || -1,
@@ -161,8 +149,8 @@ async function $do(
   };
 
   const [result] = await M.match<
-    operations.ViewYourReadingGoalResponse,
-    | errors.ViewYourReadingGoalUnauthorizedError
+    operations.ExchangeAConnectCodeForATokenResponse,
+    | errors.BadRequestError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -173,11 +161,12 @@ async function $do(
     | UnexpectedClientError
     | SDKValidationError
   >(
-    M.json(200, operations.ViewYourReadingGoalResponse$inboundSchema, {
-      hdrs: true,
-      key: "Result",
-    }),
-    M.jsonErr(401, errors.ViewYourReadingGoalUnauthorizedError$inboundSchema),
+    M.json(
+      200,
+      operations.ExchangeAConnectCodeForATokenResponse$inboundSchema,
+      { hdrs: true, key: "Result" },
+    ),
+    M.jsonErr(400, errors.BadRequestError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

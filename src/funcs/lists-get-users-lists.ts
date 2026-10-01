@@ -31,7 +31,8 @@ import { Result } from "../types/fp.js";
  * Get user's lists.
  *
  * @remarks
- * Returns a user's public lists. If viewing your own profile, also includes private lists.
+ * Returns a user's public lists. Your own lists also include private and draft ones when the
+ * token has `read:user`.
  */
 export function listsGetUsersLists(
   client: VerseDBCore,

@@ -27,6 +27,13 @@ export type OperatingHours = {
   sunday?: string | undefined;
 };
 
+export type SpecialHour = {
+  from?: string | undefined;
+  to?: string | undefined;
+  hours?: string | undefined;
+  note?: string | undefined;
+};
+
 export type GetAComicShopData = {
   id?: number | undefined;
   name?: string | undefined;
@@ -40,6 +47,7 @@ export type GetAComicShopData = {
   logoUrl?: string | undefined;
   images?: GetAComicShopImages | undefined;
   operatingHours?: OperatingHours | undefined;
+  specialHours?: Array<SpecialHour> | undefined;
   services?: Array<string> | undefined;
   events?: Array<any> | undefined;
 };
@@ -132,6 +140,25 @@ export function operatingHoursFromJSON(
 }
 
 /** @internal */
+export const SpecialHour$inboundSchema: z.ZodMiniType<SpecialHour, unknown> = z
+  .object({
+    from: types.optional(types.string()),
+    to: types.optional(types.string()),
+    hours: types.optional(types.string()),
+    note: types.optional(types.string()),
+  });
+
+export function specialHourFromJSON(
+  jsonString: string,
+): SafeParseResult<SpecialHour, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => SpecialHour$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'SpecialHour' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetAComicShopData$inboundSchema: z.ZodMiniType<
   GetAComicShopData,
   unknown
@@ -149,6 +176,9 @@ export const GetAComicShopData$inboundSchema: z.ZodMiniType<
     logo_url: types.optional(types.string()),
     images: types.optional(z.lazy(() => GetAComicShopImages$inboundSchema)),
     operating_hours: types.optional(z.lazy(() => OperatingHours$inboundSchema)),
+    special_hours: types.optional(
+      z.array(z.lazy(() => SpecialHour$inboundSchema)),
+    ),
     services: types.optional(z.array(types.string())),
     events: types.optional(z.array(z.any())),
   }),
@@ -159,6 +189,7 @@ export const GetAComicShopData$inboundSchema: z.ZodMiniType<
       "full_address": "fullAddress",
       "logo_url": "logoUrl",
       "operating_hours": "operatingHours",
+      "special_hours": "specialHours",
     });
   }),
 );

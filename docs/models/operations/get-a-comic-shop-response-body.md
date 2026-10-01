@@ -31,6 +31,20 @@ let value: GetAComicShopResponseBody = {
       saturday: "10:00-21:00",
       sunday: "closed",
     },
+    specialHours: [
+      {
+        from: "2026-12-25",
+        to: "2026-12-26",
+        hours: "closed",
+        note: "Closed for the holidays",
+      },
+      {
+        from: "2026-12-31",
+        to: "2026-12-31",
+        hours: "10:00-16:00",
+        note: "Closed for the holidays",
+      },
+    ],
     services: [
       "New Comics",
       "Back Issues",
