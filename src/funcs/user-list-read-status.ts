@@ -102,6 +102,8 @@ async function $do(
 
   const query = encodeFormQuery({
     "per_page": payload?.per_page,
+    "q": payload?.q,
+    "sort": payload?.sort,
     "unreviewed": payload?.unreviewed,
   });
 

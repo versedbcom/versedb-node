@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * Get characters for a specific team (members)
  *
  * @remarks
- * Returns the team's character roster.
+ * Returns the team's character roster, by name unless sort says otherwise.
  */
 export function teamsGetCharactersForASpecificTeammembers(
   client: VerseDBCore,
@@ -105,8 +105,10 @@ async function $do(
   const path = pathToFunc("/api/v1/teams/{team_id}/characters")(pathParams);
 
   const query = encodeFormQuery({
+    "direction": payload.direction,
     "limit": payload.limit,
     "q": payload.q,
+    "sort": payload.sort,
   });
 
   const headers = new Headers(compactMap({

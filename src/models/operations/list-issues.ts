@@ -47,6 +47,18 @@ export type ListIssuesRequest = {
    */
   characterIds?: string | undefined;
   /**
+   * Comma-separated creator IDs, up to 10; an issue must credit every one.
+   */
+  creatorIds?: string | undefined;
+  /**
+   * Comma-separated creator role IDs; with creator_ids, each creator must be credited in one of these roles.
+   */
+  creatorRoleIds?: string | undefined;
+  /**
+   * Comma-separated team IDs, up to 10; an issue must feature every one.
+   */
+  teamIds?: string | undefined;
+  /**
    * Comma-separated genre IDs; matches issues whose series carries any of them.
    */
   genreIds?: string | undefined;
@@ -129,6 +141,9 @@ export type ListIssuesRequest$Outbound = {
   series_ids?: string | undefined;
   title_ids?: string | undefined;
   character_ids?: string | undefined;
+  creator_ids?: string | undefined;
+  creator_role_ids?: string | undefined;
+  team_ids?: string | undefined;
   genre_ids?: string | undefined;
   languages?: string | undefined;
   medium?: string | undefined;
@@ -155,6 +170,9 @@ export const ListIssuesRequest$outboundSchema: z.ZodMiniType<
     seriesIds: z.optional(z.string()),
     titleIds: z.optional(z.string()),
     characterIds: z.optional(z.string()),
+    creatorIds: z.optional(z.string()),
+    creatorRoleIds: z.optional(z.string()),
+    teamIds: z.optional(z.string()),
     genreIds: z.optional(z.string()),
     languages: z.optional(z.string()),
     medium: z.optional(z.string()),
@@ -175,6 +193,9 @@ export const ListIssuesRequest$outboundSchema: z.ZodMiniType<
       seriesIds: "series_ids",
       titleIds: "title_ids",
       characterIds: "character_ids",
+      creatorIds: "creator_ids",
+      creatorRoleIds: "creator_role_ids",
+      teamIds: "team_ids",
       genreIds: "genre_ids",
       keyIssuesOnly: "key_issues_only",
       hideUnreleased: "hide_unreleased",

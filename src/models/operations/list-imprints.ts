@@ -11,7 +11,7 @@ import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type ListImprintsRequest = {
   /**
-   * Search by imprint name.
+   * Search by imprint name, tolerating small typos.
    */
   q?: string | undefined;
   /**

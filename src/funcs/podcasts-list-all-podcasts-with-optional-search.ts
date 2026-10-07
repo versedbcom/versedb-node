@@ -32,7 +32,8 @@ import { Result } from "../types/fp.js";
  *
  * @remarks
  * Returns a paginated list of comic book podcasts and YouTube channels, plus
- * the set of languages present in the catalog. Filter with `q`, `type`, or `language`.
+ * the languages and categories present in the catalog. Filter with `q`, `type`,
+ * `language`, or `category`, and order with `sort`.
  */
 export function podcastsListAllPodcastsWithOptionalSearch(
   client: VerseDBCore,
@@ -102,9 +103,11 @@ async function $do(
   const path = pathToFunc("/api/v1/podcasts")();
 
   const query = encodeFormQuery({
+    "category": payload?.category,
     "language": payload?.language,
     "limit": payload?.limit,
     "q": payload?.q,
+    "sort": payload?.sort,
     "type": payload?.type,
   });
 

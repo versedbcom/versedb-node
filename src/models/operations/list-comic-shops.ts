@@ -23,7 +23,7 @@ export type ListComicShopsRequest = {
    */
   city?: string | undefined;
   /**
-   * Search by shop name or city.
+   * Search by shop name, city, street address, postal code or state, tolerating small typos. Results are ordered by relevance when set.
    */
   q?: string | undefined;
   /**

@@ -100,11 +100,14 @@ async function $do(
     "is_fcbd": payload?.is_fcbd,
     "is_online": payload?.is_online,
     "limit": payload?.limit,
+    "month": payload?.month,
     "past": payload?.past,
     "q": payload?.q,
     "region": payload?.region,
+    "sort": payload?.sort,
     "type": payload?.type,
     "upcoming": payload?.upcoming,
+    "weekend": payload?.weekend,
   });
 
   const headers = new Headers(compactMap({

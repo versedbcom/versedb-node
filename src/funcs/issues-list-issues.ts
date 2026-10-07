@@ -97,6 +97,8 @@ async function $do(
 
   const query = encodeFormQuery({
     "character_ids": payload?.character_ids,
+    "creator_ids": payload?.creator_ids,
+    "creator_role_ids": payload?.creator_role_ids,
     "direction": payload?.direction,
     "genre_ids": payload?.genre_ids,
     "hide_unreleased": payload?.hide_unreleased,
@@ -113,6 +115,7 @@ async function $do(
     "series_id": payload?.series_id,
     "series_ids": payload?.series_ids,
     "sort": payload?.sort,
+    "team_ids": payload?.team_ids,
     "title_ids": payload?.title_ids,
   });
 

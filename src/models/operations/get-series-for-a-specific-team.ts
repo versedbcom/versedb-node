@@ -15,9 +15,17 @@ export type GetSeriesForASpecificTeamRequest = {
    */
   teamId: number;
   /**
-   * Optional case-insensitive search within these results.
+   * Optional search within the team's series. Results come back in relevance order unless sort is passed.
    */
   q?: string | undefined;
+  /**
+   * Sort field (start_year, name, cached_issues_count, average_rating, latest_release_date). Defaults to start_year.
+   */
+  sort?: string | undefined;
+  /**
+   * Sort direction (asc, desc). Defaults to asc for name and desc for the others.
+   */
+  direction?: string | undefined;
   /**
    * Number of results per page (max 50).
    */
@@ -67,6 +75,8 @@ export type GetSeriesForASpecificTeamResponse = {
 export type GetSeriesForASpecificTeamRequest$Outbound = {
   team_id: number;
   q?: string | undefined;
+  sort?: string | undefined;
+  direction?: string | undefined;
   limit?: number | undefined;
   medium?: string | undefined;
 };
@@ -79,6 +89,8 @@ export const GetSeriesForASpecificTeamRequest$outboundSchema: z.ZodMiniType<
   z.object({
     teamId: z.int(),
     q: z.optional(z.string()),
+    sort: z.optional(z.string()),
+    direction: z.optional(z.string()),
     limit: z.optional(z.int()),
     medium: z.optional(z.string()),
   }),

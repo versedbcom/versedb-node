@@ -11,7 +11,7 @@ import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type ListEventsRequest = {
   /**
-   * Search by event name.
+   * Search by event name, city or venue, tolerating small typos for upcoming events. Results are ordered by relevance unless `sort` is set.
    */
   q?: string | undefined;
   /**
@@ -42,6 +42,18 @@ export type ListEventsRequest = {
    * Filter by region, matched exactly against the stored value. Use the values from /events/regions.
    */
   region?: string | undefined;
+  /**
+   * Only events running this Friday to Sunday.
+   */
+  weekend?: boolean | undefined;
+  /**
+   * Only events starting in this month, as YYYY-MM.
+   */
+  month?: string | undefined;
+  /**
+   * One of date_asc, date_desc, name_asc, name_desc. Defaults to date_desc with `past`, date_asc otherwise; a `q` search without `sort` keeps relevance order.
+   */
+  sort?: string | undefined;
   /**
    * Number of results per page (max 50).
    */
@@ -108,6 +120,9 @@ export type ListEventsRequest$Outbound = {
   is_fcbd?: boolean | undefined;
   country_code?: string | undefined;
   region?: string | undefined;
+  weekend?: boolean | undefined;
+  month?: string | undefined;
+  sort?: string | undefined;
   limit?: number | undefined;
 };
 
@@ -125,6 +140,9 @@ export const ListEventsRequest$outboundSchema: z.ZodMiniType<
     isFcbd: z.optional(z.boolean()),
     countryCode: z.optional(z.string()),
     region: z.optional(z.string()),
+    weekend: z.optional(z.boolean()),
+    month: z.optional(z.string()),
+    sort: z.optional(z.string()),
     limit: z.optional(z.int()),
   }),
   z.transform((v) => {

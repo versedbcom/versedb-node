@@ -97,6 +97,8 @@ async function $do(
 
   const query = encodeFormQuery({
     "per_page": payload?.per_page,
+    "q": payload?.q,
+    "type": payload?.type,
   });
 
   const headers = new Headers(compactMap({

@@ -26,6 +26,14 @@ export type FOCDeadlinesRequest = {
    * Start of FOC window (YYYY-MM-DD). Defaults to today.
    */
   startDate?: string | undefined;
+  /**
+   * Comma-separated publisher IDs; matches issues from any of them.
+   */
+  publisherIds?: string | undefined;
+  /**
+   * foc_date (default: FOC date, then publisher, then series name), publisher (publisher, then FOC date, then series name) or series (series name, then FOC date).
+   */
+  sort?: string | undefined;
 };
 
 export type FOCDeadlinesSeries = {
@@ -73,6 +81,8 @@ export type FOCDeadlinesRequest$Outbound = {
   page?: number | undefined;
   days?: number | undefined;
   start_date?: string | undefined;
+  publisher_ids?: string | undefined;
+  sort?: string | undefined;
 };
 
 /** @internal */
@@ -85,10 +95,13 @@ export const FOCDeadlinesRequest$outboundSchema: z.ZodMiniType<
     page: z.optional(z.int()),
     days: z.optional(z.int()),
     startDate: z.optional(z.string()),
+    publisherIds: z.optional(z.string()),
+    sort: z.optional(z.string()),
   }),
   z.transform((v) => {
     return remap$(v, {
       startDate: "start_date",
+      publisherIds: "publisher_ids",
     });
   }),
 );

@@ -34,6 +34,9 @@ async function run() {
     isFcbd: true,
     countryCode: "US",
     region: "California",
+    weekend: true,
+    month: "2026-07",
+    sort: "date_desc",
     limit: 20,
   });
 
@@ -67,6 +70,9 @@ async function run() {
     isFcbd: true,
     countryCode: "US",
     region: "California",
+    weekend: true,
+    month: "2026-07",
+    sort: "date_desc",
     limit: 20,
   });
   if (res.ok) {

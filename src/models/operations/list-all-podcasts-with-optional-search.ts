@@ -23,6 +23,14 @@ export type ListAllPodcastsWithOptionalSearchRequest = {
    */
   language?: string | undefined;
   /**
+   * Filter by category name; a podcast matching any of them is returned.
+   */
+  category?: Array<string> | undefined;
+  /**
+   * Order: name (default), latest_episodes, newest, popular (most followers) or updated (recently synced).
+   */
+  sort?: string | undefined;
+  /**
    * Number of results per page (max 50).
    */
   limit?: number | undefined;
@@ -60,6 +68,7 @@ export type ListAllPodcastsWithOptionalSearchResponseBody = {
   data?: Array<ListAllPodcastsWithOptionalSearchData> | undefined;
   meta?: ListAllPodcastsWithOptionalSearchMeta | undefined;
   languages?: Array<string> | undefined;
+  categories?: Array<string> | undefined;
 };
 
 export type ListAllPodcastsWithOptionalSearchResponse = {
@@ -72,6 +81,8 @@ export type ListAllPodcastsWithOptionalSearchRequest$Outbound = {
   q?: string | undefined;
   type?: string | undefined;
   language?: string | undefined;
+  category?: Array<string> | undefined;
+  sort?: string | undefined;
   limit?: number | undefined;
 };
 
@@ -84,6 +95,8 @@ export const ListAllPodcastsWithOptionalSearchRequest$outboundSchema:
     q: z.optional(z.string()),
     type: z.optional(z.string()),
     language: z.optional(z.string()),
+    category: z.optional(z.array(z.string())),
+    sort: z.optional(z.string()),
     limit: z.optional(z.int()),
   });
 
@@ -212,6 +225,7 @@ export const ListAllPodcastsWithOptionalSearchResponseBody$inboundSchema:
         z.lazy(() => ListAllPodcastsWithOptionalSearchMeta$inboundSchema),
       ),
       languages: types.optional(z.array(types.string())),
+      categories: types.optional(z.array(types.string())),
     });
 
 export function listAllPodcastsWithOptionalSearchResponseBodyFromJSON(

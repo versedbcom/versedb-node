@@ -23,6 +23,8 @@ async function main() {
     page: 1,
     days: 7,
     startDate: "2026-03-15",
+    publisherIds: "1,4",
+    sort: "foc_date",
   });
 
   console.log(result);

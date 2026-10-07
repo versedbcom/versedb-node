@@ -11,7 +11,7 @@ import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type BrowseListsRequest = {
   /**
-   * Search by list title or description.
+   * Search by list title or description, tolerating small typos in the title.
    */
   q?: string | undefined;
   /**

@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * Get issues for a specific team
  *
  * @remarks
- * Returns the issues the team appears in.
+ * Returns the issues the team appears in, newest release first unless sort says otherwise.
  */
 export function teamsGetIssuesForASpecificTeam(
   client: VerseDBCore,
@@ -105,9 +105,11 @@ async function $do(
   const path = pathToFunc("/api/v1/teams/{team_id}/issues")(pathParams);
 
   const query = encodeFormQuery({
+    "direction": payload.direction,
     "limit": payload.limit,
     "medium": payload.medium,
     "q": payload.q,
+    "sort": payload.sort,
   });
 
   const headers = new Headers(compactMap({

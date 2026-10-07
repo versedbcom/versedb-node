@@ -1135,6 +1135,8 @@ async function run() {
   const result = await verseDB.user.listReadStatus({
     perPage: 20,
     unreviewed: true,
+    q: "saga 12",
+    sort: "read_at_asc",
   });
 
   console.log(result);
@@ -1161,6 +1163,8 @@ async function run() {
   const res = await userListReadStatus(verseDB, {
     perPage: 20,
     unreviewed: true,
+    q: "saga 12",
+    sort: "read_at_asc",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -1702,6 +1706,8 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.user.listFollows({
     perPage: 20,
+    type: "Character",
+    q: "spider",
   });
 
   console.log(result);
@@ -1727,6 +1733,8 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await userListFollows(verseDB, {
     perPage: 20,
+    type: "Character",
+    q: "spider",
   });
   if (res.ok) {
     const { value: result } = res;

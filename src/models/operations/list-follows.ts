@@ -14,6 +14,14 @@ export type ListFollowsRequest = {
    * Items per page (max 100).
    */
   perPage?: number | undefined;
+  /**
+   * Only follows of this followable type (the morph alias, e.g. Title, Character, Creator, User).
+   */
+  type?: string | undefined;
+  /**
+   * Only follows whose followed entity matches this search (name; username for users).
+   */
+  q?: string | undefined;
 };
 
 export type Followable = {
@@ -53,6 +61,8 @@ export type ListFollowsResponse = {
 /** @internal */
 export type ListFollowsRequest$Outbound = {
   per_page?: number | undefined;
+  type?: string | undefined;
+  q?: string | undefined;
 };
 
 /** @internal */
@@ -62,6 +72,8 @@ export const ListFollowsRequest$outboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     perPage: z.optional(z.int()),
+    type: z.optional(z.string()),
+    q: z.optional(z.string()),
   }),
   z.transform((v) => {
     return remap$(v, {

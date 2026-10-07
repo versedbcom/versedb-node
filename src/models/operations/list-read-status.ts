@@ -18,6 +18,14 @@ export type ListReadStatusRequest = {
    * When true, only returns reads for issues the user has not yet reviewed.
    */
   unreviewed?: boolean | undefined;
+  /**
+   * Search your reads by series name or issue number.
+   */
+  q?: string | undefined;
+  /**
+   * One of `read_at_desc`, `read_at_asc`, `title_asc`, `title_desc`. Default: newest marked first.
+   */
+  sort?: string | undefined;
 };
 
 export type ListReadStatusIssue = {
@@ -63,6 +71,8 @@ export type ListReadStatusResponse = {
 export type ListReadStatusRequest$Outbound = {
   per_page?: number | undefined;
   unreviewed?: boolean | undefined;
+  q?: string | undefined;
+  sort?: string | undefined;
 };
 
 /** @internal */
@@ -73,6 +83,8 @@ export const ListReadStatusRequest$outboundSchema: z.ZodMiniType<
   z.object({
     perPage: z.optional(z.int()),
     unreviewed: z.optional(z.boolean()),
+    q: z.optional(z.string()),
+    sort: z.optional(z.string()),
   }),
   z.transform((v) => {
     return remap$(v, {

@@ -188,6 +188,8 @@ async function run() {
     page: 1,
     days: 7,
     startDate: "2026-03-15",
+    publisherIds: "1,4",
+    sort: "foc_date",
   });
 
   console.log(result);
@@ -223,6 +225,8 @@ async function run() {
     page: 1,
     days: 7,
     startDate: "2026-03-15",
+    publisherIds: "1,4",
+    sort: "foc_date",
   });
 
   console.log(result);
@@ -534,6 +538,8 @@ async function run() {
     page: 1,
     days: 7,
     startDate: "2026-03-15",
+    publisherIds: "1,4",
+    sort: "foc_date",
   }, {
     retries: {
       strategy: "backoff",
@@ -578,6 +584,8 @@ async function run() {
     page: 1,
     days: 7,
     startDate: "2026-03-15",
+    publisherIds: "1,4",
+    sort: "foc_date",
   });
 
   console.log(result);
@@ -618,6 +626,8 @@ async function run() {
       page: 1,
       days: 7,
       startDate: "2026-03-15",
+      publisherIds: "1,4",
+      sort: "foc_date",
     });
 
     console.log(result);
@@ -741,6 +751,8 @@ async function run() {
     page: 1,
     days: 7,
     startDate: "2026-03-15",
+    publisherIds: "1,4",
+    sort: "foc_date",
   });
 
   console.log(result);

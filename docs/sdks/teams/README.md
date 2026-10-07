@@ -180,7 +180,7 @@ run();
 
 ## getCharactersForASpecificTeammembers
 
-Returns the team's character roster.
+Returns the team's character roster, by name unless sort says otherwise.
 
 ### Example Usage
 
@@ -196,6 +196,8 @@ async function run() {
   const result = await verseDB.teams.getCharactersForASpecificTeammembers({
     teamId: 1,
     q: "batman",
+    sort: "cached_issues_count",
+    direction: "desc",
     limit: 20,
   });
 
@@ -223,6 +225,8 @@ async function run() {
   const res = await teamsGetCharactersForASpecificTeammembers(verseDB, {
     teamId: 1,
     q: "batman",
+    sort: "cached_issues_count",
+    direction: "desc",
     limit: 20,
   });
   if (res.ok) {
@@ -259,7 +263,7 @@ run();
 
 ## getSeriesForASpecificTeam
 
-Returns the series the team appears in.
+Returns the series the team appears in, newest start year first unless sort says otherwise.
 
 ### Example Usage
 
@@ -275,6 +279,8 @@ async function run() {
   const result = await verseDB.teams.getSeriesForASpecificTeam({
     teamId: 1,
     q: "batman",
+    sort: "start_year",
+    direction: "desc",
     limit: 20,
     medium: "comic,manga",
   });
@@ -303,6 +309,8 @@ async function run() {
   const res = await teamsGetSeriesForASpecificTeam(verseDB, {
     teamId: 1,
     q: "batman",
+    sort: "start_year",
+    direction: "desc",
     limit: 20,
     medium: "comic,manga",
   });
@@ -340,7 +348,7 @@ run();
 
 ## getIssuesForASpecificTeam
 
-Returns the issues the team appears in.
+Returns the issues the team appears in, newest release first unless sort says otherwise.
 
 ### Example Usage
 
@@ -356,6 +364,8 @@ async function run() {
   const result = await verseDB.teams.getIssuesForASpecificTeam({
     teamId: 1,
     q: "batman",
+    sort: "release_date",
+    direction: "desc",
     limit: 20,
     medium: "comic,manga",
   });
@@ -384,6 +394,8 @@ async function run() {
   const res = await teamsGetIssuesForASpecificTeam(verseDB, {
     teamId: 1,
     q: "batman",
+    sort: "release_date",
+    direction: "desc",
     limit: 20,
     medium: "comic,manga",
   });

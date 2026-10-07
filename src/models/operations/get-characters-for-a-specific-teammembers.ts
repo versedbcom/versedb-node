@@ -15,9 +15,17 @@ export type GetCharactersForASpecificTeammembersRequest = {
    */
   teamId: number;
   /**
-   * Optional case-insensitive search within these results.
+   * Optional search within the team's members. Results come back in relevance order unless sort is passed.
    */
   q?: string | undefined;
+  /**
+   * Sort field (name, cached_issues_count, joined_date). Defaults to name.
+   */
+  sort?: string | undefined;
+  /**
+   * Sort direction (asc, desc). Defaults to asc for name and desc for the others.
+   */
+  direction?: string | undefined;
   /**
    * Number of results per page (max 50).
    */
@@ -69,6 +77,8 @@ export type GetCharactersForASpecificTeammembersResponse = {
 export type GetCharactersForASpecificTeammembersRequest$Outbound = {
   team_id: number;
   q?: string | undefined;
+  sort?: string | undefined;
+  direction?: string | undefined;
   limit?: number | undefined;
 };
 
@@ -81,6 +91,8 @@ export const GetCharactersForASpecificTeammembersRequest$outboundSchema:
     z.object({
       teamId: z.int(),
       q: z.optional(z.string()),
+      sort: z.optional(z.string()),
+      direction: z.optional(z.string()),
       limit: z.optional(z.int()),
     }),
     z.transform((v) => {

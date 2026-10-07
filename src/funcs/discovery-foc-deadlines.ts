@@ -100,6 +100,8 @@ async function $do(
     "days": payload?.days,
     "limit": payload?.limit,
     "page": payload?.page,
+    "publisher_ids": payload?.publisher_ids,
+    "sort": payload?.sort,
     "start_date": payload?.start_date,
   });
 

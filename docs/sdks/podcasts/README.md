@@ -13,7 +13,8 @@ Endpoints for browsing comic book podcasts and episodes.
 ## listAllPodcastsWithOptionalSearch
 
 Returns a paginated list of comic book podcasts and YouTube channels, plus
-the set of languages present in the catalog. Filter with `q`, `type`, or `language`.
+the languages and categories present in the catalog. Filter with `q`, `type`,
+`language`, or `category`, and order with `sort`.
 
 ### Example Usage
 
@@ -30,6 +31,10 @@ async function run() {
     q: "comic",
     type: "youtube",
     language: "en",
+    category: [
+      "Reviews",
+    ],
+    sort: "latest_episodes",
     limit: 20,
   });
 
@@ -58,6 +63,10 @@ async function run() {
     q: "comic",
     type: "youtube",
     language: "en",
+    category: [
+      "Reviews",
+    ],
+    sort: "latest_episodes",
     limit: 20,
   });
   if (res.ok) {
