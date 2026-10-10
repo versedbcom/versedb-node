@@ -40,7 +40,7 @@ export type AddItemToListRequest = {
   body: AddItemToListRequestBody;
 };
 
-export type AddItemToListConflictVariant = {
+export type AddItemToListItemVariant = {
   id?: number | undefined;
   name?: string | undefined;
   coverImageUrl?: string | undefined;
@@ -72,7 +72,7 @@ export type AddItemToListItem = {
   createdAt?: string | undefined;
   updatedAt?: string | undefined;
   variantId?: number | undefined;
-  variant?: AddItemToListConflictVariant | undefined;
+  variant?: AddItemToListItemVariant | undefined;
   entityType?: string | undefined;
   entity?: ConflictEntity | undefined;
 };
@@ -195,8 +195,8 @@ export function addItemToListRequestToJSON(
 }
 
 /** @internal */
-export const AddItemToListConflictVariant$inboundSchema: z.ZodMiniType<
-  AddItemToListConflictVariant,
+export const AddItemToListItemVariant$inboundSchema: z.ZodMiniType<
+  AddItemToListItemVariant,
   unknown
 > = z.pipe(
   z.object({
@@ -211,13 +211,13 @@ export const AddItemToListConflictVariant$inboundSchema: z.ZodMiniType<
   }),
 );
 
-export function addItemToListConflictVariantFromJSON(
+export function addItemToListItemVariantFromJSON(
   jsonString: string,
-): SafeParseResult<AddItemToListConflictVariant, SDKValidationError> {
+): SafeParseResult<AddItemToListItemVariant, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => AddItemToListConflictVariant$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'AddItemToListConflictVariant' from JSON`,
+    (x) => AddItemToListItemVariant$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'AddItemToListItemVariant' from JSON`,
   );
 }
 
@@ -298,7 +298,7 @@ export const AddItemToListItem$inboundSchema: z.ZodMiniType<
     updated_at: types.optional(types.string()),
     variant_id: types.optional(types.number()),
     variant: types.optional(
-      z.lazy(() => AddItemToListConflictVariant$inboundSchema),
+      z.lazy(() => AddItemToListItemVariant$inboundSchema),
     ),
     entity_type: types.optional(types.string()),
     entity: types.optional(z.lazy(() => ConflictEntity$inboundSchema)),

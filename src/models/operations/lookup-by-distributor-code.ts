@@ -9,24 +9,24 @@ import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
-export type LookupByUPCRequest = {
+export type LookupByDistributorCodeRequest = {
   /**
-   * The UPC barcode.
+   * A Lunar or Universal code.
    */
-  upc: string;
+  code: string;
 };
 
-export type LookupByUPCMatchVariant = {
+export type LookupByDistributorCodeMatchVariant = {
   variantId?: string | null | undefined;
   variantName?: string | undefined;
   coverUrl?: string | undefined;
   upc?: string | undefined;
-  lunarCode?: string | null | undefined;
+  lunarCode?: string | undefined;
   universalCode?: string | null | undefined;
   diamondCode?: string | null | undefined;
 };
 
-export type LookupByUPCMatch = {
+export type LookupByDistributorCodeMatch = {
   issueId?: number | undefined;
   seriesName?: string | undefined;
   seriesId?: number | undefined;
@@ -34,13 +34,13 @@ export type LookupByUPCMatch = {
   coverUrl?: string | undefined;
   variantName?: string | null | undefined;
   suggestedVariantId?: string | null | undefined;
-  variants?: Array<LookupByUPCMatchVariant> | undefined;
+  variants?: Array<LookupByDistributorCodeMatchVariant> | undefined;
   publisherName?: string | undefined;
   releaseDate?: string | undefined;
   startYear?: number | undefined;
 };
 
-export type LookupByUPCSeries = {
+export type LookupByDistributorCodeSeries = {
   id?: number | undefined;
   name?: string | undefined;
   slug?: string | undefined;
@@ -48,13 +48,13 @@ export type LookupByUPCSeries = {
   volumeNumber?: number | undefined;
 };
 
-export type LookupByUPCPublisher = {
+export type LookupByDistributorCodePublisher = {
   id?: number | undefined;
   name?: string | undefined;
   slug?: string | undefined;
 };
 
-export type LookupByUPCData = {
+export type LookupByDistributorCodeData = {
   id?: number | undefined;
   slug?: string | undefined;
   seriesId?: number | undefined;
@@ -63,64 +63,65 @@ export type LookupByUPCData = {
   name?: string | undefined;
   solicitation?: string | undefined;
   releaseDate?: string | undefined;
-  coverDate?: string | undefined;
   coverUrl?: string | undefined;
   upc?: string | undefined;
   lunarCode?: string | undefined;
-  universalCode?: string | null | undefined;
-  diamondCode?: string | undefined;
-  series?: LookupByUPCSeries | undefined;
-  publisher?: LookupByUPCPublisher | undefined;
+  universalCode?: string | undefined;
+  diamondCode?: string | null | undefined;
+  series?: LookupByDistributorCodeSeries | undefined;
+  publisher?: LookupByDistributorCodePublisher | undefined;
 };
 
-export type LookupByUPCVariant = {
+export type LookupByDistributorCodeVariant = {
   variantId?: string | null | undefined;
   variantName?: string | undefined;
   coverUrl?: string | undefined;
   upc?: string | undefined;
   lunarCode?: string | undefined;
-  universalCode?: string | null | undefined;
-  diamondCode?: string | undefined;
+  universalCode?: string | undefined;
+  diamondCode?: string | null | undefined;
 };
 
 /**
  * Success
  */
-export type LookupByUPCResponseBody = {
-  data?: LookupByUPCData | undefined;
+export type LookupByDistributorCodeResponseBody = {
+  data?: LookupByDistributorCodeData | undefined;
   suggestedVariantId?: number | undefined;
-  variants?: Array<LookupByUPCVariant> | undefined;
+  variants?: Array<LookupByDistributorCodeVariant> | undefined;
 };
 
-export type LookupByUPCResponse = {
+export type LookupByDistributorCodeResponse = {
   headers: { [k: string]: Array<string> };
-  result: LookupByUPCResponseBody;
+  result: LookupByDistributorCodeResponseBody;
 };
 
 /** @internal */
-export type LookupByUPCRequest$Outbound = {
-  upc: string;
+export type LookupByDistributorCodeRequest$Outbound = {
+  code: string;
 };
 
 /** @internal */
-export const LookupByUPCRequest$outboundSchema: z.ZodMiniType<
-  LookupByUPCRequest$Outbound,
-  LookupByUPCRequest
+export const LookupByDistributorCodeRequest$outboundSchema: z.ZodMiniType<
+  LookupByDistributorCodeRequest$Outbound,
+  LookupByDistributorCodeRequest
 > = z.object({
-  upc: z.string(),
+  code: z.string(),
 });
 
-export function lookupByUPCRequestToJSON(
-  lookupByUPCRequest: LookupByUPCRequest,
+export function lookupByDistributorCodeRequestToJSON(
+  lookupByDistributorCodeRequest: LookupByDistributorCodeRequest,
 ): string {
   return JSON.stringify(
-    LookupByUPCRequest$outboundSchema.parse(lookupByUPCRequest),
+    LookupByDistributorCodeRequest$outboundSchema.parse(
+      lookupByDistributorCodeRequest,
+    ),
   );
 }
 
 /** @internal */
-export const LookupByUPCMatchVariant$inboundSchema: z.ZodMiniType<
-  LookupByUPCMatchVariant,
+export const LookupByDistributorCodeMatchVariant$inboundSchema: z.ZodMiniType<
+  LookupByDistributorCodeMatchVariant,
   unknown
 > = z.pipe(
   z.object({
@@ -128,7 +129,7 @@ export const LookupByUPCMatchVariant$inboundSchema: z.ZodMiniType<
     variant_name: types.optional(types.string()),
     cover_url: types.optional(types.string()),
     upc: types.optional(types.string()),
-    lunar_code: z.optional(z.nullable(types.string())),
+    lunar_code: types.optional(types.string()),
     universal_code: z.optional(z.nullable(types.string())),
     diamond_code: z.optional(z.nullable(types.string())),
   }),
@@ -144,19 +145,20 @@ export const LookupByUPCMatchVariant$inboundSchema: z.ZodMiniType<
   }),
 );
 
-export function lookupByUPCMatchVariantFromJSON(
+export function lookupByDistributorCodeMatchVariantFromJSON(
   jsonString: string,
-): SafeParseResult<LookupByUPCMatchVariant, SDKValidationError> {
+): SafeParseResult<LookupByDistributorCodeMatchVariant, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => LookupByUPCMatchVariant$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'LookupByUPCMatchVariant' from JSON`,
+    (x) =>
+      LookupByDistributorCodeMatchVariant$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByDistributorCodeMatchVariant' from JSON`,
   );
 }
 
 /** @internal */
-export const LookupByUPCMatch$inboundSchema: z.ZodMiniType<
-  LookupByUPCMatch,
+export const LookupByDistributorCodeMatch$inboundSchema: z.ZodMiniType<
+  LookupByDistributorCodeMatch,
   unknown
 > = z.pipe(
   z.object({
@@ -168,7 +170,7 @@ export const LookupByUPCMatch$inboundSchema: z.ZodMiniType<
     variant_name: z.optional(z.nullable(types.string())),
     suggested_variant_id: z.optional(z.nullable(types.string())),
     variants: types.optional(
-      z.array(z.lazy(() => LookupByUPCMatchVariant$inboundSchema)),
+      z.array(z.lazy(() => LookupByDistributorCodeMatchVariant$inboundSchema)),
     ),
     publisher_name: types.optional(types.string()),
     release_date: types.optional(types.string()),
@@ -190,19 +192,19 @@ export const LookupByUPCMatch$inboundSchema: z.ZodMiniType<
   }),
 );
 
-export function lookupByUPCMatchFromJSON(
+export function lookupByDistributorCodeMatchFromJSON(
   jsonString: string,
-): SafeParseResult<LookupByUPCMatch, SDKValidationError> {
+): SafeParseResult<LookupByDistributorCodeMatch, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => LookupByUPCMatch$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'LookupByUPCMatch' from JSON`,
+    (x) => LookupByDistributorCodeMatch$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByDistributorCodeMatch' from JSON`,
   );
 }
 
 /** @internal */
-export const LookupByUPCSeries$inboundSchema: z.ZodMiniType<
-  LookupByUPCSeries,
+export const LookupByDistributorCodeSeries$inboundSchema: z.ZodMiniType<
+  LookupByDistributorCodeSeries,
   unknown
 > = z.pipe(
   z.object({
@@ -220,19 +222,19 @@ export const LookupByUPCSeries$inboundSchema: z.ZodMiniType<
   }),
 );
 
-export function lookupByUPCSeriesFromJSON(
+export function lookupByDistributorCodeSeriesFromJSON(
   jsonString: string,
-): SafeParseResult<LookupByUPCSeries, SDKValidationError> {
+): SafeParseResult<LookupByDistributorCodeSeries, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => LookupByUPCSeries$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'LookupByUPCSeries' from JSON`,
+    (x) => LookupByDistributorCodeSeries$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByDistributorCodeSeries' from JSON`,
   );
 }
 
 /** @internal */
-export const LookupByUPCPublisher$inboundSchema: z.ZodMiniType<
-  LookupByUPCPublisher,
+export const LookupByDistributorCodePublisher$inboundSchema: z.ZodMiniType<
+  LookupByDistributorCodePublisher,
   unknown
 > = z.object({
   id: types.optional(types.number()),
@@ -240,19 +242,19 @@ export const LookupByUPCPublisher$inboundSchema: z.ZodMiniType<
   slug: types.optional(types.string()),
 });
 
-export function lookupByUPCPublisherFromJSON(
+export function lookupByDistributorCodePublisherFromJSON(
   jsonString: string,
-): SafeParseResult<LookupByUPCPublisher, SDKValidationError> {
+): SafeParseResult<LookupByDistributorCodePublisher, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => LookupByUPCPublisher$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'LookupByUPCPublisher' from JSON`,
+    (x) => LookupByDistributorCodePublisher$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByDistributorCodePublisher' from JSON`,
   );
 }
 
 /** @internal */
-export const LookupByUPCData$inboundSchema: z.ZodMiniType<
-  LookupByUPCData,
+export const LookupByDistributorCodeData$inboundSchema: z.ZodMiniType<
+  LookupByDistributorCodeData,
   unknown
 > = z.pipe(
   z.object({
@@ -264,14 +266,17 @@ export const LookupByUPCData$inboundSchema: z.ZodMiniType<
     name: types.optional(types.string()),
     solicitation: types.optional(types.string()),
     release_date: types.optional(types.string()),
-    cover_date: types.optional(types.string()),
     cover_url: types.optional(types.string()),
     upc: types.optional(types.string()),
     lunar_code: types.optional(types.string()),
-    universal_code: z.optional(z.nullable(types.string())),
-    diamond_code: types.optional(types.string()),
-    series: types.optional(z.lazy(() => LookupByUPCSeries$inboundSchema)),
-    publisher: types.optional(z.lazy(() => LookupByUPCPublisher$inboundSchema)),
+    universal_code: types.optional(types.string()),
+    diamond_code: z.optional(z.nullable(types.string())),
+    series: types.optional(
+      z.lazy(() => LookupByDistributorCodeSeries$inboundSchema),
+    ),
+    publisher: types.optional(
+      z.lazy(() => LookupByDistributorCodePublisher$inboundSchema),
+    ),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -279,7 +284,6 @@ export const LookupByUPCData$inboundSchema: z.ZodMiniType<
       "title_id": "titleId",
       "issue_number": "issueNumber",
       "release_date": "releaseDate",
-      "cover_date": "coverDate",
       "cover_url": "coverUrl",
       "lunar_code": "lunarCode",
       "universal_code": "universalCode",
@@ -288,19 +292,19 @@ export const LookupByUPCData$inboundSchema: z.ZodMiniType<
   }),
 );
 
-export function lookupByUPCDataFromJSON(
+export function lookupByDistributorCodeDataFromJSON(
   jsonString: string,
-): SafeParseResult<LookupByUPCData, SDKValidationError> {
+): SafeParseResult<LookupByDistributorCodeData, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => LookupByUPCData$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'LookupByUPCData' from JSON`,
+    (x) => LookupByDistributorCodeData$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByDistributorCodeData' from JSON`,
   );
 }
 
 /** @internal */
-export const LookupByUPCVariant$inboundSchema: z.ZodMiniType<
-  LookupByUPCVariant,
+export const LookupByDistributorCodeVariant$inboundSchema: z.ZodMiniType<
+  LookupByDistributorCodeVariant,
   unknown
 > = z.pipe(
   z.object({
@@ -309,8 +313,8 @@ export const LookupByUPCVariant$inboundSchema: z.ZodMiniType<
     cover_url: types.optional(types.string()),
     upc: types.optional(types.string()),
     lunar_code: types.optional(types.string()),
-    universal_code: z.optional(z.nullable(types.string())),
-    diamond_code: types.optional(types.string()),
+    universal_code: types.optional(types.string()),
+    diamond_code: z.optional(z.nullable(types.string())),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -324,26 +328,28 @@ export const LookupByUPCVariant$inboundSchema: z.ZodMiniType<
   }),
 );
 
-export function lookupByUPCVariantFromJSON(
+export function lookupByDistributorCodeVariantFromJSON(
   jsonString: string,
-): SafeParseResult<LookupByUPCVariant, SDKValidationError> {
+): SafeParseResult<LookupByDistributorCodeVariant, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => LookupByUPCVariant$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'LookupByUPCVariant' from JSON`,
+    (x) => LookupByDistributorCodeVariant$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByDistributorCodeVariant' from JSON`,
   );
 }
 
 /** @internal */
-export const LookupByUPCResponseBody$inboundSchema: z.ZodMiniType<
-  LookupByUPCResponseBody,
+export const LookupByDistributorCodeResponseBody$inboundSchema: z.ZodMiniType<
+  LookupByDistributorCodeResponseBody,
   unknown
 > = z.pipe(
   z.object({
-    data: types.optional(z.lazy(() => LookupByUPCData$inboundSchema)),
+    data: types.optional(
+      z.lazy(() => LookupByDistributorCodeData$inboundSchema),
+    ),
     suggested_variant_id: types.optional(types.number()),
     variants: types.optional(
-      z.array(z.lazy(() => LookupByUPCVariant$inboundSchema)),
+      z.array(z.lazy(() => LookupByDistributorCodeVariant$inboundSchema)),
     ),
   }),
   z.transform((v) => {
@@ -353,24 +359,25 @@ export const LookupByUPCResponseBody$inboundSchema: z.ZodMiniType<
   }),
 );
 
-export function lookupByUPCResponseBodyFromJSON(
+export function lookupByDistributorCodeResponseBodyFromJSON(
   jsonString: string,
-): SafeParseResult<LookupByUPCResponseBody, SDKValidationError> {
+): SafeParseResult<LookupByDistributorCodeResponseBody, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => LookupByUPCResponseBody$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'LookupByUPCResponseBody' from JSON`,
+    (x) =>
+      LookupByDistributorCodeResponseBody$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByDistributorCodeResponseBody' from JSON`,
   );
 }
 
 /** @internal */
-export const LookupByUPCResponse$inboundSchema: z.ZodMiniType<
-  LookupByUPCResponse,
+export const LookupByDistributorCodeResponse$inboundSchema: z.ZodMiniType<
+  LookupByDistributorCodeResponse,
   unknown
 > = z.pipe(
   z.object({
     Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => LookupByUPCResponseBody$inboundSchema),
+    Result: z.lazy(() => LookupByDistributorCodeResponseBody$inboundSchema),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -380,12 +387,12 @@ export const LookupByUPCResponse$inboundSchema: z.ZodMiniType<
   }),
 );
 
-export function lookupByUPCResponseFromJSON(
+export function lookupByDistributorCodeResponseFromJSON(
   jsonString: string,
-): SafeParseResult<LookupByUPCResponse, SDKValidationError> {
+): SafeParseResult<LookupByDistributorCodeResponse, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => LookupByUPCResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'LookupByUPCResponse' from JSON`,
+    (x) => LookupByDistributorCodeResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByDistributorCodeResponse' from JSON`,
   );
 }

@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: d54ae284-e171-41f5-99d0-d4027d6f02b4
 management:
-  docChecksum: 15b65c2c87993a1e95b075406d499ce4
+  docChecksum: 243b117142d46a75e33d4f54f8dac0b8
   docVersion: 1.0.0
   speakeasyVersion: 1.801.0
   generationVersion: 2.946.0
-  releaseVersion: 2.1.25
-  configChecksum: e09291513a3dd9477a6ffe7366e420ec
+  releaseVersion: 2.1.26
+  configChecksum: 98c0193a9e59a6b0730980008794fe53
   repoURL: https://github.com/versedbcom/versedb-node.git
   installationURL: https://github.com/versedbcom/versedb-node
   published: true
 persistentEdits:
-  generation_id: 28e105a2-9141-44a3-80d0-6f8f9f53889f
-  pristine_commit_hash: f6993c28190966f8ec4cc2fd9f9ac9b3c05acb0a
-  pristine_tree_hash: 6b9aaaf2307d6c754ef5ea789e8e49fff83cf2e8
+  generation_id: d4c2f8bf-f166-45cd-b819-09ef9dd9cc56
+  pristine_commit_hash: 6e8fecffb96671d95a0ce8c2f6f31172ec25a84f
+  pristine_tree_hash: b9dab51957462580e8f7c6320a40983c4c169594
 features:
   typescript:
     additionalDependencies: 0.1.0
@@ -184,6 +184,22 @@ trackedFiles:
     id: 5770f6a17382
     last_write_checksum: sha1:59b78a2c86d31b90a4d03b593a29a1bd2c05fc2a
     pristine_git_object: c5203cd1f41e28e36f34144d034ce98fc28ad367
+  docs/models/errors/lookup-by-distributor-code-conflict-error.md:
+    id: 3ca5ef627019
+    last_write_checksum: sha1:e36160584cc936e78b8749c085edf9abe2d7c967
+    pristine_git_object: a9cb3c89dfd6de2310d2e2456ca1e454ff9acda1
+  docs/models/errors/lookup-by-distributor-code-forbidden-error.md:
+    id: a717f87edde0
+    last_write_checksum: sha1:71f6396f9bbef7af9218d44e56281ab5f95156b6
+    pristine_git_object: df8c96b92fbcd7869e2edb11ec4479abd67bc830
+  docs/models/errors/lookup-by-distributor-code-not-found-error.md:
+    id: a446e40d1100
+    last_write_checksum: sha1:d27b2f80e1a0ddcdc5e82d53afad041d4f094f05
+    pristine_git_object: e6e8427cfcf0a8b7fad6efa36900978dc339b601
+  docs/models/errors/lookup-by-distributor-code-unprocessable-entity-error.md:
+    id: 9d36a7637aa1
+    last_write_checksum: sha1:2ae56bdb80ba6372574a8d46bc152ab0e085b5e9
+    pristine_git_object: a68cf15a0da74701141a9821c45dc6a60c4e69ce
   docs/models/errors/lookup-by-isbn-forbidden-error.md:
     id: 0ec075e3cac8
     last_write_checksum: sha1:cf5dfb4d9d2605d27874cd5e5cda255524ea3c40
@@ -194,8 +210,8 @@ trackedFiles:
     pristine_git_object: b47e96c553c717f826da13402efe5b28a2448261
   docs/models/errors/lookup-by-upc-conflict-error.md:
     id: 479420af5f98
-    last_write_checksum: sha1:e7bb02b118316bc0ad0dd01c73fb962518f385d1
-    pristine_git_object: ebda2769f1ea9e9c29af6dfc2f9718a489efee8d
+    last_write_checksum: sha1:55f281b5275f31f08c94a0d6e529662d8f366bf5
+    pristine_git_object: b096b065534f1be3c35b9f350dca498edd3ad4a9
   docs/models/errors/lookup-by-upc-forbidden-error.md:
     id: ad791fcaa5ed
     last_write_checksum: sha1:2c69ff7c9f411ae4f85a1e6d3949854a4edbebb9
@@ -368,10 +384,6 @@ trackedFiles:
     id: 2ab48f880c3c
     last_write_checksum: sha1:7a40fa317d24594d1829890359dfcd40ea8f43dd
     pristine_git_object: 8a7a19ddfe0a377c99861b9d42af5e3144c2a9cb
-  docs/models/operations/add-item-to-list-conflict-variant.md:
-    id: 6d43ab6be551
-    last_write_checksum: sha1:88e859b1f32f813002747c002d9978d33db7da13
-    pristine_git_object: 84fe05fc61789518c7f63bca4f40885c0d5f0649
   docs/models/operations/add-item-to-list-data-entity.md:
     id: c8abd31904bf
     last_write_checksum: sha1:a46eb563d4f7951b758958bf43f772ef93c0ab25
@@ -388,10 +400,14 @@ trackedFiles:
     id: 00fb9ece9e69
     last_write_checksum: sha1:16182bf9cc1aa9d3d56cf235531cf4b6609af9d8
     pristine_git_object: 5f16deb8ae8784a0af51463d71d8f0d648357e2b
+  docs/models/operations/add-item-to-list-item-variant.md:
+    id: 81dce9837067
+    last_write_checksum: sha1:2c20d910fb37baf7db34496d7214f75cf9da15c9
+    pristine_git_object: de3ba5f746de5ca0995ea31ba6f81141a0ddb87b
   docs/models/operations/add-item-to-list-item.md:
     id: d090133d9415
-    last_write_checksum: sha1:de7d0234bcef818aa13a17a924921a95be59db46
-    pristine_git_object: ccd1b02e097d3266cffbaaafb3e47fb495ebb381
+    last_write_checksum: sha1:8eff4c59b53d81823298b5a9ba731637bd955bb3
+    pristine_git_object: 2bf8793d5ba6ce5cb502de6b77d7dfd511945878
   docs/models/operations/add-item-to-list-request-body.md:
     id: d89d57cc2581
     last_write_checksum: sha1:de72967a9ea7b2cea80fb8d3ce9b82c8f52e203e
@@ -766,8 +782,8 @@ trackedFiles:
     pristine_git_object: c363d501dfa498a8f979188e550af47f7cabb86b
   docs/models/operations/get-a-specific-podcast-request.md:
     id: f700c855b0ab
-    last_write_checksum: sha1:9c359f8c654c185e6cfd4b4187bef1ab02958008
-    pristine_git_object: 838563ef441de84c54cfa15a8afb60af10e869af
+    last_write_checksum: sha1:ef93a230ae8f7fa7c53340f26193576575759b11
+    pristine_git_object: 1d65eac7a7ac0a41559804f0e2e7d12c6ef85110
   docs/models/operations/get-a-specific-podcast-response-body.md:
     id: c6ea4a86d9cf
     last_write_checksum: sha1:ff4b266662b1b01381f3707e2e746406686f2c01
@@ -1162,8 +1178,8 @@ trackedFiles:
     pristine_git_object: 06009878ca58ec9226453abea265d7e6b11cedce
   docs/models/operations/get-issue-details-data.md:
     id: 487d6f7753e1
-    last_write_checksum: sha1:a886914439c719736ce19772c1e8eb3c073a9602
-    pristine_git_object: 96c9e7dccf24485a8bd1652d80eeb5d001c55068
+    last_write_checksum: sha1:fd5be203556bf8238b2b7c5a7cd7c08ae34c899e
+    pristine_git_object: 136832166bdcbfead0f5da50c8bea23ca768c8e5
   docs/models/operations/get-issue-details-publisher.md:
     id: 0077bff30776
     last_write_checksum: sha1:1a901bb6e5cf755cbd96b4a9d6e16be32305173b
@@ -1174,12 +1190,12 @@ trackedFiles:
     pristine_git_object: 18216cb35eb715ec02f896f105740563d17c84f3
   docs/models/operations/get-issue-details-response-body.md:
     id: e5a4be193aeb
-    last_write_checksum: sha1:32ca93bcabcfba3490023738f94adfbc381998de
-    pristine_git_object: 19a12c5d21ef98998874cb66b1c44e4fa3f94bf5
+    last_write_checksum: sha1:5f6ccf05a92c1b07f170fe09f853aa017793b00e
+    pristine_git_object: 8b141f2c8a4dd7a5242adf3ca99f9593e0cac591
   docs/models/operations/get-issue-details-response.md:
     id: 0071719ab7fe
-    last_write_checksum: sha1:5a1f883cc5a0e0bc1840b78f64c34eeef97f28d0
-    pristine_git_object: 3db54d75a75581345e9d60ab3b83748ff3ef6ed0
+    last_write_checksum: sha1:fe0f62c13b5efe9466d66505dfe81a4abb1f7121
+    pristine_git_object: f5643b21ee7936ce49715877e17d2c6629fcf764
   docs/models/operations/get-issue-details-series.md:
     id: 553fa11e9e98
     last_write_checksum: sha1:ef5209fa40ab4438dacd187fa3a9c9f137fc6a08
@@ -2108,6 +2124,42 @@ trackedFiles:
     id: db33229c6cdb
     last_write_checksum: sha1:4b69845c98056687c6b97bb88593622137dfb94e
     pristine_git_object: eabbb8ff5126d38d07c77d580116a925368a4334
+  docs/models/operations/lookup-by-distributor-code-data.md:
+    id: 8692620febdb
+    last_write_checksum: sha1:7ccfd15a764ba8a50d22219e84ad413549d06a46
+    pristine_git_object: 75feae808f3d6328bd5dbb1a38e608b95b07b8d9
+  docs/models/operations/lookup-by-distributor-code-match-variant.md:
+    id: d721873756ac
+    last_write_checksum: sha1:a07562cfcbc03e8e23726a066793a4a77088c53d
+    pristine_git_object: abcc4aeef7fe614640b189a2062f2e8433d69177
+  docs/models/operations/lookup-by-distributor-code-match.md:
+    id: c2b439a0003f
+    last_write_checksum: sha1:dfb5657f1a104a478fc96e0039d0a86b665c8b82
+    pristine_git_object: 87fb1e8cc85cc978b5af93e76a511cb80f7b75f9
+  docs/models/operations/lookup-by-distributor-code-publisher.md:
+    id: "636147986711"
+    last_write_checksum: sha1:cba2f4d31495bcbd4340592ab7c8e111516911e7
+    pristine_git_object: 63461aa7266e152f7fb570a63a76a139c3fe475c
+  docs/models/operations/lookup-by-distributor-code-request.md:
+    id: 149aa02306b4
+    last_write_checksum: sha1:2ceff930f3b3e62cfd90e198d131ecf9175759bc
+    pristine_git_object: f7bc87ebaac9455bf3b81af1f0c858d59187bf2d
+  docs/models/operations/lookup-by-distributor-code-response-body.md:
+    id: 1064c57f2af5
+    last_write_checksum: sha1:37e199cc35a64aa66782d226ebd22bda6cdab7e3
+    pristine_git_object: 3c7b3d71906bd37a472ba37a1ed148828bac4148
+  docs/models/operations/lookup-by-distributor-code-response.md:
+    id: 5306c93448d4
+    last_write_checksum: sha1:f69629b85957d93908e994415ae0d16f1e0a2a00
+    pristine_git_object: fe31e01cb808e058a119f12f9470b9c1e08826fa
+  docs/models/operations/lookup-by-distributor-code-series.md:
+    id: 12f2008f0414
+    last_write_checksum: sha1:d0d86b4f9267e00b66e25b4d56488496906f759f
+    pristine_git_object: d40df9f7fbf681e72a01b36eda38c354f6a83b13
+  docs/models/operations/lookup-by-distributor-code-variant.md:
+    id: 16c54daf0f5a
+    last_write_checksum: sha1:2d0a7e8a55420d72cce08da02556c1f783764a85
+    pristine_git_object: bb75b23518a46c596ab72c3b09db316e221b5077
   docs/models/operations/lookup-by-isbn-data.md:
     id: eeb85053aa79
     last_write_checksum: sha1:6805bfe5829cbaa5b18dbb94dde1680bd574b678
@@ -2134,8 +2186,16 @@ trackedFiles:
     pristine_git_object: b62086a3e86ef3717671da9dc2566a6f1c39ab72
   docs/models/operations/lookup-by-upc-data.md:
     id: 19b2fdf12fd9
-    last_write_checksum: sha1:371bdf5f5b29eb909ec3394190aec32b7db05793
-    pristine_git_object: b4cb3769db5b1777ae5c5a661e8617ed64803c68
+    last_write_checksum: sha1:d8e01e11d004de6481ec47910e81ad57a2aecbd4
+    pristine_git_object: 2987004609a08fac051796d399dc9d9234859eec
+  docs/models/operations/lookup-by-upc-match-variant.md:
+    id: 08b92b3a21ef
+    last_write_checksum: sha1:e44771d8633d748aa66b01d04acd271f85c36e42
+    pristine_git_object: 534fca984721b8a19729cf0034adb6cdb3e2d38a
+  docs/models/operations/lookup-by-upc-match.md:
+    id: d8d2e5ba39e5
+    last_write_checksum: sha1:3c3571b6f5e2761a5cbdfa1ab65eda7ee42ba762
+    pristine_git_object: 1e7ace2512f8b681db0049f39fbd81340046bed1
   docs/models/operations/lookup-by-upc-publisher.md:
     id: 24c5f3b64936
     last_write_checksum: sha1:d11f9cd425a8fbbd71c00fdfe1016bd3d811145b
@@ -2146,20 +2206,20 @@ trackedFiles:
     pristine_git_object: eb328cab3d4d313b6bedac86a27881f73d0202fb
   docs/models/operations/lookup-by-upc-response-body.md:
     id: b9f7617c4d82
-    last_write_checksum: sha1:e99b33d86b8e8a58e26f4a1e535a786986c46fda
-    pristine_git_object: d94dd4d38f1258d3528221bd084edbb2044fbc06
+    last_write_checksum: sha1:b3983fa95a057e87ef06b6e50657e848ef9b3cb2
+    pristine_git_object: 272701f57fa950330238e2b28e1d8188edb82be0
   docs/models/operations/lookup-by-upc-response.md:
     id: e549262163d4
-    last_write_checksum: sha1:fc0a3bbe191a9414f7f7b6750856a325f1ec790e
-    pristine_git_object: 9a164d3ccbe9a382d3dda3c19054cf298202fa79
+    last_write_checksum: sha1:e2a979d321e5e2cda7339fbd6d111cadeb663230
+    pristine_git_object: cee72bca940ff1042423db833217d15923d491a0
   docs/models/operations/lookup-by-upc-series.md:
     id: 38f75db21234
     last_write_checksum: sha1:311cd8fbdabb7fbbe96595e55bb4d7f9e2268597
     pristine_git_object: 50aef177e4e6c7153cccff7f190b14f0cb2db05b
   docs/models/operations/lookup-by-upc-variant.md:
     id: c53990dfb7bd
-    last_write_checksum: sha1:8e268a49c1c333f06c9b58823dd17cfce5f473fa
-    pristine_git_object: fb75cb8ad66517c7c1371a04dc94b7725b9f198d
+    last_write_checksum: sha1:3c0084945d70e7806d989c1067d588e8486fc2bd
+    pristine_git_object: 64ef5fe1299c9cc109647466136ad41ec23857d3
   docs/models/operations/mark-as-read-request-body.md:
     id: 9b3ab479739b
     last_write_checksum: sha1:1e13cf9d77c519646fb3e1507eef039c0a399782
@@ -2208,14 +2268,6 @@ trackedFiles:
     id: 289ea4ef6f5e
     last_write_checksum: sha1:df496abefa2d8b347b03925a3eb4b1aada9b63be
     pristine_git_object: 8675a28d75e7b763ce81d889cac985634e5c9e6a
-  docs/models/operations/match-variant.md:
-    id: eb344299201c
-    last_write_checksum: sha1:a3b3472433cc6a682271fb7116aeeeebefeda7ad
-    pristine_git_object: 1d933a421e448f7f434ac2d1158460dd29d58e02
-  docs/models/operations/match.md:
-    id: fd9cbd6b7dd7
-    last_write_checksum: sha1:e5964a224e4bdc9d8fe162b456358e26f8433a4e
-    pristine_git_object: 92130f6e67dc1beedf2f6f32544f1e21c2245a8b
   docs/models/operations/membership.md:
     id: d4f5e8ac6a96
     last_write_checksum: sha1:cf5a59135e0854d9c954429343a292da8be1c366
@@ -2654,8 +2706,8 @@ trackedFiles:
     pristine_git_object: 1be3cc5c6dfc5d4899e5ccce9f6da4fae969fccb
   docs/sdks/barcodelookup/README.md:
     id: 447c7c5fd677
-    last_write_checksum: sha1:6cb064759e543edc770a107097b2e3a76b177b58
-    pristine_git_object: 7486a08a6759f49730d60341b8b3dbcb1bba765d
+    last_write_checksum: sha1:5bcacd68174a8d19c01957903d2f6203c151565e
+    pristine_git_object: ce8593f186a0f0c40e5e53f495f0e74cf981b7d2
   docs/sdks/characters/README.md:
     id: 8eebfa79b3b6
     last_write_checksum: sha1:6a0bc19747ad63c65131bdee22d5979d1d1c960b
@@ -2750,16 +2802,20 @@ trackedFiles:
     pristine_git_object: ce4a6a85b8bc46789323545a102bb0515c686b36
   jsr.json:
     id: 7f6ab7767282
-    last_write_checksum: sha1:6b5af666a8418cc48017b4921d7ff82f90a2e293
-    pristine_git_object: 2e3787bfea6874f92d2e7e1fb14ac33eaec83fe1
+    last_write_checksum: sha1:d645d500914d071af22622d8288de294bc287333
+    pristine_git_object: 599cd4250668464d9b99dcd7d00af9818be882d2
   package.json:
     id: 7030d0b2f71b
-    last_write_checksum: sha1:eb67a83c6d133772d0024628b5db62a6919965fd
-    pristine_git_object: bbc58c77a7b69e195f4af335d295c2918b1bf9f9
+    last_write_checksum: sha1:f8c3300268b491c154a899f1fc3931c69b99494a
+    pristine_git_object: 8e8852d33b0c42d054e670781c290612288ce908
   src/core.ts:
     id: f431fdbcd144
     last_write_checksum: sha1:ad0063bee03825028052e52cef3fa240c6101bdf
     pristine_git_object: 6ceb7ca272036ffd9dc0e7776e43ba9d4da0b665
+  src/funcs/barcode-lookup-lookup-by-distributor-code.ts:
+    id: abf7eb91d0a5
+    last_write_checksum: sha1:1c384484a683de5694bc0b5130f2fa64ce19110c
+    pristine_git_object: 195c21de6111ab3f682b7b077e53d14336cbc2a4
   src/funcs/barcode-lookup-lookup-by-isbn.ts:
     id: 0f51a942848f
     last_write_checksum: sha1:65236d8dc98ce95dfacc6524539a120388c9d3a1
@@ -3170,8 +3226,8 @@ trackedFiles:
     pristine_git_object: 44be0eae8246521b230e8e711a88eff738fc015d
   src/lib/config.ts:
     id: 320761608fb3
-    last_write_checksum: sha1:db2f1d023e77a2cfad0d4733a8b983b38e0f2fba
-    pristine_git_object: 726985edbf018b4267ae58059c289f3bbb2f9bf9
+    last_write_checksum: sha1:9fecd1d21765991dfb976596f9a0df4c7032317e
+    pristine_git_object: 2a87580c0a9e2350499c09da305877af0554cec6
   src/lib/encodings.ts:
     id: 3bd8ead98afd
     last_write_checksum: sha1:4481b2a380f8a16856ef92c66fb370299f56d135
@@ -3302,8 +3358,8 @@ trackedFiles:
     pristine_git_object: b34f612124c797c2a1106b9735708f679a90b74f
   src/models/errors/index.ts:
     id: c4e22507cb83
-    last_write_checksum: sha1:3c5b7e8595e3e7640a1e39b33bf91b39e2a674d1
-    pristine_git_object: dcbe07ac38ce5e48f28bd7a73ae9acd9d4f9e902
+    last_write_checksum: sha1:b148c2751f12422b2fe9bed449552bcd8c069904
+    pristine_git_object: 328fca1c20ef4be3cc3959a6e09c182c8cad268f
   src/models/errors/lend-a-copy-out.ts:
     id: 1855d6b53c6a
     last_write_checksum: sha1:e1d3d85474fdaccc036b1b9c12467380ab8f5880
@@ -3312,14 +3368,18 @@ trackedFiles:
     id: c7c984529ee3
     last_write_checksum: sha1:631076326021f7b194e6799f8465e7a3f9ac850e
     pristine_git_object: 56c2c7213b7cd19f2c91913c4f008418199caf2b
+  src/models/errors/lookup-by-distributor-code.ts:
+    id: b72b80e32a0d
+    last_write_checksum: sha1:4cb1e3401f6ea4432f48b74ba0e08d74b84ab356
+    pristine_git_object: f5fbfd7ca8a6b7c049e9fb58e50f43135bd63db7
   src/models/errors/lookup-by-isbn.ts:
     id: 271c99534f62
     last_write_checksum: sha1:9ebdde79e4d8fd01de9fbc7511cef9be1b45dc21
     pristine_git_object: 72a8cc55419eff543cd4c2dce6b485c3c51ea570
   src/models/errors/lookup-by-upc.ts:
     id: c31f11e99923
-    last_write_checksum: sha1:d58fbf914506e48d0b7ef36c790f709d047903c9
-    pristine_git_object: afb19ae7853e1a4b103d350a9b88350adffbdc4b
+    last_write_checksum: sha1:bdfa05cc3e5322e2c1b64a0b982babda9564cf7b
+    pristine_git_object: 276008d76271d8ad55f639d2c3e8c4bb911ecaca
   src/models/errors/mark-as-read.ts:
     id: 8203738d0bd1
     last_write_checksum: sha1:2ced9006f918977777890bc1509ad2be0197b9cf
@@ -3410,8 +3470,8 @@ trackedFiles:
     pristine_git_object: d42a076847579a5d2df34cdd84947175d4066339
   src/models/operations/add-item-to-list.ts:
     id: fbd5a14d7b7e
-    last_write_checksum: sha1:08e4127fc6095c855b182f121f777b24381c35d2
-    pristine_git_object: 25132311712951fef160fd7f022796fac20b443d
+    last_write_checksum: sha1:dff3777401d241ffe4c5eed94d21ef2fa2fee7f7
+    pristine_git_object: b60366f0dc8ee70fb1cf40265f8ea6b91531d91c
   src/models/operations/add-to-pull-list.ts:
     id: 93d45ae829b3
     last_write_checksum: sha1:4320889249b49f2dc981e097d46ed9855340f769
@@ -3542,8 +3602,8 @@ trackedFiles:
     pristine_git_object: 53f8e53484adf94e9dfe05cbac82be0b367daa93
   src/models/operations/get-issue-details.ts:
     id: 69dff1ca7fca
-    last_write_checksum: sha1:4af8b1ff2ff054f57f329d4056aaab6a46d31ce2
-    pristine_git_object: 89d571ccac90fcdd0ffc1824e2b7bf2eda347e6e
+    last_write_checksum: sha1:cb55e37555a8df6770b112c4dd1962ecbe26fb71
+    pristine_git_object: 965278a879ae0038c13f679d8188a8929e7da9e1
   src/models/operations/get-issue-variants.ts:
     id: 55a386181505
     last_write_checksum: sha1:ae2260b97a36e01d610e087f2bc38239366ed929
@@ -3614,8 +3674,8 @@ trackedFiles:
     pristine_git_object: 7226c935b8b3d3740a64c8081c1f636f0f879827
   src/models/operations/index.ts:
     id: 0d9ffaf774d2
-    last_write_checksum: sha1:7687287dd32d31eb5408580e3621b858e26116d4
-    pristine_git_object: 9cf60a1c14f4a7cfa63cfaa1ed973f1968c781c2
+    last_write_checksum: sha1:4adb8816acaf14b3c264f22043210d7ec66051c3
+    pristine_git_object: 315aebd58f34843038afd966346f46547b7a2f4c
   src/models/operations/lend-a-copy-out.ts:
     id: 4d42e7c63948
     last_write_checksum: sha1:fc17a72f5cf943862b60dbd35d59054a1b5e6f8e
@@ -3700,14 +3760,18 @@ trackedFiles:
     id: 1969ddd30caf
     last_write_checksum: sha1:36142d6662b07de8c92fc46e987a978d3a0efae5
     pristine_git_object: 0a6dde316a0f19482f5ccabcb2acc6532c2d1fc8
+  src/models/operations/lookup-by-distributor-code.ts:
+    id: a4f7bcc1efb8
+    last_write_checksum: sha1:837db116bc3614db0a34b6d7535815bd99e60fda
+    pristine_git_object: 847c1e4c96e1bb2dce5f546c63de64d23350c727
   src/models/operations/lookup-by-isbn.ts:
     id: 2eb40b79c9e0
     last_write_checksum: sha1:afb7a75dba9101ece7feaf6820fd251ee72e7e83
     pristine_git_object: 42113a40d6a99bf348dec967a6d0ca0e2c297a20
   src/models/operations/lookup-by-upc.ts:
     id: 753ed03197b5
-    last_write_checksum: sha1:2da206bd78fcd649adb1884b576a163d833856de
-    pristine_git_object: 22685becb8d6026eb66fa52f284506de4ede4293
+    last_write_checksum: sha1:dfbe18629659f6a485e73a18039117ad6911a2cb
+    pristine_git_object: 0248b08e1adefc36236479e8800e0f280ee1e87d
   src/models/operations/mark-as-read.ts:
     id: 41b3f5fd0a72
     last_write_checksum: sha1:46197d4c5f7580bd30d3d418898a5affa28bd0cc
@@ -3802,8 +3866,8 @@ trackedFiles:
     pristine_git_object: 21c30c7e12fb1053277a3971c3cdf1fd9dcaf49e
   src/sdk/barcode-lookup.ts:
     id: 19436fde3d80
-    last_write_checksum: sha1:ae408bfee9be70fd27399da5412d561085de5d9f
-    pristine_git_object: 0113bc2df90bda6a6e01f9c3a0a0fd395534eb97
+    last_write_checksum: sha1:a1d69fa98e9eeeafdf32866d61f446532056771b
+    pristine_git_object: 8a942d17e00bf84f3c1a5ad10e03fead4e435b79
   src/sdk/characters.ts:
     id: 755cba4cd148
     last_write_checksum: sha1:7c5ba6b9f0fcae0789913b558fe965bb2dfce836
@@ -3965,7 +4029,7 @@ examples:
           upc: "75960608936700111"
       responses:
         "200":
-          application/json: {"data": {"id": 5432, "slug": "amazing-spider-man-1", "series_id": 123, "title_id": 45, "issue_number": "1", "name": "The Amazing Spider-Man #1", "solicitation": "THE AMAZING SPIDER-MAN #1 ... the publisher's own solicitation text, verbatim, or null", "release_date": "2018-07-11", "cover_date": "2018-09-01", "cover_url": "https://...", "upc": "75960608936700111", "series": {"id": 123, "name": "Amazing Spider-Man", "slug": "amazing-spider-man-2018", "start_year": 2018, "volume_number": 5}, "publisher": {"id": 1, "name": "Marvel", "slug": "marvel"}}, "suggested_variant_id": 789, "variants": [{"variant_id": null, "variant_name": "Cover A", "cover_url": "https://...", "upc": "75960608936700111"}, {"variant_id": "789", "variant_name": "Cover B", "cover_url": "https://...", "upc": "75960608936700121"}]}
+          application/json: {"data": {"id": 5432, "slug": "amazing-spider-man-1", "series_id": 123, "title_id": 45, "issue_number": "1", "name": "The Amazing Spider-Man #1", "solicitation": "THE AMAZING SPIDER-MAN #1 ... the publisher's own solicitation text, verbatim, or null", "release_date": "2018-07-11", "cover_date": "2018-09-01", "cover_url": "https://...", "upc": "75960608936700111", "lunar_code": "0518MA0101", "universal_code": null, "diamond_code": "MAY180901", "series": {"id": 123, "name": "Amazing Spider-Man", "slug": "amazing-spider-man-2018", "start_year": 2018, "volume_number": 5}, "publisher": {"id": 1, "name": "Marvel", "slug": "marvel"}}, "suggested_variant_id": 789, "variants": [{"variant_id": null, "variant_name": "Cover A", "cover_url": "https://...", "upc": "75960608936700111", "lunar_code": "0518MA0101", "universal_code": null, "diamond_code": "MAY180901"}, {"variant_id": "789", "variant_name": "Cover B", "cover_url": "https://...", "upc": "75960608936700121", "lunar_code": "0518MA0102", "universal_code": null, "diamond_code": "MAY180902"}]}
         "401":
           application/json: {"message": "Unauthenticated."}
         "403":
@@ -3973,7 +4037,7 @@ examples:
         "404":
           application/json: {"message": "No issue found with UPC: 75960608936700111"}
         "409":
-          application/json: {"message": "Multiple issues share UPC: 075960608936. Pick one below.", "count": 3, "total_count": 3, "matches": [{"issue_id": 5432, "series_name": "Amazing Spider-Man", "series_id": 123, "issue_number": "1", "cover_url": "https://...", "variant_name": null, "suggested_variant_id": null, "variants": [{"variant_id": null, "variant_name": "Cover A", "cover_url": "https://...", "upc": "75960608936700111"}], "publisher_name": "Marvel", "release_date": "1990-04-01", "start_year": 1963}]}
+          application/json: {"message": "Multiple issues share UPC: 075960608936. Pick one below.", "count": 3, "total_count": 3, "matches": [{"issue_id": 5432, "series_name": "Amazing Spider-Man", "series_id": 123, "issue_number": "1", "cover_url": "https://...", "variant_name": null, "suggested_variant_id": null, "variants": [{"variant_id": null, "variant_name": "Cover A", "cover_url": "https://...", "upc": "75960608936700111", "lunar_code": null, "universal_code": null, "diamond_code": null}], "publisher_name": "Marvel", "release_date": "1990-04-01", "start_year": 1963}]}
         "429":
           application/json: {"message": "Too Many Attempts."}
   lookupByISBN:
@@ -4360,7 +4424,7 @@ examples:
           issue_id: 5432
       responses:
         "200":
-          application/json: {"data": {"id": 5432, "slug": "amazing-spider-man-1", "series_id": 123, "issue_number": "1", "name": "The Amazing Spider-Man #1", "solicitation": "THE AMAZING SPIDER-MAN #1 ... the publisher's own solicitation text, verbatim, or null", "release_date": "2018-07-11", "cover_date": "2018-09-01", "cover_url": "https://...", "is_reprint": false, "content_rating_label": "15+", "min_age": 15, "is_nsfw": false, "page_count": 40, "price": "4.99", "upc": "75960608936700111", "series": {"id": 123, "name": "Amazing Spider-Man", "slug": "amazing-spider-man-2018"}, "title": {"id": 45, "name": "Amazing Spider-Man"}, "publisher": {"id": 1, "name": "Marvel", "slug": "marvel"}, "creators": [{"id": 789, "name": "Nick Spencer", "slug": "nick-spencer", "role": "Writer"}], "characters": [{"id": 456, "name": "Spider-Man", "slug": "spider-man"}]}}
+          application/json: {"data": {"id": 5432, "slug": "amazing-spider-man-1", "series_id": 123, "issue_number": "1", "name": "The Amazing Spider-Man #1", "solicitation": "THE AMAZING SPIDER-MAN #1 ... the publisher's own solicitation text, verbatim, or null", "release_date": "2018-07-11", "cover_date": "2018-09-01", "cover_url": "https://...", "is_reprint": false, "content_rating_label": "15+", "min_age": 15, "is_nsfw": false, "page_count": 40, "price": "4.99", "upc": "75960608936700111", "lunar_code": "0518MA0101", "universal_code": null, "diamond_code": "MAY180901", "series": {"id": 123, "name": "Amazing Spider-Man", "slug": "amazing-spider-man-2018"}, "title": {"id": 45, "name": "Amazing Spider-Man"}, "publisher": {"id": 1, "name": "Marvel", "slug": "marvel"}, "creators": [{"id": 789, "name": "Nick Spencer", "slug": "nick-spencer", "role": "Writer"}], "characters": [{"id": 456, "name": "Spider-Man", "slug": "spider-man"}]}}
         "401":
           application/json: {"message": "Unauthenticated."}
         "404":
@@ -5636,4 +5700,25 @@ examples:
           application/json: {"error": "invalid_grant", "error_description": "This code is invalid or has expired."}
         "429":
           application/json: {"message": "Too Many Attempts."}
+  lookupByDistributorCode:
+    speakeasy-default-lookup-by-distributor-code:
+      parameters:
+        path:
+          code: "1125DC0151"
+      responses:
+        "200":
+          application/json: {"data": {"id": 5432, "slug": "absolute-batman-15", "series_id": 123, "title_id": 45, "issue_number": "15", "name": "Absolute Batman #15", "solicitation": "The publisher's own solicitation text, verbatim, or null", "release_date": "2026-01-28", "cover_url": "https://...", "upc": "76194138441201511", "lunar_code": "1125DC0151", "universal_code": "DC10251016", "diamond_code": null, "series": {"id": 123, "name": "Absolute Batman", "slug": "absolute-batman-2024", "start_year": 2024, "volume_number": 1}, "publisher": {"id": 2, "name": "DC Comics", "slug": "dc-comics"}}, "suggested_variant_id": 789, "variants": [{"variant_id": null, "variant_name": "Cover A", "cover_url": "https://...", "upc": "76194138441201511", "lunar_code": "1125DC0151", "universal_code": "DC10251016", "diamond_code": null}, {"variant_id": "789", "variant_name": "Cover B", "cover_url": "https://...", "upc": "76194138441201521", "lunar_code": "1125DC0152", "universal_code": "DC10251017", "diamond_code": null}]}
+        "401":
+          application/json: {"message": "Unauthenticated."}
+        "403":
+          application/json: {"message": "Unauthorized"}
+        "404":
+          application/json: {"message": "No issue found with Lunar code: 1125DC0151"}
+        "409":
+          application/json: {"message": "Multiple issues share Lunar code: 1125DC0151. Pick one below.", "count": 2, "total_count": 2, "matches": [{"issue_id": 5432, "series_name": "Absolute Batman", "series_id": 123, "issue_number": "15", "cover_url": "https://...", "variant_name": null, "suggested_variant_id": null, "variants": [{"variant_id": null, "variant_name": "Cover A", "cover_url": "https://...", "upc": "76194138441201511", "lunar_code": "1125DC0151", "universal_code": null, "diamond_code": null}], "publisher_name": "DC Comics", "release_date": "2026-01-28", "start_year": 2024}]}
+        "422":
+          application/json: {"message": "Invalid code. Expected a Lunar code like 0126IM0451 or a Universal code like DC10251016."}
+        "429":
+          application/json: {"message": "Too Many Attempts."}
 examplesVersion: 1.0.2
+releaseNotes: "## Typescript SDK Changes:\n* `versedb.barcodeLookup.lookupByDistributorCode()`: **Added**\n* `versedb.issues.getIssueDetails()`:  `response.data` **Changed**\n* `versedb.barcodeLookup.lookupByUpc()`: \n  *  `response` **Changed**\n  *  `error.matches[].variants[]` **Changed**\n"

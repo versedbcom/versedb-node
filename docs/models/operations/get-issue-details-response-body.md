@@ -26,6 +26,9 @@ let value: GetIssueDetailsResponseBody = {
     pageCount: 40,
     price: "4.99",
     upc: "75960608936700111",
+    lunarCode: "0518MA0101",
+    universalCode: null,
+    diamondCode: "MAY180901",
     series: {
       id: 123,
       name: "Amazing Spider-Man",

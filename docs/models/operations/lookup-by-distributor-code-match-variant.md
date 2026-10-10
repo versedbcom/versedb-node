@@ -1,18 +1,18 @@
-# LookupByUPCVariant
+# LookupByDistributorCodeMatchVariant
 
 ## Example Usage
 
 ```typescript
-import { LookupByUPCVariant } from "@versedbcom/sdk/models/operations";
+import { LookupByDistributorCodeMatchVariant } from "@versedbcom/sdk/models/operations";
 
-let value: LookupByUPCVariant = {
+let value: LookupByDistributorCodeMatchVariant = {
   variantId: null,
   variantName: "Cover A",
   coverUrl: "https://...",
-  upc: "75960608936700111",
-  lunarCode: "0518MA0101",
+  upc: "76194138441201511",
+  lunarCode: "1125DC0151",
   universalCode: null,
-  diamondCode: "MAY180901",
+  diamondCode: null,
 };
 ```
 
@@ -23,7 +23,7 @@ let value: LookupByUPCVariant = {
 | `variantId`        | *string*           | :heavy_minus_sign: | N/A                | null               |
 | `variantName`      | *string*           | :heavy_minus_sign: | N/A                | Cover A            |
 | `coverUrl`         | *string*           | :heavy_minus_sign: | N/A                | https://...        |
-| `upc`              | *string*           | :heavy_minus_sign: | N/A                | 75960608936700111  |
-| `lunarCode`        | *string*           | :heavy_minus_sign: | N/A                | 0518MA0101         |
+| `upc`              | *string*           | :heavy_minus_sign: | N/A                | 76194138441201511  |
+| `lunarCode`        | *string*           | :heavy_minus_sign: | N/A                | 1125DC0151         |
 | `universalCode`    | *string*           | :heavy_minus_sign: | N/A                | null               |
-| `diamondCode`      | *string*           | :heavy_minus_sign: | N/A                | MAY180901          |
+| `diamondCode`      | *string*           | :heavy_minus_sign: | N/A                | null               |

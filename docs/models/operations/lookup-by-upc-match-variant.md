@@ -1,15 +1,18 @@
-# MatchVariant
+# LookupByUPCMatchVariant
 
 ## Example Usage
 
 ```typescript
-import { MatchVariant } from "@versedbcom/sdk/models/operations";
+import { LookupByUPCMatchVariant } from "@versedbcom/sdk/models/operations";
 
-let value: MatchVariant = {
+let value: LookupByUPCMatchVariant = {
   variantId: null,
   variantName: "Cover A",
   coverUrl: "https://...",
   upc: "75960608936700111",
+  lunarCode: null,
+  universalCode: null,
+  diamondCode: null,
 };
 ```
 
@@ -21,3 +24,6 @@ let value: MatchVariant = {
 | `variantName`      | *string*           | :heavy_minus_sign: | N/A                | Cover A            |
 | `coverUrl`         | *string*           | :heavy_minus_sign: | N/A                | https://...        |
 | `upc`              | *string*           | :heavy_minus_sign: | N/A                | 75960608936700111  |
+| `lunarCode`        | *string*           | :heavy_minus_sign: | N/A                | null               |
+| `universalCode`    | *string*           | :heavy_minus_sign: | N/A                | null               |
+| `diamondCode`      | *string*           | :heavy_minus_sign: | N/A                | null               |

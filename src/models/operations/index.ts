@@ -75,6 +75,7 @@ export * from "./list-series.js";
 export * from "./list-titles.js";
 export * from "./list-universes.js";
 export * from "./list-wishlist.js";
+export * from "./lookup-by-distributor-code.js";
 export * from "./lookup-by-isbn.js";
 export * from "./lookup-by-upc.js";
 export * from "./mark-as-read.js";

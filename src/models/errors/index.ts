@@ -25,6 +25,7 @@ export * from "./get-variant-details.js";
 export * from "./http-client-errors.js";
 export * from "./lend-a-copy-out.js";
 export * from "./like-list-or-react-to-it.js";
+export * from "./lookup-by-distributor-code.js";
 export * from "./lookup-by-isbn.js";
 export * from "./lookup-by-upc.js";
 export * from "./mark-as-read.js";

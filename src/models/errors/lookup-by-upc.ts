@@ -15,7 +15,7 @@ export type LookupByUPCConflictErrorData = {
   message?: string | undefined;
   count?: number | undefined;
   totalCount?: number | undefined;
-  matches?: Array<operations.Match> | undefined;
+  matches?: Array<operations.LookupByUPCMatch> | undefined;
 };
 
 /**
@@ -24,7 +24,7 @@ export type LookupByUPCConflictErrorData = {
 export class LookupByUPCConflictError extends VerseDbError {
   count?: number | undefined;
   totalCount?: number | undefined;
-  matches?: Array<operations.Match> | undefined;
+  matches?: Array<operations.LookupByUPCMatch> | undefined;
 
   /** The original data that was passed to this error instance. */
   data$: LookupByUPCConflictErrorData;
@@ -106,7 +106,7 @@ export const LookupByUPCConflictError$inboundSchema: z.ZodMiniType<
     count: types.optional(types.number()),
     total_count: types.optional(types.number()),
     matches: types.optional(
-      z.array(z.lazy(() => operations.Match$inboundSchema)),
+      z.array(z.lazy(() => operations.LookupByUPCMatch$inboundSchema)),
     ),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),

@@ -1,11 +1,11 @@
-# AddItemToListConflictVariant
+# AddItemToListItemVariant
 
 ## Example Usage
 
 ```typescript
-import { AddItemToListConflictVariant } from "@versedbcom/sdk/models/operations";
+import { AddItemToListItemVariant } from "@versedbcom/sdk/models/operations";
 
-let value: AddItemToListConflictVariant = {
+let value: AddItemToListItemVariant = {
   id: 7,
   name: "Virgin Variant",
   coverImageUrl: "https://cdn.versedb.com/variants/7/cover_md.webp",

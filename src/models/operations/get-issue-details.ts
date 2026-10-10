@@ -63,6 +63,9 @@ export type GetIssueDetailsData = {
   pageCount?: number | undefined;
   price?: string | undefined;
   upc?: string | undefined;
+  lunarCode?: string | undefined;
+  universalCode?: string | null | undefined;
+  diamondCode?: string | undefined;
   series?: GetIssueDetailsSeries | undefined;
   title?: GetIssueDetailsTitle | undefined;
   publisher?: GetIssueDetailsPublisher | undefined;
@@ -232,6 +235,9 @@ export const GetIssueDetailsData$inboundSchema: z.ZodMiniType<
     page_count: types.optional(types.number()),
     price: types.optional(types.string()),
     upc: types.optional(types.string()),
+    lunar_code: types.optional(types.string()),
+    universal_code: z.optional(z.nullable(types.string())),
+    diamond_code: types.optional(types.string()),
     series: types.optional(z.lazy(() => GetIssueDetailsSeries$inboundSchema)),
     title: types.optional(z.lazy(() => GetIssueDetailsTitle$inboundSchema)),
     publisher: types.optional(
@@ -256,6 +262,9 @@ export const GetIssueDetailsData$inboundSchema: z.ZodMiniType<
       "min_age": "minAge",
       "is_nsfw": "isNsfw",
       "page_count": "pageCount",
+      "lunar_code": "lunarCode",
+      "universal_code": "universalCode",
+      "diamond_code": "diamondCode",
     });
   }),
 );
