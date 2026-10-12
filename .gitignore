@@ -31,3 +31,6 @@ dist/
 .DS_Store
 .speakeasy/logs/
 .speakeasy/temp/
+
+# Playwright MCP output (snapshots, console logs, screenshots)
+.playwright-mcp/
