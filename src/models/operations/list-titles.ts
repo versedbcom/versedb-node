@@ -31,6 +31,18 @@ export type ListTitlesRequest = {
    */
   hideUnreleased?: boolean | undefined;
   /**
+   * Return titles with a series in this medium: comic, manga, manhwa, manhua, bande_dessinee or magazine.
+   */
+  medium?: string | undefined;
+  /**
+   * Comma-separated language codes. Returns titles with a series in any one of them.
+   */
+  languages?: string | undefined;
+  /**
+   * Return only titles with an ongoing series. Combined with medium or languages, that same series has to match them.
+   */
+  ongoing?: boolean | undefined;
+  /**
    * Sort field. One of name, start_year, average_rating, cached_series_count, cached_issues_count; anything else falls back to name. Passing sort replaces the relevance ordering applied to q results.
    */
   sort?: string | undefined;
@@ -95,6 +107,9 @@ export type ListTitlesRequest$Outbound = {
   publisher?: number | undefined;
   publisher_ids?: string | undefined;
   hide_unreleased?: boolean | undefined;
+  medium?: string | undefined;
+  languages?: string | undefined;
+  ongoing?: boolean | undefined;
   sort?: string | undefined;
   direction?: string | undefined;
   limit?: number | undefined;
@@ -111,6 +126,9 @@ export const ListTitlesRequest$outboundSchema: z.ZodMiniType<
     publisher: z.optional(z.int()),
     publisherIds: z.optional(z.string()),
     hideUnreleased: z.optional(z.boolean()),
+    medium: z.optional(z.string()),
+    languages: z.optional(z.string()),
+    ongoing: z.optional(z.boolean()),
     sort: z.optional(z.string()),
     direction: z.optional(z.string()),
     limit: z.optional(z.int()),

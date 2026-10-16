@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: d54ae284-e171-41f5-99d0-d4027d6f02b4
 management:
-  docChecksum: 202e2239b15a98571dce0c6b5cdb68f1
+  docChecksum: 277e3624c13dbf91583e87c6ab584496
   docVersion: 1.0.0
   speakeasyVersion: 1.802.0
   generationVersion: 2.948.4
-  releaseVersion: 2.1.31
-  configChecksum: 2f60c87b19ff2d205dd63524186bec7c
+  releaseVersion: 2.1.32
+  configChecksum: e95d31c8aeb19867bcc9560face60bb4
   repoURL: https://github.com/versedbcom/versedb-node.git
   installationURL: https://github.com/versedbcom/versedb-node
   published: true
 persistentEdits:
-  generation_id: 4a76f7b2-f402-4279-84ae-2783fa63271b
-  pristine_commit_hash: 4f26a8ab186b3329750d6f465ace761d197f83bf
-  pristine_tree_hash: 19b08885d7190fa15f2ae4ec1b85cd6da23833a6
+  generation_id: 7345d3dc-1c48-4f5e-865a-29744b170b9a
+  pristine_commit_hash: 3a93a594f2dac47ee520fb1bca702efae82f2b77
+  pristine_tree_hash: e2dc80b188f0ffae77b652bf7ca594f98590035f
 features:
   typescript:
     additionalDependencies: 0.1.0
@@ -782,8 +782,8 @@ trackedFiles:
     pristine_git_object: c363d501dfa498a8f979188e550af47f7cabb86b
   docs/models/operations/get-a-specific-podcast-request.md:
     id: f700c855b0ab
-    last_write_checksum: sha1:70a9906beabcb4bd84965e0c19fb9950b3b6def2
-    pristine_git_object: 9629f31928cb8b878aea78fff507cdcbd0c1ada7
+    last_write_checksum: sha1:40d288adb3d4a90942c15177fed92ab818e478c8
+    pristine_git_object: 93d1a27e41cb79b70bff1b2e48807067a4c4a1a4
   docs/models/operations/get-a-specific-podcast-response-body.md:
     id: c6ea4a86d9cf
     last_write_checksum: sha1:ff4b266662b1b01381f3707e2e746406686f2c01
@@ -2062,8 +2062,8 @@ trackedFiles:
     pristine_git_object: 51dd2dac573ca318583befc38b6bba59e3aa41a8
   docs/models/operations/list-titles-request.md:
     id: 28286038d6d5
-    last_write_checksum: sha1:337b10ded2197c4d2b80f02567bcf2a764a94f19
-    pristine_git_object: 3c5cf449cafd95136da6001244c068bdbb353534
+    last_write_checksum: sha1:84eeaf4c0b5f24a7aeabb84c37d245478847c163
+    pristine_git_object: 960bf877c4b7d1c5b9e7c4f541cd217b31756115
   docs/models/operations/list-titles-response-body.md:
     id: 9552424a63ef
     last_write_checksum: sha1:9f444f4bf0386739361217941cea247d1db42b4f
@@ -2774,8 +2774,8 @@ trackedFiles:
     pristine_git_object: c58be60c13d7035257d72e561705cceab505162a
   docs/sdks/titles/README.md:
     id: 98502af2bdef
-    last_write_checksum: sha1:4c6cd6264a6635d609a91a6d7b9cdfa1495d2d71
-    pristine_git_object: ba25fbbdc0d98a4790c5b8e26d7e1cffa8f1f24f
+    last_write_checksum: sha1:e1f3859baaa841ea0a75ab3b4f235cb4ab783143
+    pristine_git_object: acb94d544c9bc474996182946db4a797232c8312
   docs/sdks/universes/README.md:
     id: c9e3a4d95173
     last_write_checksum: sha1:4c9ee1aea66bc80e88bfd86e7a62fb5138d744f6
@@ -2802,12 +2802,12 @@ trackedFiles:
     pristine_git_object: ce4a6a85b8bc46789323545a102bb0515c686b36
   jsr.json:
     id: 7f6ab7767282
-    last_write_checksum: sha1:93f5e390b32eebf8d6787a164d5342ae335bb54d
-    pristine_git_object: e3bed3ae83015036c218d5e0dc7e1c6421dbc88a
+    last_write_checksum: sha1:b32b408c233d6780af49417fd4108907ea3d2ca8
+    pristine_git_object: 14f1ca05c0f4c00fbb864527d3fd424d5fe63c4b
   package.json:
     id: 7030d0b2f71b
-    last_write_checksum: sha1:e1e2da545934f7c4ed257da1c5a0a47e0c30b11a
-    pristine_git_object: 6de8bc0b589c2c3c2e5fb518c7fafea5b977b387
+    last_write_checksum: sha1:3fb553082e53e3717c7184615e5c951a17576df3
+    pristine_git_object: 4832d722e2223916c7db4a844235e1d5fe13bec6
   src/core.ts:
     id: f431fdbcd144
     last_write_checksum: sha1:ad0063bee03825028052e52cef3fa240c6101bdf
@@ -3102,8 +3102,8 @@ trackedFiles:
     pristine_git_object: 6f75b8cc5ab90d1cb18c7d0bc6bd0047841929e5
   src/funcs/titles-list-titles.ts:
     id: 8643bba3dc35
-    last_write_checksum: sha1:dd388309da6bfa60d07df360c055fed8c4f7654a
-    pristine_git_object: 7579241f70c2abe4cc3e1001195ffcfde6c0b158
+    last_write_checksum: sha1:8e4e9ae9f224279e6066a8617e80b0e1124da02d
+    pristine_git_object: f627e90b89a392ca2841894bd59c364f626e27bb
   src/funcs/universes-get-a-specific-universe.ts:
     id: e21efae2ef20
     last_write_checksum: sha1:c14120e033d8f093569aa834c59efc8b830f29d1
@@ -3226,8 +3226,8 @@ trackedFiles:
     pristine_git_object: 44be0eae8246521b230e8e711a88eff738fc015d
   src/lib/config.ts:
     id: 320761608fb3
-    last_write_checksum: sha1:f79103c1d5d3e5ae4b32790688316981ecc23d0b
-    pristine_git_object: 8e0db061d509e8e79ddec0207b9c8f3d73e55ff4
+    last_write_checksum: sha1:05bf428c83aa6ea475736bb8879761ff5da54c54
+    pristine_git_object: f47b13e763c0ce1f2c43bb22a417ff061383145d
   src/lib/encodings.ts:
     id: 3bd8ead98afd
     last_write_checksum: sha1:4481b2a380f8a16856ef92c66fb370299f56d135
@@ -3750,8 +3750,8 @@ trackedFiles:
     pristine_git_object: 7eca819e5081006af63503b6926db96d7b4cdfce
   src/models/operations/list-titles.ts:
     id: 3ce745cdb23f
-    last_write_checksum: sha1:271888f64102e79bccd7fac5181498bedb4c35ff
-    pristine_git_object: f29f522bd157e139c34466b5bd2adf443d98f7e9
+    last_write_checksum: sha1:d8af8695bbc6d216abfb0d76290464c5ed6a8471
+    pristine_git_object: c9371e99fe2d82c47c3734df8fe466b31e451da0
   src/models/operations/list-universes.ts:
     id: 73f83b48c250
     last_write_checksum: sha1:44fe28fdcb6f0e9fb151d7b7526d8a323c2be0c2
@@ -5167,6 +5167,9 @@ examples:
           direction: "desc"
           publisher_ids: "1,4"
           hide_unreleased: true
+          medium: "manga"
+          languages: "en,ja"
+          ongoing: true
       responses:
         "200":
           application/json: {"data": [{"id": 12, "name": "Batman", "slug": "batman", "start_year": 1939, "end_year": null, "status": "ongoing", "type": "Series", "image_url": "https://r2.versedb.com/uploads/titles/batman-12/batman-12-abc123-cover_md.webp", "images": {"cover_sm": "https://r2.versedb.com/uploads/titles/batman-12/batman-12-abc123-cover_sm.webp", "cover_md": "https://r2.versedb.com/uploads/titles/batman-12/batman-12-abc123-cover_md.webp", "cover_lg": "https://r2.versedb.com/uploads/titles/batman-12/batman-12-abc123-cover_lg.webp"}, "average_rating": 4.3, "series_count": 25, "issues_count": 1450, "content_rating_label": "15+", "min_age": 15, "is_nsfw": false}], "meta": {"current_page": 1, "last_page": 50, "per_page": 20, "total": 1000}}
@@ -5721,3 +5724,6 @@ examples:
         "429":
           application/json: {"message": "Too Many Attempts."}
 examplesVersion: 1.0.2
+releaseNotes: |
+  ## Typescript SDK Changes:
+  * `versedb.titles.listTitles()`:  `request` **Changed**
