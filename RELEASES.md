@@ -580,3 +580,13 @@ Based on:
 - [typescript v2.1.34] .
 ### Releases
 - [NPM v2.1.34] https://www.npmjs.com/package/@versedbcom/sdk/v/2.1.34 - .
+
+## 2026-10-19 11:43:36
+### Changes
+Based on:
+- OpenAPI Doc  
+- Speakeasy CLI 1.802.0 (2.948.4) https://github.com/speakeasy-api/speakeasy
+### Generated
+- [typescript v2.2.0] .
+### Releases
+- [NPM v2.2.0] https://www.npmjs.com/package/@versedbcom/sdk/v/2.2.0 - .

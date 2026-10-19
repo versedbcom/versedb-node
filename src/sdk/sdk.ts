@@ -7,6 +7,7 @@ import { BarcodeLookup } from "./barcode-lookup.js";
 import { Characters } from "./characters.js";
 import { ComicShops } from "./comic-shops.js";
 import { ConnectToVerseDB } from "./connect-to-verse-db.js";
+import { CoverLookup } from "./cover-lookup.js";
 import { Creators } from "./creators.js";
 import { Discovery } from "./discovery.js";
 import { Events } from "./events.js";
@@ -108,6 +109,11 @@ export class VerseDB extends ClientSDK {
   private _barcodeLookup?: BarcodeLookup;
   get barcodeLookup(): BarcodeLookup {
     return (this._barcodeLookup ??= new BarcodeLookup(this._options));
+  }
+
+  private _coverLookup?: CoverLookup;
+  get coverLookup(): CoverLookup {
+    return (this._coverLookup ??= new CoverLookup(this._options));
   }
 
   private _reading?: Reading;

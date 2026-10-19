@@ -12,14 +12,14 @@ import { VerseDbError } from "./verse-db-error.js";
  */
 export type AddToPullListUnprocessableEntityErrorData = {
   message?: string | undefined;
-  errors?: operations.Errors | undefined;
+  errors?: operations.AddToPullListErrors | undefined;
 };
 
 /**
  * Series Not Found
  */
 export class AddToPullListUnprocessableEntityError extends VerseDbError {
-  errors?: operations.Errors | undefined;
+  errors?: operations.AddToPullListErrors | undefined;
 
   /** The original data that was passed to this error instance. */
   data$: AddToPullListUnprocessableEntityErrorData;
@@ -44,7 +44,9 @@ export const AddToPullListUnprocessableEntityError$inboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     message: types.optional(types.string()),
-    errors: types.optional(z.lazy(() => operations.Errors$inboundSchema)),
+    errors: types.optional(
+      z.lazy(() => operations.AddToPullListErrors$inboundSchema),
+    ),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),

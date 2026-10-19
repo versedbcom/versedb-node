@@ -95,7 +95,7 @@ export type ListCollectionImages = {
   coverLg?: string | undefined;
 };
 
-export type SeriesImages = {
+export type ListCollectionSeriesImages = {
   coverSm?: string | undefined;
   coverMd?: string | undefined;
   coverLg?: string | undefined;
@@ -112,7 +112,7 @@ export type ListCollectionSeries = {
   format?: string | undefined;
   cachedIssuesCount?: number | undefined;
   coverUrl?: string | undefined;
-  images?: SeriesImages | undefined;
+  images?: ListCollectionSeriesImages | undefined;
   publisherName?: string | undefined;
 };
 
@@ -348,29 +348,31 @@ export function listCollectionImagesFromJSON(
 }
 
 /** @internal */
-export const SeriesImages$inboundSchema: z.ZodMiniType<SeriesImages, unknown> =
-  z.pipe(
-    z.object({
-      cover_sm: types.optional(types.string()),
-      cover_md: types.optional(types.string()),
-      cover_lg: types.optional(types.string()),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "cover_sm": "coverSm",
-        "cover_md": "coverMd",
-        "cover_lg": "coverLg",
-      });
-    }),
-  );
+export const ListCollectionSeriesImages$inboundSchema: z.ZodMiniType<
+  ListCollectionSeriesImages,
+  unknown
+> = z.pipe(
+  z.object({
+    cover_sm: types.optional(types.string()),
+    cover_md: types.optional(types.string()),
+    cover_lg: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "cover_sm": "coverSm",
+      "cover_md": "coverMd",
+      "cover_lg": "coverLg",
+    });
+  }),
+);
 
-export function seriesImagesFromJSON(
+export function listCollectionSeriesImagesFromJSON(
   jsonString: string,
-): SafeParseResult<SeriesImages, SDKValidationError> {
+): SafeParseResult<ListCollectionSeriesImages, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => SeriesImages$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'SeriesImages' from JSON`,
+    (x) => ListCollectionSeriesImages$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListCollectionSeriesImages' from JSON`,
   );
 }
 
@@ -390,7 +392,9 @@ export const ListCollectionSeries$inboundSchema: z.ZodMiniType<
     format: types.optional(types.string()),
     cached_issues_count: types.optional(types.number()),
     cover_url: types.optional(types.string()),
-    images: types.optional(z.lazy(() => SeriesImages$inboundSchema)),
+    images: types.optional(
+      z.lazy(() => ListCollectionSeriesImages$inboundSchema),
+    ),
     publisher_name: types.optional(types.string()),
   }),
   z.transform((v) => {

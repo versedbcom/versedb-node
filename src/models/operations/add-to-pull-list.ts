@@ -16,7 +16,7 @@ export type AddToPullListRequest = {
   seriesId: number;
 };
 
-export type Errors = {
+export type AddToPullListErrors = {
   seriesId?: Array<string> | undefined;
 };
 
@@ -59,7 +59,10 @@ export function addToPullListRequestToJSON(
 }
 
 /** @internal */
-export const Errors$inboundSchema: z.ZodMiniType<Errors, unknown> = z.pipe(
+export const AddToPullListErrors$inboundSchema: z.ZodMiniType<
+  AddToPullListErrors,
+  unknown
+> = z.pipe(
   z.object({
     series_id: types.optional(z.array(types.string())),
   }),
@@ -70,13 +73,13 @@ export const Errors$inboundSchema: z.ZodMiniType<Errors, unknown> = z.pipe(
   }),
 );
 
-export function errorsFromJSON(
+export function addToPullListErrorsFromJSON(
   jsonString: string,
-): SafeParseResult<Errors, SDKValidationError> {
+): SafeParseResult<AddToPullListErrors, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => Errors$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'Errors' from JSON`,
+    (x) => AddToPullListErrors$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'AddToPullListErrors' from JSON`,
   );
 }
 

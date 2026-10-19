@@ -122,6 +122,7 @@ VerseDB API Documentation: REST API for accessing comic book data, managing coll
   * [Authentication](#authentication)
   * [Available Resources and Operations](#available-resources-and-operations)
   * [Standalone functions](#standalone-functions)
+  * [File uploads](#file-uploads)
   * [Retries](#retries)
   * [Error Handling](#error-handling)
   * [Server Selection](#server-selection)
@@ -265,6 +266,10 @@ run();
 ### [ConnectToVerseDB](docs/sdks/connecttoversedb/README.md)
 
 * [exchangeAConnectCodeForAToken](docs/sdks/connecttoversedb/README.md#exchangeaconnectcodeforatoken) - Exchange a Connect code for a token
+
+### [CoverLookup](docs/sdks/coverlookup/README.md)
+
+* [lookUpAnIssueByCoverPhoto](docs/sdks/coverlookup/README.md#lookupanissuebycoverphoto) - Look up an issue by cover photo.
 
 ### [Creators](docs/sdks/creators/README.md)
 
@@ -430,6 +435,7 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`comicShopsGetAComicShop`](docs/sdks/comicshops/README.md#getacomicshop) - Get a comic shop.
 - [`comicShopsListComicShops`](docs/sdks/comicshops/README.md#listcomicshops) - List comic shops.
 - [`connectToVerseDBExchangeAConnectCodeForAToken`](docs/sdks/connecttoversedb/README.md#exchangeaconnectcodeforatoken) - Exchange a Connect code for a token
+- [`coverLookupLookUpAnIssueByCoverPhoto`](docs/sdks/coverlookup/README.md#lookupanissuebycoverphoto) - Look up an issue by cover photo.
 - [`creatorsGetCreatorDetails`](docs/sdks/creators/README.md#getcreatordetails) - Get creator details.
 - [`creatorsGetCreatorsBlogPosts`](docs/sdks/creators/README.md#getcreatorsblogposts) - Get creator's blog posts.
 - [`creatorsGetCreatorsIssues`](docs/sdks/creators/README.md#getcreatorsissues) - Get creator's issues.
@@ -520,6 +526,41 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 
 </details>
 <!-- End Standalone functions [standalone-funcs] -->
+
+<!-- Start File uploads [file-upload] -->
+## File uploads
+
+Certain SDK methods accept files as part of a multi-part request. It is possible and typically recommended to upload files as a stream rather than reading the entire contents into memory. This avoids excessive memory consumption and potentially crashing with out-of-memory errors when working with very large files. The following example demonstrates how to attach a file stream to a request.
+
+> [!TIP]
+>
+> Depending on your JavaScript runtime, there are convenient utilities that return a handle to a file without reading the entire contents into memory:
+>
+> - **Node.js v20+:** Since v20, Node.js comes with a native `openAsBlob` function in [`node:fs`](https://nodejs.org/docs/latest-v20.x/api/fs.html#fsopenasblobpath-options).
+> - **Bun:** The native [`Bun.file`](https://bun.sh/docs/api/file-io#reading-files-bun-file) function produces a file handle that can be used for streaming file uploads.
+> - **Browsers:** All supported browsers return an instance to a [`File`](https://developer.mozilla.org/en-US/docs/Web/API/File) when reading the value from an `<input type="file">` element.
+> - **Node.js v18:** A file stream can be created using the `fileFrom` helper from [`fetch-blob/from.js`](https://www.npmjs.com/package/fetch-blob).
+
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+import { openAsBlob } from "node:fs";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.coverLookup.lookUpAnIssueByCoverPhoto({
+    image: await openAsBlob("example.file"),
+  });
+
+  console.log(result);
+}
+
+run();
+
+```
+<!-- End File uploads [file-upload] -->
 
 <!-- Start Retries [retries] -->
 ## Retries
@@ -659,7 +700,7 @@ run();
   * [`TooManyRequestsError`](./src/models/errors/too-many-requests-error.ts): Status code `429`.
   * [`UnauthorizedErrorError`](./src/models/errors/unauthorized-error-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. *
 
-<details><summary>Less common errors (64)</summary>
+<details><summary>Less common errors (66)</summary>
 
 <br />
 
@@ -672,64 +713,66 @@ run();
 
 
 **Inherit from [`VerseDbError`](./src/models/errors/verse-db-error.ts)**:
-* [`BadRequestError`](./src/models/errors/bad-request-error.ts): The request could not be processed. Status code `400`. Applicable to 1 of 98 methods.*
-* [`ViewYearlyReadingStatisticsUnauthorizedError`](./src/models/errors/view-yearly-reading-statistics-unauthorized-error.ts): The request could not be processed. Status code `401`. Applicable to 1 of 98 methods.*
-* [`ViewYourMonthlyReadingCalendarUnauthorizedError`](./src/models/errors/view-your-monthly-reading-calendar-unauthorized-error.ts): The request could not be processed. Status code `401`. Applicable to 1 of 98 methods.*
-* [`ViewYourReadingGoalUnauthorizedError`](./src/models/errors/view-your-reading-goal-unauthorized-error.ts): The request could not be processed. Status code `401`. Applicable to 1 of 98 methods.*
-* [`CreateListForbiddenError`](./src/models/errors/create-list-forbidden-error.ts): Limit Reached. Status code `403`. Applicable to 1 of 98 methods.*
-* [`GetListForbiddenError`](./src/models/errors/get-list-forbidden-error.ts): Private List. Status code `403`. Applicable to 1 of 98 methods.*
-* [`UpdateListForbiddenError`](./src/models/errors/update-list-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 98 methods.*
-* [`DeleteListResponseBodyError1`](./src/models/errors/delete-list-response-body-error1.ts): Wishlist. Status code `403`. Applicable to 1 of 98 methods.*
-* [`DeleteListResponseBodyError2`](./src/models/errors/delete-list-response-body-error2.ts): Unauthorized. Status code `403`. Applicable to 1 of 98 methods.*
-* [`OpenAListToAnyTypeForbiddenError`](./src/models/errors/open-a-list-to-any-type-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 98 methods.*
-* [`MergeAListIntoThisOneForbiddenError`](./src/models/errors/merge-a-list-into-this-one-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 98 methods.*
-* [`AddItemToListForbiddenError`](./src/models/errors/add-item-to-list-forbidden-error.ts): Item Limit. Status code `403`. Applicable to 1 of 98 methods.*
-* [`RemoveItemFromListForbiddenError`](./src/models/errors/remove-item-from-list-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 98 methods.*
-* [`SaveListForbiddenError`](./src/models/errors/save-list-forbidden-error.ts): Own List. Status code `403`. Applicable to 1 of 98 methods.*
-* [`LikeListOrReactToItForbiddenError`](./src/models/errors/like-list-or-react-to-it-forbidden-error.ts): Own List. Status code `403`. Applicable to 1 of 98 methods.*
-* [`LookupByUPCForbiddenError`](./src/models/errors/lookup-by-upc-forbidden-error.ts): Missing Ability. Status code `403`. Applicable to 1 of 98 methods.*
-* [`LookupByISBNForbiddenError`](./src/models/errors/lookup-by-isbn-forbidden-error.ts): Missing Ability. Status code `403`. Applicable to 1 of 98 methods.*
-* [`LookupByDistributorCodeForbiddenError`](./src/models/errors/lookup-by-distributor-code-forbidden-error.ts): Missing Ability. Status code `403`. Applicable to 1 of 98 methods.*
-* [`ViewYearlyReadingStatisticsForbiddenError`](./src/models/errors/view-yearly-reading-statistics-forbidden-error.ts): Forbidden. The authenticated user may not perform this action. Status code `403`. Applicable to 1 of 98 methods.*
-* [`ViewYourMonthlyReadingCalendarForbiddenError`](./src/models/errors/view-your-monthly-reading-calendar-forbidden-error.ts): Forbidden. The authenticated user may not perform this action. Status code `403`. Applicable to 1 of 98 methods.*
-* [`AddIssueToCollectionForbiddenError`](./src/models/errors/add-issue-to-collection-forbidden-error.ts): Account Pending Deletion. Status code `403`. Applicable to 1 of 98 methods.*
-* [`FollowContentForbiddenError`](./src/models/errors/follow-content-forbidden-error.ts): Refused. Status code `403`. Applicable to 1 of 98 methods.*
-* [`GetASpecificTitleNotFoundError`](./src/models/errors/get-a-specific-title-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 98 methods.*
-* [`GetSeriesDetailsNotFoundError`](./src/models/errors/get-series-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 98 methods.*
-* [`GetIssueDetailsNotFoundError`](./src/models/errors/get-issue-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 98 methods.*
-* [`GetVariantDetailsNotFoundError`](./src/models/errors/get-variant-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 98 methods.*
-* [`GetPublisherDetailsNotFoundError`](./src/models/errors/get-publisher-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 98 methods.*
-* [`GetCreatorDetailsNotFoundError`](./src/models/errors/get-creator-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 98 methods.*
-* [`GetCharacterDetailsNotFoundError`](./src/models/errors/get-character-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 98 methods.*
-* [`GetASpecificTeamNotFoundError`](./src/models/errors/get-a-specific-team-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 98 methods.*
-* [`GetAnEventNotFoundError`](./src/models/errors/get-an-event-not-found-error.ts): Not Found or Archived. Status code `404`. Applicable to 1 of 98 methods.*
-* [`GetAComicShopNotFoundError`](./src/models/errors/get-a-comic-shop-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 98 methods.*
-* [`GetASpecificPodcastNotFoundError`](./src/models/errors/get-a-specific-podcast-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 98 methods.*
-* [`GetListNotFoundError`](./src/models/errors/get-list-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 98 methods.*
-* [`RemoveItemFromListNotFoundError`](./src/models/errors/remove-item-from-list-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 98 methods.*
-* [`LookupByUPCNotFoundError`](./src/models/errors/lookup-by-upc-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 98 methods.*
-* [`LookupByISBNNotFoundError`](./src/models/errors/lookup-by-isbn-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 98 methods.*
-* [`LookupByDistributorCodeNotFoundError`](./src/models/errors/lookup-by-distributor-code-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 98 methods.*
-* [`UpdateCollectionItemNotFoundError`](./src/models/errors/update-collection-item-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 98 methods.*
-* [`RemoveIssueFromCollectionNotFoundError`](./src/models/errors/remove-issue-from-collection-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 98 methods.*
-* [`LendACopyOutNotFoundError`](./src/models/errors/lend-a-copy-out-not-found-error.ts): Not Owner. Status code `404`. Applicable to 1 of 98 methods.*
-* [`MarkTheCopysOpenLoanReturnedResponseBodyError1`](./src/models/errors/mark-the-copys-open-loan-returned-response-body-error1.ts): Not Owner. Status code `404`. Applicable to 1 of 98 methods.*
-* [`MarkTheCopysOpenLoanReturnedResponseBodyError2`](./src/models/errors/mark-the-copys-open-loan-returned-response-body-error2.ts): Not On Loan. Status code `404`. Applicable to 1 of 98 methods.*
-* [`FollowContentNotFoundError`](./src/models/errors/follow-content-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 98 methods.*
-* [`UnfollowContentNotFoundError`](./src/models/errors/unfollow-content-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 98 methods.*
-* [`AddItemToListConflictError`](./src/models/errors/add-item-to-list-conflict-error.ts): Already Exists. Status code `409`. Applicable to 1 of 98 methods.*
-* [`LookupByUPCConflictError`](./src/models/errors/lookup-by-upc-conflict-error.ts): Multiple Matches. Status code `409`. Applicable to 1 of 98 methods.*
-* [`LookupByDistributorCodeConflictError`](./src/models/errors/lookup-by-distributor-code-conflict-error.ts): Multiple Matches. Status code `409`. Applicable to 1 of 98 methods.*
-* [`LendACopyOutConflictError`](./src/models/errors/lend-a-copy-out-conflict-error.ts): Already On Loan. Status code `409`. Applicable to 1 of 98 methods.*
-* [`OpenAListToAnyTypeUnprocessableEntityError`](./src/models/errors/open-a-list-to-any-type-unprocessable-entity-error.ts): Not convertible. Status code `422`. Applicable to 1 of 98 methods.*
-* [`StopAListUpdatingItselfUnprocessableEntityError`](./src/models/errors/stop-a-list-updating-itself-unprocessable-entity-error.ts): Not rule-built. Status code `422`. Applicable to 1 of 98 methods.*
-* [`MergeAListIntoThisOneUnprocessableEntityError`](./src/models/errors/merge-a-list-into-this-one-unprocessable-entity-error.ts): Invalid merge. Status code `422`. Applicable to 1 of 98 methods.*
-* [`LikeListOrReactToItUnprocessableEntityError`](./src/models/errors/like-list-or-react-to-it-unprocessable-entity-error.ts): Unknown reaction. Status code `422`. Applicable to 1 of 98 methods.*
-* [`LookupByDistributorCodeUnprocessableEntityError`](./src/models/errors/lookup-by-distributor-code-unprocessable-entity-error.ts): Not a Lunar or Universal Code. Status code `422`. Applicable to 1 of 98 methods.*
-* [`AddIssueToCollectionUnprocessableEntityError`](./src/models/errors/add-issue-to-collection-unprocessable-entity-error.ts): Invalid Variant. Status code `422`. Applicable to 1 of 98 methods.*
-* [`AddToPullListUnprocessableEntityError`](./src/models/errors/add-to-pull-list-unprocessable-entity-error.ts): Series Not Found. Status code `422`. Applicable to 1 of 98 methods.*
-* [`MarkAsReadUnprocessableEntityError`](./src/models/errors/mark-as-read-unprocessable-entity-error.ts): Invalid Variant. Status code `422`. Applicable to 1 of 98 methods.*
-* [`AddToWishlistUnprocessableEntityError`](./src/models/errors/add-to-wishlist-unprocessable-entity-error.ts): Wishlist Full. Status code `422`. Applicable to 1 of 98 methods.*
+* [`BadRequestError`](./src/models/errors/bad-request-error.ts): The request could not be processed. Status code `400`. Applicable to 1 of 99 methods.*
+* [`ViewYearlyReadingStatisticsUnauthorizedError`](./src/models/errors/view-yearly-reading-statistics-unauthorized-error.ts): The request could not be processed. Status code `401`. Applicable to 1 of 99 methods.*
+* [`ViewYourMonthlyReadingCalendarUnauthorizedError`](./src/models/errors/view-your-monthly-reading-calendar-unauthorized-error.ts): The request could not be processed. Status code `401`. Applicable to 1 of 99 methods.*
+* [`ViewYourReadingGoalUnauthorizedError`](./src/models/errors/view-your-reading-goal-unauthorized-error.ts): The request could not be processed. Status code `401`. Applicable to 1 of 99 methods.*
+* [`CreateListForbiddenError`](./src/models/errors/create-list-forbidden-error.ts): Limit Reached. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetListForbiddenError`](./src/models/errors/get-list-forbidden-error.ts): Private List. Status code `403`. Applicable to 1 of 99 methods.*
+* [`UpdateListForbiddenError`](./src/models/errors/update-list-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 99 methods.*
+* [`DeleteListResponseBodyError1`](./src/models/errors/delete-list-response-body-error1.ts): Wishlist. Status code `403`. Applicable to 1 of 99 methods.*
+* [`DeleteListResponseBodyError2`](./src/models/errors/delete-list-response-body-error2.ts): Unauthorized. Status code `403`. Applicable to 1 of 99 methods.*
+* [`OpenAListToAnyTypeForbiddenError`](./src/models/errors/open-a-list-to-any-type-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 99 methods.*
+* [`MergeAListIntoThisOneForbiddenError`](./src/models/errors/merge-a-list-into-this-one-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 99 methods.*
+* [`AddItemToListForbiddenError`](./src/models/errors/add-item-to-list-forbidden-error.ts): Item Limit. Status code `403`. Applicable to 1 of 99 methods.*
+* [`RemoveItemFromListForbiddenError`](./src/models/errors/remove-item-from-list-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 99 methods.*
+* [`SaveListForbiddenError`](./src/models/errors/save-list-forbidden-error.ts): Own List. Status code `403`. Applicable to 1 of 99 methods.*
+* [`LikeListOrReactToItForbiddenError`](./src/models/errors/like-list-or-react-to-it-forbidden-error.ts): Own List. Status code `403`. Applicable to 1 of 99 methods.*
+* [`LookupByUPCForbiddenError`](./src/models/errors/lookup-by-upc-forbidden-error.ts): Missing Ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`LookupByISBNForbiddenError`](./src/models/errors/lookup-by-isbn-forbidden-error.ts): Missing Ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`LookupByDistributorCodeForbiddenError`](./src/models/errors/lookup-by-distributor-code-forbidden-error.ts): Missing Ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`ViewYearlyReadingStatisticsForbiddenError`](./src/models/errors/view-yearly-reading-statistics-forbidden-error.ts): Forbidden. The authenticated user may not perform this action. Status code `403`. Applicable to 1 of 99 methods.*
+* [`ViewYourMonthlyReadingCalendarForbiddenError`](./src/models/errors/view-your-monthly-reading-calendar-forbidden-error.ts): Forbidden. The authenticated user may not perform this action. Status code `403`. Applicable to 1 of 99 methods.*
+* [`AddIssueToCollectionForbiddenError`](./src/models/errors/add-issue-to-collection-forbidden-error.ts): Account Pending Deletion. Status code `403`. Applicable to 1 of 99 methods.*
+* [`FollowContentForbiddenError`](./src/models/errors/follow-content-forbidden-error.ts): Refused. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetASpecificTitleNotFoundError`](./src/models/errors/get-a-specific-title-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`GetSeriesDetailsNotFoundError`](./src/models/errors/get-series-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`GetIssueDetailsNotFoundError`](./src/models/errors/get-issue-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`GetVariantDetailsNotFoundError`](./src/models/errors/get-variant-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`GetPublisherDetailsNotFoundError`](./src/models/errors/get-publisher-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`GetCreatorDetailsNotFoundError`](./src/models/errors/get-creator-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`GetCharacterDetailsNotFoundError`](./src/models/errors/get-character-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`GetASpecificTeamNotFoundError`](./src/models/errors/get-a-specific-team-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`GetAnEventNotFoundError`](./src/models/errors/get-an-event-not-found-error.ts): Not Found or Archived. Status code `404`. Applicable to 1 of 99 methods.*
+* [`GetAComicShopNotFoundError`](./src/models/errors/get-a-comic-shop-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`GetASpecificPodcastNotFoundError`](./src/models/errors/get-a-specific-podcast-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`GetListNotFoundError`](./src/models/errors/get-list-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`RemoveItemFromListNotFoundError`](./src/models/errors/remove-item-from-list-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`LookupByUPCNotFoundError`](./src/models/errors/lookup-by-upc-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`LookupByISBNNotFoundError`](./src/models/errors/lookup-by-isbn-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`LookupByDistributorCodeNotFoundError`](./src/models/errors/lookup-by-distributor-code-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`UpdateCollectionItemNotFoundError`](./src/models/errors/update-collection-item-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`RemoveIssueFromCollectionNotFoundError`](./src/models/errors/remove-issue-from-collection-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`LendACopyOutNotFoundError`](./src/models/errors/lend-a-copy-out-not-found-error.ts): Not Owner. Status code `404`. Applicable to 1 of 99 methods.*
+* [`MarkTheCopysOpenLoanReturnedResponseBodyError1`](./src/models/errors/mark-the-copys-open-loan-returned-response-body-error1.ts): Not Owner. Status code `404`. Applicable to 1 of 99 methods.*
+* [`MarkTheCopysOpenLoanReturnedResponseBodyError2`](./src/models/errors/mark-the-copys-open-loan-returned-response-body-error2.ts): Not On Loan. Status code `404`. Applicable to 1 of 99 methods.*
+* [`FollowContentNotFoundError`](./src/models/errors/follow-content-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`UnfollowContentNotFoundError`](./src/models/errors/unfollow-content-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`AddItemToListConflictError`](./src/models/errors/add-item-to-list-conflict-error.ts): Already Exists. Status code `409`. Applicable to 1 of 99 methods.*
+* [`LookupByUPCConflictError`](./src/models/errors/lookup-by-upc-conflict-error.ts): Multiple Matches. Status code `409`. Applicable to 1 of 99 methods.*
+* [`LookupByDistributorCodeConflictError`](./src/models/errors/lookup-by-distributor-code-conflict-error.ts): Multiple Matches. Status code `409`. Applicable to 1 of 99 methods.*
+* [`LendACopyOutConflictError`](./src/models/errors/lend-a-copy-out-conflict-error.ts): Already On Loan. Status code `409`. Applicable to 1 of 99 methods.*
+* [`OpenAListToAnyTypeUnprocessableEntityError`](./src/models/errors/open-a-list-to-any-type-unprocessable-entity-error.ts): Not convertible. Status code `422`. Applicable to 1 of 99 methods.*
+* [`StopAListUpdatingItselfUnprocessableEntityError`](./src/models/errors/stop-a-list-updating-itself-unprocessable-entity-error.ts): Not rule-built. Status code `422`. Applicable to 1 of 99 methods.*
+* [`MergeAListIntoThisOneUnprocessableEntityError`](./src/models/errors/merge-a-list-into-this-one-unprocessable-entity-error.ts): Invalid merge. Status code `422`. Applicable to 1 of 99 methods.*
+* [`LikeListOrReactToItUnprocessableEntityError`](./src/models/errors/like-list-or-react-to-it-unprocessable-entity-error.ts): Unknown reaction. Status code `422`. Applicable to 1 of 99 methods.*
+* [`LookupByDistributorCodeUnprocessableEntityError`](./src/models/errors/lookup-by-distributor-code-unprocessable-entity-error.ts): Not a Lunar or Universal Code. Status code `422`. Applicable to 1 of 99 methods.*
+* [`LookUpAnIssueByCoverPhotoUnprocessableEntityError`](./src/models/errors/look-up-an-issue-by-cover-photo-unprocessable-entity-error.ts): Not an Image. Status code `422`. Applicable to 1 of 99 methods.*
+* [`AddIssueToCollectionUnprocessableEntityError`](./src/models/errors/add-issue-to-collection-unprocessable-entity-error.ts): Invalid Variant. Status code `422`. Applicable to 1 of 99 methods.*
+* [`AddToPullListUnprocessableEntityError`](./src/models/errors/add-to-pull-list-unprocessable-entity-error.ts): Series Not Found. Status code `422`. Applicable to 1 of 99 methods.*
+* [`MarkAsReadUnprocessableEntityError`](./src/models/errors/mark-as-read-unprocessable-entity-error.ts): Invalid Variant. Status code `422`. Applicable to 1 of 99 methods.*
+* [`AddToWishlistUnprocessableEntityError`](./src/models/errors/add-to-wishlist-unprocessable-entity-error.ts): Wishlist Full. Status code `422`. Applicable to 1 of 99 methods.*
+* [`ServiceUnavailableError`](./src/models/errors/service-unavailable-error.ts): Matching Unavailable. Status code `503`. Applicable to 1 of 99 methods.*
 * [`ResponseValidationError`](./src/models/errors/response-validation-error.ts): Type mismatch between the data returned from the server and the structure expected by the SDK. See `error.rawValue` for the raw value and `error.pretty()` for a nicely formatted multi-line string.
 
 </details>

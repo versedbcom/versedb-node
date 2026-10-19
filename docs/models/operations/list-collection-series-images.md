@@ -1,11 +1,11 @@
-# SeriesImages
+# ListCollectionSeriesImages
 
 ## Example Usage
 
 ```typescript
-import { SeriesImages } from "@versedbcom/sdk/models/operations";
+import { ListCollectionSeriesImages } from "@versedbcom/sdk/models/operations";
 
-let value: SeriesImages = {
+let value: ListCollectionSeriesImages = {
   coverSm: "https://versedb.com/storage/series/123/cover_sm.jpg",
   coverMd: "https://versedb.com/storage/series/123/cover_md.jpg",
   coverLg: "https://versedb.com/storage/series/123/cover_lg.jpg",

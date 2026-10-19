@@ -1,11 +1,11 @@
-# Errors
+# AddToPullListErrors
 
 ## Example Usage
 
 ```typescript
-import { Errors } from "@versedbcom/sdk/models/operations";
+import { AddToPullListErrors } from "@versedbcom/sdk/models/operations";
 
-let value: Errors = {
+let value: AddToPullListErrors = {
   seriesId: [
     "The selected series id is invalid.",
   ],
