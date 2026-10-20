@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: d54ae284-e171-41f5-99d0-d4027d6f02b4
 management:
-  docChecksum: 4a5b29c7d58077eec879f1928a818730
+  docChecksum: 647a005e1d982a88da6cb347b2a9550a
   docVersion: 1.0.0
-  speakeasyVersion: 1.802.0
-  generationVersion: 2.948.4
-  releaseVersion: 2.2.0
-  configChecksum: ae44b9ee8fa396eef2554d930bf03bc5
+  speakeasyVersion: 1.803.0
+  generationVersion: 2.950.2
+  releaseVersion: 2.2.1
+  configChecksum: 47fdbcad7c222a714625b5538ab2a1af
   repoURL: https://github.com/versedbcom/versedb-node.git
   installationURL: https://github.com/versedbcom/versedb-node
   published: true
 persistentEdits:
-  generation_id: 476fe278-4923-481d-99b6-12fd9008ba73
-  pristine_commit_hash: 87259c21876d7359fb82a73800609a715b8c0103
-  pristine_tree_hash: d1507d6ded55810874b7597a93dd058c5f9bdcfa
+  generation_id: 82f0d50e-5e7d-417b-8862-ea041e95f8b7
+  pristine_commit_hash: 13861bfff1148c5fbff4e633da2bc1eb68d8a073
+  pristine_tree_hash: 80eb5c0c5cda2ea030eea2d42c70ffcb63c01a57
 features:
   typescript:
     additionalDependencies: 0.1.0
@@ -795,8 +795,8 @@ trackedFiles:
     pristine_git_object: c363d501dfa498a8f979188e550af47f7cabb86b
   docs/models/operations/get-a-specific-podcast-request.md:
     id: f700c855b0ab
-    last_write_checksum: sha1:c717634ea04877a1074cd9ab37997e9df50cb56a
-    pristine_git_object: 8db64961d08a2497e484a31a967b607efa35edb5
+    last_write_checksum: sha1:e8ae3d5e6432dee9404ae604bb52b6ec38935878
+    pristine_git_object: 95b67753149bdd8d9eae7058e83a5521787e41e5
   docs/models/operations/get-a-specific-podcast-response-body.md:
     id: c6ea4a86d9cf
     last_write_checksum: sha1:ff4b266662b1b01381f3707e2e746406686f2c01
@@ -1319,8 +1319,8 @@ trackedFiles:
     pristine_git_object: 341dd36f11cd68009040a974474019faf3ca9868
   docs/models/operations/get-publisher-details-request.md:
     id: cbcdd9d73997
-    last_write_checksum: sha1:9b38945c42a9039bb9da23605698df55a5aaf64c
-    pristine_git_object: 1c6ac89ed4177d0a0d1cefa5cb7b3ec596c42168
+    last_write_checksum: sha1:cd4ab8b67054716cb63c50ff1da45f4bcf07c0c7
+    pristine_git_object: 39b0ec1665f58f8d1821d84c378e5ac32a0cc743
   docs/models/operations/get-publisher-details-response-body.md:
     id: 124cf4616b88
     last_write_checksum: sha1:f5becdf7e2aa860502d0f780aaa4e5d945a8dd3c
@@ -2855,12 +2855,12 @@ trackedFiles:
     pristine_git_object: ce4a6a85b8bc46789323545a102bb0515c686b36
   jsr.json:
     id: 7f6ab7767282
-    last_write_checksum: sha1:cdf4ebd82cefd75bc45f314b6c8cb96714efc649
-    pristine_git_object: d868176d3698c7349d7e68787fbc3cac12a4cda1
+    last_write_checksum: sha1:11b2a948c208a9ffe8930bb947c19bf4b7316f4c
+    pristine_git_object: 88f5944e8c7dd40767c55f114dba904bd72a6eb3
   package.json:
     id: 7030d0b2f71b
-    last_write_checksum: sha1:d4aa6a61aec82db7f434394c92c3b9bb1ac725d6
-    pristine_git_object: aa51523d9af18f63dff4688ed494abd3c24c5f30
+    last_write_checksum: sha1:88bcf762566e86c272269b7e6f12f138fefa9fda
+    pristine_git_object: 89d9ca7ebf16c0c0615fa563d27f347e2d499dcf
   src/core.ts:
     id: f431fdbcd144
     last_write_checksum: sha1:ad0063bee03825028052e52cef3fa240c6101bdf
@@ -3283,8 +3283,8 @@ trackedFiles:
     pristine_git_object: 44be0eae8246521b230e8e711a88eff738fc015d
   src/lib/config.ts:
     id: 320761608fb3
-    last_write_checksum: sha1:6ca6553f532d40093d812afdc2328b45f6eca6df
-    pristine_git_object: 525b50f521546218b63d4dc4ffacbb74bed76896
+    last_write_checksum: sha1:cac35710cc319bf71c172166ee7298e5b7faeb0f
+    pristine_git_object: df8a9908f779a6f4f4259d388a3d69ab4841cf62
   src/lib/encodings.ts:
     id: 3bd8ead98afd
     last_write_checksum: sha1:4481b2a380f8a16856ef92c66fb370299f56d135
@@ -5808,6 +5808,3 @@ examples:
         "503":
           application/json: {"message": "Cover matching is unavailable right now. Try again later or look the comic up by barcode."}
 examplesVersion: 1.0.2
-releaseNotes: |
-  ## Typescript SDK Changes:
-  * `versedb.coverLookup.lookUpAnIssueByCoverPhoto()`: **Added**
