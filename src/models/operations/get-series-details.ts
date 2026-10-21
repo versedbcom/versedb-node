@@ -88,6 +88,7 @@ export type GetSeriesDetailsData = {
   id?: number | undefined;
   titleId?: number | undefined;
   name?: string | undefined;
+  originalName?: string | null | undefined;
   slug?: string | undefined;
   number?: number | undefined;
   startYear?: number | undefined;
@@ -416,6 +417,7 @@ export const GetSeriesDetailsData$inboundSchema: z.ZodMiniType<
     id: types.optional(types.number()),
     title_id: types.optional(types.number()),
     name: types.optional(types.string()),
+    original_name: z.optional(z.nullable(types.string())),
     slug: types.optional(types.string()),
     number: types.optional(types.number()),
     start_year: types.optional(types.number()),
@@ -466,6 +468,7 @@ export const GetSeriesDetailsData$inboundSchema: z.ZodMiniType<
   z.transform((v) => {
     return remap$(v, {
       "title_id": "titleId",
+      "original_name": "originalName",
       "start_year": "startYear",
       "end_year": "endYear",
       "cover_url": "coverUrl",

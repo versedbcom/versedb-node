@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: d54ae284-e171-41f5-99d0-d4027d6f02b4
 management:
-  docChecksum: 647a005e1d982a88da6cb347b2a9550a
+  docChecksum: 2b86037f1f0a21fd450cb156e09abf7b
   docVersion: 1.0.0
   speakeasyVersion: 1.803.0
   generationVersion: 2.950.2
-  releaseVersion: 2.2.1
-  configChecksum: 47fdbcad7c222a714625b5538ab2a1af
+  releaseVersion: 2.2.2
+  configChecksum: acf8e8e5edb21653f64ea396a4d02dc9
   repoURL: https://github.com/versedbcom/versedb-node.git
   installationURL: https://github.com/versedbcom/versedb-node
   published: true
 persistentEdits:
-  generation_id: 82f0d50e-5e7d-417b-8862-ea041e95f8b7
-  pristine_commit_hash: 13861bfff1148c5fbff4e633da2bc1eb68d8a073
-  pristine_tree_hash: 80eb5c0c5cda2ea030eea2d42c70ffcb63c01a57
+  generation_id: 7f48ff9e-cb59-4272-b712-464f5666b613
+  pristine_commit_hash: dd21735cf2ff45d3029d140846dfc9b19c99da52
+  pristine_tree_hash: 25a01e91248a6c38c7e24d8cfd76c5af7ecfa39e
 features:
   typescript:
     additionalDependencies: 0.1.0
@@ -795,8 +795,8 @@ trackedFiles:
     pristine_git_object: c363d501dfa498a8f979188e550af47f7cabb86b
   docs/models/operations/get-a-specific-podcast-request.md:
     id: f700c855b0ab
-    last_write_checksum: sha1:e8ae3d5e6432dee9404ae604bb52b6ec38935878
-    pristine_git_object: 95b67753149bdd8d9eae7058e83a5521787e41e5
+    last_write_checksum: sha1:36b7a1378225786796ade1b1a4f7fb92cf5e3bde
+    pristine_git_object: ccce1d936715560b4cb06783566604632a9420ff
   docs/models/operations/get-a-specific-podcast-response-body.md:
     id: c6ea4a86d9cf
     last_write_checksum: sha1:ff4b266662b1b01381f3707e2e746406686f2c01
@@ -1319,8 +1319,8 @@ trackedFiles:
     pristine_git_object: 341dd36f11cd68009040a974474019faf3ca9868
   docs/models/operations/get-publisher-details-request.md:
     id: cbcdd9d73997
-    last_write_checksum: sha1:cd4ab8b67054716cb63c50ff1da45f4bcf07c0c7
-    pristine_git_object: 39b0ec1665f58f8d1821d84c378e5ac32a0cc743
+    last_write_checksum: sha1:a5c5f0668f6dd70c7bb12bc523a5d699b96170d3
+    pristine_git_object: 13bda9dbd1dafd1dde945671042f77edaecbba93
   docs/models/operations/get-publisher-details-response-body.md:
     id: 124cf4616b88
     last_write_checksum: sha1:f5becdf7e2aa860502d0f780aaa4e5d945a8dd3c
@@ -1383,8 +1383,8 @@ trackedFiles:
     pristine_git_object: 604741735eef3e7b15aad25b329a8e37b9f6deff
   docs/models/operations/get-series-details-data.md:
     id: 63ed1b01f6c4
-    last_write_checksum: sha1:039256422c066f7f92f5c3209b770816cfd49c1a
-    pristine_git_object: d0e19f1cc06b9012c32212347411992958252343
+    last_write_checksum: sha1:b9bc5cd8a1f9acd9be06240e35a92987fb33cc91
+    pristine_git_object: 7b72302cd637cd1d76a3eefe389ee38d32804f9b
   docs/models/operations/get-series-details-last-edited-by.md:
     id: 5d43617c2074
     last_write_checksum: sha1:ea930a93f433c1111e502f8214d10372d86d1c17
@@ -1399,12 +1399,12 @@ trackedFiles:
     pristine_git_object: ced0cd311e7fdd5f3b2f28fa005608f3a05e4267
   docs/models/operations/get-series-details-response-body.md:
     id: e7266ce210ac
-    last_write_checksum: sha1:0cb04909dae97235c9fbb5fb80dbeb37fe36111c
-    pristine_git_object: 2ca56e356addd9be827dc80940f03d9a206ea672
+    last_write_checksum: sha1:732f9efea90f68338506f68a1a8012f0ef0abc97
+    pristine_git_object: 97252f2a2249eecac4d86266d4ac58ab46b4800e
   docs/models/operations/get-series-details-response.md:
     id: 18fc142dc97e
-    last_write_checksum: sha1:82b17a5f990dbbf45164a0f1a644a3f6dc2c99b9
-    pristine_git_object: afd680da87ee11c315c20a5c6080e0a50557ef54
+    last_write_checksum: sha1:1091c1d7e6e251f50bde8e10ea3ebbd6604271d0
+    pristine_git_object: a2aff2cbe808636c037ff89af139fe9c10be449a
   docs/models/operations/get-series-details-title.md:
     id: d73a573a2534
     last_write_checksum: sha1:08abd72d5999cc75ffafbcc4d8fc051a3713d401
@@ -2051,8 +2051,8 @@ trackedFiles:
     pristine_git_object: b3721ac5191865cc2ac38a658f26c9a6b288ce38
   docs/models/operations/list-series-data.md:
     id: 8b916ff02e7d
-    last_write_checksum: sha1:d0be604040a110502e790ecbaca6c49ad968e953
-    pristine_git_object: 0c20570c29eff6212bc18bc81a15c2c80666927e
+    last_write_checksum: sha1:c5c1102097e42668a86990b0d9c8f10fcf020107
+    pristine_git_object: f2d4b601a3c84bd2c71abacde6eea5d2648f265e
   docs/models/operations/list-series-meta.md:
     id: 7fe0833b86ea
     last_write_checksum: sha1:44ba8668d025f44a20556ce840f138c773fc711a
@@ -2063,12 +2063,12 @@ trackedFiles:
     pristine_git_object: 54e5755b040fa1b1215b84dd8117c750cc12aaa3
   docs/models/operations/list-series-response-body.md:
     id: 8a2c208fe54c
-    last_write_checksum: sha1:5030de92072064433cb749f561c65f4066fd76b4
-    pristine_git_object: 7f4b32311d2b7528bfd5953f9a3c1075a752b82f
+    last_write_checksum: sha1:cb156ef8565df107c7beb6eaee6035f34433f742
+    pristine_git_object: 29d1352310cc705bb3924942d0128eb24d79fc23
   docs/models/operations/list-series-response.md:
     id: a6c1656f7d52
-    last_write_checksum: sha1:8a3d40eee19ef8b6c5ea8712c0edd86b887897e4
-    pristine_git_object: a8d2b24ec9c71243abdf4e4b73708d3af3307e7f
+    last_write_checksum: sha1:5545c2ead46196f8d6b365ede50c3975b7770dd0
+    pristine_git_object: 17a3e16ad0b92e4a8f5664d4521c7663a469e2f9
   docs/models/operations/list-titles-data.md:
     id: 3370d1a55fe7
     last_write_checksum: sha1:03c5359b492eeb81a287a4aaa40ea754c385be60
@@ -2855,12 +2855,12 @@ trackedFiles:
     pristine_git_object: ce4a6a85b8bc46789323545a102bb0515c686b36
   jsr.json:
     id: 7f6ab7767282
-    last_write_checksum: sha1:11b2a948c208a9ffe8930bb947c19bf4b7316f4c
-    pristine_git_object: 88f5944e8c7dd40767c55f114dba904bd72a6eb3
+    last_write_checksum: sha1:13370e32768368c2eac4a4141581024ba2a1ac6c
+    pristine_git_object: 8924219b1e5ad341e9f005a024d850ae30dbbc76
   package.json:
     id: 7030d0b2f71b
-    last_write_checksum: sha1:88bcf762566e86c272269b7e6f12f138fefa9fda
-    pristine_git_object: 89d9ca7ebf16c0c0615fa563d27f347e2d499dcf
+    last_write_checksum: sha1:cf008aa5a4bae7cdab04070b4bce87f052af38d2
+    pristine_git_object: 7165c2c2eca55455ffbea967f3560aeb4e6cad4c
   src/core.ts:
     id: f431fdbcd144
     last_write_checksum: sha1:ad0063bee03825028052e52cef3fa240c6101bdf
@@ -3283,8 +3283,8 @@ trackedFiles:
     pristine_git_object: 44be0eae8246521b230e8e711a88eff738fc015d
   src/lib/config.ts:
     id: 320761608fb3
-    last_write_checksum: sha1:cac35710cc319bf71c172166ee7298e5b7faeb0f
-    pristine_git_object: df8a9908f779a6f4f4259d388a3d69ab4841cf62
+    last_write_checksum: sha1:e265e765be53a96e64362177847d73abfde1d0e0
+    pristine_git_object: 839b0c36c3e480aa065fb5b48e8f95bd62bc5484
   src/lib/encodings.ts:
     id: 3bd8ead98afd
     last_write_checksum: sha1:4481b2a380f8a16856ef92c66fb370299f56d135
@@ -3695,8 +3695,8 @@ trackedFiles:
     pristine_git_object: 118c0d4a76336c00b570c3e6a01daa1f84915b8b
   src/models/operations/get-series-details.ts:
     id: dd89ebde89fb
-    last_write_checksum: sha1:f621465fb1e99dbee42cac548faa657788a57abd
-    pristine_git_object: 0ccf2ea62b612f0629c24396a70ed0708b9dba07
+    last_write_checksum: sha1:7268bb4ee56fca541437472006afa84450322415
+    pristine_git_object: e41a060d837a1b68822064740ec02d9b3ca12f1c
   src/models/operations/get-series-for-a-specific-team.ts:
     id: 189308cbe3a4
     last_write_checksum: sha1:83fd704242993ab55d802d0987bcbb41c1f900d9
@@ -3807,8 +3807,8 @@ trackedFiles:
     pristine_git_object: 88d11ae6007749a06f685a0a2fe971c02da00855
   src/models/operations/list-series.ts:
     id: 0ede83648d78
-    last_write_checksum: sha1:c7a374b487d54fafd6dd7b10ca83d4d3e77d6b5b
-    pristine_git_object: 7eca819e5081006af63503b6926db96d7b4cdfce
+    last_write_checksum: sha1:dccdf40a090b544f6330d9347d4a3d0fc83ede61
+    pristine_git_object: f7f22bd5d496e7bea93bc44d908c1919808361a5
   src/models/operations/list-titles.ts:
     id: 3ce745cdb23f
     last_write_checksum: sha1:d8af8695bbc6d216abfb0d76290464c5ed6a8471
@@ -4996,7 +4996,7 @@ examples:
           hide_unreleased: true
       responses:
         "200":
-          application/json: {"data": [{"id": 123, "title_id": 45, "name": "Amazing Spider-Man", "slug": "amazing-spider-man-2018", "number": 6, "start_year": 2018, "end_year": 2022, "cover_url": "https://...", "publication_type": "ongoing", "format": "comic", "status": "ended", "original_language": "en", "cached_issues_count": 75, "average_rating": 4.2, "total_reviews": 150, "issues_average_rating": 4.05, "issues_rated_count": 812, "content_rating_label": "15+", "min_age": 15, "is_nsfw": false}], "meta": {"current_page": 1, "last_page": 5, "per_page": 20, "total": 100}}
+          application/json: {"data": [{"id": 123, "title_id": 45, "name": "Amazing Spider-Man", "original_name": null, "slug": "amazing-spider-man-2018", "number": 6, "start_year": 2018, "end_year": 2022, "cover_url": "https://...", "publication_type": "ongoing", "format": "comic", "status": "ended", "original_language": "en", "cached_issues_count": 75, "average_rating": 4.2, "total_reviews": 150, "issues_average_rating": 4.05, "issues_rated_count": 812, "content_rating_label": "15+", "min_age": 15, "is_nsfw": false}], "meta": {"current_page": 1, "last_page": 5, "per_page": 20, "total": 100}}
         "401":
           application/json: {"message": "Unauthenticated."}
         "429":
@@ -5008,7 +5008,7 @@ examples:
           series_id: 123
       responses:
         "200":
-          application/json: {"data": {"id": 123, "title_id": 45, "name": "Amazing Spider-Man", "slug": "amazing-spider-man-2018", "number": 6, "start_year": 2018, "end_year": 2022, "cover_url": "https://...", "publisher_description": "The publisher's own standing synopsis for the run, verbatim, or null", "publication_type": "ongoing", "format": "comic", "status": "ended", "original_language": "en", "cached_issues_count": 75, "average_rating": 4.2, "total_reviews": 150, "issues_average_rating": 4.05, "issues_rated_count": 812, "content_rating_label": "15+", "min_age": 15, "is_nsfw": false, "cached_creators_count": 12, "cached_characters_count": 24, "cached_teams_count": 3, "lists_count": 8, "title": {"id": 45, "name": "Amazing Spider-Man", "url_slug": "amazing-spider-man"}, "publisher": {"id": 1, "name": "Marvel", "slug": "marvel"}, "publishers": [{"id": 1, "name": "Marvel", "slug": "marvel"}], "genres": [{"id": 1, "name": "Superhero"}], "imprint": null, "effective_imprint": null, "last_edited_by": {"id": 42, "name": "Jane Doe", "username": "janedoe", "avatar_url": "https://..."}, "creators": [{"id": 789, "name": "Nick Spencer", "slug": "nick-spencer", "photo_url": "https://...", "role": "Writer", "is_uncredited": false}], "characters": [{"id": 456, "name": "Spider-Man (Peter Parker)", "slug": "spider-man-peter-parker", "real_name": "Peter Parker", "aliases": [], "image_url": "https://...", "appearances_count": 75}], "teams": [{"id": 33, "name": "Avengers", "slug": "avengers", "image_url": "https://...", "members_count": 24}], "foc_issues": [{"id": 9912, "issue_number": "42", "name": "Issue 42", "release_date": "2026-06-04", "foc_date": "2026-05-12", "cover_url": "https://..."}], "upcoming_issues": [{"id": 9913, "issue_number": "43", "name": "Issue 43", "release_date": "2026-06-11", "cover_url": "https://..."}]}}
+          application/json: {"data": {"id": 123, "title_id": 45, "name": "Amazing Spider-Man", "original_name": null, "slug": "amazing-spider-man-2018", "number": 6, "start_year": 2018, "end_year": 2022, "cover_url": "https://...", "publisher_description": "The publisher's own standing synopsis for the run, verbatim, or null", "publication_type": "ongoing", "format": "comic", "status": "ended", "original_language": "en", "cached_issues_count": 75, "average_rating": 4.2, "total_reviews": 150, "issues_average_rating": 4.05, "issues_rated_count": 812, "content_rating_label": "15+", "min_age": 15, "is_nsfw": false, "cached_creators_count": 12, "cached_characters_count": 24, "cached_teams_count": 3, "lists_count": 8, "title": {"id": 45, "name": "Amazing Spider-Man", "url_slug": "amazing-spider-man"}, "publisher": {"id": 1, "name": "Marvel", "slug": "marvel"}, "publishers": [{"id": 1, "name": "Marvel", "slug": "marvel"}], "genres": [{"id": 1, "name": "Superhero"}], "imprint": null, "effective_imprint": null, "last_edited_by": {"id": 42, "name": "Jane Doe", "username": "janedoe", "avatar_url": "https://..."}, "creators": [{"id": 789, "name": "Nick Spencer", "slug": "nick-spencer", "photo_url": "https://...", "role": "Writer", "is_uncredited": false}], "characters": [{"id": 456, "name": "Spider-Man (Peter Parker)", "slug": "spider-man-peter-parker", "real_name": "Peter Parker", "aliases": [], "image_url": "https://...", "appearances_count": 75}], "teams": [{"id": 33, "name": "Avengers", "slug": "avengers", "image_url": "https://...", "members_count": 24}], "foc_issues": [{"id": 9912, "issue_number": "42", "name": "Issue 42", "release_date": "2026-06-04", "foc_date": "2026-05-12", "cover_url": "https://..."}], "upcoming_issues": [{"id": 9913, "issue_number": "43", "name": "Issue 43", "release_date": "2026-06-11", "cover_url": "https://..."}]}}
         "401":
           application/json: {"message": "Unauthenticated."}
         "404":
@@ -5808,3 +5808,7 @@ examples:
         "503":
           application/json: {"message": "Cover matching is unavailable right now. Try again later or look the comic up by barcode."}
 examplesVersion: 1.0.2
+releaseNotes: |
+  ## Typescript SDK Changes:
+  * `versedb.series.listSeries()`:  `response.data[].originalName` **Added**
+  * `versedb.series.getSeriesDetails()`:  `response.data.originalName` **Added**

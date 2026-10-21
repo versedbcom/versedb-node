@@ -12,6 +12,7 @@ let value: GetSeriesDetailsResponseBody = {
     id: 123,
     titleId: 45,
     name: "Amazing Spider-Man",
+    originalName: null,
     slug: "amazing-spider-man-2018",
     number: 6,
     startYear: 2018,

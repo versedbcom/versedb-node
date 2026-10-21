@@ -9,6 +9,7 @@ let value: ListSeriesData = {
   id: 123,
   titleId: 45,
   name: "Amazing Spider-Man",
+  originalName: null,
   slug: "amazing-spider-man-2018",
   number: 6,
   startYear: 2018,
@@ -36,6 +37,7 @@ let value: ListSeriesData = {
 | `id`                    | *number*                | :heavy_minus_sign:      | N/A                     | 123                     |
 | `titleId`               | *number*                | :heavy_minus_sign:      | N/A                     | 45                      |
 | `name`                  | *string*                | :heavy_minus_sign:      | N/A                     | Amazing Spider-Man      |
+| `originalName`          | *string*                | :heavy_minus_sign:      | N/A                     | null                    |
 | `slug`                  | *string*                | :heavy_minus_sign:      | N/A                     | amazing-spider-man-2018 |
 | `number`                | *number*                | :heavy_minus_sign:      | N/A                     | 6                       |
 | `startYear`             | *number*                | :heavy_minus_sign:      | N/A                     | 2018                    |
