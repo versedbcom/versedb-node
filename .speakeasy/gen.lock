@@ -3,17 +3,17 @@ id: d54ae284-e171-41f5-99d0-d4027d6f02b4
 management:
   docChecksum: 2b86037f1f0a21fd450cb156e09abf7b
   docVersion: 1.0.0
-  speakeasyVersion: 1.803.0
+  speakeasyVersion: 1.803.1
   generationVersion: 2.950.2
-  releaseVersion: 2.2.2
-  configChecksum: acf8e8e5edb21653f64ea396a4d02dc9
+  releaseVersion: 2.2.3
+  configChecksum: e1327ad5817dde6b48a47b81c2591114
   repoURL: https://github.com/versedbcom/versedb-node.git
   installationURL: https://github.com/versedbcom/versedb-node
   published: true
 persistentEdits:
-  generation_id: 7f48ff9e-cb59-4272-b712-464f5666b613
-  pristine_commit_hash: dd21735cf2ff45d3029d140846dfc9b19c99da52
-  pristine_tree_hash: 25a01e91248a6c38c7e24d8cfd76c5af7ecfa39e
+  generation_id: 7e5c3e76-26f2-4381-884e-929628105acf
+  pristine_commit_hash: c3acd301afd0b537bbbb759a24921f6b47048d24
+  pristine_tree_hash: 42db1fff97d37cbb067ab36c3db1e6ce84e792fb
 features:
   typescript:
     additionalDependencies: 0.1.0
@@ -2855,12 +2855,12 @@ trackedFiles:
     pristine_git_object: ce4a6a85b8bc46789323545a102bb0515c686b36
   jsr.json:
     id: 7f6ab7767282
-    last_write_checksum: sha1:13370e32768368c2eac4a4141581024ba2a1ac6c
-    pristine_git_object: 8924219b1e5ad341e9f005a024d850ae30dbbc76
+    last_write_checksum: sha1:d8cf44c7a91afb94bdaf542de18ddfa4bd8fea59
+    pristine_git_object: 439e75ea6727df47e1cd17c11c756d0182ca0106
   package.json:
     id: 7030d0b2f71b
-    last_write_checksum: sha1:cf008aa5a4bae7cdab04070b4bce87f052af38d2
-    pristine_git_object: 7165c2c2eca55455ffbea967f3560aeb4e6cad4c
+    last_write_checksum: sha1:5d662a740a062487284ea9138017695a72b2c794
+    pristine_git_object: 25ed823ffbe4c627a3eac6ccb444486f04feaf50
   src/core.ts:
     id: f431fdbcd144
     last_write_checksum: sha1:ad0063bee03825028052e52cef3fa240c6101bdf
@@ -3283,8 +3283,8 @@ trackedFiles:
     pristine_git_object: 44be0eae8246521b230e8e711a88eff738fc015d
   src/lib/config.ts:
     id: 320761608fb3
-    last_write_checksum: sha1:e265e765be53a96e64362177847d73abfde1d0e0
-    pristine_git_object: 839b0c36c3e480aa065fb5b48e8f95bd62bc5484
+    last_write_checksum: sha1:268eca832f96abdb0b25d7b409a13c1926e971a2
+    pristine_git_object: ccd0e29134e8720270bf831127daef2764d5d8b9
   src/lib/encodings.ts:
     id: 3bd8ead98afd
     last_write_checksum: sha1:4481b2a380f8a16856ef92c66fb370299f56d135
@@ -5808,7 +5808,3 @@ examples:
         "503":
           application/json: {"message": "Cover matching is unavailable right now. Try again later or look the comic up by barcode."}
 examplesVersion: 1.0.2
-releaseNotes: |
-  ## Typescript SDK Changes:
-  * `versedb.series.listSeries()`:  `response.data[].originalName` **Added**
-  * `versedb.series.getSeriesDetails()`:  `response.data.originalName` **Added**

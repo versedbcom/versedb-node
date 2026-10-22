@@ -1,4 +1,4 @@
-speakeasyVersion: 1.803.0
+speakeasyVersion: 1.803.1
 sources:
     versedb-api:
         sourceNamespace: versedb-api
@@ -14,7 +14,7 @@ targets:
         sourceRevisionDigest: sha256:3da959f9d1f4c6e08805e9fe3bf82a26aa12e9c66e137862fe62de53bd78ecd8
         sourceBlobDigest: sha256:671cb2acb1ad0c09aa29b01ef032a762eaab2fbac95d854451a2224a9c7f6d89
         codeSamplesNamespace: versedb-api-typescript-code-samples
-        codeSamplesRevisionDigest: sha256:aad419f7548c2208e16d3e1080ecfb12d8e5a43af0e899b24ad37dd85207ef5a
+        codeSamplesRevisionDigest: sha256:5e19c4672c5d81a9fe5d7026e13330b8e37e9bb852882e09ed1b3121b364e6ee
 workflow:
     workflowVersion: 1.0.0
     speakeasyVersion: latest
