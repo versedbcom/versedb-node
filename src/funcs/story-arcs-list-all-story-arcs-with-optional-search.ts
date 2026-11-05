@@ -102,6 +102,7 @@ async function $do(
   const path = pathToFunc("/api/v1/story-arcs")();
 
   const query = encodeFormQuery({
+    "languages": payload?.languages,
     "limit": payload?.limit,
     "q": payload?.q,
     "status": payload?.status,

@@ -103,6 +103,7 @@ async function $do(
   const query = encodeFormQuery({
     "character_ids": payload?.character_ids,
     "direction": payload?.direction,
+    "languages": payload?.languages,
     "limit": payload?.limit,
     "q": payload?.q,
     "sort": payload?.sort,

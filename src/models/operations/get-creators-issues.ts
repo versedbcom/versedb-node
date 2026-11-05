@@ -26,6 +26,10 @@ export type GetCreatorsIssuesRequest = {
    * Comma-separated series mediums to filter by (comic, manga, manhwa, manhua, bande_dessinee, magazine).
    */
   medium?: string | undefined;
+  /**
+   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.
+   */
+  languages?: string | undefined;
 };
 
 export type GetCreatorsIssuesSeries = {
@@ -71,6 +75,7 @@ export type GetCreatorsIssuesRequest$Outbound = {
   limit?: number | undefined;
   q?: string | undefined;
   medium?: string | undefined;
+  languages?: string | undefined;
 };
 
 /** @internal */
@@ -83,6 +88,7 @@ export const GetCreatorsIssuesRequest$outboundSchema: z.ZodMiniType<
     limit: z.optional(z.int()),
     q: z.optional(z.string()),
     medium: z.optional(z.string()),
+    languages: z.optional(z.string()),
   }),
   z.transform((v) => {
     return remap$(v, {

@@ -26,6 +26,10 @@ export type ListAllStoryArcsWithOptionalSearchRequest = {
    * Number of results per page (max 50).
    */
   limit?: number | undefined;
+  /**
+   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.
+   */
+  languages?: string | undefined;
 };
 
 export type ListAllStoryArcsWithOptionalSearchImages = {
@@ -79,6 +83,7 @@ export type ListAllStoryArcsWithOptionalSearchRequest$Outbound = {
   status?: string | undefined;
   type?: string | undefined;
   limit?: number | undefined;
+  languages?: string | undefined;
 };
 
 /** @internal */
@@ -91,6 +96,7 @@ export const ListAllStoryArcsWithOptionalSearchRequest$outboundSchema:
     status: z.optional(z.string()),
     type: z.optional(z.string()),
     limit: z.optional(z.int()),
+    languages: z.optional(z.string()),
   });
 
 export function listAllStoryArcsWithOptionalSearchRequestToJSON(

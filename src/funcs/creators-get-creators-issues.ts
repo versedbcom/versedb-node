@@ -102,6 +102,7 @@ async function $do(
   const path = pathToFunc("/api/v1/creators/{creator_id}/issues")(pathParams);
 
   const query = encodeFormQuery({
+    "languages": payload.languages,
     "limit": payload.limit,
     "medium": payload.medium,
     "q": payload.q,

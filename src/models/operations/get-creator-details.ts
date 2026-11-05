@@ -14,6 +14,10 @@ export type GetCreatorDetailsRequest = {
    * The creator ID.
    */
   creatorId: number;
+  /**
+   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.
+   */
+  languages?: string | undefined;
 };
 
 export type GetCreatorDetailsRole = {
@@ -70,6 +74,7 @@ export type GetCreatorDetailsResponse = {
 /** @internal */
 export type GetCreatorDetailsRequest$Outbound = {
   creator_id: number;
+  languages?: string | undefined;
 };
 
 /** @internal */
@@ -79,6 +84,7 @@ export const GetCreatorDetailsRequest$outboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     creatorId: z.int(),
+    languages: z.optional(z.string()),
   }),
   z.transform((v) => {
     return remap$(v, {

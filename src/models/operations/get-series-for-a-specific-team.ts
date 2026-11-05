@@ -34,6 +34,10 @@ export type GetSeriesForASpecificTeamRequest = {
    * Comma-separated series mediums to filter by (comic, manga, manhwa, manhua, bande_dessinee, magazine).
    */
   medium?: string | undefined;
+  /**
+   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.
+   */
+  languages?: string | undefined;
 };
 
 export type GetSeriesForASpecificTeamData = {
@@ -79,6 +83,7 @@ export type GetSeriesForASpecificTeamRequest$Outbound = {
   direction?: string | undefined;
   limit?: number | undefined;
   medium?: string | undefined;
+  languages?: string | undefined;
 };
 
 /** @internal */
@@ -93,6 +98,7 @@ export const GetSeriesForASpecificTeamRequest$outboundSchema: z.ZodMiniType<
     direction: z.optional(z.string()),
     limit: z.optional(z.int()),
     medium: z.optional(z.string()),
+    languages: z.optional(z.string()),
   }),
   z.transform((v) => {
     return remap$(v, {

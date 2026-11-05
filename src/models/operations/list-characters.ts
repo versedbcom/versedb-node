@@ -18,6 +18,10 @@ export type ListCharactersRequest = {
    * Results per page (max 50).
    */
   limit?: number | undefined;
+  /**
+   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.
+   */
+  languages?: string | undefined;
 };
 
 export type ListCharactersImages = {
@@ -60,6 +64,7 @@ export type ListCharactersResponse = {
 export type ListCharactersRequest$Outbound = {
   q?: string | undefined;
   limit?: number | undefined;
+  languages?: string | undefined;
 };
 
 /** @internal */
@@ -69,6 +74,7 @@ export const ListCharactersRequest$outboundSchema: z.ZodMiniType<
 > = z.object({
   q: z.optional(z.string()),
   limit: z.optional(z.int()),
+  languages: z.optional(z.string()),
 });
 
 export function listCharactersRequestToJSON(

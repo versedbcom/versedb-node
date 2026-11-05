@@ -34,6 +34,7 @@ async function run() {
     status: "ended",
     type: "crossover_event",
     limit: 20,
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -62,6 +63,7 @@ async function run() {
     status: "ended",
     type: "crossover_event",
     limit: 20,
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -119,6 +121,7 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.storyArcs.getStoryArcDetail({
     storyArcId: 16,
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -144,6 +147,7 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await storyArcsGetStoryArcDetail(verseDB, {
     storyArcId: 16,
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -196,6 +200,7 @@ async function run() {
     issueId: 3,
     q: "batman",
     limit: 20,
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -223,6 +228,7 @@ async function run() {
     issueId: 3,
     q: "batman",
     limit: 20,
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -275,6 +281,7 @@ async function run() {
     characterId: 16,
     q: "batman",
     limit: 20,
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -302,6 +309,7 @@ async function run() {
     characterId: 16,
     q: "batman",
     limit: 20,
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -354,6 +362,7 @@ async function run() {
     universeId: 16,
     q: "batman",
     limit: 20,
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -381,6 +390,7 @@ async function run() {
     universeId: 16,
     q: "batman",
     limit: 20,
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;

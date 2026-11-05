@@ -33,6 +33,7 @@ async function run() {
   const result = await verseDB.characters.listCharacters({
     q: "spider-man",
     limit: 20,
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -59,6 +60,7 @@ async function run() {
   const res = await charactersListCharacters(verseDB, {
     q: "spider-man",
     limit: 20,
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -111,6 +113,7 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.characters.getCharacterDetails({
     characterId: 456,
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -136,6 +139,7 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await charactersGetCharacterDetails(verseDB, {
     characterId: 456,
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -190,6 +194,7 @@ async function run() {
     limit: 20,
     q: "batman",
     medium: "comic,manga",
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -218,6 +223,7 @@ async function run() {
     limit: 20,
     q: "batman",
     medium: "comic,manga",
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -271,6 +277,7 @@ async function run() {
     limit: 20,
     q: "batman",
     medium: "comic,manga",
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -299,6 +306,7 @@ async function run() {
     limit: 20,
     q: "batman",
     medium: "comic,manga",
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -351,6 +359,7 @@ async function run() {
     characterId: 456,
     limit: 20,
     q: "batman",
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -378,6 +387,7 @@ async function run() {
     characterId: 456,
     limit: 20,
     q: "batman",
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;

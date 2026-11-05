@@ -144,6 +144,7 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.series.getSeriesDetails({
     seriesId: 123,
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -169,6 +170,7 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await seriesGetSeriesDetails(verseDB, {
     seriesId: 123,
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -224,6 +226,7 @@ async function run() {
     sort: "issue_number",
     direction: "asc",
     limit: 20,
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -253,6 +256,7 @@ async function run() {
     sort: "issue_number",
     direction: "asc",
     limit: 20,
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -303,6 +307,7 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.series.getSeriesCreators({
     id: 123,
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -328,6 +333,7 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await seriesGetSeriesCreators(verseDB, {
     id: 123,
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -378,6 +384,7 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.series.getSeriesCharacters({
     id: 123,
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -403,6 +410,7 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await seriesGetSeriesCharacters(verseDB, {
     id: 123,
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;

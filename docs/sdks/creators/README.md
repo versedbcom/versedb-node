@@ -33,6 +33,7 @@ async function run() {
   const result = await verseDB.creators.listCreators({
     q: "alan moore",
     limit: 20,
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -59,6 +60,7 @@ async function run() {
   const res = await creatorsListCreators(verseDB, {
     q: "alan moore",
     limit: 20,
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -109,6 +111,7 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.creators.getCreatorDetails({
     creatorId: 789,
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -134,6 +137,7 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await creatorsGetCreatorDetails(verseDB, {
     creatorId: 789,
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -265,6 +269,7 @@ async function run() {
     limit: 20,
     q: "batman",
     medium: "comic,manga",
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -293,6 +298,7 @@ async function run() {
     limit: 20,
     q: "batman",
     medium: "comic,manga",
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -348,6 +354,7 @@ async function run() {
     limit: 20,
     q: "batman",
     medium: "comic,manga",
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -376,6 +383,7 @@ async function run() {
     limit: 20,
     q: "batman",
     medium: "comic,manga",
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;

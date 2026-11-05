@@ -150,6 +150,7 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.issues.getIssueDetails({
     issueId: 5432,
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -175,6 +176,7 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await issuesGetIssueDetails(verseDB, {
     issueId: 5432,
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -226,6 +228,7 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.issues.getIssueVariants({
     issueId: 5432,
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -251,6 +254,7 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await issuesGetIssueVariants(verseDB, {
     issueId: 5432,
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -302,6 +306,7 @@ async function run() {
   const result = await verseDB.issues.getVariantDetails({
     issueId: 5432,
     variantId: 9001,
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -328,6 +333,7 @@ async function run() {
   const res = await issuesGetVariantDetails(verseDB, {
     issueId: 5432,
     variantId: 9001,
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -379,6 +385,7 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.issues.getIssueCreators({
     id: 5432,
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -404,6 +411,7 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await issuesGetIssueCreators(verseDB, {
     id: 5432,
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -454,6 +462,7 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.issues.getIssueCharacters({
     id: 5432,
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -479,6 +488,7 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await issuesGetIssueCharacters(verseDB, {
     id: 5432,
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;

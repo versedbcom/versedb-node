@@ -14,6 +14,10 @@ export type GetIssueDetailsRequest = {
    * The issue ID.
    */
   issueId: number;
+  /**
+   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.
+   */
+  languages?: string | undefined;
 };
 
 export type GetIssueDetailsSeries = {
@@ -88,6 +92,7 @@ export type GetIssueDetailsResponse = {
 /** @internal */
 export type GetIssueDetailsRequest$Outbound = {
   issue_id: number;
+  languages?: string | undefined;
 };
 
 /** @internal */
@@ -97,6 +102,7 @@ export const GetIssueDetailsRequest$outboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     issueId: z.int(),
+    languages: z.optional(z.string()),
   }),
   z.transform((v) => {
     return remap$(v, {

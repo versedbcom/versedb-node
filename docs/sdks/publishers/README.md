@@ -31,6 +31,7 @@ async function run() {
     sort: "cached_issues_count",
     direction: "desc",
     limit: 20,
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -60,6 +61,7 @@ async function run() {
     sort: "cached_issues_count",
     direction: "desc",
     limit: 20,
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -115,6 +117,7 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.publishers.getPublisherDetails({
     publisherId: 1,
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -140,6 +143,7 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await publishersGetPublisherDetails(verseDB, {
     publisherId: 1,
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;

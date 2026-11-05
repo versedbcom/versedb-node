@@ -14,6 +14,10 @@ export type GetSeriesCreatorsRequest = {
    * The series ID.
    */
   id: number;
+  /**
+   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.
+   */
+  languages?: string | undefined;
 };
 
 export type GetSeriesCreatorsRole = {
@@ -50,6 +54,7 @@ export type GetSeriesCreatorsResponse = {
 /** @internal */
 export type GetSeriesCreatorsRequest$Outbound = {
   id: number;
+  languages?: string | undefined;
 };
 
 /** @internal */
@@ -58,6 +63,7 @@ export const GetSeriesCreatorsRequest$outboundSchema: z.ZodMiniType<
   GetSeriesCreatorsRequest
 > = z.object({
   id: z.int(),
+  languages: z.optional(z.string()),
 });
 
 export function getSeriesCreatorsRequestToJSON(

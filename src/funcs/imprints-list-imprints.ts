@@ -96,6 +96,7 @@ async function $do(
   const path = pathToFunc("/api/v1/imprints")();
 
   const query = encodeFormQuery({
+    "languages": payload?.languages,
     "limit": payload?.limit,
     "publisher_id": payload?.publisher_id,
     "q": payload?.q,

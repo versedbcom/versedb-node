@@ -18,6 +18,10 @@ export type GetVariantDetailsRequest = {
    * The variant ID.
    */
   variantId: number;
+  /**
+   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.
+   */
+  languages?: string | undefined;
 };
 
 export type GetVariantDetailsCreator = {
@@ -57,6 +61,7 @@ export type GetVariantDetailsResponse = {
 export type GetVariantDetailsRequest$Outbound = {
   issue_id: number;
   variant_id: number;
+  languages?: string | undefined;
 };
 
 /** @internal */
@@ -67,6 +72,7 @@ export const GetVariantDetailsRequest$outboundSchema: z.ZodMiniType<
   z.object({
     issueId: z.int(),
     variantId: z.int(),
+    languages: z.optional(z.string()),
   }),
   z.transform((v) => {
     return remap$(v, {

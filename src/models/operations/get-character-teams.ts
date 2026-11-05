@@ -22,6 +22,10 @@ export type GetCharacterTeamsRequest = {
    * Optional case-insensitive search within these results.
    */
   q?: string | undefined;
+  /**
+   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.
+   */
+  languages?: string | undefined;
 };
 
 export type Membership = {
@@ -63,6 +67,7 @@ export type GetCharacterTeamsRequest$Outbound = {
   character_id: number;
   limit?: number | undefined;
   q?: string | undefined;
+  languages?: string | undefined;
 };
 
 /** @internal */
@@ -74,6 +79,7 @@ export const GetCharacterTeamsRequest$outboundSchema: z.ZodMiniType<
     characterId: z.int(),
     limit: z.optional(z.int()),
     q: z.optional(z.string()),
+    languages: z.optional(z.string()),
   }),
   z.transform((v) => {
     return remap$(v, {

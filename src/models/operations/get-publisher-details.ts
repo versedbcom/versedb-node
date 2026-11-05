@@ -14,6 +14,10 @@ export type GetPublisherDetailsRequest = {
    * The ID of the publisher.
    */
   publisherId: number;
+  /**
+   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.
+   */
+  languages?: string | undefined;
 };
 
 export type GetPublisherDetailsImages = {
@@ -51,6 +55,7 @@ export type GetPublisherDetailsResponse = {
 /** @internal */
 export type GetPublisherDetailsRequest$Outbound = {
   publisher_id: number;
+  languages?: string | undefined;
 };
 
 /** @internal */
@@ -60,6 +65,7 @@ export const GetPublisherDetailsRequest$outboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     publisherId: z.int(),
+    languages: z.optional(z.string()),
   }),
   z.transform((v) => {
     return remap$(v, {

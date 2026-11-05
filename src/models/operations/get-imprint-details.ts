@@ -14,6 +14,10 @@ export type GetImprintDetailsRequest = {
    * The ID of the imprint.
    */
   imprintId: number;
+  /**
+   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.
+   */
+  languages?: string | undefined;
 };
 
 export type GetImprintDetailsPublisher = {
@@ -48,6 +52,7 @@ export type GetImprintDetailsResponse = {
 /** @internal */
 export type GetImprintDetailsRequest$Outbound = {
   imprint_id: number;
+  languages?: string | undefined;
 };
 
 /** @internal */
@@ -57,6 +62,7 @@ export const GetImprintDetailsRequest$outboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     imprintId: z.int(),
+    languages: z.optional(z.string()),
   }),
   z.transform((v) => {
     return remap$(v, {

@@ -30,6 +30,7 @@ async function run() {
     q: "vertigo",
     publisherId: 2,
     limit: 20,
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -57,6 +58,7 @@ async function run() {
     q: "vertigo",
     publisherId: 2,
     limit: 20,
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -107,6 +109,7 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.imprints.getImprintDetails({
     imprintId: 16,
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -132,6 +135,7 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await imprintsGetImprintDetails(verseDB, {
     imprintId: 16,
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;

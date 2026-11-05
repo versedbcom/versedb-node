@@ -14,6 +14,10 @@ export type GetStoryArcDetailRequest = {
    * The story arc ID.
    */
   storyArcId: number;
+  /**
+   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.
+   */
+  languages?: string | undefined;
 };
 
 export type GetStoryArcDetailImages = {
@@ -116,6 +120,7 @@ export type GetStoryArcDetailResponse = {
 /** @internal */
 export type GetStoryArcDetailRequest$Outbound = {
   storyArc_id: number;
+  languages?: string | undefined;
 };
 
 /** @internal */
@@ -125,6 +130,7 @@ export const GetStoryArcDetailRequest$outboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     storyArcId: z.int(),
+    languages: z.optional(z.string()),
   }),
   z.transform((v) => {
     return remap$(v, {

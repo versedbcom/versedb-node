@@ -14,6 +14,10 @@ export type GetCharacterDetailsRequest = {
    * The character ID.
    */
   characterId: number;
+  /**
+   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.
+   */
+  languages?: string | undefined;
 };
 
 export type GetCharacterDetailsImages = {
@@ -64,6 +68,7 @@ export type GetCharacterDetailsResponse = {
 /** @internal */
 export type GetCharacterDetailsRequest$Outbound = {
   character_id: number;
+  languages?: string | undefined;
 };
 
 /** @internal */
@@ -73,6 +78,7 @@ export const GetCharacterDetailsRequest$outboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     characterId: z.int(),
+    languages: z.optional(z.string()),
   }),
   z.transform((v) => {
     return remap$(v, {

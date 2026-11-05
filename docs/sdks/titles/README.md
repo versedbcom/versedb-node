@@ -135,6 +135,7 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.titles.getASpecificTitle({
     titleId: 1,
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -160,6 +161,7 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await titlesGetASpecificTitle(verseDB, {
     titleId: 1,
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;

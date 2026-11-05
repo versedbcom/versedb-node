@@ -14,6 +14,10 @@ export type GetASpecificUniverseRequest = {
    * The ID of the universe.
    */
   universeId: number;
+  /**
+   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.
+   */
+  languages?: string | undefined;
 };
 
 export type GetASpecificUniverseData = {
@@ -36,6 +40,7 @@ export type GetASpecificUniverseResponse = {
 /** @internal */
 export type GetASpecificUniverseRequest$Outbound = {
   universe_id: number;
+  languages?: string | undefined;
 };
 
 /** @internal */
@@ -45,6 +50,7 @@ export const GetASpecificUniverseRequest$outboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     universeId: z.int(),
+    languages: z.optional(z.string()),
   }),
   z.transform((v) => {
     return remap$(v, {

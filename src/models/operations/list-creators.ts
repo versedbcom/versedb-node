@@ -18,6 +18,10 @@ export type ListCreatorsRequest = {
    * Results per page (max 50).
    */
   limit?: number | undefined;
+  /**
+   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.
+   */
+  languages?: string | undefined;
 };
 
 export type ListCreatorsRole = {
@@ -65,6 +69,7 @@ export type ListCreatorsResponse = {
 export type ListCreatorsRequest$Outbound = {
   q?: string | undefined;
   limit?: number | undefined;
+  languages?: string | undefined;
 };
 
 /** @internal */
@@ -74,6 +79,7 @@ export const ListCreatorsRequest$outboundSchema: z.ZodMiniType<
 > = z.object({
   q: z.optional(z.string()),
   limit: z.optional(z.int()),
+  languages: z.optional(z.string()),
 });
 
 export function listCreatorsRequestToJSON(

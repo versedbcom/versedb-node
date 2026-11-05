@@ -96,6 +96,7 @@ async function $do(
   const path = pathToFunc("/api/v1/creators")();
 
   const query = encodeFormQuery({
+    "languages": payload?.languages,
     "limit": payload?.limit,
     "q": payload?.q,
   });

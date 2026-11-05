@@ -28,6 +28,7 @@ async function run() {
   const result = await verseDB.universes.listUniverses({
     q: "marvel",
     limit: 20,
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -54,6 +55,7 @@ async function run() {
   const res = await universesListUniverses(verseDB, {
     q: "marvel",
     limit: 20,
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -108,6 +110,7 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.universes.getASpecificUniverse({
     universeId: 16,
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -133,6 +136,7 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await universesGetASpecificUniverse(verseDB, {
     universeId: 16,
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;

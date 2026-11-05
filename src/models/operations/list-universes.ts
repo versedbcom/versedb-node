@@ -18,6 +18,10 @@ export type ListUniversesRequest = {
    * Number of results per page (max 50).
    */
   limit?: number | undefined;
+  /**
+   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.
+   */
+  languages?: string | undefined;
 };
 
 export type ListUniversesData = {
@@ -49,6 +53,7 @@ export type ListUniversesResponse = {
 export type ListUniversesRequest$Outbound = {
   q?: string | undefined;
   limit?: number | undefined;
+  languages?: string | undefined;
 };
 
 /** @internal */
@@ -58,6 +63,7 @@ export const ListUniversesRequest$outboundSchema: z.ZodMiniType<
 > = z.object({
   q: z.optional(z.string()),
   limit: z.optional(z.int()),
+  languages: z.optional(z.string()),
 });
 
 export function listUniversesRequestToJSON(
