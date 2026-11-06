@@ -30,8 +30,6 @@ Users can save and like lists, and lists can be ranked or unranked.
 * [addItemToList](#additemtolist) - Add item to list.
 * [removeItemFromList](#removeitemfromlist) - Remove item from list.
 * [reorderItems](#reorderitems) - Reorder items.
-* [saveList](#savelist) - Save list.
-* [unsaveList](#unsavelist) - Unsave list.
 * [likeListOrReactToIt](#likelistorreacttoit) - Like list, or react to it.
 * [unlikeList](#unlikelist) - Unlike list.
 
@@ -524,13 +522,13 @@ run();
 
 ### Errors
 
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.UnauthorizedErrorError       | 401                                 | application/json                    |
-| errors.DeleteListResponseBodyError1 | 403                                 | application/json                    |
-| errors.DeleteListResponseBodyError2 | 403                                 | application/json                    |
-| errors.TooManyRequestsError         | 429                                 | application/json                    |
-| errors.VerseDbDefaultError          | 4XX, 5XX                            | \*/\*                               |
+| Error Type                    | Status Code                   | Content Type                  |
+| ----------------------------- | ----------------------------- | ----------------------------- |
+| errors.UnauthorizedErrorError | 401                           | application/json              |
+| errors.ResponseBodyError1     | 403                           | application/json              |
+| errors.ResponseBodyError2     | 403                           | application/json              |
+| errors.TooManyRequestsError   | 429                           | application/json              |
+| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
 
 ## getUsersLists
 
@@ -1107,157 +1105,6 @@ run();
 ### Response
 
 **Promise\<[operations.ReorderItemsResponse](../../models/operations/reorder-items-response.md)\>**
-
-### Errors
-
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| errors.UnauthorizedErrorError | 401                           | application/json              |
-| errors.TooManyRequestsError   | 429                           | application/json              |
-| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
-
-## saveList
-
-Saves a list to the user's saved lists for quick access. Cannot save your own lists.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="saveList" method="post" path="/api/v1/lists/{list_id}/save" -->
-```typescript
-import { VerseDB } from "@versedbcom/sdk";
-
-const verseDB = new VerseDB({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const result = await verseDB.lists.saveList({
-    listId: 101,
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { VerseDBCore } from "@versedbcom/sdk/core.js";
-import { listsSaveList } from "@versedbcom/sdk/funcs/lists-save-list.js";
-
-// Use `VerseDBCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const verseDB = new VerseDBCore({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const res = await listsSaveList(verseDB, {
-    listId: 101,
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("listsSaveList failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.SaveListRequest](../../models/operations/save-list-request.md)                                                                                                     | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[operations.SaveListResponse](../../models/operations/save-list-response.md)\>**
-
-### Errors
-
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| errors.UnauthorizedErrorError | 401                           | application/json              |
-| errors.SaveListForbiddenError | 403                           | application/json              |
-| errors.TooManyRequestsError   | 429                           | application/json              |
-| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
-
-## unsaveList
-
-Removes a list from the user's saved lists.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="unsaveList" method="delete" path="/api/v1/lists/{list_id}/save" -->
-```typescript
-import { VerseDB } from "@versedbcom/sdk";
-
-const verseDB = new VerseDB({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const result = await verseDB.lists.unsaveList({
-    listId: 101,
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { VerseDBCore } from "@versedbcom/sdk/core.js";
-import { listsUnsaveList } from "@versedbcom/sdk/funcs/lists-unsave-list.js";
-
-// Use `VerseDBCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const verseDB = new VerseDBCore({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const res = await listsUnsaveList(verseDB, {
-    listId: 101,
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("listsUnsaveList failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.UnsaveListRequest](../../models/operations/unsave-list-request.md)                                                                                                 | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[operations.UnsaveListResponse](../../models/operations/unsave-list-response.md)\>**
 
 ### Errors
 

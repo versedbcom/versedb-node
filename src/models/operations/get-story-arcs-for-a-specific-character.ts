@@ -28,6 +28,10 @@ export type GetStoryArcsForASpecificCharacterRequest = {
   languages?: string | undefined;
 };
 
+export type GetStoryArcsForASpecificCharacterNameI18n = {};
+
+export type GetStoryArcsForASpecificCharacterAliasesI18n = {};
+
 export type GetStoryArcsForASpecificCharacterImages = {
   coverSm?: string | undefined;
   coverMd?: string | undefined;
@@ -37,6 +41,9 @@ export type GetStoryArcsForASpecificCharacterImages = {
 export type GetStoryArcsForASpecificCharacterData = {
   id?: number | undefined;
   name?: string | undefined;
+  nameI18n?: GetStoryArcsForASpecificCharacterNameI18n | undefined;
+  aliasesI18n?: GetStoryArcsForASpecificCharacterAliasesI18n | undefined;
+  originalLocale?: string | undefined;
   slug?: string | undefined;
   type?: string | undefined;
   status?: string | undefined;
@@ -104,6 +111,49 @@ export function getStoryArcsForASpecificCharacterRequestToJSON(
 }
 
 /** @internal */
+export const GetStoryArcsForASpecificCharacterNameI18n$inboundSchema:
+  z.ZodMiniType<GetStoryArcsForASpecificCharacterNameI18n, unknown> = z.object(
+    {},
+  );
+
+export function getStoryArcsForASpecificCharacterNameI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  GetStoryArcsForASpecificCharacterNameI18n,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      GetStoryArcsForASpecificCharacterNameI18n$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'GetStoryArcsForASpecificCharacterNameI18n' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetStoryArcsForASpecificCharacterAliasesI18n$inboundSchema:
+  z.ZodMiniType<GetStoryArcsForASpecificCharacterAliasesI18n, unknown> = z
+    .object({});
+
+export function getStoryArcsForASpecificCharacterAliasesI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  GetStoryArcsForASpecificCharacterAliasesI18n,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      GetStoryArcsForASpecificCharacterAliasesI18n$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'GetStoryArcsForASpecificCharacterAliasesI18n' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetStoryArcsForASpecificCharacterImages$inboundSchema:
   z.ZodMiniType<GetStoryArcsForASpecificCharacterImages, unknown> = z.pipe(
     z.object({
@@ -144,6 +194,13 @@ export const GetStoryArcsForASpecificCharacterData$inboundSchema: z.ZodMiniType<
   z.object({
     id: types.optional(types.number()),
     name: types.optional(types.string()),
+    name_i18n: types.optional(
+      z.lazy(() => GetStoryArcsForASpecificCharacterNameI18n$inboundSchema),
+    ),
+    aliases_i18n: types.optional(
+      z.lazy(() => GetStoryArcsForASpecificCharacterAliasesI18n$inboundSchema),
+    ),
+    original_locale: types.optional(types.string()),
     slug: types.optional(types.string()),
     type: types.optional(types.string()),
     status: types.optional(types.string()),
@@ -155,6 +212,9 @@ export const GetStoryArcsForASpecificCharacterData$inboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return remap$(v, {
+      "name_i18n": "nameI18n",
+      "aliases_i18n": "aliasesI18n",
+      "original_locale": "originalLocale",
       "image_url": "imageUrl",
       "issues_count": "issuesCount",
     });

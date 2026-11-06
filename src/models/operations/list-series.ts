@@ -88,10 +88,17 @@ export type ListSeriesRequest = {
   limit?: number | undefined;
 };
 
+export type ListSeriesNameI18n = {};
+
+export type ListSeriesAliasesI18n = {};
+
 export type ListSeriesData = {
   id?: number | undefined;
   titleId?: number | undefined;
   name?: string | undefined;
+  nameI18n?: ListSeriesNameI18n | undefined;
+  aliasesI18n?: ListSeriesAliasesI18n | undefined;
+  originalLocale?: string | undefined;
   originalName?: string | null | undefined;
   slug?: string | undefined;
   number?: number | undefined;
@@ -206,6 +213,38 @@ export function listSeriesRequestToJSON(
 }
 
 /** @internal */
+export const ListSeriesNameI18n$inboundSchema: z.ZodMiniType<
+  ListSeriesNameI18n,
+  unknown
+> = z.object({});
+
+export function listSeriesNameI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<ListSeriesNameI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ListSeriesNameI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListSeriesNameI18n' from JSON`,
+  );
+}
+
+/** @internal */
+export const ListSeriesAliasesI18n$inboundSchema: z.ZodMiniType<
+  ListSeriesAliasesI18n,
+  unknown
+> = z.object({});
+
+export function listSeriesAliasesI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<ListSeriesAliasesI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ListSeriesAliasesI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListSeriesAliasesI18n' from JSON`,
+  );
+}
+
+/** @internal */
 export const ListSeriesData$inboundSchema: z.ZodMiniType<
   ListSeriesData,
   unknown
@@ -214,6 +253,11 @@ export const ListSeriesData$inboundSchema: z.ZodMiniType<
     id: types.optional(types.number()),
     title_id: types.optional(types.number()),
     name: types.optional(types.string()),
+    name_i18n: types.optional(z.lazy(() => ListSeriesNameI18n$inboundSchema)),
+    aliases_i18n: types.optional(
+      z.lazy(() => ListSeriesAliasesI18n$inboundSchema),
+    ),
+    original_locale: types.optional(types.string()),
     original_name: z.optional(z.nullable(types.string())),
     slug: types.optional(types.string()),
     number: types.optional(types.number()),
@@ -236,6 +280,9 @@ export const ListSeriesData$inboundSchema: z.ZodMiniType<
   z.transform((v) => {
     return remap$(v, {
       "title_id": "titleId",
+      "name_i18n": "nameI18n",
+      "aliases_i18n": "aliasesI18n",
+      "original_locale": "originalLocale",
       "original_name": "originalName",
       "start_year": "startYear",
       "end_year": "endYear",

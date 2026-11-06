@@ -11,6 +11,9 @@ let value: GetImprintDetailsResponseBody = {
   data: {
     id: 7,
     name: "Vertigo",
+    nameI18n: {},
+    aliasesI18n: {},
+    originalLocale: "en",
     slug: "vertigo",
     publisher: {
       id: 2,

@@ -20,6 +20,10 @@ export type GetSeriesCreatorsRequest = {
   languages?: string | undefined;
 };
 
+export type GetSeriesCreatorsNameI18n = {};
+
+export type GetSeriesCreatorsAliasesI18n = {};
+
 export type GetSeriesCreatorsRole = {
   id?: number | undefined;
   name?: string | undefined;
@@ -28,6 +32,9 @@ export type GetSeriesCreatorsRole = {
 export type GetSeriesCreatorsData = {
   id?: number | undefined;
   name?: string | undefined;
+  nameI18n?: GetSeriesCreatorsNameI18n | undefined;
+  aliasesI18n?: GetSeriesCreatorsAliasesI18n | undefined;
+  originalLocale?: string | undefined;
   role?: GetSeriesCreatorsRole | undefined;
 };
 
@@ -75,6 +82,38 @@ export function getSeriesCreatorsRequestToJSON(
 }
 
 /** @internal */
+export const GetSeriesCreatorsNameI18n$inboundSchema: z.ZodMiniType<
+  GetSeriesCreatorsNameI18n,
+  unknown
+> = z.object({});
+
+export function getSeriesCreatorsNameI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<GetSeriesCreatorsNameI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetSeriesCreatorsNameI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetSeriesCreatorsNameI18n' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetSeriesCreatorsAliasesI18n$inboundSchema: z.ZodMiniType<
+  GetSeriesCreatorsAliasesI18n,
+  unknown
+> = z.object({});
+
+export function getSeriesCreatorsAliasesI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<GetSeriesCreatorsAliasesI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetSeriesCreatorsAliasesI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetSeriesCreatorsAliasesI18n' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetSeriesCreatorsRole$inboundSchema: z.ZodMiniType<
   GetSeriesCreatorsRole,
   unknown
@@ -97,11 +136,27 @@ export function getSeriesCreatorsRoleFromJSON(
 export const GetSeriesCreatorsData$inboundSchema: z.ZodMiniType<
   GetSeriesCreatorsData,
   unknown
-> = z.object({
-  id: types.optional(types.number()),
-  name: types.optional(types.string()),
-  role: types.optional(z.lazy(() => GetSeriesCreatorsRole$inboundSchema)),
-});
+> = z.pipe(
+  z.object({
+    id: types.optional(types.number()),
+    name: types.optional(types.string()),
+    name_i18n: types.optional(
+      z.lazy(() => GetSeriesCreatorsNameI18n$inboundSchema),
+    ),
+    aliases_i18n: types.optional(
+      z.lazy(() => GetSeriesCreatorsAliasesI18n$inboundSchema),
+    ),
+    original_locale: types.optional(types.string()),
+    role: types.optional(z.lazy(() => GetSeriesCreatorsRole$inboundSchema)),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "name_i18n": "nameI18n",
+      "aliases_i18n": "aliasesI18n",
+      "original_locale": "originalLocale",
+    });
+  }),
+);
 
 export function getSeriesCreatorsDataFromJSON(
   jsonString: string,

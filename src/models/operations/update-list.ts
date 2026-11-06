@@ -13,14 +13,14 @@ import { SDKValidationError } from "../errors/sdk-validation-error.js";
 /**
  * The list status. One of: `published`, `draft`.
  */
-export const UpdateListStatus = {
+export const Status = {
   Published: "published",
   Draft: "draft",
 } as const;
 /**
  * The list status. One of: `published`, `draft`.
  */
-export type UpdateListStatus = ClosedEnum<typeof UpdateListStatus>;
+export type Status = ClosedEnum<typeof Status>;
 
 /**
  * A replacement smart-list rule. Accepted only on a list that was created rule-built — a rule is tuned here, never introduced or removed. Fetch the field catalog from `/lists/rule-vocabulary` and validate a draft against `/lists/rule-preview`.
@@ -47,7 +47,7 @@ export type UpdateListRequestBody = {
   /**
    * The list status. One of: `published`, `draft`.
    */
-  status?: UpdateListStatus | undefined;
+  status?: Status | undefined;
   /**
    * A replacement smart-list rule. Accepted only on a list that was created rule-built — a rule is tuned here, never introduced or removed. Fetch the field catalog from `/lists/rule-vocabulary` and validate a draft against `/lists/rule-preview`.
    */
@@ -81,9 +81,9 @@ export type UpdateListResponse = {
 };
 
 /** @internal */
-export const UpdateListStatus$outboundSchema: z.ZodMiniEnum<
-  typeof UpdateListStatus
-> = z.enum(UpdateListStatus);
+export const Status$outboundSchema: z.ZodMiniEnum<typeof Status> = z.enum(
+  Status,
+);
 
 /** @internal */
 export type UpdateListRules$Outbound = {};
@@ -120,7 +120,7 @@ export const UpdateListRequestBody$outboundSchema: z.ZodMiniType<
     description: z.optional(z.nullable(z.string())),
     isRanked: z.optional(z.boolean()),
     isPrivate: z.optional(z.boolean()),
-    status: z.optional(UpdateListStatus$outboundSchema),
+    status: z.optional(Status$outboundSchema),
     rules: z.optional(z.lazy(() => UpdateListRules$outboundSchema)),
   }),
   z.transform((v) => {

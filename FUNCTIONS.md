@@ -20,7 +20,7 @@ specific category of applications.
 
 ```typescript
 import { VerseDBCore } from "@versedbcom/sdk/core.js";
-import { discoveryFOCDeadlines } from "@versedbcom/sdk/funcs/discovery-foc-deadlines.js";
+import { titlesListTitles } from "@versedbcom/sdk/funcs/titles-list-titles.js";
 
 // Use `VerseDBCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -29,19 +29,24 @@ const verseDB = new VerseDBCore({
 });
 
 async function run() {
-  const res = await discoveryFOCDeadlines(verseDB, {
-    limit: 10,
-    page: 1,
-    days: 7,
-    startDate: "2026-03-15",
+  const res = await titlesListTitles(verseDB, {
+    q: "spider-man",
+    publisherId: 1,
+    publisher: 1,
     publisherIds: "1,4",
-    sort: "foc_date",
+    hideUnreleased: true,
+    medium: "manga",
+    languages: "en,ja",
+    ongoing: true,
+    sort: "start_year",
+    direction: "desc",
+    limit: 20,
   });
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("discoveryFOCDeadlines failed:", res.error);
+    console.log("titlesListTitles failed:", res.error);
   }
 }
 

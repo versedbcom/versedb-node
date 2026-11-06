@@ -32,9 +32,16 @@ export type GetCharacterSeriesRequest = {
   languages?: string | undefined;
 };
 
+export type GetCharacterSeriesNameI18n = {};
+
+export type GetCharacterSeriesAliasesI18n = {};
+
 export type GetCharacterSeriesData = {
   id?: number | undefined;
   name?: string | undefined;
+  nameI18n?: GetCharacterSeriesNameI18n | undefined;
+  aliasesI18n?: GetCharacterSeriesAliasesI18n | undefined;
+  originalLocale?: string | undefined;
   slug?: string | undefined;
   startYear?: number | undefined;
   endYear?: number | undefined;
@@ -98,6 +105,38 @@ export function getCharacterSeriesRequestToJSON(
 }
 
 /** @internal */
+export const GetCharacterSeriesNameI18n$inboundSchema: z.ZodMiniType<
+  GetCharacterSeriesNameI18n,
+  unknown
+> = z.object({});
+
+export function getCharacterSeriesNameI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<GetCharacterSeriesNameI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetCharacterSeriesNameI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetCharacterSeriesNameI18n' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetCharacterSeriesAliasesI18n$inboundSchema: z.ZodMiniType<
+  GetCharacterSeriesAliasesI18n,
+  unknown
+> = z.object({});
+
+export function getCharacterSeriesAliasesI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<GetCharacterSeriesAliasesI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetCharacterSeriesAliasesI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetCharacterSeriesAliasesI18n' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetCharacterSeriesData$inboundSchema: z.ZodMiniType<
   GetCharacterSeriesData,
   unknown
@@ -105,6 +144,13 @@ export const GetCharacterSeriesData$inboundSchema: z.ZodMiniType<
   z.object({
     id: types.optional(types.number()),
     name: types.optional(types.string()),
+    name_i18n: types.optional(
+      z.lazy(() => GetCharacterSeriesNameI18n$inboundSchema),
+    ),
+    aliases_i18n: types.optional(
+      z.lazy(() => GetCharacterSeriesAliasesI18n$inboundSchema),
+    ),
+    original_locale: types.optional(types.string()),
     slug: types.optional(types.string()),
     start_year: types.optional(types.number()),
     end_year: types.optional(types.number()),
@@ -112,6 +158,9 @@ export const GetCharacterSeriesData$inboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return remap$(v, {
+      "name_i18n": "nameI18n",
+      "aliases_i18n": "aliasesI18n",
+      "original_locale": "originalLocale",
       "start_year": "startYear",
       "end_year": "endYear",
       "image_url": "imageUrl",

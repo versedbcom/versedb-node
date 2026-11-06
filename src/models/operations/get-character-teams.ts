@@ -28,6 +28,10 @@ export type GetCharacterTeamsRequest = {
   languages?: string | undefined;
 };
 
+export type GetCharacterTeamsNameI18n = {};
+
+export type GetCharacterTeamsAliasesI18n = {};
+
 export type Membership = {
   role?: string | undefined;
   joinedDate?: string | undefined;
@@ -37,6 +41,9 @@ export type Membership = {
 export type GetCharacterTeamsData = {
   id?: number | undefined;
   name?: string | undefined;
+  nameI18n?: GetCharacterTeamsNameI18n | undefined;
+  aliasesI18n?: GetCharacterTeamsAliasesI18n | undefined;
+  originalLocale?: string | undefined;
   slug?: string | undefined;
   imageUrl?: string | undefined;
   membership?: Membership | undefined;
@@ -97,6 +104,38 @@ export function getCharacterTeamsRequestToJSON(
 }
 
 /** @internal */
+export const GetCharacterTeamsNameI18n$inboundSchema: z.ZodMiniType<
+  GetCharacterTeamsNameI18n,
+  unknown
+> = z.object({});
+
+export function getCharacterTeamsNameI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<GetCharacterTeamsNameI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetCharacterTeamsNameI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetCharacterTeamsNameI18n' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetCharacterTeamsAliasesI18n$inboundSchema: z.ZodMiniType<
+  GetCharacterTeamsAliasesI18n,
+  unknown
+> = z.object({});
+
+export function getCharacterTeamsAliasesI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<GetCharacterTeamsAliasesI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetCharacterTeamsAliasesI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetCharacterTeamsAliasesI18n' from JSON`,
+  );
+}
+
+/** @internal */
 export const Membership$inboundSchema: z.ZodMiniType<Membership, unknown> = z
   .pipe(
     z.object({
@@ -130,12 +169,22 @@ export const GetCharacterTeamsData$inboundSchema: z.ZodMiniType<
   z.object({
     id: types.optional(types.number()),
     name: types.optional(types.string()),
+    name_i18n: types.optional(
+      z.lazy(() => GetCharacterTeamsNameI18n$inboundSchema),
+    ),
+    aliases_i18n: types.optional(
+      z.lazy(() => GetCharacterTeamsAliasesI18n$inboundSchema),
+    ),
+    original_locale: types.optional(types.string()),
     slug: types.optional(types.string()),
     image_url: types.optional(types.string()),
     membership: types.optional(z.lazy(() => Membership$inboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {
+      "name_i18n": "nameI18n",
+      "aliases_i18n": "aliasesI18n",
+      "original_locale": "originalLocale",
       "image_url": "imageUrl",
     });
   }),

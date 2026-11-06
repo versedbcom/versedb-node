@@ -33,7 +33,7 @@ export type LookUpAnIssueByCoverPhotoImages = {
   coverLg?: string | undefined;
 };
 
-export type LookUpAnIssueByCoverPhotoSeriesImages = {
+export type SeriesImages = {
   coverSm?: string | undefined;
   coverMd?: string | undefined;
   coverLg?: string | undefined;
@@ -50,7 +50,7 @@ export type LookUpAnIssueByCoverPhotoSeries = {
   format?: string | undefined;
   cachedIssuesCount?: number | undefined;
   coverUrl?: string | undefined;
-  images?: LookUpAnIssueByCoverPhotoSeriesImages | undefined;
+  images?: SeriesImages | undefined;
   publisherName?: string | undefined;
 };
 
@@ -217,32 +217,29 @@ export function lookUpAnIssueByCoverPhotoImagesFromJSON(
 }
 
 /** @internal */
-export const LookUpAnIssueByCoverPhotoSeriesImages$inboundSchema: z.ZodMiniType<
-  LookUpAnIssueByCoverPhotoSeriesImages,
-  unknown
-> = z.pipe(
-  z.object({
-    cover_sm: types.optional(types.string()),
-    cover_md: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_md": "coverMd",
-      "cover_lg": "coverLg",
-    });
-  }),
-);
+export const SeriesImages$inboundSchema: z.ZodMiniType<SeriesImages, unknown> =
+  z.pipe(
+    z.object({
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  );
 
-export function lookUpAnIssueByCoverPhotoSeriesImagesFromJSON(
+export function seriesImagesFromJSON(
   jsonString: string,
-): SafeParseResult<LookUpAnIssueByCoverPhotoSeriesImages, SDKValidationError> {
+): SafeParseResult<SeriesImages, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) =>
-      LookUpAnIssueByCoverPhotoSeriesImages$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'LookUpAnIssueByCoverPhotoSeriesImages' from JSON`,
+    (x) => SeriesImages$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'SeriesImages' from JSON`,
   );
 }
 
@@ -262,9 +259,7 @@ export const LookUpAnIssueByCoverPhotoSeries$inboundSchema: z.ZodMiniType<
     format: types.optional(types.string()),
     cached_issues_count: types.optional(types.number()),
     cover_url: types.optional(types.string()),
-    images: types.optional(
-      z.lazy(() => LookUpAnIssueByCoverPhotoSeriesImages$inboundSchema),
-    ),
+    images: types.optional(z.lazy(() => SeriesImages$inboundSchema)),
     publisher_name: types.optional(types.string()),
   }),
   z.transform((v) => {

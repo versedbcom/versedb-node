@@ -96,12 +96,15 @@ export type ListIssuesRequest = {
   limit?: number | undefined;
 };
 
+export type ListIssuesNameI18n = {};
+
 export type ListIssuesData = {
   id?: number | undefined;
   slug?: string | undefined;
   seriesId?: number | undefined;
   issueNumber?: string | undefined;
   name?: string | undefined;
+  nameI18n?: ListIssuesNameI18n | undefined;
   releaseDate?: string | undefined;
   coverUrl?: string | undefined;
   isReprint?: boolean | undefined;
@@ -212,6 +215,22 @@ export function listIssuesRequestToJSON(
 }
 
 /** @internal */
+export const ListIssuesNameI18n$inboundSchema: z.ZodMiniType<
+  ListIssuesNameI18n,
+  unknown
+> = z.object({});
+
+export function listIssuesNameI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<ListIssuesNameI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ListIssuesNameI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListIssuesNameI18n' from JSON`,
+  );
+}
+
+/** @internal */
 export const ListIssuesData$inboundSchema: z.ZodMiniType<
   ListIssuesData,
   unknown
@@ -222,6 +241,7 @@ export const ListIssuesData$inboundSchema: z.ZodMiniType<
     series_id: types.optional(types.number()),
     issue_number: types.optional(types.string()),
     name: types.optional(types.string()),
+    name_i18n: types.optional(z.lazy(() => ListIssuesNameI18n$inboundSchema)),
     release_date: types.optional(types.string()),
     cover_url: types.optional(types.string()),
     is_reprint: types.optional(types.boolean()),
@@ -233,6 +253,7 @@ export const ListIssuesData$inboundSchema: z.ZodMiniType<
     return remap$(v, {
       "series_id": "seriesId",
       "issue_number": "issueNumber",
+      "name_i18n": "nameI18n",
       "release_date": "releaseDate",
       "cover_url": "coverUrl",
       "is_reprint": "isReprint",

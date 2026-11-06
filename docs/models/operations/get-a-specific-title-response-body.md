@@ -11,6 +11,9 @@ let value: GetASpecificTitleResponseBody = {
   data: {
     id: 12,
     name: "Batman",
+    nameI18n: {},
+    aliasesI18n: {},
+    originalLocale: "en",
     slug: "batman",
     startYear: 1939,
     endYear: null,

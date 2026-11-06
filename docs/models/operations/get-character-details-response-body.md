@@ -11,6 +11,10 @@ let value: GetCharacterDetailsResponseBody = {
   data: {
     id: 456,
     name: "Spider-Man (Peter Parker)",
+    nameI18n: {},
+    realNameI18n: {},
+    aliasesI18n: {},
+    originalLocale: "en",
     slug: "spider-man-peter-parker",
     realName: "Peter Parker",
     aliases: [

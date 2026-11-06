@@ -11,6 +11,9 @@ let value: GetPublisherDetailsResponseBody = {
   data: {
     id: 1,
     name: "Marvel Comics",
+    nameI18n: {},
+    aliasesI18n: {},
+    originalLocale: "en",
     foundedYear: 1939,
     website: "https://www.marvel.com",
     headquarters: "New York, NY",

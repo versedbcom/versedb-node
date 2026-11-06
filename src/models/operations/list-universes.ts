@@ -24,9 +24,16 @@ export type ListUniversesRequest = {
   languages?: string | undefined;
 };
 
+export type ListUniversesNameI18n = {};
+
+export type ListUniversesAliasesI18n = {};
+
 export type ListUniversesData = {
   id?: number | undefined;
   name?: string | undefined;
+  nameI18n?: ListUniversesNameI18n | undefined;
+  aliasesI18n?: ListUniversesAliasesI18n | undefined;
+  originalLocale?: string | undefined;
 };
 
 export type ListUniversesMeta = {
@@ -75,13 +82,61 @@ export function listUniversesRequestToJSON(
 }
 
 /** @internal */
+export const ListUniversesNameI18n$inboundSchema: z.ZodMiniType<
+  ListUniversesNameI18n,
+  unknown
+> = z.object({});
+
+export function listUniversesNameI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<ListUniversesNameI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ListUniversesNameI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListUniversesNameI18n' from JSON`,
+  );
+}
+
+/** @internal */
+export const ListUniversesAliasesI18n$inboundSchema: z.ZodMiniType<
+  ListUniversesAliasesI18n,
+  unknown
+> = z.object({});
+
+export function listUniversesAliasesI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<ListUniversesAliasesI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ListUniversesAliasesI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListUniversesAliasesI18n' from JSON`,
+  );
+}
+
+/** @internal */
 export const ListUniversesData$inboundSchema: z.ZodMiniType<
   ListUniversesData,
   unknown
-> = z.object({
-  id: types.optional(types.number()),
-  name: types.optional(types.string()),
-});
+> = z.pipe(
+  z.object({
+    id: types.optional(types.number()),
+    name: types.optional(types.string()),
+    name_i18n: types.optional(
+      z.lazy(() => ListUniversesNameI18n$inboundSchema),
+    ),
+    aliases_i18n: types.optional(
+      z.lazy(() => ListUniversesAliasesI18n$inboundSchema),
+    ),
+    original_locale: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "name_i18n": "nameI18n",
+      "aliases_i18n": "aliasesI18n",
+      "original_locale": "originalLocale",
+    });
+  }),
+);
 
 export function listUniversesDataFromJSON(
   jsonString: string,

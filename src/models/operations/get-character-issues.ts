@@ -32,6 +32,8 @@ export type GetCharacterIssuesRequest = {
   languages?: string | undefined;
 };
 
+export type GetCharacterIssuesNameI18n = {};
+
 export type GetCharacterIssuesSeries = {
   id?: number | undefined;
   name?: string | undefined;
@@ -41,6 +43,7 @@ export type GetCharacterIssuesData = {
   id?: number | undefined;
   number?: string | undefined;
   name?: string | undefined;
+  nameI18n?: GetCharacterIssuesNameI18n | undefined;
   releaseDate?: string | undefined;
   coverUrl?: string | undefined;
   series?: GetCharacterIssuesSeries | undefined;
@@ -103,6 +106,22 @@ export function getCharacterIssuesRequestToJSON(
 }
 
 /** @internal */
+export const GetCharacterIssuesNameI18n$inboundSchema: z.ZodMiniType<
+  GetCharacterIssuesNameI18n,
+  unknown
+> = z.object({});
+
+export function getCharacterIssuesNameI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<GetCharacterIssuesNameI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetCharacterIssuesNameI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetCharacterIssuesNameI18n' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetCharacterIssuesSeries$inboundSchema: z.ZodMiniType<
   GetCharacterIssuesSeries,
   unknown
@@ -130,6 +149,9 @@ export const GetCharacterIssuesData$inboundSchema: z.ZodMiniType<
     id: types.optional(types.number()),
     number: types.optional(types.string()),
     name: types.optional(types.string()),
+    name_i18n: types.optional(
+      z.lazy(() => GetCharacterIssuesNameI18n$inboundSchema),
+    ),
     release_date: types.optional(types.string()),
     cover_url: types.optional(types.string()),
     series: types.optional(
@@ -138,6 +160,7 @@ export const GetCharacterIssuesData$inboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return remap$(v, {
+      "name_i18n": "nameI18n",
       "release_date": "releaseDate",
       "cover_url": "coverUrl",
     });

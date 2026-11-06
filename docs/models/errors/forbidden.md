@@ -5,18 +5,18 @@ Forbidden. The authenticated user may not perform this action.
 
 ## Supported Types
 
-### `errors.DeleteListResponseBodyError1`
+### `errors.ResponseBodyError1`
 
 ```typescript
-const value: errors.DeleteListResponseBodyError1 = {
+const value: errors.ResponseBodyError1 = {
   message: "Wishlists cannot be deleted.",
 };
 ```
 
-### `errors.DeleteListResponseBodyError2`
+### `errors.ResponseBodyError2`
 
 ```typescript
-const value: errors.DeleteListResponseBodyError2 = {
+const value: errors.ResponseBodyError2 = {
   message: "You are not authorized to delete this list.",
 };
 ```

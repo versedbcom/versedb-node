@@ -20,9 +20,19 @@ export type GetSeriesCharactersRequest = {
   languages?: string | undefined;
 };
 
+export type GetSeriesCharactersNameI18n = {};
+
+export type GetSeriesCharactersRealNameI18n = {};
+
+export type GetSeriesCharactersAliasesI18n = {};
+
 export type GetSeriesCharactersData = {
   id?: number | undefined;
   name?: string | undefined;
+  nameI18n?: GetSeriesCharactersNameI18n | undefined;
+  realNameI18n?: GetSeriesCharactersRealNameI18n | undefined;
+  aliasesI18n?: GetSeriesCharactersAliasesI18n | undefined;
+  originalLocale?: string | undefined;
   alias?: string | undefined;
   imageUrl?: string | undefined;
 };
@@ -71,6 +81,54 @@ export function getSeriesCharactersRequestToJSON(
 }
 
 /** @internal */
+export const GetSeriesCharactersNameI18n$inboundSchema: z.ZodMiniType<
+  GetSeriesCharactersNameI18n,
+  unknown
+> = z.object({});
+
+export function getSeriesCharactersNameI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<GetSeriesCharactersNameI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetSeriesCharactersNameI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetSeriesCharactersNameI18n' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetSeriesCharactersRealNameI18n$inboundSchema: z.ZodMiniType<
+  GetSeriesCharactersRealNameI18n,
+  unknown
+> = z.object({});
+
+export function getSeriesCharactersRealNameI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<GetSeriesCharactersRealNameI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetSeriesCharactersRealNameI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetSeriesCharactersRealNameI18n' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetSeriesCharactersAliasesI18n$inboundSchema: z.ZodMiniType<
+  GetSeriesCharactersAliasesI18n,
+  unknown
+> = z.object({});
+
+export function getSeriesCharactersAliasesI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<GetSeriesCharactersAliasesI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetSeriesCharactersAliasesI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetSeriesCharactersAliasesI18n' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetSeriesCharactersData$inboundSchema: z.ZodMiniType<
   GetSeriesCharactersData,
   unknown
@@ -78,11 +136,25 @@ export const GetSeriesCharactersData$inboundSchema: z.ZodMiniType<
   z.object({
     id: types.optional(types.number()),
     name: types.optional(types.string()),
+    name_i18n: types.optional(
+      z.lazy(() => GetSeriesCharactersNameI18n$inboundSchema),
+    ),
+    real_name_i18n: types.optional(
+      z.lazy(() => GetSeriesCharactersRealNameI18n$inboundSchema),
+    ),
+    aliases_i18n: types.optional(
+      z.lazy(() => GetSeriesCharactersAliasesI18n$inboundSchema),
+    ),
+    original_locale: types.optional(types.string()),
     alias: types.optional(types.string()),
     image_url: types.optional(types.string()),
   }),
   z.transform((v) => {
     return remap$(v, {
+      "name_i18n": "nameI18n",
+      "real_name_i18n": "realNameI18n",
+      "aliases_i18n": "aliasesI18n",
+      "original_locale": "originalLocale",
       "image_url": "imageUrl",
     });
   }),

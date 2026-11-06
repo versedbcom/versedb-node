@@ -14,6 +14,7 @@ let value: GetIssueDetailsResponseBody = {
     seriesId: 123,
     issueNumber: "1",
     name: "The Amazing Spider-Man #1",
+    nameI18n: {},
     solicitation:
       "THE AMAZING SPIDER-MAN #1 ... the publisher's own solicitation text, verbatim, or null",
     releaseDate: "2018-07-11",

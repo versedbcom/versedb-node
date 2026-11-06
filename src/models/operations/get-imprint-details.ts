@@ -20,6 +20,10 @@ export type GetImprintDetailsRequest = {
   languages?: string | undefined;
 };
 
+export type GetImprintDetailsNameI18n = {};
+
+export type GetImprintDetailsAliasesI18n = {};
+
 export type GetImprintDetailsPublisher = {
   id?: number | undefined;
   name?: string | undefined;
@@ -29,6 +33,9 @@ export type GetImprintDetailsPublisher = {
 export type GetImprintDetailsData = {
   id?: number | undefined;
   name?: string | undefined;
+  nameI18n?: GetImprintDetailsNameI18n | undefined;
+  aliasesI18n?: GetImprintDetailsAliasesI18n | undefined;
+  originalLocale?: string | undefined;
   slug?: string | undefined;
   publisher?: GetImprintDetailsPublisher | undefined;
   seriesCount?: number | undefined;
@@ -80,6 +87,38 @@ export function getImprintDetailsRequestToJSON(
 }
 
 /** @internal */
+export const GetImprintDetailsNameI18n$inboundSchema: z.ZodMiniType<
+  GetImprintDetailsNameI18n,
+  unknown
+> = z.object({});
+
+export function getImprintDetailsNameI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<GetImprintDetailsNameI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetImprintDetailsNameI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetImprintDetailsNameI18n' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetImprintDetailsAliasesI18n$inboundSchema: z.ZodMiniType<
+  GetImprintDetailsAliasesI18n,
+  unknown
+> = z.object({});
+
+export function getImprintDetailsAliasesI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<GetImprintDetailsAliasesI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetImprintDetailsAliasesI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetImprintDetailsAliasesI18n' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetImprintDetailsPublisher$inboundSchema: z.ZodMiniType<
   GetImprintDetailsPublisher,
   unknown
@@ -107,6 +146,13 @@ export const GetImprintDetailsData$inboundSchema: z.ZodMiniType<
   z.object({
     id: types.optional(types.number()),
     name: types.optional(types.string()),
+    name_i18n: types.optional(
+      z.lazy(() => GetImprintDetailsNameI18n$inboundSchema),
+    ),
+    aliases_i18n: types.optional(
+      z.lazy(() => GetImprintDetailsAliasesI18n$inboundSchema),
+    ),
+    original_locale: types.optional(types.string()),
     slug: types.optional(types.string()),
     publisher: types.optional(
       z.lazy(() => GetImprintDetailsPublisher$inboundSchema),
@@ -118,6 +164,9 @@ export const GetImprintDetailsData$inboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return remap$(v, {
+      "name_i18n": "nameI18n",
+      "aliases_i18n": "aliasesI18n",
+      "original_locale": "originalLocale",
       "series_count": "seriesCount",
       "titles_count": "titlesCount",
       "created_at": "createdAt",

@@ -28,6 +28,10 @@ export type ListImprintsRequest = {
   languages?: string | undefined;
 };
 
+export type ListImprintsNameI18n = {};
+
+export type ListImprintsAliasesI18n = {};
+
 export type ListImprintsPublisher = {
   id?: number | undefined;
   name?: string | undefined;
@@ -37,6 +41,9 @@ export type ListImprintsPublisher = {
 export type ListImprintsData = {
   id?: number | undefined;
   name?: string | undefined;
+  nameI18n?: ListImprintsNameI18n | undefined;
+  aliasesI18n?: ListImprintsAliasesI18n | undefined;
+  originalLocale?: string | undefined;
   slug?: string | undefined;
   publisher?: ListImprintsPublisher | undefined;
 };
@@ -96,6 +103,38 @@ export function listImprintsRequestToJSON(
 }
 
 /** @internal */
+export const ListImprintsNameI18n$inboundSchema: z.ZodMiniType<
+  ListImprintsNameI18n,
+  unknown
+> = z.object({});
+
+export function listImprintsNameI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<ListImprintsNameI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ListImprintsNameI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListImprintsNameI18n' from JSON`,
+  );
+}
+
+/** @internal */
+export const ListImprintsAliasesI18n$inboundSchema: z.ZodMiniType<
+  ListImprintsAliasesI18n,
+  unknown
+> = z.object({});
+
+export function listImprintsAliasesI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<ListImprintsAliasesI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ListImprintsAliasesI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListImprintsAliasesI18n' from JSON`,
+  );
+}
+
+/** @internal */
 export const ListImprintsPublisher$inboundSchema: z.ZodMiniType<
   ListImprintsPublisher,
   unknown
@@ -119,12 +158,28 @@ export function listImprintsPublisherFromJSON(
 export const ListImprintsData$inboundSchema: z.ZodMiniType<
   ListImprintsData,
   unknown
-> = z.object({
-  id: types.optional(types.number()),
-  name: types.optional(types.string()),
-  slug: types.optional(types.string()),
-  publisher: types.optional(z.lazy(() => ListImprintsPublisher$inboundSchema)),
-});
+> = z.pipe(
+  z.object({
+    id: types.optional(types.number()),
+    name: types.optional(types.string()),
+    name_i18n: types.optional(z.lazy(() => ListImprintsNameI18n$inboundSchema)),
+    aliases_i18n: types.optional(
+      z.lazy(() => ListImprintsAliasesI18n$inboundSchema),
+    ),
+    original_locale: types.optional(types.string()),
+    slug: types.optional(types.string()),
+    publisher: types.optional(
+      z.lazy(() => ListImprintsPublisher$inboundSchema),
+    ),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "name_i18n": "nameI18n",
+      "aliases_i18n": "aliasesI18n",
+      "original_locale": "originalLocale",
+    });
+  }),
+);
 
 export function listImprintsDataFromJSON(
   jsonString: string,

@@ -14,10 +14,8 @@ import { listsLikeListOrReactToIt } from "../funcs/lists-like-list-or-react-to-i
 import { listsMergeAListIntoThisOne } from "../funcs/lists-merge-a-list-into-this-one.js";
 import { listsRemoveItemFromList } from "../funcs/lists-remove-item-from-list.js";
 import { listsReorderItems } from "../funcs/lists-reorder-items.js";
-import { listsSaveList } from "../funcs/lists-save-list.js";
 import { listsStopAListUpdatingItself } from "../funcs/lists-stop-a-list-updating-itself.js";
 import { listsUnlikeList } from "../funcs/lists-unlike-list.js";
-import { listsUnsaveList } from "../funcs/lists-unsave-list.js";
 import { listsUpdateList } from "../funcs/lists-update-list.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as operations from "../models/operations/index.js";
@@ -246,40 +244,6 @@ export class Lists extends ClientSDK {
     options?: RequestOptions,
   ): Promise<operations.ReorderItemsResponse> {
     return unwrapAsync(listsReorderItems(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
-   * Save list.
-   *
-   * @remarks
-   * Saves a list to the user's saved lists for quick access. Cannot save your own lists.
-   */
-  async saveList(
-    request: operations.SaveListRequest,
-    options?: RequestOptions,
-  ): Promise<operations.SaveListResponse> {
-    return unwrapAsync(listsSaveList(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
-   * Unsave list.
-   *
-   * @remarks
-   * Removes a list from the user's saved lists.
-   */
-  async unsaveList(
-    request: operations.UnsaveListRequest,
-    options?: RequestOptions,
-  ): Promise<operations.UnsaveListResponse> {
-    return unwrapAsync(listsUnsaveList(
       this,
       request,
       options,

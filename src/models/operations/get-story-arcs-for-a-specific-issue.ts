@@ -28,6 +28,10 @@ export type GetStoryArcsForASpecificIssueRequest = {
   languages?: string | undefined;
 };
 
+export type GetStoryArcsForASpecificIssueNameI18n = {};
+
+export type GetStoryArcsForASpecificIssueAliasesI18n = {};
+
 export type GetStoryArcsForASpecificIssueImages = {
   coverSm?: string | undefined;
   coverMd?: string | undefined;
@@ -37,6 +41,9 @@ export type GetStoryArcsForASpecificIssueImages = {
 export type GetStoryArcsForASpecificIssueData = {
   id?: number | undefined;
   name?: string | undefined;
+  nameI18n?: GetStoryArcsForASpecificIssueNameI18n | undefined;
+  aliasesI18n?: GetStoryArcsForASpecificIssueAliasesI18n | undefined;
+  originalLocale?: string | undefined;
   slug?: string | undefined;
   type?: string | undefined;
   status?: string | undefined;
@@ -102,6 +109,45 @@ export function getStoryArcsForASpecificIssueRequestToJSON(
 }
 
 /** @internal */
+export const GetStoryArcsForASpecificIssueNameI18n$inboundSchema: z.ZodMiniType<
+  GetStoryArcsForASpecificIssueNameI18n,
+  unknown
+> = z.object({});
+
+export function getStoryArcsForASpecificIssueNameI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<GetStoryArcsForASpecificIssueNameI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      GetStoryArcsForASpecificIssueNameI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetStoryArcsForASpecificIssueNameI18n' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetStoryArcsForASpecificIssueAliasesI18n$inboundSchema:
+  z.ZodMiniType<GetStoryArcsForASpecificIssueAliasesI18n, unknown> = z.object(
+    {},
+  );
+
+export function getStoryArcsForASpecificIssueAliasesI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  GetStoryArcsForASpecificIssueAliasesI18n,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      GetStoryArcsForASpecificIssueAliasesI18n$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'GetStoryArcsForASpecificIssueAliasesI18n' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetStoryArcsForASpecificIssueImages$inboundSchema: z.ZodMiniType<
   GetStoryArcsForASpecificIssueImages,
   unknown
@@ -139,6 +185,13 @@ export const GetStoryArcsForASpecificIssueData$inboundSchema: z.ZodMiniType<
   z.object({
     id: types.optional(types.number()),
     name: types.optional(types.string()),
+    name_i18n: types.optional(
+      z.lazy(() => GetStoryArcsForASpecificIssueNameI18n$inboundSchema),
+    ),
+    aliases_i18n: types.optional(
+      z.lazy(() => GetStoryArcsForASpecificIssueAliasesI18n$inboundSchema),
+    ),
+    original_locale: types.optional(types.string()),
     slug: types.optional(types.string()),
     type: types.optional(types.string()),
     status: types.optional(types.string()),
@@ -150,6 +203,9 @@ export const GetStoryArcsForASpecificIssueData$inboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return remap$(v, {
+      "name_i18n": "nameI18n",
+      "aliases_i18n": "aliasesI18n",
+      "original_locale": "originalLocale",
       "image_url": "imageUrl",
       "issues_count": "issuesCount",
     });

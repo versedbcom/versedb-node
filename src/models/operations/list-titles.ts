@@ -56,6 +56,10 @@ export type ListTitlesRequest = {
   limit?: number | undefined;
 };
 
+export type ListTitlesNameI18n = {};
+
+export type ListTitlesAliasesI18n = {};
+
 export type ListTitlesImages = {
   coverSm?: string | undefined;
   coverMd?: string | undefined;
@@ -65,6 +69,9 @@ export type ListTitlesImages = {
 export type ListTitlesData = {
   id?: number | undefined;
   name?: string | undefined;
+  nameI18n?: ListTitlesNameI18n | undefined;
+  aliasesI18n?: ListTitlesAliasesI18n | undefined;
+  originalLocale?: string | undefined;
   slug?: string | undefined;
   startYear?: number | undefined;
   endYear?: string | null | undefined;
@@ -151,6 +158,38 @@ export function listTitlesRequestToJSON(
 }
 
 /** @internal */
+export const ListTitlesNameI18n$inboundSchema: z.ZodMiniType<
+  ListTitlesNameI18n,
+  unknown
+> = z.object({});
+
+export function listTitlesNameI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<ListTitlesNameI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ListTitlesNameI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListTitlesNameI18n' from JSON`,
+  );
+}
+
+/** @internal */
+export const ListTitlesAliasesI18n$inboundSchema: z.ZodMiniType<
+  ListTitlesAliasesI18n,
+  unknown
+> = z.object({});
+
+export function listTitlesAliasesI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<ListTitlesAliasesI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ListTitlesAliasesI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListTitlesAliasesI18n' from JSON`,
+  );
+}
+
+/** @internal */
 export const ListTitlesImages$inboundSchema: z.ZodMiniType<
   ListTitlesImages,
   unknown
@@ -187,6 +226,11 @@ export const ListTitlesData$inboundSchema: z.ZodMiniType<
   z.object({
     id: types.optional(types.number()),
     name: types.optional(types.string()),
+    name_i18n: types.optional(z.lazy(() => ListTitlesNameI18n$inboundSchema)),
+    aliases_i18n: types.optional(
+      z.lazy(() => ListTitlesAliasesI18n$inboundSchema),
+    ),
+    original_locale: types.optional(types.string()),
     slug: types.optional(types.string()),
     start_year: types.optional(types.number()),
     end_year: z.optional(z.nullable(types.string())),
@@ -203,6 +247,9 @@ export const ListTitlesData$inboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return remap$(v, {
+      "name_i18n": "nameI18n",
+      "aliases_i18n": "aliasesI18n",
+      "original_locale": "originalLocale",
       "start_year": "startYear",
       "end_year": "endYear",
       "image_url": "imageUrl",

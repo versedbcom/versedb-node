@@ -20,6 +20,10 @@ export type GetIssueCreatorsRequest = {
   languages?: string | undefined;
 };
 
+export type GetIssueCreatorsNameI18n = {};
+
+export type GetIssueCreatorsAliasesI18n = {};
+
 export type GetIssueCreatorsRole = {
   id?: number | undefined;
   name?: string | undefined;
@@ -28,6 +32,9 @@ export type GetIssueCreatorsRole = {
 export type GetIssueCreatorsData = {
   id?: number | undefined;
   name?: string | undefined;
+  nameI18n?: GetIssueCreatorsNameI18n | undefined;
+  aliasesI18n?: GetIssueCreatorsAliasesI18n | undefined;
+  originalLocale?: string | undefined;
   role?: GetIssueCreatorsRole | undefined;
 };
 
@@ -75,6 +82,38 @@ export function getIssueCreatorsRequestToJSON(
 }
 
 /** @internal */
+export const GetIssueCreatorsNameI18n$inboundSchema: z.ZodMiniType<
+  GetIssueCreatorsNameI18n,
+  unknown
+> = z.object({});
+
+export function getIssueCreatorsNameI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<GetIssueCreatorsNameI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetIssueCreatorsNameI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetIssueCreatorsNameI18n' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetIssueCreatorsAliasesI18n$inboundSchema: z.ZodMiniType<
+  GetIssueCreatorsAliasesI18n,
+  unknown
+> = z.object({});
+
+export function getIssueCreatorsAliasesI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<GetIssueCreatorsAliasesI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetIssueCreatorsAliasesI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetIssueCreatorsAliasesI18n' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetIssueCreatorsRole$inboundSchema: z.ZodMiniType<
   GetIssueCreatorsRole,
   unknown
@@ -97,11 +136,27 @@ export function getIssueCreatorsRoleFromJSON(
 export const GetIssueCreatorsData$inboundSchema: z.ZodMiniType<
   GetIssueCreatorsData,
   unknown
-> = z.object({
-  id: types.optional(types.number()),
-  name: types.optional(types.string()),
-  role: types.optional(z.lazy(() => GetIssueCreatorsRole$inboundSchema)),
-});
+> = z.pipe(
+  z.object({
+    id: types.optional(types.number()),
+    name: types.optional(types.string()),
+    name_i18n: types.optional(
+      z.lazy(() => GetIssueCreatorsNameI18n$inboundSchema),
+    ),
+    aliases_i18n: types.optional(
+      z.lazy(() => GetIssueCreatorsAliasesI18n$inboundSchema),
+    ),
+    original_locale: types.optional(types.string()),
+    role: types.optional(z.lazy(() => GetIssueCreatorsRole$inboundSchema)),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "name_i18n": "nameI18n",
+      "aliases_i18n": "aliasesI18n",
+      "original_locale": "originalLocale",
+    });
+  }),
+);
 
 export function getIssueCreatorsDataFromJSON(
   jsonString: string,

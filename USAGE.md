@@ -7,13 +7,18 @@ const verseDB = new VerseDB({
 });
 
 async function run() {
-  const result = await verseDB.discovery.fOCDeadlines({
-    limit: 10,
-    page: 1,
-    days: 7,
-    startDate: "2026-03-15",
+  const result = await verseDB.titles.listTitles({
+    q: "spider-man",
+    publisherId: 1,
+    publisher: 1,
     publisherIds: "1,4",
-    sort: "foc_date",
+    hideUnreleased: true,
+    medium: "manga",
+    languages: "en,ja",
+    ongoing: true,
+    sort: "start_year",
+    direction: "desc",
+    limit: 20,
   });
 
   console.log(result);

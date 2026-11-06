@@ -36,6 +36,10 @@ export type ListAllPublishersWithOptionalSearchRequest = {
   languages?: string | undefined;
 };
 
+export type ListAllPublishersWithOptionalSearchNameI18n = {};
+
+export type ListAllPublishersWithOptionalSearchAliasesI18n = {};
+
 export type ListAllPublishersWithOptionalSearchImages = {
   tileSm?: string | undefined;
   profileMd?: string | undefined;
@@ -45,6 +49,9 @@ export type ListAllPublishersWithOptionalSearchImages = {
 export type ListAllPublishersWithOptionalSearchData = {
   id?: number | undefined;
   name?: string | undefined;
+  nameI18n?: ListAllPublishersWithOptionalSearchNameI18n | undefined;
+  aliasesI18n?: ListAllPublishersWithOptionalSearchAliasesI18n | undefined;
+  originalLocale?: string | undefined;
   foundedYear?: number | undefined;
   headquarters?: string | undefined;
   status?: string | undefined;
@@ -109,6 +116,48 @@ export function listAllPublishersWithOptionalSearchRequestToJSON(
 }
 
 /** @internal */
+export const ListAllPublishersWithOptionalSearchNameI18n$inboundSchema:
+  z.ZodMiniType<ListAllPublishersWithOptionalSearchNameI18n, unknown> = z
+    .object({});
+
+export function listAllPublishersWithOptionalSearchNameI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  ListAllPublishersWithOptionalSearchNameI18n,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ListAllPublishersWithOptionalSearchNameI18n$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'ListAllPublishersWithOptionalSearchNameI18n' from JSON`,
+  );
+}
+
+/** @internal */
+export const ListAllPublishersWithOptionalSearchAliasesI18n$inboundSchema:
+  z.ZodMiniType<ListAllPublishersWithOptionalSearchAliasesI18n, unknown> = z
+    .object({});
+
+export function listAllPublishersWithOptionalSearchAliasesI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  ListAllPublishersWithOptionalSearchAliasesI18n,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ListAllPublishersWithOptionalSearchAliasesI18n$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'ListAllPublishersWithOptionalSearchAliasesI18n' from JSON`,
+  );
+}
+
+/** @internal */
 export const ListAllPublishersWithOptionalSearchImages$inboundSchema:
   z.ZodMiniType<ListAllPublishersWithOptionalSearchImages, unknown> = z.pipe(
     z.object({
@@ -147,6 +196,13 @@ export const ListAllPublishersWithOptionalSearchData$inboundSchema:
     z.object({
       id: types.optional(types.number()),
       name: types.optional(types.string()),
+      name_i18n: types.optional(z.lazy(() =>
+        ListAllPublishersWithOptionalSearchNameI18n$inboundSchema
+      )),
+      aliases_i18n: types.optional(z.lazy(() =>
+        ListAllPublishersWithOptionalSearchAliasesI18n$inboundSchema
+      )),
+      original_locale: types.optional(types.string()),
       founded_year: types.optional(types.number()),
       headquarters: types.optional(types.string()),
       status: types.optional(types.string()),
@@ -158,6 +214,9 @@ export const ListAllPublishersWithOptionalSearchData$inboundSchema:
     }),
     z.transform((v) => {
       return remap$(v, {
+        "name_i18n": "nameI18n",
+        "aliases_i18n": "aliasesI18n",
+        "original_locale": "originalLocale",
         "founded_year": "foundedYear",
         "series_count": "seriesCount",
         "logo_url": "logoUrl",

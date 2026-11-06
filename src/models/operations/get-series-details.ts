@@ -20,6 +20,10 @@ export type GetSeriesDetailsRequest = {
   languages?: string | undefined;
 };
 
+export type GetSeriesDetailsNameI18n = {};
+
+export type GetSeriesDetailsAliasesI18n = {};
+
 export type GetSeriesDetailsTitle = {
   id?: number | undefined;
   name?: string | undefined;
@@ -37,7 +41,7 @@ export type Genre = {
   name?: string | undefined;
 };
 
-export type GetSeriesDetailsLastEditedBy = {
+export type LastEditedBy = {
   id?: number | undefined;
   name?: string | undefined;
   username?: string | undefined;
@@ -92,6 +96,9 @@ export type GetSeriesDetailsData = {
   id?: number | undefined;
   titleId?: number | undefined;
   name?: string | undefined;
+  nameI18n?: GetSeriesDetailsNameI18n | undefined;
+  aliasesI18n?: GetSeriesDetailsAliasesI18n | undefined;
+  originalLocale?: string | undefined;
   originalName?: string | null | undefined;
   slug?: string | undefined;
   number?: number | undefined;
@@ -121,7 +128,7 @@ export type GetSeriesDetailsData = {
   genres?: Array<Genre> | undefined;
   imprint?: string | null | undefined;
   effectiveImprint?: string | null | undefined;
-  lastEditedBy?: GetSeriesDetailsLastEditedBy | undefined;
+  lastEditedBy?: LastEditedBy | undefined;
   creators?: Array<GetSeriesDetailsCreator> | undefined;
   characters?: Array<GetSeriesDetailsCharacter> | undefined;
   teams?: Array<Team> | undefined;
@@ -168,6 +175,38 @@ export function getSeriesDetailsRequestToJSON(
 ): string {
   return JSON.stringify(
     GetSeriesDetailsRequest$outboundSchema.parse(getSeriesDetailsRequest),
+  );
+}
+
+/** @internal */
+export const GetSeriesDetailsNameI18n$inboundSchema: z.ZodMiniType<
+  GetSeriesDetailsNameI18n,
+  unknown
+> = z.object({});
+
+export function getSeriesDetailsNameI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<GetSeriesDetailsNameI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetSeriesDetailsNameI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetSeriesDetailsNameI18n' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetSeriesDetailsAliasesI18n$inboundSchema: z.ZodMiniType<
+  GetSeriesDetailsAliasesI18n,
+  unknown
+> = z.object({});
+
+export function getSeriesDetailsAliasesI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<GetSeriesDetailsAliasesI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetSeriesDetailsAliasesI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetSeriesDetailsAliasesI18n' from JSON`,
   );
 }
 
@@ -235,30 +274,28 @@ export function genreFromJSON(
 }
 
 /** @internal */
-export const GetSeriesDetailsLastEditedBy$inboundSchema: z.ZodMiniType<
-  GetSeriesDetailsLastEditedBy,
-  unknown
-> = z.pipe(
-  z.object({
-    id: types.optional(types.number()),
-    name: types.optional(types.string()),
-    username: types.optional(types.string()),
-    avatar_url: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "avatar_url": "avatarUrl",
-    });
-  }),
-);
+export const LastEditedBy$inboundSchema: z.ZodMiniType<LastEditedBy, unknown> =
+  z.pipe(
+    z.object({
+      id: types.optional(types.number()),
+      name: types.optional(types.string()),
+      username: types.optional(types.string()),
+      avatar_url: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "avatar_url": "avatarUrl",
+      });
+    }),
+  );
 
-export function getSeriesDetailsLastEditedByFromJSON(
+export function lastEditedByFromJSON(
   jsonString: string,
-): SafeParseResult<GetSeriesDetailsLastEditedBy, SDKValidationError> {
+): SafeParseResult<LastEditedBy, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => GetSeriesDetailsLastEditedBy$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'GetSeriesDetailsLastEditedBy' from JSON`,
+    (x) => LastEditedBy$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LastEditedBy' from JSON`,
   );
 }
 
@@ -423,6 +460,13 @@ export const GetSeriesDetailsData$inboundSchema: z.ZodMiniType<
     id: types.optional(types.number()),
     title_id: types.optional(types.number()),
     name: types.optional(types.string()),
+    name_i18n: types.optional(
+      z.lazy(() => GetSeriesDetailsNameI18n$inboundSchema),
+    ),
+    aliases_i18n: types.optional(
+      z.lazy(() => GetSeriesDetailsAliasesI18n$inboundSchema),
+    ),
+    original_locale: types.optional(types.string()),
     original_name: z.optional(z.nullable(types.string())),
     slug: types.optional(types.string()),
     number: types.optional(types.number()),
@@ -456,9 +500,7 @@ export const GetSeriesDetailsData$inboundSchema: z.ZodMiniType<
     genres: types.optional(z.array(z.lazy(() => Genre$inboundSchema))),
     imprint: z.optional(z.nullable(types.string())),
     effective_imprint: z.optional(z.nullable(types.string())),
-    last_edited_by: types.optional(
-      z.lazy(() => GetSeriesDetailsLastEditedBy$inboundSchema),
-    ),
+    last_edited_by: types.optional(z.lazy(() => LastEditedBy$inboundSchema)),
     creators: types.optional(
       z.array(z.lazy(() => GetSeriesDetailsCreator$inboundSchema)),
     ),
@@ -474,6 +516,9 @@ export const GetSeriesDetailsData$inboundSchema: z.ZodMiniType<
   z.transform((v) => {
     return remap$(v, {
       "title_id": "titleId",
+      "name_i18n": "nameI18n",
+      "aliases_i18n": "aliasesI18n",
+      "original_locale": "originalLocale",
       "original_name": "originalName",
       "start_year": "startYear",
       "end_year": "endYear",

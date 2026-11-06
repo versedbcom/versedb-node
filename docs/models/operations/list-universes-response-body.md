@@ -12,6 +12,9 @@ let value: ListUniversesResponseBody = {
     {
       id: 1,
       name: "Marvel Universe (616)",
+      nameI18n: {},
+      aliasesI18n: {},
+      originalLocale: "en",
     },
   ],
   meta: {
@@ -25,7 +28,7 @@ let value: ListUniversesResponseBody = {
 
 ## Fields
 
-| Field                                                                            | Type                                                                             | Required                                                                         | Description                                                                      | Example                                                                          |
-| -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| `data`                                                                           | [operations.ListUniversesData](../../models/operations/list-universes-data.md)[] | :heavy_minus_sign:                                                               | N/A                                                                              | [<br/>{<br/>"id": 1,<br/>"name": "Marvel Universe (616)"<br/>}<br/>]             |
-| `meta`                                                                           | [operations.ListUniversesMeta](../../models/operations/list-universes-meta.md)   | :heavy_minus_sign:                                                               | N/A                                                                              |                                                                                  |
+| Field                                                                                                          | Type                                                                                                           | Required                                                                                                       | Description                                                                                                    | Example                                                                                                        |
+| -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `data`                                                                                                         | [operations.ListUniversesData](../../models/operations/list-universes-data.md)[]                               | :heavy_minus_sign:                                                                                             | N/A                                                                                                            | [<br/>{<br/>"id": 1,<br/>"name": "Marvel Universe (616)",<br/>"name_i18n": [],<br/>"aliases_i18n": [],<br/>"original_locale": "en"<br/>}<br/>] |
+| `meta`                                                                                                         | [operations.ListUniversesMeta](../../models/operations/list-universes-meta.md)                                 | :heavy_minus_sign:                                                                                             | N/A                                                                                                            |                                                                                                                |

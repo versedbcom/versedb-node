@@ -5,32 +5,21 @@
 import { ClientSDK } from "../lib/sdks.js";
 import { BarcodeLookup } from "./barcode-lookup.js";
 import { Characters } from "./characters.js";
-import { ComicShops } from "./comic-shops.js";
 import { ConnectToVerseDB } from "./connect-to-verse-db.js";
 import { CoverLookup } from "./cover-lookup.js";
-import { Creators } from "./creators.js";
-import { Discovery } from "./discovery.js";
-import { Events } from "./events.js";
 import { Imprints } from "./imprints.js";
 import { Issues } from "./issues.js";
 import { KeyIssueReasons } from "./key-issue-reasons.js";
 import { Lists } from "./lists.js";
-import { Podcasts } from "./podcasts.js";
 import { Publishers } from "./publishers.js";
 import { Reading } from "./reading.js";
 import { Series } from "./series.js";
 import { StoryArcs } from "./story-arcs.js";
-import { Teams } from "./teams.js";
 import { Titles } from "./titles.js";
 import { Universes } from "./universes.js";
 import { User } from "./user.js";
 
 export class VerseDB extends ClientSDK {
-  private _discovery?: Discovery;
-  get discovery(): Discovery {
-    return (this._discovery ??= new Discovery(this._options));
-  }
-
   private _titles?: Titles;
   get titles(): Titles {
     return (this._titles ??= new Titles(this._options));
@@ -56,19 +45,9 @@ export class VerseDB extends ClientSDK {
     return (this._imprints ??= new Imprints(this._options));
   }
 
-  private _creators?: Creators;
-  get creators(): Creators {
-    return (this._creators ??= new Creators(this._options));
-  }
-
   private _characters?: Characters;
   get characters(): Characters {
     return (this._characters ??= new Characters(this._options));
-  }
-
-  private _teams?: Teams;
-  get teams(): Teams {
-    return (this._teams ??= new Teams(this._options));
   }
 
   private _storyArcs?: StoryArcs;
@@ -81,24 +60,9 @@ export class VerseDB extends ClientSDK {
     return (this._universes ??= new Universes(this._options));
   }
 
-  private _events?: Events;
-  get events(): Events {
-    return (this._events ??= new Events(this._options));
-  }
-
   private _keyIssueReasons?: KeyIssueReasons;
   get keyIssueReasons(): KeyIssueReasons {
     return (this._keyIssueReasons ??= new KeyIssueReasons(this._options));
-  }
-
-  private _comicShops?: ComicShops;
-  get comicShops(): ComicShops {
-    return (this._comicShops ??= new ComicShops(this._options));
-  }
-
-  private _podcasts?: Podcasts;
-  get podcasts(): Podcasts {
-    return (this._podcasts ??= new Podcasts(this._options));
   }
 
   private _lists?: Lists;

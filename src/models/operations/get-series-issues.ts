@@ -36,10 +36,13 @@ export type GetSeriesIssuesRequest = {
   languages?: string | undefined;
 };
 
+export type GetSeriesIssuesNameI18n = {};
+
 export type GetSeriesIssuesData = {
   id?: number | undefined;
   number?: string | undefined;
   name?: string | undefined;
+  nameI18n?: GetSeriesIssuesNameI18n | undefined;
   releaseDate?: string | undefined;
   coverUrl?: string | undefined;
   averageRating?: number | undefined;
@@ -97,6 +100,22 @@ export function getSeriesIssuesRequestToJSON(
 }
 
 /** @internal */
+export const GetSeriesIssuesNameI18n$inboundSchema: z.ZodMiniType<
+  GetSeriesIssuesNameI18n,
+  unknown
+> = z.object({});
+
+export function getSeriesIssuesNameI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<GetSeriesIssuesNameI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetSeriesIssuesNameI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetSeriesIssuesNameI18n' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetSeriesIssuesData$inboundSchema: z.ZodMiniType<
   GetSeriesIssuesData,
   unknown
@@ -105,12 +124,16 @@ export const GetSeriesIssuesData$inboundSchema: z.ZodMiniType<
     id: types.optional(types.number()),
     number: types.optional(types.string()),
     name: types.optional(types.string()),
+    name_i18n: types.optional(
+      z.lazy(() => GetSeriesIssuesNameI18n$inboundSchema),
+    ),
     release_date: types.optional(types.string()),
     cover_url: types.optional(types.string()),
     average_rating: types.optional(types.number()),
   }),
   z.transform((v) => {
     return remap$(v, {
+      "name_i18n": "nameI18n",
       "release_date": "releaseDate",
       "cover_url": "coverUrl",
       "average_rating": "averageRating",

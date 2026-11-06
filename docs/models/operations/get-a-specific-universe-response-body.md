@@ -11,6 +11,9 @@ let value: GetASpecificUniverseResponseBody = {
   data: {
     id: 1,
     name: "Marvel Universe (616)",
+    nameI18n: {},
+    aliasesI18n: {},
+    originalLocale: "en",
   },
 };
 ```

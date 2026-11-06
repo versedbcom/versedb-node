@@ -6,29 +6,11 @@ import { charactersGetCharacterDetails } from "../funcs/characters-get-character
 import { charactersGetCharacterIssues } from "../funcs/characters-get-character-issues.js";
 import { charactersGetCharacterSeries } from "../funcs/characters-get-character-series.js";
 import { charactersGetCharacterTeams } from "../funcs/characters-get-character-teams.js";
-import { charactersListCharacters } from "../funcs/characters-list-characters.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as operations from "../models/operations/index.js";
 import { unwrapAsync } from "../types/fp.js";
 
 export class Characters extends ClientSDK {
-  /**
-   * List characters.
-   *
-   * @remarks
-   * Returns paginated characters with optional search and sorting.
-   */
-  async listCharacters(
-    request?: operations.ListCharactersRequest | undefined,
-    options?: RequestOptions,
-  ): Promise<operations.ListCharactersResponse> {
-    return unwrapAsync(charactersListCharacters(
-      this,
-      request,
-      options,
-    ));
-  }
-
   /**
    * Get character details.
    *

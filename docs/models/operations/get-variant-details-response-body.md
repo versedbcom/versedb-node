@@ -12,6 +12,7 @@ let value: GetVariantDetailsResponseBody = {
     id: 9001,
     issueId: 5432,
     variantName: "J. Scott Campbell Variant",
+    variantNameI18n: {},
     variantType: "incentive",
     ratio: "1:25",
     coverUrl: "https://...",

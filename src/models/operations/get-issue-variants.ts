@@ -20,6 +20,8 @@ export type GetIssueVariantsRequest = {
   languages?: string | undefined;
 };
 
+export type GetIssueVariantsVariantNameI18n = {};
+
 export type GetIssueVariantsCreator = {
   id?: number | undefined;
   name?: string | undefined;
@@ -29,6 +31,7 @@ export type GetIssueVariantsCreator = {
 export type GetIssueVariantsData = {
   id?: number | undefined;
   variantName?: string | undefined;
+  variantNameI18n?: GetIssueVariantsVariantNameI18n | undefined;
   variantType?: string | undefined;
   ratio?: string | undefined;
   coverUrl?: string | undefined;
@@ -81,6 +84,22 @@ export function getIssueVariantsRequestToJSON(
 }
 
 /** @internal */
+export const GetIssueVariantsVariantNameI18n$inboundSchema: z.ZodMiniType<
+  GetIssueVariantsVariantNameI18n,
+  unknown
+> = z.object({});
+
+export function getIssueVariantsVariantNameI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<GetIssueVariantsVariantNameI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetIssueVariantsVariantNameI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetIssueVariantsVariantNameI18n' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetIssueVariantsCreator$inboundSchema: z.ZodMiniType<
   GetIssueVariantsCreator,
   unknown
@@ -108,6 +127,9 @@ export const GetIssueVariantsData$inboundSchema: z.ZodMiniType<
   z.object({
     id: types.optional(types.number()),
     variant_name: types.optional(types.string()),
+    variant_name_i18n: types.optional(
+      z.lazy(() => GetIssueVariantsVariantNameI18n$inboundSchema),
+    ),
     variant_type: types.optional(types.string()),
     ratio: types.optional(types.string()),
     cover_url: types.optional(types.string()),
@@ -121,6 +143,7 @@ export const GetIssueVariantsData$inboundSchema: z.ZodMiniType<
   z.transform((v) => {
     return remap$(v, {
       "variant_name": "variantName",
+      "variant_name_i18n": "variantNameI18n",
       "variant_type": "variantType",
       "cover_url": "coverUrl",
       "currency_code": "currencyCode",

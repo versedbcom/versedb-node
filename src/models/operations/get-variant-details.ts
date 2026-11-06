@@ -24,6 +24,8 @@ export type GetVariantDetailsRequest = {
   languages?: string | undefined;
 };
 
+export type GetVariantDetailsVariantNameI18n = {};
+
 export type GetVariantDetailsCreator = {
   id?: number | undefined;
   name?: string | undefined;
@@ -35,6 +37,7 @@ export type GetVariantDetailsData = {
   id?: number | undefined;
   issueId?: number | undefined;
   variantName?: string | undefined;
+  variantNameI18n?: GetVariantDetailsVariantNameI18n | undefined;
   variantType?: string | undefined;
   ratio?: string | undefined;
   coverUrl?: string | undefined;
@@ -91,6 +94,22 @@ export function getVariantDetailsRequestToJSON(
 }
 
 /** @internal */
+export const GetVariantDetailsVariantNameI18n$inboundSchema: z.ZodMiniType<
+  GetVariantDetailsVariantNameI18n,
+  unknown
+> = z.object({});
+
+export function getVariantDetailsVariantNameI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<GetVariantDetailsVariantNameI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetVariantDetailsVariantNameI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetVariantDetailsVariantNameI18n' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetVariantDetailsCreator$inboundSchema: z.ZodMiniType<
   GetVariantDetailsCreator,
   unknown
@@ -120,6 +139,9 @@ export const GetVariantDetailsData$inboundSchema: z.ZodMiniType<
     id: types.optional(types.number()),
     issue_id: types.optional(types.number()),
     variant_name: types.optional(types.string()),
+    variant_name_i18n: types.optional(
+      z.lazy(() => GetVariantDetailsVariantNameI18n$inboundSchema),
+    ),
     variant_type: types.optional(types.string()),
     ratio: types.optional(types.string()),
     cover_url: types.optional(types.string()),
@@ -135,6 +157,7 @@ export const GetVariantDetailsData$inboundSchema: z.ZodMiniType<
     return remap$(v, {
       "issue_id": "issueId",
       "variant_name": "variantName",
+      "variant_name_i18n": "variantNameI18n",
       "variant_type": "variantType",
       "cover_url": "coverUrl",
       "currency_code": "currencyCode",

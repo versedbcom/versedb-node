@@ -20,9 +20,16 @@ export type GetASpecificUniverseRequest = {
   languages?: string | undefined;
 };
 
+export type GetASpecificUniverseNameI18n = {};
+
+export type GetASpecificUniverseAliasesI18n = {};
+
 export type GetASpecificUniverseData = {
   id?: number | undefined;
   name?: string | undefined;
+  nameI18n?: GetASpecificUniverseNameI18n | undefined;
+  aliasesI18n?: GetASpecificUniverseAliasesI18n | undefined;
+  originalLocale?: string | undefined;
 };
 
 /**
@@ -70,13 +77,61 @@ export function getASpecificUniverseRequestToJSON(
 }
 
 /** @internal */
+export const GetASpecificUniverseNameI18n$inboundSchema: z.ZodMiniType<
+  GetASpecificUniverseNameI18n,
+  unknown
+> = z.object({});
+
+export function getASpecificUniverseNameI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<GetASpecificUniverseNameI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetASpecificUniverseNameI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetASpecificUniverseNameI18n' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetASpecificUniverseAliasesI18n$inboundSchema: z.ZodMiniType<
+  GetASpecificUniverseAliasesI18n,
+  unknown
+> = z.object({});
+
+export function getASpecificUniverseAliasesI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<GetASpecificUniverseAliasesI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetASpecificUniverseAliasesI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetASpecificUniverseAliasesI18n' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetASpecificUniverseData$inboundSchema: z.ZodMiniType<
   GetASpecificUniverseData,
   unknown
-> = z.object({
-  id: types.optional(types.number()),
-  name: types.optional(types.string()),
-});
+> = z.pipe(
+  z.object({
+    id: types.optional(types.number()),
+    name: types.optional(types.string()),
+    name_i18n: types.optional(
+      z.lazy(() => GetASpecificUniverseNameI18n$inboundSchema),
+    ),
+    aliases_i18n: types.optional(
+      z.lazy(() => GetASpecificUniverseAliasesI18n$inboundSchema),
+    ),
+    original_locale: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "name_i18n": "nameI18n",
+      "aliases_i18n": "aliasesI18n",
+      "original_locale": "originalLocale",
+    });
+  }),
+);
 
 export function getASpecificUniverseDataFromJSON(
   jsonString: string,
