@@ -5,15 +5,15 @@ management:
   docVersion: 1.0.0
   speakeasyVersion: 1.806.0
   generationVersion: 2.956.1
-  releaseVersion: 2.3.0
-  configChecksum: 3721e99823678b52ffb053226227a188
+  releaseVersion: 2.3.1
+  configChecksum: 020993536a735c6133255978a5b99359
   repoURL: https://github.com/versedbcom/versedb-node.git
   installationURL: https://github.com/versedbcom/versedb-node
   published: true
 persistentEdits:
-  generation_id: dc3645b0-a719-4292-8aca-bbb3ac0aac97
-  pristine_commit_hash: 88545684fdbea22aafe0a12c58b7f153f021f2f9
-  pristine_tree_hash: 60075950de33db7151e5f67ca2d520393f255235
+  generation_id: 3bc58d55-28ce-4138-86ec-31dfe12e0295
+  pristine_commit_hash: c78fa00ead66587878f7128de76cbd6f4d101188
+  pristine_tree_hash: ff88d26e8c5a04ced6331ceab26cf1724f1b9be1
 features:
   typescript:
     additionalDependencies: 0.1.0
@@ -2018,12 +2018,12 @@ trackedFiles:
     pristine_git_object: dc9e920cf0959c3743bfa9239752bdbe9ea8a0ea
   jsr.json:
     id: 7f6ab7767282
-    last_write_checksum: sha1:6caa3c4430ae98f67e2b93141a82b801b0e13a7e
-    pristine_git_object: 6f446d191487cb90e4dfe2afe9e4952e8e76ce0e
+    last_write_checksum: sha1:c52c3f52fcd84ef63733d01e988e738969e71f72
+    pristine_git_object: f69db56502b36eadb88caa2b5e86a75a3fc3c6a0
   package.json:
     id: 7030d0b2f71b
-    last_write_checksum: sha1:e91a150df8ef94c7e3c6872a07e671474f7d8f19
-    pristine_git_object: b05455f3baf7bb86605a8bd03ecb4c42f4feca5a
+    last_write_checksum: sha1:035e8aae42cfb4843e46ef1f683ed7be83138e7e
+    pristine_git_object: e2686852ab541b8864e3c9d2fbf10fd8fa383d58
   src/core.ts:
     id: f431fdbcd144
     last_write_checksum: sha1:ad0063bee03825028052e52cef3fa240c6101bdf
@@ -2314,8 +2314,8 @@ trackedFiles:
     pristine_git_object: 44be0eae8246521b230e8e711a88eff738fc015d
   src/lib/config.ts:
     id: 320761608fb3
-    last_write_checksum: sha1:b45ef79fddca478137c577eaff28e00669701dbc
-    pristine_git_object: 9a6e462c4c0adccffdff49552c9a1527db660a8f
+    last_write_checksum: sha1:4fd3890a0d2864b84be140d658dcb1d4cbc1bc8e
+    pristine_git_object: d437f888fc9568e75d23ddb77d30f73ab0afbd4c
   src/lib/encodings.ts:
     id: 3bd8ead98afd
     last_write_checksum: sha1:4481b2a380f8a16856ef92c66fb370299f56d135
@@ -4690,63 +4690,3 @@ examples:
         "503":
           application/json: {"message": "Cover matching is unavailable right now. Try again later or look the comic up by barcode."}
 examplesVersion: 1.0.2
-releaseNotes: |
-  ## Typescript SDK Changes:
-  * `versedb.discovery.fOcDeadlines()`: **Removed** (Breaking ⚠️)
-  * `versedb.discovery.upcoming1Issues()`: **Removed** (Breaking ⚠️)
-  * `versedb.discovery.followUpdates()`: **Removed** (Breaking ⚠️)
-  * `versedb.creators.listCreators()`: **Removed** (Breaking ⚠️)
-  * `versedb.creators.getCreatorDetails()`: **Removed** (Breaking ⚠️)
-  * `versedb.creators.getCreatorsBlogPosts()`: **Removed** (Breaking ⚠️)
-  * `versedb.creators.getCreatorsIssues()`: **Removed** (Breaking ⚠️)
-  * `versedb.creators.getCreatorsSeries()`: **Removed** (Breaking ⚠️)
-  * `versedb.characters.listCharacters()`: **Removed** (Breaking ⚠️)
-  * `versedb.teams.listAllTeamsWithOptionalSearch()`: **Removed** (Breaking ⚠️)
-  * `versedb.teams.getASpecificTeam()`: **Removed** (Breaking ⚠️)
-  * `versedb.teams.getCharactersForASpecificTeammembers()`: **Removed** (Breaking ⚠️)
-  * `versedb.teams.getSeriesForASpecificTeam()`: **Removed** (Breaking ⚠️)
-  * `versedb.teams.getIssuesForASpecificTeam()`: **Removed** (Breaking ⚠️)
-  * `versedb.storyArcs.listAllStoryArcsWithOptionalSearch()`: **Removed** (Breaking ⚠️)
-  * `versedb.storyArcs.getStoryArcDetail()`: **Removed** (Breaking ⚠️)
-  * `versedb.storyArcs.getStoryArcsForASpecificUniverse()`: **Removed** (Breaking ⚠️)
-  * `versedb.events.listEvents()`: **Removed** (Breaking ⚠️)
-  * `versedb.events.getAnEvent()`: **Removed** (Breaking ⚠️)
-  * `versedb.comicShops.listComicShops()`: **Removed** (Breaking ⚠️)
-  * `versedb.comicShops.getAComicShop()`: **Removed** (Breaking ⚠️)
-  * `versedb.podcasts.listAllPodcastsWithOptionalSearch()`: **Removed** (Breaking ⚠️)
-  * `versedb.podcasts.getASpecificPodcast()`: **Removed** (Breaking ⚠️)
-  * `versedb.lists.saveList()`: **Removed** (Breaking ⚠️)
-  * `versedb.lists.unsaveList()`: **Removed** (Breaking ⚠️)
-  * `versedb.user.getTheAuthenticatedUser()`: **Removed** (Breaking ⚠️)
-  * `versedb.user.listCollection()`: **Removed** (Breaking ⚠️)
-  * `versedb.user.checkIssueInCollection()`: **Removed** (Breaking ⚠️)
-  * `versedb.user.addIssueToCollection()`: **Removed** (Breaking ⚠️)
-  * `versedb.user.updateCollectionItem()`: **Removed** (Breaking ⚠️)
-  * `versedb.user.removeIssueFromCollection()`: **Removed** (Breaking ⚠️)
-  * `versedb.user.lendACopyOut()`: **Removed** (Breaking ⚠️)
-  * `versedb.user.markTheCopysOpenLoanReturned()`: **Removed** (Breaking ⚠️)
-  * `versedb.titles.listTitles()`:  `response.data[]` **Changed**
-  * `versedb.titles.getASpecificTitle()`:  `response.data` **Changed**
-  * `versedb.series.listSeries()`:  `response.data[]` **Changed**
-  * `versedb.series.getSeriesDetails()`:  `response.data` **Changed**
-  * `versedb.series.getSeriesIssues()`:  `response.data[].nameI18n` **Added**
-  * `versedb.series.getSeriesCreators()`:  `response.data[]` **Changed**
-  * `versedb.series.getSeriesCharacters()`:  `response.data[]` **Changed**
-  * `versedb.issues.listIssues()`:  `response.data[].nameI18n` **Added**
-  * `versedb.issues.getIssueDetails()`:  `response.data.nameI18n` **Added**
-  * `versedb.issues.getIssueVariants()`:  `response.data[].variantNameI18n` **Added**
-  * `versedb.issues.getVariantDetails()`:  `response.data.variantNameI18n` **Added**
-  * `versedb.issues.getIssueCreators()`:  `response.data[]` **Changed**
-  * `versedb.issues.getIssueCharacters()`:  `response.data[]` **Changed**
-  * `versedb.publishers.listAllPublishersWithOptionalSearch()`:  `response.data[]` **Changed**
-  * `versedb.publishers.getPublisherDetails()`:  `response.data` **Changed**
-  * `versedb.imprints.listImprints()`:  `response.data[]` **Changed**
-  * `versedb.imprints.getImprintDetails()`:  `response.data` **Changed**
-  * `versedb.characters.getCharacterDetails()`:  `response.data` **Changed**
-  * `versedb.characters.getCharacterSeries()`:  `response.data[]` **Changed**
-  * `versedb.characters.getCharacterIssues()`:  `response.data[].nameI18n` **Added**
-  * `versedb.characters.getCharacterTeams()`:  `response.data[]` **Changed**
-  * `versedb.storyArcs.getStoryArcsForASpecificIssue()`:  `response.data[]` **Changed**
-  * `versedb.storyArcs.getStoryArcsForASpecificCharacter()`:  `response.data[]` **Changed**
-  * `versedb.universes.listUniverses()`:  `response.data[]` **Changed**
-  * `versedb.universes.getASpecificUniverse()`:  `response.data` **Changed**
