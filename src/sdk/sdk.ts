@@ -7,24 +7,16 @@ import { BarcodeLookup } from "./barcode-lookup.js";
 import { Characters } from "./characters.js";
 import { ConnectToVerseDB } from "./connect-to-verse-db.js";
 import { CoverLookup } from "./cover-lookup.js";
-import { Imprints } from "./imprints.js";
 import { Issues } from "./issues.js";
 import { KeyIssueReasons } from "./key-issue-reasons.js";
 import { Lists } from "./lists.js";
-import { Publishers } from "./publishers.js";
 import { Reading } from "./reading.js";
 import { Series } from "./series.js";
 import { StoryArcs } from "./story-arcs.js";
-import { Titles } from "./titles.js";
 import { Universes } from "./universes.js";
 import { User } from "./user.js";
 
 export class VerseDB extends ClientSDK {
-  private _titles?: Titles;
-  get titles(): Titles {
-    return (this._titles ??= new Titles(this._options));
-  }
-
   private _series?: Series;
   get series(): Series {
     return (this._series ??= new Series(this._options));
@@ -33,16 +25,6 @@ export class VerseDB extends ClientSDK {
   private _issues?: Issues;
   get issues(): Issues {
     return (this._issues ??= new Issues(this._options));
-  }
-
-  private _publishers?: Publishers;
-  get publishers(): Publishers {
-    return (this._publishers ??= new Publishers(this._options));
-  }
-
-  private _imprints?: Imprints;
-  get imprints(): Imprints {
-    return (this._imprints ??= new Imprints(this._options));
   }
 
   private _characters?: Characters;

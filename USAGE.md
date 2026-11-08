@@ -7,15 +7,23 @@ const verseDB = new VerseDB({
 });
 
 async function run() {
-  const result = await verseDB.titles.listTitles({
+  const result = await verseDB.series.listSeries({
     q: "spider-man",
+    titleId: 1,
     publisherId: 1,
-    publisher: 1,
+    status: "Ongoing",
+    genreIds: "3,11",
     publisherIds: "1,4",
-    hideUnreleased: true,
-    medium: "manga",
+    creatorIds: "812,1907",
+    characterIds: "55,204",
     languages: "en,ja",
-    ongoing: true,
+    medium: "manga",
+    publicationType: "limited_series",
+    format: "Omnibus",
+    startYear: 2018,
+    endYear: 2022,
+    decade: "1990s",
+    hideUnreleased: true,
     sort: "start_year",
     direction: "desc",
     limit: 20,

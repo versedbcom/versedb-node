@@ -9,90 +9,9 @@ Characters include heroes, villains, and supporting characters across all publis
 
 ### Available Operations
 
-* [getCharacterDetails](#getcharacterdetails) - Get character details.
 * [getCharacterSeries](#getcharacterseries) - Get character series.
 * [getCharacterIssues](#getcharacterissues) - Get character issues.
 * [getCharacterTeams](#getcharacterteams) - Get character teams.
-
-## getCharacterDetails
-
-Returns a single character with full details including publishers and
-cached relationship counts (appearances, series, teams, story arcs) so
-clients can decide which related-entity tabs to expose.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="getCharacterDetails" method="get" path="/api/v1/characters/{character_id}" -->
-```typescript
-import { VerseDB } from "@versedbcom/sdk";
-
-const verseDB = new VerseDB({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const result = await verseDB.characters.getCharacterDetails({
-    characterId: 456,
-    languages: "ja,ko",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { VerseDBCore } from "@versedbcom/sdk/core.js";
-import { charactersGetCharacterDetails } from "@versedbcom/sdk/funcs/characters-get-character-details.js";
-
-// Use `VerseDBCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const verseDB = new VerseDBCore({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const res = await charactersGetCharacterDetails(verseDB, {
-    characterId: 456,
-    languages: "ja,ko",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("charactersGetCharacterDetails failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.GetCharacterDetailsRequest](../../models/operations/get-character-details-request.md)                                                                              | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[operations.GetCharacterDetailsResponse](../../models/operations/get-character-details-response.md)\>**
-
-### Errors
-
-| Error Type                              | Status Code                             | Content Type                            |
-| --------------------------------------- | --------------------------------------- | --------------------------------------- |
-| errors.UnauthorizedErrorError           | 401                                     | application/json                        |
-| errors.GetCharacterDetailsNotFoundError | 404                                     | application/json                        |
-| errors.TooManyRequestsError             | 429                                     | application/json                        |
-| errors.VerseDbDefaultError              | 4XX, 5XX                                | \*/\*                                   |
 
 ## getCharacterSeries
 
