@@ -484,6 +484,26 @@ async function run() {
       isRanked: false,
       isPrivate: true,
       status: "published",
+      rules: {
+        "version": 2,
+        "match": {
+          "all": [
+            {
+              "field": "launch_date",
+              "op": "within_last",
+              "value": {
+                "count": 3,
+                "unit": "months",
+              },
+            },
+          ],
+        },
+        "sort": {
+          "field": "launch_date",
+          "direction": "desc",
+        },
+        "limit": 500,
+      },
     },
   });
 
@@ -516,6 +536,26 @@ async function run() {
       isRanked: false,
       isPrivate: true,
       status: "published",
+      rules: {
+        "version": 2,
+        "match": {
+          "all": [
+            {
+              "field": "launch_date",
+              "op": "within_last",
+              "value": {
+                "count": 3,
+                "unit": "months",
+              },
+            },
+          ],
+        },
+        "sort": {
+          "field": "launch_date",
+          "direction": "desc",
+        },
+        "limit": 500,
+      },
     },
   });
   if (res.ok) {

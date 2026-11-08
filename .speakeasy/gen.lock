@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: d54ae284-e171-41f5-99d0-d4027d6f02b4
 management:
-  docChecksum: 9972b73e08faf378f8e7269198476727
+  docChecksum: 81b78c069b4f965c2087d7efefd1d43b
   docVersion: 1.0.0
   speakeasyVersion: 1.806.0
   generationVersion: 2.956.1
-  releaseVersion: 3.0.0
-  configChecksum: d025ad4e30aad46e28d221da6b6c5aaa
+  releaseVersion: 3.0.1
+  configChecksum: 6a2ce7bd869574aa6bf278e03ee16c6f
   repoURL: https://github.com/versedbcom/versedb-node.git
   installationURL: https://github.com/versedbcom/versedb-node
   published: true
 persistentEdits:
-  generation_id: f5b260c2-e66e-4430-98e6-dfe99c526703
-  pristine_commit_hash: 1fe63590ef710348ba0352c968ccdd7f44f5ce79
-  pristine_tree_hash: b5afeb1174378dd9881f4c973b34b74b79ffbc5f
+  generation_id: 6dd22955-ffd3-4a87-914d-be9a7e50eb15
+  pristine_commit_hash: afed9b567d23cd2e6799a6e782db24a3a877bd63
+  pristine_tree_hash: 6ac2454edb33db4fc74e24b8cb5510aa7ac60faa
 features:
   typescript:
     additionalDependencies: 0.1.0
@@ -4355,8 +4355,8 @@ trackedFiles:
     pristine_git_object: 95a102370eb53dc75c97938e245824eaa0eda664
   docs/models/operations/update-list-request-body.md:
     id: f59ac3e1ddf1
-    last_write_checksum: sha1:e60b0ef58ee3c26b27db7c8039a0046401b78c0e
-    pristine_git_object: 4bc8538442c6834739235089e65cba4b905b4bda
+    last_write_checksum: sha1:109bea79e4461c833cba57d0752775940f3edbce
+    pristine_git_object: 42f4b801a0eed26ce6ab4d5af180e645e1894987
   docs/models/operations/update-list-request.md:
     id: bcf2fe4a4a73
     last_write_checksum: sha1:703ccf37b410cc950bd3ea50dad96090d109d875
@@ -4531,8 +4531,8 @@ trackedFiles:
     pristine_git_object: 98fc2e882b32ac4b9a0691b8febef7c2ec29fa66
   docs/sdks/lists/README.md:
     id: 2bf91000d730
-    last_write_checksum: sha1:707de363367ab7b71867f38990004da111428168
-    pristine_git_object: e77099a252b2692b3d73cc3b7bb530ef1c597543
+    last_write_checksum: sha1:7d4954ad5c5bb7d865fc3f00d7343e4e7eb9926b
+    pristine_git_object: d2a02290059dec950fb0f0ca517fb2d9e4b37d95
   docs/sdks/podcasts/README.md:
     id: 0ef2893070a0
     last_write_checksum: sha1:4a620a625de152904c91776eec347dc230d84f3e
@@ -4587,12 +4587,12 @@ trackedFiles:
     pristine_git_object: ecffeb89ec7a40b74d527168b2ecf23d81f8cc94
   jsr.json:
     id: 7f6ab7767282
-    last_write_checksum: sha1:5d28951ccddd0cf8ea069395bc00d0c8add6d2c7
-    pristine_git_object: 7d499fd9d7c2c54d4fdeea327f1696f03cae74dc
+    last_write_checksum: sha1:f14f571dae9fd4aacfaafcbbb90abcbc143d8592
+    pristine_git_object: 41fb0b84b8a61e3f6520998af4b622950364adc3
   package.json:
     id: 7030d0b2f71b
-    last_write_checksum: sha1:dcf4748460e50d02e7b5850c5a0ee7dab8b66541
-    pristine_git_object: f81c2c8777731b9fe589c91991ae61108073e016
+    last_write_checksum: sha1:4b0209020c89b65f0283eee2b791b982ffaea528
+    pristine_git_object: f9d633573bb58a5e4eea904dc85a7d3a0c4175ff
   src/core.ts:
     id: f431fdbcd144
     last_write_checksum: sha1:ad0063bee03825028052e52cef3fa240c6101bdf
@@ -5015,8 +5015,8 @@ trackedFiles:
     pristine_git_object: 44be0eae8246521b230e8e711a88eff738fc015d
   src/lib/config.ts:
     id: 320761608fb3
-    last_write_checksum: sha1:81240e9383561268f31ca742e501f875af8084f7
-    pristine_git_object: cb15d79d38e98f1a4248e684cfee70195f6d562b
+    last_write_checksum: sha1:cf5cd4e4cd22b4ff91309a34c661f1a94f2048aa
+    pristine_git_object: a3359a766d131d5a324eccc92841507941b9046c
   src/lib/encodings.ts:
     id: 3bd8ead98afd
     last_write_checksum: sha1:4481b2a380f8a16856ef92c66fb370299f56d135
@@ -5847,8 +5847,8 @@ trackedFiles:
     pristine_git_object: f08355957b26868be0b9898e0be09de01de89680
   src/models/operations/update-list.ts:
     id: d75846d7249e
-    last_write_checksum: sha1:511f54debf6e3514492e6ac0e7b2b5d9023912da
-    pristine_git_object: a457d4c89f16c21fdfd7f64c26b01812a97da1f0
+    last_write_checksum: sha1:289594560f64958a8c3b523a3737c97d59fe78f0
+    pristine_git_object: d8adad242fa3ddbb5ad967a76f16d70118c3101d
   src/models/operations/view-yearly-reading-statistics.ts:
     id: 12cde4220533
     last_write_checksum: sha1:0ba084d9993169f011bcc9c9989a9b1bd210a5bf
@@ -6691,7 +6691,7 @@ examples:
         path:
           list_id: 101
       requestBody:
-        application/json: {"title": "Updated Title", "description": "Updated description", "is_ranked": false, "is_private": true, "status": "published"}
+        application/json: {"title": "Updated Title", "description": "Updated description", "is_ranked": false, "is_private": true, "status": "published", "rules": {"version": 2, "match": {"all": [{"field": "launch_date", "op": "within_last", "value": {"count": 3, "unit": "months"}}]}, "sort": {"field": "launch_date", "direction": "desc"}, "limit": 500}}
       responses:
         "200":
           application/json: {"data": {"id": 101, "title": "Updated Title", "slug": "best-spider-man-stories", "description": "Updated description", "entity_type": "issues", "entity_type_label": "Issues", "is_curated": false, "item_types": ["issues"], "is_ranked": true, "sort_options": {"": "List order", "recent": "Recently added"}, "is_private": false, "status": "published", "list_type": "custom", "items_count": 25, "saves_count": 89, "likes_count": 150, "clones_count": 3, "created_at": "2024-01-15T10:30:00+00:00", "updated_at": "2024-01-15T10:30:00+00:00", "is_smart": false, "is_rule_based": false, "last_refreshed_at": "2024-01-16T04:00:00+00:00", "smart_paused": false, "cloned_from_list_id": null, "cloned_from": {"id": 77, "title": "Spider-Man Essentials", "slug": "spider-man-essentials", "user": {"id": 9, "username": "webhead"}}, "user": {"id": 123, "username": "comic_fan", "name": "comic_fan", "avatar": "https://...-profile_md.webp"}, "items": [{"id": 1, "position": 1, "note": "Classic!", "created_at": "2024-01-15T10:30:00+00:00", "updated_at": "2024-01-15T10:30:00+00:00", "variant_id": 7, "variant": {"id": 7, "name": "Virgin Variant", "ratio": "1:25", "cover_image_url": "https://...-cover_md.webp"}, "entity_type": "issues", "entity": {"id": 6, "slug": "kraven-s-last-hunt", "name": "Kraven's Last Hunt", "image_url": "https://...-cover_md.webp", "issues_count": 6}}], "reactions": []}}
@@ -8065,4 +8065,4 @@ examples:
         "503":
           application/json: {"message": "Cover matching is unavailable right now. Try again later or look the comic up by barcode."}
 examplesVersion: 1.0.2
-releaseNotes: "## Typescript SDK Changes:\n* `versedb.series.listSeries()`: \n  *  `request.page` **Added**\n  *  `response` **Changed** (Breaking ⚠️)\n  *  `error.status[403]` **Added**\n* `versedb.user.removeFromWishlist()`: \n  *  `request.body` **Removed** (Breaking ⚠️)\n  *  `error` **Changed**\n* `versedb.user.addToWishlist()`: \n  *  `response` **Changed** (Breaking ⚠️)\n  *  `error` **Changed** (Breaking ⚠️)\n* `versedb.user.listWishlist()`: \n  *  `response` **Changed** (Breaking ⚠️)\n  *  `error.status[403]` **Added**\n* `versedb.user.markAsRead()`: \n  *  `response.seriesCompleted` **Added**\n  *  `error` **Changed** (Breaking ⚠️)\n* `versedb.user.listReadStatus()`: \n  *  `response` **Changed** (Breaking ⚠️)\n  *  `error.status[403]` **Added**\n* `versedb.user.addToPullList()`: \n  *  `response` **Changed** (Breaking ⚠️)\n  *  `error` **Changed** (Breaking ⚠️)\n* `versedb.user.listPullList()`: \n  *  `request` **Changed**\n  *  `response` **Changed** (Breaking ⚠️)\n  *  `error.status[403]` **Added**\n* `versedb.reading.viewYourReadingGoal()`: \n  *  `response` **Changed** (Breaking ⚠️)\n  *  `error` **Changed**\n* `versedb.reading.viewYourMonthlyReadingCalendar()`: \n  *  `response` **Changed** (Breaking ⚠️)\n  *  `error.message` **Changed**\n* `versedb.reading.viewYearlyReadingStatistics()`: \n  *  `response` **Changed** (Breaking ⚠️)\n  *  `error.message` **Changed**\n* `versedb.reading.viewYourUnfinishedComicsFromTheVerseDbReader()`: \n  *  `response` **Changed** (Breaking ⚠️)\n  *  `error.status[403]` **Added**\n* `versedb.lists.likeListOrReactToIt()`: \n  *  `response` **Changed** (Breaking ⚠️)\n  *  `error` **Changed**\n* `versedb.lists.reorderItems()`: \n  *  `response` **Changed** (Breaking ⚠️)\n  *  `error` **Changed**\n* `versedb.lists.addItemToList()`: \n  *  `response.data` **Changed** (Breaking ⚠️)\n  *  `error` **Changed** (Breaking ⚠️)\n* `versedb.lists.getUsersLists()`: \n  *  `request.page` **Added**\n  *  `response` **Changed** (Breaking ⚠️)\n  *  `error` **Changed**\n* `versedb.lists.deleteList()`:  `error` **Changed** (Breaking ⚠️)\n* `versedb.lists.updateList()`: \n  *  `request.body.rules` **Removed** (Breaking ⚠️)\n  *  `response.data` **Changed** (Breaking ⚠️)\n  *  `error` **Changed**\n* `versedb.lists.getList()`: \n  *  `response.data` **Changed** (Breaking ⚠️)\n  *  `error.message` **Changed**\n* `versedb.lists.browseSystemLists()`: \n  *  `request.page` **Added**\n  *  `response` **Changed** (Breaking ⚠️)\n  *  `error.status[403]` **Added**\n* `versedb.lists.createList()`: \n  *  `request.rules` **Changed** (Breaking ⚠️)\n  *  `response.data` **Changed** (Breaking ⚠️)\n  *  `error` **Changed**\n* `versedb.lists.browseLists()`: \n  *  `request.page` **Added**\n  *  `response` **Changed** (Breaking ⚠️)\n  *  `error.status[403]` **Added**\n* `versedb.keyIssueReasons.listKeyIssueReasons()`: \n  *  `response.data` **Changed** (Breaking ⚠️)\n  *  `error.status[403]` **Added**\n* `versedb.universes.getASpecificUniverse()`: \n  *  `response.data` **Changed** (Breaking ⚠️)\n  *  `error.status[403]` **Added**\n* `versedb.universes.listUniverses()`: \n  *  `request.page` **Added**\n  *  `response` **Changed** (Breaking ⚠️)\n  *  `error.status[403]` **Added**\n* `versedb.storyArcs.getStoryArcsForASpecificIssue()`: \n  *  `request.page` **Added**\n  *  `response` **Changed** (Breaking ⚠️)\n  *  `error.status[403]` **Added**\n* `versedb.issues.getKeyIssueReasons()`: \n  *  `response.data` **Changed** (Breaking ⚠️)\n  *  `error.status[403]` **Added**\n* `versedb.issues.getIssueCharacters()`: \n  *  `request.page` **Added**\n  *  `response` **Changed** (Breaking ⚠️)\n  *  `error.status[403]` **Added**\n* `versedb.issues.getIssueCreators()`: \n  *  `request.page` **Added**\n  *  `response` **Changed** (Breaking ⚠️)\n  *  `error.status[403]` **Added**\n* `versedb.issues.getVariantDetails()`: \n  *  `response.data` **Changed** (Breaking ⚠️)\n  *  `error` **Changed**\n* `versedb.issues.getIssueVariants()`: \n  *  `response.data` **Changed** (Breaking ⚠️)\n  *  `error.status[403]` **Added**\n* `versedb.issues.getIssueDetails()`: \n  *  `response.data` **Changed** (Breaking ⚠️)\n  *  `error` **Changed**\n* `versedb.issues.listIssues()`: \n  *  `request.page` **Added**\n  *  `response` **Changed** (Breaking ⚠️)\n  *  `error.status[403]` **Added**\n* `versedb.series.getSeriesCharacters()`: \n  *  `request.page` **Added**\n  *  `response` **Changed** (Breaking ⚠️)\n  *  `error.status[403]` **Added**\n* `versedb.series.getSeriesCreators()`: \n  *  `request.page` **Added**\n  *  `response` **Changed** (Breaking ⚠️)\n  *  `error.status[403]` **Added**\n* `versedb.series.getSeriesIssues()`: \n  *  `request.page` **Added**\n  *  `response` **Changed** (Breaking ⚠️)\n  *  `error.status[403]` **Added**\n* `versedb.series.getSeriesDetails()`: \n  *  `response.data` **Changed** (Breaking ⚠️)\n  *  `error` **Changed**\n* `versedb.teams.getASpecificTeam()`: **Added**\n* `versedb.creators.getCreatorsSeries()`: **Added**\n* `versedb.discovery.upcoming1Issues()`: **Added**\n* `versedb.discovery.fOcDeadlines()`: **Added**\n* `versedb.comicShops.getAComicShop()`: **Added**\n* `versedb.comicShops.listComicShops()`: **Added**\n* `versedb.publishers.listAllPublishersWithOptionalSearch()`: **Added**\n* `versedb.publishers.getPublisherDetails()`: **Added**\n* `versedb.titles.listTitles()`: **Added**\n* `versedb.titles.getASpecificTitle()`: **Added**\n* `versedb.imprints.listImprints()`: **Added**\n* `versedb.imprints.getImprintDetails()`: **Added**\n* `versedb.podcasts.getASpecificPodcast()`: **Added**\n* `versedb.podcasts.listAllPodcastsWithOptionalSearch()`: **Added**\n* `versedb.events.getAnEvent()`: **Added**\n* `versedb.events.listEvents()`: **Added**\n* `versedb.teams.getIssuesForASpecificTeam()`: **Added**\n* `versedb.teams.getSeriesForASpecificTeam()`: **Added**\n* `versedb.teams.getCharactersForASpecificTeammembers()`: **Added**\n* `versedb.user.getTheAuthenticatedUser()`: **Added**\n* `versedb.teams.listAllTeamsWithOptionalSearch()`: **Added**\n* `versedb.storyArcs.getStoryArcsForASpecificUniverse()`: **Added**\n* `versedb.storyArcs.getStoryArcDetail()`: **Added**\n* `versedb.storyArcs.listAllStoryArcsWithOptionalSearch()`: **Added**\n* `versedb.creators.getCreatorsBlogPosts()`: **Added**\n* `versedb.discovery.followUpdates()`: **Added**\n* `versedb.lists.convertAListToMixed()`: \n  *  `response.data` **Changed**\n  *  `error` **Changed**\n* `versedb.lists.stopAListUpdatingItself()`: \n  *  `response.data` **Changed**\n  *  `error` **Changed**\n* `versedb.lists.mergeAListIntoThisOne()`: \n  *  `response` **Changed**\n  *  `error` **Changed**\n* `versedb.creators.getCreatorsIssues()`: **Added**\n* `versedb.lists.removeItemFromList()`:  `error.message` **Changed**\n* `versedb.creators.getCreatorDetails()`: **Added**\n* `versedb.creators.listCreators()`: **Added**\n* `versedb.lists.unlikeList()`: \n  *  `response` **Changed**\n  *  `error` **Changed**\n* `versedb.characters.getCharacterDetails()`: **Added**\n* `versedb.characters.listCharacters()`: **Added**\n* `versedb.lists.unsaveList()`: **Added**\n* `versedb.lists.saveList()`: **Added**\n* `versedb.user.markTheCopysOpenLoanReturned()`: **Added**\n* `versedb.user.lendACopyOut()`: **Added**\n* `versedb.user.removeFromPullList()`:  `error` **Changed**\n* `versedb.user.updateCollectionItem()`: **Added**\n* `versedb.user.removeIssueFromCollection()`: **Added**\n* `versedb.user.editReadingDate()`: \n  *  `response.readAt` **Changed**\n  *  `error` **Changed**\n* `versedb.user.markAsUnread()`:  `error` **Changed**\n* `versedb.user.addIssueToCollection()`: **Added**\n* `versedb.user.checkIssueInCollection()`: **Added**\n* `versedb.user.listCollection()`: **Added**\n* `versedb.connectToVerseDb.exchangeAConnectCodeForAToken()`: \n  *  `response` **Changed**\n  *  `error` **Changed**\n"
+releaseNotes: "## Typescript SDK Changes:\n* `versedb.lists.updateList()`: \n  *  `request.body.rules` **Added**\n"

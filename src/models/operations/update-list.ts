@@ -44,6 +44,10 @@ export type UpdateListRequestBody = {
    * The list status.
    */
   status?: Status | undefined;
+  /**
+   * Replaces the smart-list rule. Only a list built from a rule takes one, and the list is rebuilt from the new rule unless its updates are paused.
+   */
+  rules?: { [k: string]: any } | undefined;
 };
 
 export type UpdateListRequest = {
@@ -299,6 +303,7 @@ export type UpdateListRequestBody$Outbound = {
   is_ranked?: boolean | undefined;
   is_private?: boolean | undefined;
   status?: string | undefined;
+  rules?: { [k: string]: any } | undefined;
 };
 
 /** @internal */
@@ -312,6 +317,7 @@ export const UpdateListRequestBody$outboundSchema: z.ZodMiniType<
     isRanked: z.optional(z.boolean()),
     isPrivate: z.optional(z.boolean()),
     status: z.optional(Status$outboundSchema),
+    rules: z.optional(z.record(z.string(), z.any())),
   }),
   z.transform((v) => {
     return remap$(v, {
