@@ -3,7 +3,7 @@
 ## This SDK is generated
 
 All SDK source in this repo is generated from the VerseDB public OpenAPI spec
-(`https://versedb.com/api/docs.openapi`) by [Speakeasy](https://www.speakeasy.com).
+(`https://versedb.com/api/v1/openapi.json`) by [Speakeasy](https://www.speakeasy.com).
 Hand edits to generated files are overwritten on the next generation run.
 
 - **API behavior or field changes** belong in the VerseDB API itself, not here.

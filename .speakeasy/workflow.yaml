@@ -3,7 +3,7 @@ speakeasyVersion: latest
 sources:
     versedb-api:
         inputs:
-            - location: https://versedb.com/api/docs.openapi
+            - location: https://versedb.com/api/v1/openapi.json
         overlays:
             - location: ./.speakeasy/overlays/pin-operation-names.yaml
         registry:

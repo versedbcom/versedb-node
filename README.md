@@ -2,7 +2,7 @@
 
 The official TypeScript/JavaScript SDK for the [VerseDB](https://versedb.com) public API — search and browse a database of 1M+ comics (series, issues, creators, characters, publishers, story arcs), look up barcodes, and manage your collection and lists.
 
-> Published on npm as [`@versedbcom/sdk`](https://www.npmjs.com/package/@versedbcom/sdk). The code is generated from the [VerseDB OpenAPI spec](https://versedb.com/api/docs.openapi) via [Speakeasy](https://www.speakeasy.com) and republished automatically whenever the API changes.
+> Published on npm as [`@versedbcom/sdk`](https://www.npmjs.com/package/@versedbcom/sdk). The code is generated from the [VerseDB OpenAPI spec](https://versedb.com/api/v1/openapi.json) via [Speakeasy](https://www.speakeasy.com) and republished automatically whenever the API changes.
 
 ## Installation
 
@@ -83,7 +83,7 @@ Scopes are chosen when creating a token at `/my/apps/custom`; a missing scope su
 ## API reference
 
 - Interactive docs: [versedb.com/api/docs](https://versedb.com/api/docs)
-- OpenAPI 3.1 spec: [versedb.com/api/docs.openapi](https://versedb.com/api/docs.openapi)
+- OpenAPI 3.1 spec: [versedb.com/api/v1/openapi.json](https://versedb.com/api/v1/openapi.json)
 
 ## Showcase
 
