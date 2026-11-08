@@ -7,46 +7,262 @@ import { remap as remap$ } from "../../lib/primitives.js";
 import { safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
+import { smartUnion } from "../../types/smart-union.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type MergeAListIntoThisOneRequestBody = {
   /**
-   * The list to merge in.
+   * The list whose items are pulled into this list. Must be owned by the authenticated user.
    */
   sourceListId: number;
   /**
-   * Delete the source list after merging. Defaults to false.
+   * Whether to delete the source list after its items are merged in. Defaults to `false`.
    */
   deleteSource?: boolean | undefined;
 };
 
 export type MergeAListIntoThisOneRequest = {
   /**
-   * The destination list ID.
+   * The list ID.
    */
   listId: number;
   body: MergeAListIntoThisOneRequestBody;
 };
 
-export type MergeAListIntoThisOneData = {
-  id?: number | undefined;
-  title?: string | undefined;
-  itemTypes?: Array<string> | undefined;
-};
-
-export type Merge = {
-  moved?: number | undefined;
-  skippedDuplicates?: number | undefined;
-  convertedToMixed?: boolean | undefined;
-  sourceDeleted?: boolean | undefined;
+export type MergeAListIntoThisOneClonedFromUser = {
+  id: number;
+  username: string | null;
 };
 
 /**
- * Merged
+ * The list this one was cloned from, while it exists.
+ */
+export type MergeAListIntoThisOneClonedFrom = {
+  id: number;
+  title: string | null;
+  slug: string | null;
+  user: MergeAListIntoThisOneClonedFromUser | null;
+};
+
+/**
+ * The owner; null once the account is gone.
+ */
+export type MergeAListIntoThisOneUser = {
+  id: number;
+  username: string | null;
+  name: string | null;
+  avatar: string | null;
+};
+
+/**
+ * The pinned cover, while it exists.
+ */
+export type MergeAListIntoThisOneVariant = {
+  id: number;
+  name: string | null;
+  ratio: string | null;
+  coverImageUrl: string | null;
+};
+
+/**
+ * A creator (`image_url` its profile photo) or a team (its logo).
+ */
+export type MergeAListIntoThisOneEntity5 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  imageUrl: string | null;
+};
+
+/**
+ * A story arc.
+ */
+export type MergeAListIntoThisOneEntity4 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  imageUrl: string | null;
+  issuesCount: number | null;
+};
+
+/**
+ * A character.
+ */
+export type MergeAListIntoThisOneEntity3 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  realName: string | null;
+  imageUrl: string | null;
+};
+
+/**
+ * A series.
+ */
+export type MergeAListIntoThisOneEntity2 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  startYear: number | null;
+  endYear: number | null;
+  status: string | null;
+  publicationType: string | null;
+  imageUrl: string | null;
+  isNsfw: boolean | null;
+  issuesCount: number | null;
+  publisher: string | null;
+};
+
+export type MergeAListIntoThisOneSeries = {
+  id: number;
+  name: string | null;
+  slug: string | null;
+  startYear: number | null;
+};
+
+/**
+ * An issue.
+ */
+export type MergeAListIntoThisOneEntity1 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  issueNumber: string | null;
+  releaseDate: string | null;
+  focDate: string | null;
+  imageUrl: string | null;
+  isNsfw: boolean | null;
+  publisher: string | null;
+  series: MergeAListIntoThisOneSeries | null;
+};
+
+/**
+ * Left out once the entity is gone.
+ */
+export type MergeAListIntoThisOneEntityUnion =
+  | MergeAListIntoThisOneEntity2
+  | MergeAListIntoThisOneEntity1
+  | MergeAListIntoThisOneEntity3
+  | MergeAListIntoThisOneEntity4
+  | MergeAListIntoThisOneEntity5;
+
+export type MergeAListIntoThisOneItem = {
+  id: number;
+  /**
+   * Its place on a ranked or rule-built list.
+   */
+  position: number | null;
+  note: string | null;
+  createdAt: string;
+  updatedAt: string;
+  variantId: number | null;
+  /**
+   * The pinned cover, while it exists.
+   */
+  variant?: MergeAListIntoThisOneVariant | undefined;
+  /**
+   * issues, series, characters, creators, story_arcs or teams.
+   */
+  entityType: string;
+  /**
+   * Left out once the entity is gone.
+   */
+  entity?:
+    | MergeAListIntoThisOneEntity2
+    | MergeAListIntoThisOneEntity1
+    | MergeAListIntoThisOneEntity3
+    | MergeAListIntoThisOneEntity4
+    | MergeAListIntoThisOneEntity5
+    | undefined;
+};
+
+export type MergeAListIntoThisOneReaction = {
+  reaction: string;
+  emoji: string;
+  label: string;
+  count: number;
+};
+
+export type MergeAListIntoThisOneData = {
+  id: number;
+  title: string;
+  slug: string;
+  description: string | null;
+  /**
+   * issues, series, characters, creators, story_arcs, teams, or mixed for a list of any type.
+   */
+  entityType: string;
+  entityTypeLabel: string;
+  /**
+   * The list is VerseDB's own.
+   */
+  isCurated: boolean;
+  /**
+   * The types its items hold: its own type, or each type a mixed list holds.
+   */
+  itemTypes: Array<string>;
+  isRanked: boolean;
+  /**
+   * What `sort` takes on this list, each with its label; the empty key is its own order.
+   */
+  sortOptions: { [k: string]: string };
+  isPrivate: boolean;
+  /**
+   * published or draft.
+   */
+  status: string;
+  /**
+   * custom, wishlist or reading_guide.
+   */
+  listType: string;
+  itemsCount: number;
+  savesCount: number;
+  likesCount: number;
+  clonesCount: number;
+  createdAt: string;
+  updatedAt: string;
+  /**
+   * A rule keeps the list up to date.
+   */
+  isSmart: boolean;
+  isRuleBased: boolean;
+  lastRefreshedAt: string | null;
+  /**
+   * A rule-built list that stopped updating while its owner's Pro is inactive.
+   */
+  smartPaused: boolean;
+  clonedFromListId: number | null;
+  /**
+   * The list this one was cloned from, while it exists.
+   */
+  clonedFrom?: MergeAListIntoThisOneClonedFrom | undefined;
+  /**
+   * The owner; null once the account is gone.
+   */
+  user: MergeAListIntoThisOneUser | null;
+  /**
+   * Every item, in the list's own order or by `sort`.
+   */
+  items: Array<MergeAListIntoThisOneItem>;
+  /**
+   * The reactions left on the list, the most used first.
+   */
+  reactions: Array<MergeAListIntoThisOneReaction>;
+};
+
+export type Merge = {
+  moved: number;
+  skippedDuplicates: number;
+  convertedToMixed: boolean;
+  sourceDeleted: boolean;
+};
+
+/**
+ * Merged.
  */
 export type MergeAListIntoThisOneResponseBody = {
-  data?: MergeAListIntoThisOneData | undefined;
-  merge?: Merge | undefined;
+  data: MergeAListIntoThisOneData;
+  merge: Merge;
 };
 
 export type MergeAListIntoThisOneResponse = {
@@ -120,18 +336,441 @@ export function mergeAListIntoThisOneRequestToJSON(
 }
 
 /** @internal */
+export const MergeAListIntoThisOneClonedFromUser$inboundSchema: z.ZodMiniType<
+  MergeAListIntoThisOneClonedFromUser,
+  unknown
+> = z.object({
+  id: types.number(),
+  username: types.nullable(types.string()),
+});
+
+export function mergeAListIntoThisOneClonedFromUserFromJSON(
+  jsonString: string,
+): SafeParseResult<MergeAListIntoThisOneClonedFromUser, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      MergeAListIntoThisOneClonedFromUser$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'MergeAListIntoThisOneClonedFromUser' from JSON`,
+  );
+}
+
+/** @internal */
+export const MergeAListIntoThisOneClonedFrom$inboundSchema: z.ZodMiniType<
+  MergeAListIntoThisOneClonedFrom,
+  unknown
+> = z.object({
+  id: types.number(),
+  title: types.nullable(types.string()),
+  slug: types.nullable(types.string()),
+  user: types.nullable(
+    z.lazy(() => MergeAListIntoThisOneClonedFromUser$inboundSchema),
+  ),
+});
+
+export function mergeAListIntoThisOneClonedFromFromJSON(
+  jsonString: string,
+): SafeParseResult<MergeAListIntoThisOneClonedFrom, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => MergeAListIntoThisOneClonedFrom$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'MergeAListIntoThisOneClonedFrom' from JSON`,
+  );
+}
+
+/** @internal */
+export const MergeAListIntoThisOneUser$inboundSchema: z.ZodMiniType<
+  MergeAListIntoThisOneUser,
+  unknown
+> = z.object({
+  id: types.number(),
+  username: types.nullable(types.string()),
+  name: types.nullable(types.string()),
+  avatar: types.nullable(types.string()),
+});
+
+export function mergeAListIntoThisOneUserFromJSON(
+  jsonString: string,
+): SafeParseResult<MergeAListIntoThisOneUser, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => MergeAListIntoThisOneUser$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'MergeAListIntoThisOneUser' from JSON`,
+  );
+}
+
+/** @internal */
+export const MergeAListIntoThisOneVariant$inboundSchema: z.ZodMiniType<
+  MergeAListIntoThisOneVariant,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    ratio: types.nullable(types.string()),
+    cover_image_url: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "cover_image_url": "coverImageUrl",
+    });
+  }),
+);
+
+export function mergeAListIntoThisOneVariantFromJSON(
+  jsonString: string,
+): SafeParseResult<MergeAListIntoThisOneVariant, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => MergeAListIntoThisOneVariant$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'MergeAListIntoThisOneVariant' from JSON`,
+  );
+}
+
+/** @internal */
+export const MergeAListIntoThisOneEntity5$inboundSchema: z.ZodMiniType<
+  MergeAListIntoThisOneEntity5,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "image_url": "imageUrl",
+    });
+  }),
+);
+
+export function mergeAListIntoThisOneEntity5FromJSON(
+  jsonString: string,
+): SafeParseResult<MergeAListIntoThisOneEntity5, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => MergeAListIntoThisOneEntity5$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'MergeAListIntoThisOneEntity5' from JSON`,
+  );
+}
+
+/** @internal */
+export const MergeAListIntoThisOneEntity4$inboundSchema: z.ZodMiniType<
+  MergeAListIntoThisOneEntity4,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    issues_count: types.nullable(types.number()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "image_url": "imageUrl",
+      "issues_count": "issuesCount",
+    });
+  }),
+);
+
+export function mergeAListIntoThisOneEntity4FromJSON(
+  jsonString: string,
+): SafeParseResult<MergeAListIntoThisOneEntity4, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => MergeAListIntoThisOneEntity4$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'MergeAListIntoThisOneEntity4' from JSON`,
+  );
+}
+
+/** @internal */
+export const MergeAListIntoThisOneEntity3$inboundSchema: z.ZodMiniType<
+  MergeAListIntoThisOneEntity3,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    real_name: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "real_name": "realName",
+      "image_url": "imageUrl",
+    });
+  }),
+);
+
+export function mergeAListIntoThisOneEntity3FromJSON(
+  jsonString: string,
+): SafeParseResult<MergeAListIntoThisOneEntity3, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => MergeAListIntoThisOneEntity3$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'MergeAListIntoThisOneEntity3' from JSON`,
+  );
+}
+
+/** @internal */
+export const MergeAListIntoThisOneEntity2$inboundSchema: z.ZodMiniType<
+  MergeAListIntoThisOneEntity2,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    start_year: types.nullable(types.number()),
+    end_year: types.nullable(types.number()),
+    status: types.nullable(types.string()),
+    publication_type: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    is_nsfw: types.nullable(types.boolean()),
+    issues_count: types.nullable(types.number()),
+    publisher: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "start_year": "startYear",
+      "end_year": "endYear",
+      "publication_type": "publicationType",
+      "image_url": "imageUrl",
+      "is_nsfw": "isNsfw",
+      "issues_count": "issuesCount",
+    });
+  }),
+);
+
+export function mergeAListIntoThisOneEntity2FromJSON(
+  jsonString: string,
+): SafeParseResult<MergeAListIntoThisOneEntity2, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => MergeAListIntoThisOneEntity2$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'MergeAListIntoThisOneEntity2' from JSON`,
+  );
+}
+
+/** @internal */
+export const MergeAListIntoThisOneSeries$inboundSchema: z.ZodMiniType<
+  MergeAListIntoThisOneSeries,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    start_year: types.nullable(types.number()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "start_year": "startYear",
+    });
+  }),
+);
+
+export function mergeAListIntoThisOneSeriesFromJSON(
+  jsonString: string,
+): SafeParseResult<MergeAListIntoThisOneSeries, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => MergeAListIntoThisOneSeries$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'MergeAListIntoThisOneSeries' from JSON`,
+  );
+}
+
+/** @internal */
+export const MergeAListIntoThisOneEntity1$inboundSchema: z.ZodMiniType<
+  MergeAListIntoThisOneEntity1,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    issue_number: types.nullable(types.string()),
+    release_date: types.nullable(types.string()),
+    foc_date: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    is_nsfw: types.nullable(types.boolean()),
+    publisher: types.nullable(types.string()),
+    series: types.nullable(
+      z.lazy(() => MergeAListIntoThisOneSeries$inboundSchema),
+    ),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "issue_number": "issueNumber",
+      "release_date": "releaseDate",
+      "foc_date": "focDate",
+      "image_url": "imageUrl",
+      "is_nsfw": "isNsfw",
+    });
+  }),
+);
+
+export function mergeAListIntoThisOneEntity1FromJSON(
+  jsonString: string,
+): SafeParseResult<MergeAListIntoThisOneEntity1, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => MergeAListIntoThisOneEntity1$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'MergeAListIntoThisOneEntity1' from JSON`,
+  );
+}
+
+/** @internal */
+export const MergeAListIntoThisOneEntityUnion$inboundSchema: z.ZodMiniType<
+  MergeAListIntoThisOneEntityUnion,
+  unknown
+> = smartUnion([
+  z.lazy(() => MergeAListIntoThisOneEntity2$inboundSchema),
+  z.lazy(() => MergeAListIntoThisOneEntity1$inboundSchema),
+  z.lazy(() => MergeAListIntoThisOneEntity3$inboundSchema),
+  z.lazy(() => MergeAListIntoThisOneEntity4$inboundSchema),
+  z.lazy(() => MergeAListIntoThisOneEntity5$inboundSchema),
+]);
+
+export function mergeAListIntoThisOneEntityUnionFromJSON(
+  jsonString: string,
+): SafeParseResult<MergeAListIntoThisOneEntityUnion, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => MergeAListIntoThisOneEntityUnion$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'MergeAListIntoThisOneEntityUnion' from JSON`,
+  );
+}
+
+/** @internal */
+export const MergeAListIntoThisOneItem$inboundSchema: z.ZodMiniType<
+  MergeAListIntoThisOneItem,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    position: types.nullable(types.number()),
+    note: types.nullable(types.string()),
+    created_at: types.string(),
+    updated_at: types.string(),
+    variant_id: types.nullable(types.number()),
+    variant: types.optional(
+      z.lazy(() => MergeAListIntoThisOneVariant$inboundSchema),
+    ),
+    entity_type: types.string(),
+    entity: types.optional(smartUnion([
+      z.lazy(() => MergeAListIntoThisOneEntity2$inboundSchema),
+      z.lazy(() => MergeAListIntoThisOneEntity1$inboundSchema),
+      z.lazy(() => MergeAListIntoThisOneEntity3$inboundSchema),
+      z.lazy(() => MergeAListIntoThisOneEntity4$inboundSchema),
+      z.lazy(() => MergeAListIntoThisOneEntity5$inboundSchema),
+    ])),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "created_at": "createdAt",
+      "updated_at": "updatedAt",
+      "variant_id": "variantId",
+      "entity_type": "entityType",
+    });
+  }),
+);
+
+export function mergeAListIntoThisOneItemFromJSON(
+  jsonString: string,
+): SafeParseResult<MergeAListIntoThisOneItem, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => MergeAListIntoThisOneItem$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'MergeAListIntoThisOneItem' from JSON`,
+  );
+}
+
+/** @internal */
+export const MergeAListIntoThisOneReaction$inboundSchema: z.ZodMiniType<
+  MergeAListIntoThisOneReaction,
+  unknown
+> = z.object({
+  reaction: types.string(),
+  emoji: types.string(),
+  label: types.string(),
+  count: types.number(),
+});
+
+export function mergeAListIntoThisOneReactionFromJSON(
+  jsonString: string,
+): SafeParseResult<MergeAListIntoThisOneReaction, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => MergeAListIntoThisOneReaction$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'MergeAListIntoThisOneReaction' from JSON`,
+  );
+}
+
+/** @internal */
 export const MergeAListIntoThisOneData$inboundSchema: z.ZodMiniType<
   MergeAListIntoThisOneData,
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    title: types.optional(types.string()),
-    item_types: types.optional(z.array(types.string())),
+    id: types.number(),
+    title: types.string(),
+    slug: types.string(),
+    description: types.nullable(types.string()),
+    entity_type: types.string(),
+    entity_type_label: types.string(),
+    is_curated: types.boolean(),
+    item_types: z.array(types.string()),
+    is_ranked: types.boolean(),
+    sort_options: z.record(z.string(), types.string()),
+    is_private: types.boolean(),
+    status: types.string(),
+    list_type: types.string(),
+    items_count: types.number(),
+    saves_count: types.number(),
+    likes_count: types.number(),
+    clones_count: types.number(),
+    created_at: types.string(),
+    updated_at: types.string(),
+    is_smart: types.boolean(),
+    is_rule_based: types.boolean(),
+    last_refreshed_at: types.nullable(types.string()),
+    smart_paused: types.boolean(),
+    cloned_from_list_id: types.nullable(types.number()),
+    cloned_from: types.optional(
+      z.lazy(() => MergeAListIntoThisOneClonedFrom$inboundSchema),
+    ),
+    user: types.nullable(z.lazy(() => MergeAListIntoThisOneUser$inboundSchema)),
+    items: z.array(z.lazy(() => MergeAListIntoThisOneItem$inboundSchema)),
+    reactions: z.array(
+      z.lazy(() => MergeAListIntoThisOneReaction$inboundSchema),
+    ),
   }),
   z.transform((v) => {
     return remap$(v, {
+      "entity_type": "entityType",
+      "entity_type_label": "entityTypeLabel",
+      "is_curated": "isCurated",
       "item_types": "itemTypes",
+      "is_ranked": "isRanked",
+      "sort_options": "sortOptions",
+      "is_private": "isPrivate",
+      "list_type": "listType",
+      "items_count": "itemsCount",
+      "saves_count": "savesCount",
+      "likes_count": "likesCount",
+      "clones_count": "clonesCount",
+      "created_at": "createdAt",
+      "updated_at": "updatedAt",
+      "is_smart": "isSmart",
+      "is_rule_based": "isRuleBased",
+      "last_refreshed_at": "lastRefreshedAt",
+      "smart_paused": "smartPaused",
+      "cloned_from_list_id": "clonedFromListId",
+      "cloned_from": "clonedFrom",
     });
   }),
 );
@@ -149,10 +788,10 @@ export function mergeAListIntoThisOneDataFromJSON(
 /** @internal */
 export const Merge$inboundSchema: z.ZodMiniType<Merge, unknown> = z.pipe(
   z.object({
-    moved: types.optional(types.number()),
-    skipped_duplicates: types.optional(types.number()),
-    converted_to_mixed: types.optional(types.boolean()),
-    source_deleted: types.optional(types.boolean()),
+    moved: types.number(),
+    skipped_duplicates: types.number(),
+    converted_to_mixed: types.boolean(),
+    source_deleted: types.boolean(),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -178,8 +817,8 @@ export const MergeAListIntoThisOneResponseBody$inboundSchema: z.ZodMiniType<
   MergeAListIntoThisOneResponseBody,
   unknown
 > = z.object({
-  data: types.optional(z.lazy(() => MergeAListIntoThisOneData$inboundSchema)),
-  merge: types.optional(z.lazy(() => Merge$inboundSchema)),
+  data: z.lazy(() => MergeAListIntoThisOneData$inboundSchema),
+  merge: z.lazy(() => Merge$inboundSchema),
 });
 
 export function mergeAListIntoThisOneResponseBodyFromJSON(

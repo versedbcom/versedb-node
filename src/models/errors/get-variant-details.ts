@@ -10,14 +10,14 @@ import { VerseDbError } from "./verse-db-error.js";
  * Not Found
  */
 export type GetVariantDetailsNotFoundErrorData = {
-  error?: string | undefined;
+  error: string;
 };
 
 /**
  * Not Found
  */
 export class GetVariantDetailsNotFoundError extends VerseDbError {
-  error?: string | undefined;
+  error: string;
 
   /** The original data that was passed to this error instance. */
   data$: GetVariantDetailsNotFoundErrorData;
@@ -31,9 +31,35 @@ export class GetVariantDetailsNotFoundError extends VerseDbError {
       : `API error occurred: ${JSON.stringify(err)}`;
     super(message, httpMeta);
     this.data$ = err;
-    if (err.error != null) this.error = err.error;
+    this.error = err.error;
 
     this.name = "GetVariantDetailsNotFoundError";
+  }
+}
+
+/**
+ * The token lacks the read:public ability.
+ */
+export type GetVariantDetailsForbiddenErrorData = {
+  message: string;
+};
+
+/**
+ * The token lacks the read:public ability.
+ */
+export class GetVariantDetailsForbiddenError extends VerseDbError {
+  /** The original data that was passed to this error instance. */
+  data$: GetVariantDetailsForbiddenErrorData;
+
+  constructor(
+    err: GetVariantDetailsForbiddenErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+
+    this.name = "GetVariantDetailsForbiddenError";
   }
 }
 
@@ -43,13 +69,33 @@ export const GetVariantDetailsNotFoundError$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    error: types.optional(types.string()),
+    error: types.string(),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),
   }),
   z.transform((v) => {
     return new GetVariantDetailsNotFoundError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
+export const GetVariantDetailsForbiddenError$inboundSchema: z.ZodMiniType<
+  GetVariantDetailsForbiddenError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new GetVariantDetailsForbiddenError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

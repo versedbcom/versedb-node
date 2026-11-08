@@ -31,9 +31,7 @@ import { Result } from "../types/fp.js";
  * Like list, or react to it.
  *
  * @remarks
- * With no body this likes the list. Send `reaction` to leave that reaction instead, or to
- * change the one already held; `DELETE` takes it back whichever it is. A member holds one
- * reaction per list and every reaction counts toward `likes_count`. Cannot like your own lists.
+ * With no body this likes the list. Send `reaction` to leave that reaction instead, or to change the one already held; `DELETE` takes it back whichever it is. A member holds one reaction per list and every reaction counts toward `likes_count`. Cannot like your own lists.
  */
 export function listsLikeListOrReactToIt(
   client: VerseDBCore,
@@ -44,6 +42,7 @@ export function listsLikeListOrReactToIt(
     operations.LikeListOrReactToItResponse,
     | errors.UnauthorizedErrorError
     | errors.LikeListOrReactToItForbiddenError
+    | errors.LikeListOrReactToItNotFoundError
     | errors.LikeListOrReactToItUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
@@ -73,6 +72,7 @@ async function $do(
       operations.LikeListOrReactToItResponse,
       | errors.UnauthorizedErrorError
       | errors.LikeListOrReactToItForbiddenError
+      | errors.LikeListOrReactToItNotFoundError
       | errors.LikeListOrReactToItUnprocessableEntityError
       | errors.TooManyRequestsError
       | VerseDbError
@@ -166,6 +166,7 @@ async function $do(
     operations.LikeListOrReactToItResponse,
     | errors.UnauthorizedErrorError
     | errors.LikeListOrReactToItForbiddenError
+    | errors.LikeListOrReactToItNotFoundError
     | errors.LikeListOrReactToItUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
@@ -187,9 +188,11 @@ async function $do(
     }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
     M.jsonErr(403, errors.LikeListOrReactToItForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.LikeListOrReactToItNotFoundError$inboundSchema),
     M.jsonErr(
       422,
       errors.LikeListOrReactToItUnprocessableEntityError$inboundSchema,
+      { hdrs: true },
     ),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),

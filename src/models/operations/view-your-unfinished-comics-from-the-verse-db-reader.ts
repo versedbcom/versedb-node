@@ -11,28 +11,49 @@ import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type ViewYourUnfinishedComicsFromTheVerseDBReaderRequest = {
   /**
-   * Results per page (1-50).
+   * Results per page (1-50); defaults to 12.
    */
   limit?: number | undefined;
   /**
-   * Page number.
+   * Page number, starting at 1.
    */
   page?: number | undefined;
 };
 
+export type ViewYourUnfinishedComicsFromTheVerseDBReaderSeries = {
+  name: string | null;
+  publisherName: string | null;
+};
+
+export type ViewYourUnfinishedComicsFromTheVerseDBReaderIssue = {
+  id: number;
+  name: string | null;
+  slug: string;
+  issueNumber: string | null;
+  coverUrl: string | null;
+  isNsfw: boolean;
+  releaseDate: string | null;
+  series: ViewYourUnfinishedComicsFromTheVerseDBReaderSeries;
+};
+
+export type ViewYourUnfinishedComicsFromTheVerseDBReaderData = {
+  issue: ViewYourUnfinishedComicsFromTheVerseDBReaderIssue;
+  percent: number;
+};
+
 export type ViewYourUnfinishedComicsFromTheVerseDBReaderMeta = {
-  currentPage?: number | undefined;
-  lastPage?: number | undefined;
-  perPage?: number | undefined;
-  total?: number | undefined;
+  currentPage: number;
+  lastPage: number;
+  perPage: number;
+  total: number;
 };
 
 /**
- * Success.
+ * Success
  */
 export type ViewYourUnfinishedComicsFromTheVerseDBReaderResponseBody = {
-  data?: Array<any> | undefined;
-  meta?: ViewYourUnfinishedComicsFromTheVerseDBReaderMeta | undefined;
+  data: Array<ViewYourUnfinishedComicsFromTheVerseDBReaderData>;
+  meta: ViewYourUnfinishedComicsFromTheVerseDBReaderMeta;
 };
 
 export type ViewYourUnfinishedComicsFromTheVerseDBReaderResponse = {
@@ -68,14 +89,113 @@ export function viewYourUnfinishedComicsFromTheVerseDBReaderRequestToJSON(
 }
 
 /** @internal */
+export const ViewYourUnfinishedComicsFromTheVerseDBReaderSeries$inboundSchema:
+  z.ZodMiniType<ViewYourUnfinishedComicsFromTheVerseDBReaderSeries, unknown> = z
+    .pipe(
+      z.object({
+        name: types.nullable(types.string()),
+        publisher_name: types.nullable(types.string()),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "publisher_name": "publisherName",
+        });
+      }),
+    );
+
+export function viewYourUnfinishedComicsFromTheVerseDBReaderSeriesFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  ViewYourUnfinishedComicsFromTheVerseDBReaderSeries,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ViewYourUnfinishedComicsFromTheVerseDBReaderSeries$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'ViewYourUnfinishedComicsFromTheVerseDBReaderSeries' from JSON`,
+  );
+}
+
+/** @internal */
+export const ViewYourUnfinishedComicsFromTheVerseDBReaderIssue$inboundSchema:
+  z.ZodMiniType<ViewYourUnfinishedComicsFromTheVerseDBReaderIssue, unknown> = z
+    .pipe(
+      z.object({
+        id: types.number(),
+        name: types.nullable(types.string()),
+        slug: types.string(),
+        issue_number: types.nullable(types.string()),
+        cover_url: types.nullable(types.string()),
+        is_nsfw: types.boolean(),
+        release_date: types.nullable(types.string()),
+        series: z.lazy(() =>
+          ViewYourUnfinishedComicsFromTheVerseDBReaderSeries$inboundSchema
+        ),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "issue_number": "issueNumber",
+          "cover_url": "coverUrl",
+          "is_nsfw": "isNsfw",
+          "release_date": "releaseDate",
+        });
+      }),
+    );
+
+export function viewYourUnfinishedComicsFromTheVerseDBReaderIssueFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  ViewYourUnfinishedComicsFromTheVerseDBReaderIssue,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ViewYourUnfinishedComicsFromTheVerseDBReaderIssue$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'ViewYourUnfinishedComicsFromTheVerseDBReaderIssue' from JSON`,
+  );
+}
+
+/** @internal */
+export const ViewYourUnfinishedComicsFromTheVerseDBReaderData$inboundSchema:
+  z.ZodMiniType<ViewYourUnfinishedComicsFromTheVerseDBReaderData, unknown> = z
+    .object({
+      issue: z.lazy(() =>
+        ViewYourUnfinishedComicsFromTheVerseDBReaderIssue$inboundSchema
+      ),
+      percent: types.number(),
+    });
+
+export function viewYourUnfinishedComicsFromTheVerseDBReaderDataFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  ViewYourUnfinishedComicsFromTheVerseDBReaderData,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ViewYourUnfinishedComicsFromTheVerseDBReaderData$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'ViewYourUnfinishedComicsFromTheVerseDBReaderData' from JSON`,
+  );
+}
+
+/** @internal */
 export const ViewYourUnfinishedComicsFromTheVerseDBReaderMeta$inboundSchema:
   z.ZodMiniType<ViewYourUnfinishedComicsFromTheVerseDBReaderMeta, unknown> = z
     .pipe(
       z.object({
-        current_page: types.optional(types.number()),
-        last_page: types.optional(types.number()),
-        per_page: types.optional(types.number()),
-        total: types.optional(types.number()),
+        current_page: types.number(),
+        last_page: types.number(),
+        per_page: types.number(),
+        total: types.number(),
       }),
       z.transform((v) => {
         return remap$(v, {
@@ -108,11 +228,13 @@ export const ViewYourUnfinishedComicsFromTheVerseDBReaderResponseBody$inboundSch
     ViewYourUnfinishedComicsFromTheVerseDBReaderResponseBody,
     unknown
   > = z.object({
-    data: types.optional(z.array(z.any())),
-    meta: types.optional(
+    data: z.array(
       z.lazy(() =>
-        ViewYourUnfinishedComicsFromTheVerseDBReaderMeta$inboundSchema
+        ViewYourUnfinishedComicsFromTheVerseDBReaderData$inboundSchema
       ),
+    ),
+    meta: z.lazy(() =>
+      ViewYourUnfinishedComicsFromTheVerseDBReaderMeta$inboundSchema
     ),
   });
 

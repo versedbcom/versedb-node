@@ -42,7 +42,8 @@ export function listsDeleteList(
   Result<
     operations.DeleteListResponse | undefined,
     | errors.UnauthorizedErrorError
-    | errors.Forbidden
+    | errors.DeleteListForbiddenError
+    | errors.DeleteListNotFoundError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -70,7 +71,8 @@ async function $do(
     Result<
       operations.DeleteListResponse | undefined,
       | errors.UnauthorizedErrorError
-      | errors.Forbidden
+      | errors.DeleteListForbiddenError
+      | errors.DeleteListNotFoundError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -160,7 +162,8 @@ async function $do(
   const [result] = await M.match<
     operations.DeleteListResponse | undefined,
     | errors.UnauthorizedErrorError
-    | errors.Forbidden
+    | errors.DeleteListForbiddenError
+    | errors.DeleteListNotFoundError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -175,7 +178,8 @@ async function $do(
       hdrs: true,
     }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
-    M.jsonErr(403, errors.Forbidden$inboundSchema),
+    M.jsonErr(403, errors.DeleteListForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.DeleteListNotFoundError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

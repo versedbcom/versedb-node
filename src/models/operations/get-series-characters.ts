@@ -7,6 +7,7 @@ import { remap as remap$ } from "../../lib/primitives.js";
 import { safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
+import { smartUnion } from "../../types/smart-union.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type GetSeriesCharactersRequest = {
@@ -15,41 +16,140 @@ export type GetSeriesCharactersRequest = {
    */
   id: number;
   /**
-   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.
+   * Page number; meta.last_page says where the list ends.
+   */
+  page?: number | undefined;
+  /**
+   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes.
    */
   languages?: string | undefined;
 };
 
-export type GetSeriesCharactersNameI18n = {};
+/**
+ * Other identities, as stored: a list of strings in production.
+ */
+export type GetSeriesCharactersAlterEgo =
+  | string
+  | number
+  | boolean
+  | Array<any>
+  | { [k: string]: any };
 
-export type GetSeriesCharactersRealNameI18n = {};
-
-export type GetSeriesCharactersAliasesI18n = {};
-
-export type GetSeriesCharactersData = {
-  id?: number | undefined;
-  name?: string | undefined;
-  nameI18n?: GetSeriesCharactersNameI18n | undefined;
-  realNameI18n?: GetSeriesCharactersRealNameI18n | undefined;
-  aliasesI18n?: GetSeriesCharactersAliasesI18n | undefined;
-  originalLocale?: string | undefined;
-  alias?: string | undefined;
-  imageUrl?: string | undefined;
+export type GetSeriesCharactersNameI18n = {
+  value: string;
+  source: string;
+  reading?: string | undefined;
+  sort?: string | undefined;
 };
 
-export type GetSeriesCharactersMeta = {
-  currentPage?: number | undefined;
-  lastPage?: number | undefined;
-  perPage?: number | undefined;
-  total?: number | undefined;
+export type GetSeriesCharactersRealNameI18n = {
+  value: string;
+  source: string;
+  reading?: string | undefined;
+  sort?: string | undefined;
+};
+
+export type GetSeriesCharactersTagPivot = {
+  taggableType: string;
+  taggableId: number;
+  tagId: number;
+};
+
+export type GetSeriesCharactersTag = {
+  id: number;
+  name: { [k: string]: string };
+  slug: { [k: string]: string };
+  type: string | null;
+  orderColumn: number | null;
+  createdAt: string | null;
+  updatedAt: string | null;
+  pivot: GetSeriesCharactersTagPivot;
+};
+
+export type GetSeriesCharactersPivot = {
+  seriesId: number;
+  characterId: number;
+  createdAt: string | null;
+  updatedAt: string | null;
+};
+
+export type GetSeriesCharactersData = {
+  id: number;
+  name: string;
+  slug: string;
+  realName: string | null;
+  description: string | null;
+  /**
+   * Other identities, as stored: a list of strings in production.
+   */
+  alterEgo:
+    | string
+    | number
+    | boolean
+    | Array<any>
+    | { [k: string]: any }
+    | null;
+  birthday: string | null;
+  birthPlace: string | null;
+  occupation: string | null;
+  height: string | null;
+  weight: string | null;
+  citizenship: string | null;
+  education: string | null;
+  aliases: Array<string> | null;
+  profilePhotoPath: string | null;
+  gender: string | null;
+  createdAt: string | null;
+  updatedAt: string | null;
+  deletedAt: string | null;
+  lastEditedBy: number | null;
+  lastEditedAt: string | null;
+  publicListsCount: number;
+  debutDate: string | null;
+  debutIssueId: number | null;
+  debutEditorial: boolean;
+  originalLocale: string | null;
+  /**
+   * One name per language, keyed by BCP 47 tag.
+   */
+  nameI18n: { [k: string]: GetSeriesCharactersNameI18n };
+  /**
+   * Alternative names per language.
+   */
+  aliasesI18n: { [k: string]: Array<string> };
+  /**
+   * One name per language, keyed by BCP 47 tag.
+   */
+  realNameI18n: { [k: string]: GetSeriesCharactersRealNameI18n };
+  race: string | null;
+  tags: Array<GetSeriesCharactersTag>;
+  pivot: GetSeriesCharactersPivot;
+};
+
+export type GetSeriesCharactersLink = {
+  url: string | null;
+  label: string;
+  page?: number | null | undefined;
+  active: boolean;
 };
 
 /**
  * Success
  */
 export type GetSeriesCharactersResponseBody = {
-  data?: Array<GetSeriesCharactersData> | undefined;
-  meta?: GetSeriesCharactersMeta | undefined;
+  currentPage: number;
+  data: Array<GetSeriesCharactersData>;
+  firstPageUrl: string;
+  from: number | null;
+  lastPage: number;
+  lastPageUrl: string;
+  links: Array<GetSeriesCharactersLink>;
+  nextPageUrl: string | null;
+  path: string;
+  perPage: number;
+  prevPageUrl: string | null;
+  to: number | null;
+  total: number;
 };
 
 export type GetSeriesCharactersResponse = {
@@ -60,6 +160,7 @@ export type GetSeriesCharactersResponse = {
 /** @internal */
 export type GetSeriesCharactersRequest$Outbound = {
   id: number;
+  page?: number | undefined;
   languages?: string | undefined;
 };
 
@@ -69,6 +170,7 @@ export const GetSeriesCharactersRequest$outboundSchema: z.ZodMiniType<
   GetSeriesCharactersRequest
 > = z.object({
   id: z.int(),
+  page: z.optional(z.int()),
   languages: z.optional(z.string()),
 });
 
@@ -81,10 +183,37 @@ export function getSeriesCharactersRequestToJSON(
 }
 
 /** @internal */
+export const GetSeriesCharactersAlterEgo$inboundSchema: z.ZodMiniType<
+  GetSeriesCharactersAlterEgo,
+  unknown
+> = smartUnion([
+  types.string(),
+  types.number(),
+  types.boolean(),
+  z.array(z.any()),
+  z.record(z.string(), z.any()),
+]);
+
+export function getSeriesCharactersAlterEgoFromJSON(
+  jsonString: string,
+): SafeParseResult<GetSeriesCharactersAlterEgo, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetSeriesCharactersAlterEgo$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetSeriesCharactersAlterEgo' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetSeriesCharactersNameI18n$inboundSchema: z.ZodMiniType<
   GetSeriesCharactersNameI18n,
   unknown
-> = z.object({});
+> = z.object({
+  value: types.string(),
+  source: types.string(),
+  reading: types.optional(types.string()),
+  sort: types.optional(types.string()),
+});
 
 export function getSeriesCharactersNameI18nFromJSON(
   jsonString: string,
@@ -100,7 +229,12 @@ export function getSeriesCharactersNameI18nFromJSON(
 export const GetSeriesCharactersRealNameI18n$inboundSchema: z.ZodMiniType<
   GetSeriesCharactersRealNameI18n,
   unknown
-> = z.object({});
+> = z.object({
+  value: types.string(),
+  source: types.string(),
+  reading: types.optional(types.string()),
+  sort: types.optional(types.string()),
+});
 
 export function getSeriesCharactersRealNameI18nFromJSON(
   jsonString: string,
@@ -113,18 +247,96 @@ export function getSeriesCharactersRealNameI18nFromJSON(
 }
 
 /** @internal */
-export const GetSeriesCharactersAliasesI18n$inboundSchema: z.ZodMiniType<
-  GetSeriesCharactersAliasesI18n,
+export const GetSeriesCharactersTagPivot$inboundSchema: z.ZodMiniType<
+  GetSeriesCharactersTagPivot,
   unknown
-> = z.object({});
+> = z.pipe(
+  z.object({
+    taggable_type: types.string(),
+    taggable_id: types.number(),
+    tag_id: types.number(),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "taggable_type": "taggableType",
+      "taggable_id": "taggableId",
+      "tag_id": "tagId",
+    });
+  }),
+);
 
-export function getSeriesCharactersAliasesI18nFromJSON(
+export function getSeriesCharactersTagPivotFromJSON(
   jsonString: string,
-): SafeParseResult<GetSeriesCharactersAliasesI18n, SDKValidationError> {
+): SafeParseResult<GetSeriesCharactersTagPivot, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => GetSeriesCharactersAliasesI18n$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'GetSeriesCharactersAliasesI18n' from JSON`,
+    (x) => GetSeriesCharactersTagPivot$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetSeriesCharactersTagPivot' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetSeriesCharactersTag$inboundSchema: z.ZodMiniType<
+  GetSeriesCharactersTag,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    name: z.record(z.string(), types.string()),
+    slug: z.record(z.string(), types.string()),
+    type: types.nullable(types.string()),
+    order_column: types.nullable(types.number()),
+    created_at: types.nullable(types.string()),
+    updated_at: types.nullable(types.string()),
+    pivot: z.lazy(() => GetSeriesCharactersTagPivot$inboundSchema),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "order_column": "orderColumn",
+      "created_at": "createdAt",
+      "updated_at": "updatedAt",
+    });
+  }),
+);
+
+export function getSeriesCharactersTagFromJSON(
+  jsonString: string,
+): SafeParseResult<GetSeriesCharactersTag, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetSeriesCharactersTag$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetSeriesCharactersTag' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetSeriesCharactersPivot$inboundSchema: z.ZodMiniType<
+  GetSeriesCharactersPivot,
+  unknown
+> = z.pipe(
+  z.object({
+    series_id: types.number(),
+    character_id: types.number(),
+    created_at: types.nullable(types.string()),
+    updated_at: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "series_id": "seriesId",
+      "character_id": "characterId",
+      "created_at": "createdAt",
+      "updated_at": "updatedAt",
+    });
+  }),
+);
+
+export function getSeriesCharactersPivotFromJSON(
+  jsonString: string,
+): SafeParseResult<GetSeriesCharactersPivot, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetSeriesCharactersPivot$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetSeriesCharactersPivot' from JSON`,
   );
 }
 
@@ -134,28 +346,72 @@ export const GetSeriesCharactersData$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    name: types.optional(types.string()),
-    name_i18n: types.optional(
+    id: types.number(),
+    name: types.string(),
+    slug: types.string(),
+    real_name: types.nullable(types.string()),
+    description: types.nullable(types.string()),
+    alter_ego: types.nullable(
+      smartUnion([
+        types.string(),
+        types.number(),
+        types.boolean(),
+        z.array(z.any()),
+        z.record(z.string(), z.any()),
+      ]),
+    ),
+    birthday: types.nullable(types.string()),
+    birth_place: types.nullable(types.string()),
+    occupation: types.nullable(types.string()),
+    height: types.nullable(types.string()),
+    weight: types.nullable(types.string()),
+    citizenship: types.nullable(types.string()),
+    education: types.nullable(types.string()),
+    aliases: types.nullable(z.array(types.string())),
+    profile_photo_path: types.nullable(types.string()),
+    gender: types.nullable(types.string()),
+    created_at: types.nullable(types.string()),
+    updated_at: types.nullable(types.string()),
+    deleted_at: types.nullable(types.string()),
+    last_edited_by: types.nullable(types.number()),
+    last_edited_at: types.nullable(types.string()),
+    public_lists_count: types.number(),
+    debut_date: types.nullable(types.string()),
+    debut_issue_id: types.nullable(types.number()),
+    debut_editorial: types.boolean(),
+    original_locale: types.nullable(types.string()),
+    name_i18n: z.record(
+      z.string(),
       z.lazy(() => GetSeriesCharactersNameI18n$inboundSchema),
     ),
-    real_name_i18n: types.optional(
+    aliases_i18n: z.record(z.string(), z.array(types.string())),
+    real_name_i18n: z.record(
+      z.string(),
       z.lazy(() => GetSeriesCharactersRealNameI18n$inboundSchema),
     ),
-    aliases_i18n: types.optional(
-      z.lazy(() => GetSeriesCharactersAliasesI18n$inboundSchema),
-    ),
-    original_locale: types.optional(types.string()),
-    alias: types.optional(types.string()),
-    image_url: types.optional(types.string()),
+    race: types.nullable(types.string()),
+    tags: z.array(z.lazy(() => GetSeriesCharactersTag$inboundSchema)),
+    pivot: z.lazy(() => GetSeriesCharactersPivot$inboundSchema),
   }),
   z.transform((v) => {
     return remap$(v, {
-      "name_i18n": "nameI18n",
-      "real_name_i18n": "realNameI18n",
-      "aliases_i18n": "aliasesI18n",
+      "real_name": "realName",
+      "alter_ego": "alterEgo",
+      "birth_place": "birthPlace",
+      "profile_photo_path": "profilePhotoPath",
+      "created_at": "createdAt",
+      "updated_at": "updatedAt",
+      "deleted_at": "deletedAt",
+      "last_edited_by": "lastEditedBy",
+      "last_edited_at": "lastEditedAt",
+      "public_lists_count": "publicListsCount",
+      "debut_date": "debutDate",
+      "debut_issue_id": "debutIssueId",
+      "debut_editorial": "debutEditorial",
       "original_locale": "originalLocale",
-      "image_url": "imageUrl",
+      "name_i18n": "nameI18n",
+      "aliases_i18n": "aliasesI18n",
+      "real_name_i18n": "realNameI18n",
     });
   }),
 );
@@ -171,32 +427,23 @@ export function getSeriesCharactersDataFromJSON(
 }
 
 /** @internal */
-export const GetSeriesCharactersMeta$inboundSchema: z.ZodMiniType<
-  GetSeriesCharactersMeta,
+export const GetSeriesCharactersLink$inboundSchema: z.ZodMiniType<
+  GetSeriesCharactersLink,
   unknown
-> = z.pipe(
-  z.object({
-    current_page: types.optional(types.number()),
-    last_page: types.optional(types.number()),
-    per_page: types.optional(types.number()),
-    total: types.optional(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "current_page": "currentPage",
-      "last_page": "lastPage",
-      "per_page": "perPage",
-    });
-  }),
-);
+> = z.object({
+  url: types.nullable(types.string()),
+  label: types.string(),
+  page: z.optional(z.nullable(types.number())),
+  active: types.boolean(),
+});
 
-export function getSeriesCharactersMetaFromJSON(
+export function getSeriesCharactersLinkFromJSON(
   jsonString: string,
-): SafeParseResult<GetSeriesCharactersMeta, SDKValidationError> {
+): SafeParseResult<GetSeriesCharactersLink, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => GetSeriesCharactersMeta$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'GetSeriesCharactersMeta' from JSON`,
+    (x) => GetSeriesCharactersLink$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetSeriesCharactersLink' from JSON`,
   );
 }
 
@@ -204,12 +451,34 @@ export function getSeriesCharactersMetaFromJSON(
 export const GetSeriesCharactersResponseBody$inboundSchema: z.ZodMiniType<
   GetSeriesCharactersResponseBody,
   unknown
-> = z.object({
-  data: types.optional(
-    z.array(z.lazy(() => GetSeriesCharactersData$inboundSchema)),
-  ),
-  meta: types.optional(z.lazy(() => GetSeriesCharactersMeta$inboundSchema)),
-});
+> = z.pipe(
+  z.object({
+    current_page: types.number(),
+    data: z.array(z.lazy(() => GetSeriesCharactersData$inboundSchema)),
+    first_page_url: types.string(),
+    from: types.nullable(types.number()),
+    last_page: types.number(),
+    last_page_url: types.string(),
+    links: z.array(z.lazy(() => GetSeriesCharactersLink$inboundSchema)),
+    next_page_url: types.nullable(types.string()),
+    path: types.string(),
+    per_page: types.number(),
+    prev_page_url: types.nullable(types.string()),
+    to: types.nullable(types.number()),
+    total: types.number(),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "current_page": "currentPage",
+      "first_page_url": "firstPageUrl",
+      "last_page": "lastPage",
+      "last_page_url": "lastPageUrl",
+      "next_page_url": "nextPageUrl",
+      "per_page": "perPage",
+      "prev_page_url": "prevPageUrl",
+    });
+  }),
+);
 
 export function getSeriesCharactersResponseBodyFromJSON(
   jsonString: string,

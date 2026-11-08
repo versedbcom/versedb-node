@@ -26,35 +26,101 @@ export type GetUsersListsRequest = {
    * Items per page (max 100).
    */
   limit?: number | undefined;
+  /**
+   * Page number; meta.last_page says where the list ends.
+   */
+  page?: number | undefined;
 };
 
+/**
+ * The owner; null once the account is gone.
+ */
 export type GetUsersListsUser = {
-  id?: number | undefined;
-  username?: string | undefined;
+  id: number;
+  username: string | null;
+  avatar: string | null;
+};
+
+export type GetUsersListsPreviewItem = {
+  id: number;
+  imageUrl: string | null;
+  isNsfw: boolean;
 };
 
 export type GetUsersListsData = {
-  id?: number | undefined;
-  title?: string | undefined;
-  entityType?: string | undefined;
-  itemsCount?: number | undefined;
-  isPrivate?: boolean | undefined;
-  user?: GetUsersListsUser | undefined;
+  id: number;
+  title: string;
+  slug: string;
+  /**
+   * The first 150 characters; left out when the list has none.
+   */
+  description?: string | undefined;
+  /**
+   * issues, series, characters, creators, story_arcs, teams, or mixed for a list of any type.
+   */
+  entityType: string;
+  /**
+   * custom, wishlist or reading_guide.
+   */
+  listType: string;
+  entityTypeLabel: string;
+  /**
+   * The list is VerseDB's own.
+   */
+  isCurated: boolean;
+  /**
+   * A rule keeps the list up to date.
+   */
+  isSmart: boolean;
+  isRanked: boolean;
+  isPrivate: boolean;
+  itemsCount: number;
+  savesCount: number;
+  likesCount: number;
+  createdAt: string;
+  updatedAt: string;
+  /**
+   * The owner; null once the account is gone.
+   */
+  user: GetUsersListsUser | null;
+  /**
+   * The list's first four items in its own order; left out when it holds none.
+   */
+  previewItems?: Array<GetUsersListsPreviewItem> | undefined;
+};
+
+export type GetUsersListsLinks = {
+  first: string;
+  last: string;
+  prev: string | null;
+  next: string | null;
+};
+
+export type GetUsersListsLink = {
+  url: string | null;
+  label: string;
+  page?: number | null | undefined;
+  active: boolean;
 };
 
 export type GetUsersListsMeta = {
-  currentPage?: number | undefined;
-  lastPage?: number | undefined;
-  perPage?: number | undefined;
-  total?: number | undefined;
+  currentPage: number;
+  from: number | null;
+  lastPage: number;
+  links: Array<GetUsersListsLink>;
+  path: string;
+  perPage: number;
+  to: number | null;
+  total: number;
 };
 
 /**
  * Success
  */
 export type GetUsersListsResponseBody = {
-  data?: Array<GetUsersListsData> | undefined;
-  meta?: GetUsersListsMeta | undefined;
+  data: Array<GetUsersListsData>;
+  links: GetUsersListsLinks;
+  meta: GetUsersListsMeta;
 };
 
 export type GetUsersListsResponse = {
@@ -68,6 +134,7 @@ export type GetUsersListsRequest$Outbound = {
   entity_type?: string | undefined;
   sort?: string | undefined;
   limit?: number | undefined;
+  page?: number | undefined;
 };
 
 /** @internal */
@@ -80,6 +147,7 @@ export const GetUsersListsRequest$outboundSchema: z.ZodMiniType<
     entityType: z.optional(z.string()),
     sort: z.optional(z.string()),
     limit: z.optional(z.int()),
+    page: z.optional(z.int()),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -102,8 +170,9 @@ export const GetUsersListsUser$inboundSchema: z.ZodMiniType<
   GetUsersListsUser,
   unknown
 > = z.object({
-  id: types.optional(types.number()),
-  username: types.optional(types.string()),
+  id: types.number(),
+  username: types.nullable(types.string()),
+  avatar: types.nullable(types.string()),
 });
 
 export function getUsersListsUserFromJSON(
@@ -117,23 +186,75 @@ export function getUsersListsUserFromJSON(
 }
 
 /** @internal */
+export const GetUsersListsPreviewItem$inboundSchema: z.ZodMiniType<
+  GetUsersListsPreviewItem,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    image_url: types.nullable(types.string()),
+    is_nsfw: types.boolean(),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "image_url": "imageUrl",
+      "is_nsfw": "isNsfw",
+    });
+  }),
+);
+
+export function getUsersListsPreviewItemFromJSON(
+  jsonString: string,
+): SafeParseResult<GetUsersListsPreviewItem, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetUsersListsPreviewItem$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetUsersListsPreviewItem' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetUsersListsData$inboundSchema: z.ZodMiniType<
   GetUsersListsData,
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    title: types.optional(types.string()),
-    entity_type: types.optional(types.string()),
-    items_count: types.optional(types.number()),
-    is_private: types.optional(types.boolean()),
-    user: types.optional(z.lazy(() => GetUsersListsUser$inboundSchema)),
+    id: types.number(),
+    title: types.string(),
+    slug: types.string(),
+    description: types.optional(types.string()),
+    entity_type: types.string(),
+    list_type: types.string(),
+    entity_type_label: types.string(),
+    is_curated: types.boolean(),
+    is_smart: types.boolean(),
+    is_ranked: types.boolean(),
+    is_private: types.boolean(),
+    items_count: types.number(),
+    saves_count: types.number(),
+    likes_count: types.number(),
+    created_at: types.string(),
+    updated_at: types.string(),
+    user: types.nullable(z.lazy(() => GetUsersListsUser$inboundSchema)),
+    preview_items: types.optional(
+      z.array(z.lazy(() => GetUsersListsPreviewItem$inboundSchema)),
+    ),
   }),
   z.transform((v) => {
     return remap$(v, {
       "entity_type": "entityType",
-      "items_count": "itemsCount",
+      "list_type": "listType",
+      "entity_type_label": "entityTypeLabel",
+      "is_curated": "isCurated",
+      "is_smart": "isSmart",
+      "is_ranked": "isRanked",
       "is_private": "isPrivate",
+      "items_count": "itemsCount",
+      "saves_count": "savesCount",
+      "likes_count": "likesCount",
+      "created_at": "createdAt",
+      "updated_at": "updatedAt",
+      "preview_items": "previewItems",
     });
   }),
 );
@@ -149,15 +270,61 @@ export function getUsersListsDataFromJSON(
 }
 
 /** @internal */
+export const GetUsersListsLinks$inboundSchema: z.ZodMiniType<
+  GetUsersListsLinks,
+  unknown
+> = z.object({
+  first: types.string(),
+  last: types.string(),
+  prev: types.nullable(types.string()),
+  next: types.nullable(types.string()),
+});
+
+export function getUsersListsLinksFromJSON(
+  jsonString: string,
+): SafeParseResult<GetUsersListsLinks, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetUsersListsLinks$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetUsersListsLinks' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetUsersListsLink$inboundSchema: z.ZodMiniType<
+  GetUsersListsLink,
+  unknown
+> = z.object({
+  url: types.nullable(types.string()),
+  label: types.string(),
+  page: z.optional(z.nullable(types.number())),
+  active: types.boolean(),
+});
+
+export function getUsersListsLinkFromJSON(
+  jsonString: string,
+): SafeParseResult<GetUsersListsLink, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetUsersListsLink$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetUsersListsLink' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetUsersListsMeta$inboundSchema: z.ZodMiniType<
   GetUsersListsMeta,
   unknown
 > = z.pipe(
   z.object({
-    current_page: types.optional(types.number()),
-    last_page: types.optional(types.number()),
-    per_page: types.optional(types.number()),
-    total: types.optional(types.number()),
+    current_page: types.number(),
+    from: types.nullable(types.number()),
+    last_page: types.number(),
+    links: z.array(z.lazy(() => GetUsersListsLink$inboundSchema)),
+    path: types.string(),
+    per_page: types.number(),
+    to: types.nullable(types.number()),
+    total: types.number(),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -183,8 +350,9 @@ export const GetUsersListsResponseBody$inboundSchema: z.ZodMiniType<
   GetUsersListsResponseBody,
   unknown
 > = z.object({
-  data: types.optional(z.array(z.lazy(() => GetUsersListsData$inboundSchema))),
-  meta: types.optional(z.lazy(() => GetUsersListsMeta$inboundSchema)),
+  data: z.array(z.lazy(() => GetUsersListsData$inboundSchema)),
+  links: z.lazy(() => GetUsersListsLinks$inboundSchema),
+  meta: z.lazy(() => GetUsersListsMeta$inboundSchema),
 });
 
 export function getUsersListsResponseBodyFromJSON(

@@ -1,6 +1,6 @@
 # LikeListOrReactToItForbiddenError
 
-Own List
+The token holds neither write:list nor write:lists, or the list is your own or private.
 
 ## Example Usage
 
@@ -12,6 +12,6 @@ import { LikeListOrReactToItForbiddenError } from "@versedbcom/sdk/models/errors
 
 ## Fields
 
-| Field                          | Type                           | Required                       | Description                    | Example                        |
-| ------------------------------ | ------------------------------ | ------------------------------ | ------------------------------ | ------------------------------ |
-| `message`                      | *string*                       | :heavy_minus_sign:             | N/A                            | You cannot like your own list. |
+| Field                     | Type                      | Required                  | Description               | Example                   |
+| ------------------------- | ------------------------- | ------------------------- | ------------------------- | ------------------------- |
+| `message`                 | *string*                  | :heavy_check_mark:        | N/A                       | Insufficient token scope. |

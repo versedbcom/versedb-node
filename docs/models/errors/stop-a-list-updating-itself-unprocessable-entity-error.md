@@ -1,6 +1,6 @@
 # StopAListUpdatingItselfUnprocessableEntityError
 
-Not rule-built
+Not rule-built.
 
 ## Example Usage
 
@@ -14,4 +14,4 @@ import { StopAListUpdatingItselfUnprocessableEntityError } from "@versedbcom/sdk
 
 | Field                               | Type                                | Required                            | Description                         | Example                             |
 | ----------------------------------- | ----------------------------------- | ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| `message`                           | *string*                            | :heavy_minus_sign:                  | N/A                                 | This list is not built from a rule. |
+| `message`                           | *string*                            | :heavy_check_mark:                  | N/A                                 | This list is not built from a rule. |

@@ -7,11 +7,12 @@ import { remap as remap$ } from "../../lib/primitives.js";
 import { safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
+import { smartUnion } from "../../types/smart-union.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type AddItemToListRequestBody = {
   /**
-   * The entity ID to add.
+   * The ID of the entity to add. Must match the list's entity type (e.g., an issue ID for an issues list), or the type given in entity_type when the list holds any type.
    */
   entityId: number;
   /**
@@ -19,15 +20,15 @@ export type AddItemToListRequestBody = {
    */
   entityType?: string | null | undefined;
   /**
-   * Optional cover variant of the issue (issue items only, must belong to entity_id). Omit for "any cover".
+   * Optional cover variant of the issue being added (issue items only). Must belong to entity_id. Omit for "any cover". The same issue can appear once per distinct variant.
    */
   variantId?: number | null | undefined;
   /**
-   * Position in list (auto-assigned if omitted).
+   * Optional position in the list (1-based). Items are appended to the end if omitted.
    */
   position?: number | null | undefined;
   /**
-   * Personal note for this item (max 500 chars).
+   * An optional note for this list item (up to 500 characters).
    */
   note?: string | null | undefined;
 };
@@ -40,85 +41,255 @@ export type AddItemToListRequest = {
   body: AddItemToListRequestBody;
 };
 
-export type AddItemToListItemVariant = {
-  id?: number | undefined;
-  name?: string | undefined;
-  coverImageUrl?: string | undefined;
-};
-
-export type ConflictSeries = {
-  id?: number | undefined;
-  name?: string | undefined;
-  slug?: string | undefined;
-  startYear?: number | undefined;
-};
-
-export type ConflictEntity = {
-  id?: number | undefined;
-  slug?: string | undefined;
-  name?: string | undefined;
-  issueNumber?: string | undefined;
-  releaseDate?: string | undefined;
-  imageUrl?: string | undefined;
-  isNsfw?: boolean | undefined;
-  publisher?: string | undefined;
-  series?: ConflictSeries | undefined;
-};
-
-export type AddItemToListItem = {
-  id?: number | undefined;
-  position?: number | undefined;
-  note?: string | undefined;
-  createdAt?: string | undefined;
-  updatedAt?: string | undefined;
-  variantId?: number | undefined;
-  variant?: AddItemToListItemVariant | undefined;
-  entityType?: string | undefined;
-  entity?: ConflictEntity | undefined;
-};
-
-export type AddItemToListDataVariant = {
-  id?: number | undefined;
-  name?: string | undefined;
-  coverImageUrl?: string | undefined;
-};
-
-export type AddItemToListDataSeries = {
-  id?: number | undefined;
-  name?: string | undefined;
-  slug?: string | undefined;
-  startYear?: number | undefined;
-};
-
-export type AddItemToListDataEntity = {
-  id?: number | undefined;
-  slug?: string | undefined;
-  name?: string | undefined;
-  issueNumber?: string | undefined;
-  releaseDate?: string | undefined;
-  imageUrl?: string | undefined;
-  isNsfw?: boolean | undefined;
-  publisher?: string | undefined;
-  series?: AddItemToListDataSeries | undefined;
-};
-
-export type AddItemToListData = {
-  id?: number | undefined;
-  position?: number | undefined;
-  note?: string | undefined;
-  createdAt?: string | undefined;
-  updatedAt?: string | undefined;
-  variantId?: number | undefined;
-  variant?: AddItemToListDataVariant | undefined;
-  entityType?: string | undefined;
-  entity?: AddItemToListDataEntity | undefined;
+/**
+ * The pinned cover, while it exists.
+ */
+export type AddItemToListConflictVariant = {
+  id: number;
+  name: string | null;
+  ratio: string | null;
+  coverImageUrl: string | null;
 };
 
 /**
- * Added
+ * A creator (`image_url` its profile photo) or a team (its logo).
+ */
+export type EntityConflict5 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  imageUrl: string | null;
+};
+
+/**
+ * A story arc.
+ */
+export type EntityConflict4 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  imageUrl: string | null;
+  issuesCount: number | null;
+};
+
+/**
+ * A character.
+ */
+export type EntityConflict3 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  realName: string | null;
+  imageUrl: string | null;
+};
+
+/**
+ * A series.
+ */
+export type EntityConflict2 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  startYear: number | null;
+  endYear: number | null;
+  status: string | null;
+  publicationType: string | null;
+  imageUrl: string | null;
+  isNsfw: boolean | null;
+  issuesCount: number | null;
+  publisher: string | null;
+};
+
+export type ConflictSeries = {
+  id: number;
+  name: string | null;
+  slug: string | null;
+  startYear: number | null;
+};
+
+/**
+ * An issue.
+ */
+export type EntityConflict1 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  issueNumber: string | null;
+  releaseDate: string | null;
+  focDate: string | null;
+  imageUrl: string | null;
+  isNsfw: boolean | null;
+  publisher: string | null;
+  series: ConflictSeries | null;
+};
+
+/**
+ * Left out once the entity is gone.
+ */
+export type ConflictEntityUnion =
+  | EntityConflict2
+  | EntityConflict1
+  | EntityConflict3
+  | EntityConflict4
+  | EntityConflict5;
+
+export type AddItemToListItem = {
+  id: number;
+  /**
+   * Its place on a ranked or rule-built list.
+   */
+  position: number | null;
+  note: string | null;
+  createdAt: string;
+  updatedAt: string;
+  variantId: number | null;
+  /**
+   * The pinned cover, while it exists.
+   */
+  variant?: AddItemToListConflictVariant | undefined;
+  /**
+   * issues, series, characters, creators, story_arcs or teams.
+   */
+  entityType: string;
+  /**
+   * Left out once the entity is gone.
+   */
+  entity?:
+    | EntityConflict2
+    | EntityConflict1
+    | EntityConflict3
+    | EntityConflict4
+    | EntityConflict5
+    | undefined;
+};
+
+/**
+ * The pinned cover, while it exists.
+ */
+export type AddItemToListDataVariant = {
+  id: number;
+  name: string | null;
+  ratio: string | null;
+  coverImageUrl: string | null;
+};
+
+/**
+ * A creator (`image_url` its profile photo) or a team (its logo).
+ */
+export type AddItemToListEntityData5 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  imageUrl: string | null;
+};
+
+/**
+ * A story arc.
+ */
+export type AddItemToListEntityData4 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  imageUrl: string | null;
+  issuesCount: number | null;
+};
+
+/**
+ * A character.
+ */
+export type AddItemToListEntityData3 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  realName: string | null;
+  imageUrl: string | null;
+};
+
+/**
+ * A series.
+ */
+export type AddItemToListEntityData2 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  startYear: number | null;
+  endYear: number | null;
+  status: string | null;
+  publicationType: string | null;
+  imageUrl: string | null;
+  isNsfw: boolean | null;
+  issuesCount: number | null;
+  publisher: string | null;
+};
+
+export type AddItemToListDataSeries = {
+  id: number;
+  name: string | null;
+  slug: string | null;
+  startYear: number | null;
+};
+
+/**
+ * An issue.
+ */
+export type AddItemToListEntityData1 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  issueNumber: string | null;
+  releaseDate: string | null;
+  focDate: string | null;
+  imageUrl: string | null;
+  isNsfw: boolean | null;
+  publisher: string | null;
+  series: AddItemToListDataSeries | null;
+};
+
+/**
+ * Left out once the entity is gone.
+ */
+export type AddItemToListDataEntityUnion =
+  | AddItemToListEntityData2
+  | AddItemToListEntityData1
+  | AddItemToListEntityData3
+  | AddItemToListEntityData4
+  | AddItemToListEntityData5;
+
+export type AddItemToListData = {
+  id: number;
+  /**
+   * Its place on a ranked or rule-built list.
+   */
+  position: number | null;
+  note: string | null;
+  createdAt: string;
+  updatedAt: string;
+  variantId: number | null;
+  /**
+   * The pinned cover, while it exists.
+   */
+  variant?: AddItemToListDataVariant | undefined;
+  /**
+   * issues, series, characters, creators, story_arcs or teams.
+   */
+  entityType: string;
+  /**
+   * Left out once the entity is gone.
+   */
+  entity?:
+    | AddItemToListEntityData2
+    | AddItemToListEntityData1
+    | AddItemToListEntityData3
+    | AddItemToListEntityData4
+    | AddItemToListEntityData5
+    | undefined;
+};
+
+/**
+ * Added.
  */
 export type AddItemToListResponseBody = {
-  data?: AddItemToListData | undefined;
+  data: AddItemToListData;
 };
 
 export type AddItemToListResponse = {
@@ -195,14 +366,15 @@ export function addItemToListRequestToJSON(
 }
 
 /** @internal */
-export const AddItemToListItemVariant$inboundSchema: z.ZodMiniType<
-  AddItemToListItemVariant,
+export const AddItemToListConflictVariant$inboundSchema: z.ZodMiniType<
+  AddItemToListConflictVariant,
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    name: types.optional(types.string()),
-    cover_image_url: types.optional(types.string()),
+    id: types.number(),
+    name: types.nullable(types.string()),
+    ratio: types.nullable(types.string()),
+    cover_image_url: types.nullable(types.string()),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -211,13 +383,141 @@ export const AddItemToListItemVariant$inboundSchema: z.ZodMiniType<
   }),
 );
 
-export function addItemToListItemVariantFromJSON(
+export function addItemToListConflictVariantFromJSON(
   jsonString: string,
-): SafeParseResult<AddItemToListItemVariant, SDKValidationError> {
+): SafeParseResult<AddItemToListConflictVariant, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => AddItemToListItemVariant$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'AddItemToListItemVariant' from JSON`,
+    (x) => AddItemToListConflictVariant$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'AddItemToListConflictVariant' from JSON`,
+  );
+}
+
+/** @internal */
+export const EntityConflict5$inboundSchema: z.ZodMiniType<
+  EntityConflict5,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "image_url": "imageUrl",
+    });
+  }),
+);
+
+export function entityConflict5FromJSON(
+  jsonString: string,
+): SafeParseResult<EntityConflict5, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => EntityConflict5$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'EntityConflict5' from JSON`,
+  );
+}
+
+/** @internal */
+export const EntityConflict4$inboundSchema: z.ZodMiniType<
+  EntityConflict4,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    issues_count: types.nullable(types.number()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "image_url": "imageUrl",
+      "issues_count": "issuesCount",
+    });
+  }),
+);
+
+export function entityConflict4FromJSON(
+  jsonString: string,
+): SafeParseResult<EntityConflict4, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => EntityConflict4$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'EntityConflict4' from JSON`,
+  );
+}
+
+/** @internal */
+export const EntityConflict3$inboundSchema: z.ZodMiniType<
+  EntityConflict3,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    real_name: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "real_name": "realName",
+      "image_url": "imageUrl",
+    });
+  }),
+);
+
+export function entityConflict3FromJSON(
+  jsonString: string,
+): SafeParseResult<EntityConflict3, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => EntityConflict3$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'EntityConflict3' from JSON`,
+  );
+}
+
+/** @internal */
+export const EntityConflict2$inboundSchema: z.ZodMiniType<
+  EntityConflict2,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    start_year: types.nullable(types.number()),
+    end_year: types.nullable(types.number()),
+    status: types.nullable(types.string()),
+    publication_type: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    is_nsfw: types.nullable(types.boolean()),
+    issues_count: types.nullable(types.number()),
+    publisher: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "start_year": "startYear",
+      "end_year": "endYear",
+      "publication_type": "publicationType",
+      "image_url": "imageUrl",
+      "is_nsfw": "isNsfw",
+      "issues_count": "issuesCount",
+    });
+  }),
+);
+
+export function entityConflict2FromJSON(
+  jsonString: string,
+): SafeParseResult<EntityConflict2, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => EntityConflict2$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'EntityConflict2' from JSON`,
   );
 }
 
@@ -227,10 +527,10 @@ export const ConflictSeries$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    name: types.optional(types.string()),
-    slug: types.optional(types.string()),
-    start_year: types.optional(types.number()),
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    start_year: types.nullable(types.number()),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -250,38 +550,62 @@ export function conflictSeriesFromJSON(
 }
 
 /** @internal */
-export const ConflictEntity$inboundSchema: z.ZodMiniType<
-  ConflictEntity,
+export const EntityConflict1$inboundSchema: z.ZodMiniType<
+  EntityConflict1,
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    slug: types.optional(types.string()),
-    name: types.optional(types.string()),
-    issue_number: types.optional(types.string()),
-    release_date: types.optional(types.string()),
-    image_url: types.optional(types.string()),
-    is_nsfw: types.optional(types.boolean()),
-    publisher: types.optional(types.string()),
-    series: types.optional(z.lazy(() => ConflictSeries$inboundSchema)),
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    issue_number: types.nullable(types.string()),
+    release_date: types.nullable(types.string()),
+    foc_date: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    is_nsfw: types.nullable(types.boolean()),
+    publisher: types.nullable(types.string()),
+    series: types.nullable(z.lazy(() => ConflictSeries$inboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {
       "issue_number": "issueNumber",
       "release_date": "releaseDate",
+      "foc_date": "focDate",
       "image_url": "imageUrl",
       "is_nsfw": "isNsfw",
     });
   }),
 );
 
-export function conflictEntityFromJSON(
+export function entityConflict1FromJSON(
   jsonString: string,
-): SafeParseResult<ConflictEntity, SDKValidationError> {
+): SafeParseResult<EntityConflict1, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => ConflictEntity$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ConflictEntity' from JSON`,
+    (x) => EntityConflict1$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'EntityConflict1' from JSON`,
+  );
+}
+
+/** @internal */
+export const ConflictEntityUnion$inboundSchema: z.ZodMiniType<
+  ConflictEntityUnion,
+  unknown
+> = smartUnion([
+  z.lazy(() => EntityConflict2$inboundSchema),
+  z.lazy(() => EntityConflict1$inboundSchema),
+  z.lazy(() => EntityConflict3$inboundSchema),
+  z.lazy(() => EntityConflict4$inboundSchema),
+  z.lazy(() => EntityConflict5$inboundSchema),
+]);
+
+export function conflictEntityUnionFromJSON(
+  jsonString: string,
+): SafeParseResult<ConflictEntityUnion, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ConflictEntityUnion$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ConflictEntityUnion' from JSON`,
   );
 }
 
@@ -291,17 +615,23 @@ export const AddItemToListItem$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    position: types.optional(types.number()),
-    note: types.optional(types.string()),
-    created_at: types.optional(types.string()),
-    updated_at: types.optional(types.string()),
-    variant_id: types.optional(types.number()),
+    id: types.number(),
+    position: types.nullable(types.number()),
+    note: types.nullable(types.string()),
+    created_at: types.string(),
+    updated_at: types.string(),
+    variant_id: types.nullable(types.number()),
     variant: types.optional(
-      z.lazy(() => AddItemToListItemVariant$inboundSchema),
+      z.lazy(() => AddItemToListConflictVariant$inboundSchema),
     ),
-    entity_type: types.optional(types.string()),
-    entity: types.optional(z.lazy(() => ConflictEntity$inboundSchema)),
+    entity_type: types.string(),
+    entity: types.optional(smartUnion([
+      z.lazy(() => EntityConflict2$inboundSchema),
+      z.lazy(() => EntityConflict1$inboundSchema),
+      z.lazy(() => EntityConflict3$inboundSchema),
+      z.lazy(() => EntityConflict4$inboundSchema),
+      z.lazy(() => EntityConflict5$inboundSchema),
+    ])),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -329,9 +659,10 @@ export const AddItemToListDataVariant$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    name: types.optional(types.string()),
-    cover_image_url: types.optional(types.string()),
+    id: types.number(),
+    name: types.nullable(types.string()),
+    ratio: types.nullable(types.string()),
+    cover_image_url: types.nullable(types.string()),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -351,15 +682,143 @@ export function addItemToListDataVariantFromJSON(
 }
 
 /** @internal */
+export const AddItemToListEntityData5$inboundSchema: z.ZodMiniType<
+  AddItemToListEntityData5,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "image_url": "imageUrl",
+    });
+  }),
+);
+
+export function addItemToListEntityData5FromJSON(
+  jsonString: string,
+): SafeParseResult<AddItemToListEntityData5, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => AddItemToListEntityData5$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'AddItemToListEntityData5' from JSON`,
+  );
+}
+
+/** @internal */
+export const AddItemToListEntityData4$inboundSchema: z.ZodMiniType<
+  AddItemToListEntityData4,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    issues_count: types.nullable(types.number()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "image_url": "imageUrl",
+      "issues_count": "issuesCount",
+    });
+  }),
+);
+
+export function addItemToListEntityData4FromJSON(
+  jsonString: string,
+): SafeParseResult<AddItemToListEntityData4, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => AddItemToListEntityData4$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'AddItemToListEntityData4' from JSON`,
+  );
+}
+
+/** @internal */
+export const AddItemToListEntityData3$inboundSchema: z.ZodMiniType<
+  AddItemToListEntityData3,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    real_name: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "real_name": "realName",
+      "image_url": "imageUrl",
+    });
+  }),
+);
+
+export function addItemToListEntityData3FromJSON(
+  jsonString: string,
+): SafeParseResult<AddItemToListEntityData3, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => AddItemToListEntityData3$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'AddItemToListEntityData3' from JSON`,
+  );
+}
+
+/** @internal */
+export const AddItemToListEntityData2$inboundSchema: z.ZodMiniType<
+  AddItemToListEntityData2,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    start_year: types.nullable(types.number()),
+    end_year: types.nullable(types.number()),
+    status: types.nullable(types.string()),
+    publication_type: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    is_nsfw: types.nullable(types.boolean()),
+    issues_count: types.nullable(types.number()),
+    publisher: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "start_year": "startYear",
+      "end_year": "endYear",
+      "publication_type": "publicationType",
+      "image_url": "imageUrl",
+      "is_nsfw": "isNsfw",
+      "issues_count": "issuesCount",
+    });
+  }),
+);
+
+export function addItemToListEntityData2FromJSON(
+  jsonString: string,
+): SafeParseResult<AddItemToListEntityData2, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => AddItemToListEntityData2$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'AddItemToListEntityData2' from JSON`,
+  );
+}
+
+/** @internal */
 export const AddItemToListDataSeries$inboundSchema: z.ZodMiniType<
   AddItemToListDataSeries,
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    name: types.optional(types.string()),
-    slug: types.optional(types.string()),
-    start_year: types.optional(types.number()),
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    start_year: types.nullable(types.number()),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -379,38 +838,62 @@ export function addItemToListDataSeriesFromJSON(
 }
 
 /** @internal */
-export const AddItemToListDataEntity$inboundSchema: z.ZodMiniType<
-  AddItemToListDataEntity,
+export const AddItemToListEntityData1$inboundSchema: z.ZodMiniType<
+  AddItemToListEntityData1,
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    slug: types.optional(types.string()),
-    name: types.optional(types.string()),
-    issue_number: types.optional(types.string()),
-    release_date: types.optional(types.string()),
-    image_url: types.optional(types.string()),
-    is_nsfw: types.optional(types.boolean()),
-    publisher: types.optional(types.string()),
-    series: types.optional(z.lazy(() => AddItemToListDataSeries$inboundSchema)),
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    issue_number: types.nullable(types.string()),
+    release_date: types.nullable(types.string()),
+    foc_date: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    is_nsfw: types.nullable(types.boolean()),
+    publisher: types.nullable(types.string()),
+    series: types.nullable(z.lazy(() => AddItemToListDataSeries$inboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {
       "issue_number": "issueNumber",
       "release_date": "releaseDate",
+      "foc_date": "focDate",
       "image_url": "imageUrl",
       "is_nsfw": "isNsfw",
     });
   }),
 );
 
-export function addItemToListDataEntityFromJSON(
+export function addItemToListEntityData1FromJSON(
   jsonString: string,
-): SafeParseResult<AddItemToListDataEntity, SDKValidationError> {
+): SafeParseResult<AddItemToListEntityData1, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => AddItemToListDataEntity$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'AddItemToListDataEntity' from JSON`,
+    (x) => AddItemToListEntityData1$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'AddItemToListEntityData1' from JSON`,
+  );
+}
+
+/** @internal */
+export const AddItemToListDataEntityUnion$inboundSchema: z.ZodMiniType<
+  AddItemToListDataEntityUnion,
+  unknown
+> = smartUnion([
+  z.lazy(() => AddItemToListEntityData2$inboundSchema),
+  z.lazy(() => AddItemToListEntityData1$inboundSchema),
+  z.lazy(() => AddItemToListEntityData3$inboundSchema),
+  z.lazy(() => AddItemToListEntityData4$inboundSchema),
+  z.lazy(() => AddItemToListEntityData5$inboundSchema),
+]);
+
+export function addItemToListDataEntityUnionFromJSON(
+  jsonString: string,
+): SafeParseResult<AddItemToListDataEntityUnion, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => AddItemToListDataEntityUnion$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'AddItemToListDataEntityUnion' from JSON`,
   );
 }
 
@@ -420,17 +903,25 @@ export const AddItemToListData$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    position: types.optional(types.number()),
-    note: types.optional(types.string()),
-    created_at: types.optional(types.string()),
-    updated_at: types.optional(types.string()),
-    variant_id: types.optional(types.number()),
+    id: types.number(),
+    position: types.nullable(types.number()),
+    note: types.nullable(types.string()),
+    created_at: types.string(),
+    updated_at: types.string(),
+    variant_id: types.nullable(types.number()),
     variant: types.optional(
       z.lazy(() => AddItemToListDataVariant$inboundSchema),
     ),
-    entity_type: types.optional(types.string()),
-    entity: types.optional(z.lazy(() => AddItemToListDataEntity$inboundSchema)),
+    entity_type: types.string(),
+    entity: types.optional(
+      smartUnion([
+        z.lazy(() => AddItemToListEntityData2$inboundSchema),
+        z.lazy(() => AddItemToListEntityData1$inboundSchema),
+        z.lazy(() => AddItemToListEntityData3$inboundSchema),
+        z.lazy(() => AddItemToListEntityData4$inboundSchema),
+        z.lazy(() => AddItemToListEntityData5$inboundSchema),
+      ]),
+    ),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -457,7 +948,7 @@ export const AddItemToListResponseBody$inboundSchema: z.ZodMiniType<
   AddItemToListResponseBody,
   unknown
 > = z.object({
-  data: types.optional(z.lazy(() => AddItemToListData$inboundSchema)),
+  data: z.lazy(() => AddItemToListData$inboundSchema),
 });
 
 export function addItemToListResponseBodyFromJSON(

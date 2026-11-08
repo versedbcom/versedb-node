@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * Add to pull list.
  *
  * @remarks
- * Adds a series to the user's pull list to track new releases.
+ * Adds a series to the user's pull list to track new releases. Adding a series already on it changes nothing.
  */
 export function userAddToPullList(
   client: VerseDBCore,
@@ -41,6 +41,8 @@ export function userAddToPullList(
   Result<
     operations.AddToPullListResponse,
     | errors.UnauthorizedErrorError
+    | errors.AddToPullListForbiddenError
+    | errors.AddToPullListNotFoundError
     | errors.AddToPullListUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
@@ -69,6 +71,8 @@ async function $do(
     Result<
       operations.AddToPullListResponse,
       | errors.UnauthorizedErrorError
+      | errors.AddToPullListForbiddenError
+      | errors.AddToPullListNotFoundError
       | errors.AddToPullListUnprocessableEntityError
       | errors.TooManyRequestsError
       | VerseDbError
@@ -154,6 +158,8 @@ async function $do(
   const [result] = await M.match<
     operations.AddToPullListResponse,
     | errors.UnauthorizedErrorError
+    | errors.AddToPullListForbiddenError
+    | errors.AddToPullListNotFoundError
     | errors.AddToPullListUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
@@ -170,7 +176,11 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
-    M.jsonErr(422, errors.AddToPullListUnprocessableEntityError$inboundSchema),
+    M.jsonErr(403, errors.AddToPullListForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.AddToPullListNotFoundError$inboundSchema),
+    M.jsonErr(422, errors.AddToPullListUnprocessableEntityError$inboundSchema, {
+      hdrs: true,
+    }),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

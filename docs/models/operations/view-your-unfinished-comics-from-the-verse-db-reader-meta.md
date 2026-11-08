@@ -17,7 +17,7 @@ let value: ViewYourUnfinishedComicsFromTheVerseDBReaderMeta = {
 
 | Field              | Type               | Required           | Description        | Example            |
 | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
-| `currentPage`      | *number*           | :heavy_minus_sign: | N/A                | 1                  |
-| `lastPage`         | *number*           | :heavy_minus_sign: | N/A                | 1                  |
-| `perPage`          | *number*           | :heavy_minus_sign: | N/A                | 12                 |
-| `total`            | *number*           | :heavy_minus_sign: | N/A                | 0                  |
+| `currentPage`      | *number*           | :heavy_check_mark: | N/A                | 1                  |
+| `lastPage`         | *number*           | :heavy_check_mark: | N/A                | 1                  |
+| `perPage`          | *number*           | :heavy_check_mark: | N/A                | 12                 |
+| `total`            | *number*           | :heavy_check_mark: | N/A                | 0                  |

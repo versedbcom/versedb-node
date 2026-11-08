@@ -31,9 +31,10 @@ import { Result } from "../types/fp.js";
  * View your unfinished comics from the VerseDB reader.
  *
  * @remarks
- * Available with read:user or read:showcase. Returns display fields only;
- * page URLs, resume positions and private account data are excluded.
- * Finished and unavailable books are omitted, with content preferences applied.
+ * Returns display fields only; page URLs, resume positions and private account data are excluded.
+ * Finished and unavailable books are omitted, with content preferences applied. Newest first.
+ *
+ * Needs `read:user` or `read:showcase`; both get the same response.
  */
 export function readingViewYourUnfinishedComicsFromTheVerseDBReader(
   client: VerseDBCore,
@@ -45,6 +46,7 @@ export function readingViewYourUnfinishedComicsFromTheVerseDBReader(
   Result<
     operations.ViewYourUnfinishedComicsFromTheVerseDBReaderResponse,
     | errors.UnauthorizedErrorError
+    | errors.ViewYourUnfinishedComicsFromTheVerseDBReaderForbiddenError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -74,6 +76,7 @@ async function $do(
     Result<
       operations.ViewYourUnfinishedComicsFromTheVerseDBReaderResponse,
       | errors.UnauthorizedErrorError
+      | errors.ViewYourUnfinishedComicsFromTheVerseDBReaderForbiddenError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -170,6 +173,7 @@ async function $do(
   const [result] = await M.match<
     operations.ViewYourUnfinishedComicsFromTheVerseDBReaderResponse,
     | errors.UnauthorizedErrorError
+    | errors.ViewYourUnfinishedComicsFromTheVerseDBReaderForbiddenError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -187,6 +191,11 @@ async function $do(
       { hdrs: true, key: "Result" },
     ),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
+    M.jsonErr(
+      403,
+      errors
+        .ViewYourUnfinishedComicsFromTheVerseDBReaderForbiddenError$inboundSchema,
+    ),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

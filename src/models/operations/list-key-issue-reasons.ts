@@ -25,17 +25,20 @@ export type ListKeyIssueReasonsRequest = {
 };
 
 export type ListKeyIssueReasonsData = {
-  id?: number | undefined;
-  name?: string | undefined;
-  category?: string | undefined;
-  description?: string | undefined;
+  id: number;
+  name: string | null;
+  /**
+   * appearance, story, creator, market or media.
+   */
+  category: string | null;
+  description: string | null;
 };
 
 /**
  * Success
  */
 export type ListKeyIssueReasonsResponseBody = {
-  data?: Array<ListKeyIssueReasonsData> | undefined;
+  data: Array<ListKeyIssueReasonsData>;
 };
 
 export type ListKeyIssueReasonsResponse = {
@@ -73,10 +76,10 @@ export const ListKeyIssueReasonsData$inboundSchema: z.ZodMiniType<
   ListKeyIssueReasonsData,
   unknown
 > = z.object({
-  id: types.optional(types.number()),
-  name: types.optional(types.string()),
-  category: types.optional(types.string()),
-  description: types.optional(types.string()),
+  id: types.number(),
+  name: types.nullable(types.string()),
+  category: types.nullable(types.string()),
+  description: types.nullable(types.string()),
 });
 
 export function listKeyIssueReasonsDataFromJSON(
@@ -94,9 +97,7 @@ export const ListKeyIssueReasonsResponseBody$inboundSchema: z.ZodMiniType<
   ListKeyIssueReasonsResponseBody,
   unknown
 > = z.object({
-  data: types.optional(
-    z.array(z.lazy(() => ListKeyIssueReasonsData$inboundSchema)),
-  ),
+  data: z.array(z.lazy(() => ListKeyIssueReasonsData$inboundSchema)),
 });
 
 export function listKeyIssueReasonsResponseBodyFromJSON(

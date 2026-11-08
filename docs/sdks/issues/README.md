@@ -9,21 +9,21 @@ An issue is a single publication in a series (e.g., "Amazing Spider-Man #1").
 
 ### Available Operations
 
-* [listIssues](#listissues) - List issues.
-* [getIssueDetails](#getissuedetails) - Get issue details.
 * [getIssueVariants](#getissuevariants) - Get issue variants.
+* [getIssueDetails](#getissuedetails) - Get issue details.
+* [listIssues](#listissues) - List issues.
 * [getVariantDetails](#getvariantdetails) - Get variant details.
+* [getKeyIssueReasons](#getkeyissuereasons) - Get key issue reasons.
 * [getIssueCreators](#getissuecreators) - Get issue creators.
 * [getIssueCharacters](#getissuecharacters) - Get issue characters.
-* [getKeyIssueReasons](#getkeyissuereasons) - Get key issue reasons.
 
-## listIssues
+## getIssueVariants
 
-Returns paginated issues with optional search, filtering, and sorting.
+Returns all variant covers for a specific issue.
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="listIssues" method="get" path="/api/v1/issues" -->
+<!-- UsageSnippet language="typescript" operationID="getIssueVariants" method="get" path="/api/v1/issues/{issue_id}/variants" -->
 ```typescript
 import { VerseDB } from "@versedbcom/sdk";
 
@@ -32,28 +32,9 @@ const verseDB = new VerseDB({
 });
 
 async function run() {
-  const result = await verseDB.issues.listIssues({
-    q: "origin",
-    seriesId: 123,
-    publisherId: 1,
-    releaseDateFrom: "2024-01-01",
-    releaseDateTo: "2024-12-31",
-    publisherIds: "1,2",
-    seriesIds: "123,456",
-    titleIds: "10",
-    characterIds: "1,2",
-    creatorIds: "789",
-    creatorRoleIds: "1",
-    teamIds: "12",
-    genreIds: "3",
-    languages: "en,ja",
-    medium: "comic",
-    keyIssuesOnly: false,
-    hideUnreleased: false,
-    include: "series",
-    sort: "release_date",
-    direction: "desc",
-    limit: 20,
+  const result = await verseDB.issues.getIssueVariants({
+    issueId: 5432,
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -68,7 +49,7 @@ The standalone function version of this method:
 
 ```typescript
 import { VerseDBCore } from "@versedbcom/sdk/core.js";
-import { issuesListIssues } from "@versedbcom/sdk/funcs/issues-list-issues.js";
+import { issuesGetIssueVariants } from "@versedbcom/sdk/funcs/issues-get-issue-variants.js";
 
 // Use `VerseDBCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -77,34 +58,15 @@ const verseDB = new VerseDBCore({
 });
 
 async function run() {
-  const res = await issuesListIssues(verseDB, {
-    q: "origin",
-    seriesId: 123,
-    publisherId: 1,
-    releaseDateFrom: "2024-01-01",
-    releaseDateTo: "2024-12-31",
-    publisherIds: "1,2",
-    seriesIds: "123,456",
-    titleIds: "10",
-    characterIds: "1,2",
-    creatorIds: "789",
-    creatorRoleIds: "1",
-    teamIds: "12",
-    genreIds: "3",
-    languages: "en,ja",
-    medium: "comic",
-    keyIssuesOnly: false,
-    hideUnreleased: false,
-    include: "series",
-    sort: "release_date",
-    direction: "desc",
-    limit: 20,
+  const res = await issuesGetIssueVariants(verseDB, {
+    issueId: 5432,
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("issuesListIssues failed:", res.error);
+    console.log("issuesGetIssueVariants failed:", res.error);
   }
 }
 
@@ -115,22 +77,23 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.ListIssuesRequest](../../models/operations/list-issues-request.md)                                                                                                 | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.GetIssueVariantsRequest](../../models/operations/get-issue-variants-request.md)                                                                                    | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.ListIssuesResponse](../../models/operations/list-issues-response.md)\>**
+**Promise\<[operations.GetIssueVariantsResponse](../../models/operations/get-issue-variants-response.md)\>**
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| errors.UnauthorizedErrorError | 401                           | application/json              |
-| errors.TooManyRequestsError   | 429                           | application/json              |
-| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
+| Error Type                            | Status Code                           | Content Type                          |
+| ------------------------------------- | ------------------------------------- | ------------------------------------- |
+| errors.UnauthorizedErrorError         | 401                                   | application/json                      |
+| errors.GetIssueVariantsForbiddenError | 403                                   | application/json                      |
+| errors.TooManyRequestsError           | 429                                   | application/json                      |
+| errors.VerseDbDefaultError            | 4XX, 5XX                              | \*/\*                                 |
 
 ## getIssueDetails
 
@@ -204,20 +167,21 @@ run();
 
 ### Errors
 
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.UnauthorizedErrorError       | 401                                 | application/json                    |
-| errors.GetIssueDetailsNotFoundError | 404                                 | application/json                    |
-| errors.TooManyRequestsError         | 429                                 | application/json                    |
-| errors.VerseDbDefaultError          | 4XX, 5XX                            | \*/\*                               |
+| Error Type                           | Status Code                          | Content Type                         |
+| ------------------------------------ | ------------------------------------ | ------------------------------------ |
+| errors.UnauthorizedErrorError        | 401                                  | application/json                     |
+| errors.GetIssueDetailsForbiddenError | 403                                  | application/json                     |
+| errors.GetIssueDetailsNotFoundError  | 404                                  | application/json                     |
+| errors.TooManyRequestsError          | 429                                  | application/json                     |
+| errors.VerseDbDefaultError           | 4XX, 5XX                             | \*/\*                                |
 
-## getIssueVariants
+## listIssues
 
-Returns all variant covers for a specific issue.
+Returns paginated issues with optional search, filtering, and sorting.
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="getIssueVariants" method="get" path="/api/v1/issues/{issue_id}/variants" -->
+<!-- UsageSnippet language="typescript" operationID="listIssues" method="get" path="/api/v1/issues" -->
 ```typescript
 import { VerseDB } from "@versedbcom/sdk";
 
@@ -226,9 +190,29 @@ const verseDB = new VerseDB({
 });
 
 async function run() {
-  const result = await verseDB.issues.getIssueVariants({
-    issueId: 5432,
-    languages: "ja,ko",
+  const result = await verseDB.issues.listIssues({
+    q: "origin",
+    seriesId: 123,
+    publisherId: 1,
+    releaseDateFrom: "2024-01-01",
+    releaseDateTo: "2024-12-31",
+    publisherIds: "1,2",
+    seriesIds: "123,456",
+    titleIds: "10",
+    characterIds: "1,2",
+    creatorIds: "789",
+    creatorRoleIds: "1",
+    teamIds: "12",
+    genreIds: "3",
+    languages: "en,ja",
+    medium: "comic",
+    keyIssuesOnly: false,
+    hideUnreleased: false,
+    include: "series",
+    sort: "release_date",
+    direction: "desc",
+    limit: 20,
+    page: 1,
   });
 
   console.log(result);
@@ -243,7 +227,7 @@ The standalone function version of this method:
 
 ```typescript
 import { VerseDBCore } from "@versedbcom/sdk/core.js";
-import { issuesGetIssueVariants } from "@versedbcom/sdk/funcs/issues-get-issue-variants.js";
+import { issuesListIssues } from "@versedbcom/sdk/funcs/issues-list-issues.js";
 
 // Use `VerseDBCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -252,15 +236,35 @@ const verseDB = new VerseDBCore({
 });
 
 async function run() {
-  const res = await issuesGetIssueVariants(verseDB, {
-    issueId: 5432,
-    languages: "ja,ko",
+  const res = await issuesListIssues(verseDB, {
+    q: "origin",
+    seriesId: 123,
+    publisherId: 1,
+    releaseDateFrom: "2024-01-01",
+    releaseDateTo: "2024-12-31",
+    publisherIds: "1,2",
+    seriesIds: "123,456",
+    titleIds: "10",
+    characterIds: "1,2",
+    creatorIds: "789",
+    creatorRoleIds: "1",
+    teamIds: "12",
+    genreIds: "3",
+    languages: "en,ja",
+    medium: "comic",
+    keyIssuesOnly: false,
+    hideUnreleased: false,
+    include: "series",
+    sort: "release_date",
+    direction: "desc",
+    limit: 20,
+    page: 1,
   });
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("issuesGetIssueVariants failed:", res.error);
+    console.log("issuesListIssues failed:", res.error);
   }
 }
 
@@ -271,22 +275,23 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.GetIssueVariantsRequest](../../models/operations/get-issue-variants-request.md)                                                                                    | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.ListIssuesRequest](../../models/operations/list-issues-request.md)                                                                                                 | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.GetIssueVariantsResponse](../../models/operations/get-issue-variants-response.md)\>**
+**Promise\<[operations.ListIssuesResponse](../../models/operations/list-issues-response.md)\>**
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| errors.UnauthorizedErrorError | 401                           | application/json              |
-| errors.TooManyRequestsError   | 429                           | application/json              |
-| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.UnauthorizedErrorError   | 401                             | application/json                |
+| errors.ListIssuesForbiddenError | 403                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.VerseDbDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## getVariantDetails
 
@@ -361,166 +366,13 @@ run();
 
 ### Errors
 
-| Error Type                            | Status Code                           | Content Type                          |
-| ------------------------------------- | ------------------------------------- | ------------------------------------- |
-| errors.UnauthorizedErrorError         | 401                                   | application/json                      |
-| errors.GetVariantDetailsNotFoundError | 404                                   | application/json                      |
-| errors.TooManyRequestsError           | 429                                   | application/json                      |
-| errors.VerseDbDefaultError            | 4XX, 5XX                              | \*/\*                                 |
-
-## getIssueCreators
-
-Returns paginated creators for a specific issue with their roles.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="getIssueCreators" method="get" path="/api/v1/issues/{id}/creators" -->
-```typescript
-import { VerseDB } from "@versedbcom/sdk";
-
-const verseDB = new VerseDB({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const result = await verseDB.issues.getIssueCreators({
-    id: 5432,
-    languages: "ja,ko",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { VerseDBCore } from "@versedbcom/sdk/core.js";
-import { issuesGetIssueCreators } from "@versedbcom/sdk/funcs/issues-get-issue-creators.js";
-
-// Use `VerseDBCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const verseDB = new VerseDBCore({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const res = await issuesGetIssueCreators(verseDB, {
-    id: 5432,
-    languages: "ja,ko",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("issuesGetIssueCreators failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.GetIssueCreatorsRequest](../../models/operations/get-issue-creators-request.md)                                                                                    | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[operations.GetIssueCreatorsResponse](../../models/operations/get-issue-creators-response.md)\>**
-
-### Errors
-
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| errors.UnauthorizedErrorError | 401                           | application/json              |
-| errors.TooManyRequestsError   | 429                           | application/json              |
-| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
-
-## getIssueCharacters
-
-Returns paginated characters appearing in a specific issue.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="getIssueCharacters" method="get" path="/api/v1/issues/{id}/characters" -->
-```typescript
-import { VerseDB } from "@versedbcom/sdk";
-
-const verseDB = new VerseDB({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const result = await verseDB.issues.getIssueCharacters({
-    id: 5432,
-    languages: "ja,ko",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { VerseDBCore } from "@versedbcom/sdk/core.js";
-import { issuesGetIssueCharacters } from "@versedbcom/sdk/funcs/issues-get-issue-characters.js";
-
-// Use `VerseDBCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const verseDB = new VerseDBCore({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const res = await issuesGetIssueCharacters(verseDB, {
-    id: 5432,
-    languages: "ja,ko",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("issuesGetIssueCharacters failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.GetIssueCharactersRequest](../../models/operations/get-issue-characters-request.md)                                                                                | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[operations.GetIssueCharactersResponse](../../models/operations/get-issue-characters-response.md)\>**
-
-### Errors
-
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| errors.UnauthorizedErrorError | 401                           | application/json              |
-| errors.TooManyRequestsError   | 429                           | application/json              |
-| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
+| Error Type                             | Status Code                            | Content Type                           |
+| -------------------------------------- | -------------------------------------- | -------------------------------------- |
+| errors.UnauthorizedErrorError          | 401                                    | application/json                       |
+| errors.GetVariantDetailsForbiddenError | 403                                    | application/json                       |
+| errors.GetVariantDetailsNotFoundError  | 404                                    | application/json                       |
+| errors.TooManyRequestsError            | 429                                    | application/json                       |
+| errors.VerseDbDefaultError             | 4XX, 5XX                               | \*/\*                                  |
 
 ## getKeyIssueReasons
 
@@ -591,8 +443,169 @@ run();
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| errors.UnauthorizedErrorError | 401                           | application/json              |
-| errors.TooManyRequestsError   | 429                           | application/json              |
-| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| errors.UnauthorizedErrorError           | 401                                     | application/json                        |
+| errors.GetKeyIssueReasonsForbiddenError | 403                                     | application/json                        |
+| errors.TooManyRequestsError             | 429                                     | application/json                        |
+| errors.VerseDbDefaultError              | 4XX, 5XX                                | \*/\*                                   |
+
+## getIssueCreators
+
+Returns paginated creators for a specific issue with their roles.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="getIssueCreators" method="get" path="/api/v1/issues/{id}/creators" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.issues.getIssueCreators({
+    id: 5432,
+    page: 1,
+    languages: "ja,ko",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { issuesGetIssueCreators } from "@versedbcom/sdk/funcs/issues-get-issue-creators.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await issuesGetIssueCreators(verseDB, {
+    id: 5432,
+    page: 1,
+    languages: "ja,ko",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("issuesGetIssueCreators failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.GetIssueCreatorsRequest](../../models/operations/get-issue-creators-request.md)                                                                                    | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.GetIssueCreatorsResponse](../../models/operations/get-issue-creators-response.md)\>**
+
+### Errors
+
+| Error Type                            | Status Code                           | Content Type                          |
+| ------------------------------------- | ------------------------------------- | ------------------------------------- |
+| errors.UnauthorizedErrorError         | 401                                   | application/json                      |
+| errors.GetIssueCreatorsForbiddenError | 403                                   | application/json                      |
+| errors.TooManyRequestsError           | 429                                   | application/json                      |
+| errors.VerseDbDefaultError            | 4XX, 5XX                              | \*/\*                                 |
+
+## getIssueCharacters
+
+Returns paginated characters appearing in a specific issue.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="getIssueCharacters" method="get" path="/api/v1/issues/{id}/characters" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.issues.getIssueCharacters({
+    id: 5432,
+    page: 1,
+    languages: "ja,ko",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { issuesGetIssueCharacters } from "@versedbcom/sdk/funcs/issues-get-issue-characters.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await issuesGetIssueCharacters(verseDB, {
+    id: 5432,
+    page: 1,
+    languages: "ja,ko",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("issuesGetIssueCharacters failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.GetIssueCharactersRequest](../../models/operations/get-issue-characters-request.md)                                                                                | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.GetIssueCharactersResponse](../../models/operations/get-issue-characters-response.md)\>**
+
+### Errors
+
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| errors.UnauthorizedErrorError           | 401                                     | application/json                        |
+| errors.GetIssueCharactersForbiddenError | 403                                     | application/json                        |
+| errors.TooManyRequestsError             | 429                                     | application/json                        |
+| errors.VerseDbDefaultError              | 4XX, 5XX                                | \*/\*                                   |

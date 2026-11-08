@@ -4,22 +4,21 @@
 
 import * as z from "zod/v4-mini";
 import * as types from "../../types/primitives.js";
-import * as operations from "../operations/index.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Series Not Found
+ * No series has this ID.
  */
 export type AddToPullListUnprocessableEntityErrorData = {
-  message?: string | undefined;
-  errors?: operations.AddToPullListErrors | undefined;
+  message: string;
+  errors: { [k: string]: Array<string> };
 };
 
 /**
- * Series Not Found
+ * No series has this ID.
  */
 export class AddToPullListUnprocessableEntityError extends VerseDbError {
-  errors?: operations.AddToPullListErrors | undefined;
+  errors: { [k: string]: Array<string> };
 
   /** The original data that was passed to this error instance. */
   data$: AddToPullListUnprocessableEntityErrorData;
@@ -31,9 +30,61 @@ export class AddToPullListUnprocessableEntityError extends VerseDbError {
     const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
     super(message, httpMeta);
     this.data$ = err;
-    if (err.errors != null) this.errors = err.errors;
+    this.errors = err.errors;
 
     this.name = "AddToPullListUnprocessableEntityError";
+  }
+}
+
+/**
+ * The series is deleted.
+ */
+export type AddToPullListNotFoundErrorData = {
+  message: string;
+};
+
+/**
+ * The series is deleted.
+ */
+export class AddToPullListNotFoundError extends VerseDbError {
+  /** The original data that was passed to this error instance. */
+  data$: AddToPullListNotFoundErrorData;
+
+  constructor(
+    err: AddToPullListNotFoundErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+
+    this.name = "AddToPullListNotFoundError";
+  }
+}
+
+/**
+ * The token holds neither write:pull-list nor write:lists.
+ */
+export type AddToPullListForbiddenErrorData = {
+  message: string;
+};
+
+/**
+ * The token holds neither write:pull-list nor write:lists.
+ */
+export class AddToPullListForbiddenError extends VerseDbError {
+  /** The original data that was passed to this error instance. */
+  data$: AddToPullListForbiddenErrorData;
+
+  constructor(
+    err: AddToPullListForbiddenErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+
+    this.name = "AddToPullListForbiddenError";
   }
 }
 
@@ -43,16 +94,54 @@ export const AddToPullListUnprocessableEntityError$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
-    errors: types.optional(
-      z.lazy(() => operations.AddToPullListErrors$inboundSchema),
-    ),
+    message: types.string(),
+    errors: z.record(z.string(), z.array(types.string())),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),
   }),
   z.transform((v) => {
     return new AddToPullListUnprocessableEntityError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
+export const AddToPullListNotFoundError$inboundSchema: z.ZodMiniType<
+  AddToPullListNotFoundError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new AddToPullListNotFoundError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
+export const AddToPullListForbiddenError$inboundSchema: z.ZodMiniType<
+  AddToPullListForbiddenError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new AddToPullListForbiddenError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

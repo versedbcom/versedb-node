@@ -1,0 +1,41 @@
+# ListAllPodcastsWithOptionalSearchData
+
+## Example Usage
+
+```typescript
+import { ListAllPodcastsWithOptionalSearchData } from "@versedbcom/sdk/models/operations";
+
+let value: ListAllPodcastsWithOptionalSearchData = {
+  id: 56,
+  name: "War Rocket Ajax",
+  slug: "war-rocket-ajax",
+  type: "podcast",
+  language: "en",
+  logoUrl: "https://...-full_lg.webp",
+  images: {
+    tileSm: "https://...-tile_sm.webp",
+    fullLg: "https://...-full_lg.webp",
+  },
+  followerCount: 1240,
+  subscriberCount: 8800,
+  categories: [
+    "Comics",
+    "Pop Culture",
+  ],
+};
+```
+
+## Fields
+
+| Field                                                                                                                          | Type                                                                                                                           | Required                                                                                                                       | Description                                                                                                                    | Example                                                                                                                        |
+| ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
+| `id`                                                                                                                           | *number*                                                                                                                       | :heavy_check_mark:                                                                                                             | N/A                                                                                                                            | 56                                                                                                                             |
+| `name`                                                                                                                         | *string*                                                                                                                       | :heavy_check_mark:                                                                                                             | N/A                                                                                                                            | War Rocket Ajax                                                                                                                |
+| `slug`                                                                                                                         | *string*                                                                                                                       | :heavy_check_mark:                                                                                                             | N/A                                                                                                                            | war-rocket-ajax                                                                                                                |
+| `type`                                                                                                                         | *string*                                                                                                                       | :heavy_check_mark:                                                                                                             | N/A                                                                                                                            | podcast                                                                                                                        |
+| `language`                                                                                                                     | *string*                                                                                                                       | :heavy_check_mark:                                                                                                             | N/A                                                                                                                            | en                                                                                                                             |
+| `logoUrl`                                                                                                                      | *string*                                                                                                                       | :heavy_check_mark:                                                                                                             | N/A                                                                                                                            | https://...-full_lg.webp                                                                                                       |
+| `images`                                                                                                                       | [operations.ListAllPodcastsWithOptionalSearchImages](../../models/operations/list-all-podcasts-with-optional-search-images.md) | :heavy_check_mark:                                                                                                             | N/A                                                                                                                            |                                                                                                                                |
+| `followerCount`                                                                                                                | *number*                                                                                                                       | :heavy_check_mark:                                                                                                             | N/A                                                                                                                            | 1240                                                                                                                           |
+| `subscriberCount`                                                                                                              | *number*                                                                                                                       | :heavy_check_mark:                                                                                                             | N/A                                                                                                                            | 8800                                                                                                                           |
+| `categories`                                                                                                                   | *string*[]                                                                                                                     | :heavy_check_mark:                                                                                                             | The category names.                                                                                                            | [<br/>"Comics",<br/>"Pop Culture"<br/>]                                                                                        |

@@ -41,6 +41,7 @@ export function seriesGetSeriesCreators(
   Result<
     operations.GetSeriesCreatorsResponse,
     | errors.UnauthorizedErrorError
+    | errors.GetSeriesCreatorsForbiddenError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -68,6 +69,7 @@ async function $do(
     Result<
       operations.GetSeriesCreatorsResponse,
       | errors.UnauthorizedErrorError
+      | errors.GetSeriesCreatorsForbiddenError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -103,6 +105,7 @@ async function $do(
 
   const query = encodeFormQuery({
     "languages": payload.languages,
+    "page": payload.page,
   });
 
   const headers = new Headers(compactMap({
@@ -163,6 +166,7 @@ async function $do(
   const [result] = await M.match<
     operations.GetSeriesCreatorsResponse,
     | errors.UnauthorizedErrorError
+    | errors.GetSeriesCreatorsForbiddenError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -178,6 +182,7 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
+    M.jsonErr(403, errors.GetSeriesCreatorsForbiddenError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

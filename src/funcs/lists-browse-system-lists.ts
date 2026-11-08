@@ -41,6 +41,7 @@ export function listsBrowseSystemLists(
   Result<
     operations.BrowseSystemListsResponse,
     | errors.UnauthorizedErrorError
+    | errors.BrowseSystemListsForbiddenError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -68,6 +69,7 @@ async function $do(
     Result<
       operations.BrowseSystemListsResponse,
       | errors.UnauthorizedErrorError
+      | errors.BrowseSystemListsForbiddenError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -101,6 +103,7 @@ async function $do(
   const query = encodeFormQuery({
     "entity_type": payload?.entity_type,
     "limit": payload?.limit,
+    "page": payload?.page,
     "sort": payload?.sort,
   });
 
@@ -162,6 +165,7 @@ async function $do(
   const [result] = await M.match<
     operations.BrowseSystemListsResponse,
     | errors.UnauthorizedErrorError
+    | errors.BrowseSystemListsForbiddenError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -177,6 +181,7 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
+    M.jsonErr(403, errors.BrowseSystemListsForbiddenError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

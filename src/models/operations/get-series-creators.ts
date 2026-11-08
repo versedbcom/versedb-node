@@ -15,42 +15,100 @@ export type GetSeriesCreatorsRequest = {
    */
   id: number;
   /**
-   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.
+   * Page number; meta.last_page says where the list ends.
+   */
+  page?: number | undefined;
+  /**
+   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes.
    */
   languages?: string | undefined;
 };
 
-export type GetSeriesCreatorsNameI18n = {};
-
-export type GetSeriesCreatorsAliasesI18n = {};
+export type GetSeriesCreatorsNameI18n = {
+  value: string;
+  source: string;
+  reading?: string | undefined;
+  sort?: string | undefined;
+};
 
 export type GetSeriesCreatorsRole = {
-  id?: number | undefined;
-  name?: string | undefined;
+  id: number;
+  name: string;
+  description: string | null;
+  createdAt: string | null;
+  updatedAt: string | null;
+};
+
+export type GetSeriesCreatorsPivot = {
+  seriesId: number;
+  creatorId: number;
+  creatorRoleId: number | null;
+  isUncredited: boolean;
+  sortOrder: number | null;
+  createdAt: string | null;
+  updatedAt: string | null;
 };
 
 export type GetSeriesCreatorsData = {
-  id?: number | undefined;
-  name?: string | undefined;
-  nameI18n?: GetSeriesCreatorsNameI18n | undefined;
-  aliasesI18n?: GetSeriesCreatorsAliasesI18n | undefined;
-  originalLocale?: string | undefined;
-  role?: GetSeriesCreatorsRole | undefined;
+  id: number;
+  name: string;
+  slug: string;
+  roleId: number | null;
+  profilePhotoPath: string | null;
+  biography: string | null;
+  gender: string | null;
+  birth: string | null;
+  death: string | null;
+  birthPlace: string | null;
+  country: string | null;
+  links: { [k: string]: any } | null;
+  createdAt: string | null;
+  updatedAt: string | null;
+  deletedAt: string | null;
+  aliases: Array<string> | null;
+  cachedIssuesCount: number;
+  cachedSeriesCount: number;
+  cachedTitlesCount: number;
+  lastEditedBy: number | null;
+  lastEditedAt: string | null;
+  publicListsCount: number;
+  originalLocale: string | null;
+  /**
+   * One name per language, keyed by BCP 47 tag.
+   */
+  nameI18n: { [k: string]: GetSeriesCreatorsNameI18n };
+  /**
+   * Alternative names per language.
+   */
+  aliasesI18n: { [k: string]: Array<string> };
+  role: GetSeriesCreatorsRole | null;
+  pivot: GetSeriesCreatorsPivot;
 };
 
-export type GetSeriesCreatorsMeta = {
-  currentPage?: number | undefined;
-  lastPage?: number | undefined;
-  perPage?: number | undefined;
-  total?: number | undefined;
+export type GetSeriesCreatorsLink = {
+  url: string | null;
+  label: string;
+  page?: number | null | undefined;
+  active: boolean;
 };
 
 /**
  * Success
  */
 export type GetSeriesCreatorsResponseBody = {
-  data?: Array<GetSeriesCreatorsData> | undefined;
-  meta?: GetSeriesCreatorsMeta | undefined;
+  currentPage: number;
+  data: Array<GetSeriesCreatorsData>;
+  firstPageUrl: string;
+  from: number | null;
+  lastPage: number;
+  lastPageUrl: string;
+  links: Array<GetSeriesCreatorsLink>;
+  nextPageUrl: string | null;
+  path: string;
+  perPage: number;
+  prevPageUrl: string | null;
+  to: number | null;
+  total: number;
 };
 
 export type GetSeriesCreatorsResponse = {
@@ -61,6 +119,7 @@ export type GetSeriesCreatorsResponse = {
 /** @internal */
 export type GetSeriesCreatorsRequest$Outbound = {
   id: number;
+  page?: number | undefined;
   languages?: string | undefined;
 };
 
@@ -70,6 +129,7 @@ export const GetSeriesCreatorsRequest$outboundSchema: z.ZodMiniType<
   GetSeriesCreatorsRequest
 > = z.object({
   id: z.int(),
+  page: z.optional(z.int()),
   languages: z.optional(z.string()),
 });
 
@@ -85,7 +145,12 @@ export function getSeriesCreatorsRequestToJSON(
 export const GetSeriesCreatorsNameI18n$inboundSchema: z.ZodMiniType<
   GetSeriesCreatorsNameI18n,
   unknown
-> = z.object({});
+> = z.object({
+  value: types.string(),
+  source: types.string(),
+  reading: types.optional(types.string()),
+  sort: types.optional(types.string()),
+});
 
 export function getSeriesCreatorsNameI18nFromJSON(
   jsonString: string,
@@ -98,29 +163,24 @@ export function getSeriesCreatorsNameI18nFromJSON(
 }
 
 /** @internal */
-export const GetSeriesCreatorsAliasesI18n$inboundSchema: z.ZodMiniType<
-  GetSeriesCreatorsAliasesI18n,
-  unknown
-> = z.object({});
-
-export function getSeriesCreatorsAliasesI18nFromJSON(
-  jsonString: string,
-): SafeParseResult<GetSeriesCreatorsAliasesI18n, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => GetSeriesCreatorsAliasesI18n$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'GetSeriesCreatorsAliasesI18n' from JSON`,
-  );
-}
-
-/** @internal */
 export const GetSeriesCreatorsRole$inboundSchema: z.ZodMiniType<
   GetSeriesCreatorsRole,
   unknown
-> = z.object({
-  id: types.optional(types.number()),
-  name: types.optional(types.string()),
-});
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    name: types.string(),
+    description: types.nullable(types.string()),
+    created_at: types.nullable(types.string()),
+    updated_at: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "created_at": "createdAt",
+      "updated_at": "updatedAt",
+    });
+  }),
+);
 
 export function getSeriesCreatorsRoleFromJSON(
   jsonString: string,
@@ -133,27 +193,96 @@ export function getSeriesCreatorsRoleFromJSON(
 }
 
 /** @internal */
+export const GetSeriesCreatorsPivot$inboundSchema: z.ZodMiniType<
+  GetSeriesCreatorsPivot,
+  unknown
+> = z.pipe(
+  z.object({
+    series_id: types.number(),
+    creator_id: types.number(),
+    creator_role_id: types.nullable(types.number()),
+    is_uncredited: types.boolean(),
+    sort_order: types.nullable(types.number()),
+    created_at: types.nullable(types.string()),
+    updated_at: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "series_id": "seriesId",
+      "creator_id": "creatorId",
+      "creator_role_id": "creatorRoleId",
+      "is_uncredited": "isUncredited",
+      "sort_order": "sortOrder",
+      "created_at": "createdAt",
+      "updated_at": "updatedAt",
+    });
+  }),
+);
+
+export function getSeriesCreatorsPivotFromJSON(
+  jsonString: string,
+): SafeParseResult<GetSeriesCreatorsPivot, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetSeriesCreatorsPivot$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetSeriesCreatorsPivot' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetSeriesCreatorsData$inboundSchema: z.ZodMiniType<
   GetSeriesCreatorsData,
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    name: types.optional(types.string()),
-    name_i18n: types.optional(
+    id: types.number(),
+    name: types.string(),
+    slug: types.string(),
+    role_id: types.nullable(types.number()),
+    profile_photo_path: types.nullable(types.string()),
+    biography: types.nullable(types.string()),
+    gender: types.nullable(types.string()),
+    birth: types.nullable(types.string()),
+    death: types.nullable(types.string()),
+    birth_place: types.nullable(types.string()),
+    country: types.nullable(types.string()),
+    links: types.nullable(z.record(z.string(), z.any())),
+    created_at: types.nullable(types.string()),
+    updated_at: types.nullable(types.string()),
+    deleted_at: types.nullable(types.string()),
+    aliases: types.nullable(z.array(types.string())),
+    cached_issues_count: types.number(),
+    cached_series_count: types.number(),
+    cached_titles_count: types.number(),
+    last_edited_by: types.nullable(types.number()),
+    last_edited_at: types.nullable(types.string()),
+    public_lists_count: types.number(),
+    original_locale: types.nullable(types.string()),
+    name_i18n: z.record(
+      z.string(),
       z.lazy(() => GetSeriesCreatorsNameI18n$inboundSchema),
     ),
-    aliases_i18n: types.optional(
-      z.lazy(() => GetSeriesCreatorsAliasesI18n$inboundSchema),
-    ),
-    original_locale: types.optional(types.string()),
-    role: types.optional(z.lazy(() => GetSeriesCreatorsRole$inboundSchema)),
+    aliases_i18n: z.record(z.string(), z.array(types.string())),
+    role: types.nullable(z.lazy(() => GetSeriesCreatorsRole$inboundSchema)),
+    pivot: z.lazy(() => GetSeriesCreatorsPivot$inboundSchema),
   }),
   z.transform((v) => {
     return remap$(v, {
+      "role_id": "roleId",
+      "profile_photo_path": "profilePhotoPath",
+      "birth_place": "birthPlace",
+      "created_at": "createdAt",
+      "updated_at": "updatedAt",
+      "deleted_at": "deletedAt",
+      "cached_issues_count": "cachedIssuesCount",
+      "cached_series_count": "cachedSeriesCount",
+      "cached_titles_count": "cachedTitlesCount",
+      "last_edited_by": "lastEditedBy",
+      "last_edited_at": "lastEditedAt",
+      "public_lists_count": "publicListsCount",
+      "original_locale": "originalLocale",
       "name_i18n": "nameI18n",
       "aliases_i18n": "aliasesI18n",
-      "original_locale": "originalLocale",
     });
   }),
 );
@@ -169,32 +298,23 @@ export function getSeriesCreatorsDataFromJSON(
 }
 
 /** @internal */
-export const GetSeriesCreatorsMeta$inboundSchema: z.ZodMiniType<
-  GetSeriesCreatorsMeta,
+export const GetSeriesCreatorsLink$inboundSchema: z.ZodMiniType<
+  GetSeriesCreatorsLink,
   unknown
-> = z.pipe(
-  z.object({
-    current_page: types.optional(types.number()),
-    last_page: types.optional(types.number()),
-    per_page: types.optional(types.number()),
-    total: types.optional(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "current_page": "currentPage",
-      "last_page": "lastPage",
-      "per_page": "perPage",
-    });
-  }),
-);
+> = z.object({
+  url: types.nullable(types.string()),
+  label: types.string(),
+  page: z.optional(z.nullable(types.number())),
+  active: types.boolean(),
+});
 
-export function getSeriesCreatorsMetaFromJSON(
+export function getSeriesCreatorsLinkFromJSON(
   jsonString: string,
-): SafeParseResult<GetSeriesCreatorsMeta, SDKValidationError> {
+): SafeParseResult<GetSeriesCreatorsLink, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => GetSeriesCreatorsMeta$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'GetSeriesCreatorsMeta' from JSON`,
+    (x) => GetSeriesCreatorsLink$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetSeriesCreatorsLink' from JSON`,
   );
 }
 
@@ -202,12 +322,34 @@ export function getSeriesCreatorsMetaFromJSON(
 export const GetSeriesCreatorsResponseBody$inboundSchema: z.ZodMiniType<
   GetSeriesCreatorsResponseBody,
   unknown
-> = z.object({
-  data: types.optional(
-    z.array(z.lazy(() => GetSeriesCreatorsData$inboundSchema)),
-  ),
-  meta: types.optional(z.lazy(() => GetSeriesCreatorsMeta$inboundSchema)),
-});
+> = z.pipe(
+  z.object({
+    current_page: types.number(),
+    data: z.array(z.lazy(() => GetSeriesCreatorsData$inboundSchema)),
+    first_page_url: types.string(),
+    from: types.nullable(types.number()),
+    last_page: types.number(),
+    last_page_url: types.string(),
+    links: z.array(z.lazy(() => GetSeriesCreatorsLink$inboundSchema)),
+    next_page_url: types.nullable(types.string()),
+    path: types.string(),
+    per_page: types.number(),
+    prev_page_url: types.nullable(types.string()),
+    to: types.nullable(types.number()),
+    total: types.number(),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "current_page": "currentPage",
+      "first_page_url": "firstPageUrl",
+      "last_page": "lastPage",
+      "last_page_url": "lastPageUrl",
+      "next_page_url": "nextPageUrl",
+      "per_page": "perPage",
+      "prev_page_url": "prevPageUrl",
+    });
+  }),
+);
 
 export function getSeriesCreatorsResponseBodyFromJSON(
   jsonString: string,

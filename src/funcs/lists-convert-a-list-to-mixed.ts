@@ -31,8 +31,7 @@ import { Result } from "../types/fp.js";
  * Open a list to any type.
  *
  * @remarks
- * One-way: broadens a single-type list so it can hold items of any type. Existing items keep
- * their own type. It cannot be narrowed back, and a wishlist already holds any type.
+ * One-way: broadens a single-type list so it can hold items of any type. Existing items keep their own type. It cannot be narrowed back, and a wishlist already holds any type.
  */
 export function listsConvertAListToMixed(
   client: VerseDBCore,
@@ -43,6 +42,7 @@ export function listsConvertAListToMixed(
     operations.OpenAListToAnyTypeResponse,
     | errors.UnauthorizedErrorError
     | errors.OpenAListToAnyTypeForbiddenError
+    | errors.OpenAListToAnyTypeNotFoundError
     | errors.OpenAListToAnyTypeUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
@@ -72,6 +72,7 @@ async function $do(
       operations.OpenAListToAnyTypeResponse,
       | errors.UnauthorizedErrorError
       | errors.OpenAListToAnyTypeForbiddenError
+      | errors.OpenAListToAnyTypeNotFoundError
       | errors.OpenAListToAnyTypeUnprocessableEntityError
       | errors.TooManyRequestsError
       | VerseDbError
@@ -166,6 +167,7 @@ async function $do(
     operations.OpenAListToAnyTypeResponse,
     | errors.UnauthorizedErrorError
     | errors.OpenAListToAnyTypeForbiddenError
+    | errors.OpenAListToAnyTypeNotFoundError
     | errors.OpenAListToAnyTypeUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
@@ -183,9 +185,11 @@ async function $do(
     }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
     M.jsonErr(403, errors.OpenAListToAnyTypeForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.OpenAListToAnyTypeNotFoundError$inboundSchema),
     M.jsonErr(
       422,
       errors.OpenAListToAnyTypeUnprocessableEntityError$inboundSchema,
+      { hdrs: true },
     ),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),

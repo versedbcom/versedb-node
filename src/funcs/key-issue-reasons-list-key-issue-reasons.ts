@@ -43,6 +43,7 @@ export function keyIssueReasonsListKeyIssueReasons(
   Result<
     operations.ListKeyIssueReasonsResponse,
     | errors.UnauthorizedErrorError
+    | errors.ListKeyIssueReasonsForbiddenError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -70,6 +71,7 @@ async function $do(
     Result<
       operations.ListKeyIssueReasonsResponse,
       | errors.UnauthorizedErrorError
+      | errors.ListKeyIssueReasonsForbiddenError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -164,6 +166,7 @@ async function $do(
   const [result] = await M.match<
     operations.ListKeyIssueReasonsResponse,
     | errors.UnauthorizedErrorError
+    | errors.ListKeyIssueReasonsForbiddenError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -179,6 +182,7 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
+    M.jsonErr(403, errors.ListKeyIssueReasonsForbiddenError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

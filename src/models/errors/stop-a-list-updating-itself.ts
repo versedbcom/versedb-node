@@ -7,14 +7,14 @@ import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Not rule-built
+ * Not rule-built.
  */
 export type StopAListUpdatingItselfUnprocessableEntityErrorData = {
-  message?: string | undefined;
+  message: string;
 };
 
 /**
- * Not rule-built
+ * Not rule-built.
  */
 export class StopAListUpdatingItselfUnprocessableEntityError
   extends VerseDbError
@@ -34,12 +34,64 @@ export class StopAListUpdatingItselfUnprocessableEntityError
   }
 }
 
+/**
+ * No live list has this ID.
+ */
+export type StopAListUpdatingItselfNotFoundErrorData = {
+  message: string;
+};
+
+/**
+ * No live list has this ID.
+ */
+export class StopAListUpdatingItselfNotFoundError extends VerseDbError {
+  /** The original data that was passed to this error instance. */
+  data$: StopAListUpdatingItselfNotFoundErrorData;
+
+  constructor(
+    err: StopAListUpdatingItselfNotFoundErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+
+    this.name = "StopAListUpdatingItselfNotFoundError";
+  }
+}
+
+/**
+ * The token holds neither write:list nor write:lists, or the list is not yours.
+ */
+export type StopAListUpdatingItselfForbiddenErrorData = {
+  message: string;
+};
+
+/**
+ * The token holds neither write:list nor write:lists, or the list is not yours.
+ */
+export class StopAListUpdatingItselfForbiddenError extends VerseDbError {
+  /** The original data that was passed to this error instance. */
+  data$: StopAListUpdatingItselfForbiddenErrorData;
+
+  constructor(
+    err: StopAListUpdatingItselfForbiddenErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+
+    this.name = "StopAListUpdatingItselfForbiddenError";
+  }
+}
+
 /** @internal */
 export const StopAListUpdatingItselfUnprocessableEntityError$inboundSchema:
   z.ZodMiniType<StopAListUpdatingItselfUnprocessableEntityError, unknown> = z
     .pipe(
       z.object({
-        message: types.optional(types.string()),
+        message: types.string(),
         request$: z.custom<Request>(x => x instanceof Request),
         response$: z.custom<Response>(x => x instanceof Response),
         body$: z.string(),
@@ -52,3 +104,43 @@ export const StopAListUpdatingItselfUnprocessableEntityError$inboundSchema:
         });
       }),
     );
+
+/** @internal */
+export const StopAListUpdatingItselfNotFoundError$inboundSchema: z.ZodMiniType<
+  StopAListUpdatingItselfNotFoundError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new StopAListUpdatingItselfNotFoundError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
+export const StopAListUpdatingItselfForbiddenError$inboundSchema: z.ZodMiniType<
+  StopAListUpdatingItselfForbiddenError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new StopAListUpdatingItselfForbiddenError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);

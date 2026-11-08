@@ -31,9 +31,7 @@ import { Result } from "../types/fp.js";
  * Merge a list into this one.
  *
  * @remarks
- * Pulls every item from the source list into this (destination) list, skipping items already
- * present (by entity + variant) and appending the rest. Both lists must be owned by the
- * authenticated user. Merging items of a different type opens this list to any type.
+ * Pulls every item from the source list into this (destination) list, skipping items already present (by entity + variant) and appending the rest. Both lists must be owned by the authenticated user. Merging items of a different type opens this list to any type.
  */
 export function listsMergeAListIntoThisOne(
   client: VerseDBCore,
@@ -44,6 +42,7 @@ export function listsMergeAListIntoThisOne(
     operations.MergeAListIntoThisOneResponse,
     | errors.UnauthorizedErrorError
     | errors.MergeAListIntoThisOneForbiddenError
+    | errors.MergeAListIntoThisOneNotFoundError
     | errors.MergeAListIntoThisOneUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
@@ -73,6 +72,7 @@ async function $do(
       operations.MergeAListIntoThisOneResponse,
       | errors.UnauthorizedErrorError
       | errors.MergeAListIntoThisOneForbiddenError
+      | errors.MergeAListIntoThisOneNotFoundError
       | errors.MergeAListIntoThisOneUnprocessableEntityError
       | errors.TooManyRequestsError
       | VerseDbError
@@ -166,6 +166,7 @@ async function $do(
     operations.MergeAListIntoThisOneResponse,
     | errors.UnauthorizedErrorError
     | errors.MergeAListIntoThisOneForbiddenError
+    | errors.MergeAListIntoThisOneNotFoundError
     | errors.MergeAListIntoThisOneUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
@@ -183,9 +184,11 @@ async function $do(
     }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
     M.jsonErr(403, errors.MergeAListIntoThisOneForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.MergeAListIntoThisOneNotFoundError$inboundSchema),
     M.jsonErr(
       422,
       errors.MergeAListIntoThisOneUnprocessableEntityError$inboundSchema,
+      { hdrs: true },
     ),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),

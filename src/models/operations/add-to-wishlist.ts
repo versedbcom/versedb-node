@@ -29,16 +29,16 @@ export type AddToWishlistRequest = {
  * Added
  */
 export type AddToWishlistResponseBody2 = {
-  inWishlist?: boolean | undefined;
-  variantId?: number | undefined;
+  inWishlist: boolean;
+  variantId: number | null;
 };
 
 /**
  * Already in Wishlist
  */
 export type AddToWishlistResponseBody1 = {
-  inWishlist?: boolean | undefined;
-  variantId?: number | undefined;
+  inWishlist: boolean;
+  variantId: number | null;
 };
 
 export type AddToWishlistResponseResult =
@@ -114,8 +114,8 @@ export const AddToWishlistResponseBody2$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    in_wishlist: types.optional(types.boolean()),
-    variant_id: types.optional(types.number()),
+    in_wishlist: types.boolean(),
+    variant_id: types.nullable(types.number()),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -141,8 +141,8 @@ export const AddToWishlistResponseBody1$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    in_wishlist: types.optional(types.boolean()),
-    variant_id: types.optional(types.number()),
+    in_wishlist: types.boolean(),
+    variant_id: types.nullable(types.number()),
   }),
   z.transform((v) => {
     return remap$(v, {

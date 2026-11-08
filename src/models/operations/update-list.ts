@@ -8,32 +8,28 @@ import { safeParse } from "../../lib/schemas.js";
 import { ClosedEnum } from "../../types/enums.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
+import { smartUnion } from "../../types/smart-union.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 /**
- * The list status. One of: `published`, `draft`.
+ * The list status.
  */
 export const Status = {
   Published: "published",
   Draft: "draft",
 } as const;
 /**
- * The list status. One of: `published`, `draft`.
+ * The list status.
  */
 export type Status = ClosedEnum<typeof Status>;
 
-/**
- * A replacement smart-list rule. Accepted only on a list that was created rule-built — a rule is tuned here, never introduced or removed. Fetch the field catalog from `/lists/rule-vocabulary` and validate a draft against `/lists/rule-preview`.
- */
-export type UpdateListRules = {};
-
 export type UpdateListRequestBody = {
   /**
-   * List title (max 100 chars).
+   * The name of the list (3 to 100 characters).
    */
   title?: string | undefined;
   /**
-   * List description (max 2000 chars).
+   * The description (up to 2000 characters).
    */
   description?: string | null | undefined;
   /**
@@ -45,13 +41,9 @@ export type UpdateListRequestBody = {
    */
   isPrivate?: boolean | undefined;
   /**
-   * The list status. One of: `published`, `draft`.
+   * The list status.
    */
   status?: Status | undefined;
-  /**
-   * A replacement smart-list rule. Accepted only on a list that was created rule-built — a rule is tuned here, never introduced or removed. Fetch the field catalog from `/lists/rule-vocabulary` and validate a draft against `/lists/rule-preview`.
-   */
-  rules?: UpdateListRules | undefined;
 };
 
 export type UpdateListRequest = {
@@ -62,17 +54,232 @@ export type UpdateListRequest = {
   body?: UpdateListRequestBody | undefined;
 };
 
-export type UpdateListData = {
-  id?: number | undefined;
-  title?: string | undefined;
-  description?: string | undefined;
+export type UpdateListClonedFromUser = {
+  id: number;
+  username: string | null;
 };
 
 /**
- * Success
+ * The list this one was cloned from, while it exists.
+ */
+export type UpdateListClonedFrom = {
+  id: number;
+  title: string | null;
+  slug: string | null;
+  user: UpdateListClonedFromUser | null;
+};
+
+/**
+ * The owner; null once the account is gone.
+ */
+export type UpdateListUser = {
+  id: number;
+  username: string | null;
+  name: string | null;
+  avatar: string | null;
+};
+
+/**
+ * The pinned cover, while it exists.
+ */
+export type UpdateListVariant = {
+  id: number;
+  name: string | null;
+  ratio: string | null;
+  coverImageUrl: string | null;
+};
+
+/**
+ * A creator (`image_url` its profile photo) or a team (its logo).
+ */
+export type UpdateListEntity5 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  imageUrl: string | null;
+};
+
+/**
+ * A story arc.
+ */
+export type UpdateListEntity4 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  imageUrl: string | null;
+  issuesCount: number | null;
+};
+
+/**
+ * A character.
+ */
+export type UpdateListEntity3 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  realName: string | null;
+  imageUrl: string | null;
+};
+
+/**
+ * A series.
+ */
+export type UpdateListEntity2 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  startYear: number | null;
+  endYear: number | null;
+  status: string | null;
+  publicationType: string | null;
+  imageUrl: string | null;
+  isNsfw: boolean | null;
+  issuesCount: number | null;
+  publisher: string | null;
+};
+
+export type UpdateListSeries = {
+  id: number;
+  name: string | null;
+  slug: string | null;
+  startYear: number | null;
+};
+
+/**
+ * An issue.
+ */
+export type UpdateListEntity1 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  issueNumber: string | null;
+  releaseDate: string | null;
+  focDate: string | null;
+  imageUrl: string | null;
+  isNsfw: boolean | null;
+  publisher: string | null;
+  series: UpdateListSeries | null;
+};
+
+/**
+ * Left out once the entity is gone.
+ */
+export type UpdateListEntityUnion =
+  | UpdateListEntity2
+  | UpdateListEntity1
+  | UpdateListEntity3
+  | UpdateListEntity4
+  | UpdateListEntity5;
+
+export type UpdateListItem = {
+  id: number;
+  /**
+   * Its place on a ranked or rule-built list.
+   */
+  position: number | null;
+  note: string | null;
+  createdAt: string;
+  updatedAt: string;
+  variantId: number | null;
+  /**
+   * The pinned cover, while it exists.
+   */
+  variant?: UpdateListVariant | undefined;
+  /**
+   * issues, series, characters, creators, story_arcs or teams.
+   */
+  entityType: string;
+  /**
+   * Left out once the entity is gone.
+   */
+  entity?:
+    | UpdateListEntity2
+    | UpdateListEntity1
+    | UpdateListEntity3
+    | UpdateListEntity4
+    | UpdateListEntity5
+    | undefined;
+};
+
+export type UpdateListReaction = {
+  reaction: string;
+  emoji: string;
+  label: string;
+  count: number;
+};
+
+export type UpdateListData = {
+  id: number;
+  title: string;
+  slug: string;
+  description: string | null;
+  /**
+   * issues, series, characters, creators, story_arcs, teams, or mixed for a list of any type.
+   */
+  entityType: string;
+  entityTypeLabel: string;
+  /**
+   * The list is VerseDB's own.
+   */
+  isCurated: boolean;
+  /**
+   * The types its items hold: its own type, or each type a mixed list holds.
+   */
+  itemTypes: Array<string>;
+  isRanked: boolean;
+  /**
+   * What `sort` takes on this list, each with its label; the empty key is its own order.
+   */
+  sortOptions: { [k: string]: string };
+  isPrivate: boolean;
+  /**
+   * published or draft.
+   */
+  status: string;
+  /**
+   * custom, wishlist or reading_guide.
+   */
+  listType: string;
+  itemsCount: number;
+  savesCount: number;
+  likesCount: number;
+  clonesCount: number;
+  createdAt: string;
+  updatedAt: string;
+  /**
+   * A rule keeps the list up to date.
+   */
+  isSmart: boolean;
+  isRuleBased: boolean;
+  lastRefreshedAt: string | null;
+  /**
+   * A rule-built list that stopped updating while its owner's Pro is inactive.
+   */
+  smartPaused: boolean;
+  clonedFromListId: number | null;
+  /**
+   * The list this one was cloned from, while it exists.
+   */
+  clonedFrom?: UpdateListClonedFrom | undefined;
+  /**
+   * The owner; null once the account is gone.
+   */
+  user: UpdateListUser | null;
+  /**
+   * Every item, in the list's own order or by `sort`.
+   */
+  items: Array<UpdateListItem>;
+  /**
+   * The reactions left on the list, the most used first.
+   */
+  reactions: Array<UpdateListReaction>;
+};
+
+/**
+ * Updated.
  */
 export type UpdateListResponseBody = {
-  data?: UpdateListData | undefined;
+  data: UpdateListData;
 };
 
 export type UpdateListResponse = {
@@ -86,28 +293,12 @@ export const Status$outboundSchema: z.ZodMiniEnum<typeof Status> = z.enum(
 );
 
 /** @internal */
-export type UpdateListRules$Outbound = {};
-
-/** @internal */
-export const UpdateListRules$outboundSchema: z.ZodMiniType<
-  UpdateListRules$Outbound,
-  UpdateListRules
-> = z.object({});
-
-export function updateListRulesToJSON(
-  updateListRules: UpdateListRules,
-): string {
-  return JSON.stringify(UpdateListRules$outboundSchema.parse(updateListRules));
-}
-
-/** @internal */
 export type UpdateListRequestBody$Outbound = {
   title?: string | undefined;
   description?: string | null | undefined;
   is_ranked?: boolean | undefined;
   is_private?: boolean | undefined;
   status?: string | undefined;
-  rules?: UpdateListRules$Outbound | undefined;
 };
 
 /** @internal */
@@ -121,7 +312,6 @@ export const UpdateListRequestBody$outboundSchema: z.ZodMiniType<
     isRanked: z.optional(z.boolean()),
     isPrivate: z.optional(z.boolean()),
     status: z.optional(Status$outboundSchema),
-    rules: z.optional(z.lazy(() => UpdateListRules$outboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -170,14 +360,435 @@ export function updateListRequestToJSON(
 }
 
 /** @internal */
+export const UpdateListClonedFromUser$inboundSchema: z.ZodMiniType<
+  UpdateListClonedFromUser,
+  unknown
+> = z.object({
+  id: types.number(),
+  username: types.nullable(types.string()),
+});
+
+export function updateListClonedFromUserFromJSON(
+  jsonString: string,
+): SafeParseResult<UpdateListClonedFromUser, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => UpdateListClonedFromUser$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'UpdateListClonedFromUser' from JSON`,
+  );
+}
+
+/** @internal */
+export const UpdateListClonedFrom$inboundSchema: z.ZodMiniType<
+  UpdateListClonedFrom,
+  unknown
+> = z.object({
+  id: types.number(),
+  title: types.nullable(types.string()),
+  slug: types.nullable(types.string()),
+  user: types.nullable(z.lazy(() => UpdateListClonedFromUser$inboundSchema)),
+});
+
+export function updateListClonedFromFromJSON(
+  jsonString: string,
+): SafeParseResult<UpdateListClonedFrom, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => UpdateListClonedFrom$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'UpdateListClonedFrom' from JSON`,
+  );
+}
+
+/** @internal */
+export const UpdateListUser$inboundSchema: z.ZodMiniType<
+  UpdateListUser,
+  unknown
+> = z.object({
+  id: types.number(),
+  username: types.nullable(types.string()),
+  name: types.nullable(types.string()),
+  avatar: types.nullable(types.string()),
+});
+
+export function updateListUserFromJSON(
+  jsonString: string,
+): SafeParseResult<UpdateListUser, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => UpdateListUser$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'UpdateListUser' from JSON`,
+  );
+}
+
+/** @internal */
+export const UpdateListVariant$inboundSchema: z.ZodMiniType<
+  UpdateListVariant,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    ratio: types.nullable(types.string()),
+    cover_image_url: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "cover_image_url": "coverImageUrl",
+    });
+  }),
+);
+
+export function updateListVariantFromJSON(
+  jsonString: string,
+): SafeParseResult<UpdateListVariant, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => UpdateListVariant$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'UpdateListVariant' from JSON`,
+  );
+}
+
+/** @internal */
+export const UpdateListEntity5$inboundSchema: z.ZodMiniType<
+  UpdateListEntity5,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "image_url": "imageUrl",
+    });
+  }),
+);
+
+export function updateListEntity5FromJSON(
+  jsonString: string,
+): SafeParseResult<UpdateListEntity5, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => UpdateListEntity5$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'UpdateListEntity5' from JSON`,
+  );
+}
+
+/** @internal */
+export const UpdateListEntity4$inboundSchema: z.ZodMiniType<
+  UpdateListEntity4,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    issues_count: types.nullable(types.number()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "image_url": "imageUrl",
+      "issues_count": "issuesCount",
+    });
+  }),
+);
+
+export function updateListEntity4FromJSON(
+  jsonString: string,
+): SafeParseResult<UpdateListEntity4, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => UpdateListEntity4$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'UpdateListEntity4' from JSON`,
+  );
+}
+
+/** @internal */
+export const UpdateListEntity3$inboundSchema: z.ZodMiniType<
+  UpdateListEntity3,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    real_name: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "real_name": "realName",
+      "image_url": "imageUrl",
+    });
+  }),
+);
+
+export function updateListEntity3FromJSON(
+  jsonString: string,
+): SafeParseResult<UpdateListEntity3, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => UpdateListEntity3$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'UpdateListEntity3' from JSON`,
+  );
+}
+
+/** @internal */
+export const UpdateListEntity2$inboundSchema: z.ZodMiniType<
+  UpdateListEntity2,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    start_year: types.nullable(types.number()),
+    end_year: types.nullable(types.number()),
+    status: types.nullable(types.string()),
+    publication_type: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    is_nsfw: types.nullable(types.boolean()),
+    issues_count: types.nullable(types.number()),
+    publisher: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "start_year": "startYear",
+      "end_year": "endYear",
+      "publication_type": "publicationType",
+      "image_url": "imageUrl",
+      "is_nsfw": "isNsfw",
+      "issues_count": "issuesCount",
+    });
+  }),
+);
+
+export function updateListEntity2FromJSON(
+  jsonString: string,
+): SafeParseResult<UpdateListEntity2, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => UpdateListEntity2$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'UpdateListEntity2' from JSON`,
+  );
+}
+
+/** @internal */
+export const UpdateListSeries$inboundSchema: z.ZodMiniType<
+  UpdateListSeries,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    start_year: types.nullable(types.number()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "start_year": "startYear",
+    });
+  }),
+);
+
+export function updateListSeriesFromJSON(
+  jsonString: string,
+): SafeParseResult<UpdateListSeries, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => UpdateListSeries$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'UpdateListSeries' from JSON`,
+  );
+}
+
+/** @internal */
+export const UpdateListEntity1$inboundSchema: z.ZodMiniType<
+  UpdateListEntity1,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    issue_number: types.nullable(types.string()),
+    release_date: types.nullable(types.string()),
+    foc_date: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    is_nsfw: types.nullable(types.boolean()),
+    publisher: types.nullable(types.string()),
+    series: types.nullable(z.lazy(() => UpdateListSeries$inboundSchema)),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "issue_number": "issueNumber",
+      "release_date": "releaseDate",
+      "foc_date": "focDate",
+      "image_url": "imageUrl",
+      "is_nsfw": "isNsfw",
+    });
+  }),
+);
+
+export function updateListEntity1FromJSON(
+  jsonString: string,
+): SafeParseResult<UpdateListEntity1, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => UpdateListEntity1$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'UpdateListEntity1' from JSON`,
+  );
+}
+
+/** @internal */
+export const UpdateListEntityUnion$inboundSchema: z.ZodMiniType<
+  UpdateListEntityUnion,
+  unknown
+> = smartUnion([
+  z.lazy(() => UpdateListEntity2$inboundSchema),
+  z.lazy(() => UpdateListEntity1$inboundSchema),
+  z.lazy(() => UpdateListEntity3$inboundSchema),
+  z.lazy(() => UpdateListEntity4$inboundSchema),
+  z.lazy(() => UpdateListEntity5$inboundSchema),
+]);
+
+export function updateListEntityUnionFromJSON(
+  jsonString: string,
+): SafeParseResult<UpdateListEntityUnion, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => UpdateListEntityUnion$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'UpdateListEntityUnion' from JSON`,
+  );
+}
+
+/** @internal */
+export const UpdateListItem$inboundSchema: z.ZodMiniType<
+  UpdateListItem,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    position: types.nullable(types.number()),
+    note: types.nullable(types.string()),
+    created_at: types.string(),
+    updated_at: types.string(),
+    variant_id: types.nullable(types.number()),
+    variant: types.optional(z.lazy(() => UpdateListVariant$inboundSchema)),
+    entity_type: types.string(),
+    entity: types.optional(smartUnion([
+      z.lazy(() => UpdateListEntity2$inboundSchema),
+      z.lazy(() => UpdateListEntity1$inboundSchema),
+      z.lazy(() => UpdateListEntity3$inboundSchema),
+      z.lazy(() => UpdateListEntity4$inboundSchema),
+      z.lazy(() => UpdateListEntity5$inboundSchema),
+    ])),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "created_at": "createdAt",
+      "updated_at": "updatedAt",
+      "variant_id": "variantId",
+      "entity_type": "entityType",
+    });
+  }),
+);
+
+export function updateListItemFromJSON(
+  jsonString: string,
+): SafeParseResult<UpdateListItem, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => UpdateListItem$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'UpdateListItem' from JSON`,
+  );
+}
+
+/** @internal */
+export const UpdateListReaction$inboundSchema: z.ZodMiniType<
+  UpdateListReaction,
+  unknown
+> = z.object({
+  reaction: types.string(),
+  emoji: types.string(),
+  label: types.string(),
+  count: types.number(),
+});
+
+export function updateListReactionFromJSON(
+  jsonString: string,
+): SafeParseResult<UpdateListReaction, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => UpdateListReaction$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'UpdateListReaction' from JSON`,
+  );
+}
+
+/** @internal */
 export const UpdateListData$inboundSchema: z.ZodMiniType<
   UpdateListData,
   unknown
-> = z.object({
-  id: types.optional(types.number()),
-  title: types.optional(types.string()),
-  description: types.optional(types.string()),
-});
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    title: types.string(),
+    slug: types.string(),
+    description: types.nullable(types.string()),
+    entity_type: types.string(),
+    entity_type_label: types.string(),
+    is_curated: types.boolean(),
+    item_types: z.array(types.string()),
+    is_ranked: types.boolean(),
+    sort_options: z.record(z.string(), types.string()),
+    is_private: types.boolean(),
+    status: types.string(),
+    list_type: types.string(),
+    items_count: types.number(),
+    saves_count: types.number(),
+    likes_count: types.number(),
+    clones_count: types.number(),
+    created_at: types.string(),
+    updated_at: types.string(),
+    is_smart: types.boolean(),
+    is_rule_based: types.boolean(),
+    last_refreshed_at: types.nullable(types.string()),
+    smart_paused: types.boolean(),
+    cloned_from_list_id: types.nullable(types.number()),
+    cloned_from: types.optional(
+      z.lazy(() => UpdateListClonedFrom$inboundSchema),
+    ),
+    user: types.nullable(z.lazy(() => UpdateListUser$inboundSchema)),
+    items: z.array(z.lazy(() => UpdateListItem$inboundSchema)),
+    reactions: z.array(z.lazy(() => UpdateListReaction$inboundSchema)),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "entity_type": "entityType",
+      "entity_type_label": "entityTypeLabel",
+      "is_curated": "isCurated",
+      "item_types": "itemTypes",
+      "is_ranked": "isRanked",
+      "sort_options": "sortOptions",
+      "is_private": "isPrivate",
+      "list_type": "listType",
+      "items_count": "itemsCount",
+      "saves_count": "savesCount",
+      "likes_count": "likesCount",
+      "clones_count": "clonesCount",
+      "created_at": "createdAt",
+      "updated_at": "updatedAt",
+      "is_smart": "isSmart",
+      "is_rule_based": "isRuleBased",
+      "last_refreshed_at": "lastRefreshedAt",
+      "smart_paused": "smartPaused",
+      "cloned_from_list_id": "clonedFromListId",
+      "cloned_from": "clonedFrom",
+    });
+  }),
+);
 
 export function updateListDataFromJSON(
   jsonString: string,
@@ -194,7 +805,7 @@ export const UpdateListResponseBody$inboundSchema: z.ZodMiniType<
   UpdateListResponseBody,
   unknown
 > = z.object({
-  data: types.optional(z.lazy(() => UpdateListData$inboundSchema)),
+  data: z.lazy(() => UpdateListData$inboundSchema),
 });
 
 export function updateListResponseBodyFromJSON(

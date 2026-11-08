@@ -7,14 +7,14 @@ import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Not Found
+ * No live list or no list item has this ID, or the item belongs to another list (`Item does not belong to this list.`).
  */
 export type RemoveItemFromListNotFoundErrorData = {
-  message?: string | undefined;
+  message: string;
 };
 
 /**
- * Not Found
+ * No live list or no list item has this ID, or the item belongs to another list (`Item does not belong to this list.`).
  */
 export class RemoveItemFromListNotFoundError extends VerseDbError {
   /** The original data that was passed to this error instance. */
@@ -33,14 +33,14 @@ export class RemoveItemFromListNotFoundError extends VerseDbError {
 }
 
 /**
- * Unauthorized
+ * The token holds neither write:list nor write:lists, or the list is not yours to change.
  */
 export type RemoveItemFromListForbiddenErrorData = {
-  message?: string | undefined;
+  message: string;
 };
 
 /**
- * Unauthorized
+ * The token holds neither write:list nor write:lists, or the list is not yours to change.
  */
 export class RemoveItemFromListForbiddenError extends VerseDbError {
   /** The original data that was passed to this error instance. */
@@ -64,7 +64,7 @@ export const RemoveItemFromListNotFoundError$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
+    message: types.string(),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),
@@ -84,7 +84,7 @@ export const RemoveItemFromListForbiddenError$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
+    message: types.string(),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),

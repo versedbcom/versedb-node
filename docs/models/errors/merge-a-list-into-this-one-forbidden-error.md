@@ -1,6 +1,6 @@
 # MergeAListIntoThisOneForbiddenError
 
-Unauthorized
+The token holds neither write:list nor write:lists, or either list is not yours to merge.
 
 ## Example Usage
 
@@ -12,6 +12,6 @@ import { MergeAListIntoThisOneForbiddenError } from "@versedbcom/sdk/models/erro
 
 ## Fields
 
-| Field                                   | Type                                    | Required                                | Description                             | Example                                 |
-| --------------------------------------- | --------------------------------------- | --------------------------------------- | --------------------------------------- | --------------------------------------- |
-| `message`                               | *string*                                | :heavy_minus_sign:                      | N/A                                     | You can only merge into your own lists. |
+| Field                     | Type                      | Required                  | Description               | Example                   |
+| ------------------------- | ------------------------- | ------------------------- | ------------------------- | ------------------------- |
+| `message`                 | *string*                  | :heavy_check_mark:        | N/A                       | Insufficient token scope. |

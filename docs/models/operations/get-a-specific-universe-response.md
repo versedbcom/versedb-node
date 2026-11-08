@@ -20,9 +20,19 @@ let value: GetASpecificUniverseResponse = {
   result: {
     data: {
       id: 1,
-      name: "Marvel Universe (616)",
-      nameI18n: {},
-      aliasesI18n: {},
+      name: "Marvel Universe",
+      nameI18n: {
+        "ja": {
+          value: "講談社",
+          source: "madb",
+          reading: "こうだんしゃ",
+        },
+      },
+      aliasesI18n: {
+        "en": [
+          "Kodansha Comics",
+        ],
+      },
       originalLocale: "en",
     },
   },
@@ -31,7 +41,7 @@ let value: GetASpecificUniverseResponse = {
 
 ## Fields
 
-| Field                                                                                                                  | Type                                                                                                                   | Required                                                                                                               | Description                                                                                                            | Example                                                                                                                |
-| ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `headers`                                                                                                              | Record<string, *string*[]>                                                                                             | :heavy_check_mark:                                                                                                     | N/A                                                                                                                    |                                                                                                                        |
-| `result`                                                                                                               | [operations.GetASpecificUniverseResponseBody](../../models/operations/get-a-specific-universe-response-body.md)        | :heavy_check_mark:                                                                                                     | N/A                                                                                                                    | {<br/>"data": {<br/>"id": 1,<br/>"name": "Marvel Universe (616)",<br/>"name_i18n": {},<br/>"aliases_i18n": {},<br/>"original_locale": "en"<br/>}<br/>} |
+| Field                                                                                                           | Type                                                                                                            | Required                                                                                                        | Description                                                                                                     |
+| --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `headers`                                                                                                       | Record<string, *string*[]>                                                                                      | :heavy_check_mark:                                                                                              | N/A                                                                                                             |
+| `result`                                                                                                        | [operations.GetASpecificUniverseResponseBody](../../models/operations/get-a-specific-universe-response-body.md) | :heavy_check_mark:                                                                                              | N/A                                                                                                             |

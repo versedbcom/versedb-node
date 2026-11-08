@@ -10,14 +10,16 @@ let value: GetUsersListsRequest = {
   entityType: "issues",
   sort: "newest",
   limit: 20,
+  page: 1,
 };
 ```
 
 ## Fields
 
-| Field                                         | Type                                          | Required                                      | Description                                   | Example                                       |
-| --------------------------------------------- | --------------------------------------------- | --------------------------------------------- | --------------------------------------------- | --------------------------------------------- |
-| `userId`                                      | *number*                                      | :heavy_check_mark:                            | The user ID.                                  | 123                                           |
-| `entityType`                                  | *string*                                      | :heavy_minus_sign:                            | Filter by entity type (issues, series, etc.). | issues                                        |
-| `sort`                                        | *string*                                      | :heavy_minus_sign:                            | Sort order (newest, popular, most_saved).     | newest                                        |
-| `limit`                                       | *number*                                      | :heavy_minus_sign:                            | Items per page (max 100).                     | 20                                            |
+| Field                                                 | Type                                                  | Required                                              | Description                                           | Example                                               |
+| ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
+| `userId`                                              | *number*                                              | :heavy_check_mark:                                    | The user ID.                                          | 123                                                   |
+| `entityType`                                          | *string*                                              | :heavy_minus_sign:                                    | Filter by entity type (issues, series, etc.).         | issues                                                |
+| `sort`                                                | *string*                                              | :heavy_minus_sign:                                    | Sort order (newest, popular, most_saved).             | newest                                                |
+| `limit`                                               | *number*                                              | :heavy_minus_sign:                                    | Items per page (max 100).                             | 20                                                    |
+| `page`                                                | *number*                                              | :heavy_minus_sign:                                    | Page number; meta.last_page says where the list ends. | 1                                                     |

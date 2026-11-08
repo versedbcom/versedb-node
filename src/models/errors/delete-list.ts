@@ -3,83 +3,74 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../../lib/schemas.js";
-import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
-import { smartUnion } from "../../types/smart-union.js";
-import { SDKValidationError } from "./sdk-validation-error.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Unauthorized
+ * No live list has this ID.
  */
-export type ResponseBodyError2Data = {
-  message?: string | undefined;
+export type DeleteListNotFoundErrorData = {
+  message: string;
 };
 
 /**
- * Unauthorized
+ * No live list has this ID.
  */
-export class ResponseBodyError2 extends VerseDbError {
+export class DeleteListNotFoundError extends VerseDbError {
   /** The original data that was passed to this error instance. */
-  data$: ResponseBodyError2Data;
+  data$: DeleteListNotFoundErrorData;
 
   constructor(
-    err: ResponseBodyError2Data,
+    err: DeleteListNotFoundErrorData,
     httpMeta: { response: Response; request: Request; body: string },
   ) {
     const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
     super(message, httpMeta);
     this.data$ = err;
 
-    this.name = "ResponseBodyError2";
+    this.name = "DeleteListNotFoundError";
   }
 }
 
 /**
- * Wishlist
+ * The token holds neither write:list nor write:lists, the list is not yours, or it is your wishlist.
  */
-export type ResponseBodyError1Data = {
-  message?: string | undefined;
+export type DeleteListForbiddenErrorData = {
+  message: string;
 };
 
 /**
- * Wishlist
+ * The token holds neither write:list nor write:lists, the list is not yours, or it is your wishlist.
  */
-export class ResponseBodyError1 extends VerseDbError {
+export class DeleteListForbiddenError extends VerseDbError {
   /** The original data that was passed to this error instance. */
-  data$: ResponseBodyError1Data;
+  data$: DeleteListForbiddenErrorData;
 
   constructor(
-    err: ResponseBodyError1Data,
+    err: DeleteListForbiddenErrorData,
     httpMeta: { response: Response; request: Request; body: string },
   ) {
     const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
     super(message, httpMeta);
     this.data$ = err;
 
-    this.name = "ResponseBodyError1";
+    this.name = "DeleteListForbiddenError";
   }
 }
-
-/**
- * Forbidden. The authenticated user may not perform this action.
- */
-export type Forbidden = ResponseBodyError1 | ResponseBodyError2;
 
 /** @internal */
-export const ResponseBodyError2$inboundSchema: z.ZodMiniType<
-  ResponseBodyError2,
+export const DeleteListNotFoundError$inboundSchema: z.ZodMiniType<
+  DeleteListNotFoundError,
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
+    message: types.string(),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),
   }),
   z.transform((v) => {
-    return new ResponseBodyError2(v, {
+    return new DeleteListNotFoundError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,
@@ -88,38 +79,21 @@ export const ResponseBodyError2$inboundSchema: z.ZodMiniType<
 );
 
 /** @internal */
-export const ResponseBodyError1$inboundSchema: z.ZodMiniType<
-  ResponseBodyError1,
+export const DeleteListForbiddenError$inboundSchema: z.ZodMiniType<
+  DeleteListForbiddenError,
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
+    message: types.string(),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),
   }),
   z.transform((v) => {
-    return new ResponseBodyError1(v, {
+    return new DeleteListForbiddenError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,
     });
   }),
 );
-
-/** @internal */
-export const Forbidden$inboundSchema: z.ZodMiniType<Forbidden, unknown> =
-  smartUnion([
-    z.lazy(() => ResponseBodyError1$inboundSchema),
-    z.lazy(() => ResponseBodyError2$inboundSchema),
-  ]);
-
-export function forbiddenFromJSON(
-  jsonString: string,
-): SafeParseResult<Forbidden, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => Forbidden$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'Forbidden' from JSON`,
-  );
-}

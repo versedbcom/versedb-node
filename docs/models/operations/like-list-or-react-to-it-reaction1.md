@@ -17,7 +17,7 @@ let value: LikeListOrReactToItReaction1 = {
 
 | Field              | Type               | Required           | Description        | Example            |
 | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
-| `reaction`         | *string*           | :heavy_minus_sign: | N/A                | heart              |
-| `emoji`            | *string*           | :heavy_minus_sign: | N/A                | ❤️                 |
-| `label`            | *string*           | :heavy_minus_sign: | N/A                | Love               |
-| `count`            | *number*           | :heavy_minus_sign: | N/A                | 150                |
+| `reaction`         | *string*           | :heavy_check_mark: | N/A                | heart              |
+| `emoji`            | *string*           | :heavy_check_mark: | N/A                | ❤️                 |
+| `label`            | *string*           | :heavy_check_mark: | N/A                | Love               |
+| `count`            | *number*           | :heavy_check_mark: | N/A                | 150                |

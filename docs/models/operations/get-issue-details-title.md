@@ -6,14 +6,16 @@
 import { GetIssueDetailsTitle } from "@versedbcom/sdk/models/operations";
 
 let value: GetIssueDetailsTitle = {
-  id: 45,
-  name: "Amazing Spider-Man",
+  id: 1,
+  name: "The Amazing Spider-Man",
+  slug: "the-amazing-spider-man",
 };
 ```
 
 ## Fields
 
-| Field              | Type               | Required           | Description        | Example            |
-| ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
-| `id`               | *number*           | :heavy_minus_sign: | N/A                | 45                 |
-| `name`             | *string*           | :heavy_minus_sign: | N/A                | Amazing Spider-Man |
+| Field                  | Type                   | Required               | Description            | Example                |
+| ---------------------- | ---------------------- | ---------------------- | ---------------------- | ---------------------- |
+| `id`                   | *number*               | :heavy_check_mark:     | N/A                    | 1                      |
+| `name`                 | *string*               | :heavy_check_mark:     | N/A                    | The Amazing Spider-Man |
+| `slug`                 | *string*               | :heavy_check_mark:     | N/A                    | the-amazing-spider-man |

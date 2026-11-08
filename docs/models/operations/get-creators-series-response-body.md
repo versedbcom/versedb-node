@@ -1,0 +1,84 @@
+# GetCreatorsSeriesResponseBody
+
+Success
+
+## Example Usage
+
+```typescript
+import { GetCreatorsSeriesResponseBody } from "@versedbcom/sdk/models/operations";
+
+let value: GetCreatorsSeriesResponseBody = {
+  data: [
+    {
+      id: 123,
+      titleId: 1,
+      name: "The Amazing Spider-Man",
+      displayName: "The Amazing Spider-Man (2018)",
+      slug: "amazing-spider-man-2018",
+      number: 6,
+      startYear: 2018,
+      endYear: 2022,
+      coverUrl: "https://...-cover_lg.webp",
+      images: {
+        coverSm: "https://...-cover_sm.webp",
+        coverMd: "https://...-cover_md.webp",
+        coverLg: "https://...-cover_lg.webp",
+      },
+      medium: "comic",
+      publicationType: "regular_series",
+      format: "Standard",
+      status: "Ongoing",
+      originalName: "The Amazing Spider-Man",
+      originalLanguage: "en",
+      language: "en",
+      cachedIssuesCount: 94,
+      averageRating: "4.25",
+      totalReviews: 12,
+      issuesAverageRating: "4.10",
+      issuesRatedCount: 40,
+      contentRatingLabel: "Teen",
+      minAge: 13,
+      isNsfw: true,
+      publisherName: "Marvel",
+      nameI18n: {
+        "ja": {
+          value: "講談社",
+          source: "madb",
+          reading: "こうだんしゃ",
+        },
+      },
+      aliasesI18n: {
+        "en": [
+          "Kodansha Comics",
+        ],
+      },
+      originalLocale: "ja",
+      creatorIssuesCount: 12,
+    },
+  ],
+  links: {
+    first: "<value>",
+    last: "<value>",
+    prev: "<value>",
+    next: "<value>",
+  },
+  meta: {
+    currentPage: 1,
+    from: 1,
+    lastPage: 25,
+    links: [],
+    path: "/var/tmp",
+    perPage: 20,
+    to: 20,
+    total: 500,
+  },
+};
+```
+
+## Fields
+
+| Field                                                                                     | Type                                                                                      | Required                                                                                  | Description                                                                               |
+| ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `data`                                                                                    | [operations.GetCreatorsSeriesData](../../models/operations/get-creators-series-data.md)[] | :heavy_check_mark:                                                                        | N/A                                                                                       |
+| `links`                                                                                   | [operations.GetCreatorsSeriesLinks](../../models/operations/get-creators-series-links.md) | :heavy_check_mark:                                                                        | N/A                                                                                       |
+| `meta`                                                                                    | [operations.GetCreatorsSeriesMeta](../../models/operations/get-creators-series-meta.md)   | :heavy_check_mark:                                                                        | N/A                                                                                       |

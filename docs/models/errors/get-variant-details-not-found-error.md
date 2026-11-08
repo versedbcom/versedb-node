@@ -14,4 +14,4 @@ import { GetVariantDetailsNotFoundError } from "@versedbcom/sdk/models/errors";
 
 | Field                                 | Type                                  | Required                              | Description                           | Example                               |
 | ------------------------------------- | ------------------------------------- | ------------------------------------- | ------------------------------------- | ------------------------------------- |
-| `error`                               | *string*                              | :heavy_minus_sign:                    | N/A                                   | Variant does not belong to this issue |
+| `error`                               | *string*                              | :heavy_check_mark:                    | N/A                                   | Variant does not belong to this issue |

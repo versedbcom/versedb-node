@@ -17,17 +17,58 @@ let value: CreateListResponse = {
   },
   result: {
     data: {
-      id: 102,
+      id: 101,
       title: "Best Spider-Man Stories",
-      description: "My favorite Spidey moments ranked",
+      slug: "best-spider-man-stories",
+      description: "My favorite Spidey moments",
       entityType: "issues",
+      entityTypeLabel: "Issues",
+      isCurated: false,
+      itemTypes: [
+        "issues",
+      ],
       isRanked: true,
+      sortOptions: {
+        "": "List order",
+        "recent": "Recently added",
+      },
       isPrivate: false,
-      itemsCount: 0,
+      status: "published",
+      listType: "custom",
+      itemsCount: 25,
+      savesCount: 89,
+      likesCount: 150,
+      clonesCount: 3,
+      createdAt: "2024-01-15T10:30:00+00:00",
+      updatedAt: "2024-01-15T10:30:00+00:00",
+      isSmart: false,
+      isRuleBased: false,
+      lastRefreshedAt: "2024-01-16T04:00:00+00:00",
+      smartPaused: false,
+      clonedFromListId: null,
+      clonedFrom: {
+        id: 77,
+        title: "Spider-Man Essentials",
+        slug: "spider-man-essentials",
+        user: {
+          id: 9,
+          username: "webhead",
+        },
+      },
       user: {
         id: 123,
         username: "comic_fan",
+        name: "comic_fan",
+        avatar: "https://...-profile_md.webp",
       },
+      reactions: [
+        {
+          reaction: "heart",
+          emoji: "❤️",
+          label: "Love",
+          count: 12,
+        },
+      ],
     },
   },
 };
@@ -35,7 +76,7 @@ let value: CreateListResponse = {
 
 ## Fields
 
-| Field                                                                                                                                                                                                                                                | Type                                                                                                                                                                                                                                                 | Required                                                                                                                                                                                                                                             | Description                                                                                                                                                                                                                                          | Example                                                                                                                                                                                                                                              |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `headers`                                                                                                                                                                                                                                            | Record<string, *string*[]>                                                                                                                                                                                                                           | :heavy_check_mark:                                                                                                                                                                                                                                   | N/A                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                      |
-| `result`                                                                                                                                                                                                                                             | [operations.CreateListResponseBody](../../models/operations/create-list-response-body.md)                                                                                                                                                            | :heavy_check_mark:                                                                                                                                                                                                                                   | N/A                                                                                                                                                                                                                                                  | {<br/>"data": {<br/>"id": 102,<br/>"title": "Best Spider-Man Stories",<br/>"description": "My favorite Spidey moments ranked",<br/>"entity_type": "issues",<br/>"is_ranked": true,<br/>"is_private": false,<br/>"items_count": 0,<br/>"user": {<br/>"id": 123,<br/>"username": "comic_fan"<br/>}<br/>}<br/>} |
+| Field                                                                                     | Type                                                                                      | Required                                                                                  | Description                                                                               |
+| ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `headers`                                                                                 | Record<string, *string*[]>                                                                | :heavy_check_mark:                                                                        | N/A                                                                                       |
+| `result`                                                                                  | [operations.CreateListResponseBody](../../models/operations/create-list-response-body.md) | :heavy_check_mark:                                                                        | N/A                                                                                       |

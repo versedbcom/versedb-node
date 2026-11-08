@@ -15,37 +15,60 @@ export type GetIssueVariantsRequest = {
    */
   issueId: number;
   /**
-   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.
+   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes.
    */
   languages?: string | undefined;
 };
 
-export type GetIssueVariantsVariantNameI18n = {};
+export type GetIssueVariantsImages = {
+  thumb?: string | undefined;
+  coverSm?: string | undefined;
+  coverMd?: string | undefined;
+  coverLg?: string | undefined;
+};
 
 export type GetIssueVariantsCreator = {
-  id?: number | undefined;
-  name?: string | undefined;
-  role?: string | undefined;
+  id: number;
+  name: string | null;
+  role: string;
+};
+
+export type GetIssueVariantsVariantNameI18n = {
+  value: string;
+  source: string;
+  reading?: string | undefined;
+  sort?: string | undefined;
 };
 
 export type GetIssueVariantsData = {
-  id?: number | undefined;
-  variantName?: string | undefined;
-  variantNameI18n?: GetIssueVariantsVariantNameI18n | undefined;
-  variantType?: string | undefined;
-  ratio?: string | undefined;
-  coverUrl?: string | undefined;
-  price?: string | undefined;
-  currencyCode?: string | undefined;
-  formattedPrice?: string | undefined;
-  creators?: Array<GetIssueVariantsCreator> | undefined;
+  id: number;
+  issueId: number | null;
+  variantName: string | null;
+  coverUrl: string | null;
+  images: GetIssueVariantsImages | null;
+  variantType: string | null;
+  ratio: string | null;
+  price: string | null;
+  currencyCode: string | null;
+  formattedPrice: string | null;
+  ean: string | null;
+  /**
+   * This edition's own on-sale date (YYYY-MM-DD), for a later printing or an exclusive that ships apart from its issue. Null when it ships with the issue: use the issue's release_date.
+   */
+  releaseDate: string | null;
+  isNsfw: boolean;
+  creators: Array<GetIssueVariantsCreator>;
+  /**
+   * One name per language, keyed by BCP 47 tag.
+   */
+  variantNameI18n: { [k: string]: GetIssueVariantsVariantNameI18n };
 };
 
 /**
  * Success
  */
 export type GetIssueVariantsResponseBody = {
-  data?: Array<GetIssueVariantsData> | undefined;
+  data: Array<GetIssueVariantsData>;
 };
 
 export type GetIssueVariantsResponse = {
@@ -84,18 +107,32 @@ export function getIssueVariantsRequestToJSON(
 }
 
 /** @internal */
-export const GetIssueVariantsVariantNameI18n$inboundSchema: z.ZodMiniType<
-  GetIssueVariantsVariantNameI18n,
+export const GetIssueVariantsImages$inboundSchema: z.ZodMiniType<
+  GetIssueVariantsImages,
   unknown
-> = z.object({});
+> = z.pipe(
+  z.object({
+    thumb: types.optional(types.string()),
+    cover_sm: types.optional(types.string()),
+    cover_md: types.optional(types.string()),
+    cover_lg: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "cover_sm": "coverSm",
+      "cover_md": "coverMd",
+      "cover_lg": "coverLg",
+    });
+  }),
+);
 
-export function getIssueVariantsVariantNameI18nFromJSON(
+export function getIssueVariantsImagesFromJSON(
   jsonString: string,
-): SafeParseResult<GetIssueVariantsVariantNameI18n, SDKValidationError> {
+): SafeParseResult<GetIssueVariantsImages, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => GetIssueVariantsVariantNameI18n$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'GetIssueVariantsVariantNameI18n' from JSON`,
+    (x) => GetIssueVariantsImages$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetIssueVariantsImages' from JSON`,
   );
 }
 
@@ -104,9 +141,9 @@ export const GetIssueVariantsCreator$inboundSchema: z.ZodMiniType<
   GetIssueVariantsCreator,
   unknown
 > = z.object({
-  id: types.optional(types.number()),
-  name: types.optional(types.string()),
-  role: types.optional(types.string()),
+  id: types.number(),
+  name: types.nullable(types.string()),
+  role: types.string(),
 });
 
 export function getIssueVariantsCreatorFromJSON(
@@ -120,34 +157,62 @@ export function getIssueVariantsCreatorFromJSON(
 }
 
 /** @internal */
+export const GetIssueVariantsVariantNameI18n$inboundSchema: z.ZodMiniType<
+  GetIssueVariantsVariantNameI18n,
+  unknown
+> = z.object({
+  value: types.string(),
+  source: types.string(),
+  reading: types.optional(types.string()),
+  sort: types.optional(types.string()),
+});
+
+export function getIssueVariantsVariantNameI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<GetIssueVariantsVariantNameI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetIssueVariantsVariantNameI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetIssueVariantsVariantNameI18n' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetIssueVariantsData$inboundSchema: z.ZodMiniType<
   GetIssueVariantsData,
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    variant_name: types.optional(types.string()),
-    variant_name_i18n: types.optional(
+    id: types.number(),
+    issue_id: types.nullable(types.number()),
+    variant_name: types.nullable(types.string()),
+    cover_url: types.nullable(types.string()),
+    images: types.nullable(z.lazy(() => GetIssueVariantsImages$inboundSchema)),
+    variant_type: types.nullable(types.string()),
+    ratio: types.nullable(types.string()),
+    price: types.nullable(types.string()),
+    currency_code: types.nullable(types.string()),
+    formatted_price: types.nullable(types.string()),
+    ean: types.nullable(types.string()),
+    release_date: types.nullable(types.string()),
+    is_nsfw: types.boolean(),
+    creators: z.array(z.lazy(() => GetIssueVariantsCreator$inboundSchema)),
+    variant_name_i18n: z.record(
+      z.string(),
       z.lazy(() => GetIssueVariantsVariantNameI18n$inboundSchema),
-    ),
-    variant_type: types.optional(types.string()),
-    ratio: types.optional(types.string()),
-    cover_url: types.optional(types.string()),
-    price: types.optional(types.string()),
-    currency_code: types.optional(types.string()),
-    formatted_price: types.optional(types.string()),
-    creators: types.optional(
-      z.array(z.lazy(() => GetIssueVariantsCreator$inboundSchema)),
     ),
   }),
   z.transform((v) => {
     return remap$(v, {
+      "issue_id": "issueId",
       "variant_name": "variantName",
-      "variant_name_i18n": "variantNameI18n",
-      "variant_type": "variantType",
       "cover_url": "coverUrl",
+      "variant_type": "variantType",
       "currency_code": "currencyCode",
       "formatted_price": "formattedPrice",
+      "release_date": "releaseDate",
+      "is_nsfw": "isNsfw",
+      "variant_name_i18n": "variantNameI18n",
     });
   }),
 );
@@ -167,9 +232,7 @@ export const GetIssueVariantsResponseBody$inboundSchema: z.ZodMiniType<
   GetIssueVariantsResponseBody,
   unknown
 > = z.object({
-  data: types.optional(
-    z.array(z.lazy(() => GetIssueVariantsData$inboundSchema)),
-  ),
+  data: z.array(z.lazy(() => GetIssueVariantsData$inboundSchema)),
 });
 
 export function getIssueVariantsResponseBodyFromJSON(

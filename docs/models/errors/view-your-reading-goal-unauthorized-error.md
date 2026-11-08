@@ -14,4 +14,4 @@ import { ViewYourReadingGoalUnauthorizedError } from "@versedbcom/sdk/models/err
 
 | Field              | Type               | Required           | Description        | Example            |
 | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
-| `message`          | *string*           | :heavy_minus_sign: | N/A                | Unauthenticated.   |
+| `message`          | *string*           | :heavy_check_mark: | N/A                | Unauthenticated.   |

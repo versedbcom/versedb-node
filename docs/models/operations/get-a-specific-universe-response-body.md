@@ -10,9 +10,19 @@ import { GetASpecificUniverseResponseBody } from "@versedbcom/sdk/models/operati
 let value: GetASpecificUniverseResponseBody = {
   data: {
     id: 1,
-    name: "Marvel Universe (616)",
-    nameI18n: {},
-    aliasesI18n: {},
+    name: "Marvel Universe",
+    nameI18n: {
+      "ja": {
+        value: "講談社",
+        source: "madb",
+        reading: "こうだんしゃ",
+      },
+    },
+    aliasesI18n: {
+      "en": [
+        "Kodansha Comics",
+      ],
+    },
     originalLocale: "en",
   },
 };
@@ -22,4 +32,4 @@ let value: GetASpecificUniverseResponseBody = {
 
 | Field                                                                                          | Type                                                                                           | Required                                                                                       | Description                                                                                    |
 | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| `data`                                                                                         | [operations.GetASpecificUniverseData](../../models/operations/get-a-specific-universe-data.md) | :heavy_minus_sign:                                                                             | N/A                                                                                            |
+| `data`                                                                                         | [operations.GetASpecificUniverseData](../../models/operations/get-a-specific-universe-data.md) | :heavy_check_mark:                                                                             | N/A                                                                                            |

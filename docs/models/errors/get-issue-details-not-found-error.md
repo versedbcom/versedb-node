@@ -12,6 +12,6 @@ import { GetIssueDetailsNotFoundError } from "@versedbcom/sdk/models/errors";
 
 ## Fields
 
-| Field              | Type               | Required           | Description        | Example            |
-| ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
-| `message`          | *string*           | :heavy_minus_sign: | N/A                | Not Found          |
+| Field                                              | Type                                               | Required                                           | Description                                        | Example                                            |
+| -------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- |
+| `message`                                          | *string*                                           | :heavy_check_mark:                                 | N/A                                                | No query results for model [App\Models\Issue] 5432 |

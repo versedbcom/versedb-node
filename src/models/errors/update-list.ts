@@ -7,14 +7,70 @@ import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Unauthorized
+ * The body failed validation.
  */
-export type UpdateListForbiddenErrorData = {
-  message?: string | undefined;
+export type UpdateListUnprocessableEntityErrorData = {
+  message: string;
+  errors: { [k: string]: Array<string> };
 };
 
 /**
- * Unauthorized
+ * The body failed validation.
+ */
+export class UpdateListUnprocessableEntityError extends VerseDbError {
+  errors: { [k: string]: Array<string> };
+
+  /** The original data that was passed to this error instance. */
+  data$: UpdateListUnprocessableEntityErrorData;
+
+  constructor(
+    err: UpdateListUnprocessableEntityErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+    this.errors = err.errors;
+
+    this.name = "UpdateListUnprocessableEntityError";
+  }
+}
+
+/**
+ * No live list has this ID.
+ */
+export type UpdateListNotFoundErrorData = {
+  message: string;
+};
+
+/**
+ * No live list has this ID.
+ */
+export class UpdateListNotFoundError extends VerseDbError {
+  /** The original data that was passed to this error instance. */
+  data$: UpdateListNotFoundErrorData;
+
+  constructor(
+    err: UpdateListNotFoundErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+
+    this.name = "UpdateListNotFoundError";
+  }
+}
+
+/**
+ * The list is not yours to update, or the token holds neither write:list nor write:lists.
+ */
+export type UpdateListForbiddenErrorData = {
+  message: string;
+};
+
+/**
+ * The list is not yours to update, or the token holds neither write:list nor write:lists.
  */
 export class UpdateListForbiddenError extends VerseDbError {
   /** The original data that was passed to this error instance. */
@@ -33,12 +89,53 @@ export class UpdateListForbiddenError extends VerseDbError {
 }
 
 /** @internal */
+export const UpdateListUnprocessableEntityError$inboundSchema: z.ZodMiniType<
+  UpdateListUnprocessableEntityError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    errors: z.record(z.string(), z.array(types.string())),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new UpdateListUnprocessableEntityError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
+export const UpdateListNotFoundError$inboundSchema: z.ZodMiniType<
+  UpdateListNotFoundError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new UpdateListNotFoundError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
 export const UpdateListForbiddenError$inboundSchema: z.ZodMiniType<
   UpdateListForbiddenError,
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
+    message: types.string(),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),

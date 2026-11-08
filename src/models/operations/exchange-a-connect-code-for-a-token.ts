@@ -32,10 +32,10 @@ export type ExchangeAConnectCodeForATokenRequest = {
  * Success.
  */
 export type ExchangeAConnectCodeForATokenResponseBody = {
-  accessToken?: string | undefined;
-  tokenType?: string | undefined;
-  expiresAt?: string | undefined;
-  abilities?: Array<string> | undefined;
+  accessToken: string;
+  tokenType: string;
+  expiresAt: string;
+  abilities: Array<string>;
 };
 
 export type ExchangeAConnectCodeForATokenResponse = {
@@ -85,10 +85,10 @@ export function exchangeAConnectCodeForATokenRequestToJSON(
 export const ExchangeAConnectCodeForATokenResponseBody$inboundSchema:
   z.ZodMiniType<ExchangeAConnectCodeForATokenResponseBody, unknown> = z.pipe(
     z.object({
-      access_token: types.optional(types.string()),
-      token_type: types.optional(types.string()),
-      expires_at: types.optional(types.string()),
-      abilities: types.optional(z.array(types.string())),
+      access_token: types.string(),
+      token_type: types.string(),
+      expires_at: types.string(),
+      abilities: z.array(types.string()),
     }),
     z.transform((v) => {
       return remap$(v, {

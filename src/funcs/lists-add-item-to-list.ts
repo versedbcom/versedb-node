@@ -42,7 +42,9 @@ export function listsAddItemToList(
     operations.AddItemToListResponse,
     | errors.UnauthorizedErrorError
     | errors.AddItemToListForbiddenError
+    | errors.AddItemToListNotFoundError
     | errors.AddItemToListConflictError
+    | errors.AddItemToListUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -71,7 +73,9 @@ async function $do(
       operations.AddItemToListResponse,
       | errors.UnauthorizedErrorError
       | errors.AddItemToListForbiddenError
+      | errors.AddItemToListNotFoundError
       | errors.AddItemToListConflictError
+      | errors.AddItemToListUnprocessableEntityError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -163,7 +167,9 @@ async function $do(
     operations.AddItemToListResponse,
     | errors.UnauthorizedErrorError
     | errors.AddItemToListForbiddenError
+    | errors.AddItemToListNotFoundError
     | errors.AddItemToListConflictError
+    | errors.AddItemToListUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -180,7 +186,13 @@ async function $do(
     }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
     M.jsonErr(403, errors.AddItemToListForbiddenError$inboundSchema),
-    M.jsonErr(409, errors.AddItemToListConflictError$inboundSchema),
+    M.jsonErr(404, errors.AddItemToListNotFoundError$inboundSchema),
+    M.jsonErr(409, errors.AddItemToListConflictError$inboundSchema, {
+      hdrs: true,
+    }),
+    M.jsonErr(422, errors.AddItemToListUnprocessableEntityError$inboundSchema, {
+      hdrs: true,
+    }),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

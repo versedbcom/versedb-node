@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { VerseDBCore } from "../core.js";
-import { encodeFormQuery, encodeJSON, encodeSimple } from "../lib/encodings.js";
+import { encodeFormQuery, encodeSimple } from "../lib/encodings.js";
 import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
@@ -43,6 +43,9 @@ export function userRemoveFromWishlist(
   Result<
     operations.RemoveFromWishlistResponse | undefined,
     | errors.UnauthorizedErrorError
+    | errors.RemoveFromWishlistForbiddenError
+    | errors.RemoveFromWishlistNotFoundError
+    | errors.RemoveFromWishlistUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -70,6 +73,9 @@ async function $do(
     Result<
       operations.RemoveFromWishlistResponse | undefined,
       | errors.UnauthorizedErrorError
+      | errors.RemoveFromWishlistForbiddenError
+      | errors.RemoveFromWishlistNotFoundError
+      | errors.RemoveFromWishlistUnprocessableEntityError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -93,7 +99,7 @@ async function $do(
     return [parsed, { status: "invalid" }];
   }
   const payload = parsed.value;
-  const body = encodeJSON("body", payload.body, { explode: true });
+  const body = null;
 
   const pathParams = {
     issue_id: encodeSimple("issue_id", payload.issue_id, {
@@ -108,7 +114,6 @@ async function $do(
   });
 
   const headers = new Headers(compactMap({
-    "Content-Type": "application/json",
     Accept: "application/json",
   }));
 
@@ -166,6 +171,9 @@ async function $do(
   const [result] = await M.match<
     operations.RemoveFromWishlistResponse | undefined,
     | errors.UnauthorizedErrorError
+    | errors.RemoveFromWishlistForbiddenError
+    | errors.RemoveFromWishlistNotFoundError
+    | errors.RemoveFromWishlistUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -182,6 +190,13 @@ async function $do(
       { hdrs: true },
     ),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
+    M.jsonErr(403, errors.RemoveFromWishlistForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.RemoveFromWishlistNotFoundError$inboundSchema),
+    M.jsonErr(
+      422,
+      errors.RemoveFromWishlistUnprocessableEntityError$inboundSchema,
+      { hdrs: true },
+    ),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

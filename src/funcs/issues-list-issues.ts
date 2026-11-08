@@ -41,6 +41,7 @@ export function issuesListIssues(
   Result<
     operations.ListIssuesResponse,
     | errors.UnauthorizedErrorError
+    | errors.ListIssuesForbiddenError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -68,6 +69,7 @@ async function $do(
     Result<
       operations.ListIssuesResponse,
       | errors.UnauthorizedErrorError
+      | errors.ListIssuesForbiddenError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -107,6 +109,7 @@ async function $do(
     "languages": payload?.languages,
     "limit": payload?.limit,
     "medium": payload?.medium,
+    "page": payload?.page,
     "publisher_id": payload?.publisher_id,
     "publisher_ids": payload?.publisher_ids,
     "q": payload?.q,
@@ -177,6 +180,7 @@ async function $do(
   const [result] = await M.match<
     operations.ListIssuesResponse,
     | errors.UnauthorizedErrorError
+    | errors.ListIssuesForbiddenError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -192,6 +196,7 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
+    M.jsonErr(403, errors.ListIssuesForbiddenError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

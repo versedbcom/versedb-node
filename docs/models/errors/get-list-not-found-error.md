@@ -1,6 +1,6 @@
 # GetListNotFoundError
 
-Not Found
+No such list, or you blocked its owner, or they blocked you.
 
 ## Example Usage
 
@@ -14,4 +14,4 @@ import { GetListNotFoundError } from "@versedbcom/sdk/models/errors";
 
 | Field              | Type               | Required           | Description        | Example            |
 | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
-| `message`          | *string*           | :heavy_minus_sign: | N/A                | Not Found          |
+| `message`          | *string*           | :heavy_check_mark: | N/A                | Not Found          |

@@ -42,7 +42,9 @@ export function userAddToWishlist(
   Result<
     operations.AddToWishlistResponse,
     | errors.UnauthorizedErrorError
-    | errors.AddToWishlistUnprocessableEntityError
+    | errors.AddToWishlistForbiddenError
+    | errors.AddToWishlistNotFoundError
+    | errors.AddToWishlistUnprocessableEntity
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -70,7 +72,9 @@ async function $do(
     Result<
       operations.AddToWishlistResponse,
       | errors.UnauthorizedErrorError
-      | errors.AddToWishlistUnprocessableEntityError
+      | errors.AddToWishlistForbiddenError
+      | errors.AddToWishlistNotFoundError
+      | errors.AddToWishlistUnprocessableEntity
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -161,7 +165,9 @@ async function $do(
   const [result] = await M.match<
     operations.AddToWishlistResponse,
     | errors.UnauthorizedErrorError
-    | errors.AddToWishlistUnprocessableEntityError
+    | errors.AddToWishlistForbiddenError
+    | errors.AddToWishlistNotFoundError
+    | errors.AddToWishlistUnprocessableEntity
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -181,7 +187,11 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
-    M.jsonErr(422, errors.AddToWishlistUnprocessableEntityError$inboundSchema),
+    M.jsonErr(403, errors.AddToWishlistForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.AddToWishlistNotFoundError$inboundSchema),
+    M.jsonErr(422, errors.AddToWishlistUnprocessableEntity$inboundSchema, {
+      hdrs: true,
+    }),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

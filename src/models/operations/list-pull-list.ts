@@ -7,6 +7,7 @@ import { remap as remap$ } from "../../lib/primitives.js";
 import { safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
+import { smartUnion } from "../../types/smart-union.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type ListPullListRequest = {
@@ -14,39 +15,260 @@ export type ListPullListRequest = {
    * Items per page (max 100).
    */
   perPage?: number | undefined;
+  /**
+   * Page number; meta.last_page says where the list ends.
+   */
+  page?: number | undefined;
+  /**
+   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes.
+   */
+  languages?: string | undefined;
 };
 
-export type ListPullListPublisher = {
-  id?: number | undefined;
-  name?: string | undefined;
+/**
+ * Left out for a `read:showcase` token.
+ */
+export type NotificationSettings = string | number | boolean | Array<any> | {
+  [k: string]: any;
 };
 
+export type PullSource = {
+  id: number;
+  name: string;
+  kind: string;
+  kindLabel: string;
+  hasPickup: boolean;
+  comicShopId: number | null;
+  location: string | null;
+  pickupNote: string | null;
+  isDefault: boolean;
+  /**
+   * True when the source is a shop's own link to the member's account.
+   */
+  isLinked: boolean;
+  shopLinkId: number | null;
+  sort: number;
+  createdAt: string | null;
+  updatedAt: string | null;
+};
+
+export type SeriesImages = {
+  coverSm?: string | undefined;
+  coverMd?: string | undefined;
+  coverLg?: string | undefined;
+};
+
+export type NextIssueImages = {
+  thumb?: string | undefined;
+  coverSm?: string | undefined;
+  coverMd?: string | undefined;
+  coverLg?: string | undefined;
+};
+
+export type NextIssueNameI18n = {
+  value: string;
+  source: string;
+  reading?: string | undefined;
+  sort?: string | undefined;
+};
+
+/**
+ * The series' next issue released today or later that the member hasn't skipped.
+ */
+export type NextIssue = {
+  id: number;
+  slug: string | null;
+  seriesId: number | null;
+  issueNumber: string | null;
+  name: string | null;
+  coverDate: string | null;
+  releaseDate: string | null;
+  focDate: string | null;
+  isUnreleased: boolean;
+  coverUrl: string | null;
+  images: NextIssueImages | null;
+  isReprint: boolean;
+  contentRatingLabel: string | null;
+  minAge: number | null;
+  isNsfw: boolean;
+  averageRating: number | null;
+  /**
+   * One name per language, keyed by BCP 47 tag.
+   */
+  nameI18n: { [k: string]: NextIssueNameI18n };
+};
+
+export type ListPullListSeriesImages = {
+  coverSm?: string | undefined;
+  coverMd?: string | undefined;
+  coverLg?: string | undefined;
+};
+
+export type SeriesNameI18n = {
+  value: string;
+  source: string;
+  reading?: string | undefined;
+  sort?: string | undefined;
+};
+
+/**
+ * Null once the series is gone.
+ */
 export type ListPullListSeries = {
-  id?: number | undefined;
-  name?: string | undefined;
-  publisher?: ListPullListPublisher | undefined;
-  coverUrl?: string | undefined;
+  id: number;
+  titleId: number | null;
+  name: string | null;
+  displayName: string;
+  slug: string | null;
+  number: number | null;
+  startYear: number | null;
+  endYear: number | null;
+  coverUrl: string | null;
+  images: ListPullListSeriesImages | null;
+  medium: string | null;
+  publicationType: string | null;
+  format: string | null;
+  status: string | null;
+  originalName: string | null;
+  originalLanguage: string | null;
+  language: string | null;
+  cachedIssuesCount: number | null;
+  averageRating: string | null;
+  totalReviews: number | null;
+  issuesAverageRating: string | null;
+  issuesRatedCount: number | null;
+  contentRatingLabel: string | null;
+  minAge: number | null;
+  isNsfw: boolean | null;
+  publisherName: string | null;
+  /**
+   * One name per language, keyed by BCP 47 tag.
+   */
+  nameI18n: { [k: string]: SeriesNameI18n };
+  /**
+   * Alternative names per language.
+   */
+  aliasesI18n: { [k: string]: Array<string> };
+  /**
+   * The language the series is from, a BCP 47 tag.
+   */
+  originalLocale: string | null;
 };
 
 export type ListPullListData = {
-  id?: number | undefined;
-  series?: ListPullListSeries | undefined;
-  addedAt?: string | undefined;
+  id: number;
+  userId: number;
+  pullableType: string | null;
+  pullableId: number | null;
+  seriesId: number | null;
+  variantId: number | null;
+  /**
+   * `active`, `paused` or `canceled`.
+   */
+  status: string;
+  /**
+   * Left out for a `read:showcase` token.
+   */
+  autoPull?: boolean | null | undefined;
+  /**
+   * Left out for a `read:showcase` token.
+   */
+  lastPulledAt?: string | null | undefined;
+  /**
+   * Left out for a `read:showcase` token.
+   */
+  preferredCoverType?: string | null | undefined;
+  /**
+   * Left out for a `read:showcase` token.
+   */
+  pullPriority?: number | null | undefined;
+  /**
+   * Left out for a `read:showcase` token.
+   */
+  notifyOnRelease?: boolean | null | undefined;
+  /**
+   * Left out for a `read:showcase` token.
+   */
+  notificationSettings?:
+    | string
+    | number
+    | boolean
+    | Array<any>
+    | { [k: string]: any }
+    | null
+    | undefined;
+  /**
+   * Left out for a `read:showcase` token.
+   */
+  personalNotes?: string | null | undefined;
+  /**
+   * Left out for a `read:showcase` token.
+   */
+  pullSourceIds?: Array<number> | undefined;
+  /**
+   * Left out for a `read:showcase` token.
+   */
+  pullSources?: Array<PullSource> | undefined;
+  /**
+   * Left out for a `read:showcase` token.
+   */
+  pullSourceId?: number | null | undefined;
+  /**
+   * Left out for a `read:showcase` token.
+   */
+  pullSource?: PullSource | null | undefined;
+  createdAt: string | null;
+  updatedAt: string | null;
+  /**
+   * Null once the series is gone.
+   */
+  seriesName: string | null;
+  seriesCoverUrl: string | null;
+  seriesImages: SeriesImages | null;
+  publisherName: string | null;
+  isNsfw: boolean;
+  /**
+   * The series' next issue released today or later that the member hasn't skipped.
+   */
+  nextIssue: NextIssue | null;
+  /**
+   * Null once the series is gone.
+   */
+  series: ListPullListSeries | null;
+};
+
+export type ListPullListLinks = {
+  first: string;
+  last: string;
+  prev: string | null;
+  next: string | null;
+};
+
+export type ListPullListLink = {
+  url: string | null;
+  label: string;
+  page?: number | null | undefined;
+  active: boolean;
 };
 
 export type ListPullListMeta = {
-  currentPage?: number | undefined;
-  lastPage?: number | undefined;
-  perPage?: number | undefined;
-  total?: number | undefined;
+  currentPage: number;
+  from: number | null;
+  lastPage: number;
+  links: Array<ListPullListLink>;
+  path: string;
+  perPage: number;
+  to: number | null;
+  total: number;
 };
 
 /**
  * Success
  */
 export type ListPullListResponseBody = {
-  data?: Array<ListPullListData> | undefined;
-  meta?: ListPullListMeta | undefined;
+  data: Array<ListPullListData>;
+  links: ListPullListLinks;
+  meta: ListPullListMeta;
 };
 
 export type ListPullListResponse = {
@@ -57,6 +279,8 @@ export type ListPullListResponse = {
 /** @internal */
 export type ListPullListRequest$Outbound = {
   per_page?: number | undefined;
+  page?: number | undefined;
+  languages?: string | undefined;
 };
 
 /** @internal */
@@ -66,6 +290,8 @@ export const ListPullListRequest$outboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     perPage: z.optional(z.int()),
+    page: z.optional(z.int()),
+    languages: z.optional(z.string()),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -83,21 +309,250 @@ export function listPullListRequestToJSON(
 }
 
 /** @internal */
-export const ListPullListPublisher$inboundSchema: z.ZodMiniType<
-  ListPullListPublisher,
+export const NotificationSettings$inboundSchema: z.ZodMiniType<
+  NotificationSettings,
   unknown
-> = z.object({
-  id: types.optional(types.number()),
-  name: types.optional(types.string()),
-});
+> = smartUnion([
+  types.string(),
+  types.number(),
+  types.boolean(),
+  z.array(z.any()),
+  z.record(z.string(), z.any()),
+]);
 
-export function listPullListPublisherFromJSON(
+export function notificationSettingsFromJSON(
   jsonString: string,
-): SafeParseResult<ListPullListPublisher, SDKValidationError> {
+): SafeParseResult<NotificationSettings, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => ListPullListPublisher$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ListPullListPublisher' from JSON`,
+    (x) => NotificationSettings$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'NotificationSettings' from JSON`,
+  );
+}
+
+/** @internal */
+export const PullSource$inboundSchema: z.ZodMiniType<PullSource, unknown> = z
+  .pipe(
+    z.object({
+      id: types.number(),
+      name: types.string(),
+      kind: types.string(),
+      kind_label: types.string(),
+      has_pickup: types.boolean(),
+      comic_shop_id: types.nullable(types.number()),
+      location: types.nullable(types.string()),
+      pickup_note: types.nullable(types.string()),
+      is_default: types.boolean(),
+      is_linked: types.boolean(),
+      shop_link_id: types.nullable(types.number()),
+      sort: types.number(),
+      created_at: types.nullable(types.string()),
+      updated_at: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "kind_label": "kindLabel",
+        "has_pickup": "hasPickup",
+        "comic_shop_id": "comicShopId",
+        "pickup_note": "pickupNote",
+        "is_default": "isDefault",
+        "is_linked": "isLinked",
+        "shop_link_id": "shopLinkId",
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+      });
+    }),
+  );
+
+export function pullSourceFromJSON(
+  jsonString: string,
+): SafeParseResult<PullSource, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => PullSource$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'PullSource' from JSON`,
+  );
+}
+
+/** @internal */
+export const SeriesImages$inboundSchema: z.ZodMiniType<SeriesImages, unknown> =
+  z.pipe(
+    z.object({
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  );
+
+export function seriesImagesFromJSON(
+  jsonString: string,
+): SafeParseResult<SeriesImages, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => SeriesImages$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'SeriesImages' from JSON`,
+  );
+}
+
+/** @internal */
+export const NextIssueImages$inboundSchema: z.ZodMiniType<
+  NextIssueImages,
+  unknown
+> = z.pipe(
+  z.object({
+    thumb: types.optional(types.string()),
+    cover_sm: types.optional(types.string()),
+    cover_md: types.optional(types.string()),
+    cover_lg: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "cover_sm": "coverSm",
+      "cover_md": "coverMd",
+      "cover_lg": "coverLg",
+    });
+  }),
+);
+
+export function nextIssueImagesFromJSON(
+  jsonString: string,
+): SafeParseResult<NextIssueImages, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => NextIssueImages$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'NextIssueImages' from JSON`,
+  );
+}
+
+/** @internal */
+export const NextIssueNameI18n$inboundSchema: z.ZodMiniType<
+  NextIssueNameI18n,
+  unknown
+> = z.object({
+  value: types.string(),
+  source: types.string(),
+  reading: types.optional(types.string()),
+  sort: types.optional(types.string()),
+});
+
+export function nextIssueNameI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<NextIssueNameI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => NextIssueNameI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'NextIssueNameI18n' from JSON`,
+  );
+}
+
+/** @internal */
+export const NextIssue$inboundSchema: z.ZodMiniType<NextIssue, unknown> = z
+  .pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      series_id: types.nullable(types.number()),
+      issue_number: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      cover_date: types.nullable(types.string()),
+      release_date: types.nullable(types.string()),
+      foc_date: types.nullable(types.string()),
+      is_unreleased: types.boolean(),
+      cover_url: types.nullable(types.string()),
+      images: types.nullable(z.lazy(() => NextIssueImages$inboundSchema)),
+      is_reprint: types.boolean(),
+      content_rating_label: types.nullable(types.string()),
+      min_age: types.nullable(types.number()),
+      is_nsfw: types.boolean(),
+      average_rating: types.nullable(types.number()),
+      name_i18n: z.record(
+        z.string(),
+        z.lazy(() => NextIssueNameI18n$inboundSchema),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "series_id": "seriesId",
+        "issue_number": "issueNumber",
+        "cover_date": "coverDate",
+        "release_date": "releaseDate",
+        "foc_date": "focDate",
+        "is_unreleased": "isUnreleased",
+        "cover_url": "coverUrl",
+        "is_reprint": "isReprint",
+        "content_rating_label": "contentRatingLabel",
+        "min_age": "minAge",
+        "is_nsfw": "isNsfw",
+        "average_rating": "averageRating",
+        "name_i18n": "nameI18n",
+      });
+    }),
+  );
+
+export function nextIssueFromJSON(
+  jsonString: string,
+): SafeParseResult<NextIssue, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => NextIssue$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'NextIssue' from JSON`,
+  );
+}
+
+/** @internal */
+export const ListPullListSeriesImages$inboundSchema: z.ZodMiniType<
+  ListPullListSeriesImages,
+  unknown
+> = z.pipe(
+  z.object({
+    cover_sm: types.optional(types.string()),
+    cover_md: types.optional(types.string()),
+    cover_lg: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "cover_sm": "coverSm",
+      "cover_md": "coverMd",
+      "cover_lg": "coverLg",
+    });
+  }),
+);
+
+export function listPullListSeriesImagesFromJSON(
+  jsonString: string,
+): SafeParseResult<ListPullListSeriesImages, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ListPullListSeriesImages$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListPullListSeriesImages' from JSON`,
+  );
+}
+
+/** @internal */
+export const SeriesNameI18n$inboundSchema: z.ZodMiniType<
+  SeriesNameI18n,
+  unknown
+> = z.object({
+  value: types.string(),
+  source: types.string(),
+  reading: types.optional(types.string()),
+  sort: types.optional(types.string()),
+});
+
+export function seriesNameI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<SeriesNameI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => SeriesNameI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'SeriesNameI18n' from JSON`,
   );
 }
 
@@ -107,16 +562,60 @@ export const ListPullListSeries$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    name: types.optional(types.string()),
-    publisher: types.optional(
-      z.lazy(() => ListPullListPublisher$inboundSchema),
+    id: types.number(),
+    title_id: types.nullable(types.number()),
+    name: types.nullable(types.string()),
+    display_name: types.string(),
+    slug: types.nullable(types.string()),
+    number: types.nullable(types.number()),
+    start_year: types.nullable(types.number()),
+    end_year: types.nullable(types.number()),
+    cover_url: types.nullable(types.string()),
+    images: types.nullable(
+      z.lazy(() => ListPullListSeriesImages$inboundSchema),
     ),
-    cover_url: types.optional(types.string()),
+    medium: types.nullable(types.string()),
+    publication_type: types.nullable(types.string()),
+    format: types.nullable(types.string()),
+    status: types.nullable(types.string()),
+    original_name: types.nullable(types.string()),
+    original_language: types.nullable(types.string()),
+    language: types.nullable(types.string()),
+    cached_issues_count: types.nullable(types.number()),
+    average_rating: types.nullable(types.string()),
+    total_reviews: types.nullable(types.number()),
+    issues_average_rating: types.nullable(types.string()),
+    issues_rated_count: types.nullable(types.number()),
+    content_rating_label: types.nullable(types.string()),
+    min_age: types.nullable(types.number()),
+    is_nsfw: types.nullable(types.boolean()),
+    publisher_name: types.nullable(types.string()),
+    name_i18n: z.record(z.string(), z.lazy(() => SeriesNameI18n$inboundSchema)),
+    aliases_i18n: z.record(z.string(), z.array(types.string())),
+    original_locale: types.nullable(types.string()),
   }),
   z.transform((v) => {
     return remap$(v, {
+      "title_id": "titleId",
+      "display_name": "displayName",
+      "start_year": "startYear",
+      "end_year": "endYear",
       "cover_url": "coverUrl",
+      "publication_type": "publicationType",
+      "original_name": "originalName",
+      "original_language": "originalLanguage",
+      "cached_issues_count": "cachedIssuesCount",
+      "average_rating": "averageRating",
+      "total_reviews": "totalReviews",
+      "issues_average_rating": "issuesAverageRating",
+      "issues_rated_count": "issuesRatedCount",
+      "content_rating_label": "contentRatingLabel",
+      "min_age": "minAge",
+      "is_nsfw": "isNsfw",
+      "publisher_name": "publisherName",
+      "name_i18n": "nameI18n",
+      "aliases_i18n": "aliasesI18n",
+      "original_locale": "originalLocale",
     });
   }),
 );
@@ -137,13 +636,72 @@ export const ListPullListData$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    series: types.optional(z.lazy(() => ListPullListSeries$inboundSchema)),
-    added_at: types.optional(types.string()),
+    id: types.number(),
+    user_id: types.number(),
+    pullable_type: types.nullable(types.string()),
+    pullable_id: types.nullable(types.number()),
+    series_id: types.nullable(types.number()),
+    variant_id: types.nullable(types.number()),
+    status: types.string(),
+    auto_pull: z.optional(z.nullable(types.boolean())),
+    last_pulled_at: z.optional(z.nullable(types.string())),
+    preferred_cover_type: z.optional(z.nullable(types.string())),
+    pull_priority: z.optional(z.nullable(types.number())),
+    notify_on_release: z.optional(z.nullable(types.boolean())),
+    notification_settings: z.optional(
+      z.nullable(
+        smartUnion([
+          types.string(),
+          types.number(),
+          types.boolean(),
+          z.array(z.any()),
+          z.record(z.string(), z.any()),
+        ]),
+      ),
+    ),
+    personal_notes: z.optional(z.nullable(types.string())),
+    pull_source_ids: types.optional(z.array(types.number())),
+    pull_sources: types.optional(
+      z.array(z.lazy(() => PullSource$inboundSchema)),
+    ),
+    pull_source_id: z.optional(z.nullable(types.number())),
+    pull_source: z.optional(z.nullable(z.lazy(() => PullSource$inboundSchema))),
+    created_at: types.nullable(types.string()),
+    updated_at: types.nullable(types.string()),
+    series_name: types.nullable(types.string()),
+    series_cover_url: types.nullable(types.string()),
+    series_images: types.nullable(z.lazy(() => SeriesImages$inboundSchema)),
+    publisher_name: types.nullable(types.string()),
+    is_nsfw: types.boolean(),
+    next_issue: types.nullable(z.lazy(() => NextIssue$inboundSchema)),
+    series: types.nullable(z.lazy(() => ListPullListSeries$inboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {
-      "added_at": "addedAt",
+      "user_id": "userId",
+      "pullable_type": "pullableType",
+      "pullable_id": "pullableId",
+      "series_id": "seriesId",
+      "variant_id": "variantId",
+      "auto_pull": "autoPull",
+      "last_pulled_at": "lastPulledAt",
+      "preferred_cover_type": "preferredCoverType",
+      "pull_priority": "pullPriority",
+      "notify_on_release": "notifyOnRelease",
+      "notification_settings": "notificationSettings",
+      "personal_notes": "personalNotes",
+      "pull_source_ids": "pullSourceIds",
+      "pull_sources": "pullSources",
+      "pull_source_id": "pullSourceId",
+      "pull_source": "pullSource",
+      "created_at": "createdAt",
+      "updated_at": "updatedAt",
+      "series_name": "seriesName",
+      "series_cover_url": "seriesCoverUrl",
+      "series_images": "seriesImages",
+      "publisher_name": "publisherName",
+      "is_nsfw": "isNsfw",
+      "next_issue": "nextIssue",
     });
   }),
 );
@@ -159,15 +717,61 @@ export function listPullListDataFromJSON(
 }
 
 /** @internal */
+export const ListPullListLinks$inboundSchema: z.ZodMiniType<
+  ListPullListLinks,
+  unknown
+> = z.object({
+  first: types.string(),
+  last: types.string(),
+  prev: types.nullable(types.string()),
+  next: types.nullable(types.string()),
+});
+
+export function listPullListLinksFromJSON(
+  jsonString: string,
+): SafeParseResult<ListPullListLinks, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ListPullListLinks$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListPullListLinks' from JSON`,
+  );
+}
+
+/** @internal */
+export const ListPullListLink$inboundSchema: z.ZodMiniType<
+  ListPullListLink,
+  unknown
+> = z.object({
+  url: types.nullable(types.string()),
+  label: types.string(),
+  page: z.optional(z.nullable(types.number())),
+  active: types.boolean(),
+});
+
+export function listPullListLinkFromJSON(
+  jsonString: string,
+): SafeParseResult<ListPullListLink, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ListPullListLink$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListPullListLink' from JSON`,
+  );
+}
+
+/** @internal */
 export const ListPullListMeta$inboundSchema: z.ZodMiniType<
   ListPullListMeta,
   unknown
 > = z.pipe(
   z.object({
-    current_page: types.optional(types.number()),
-    last_page: types.optional(types.number()),
-    per_page: types.optional(types.number()),
-    total: types.optional(types.number()),
+    current_page: types.number(),
+    from: types.nullable(types.number()),
+    last_page: types.number(),
+    links: z.array(z.lazy(() => ListPullListLink$inboundSchema)),
+    path: types.string(),
+    per_page: types.number(),
+    to: types.nullable(types.number()),
+    total: types.number(),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -193,8 +797,9 @@ export const ListPullListResponseBody$inboundSchema: z.ZodMiniType<
   ListPullListResponseBody,
   unknown
 > = z.object({
-  data: types.optional(z.array(z.lazy(() => ListPullListData$inboundSchema))),
-  meta: types.optional(z.lazy(() => ListPullListMeta$inboundSchema)),
+  data: z.array(z.lazy(() => ListPullListData$inboundSchema)),
+  links: z.lazy(() => ListPullListLinks$inboundSchema),
+  meta: z.lazy(() => ListPullListMeta$inboundSchema),
 });
 
 export function listPullListResponseBodyFromJSON(

@@ -28,6 +28,7 @@ async function run() {
   const result = await verseDB.universes.listUniverses({
     q: "marvel",
     limit: 20,
+    page: 1,
     languages: "ja,ko",
   });
 
@@ -55,6 +56,7 @@ async function run() {
   const res = await universesListUniverses(verseDB, {
     q: "marvel",
     limit: 20,
+    page: 1,
     languages: "ja,ko",
   });
   if (res.ok) {
@@ -83,11 +85,12 @@ run();
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| errors.UnauthorizedErrorError | 401                           | application/json              |
-| errors.TooManyRequestsError   | 429                           | application/json              |
-| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
+| Error Type                         | Status Code                        | Content Type                       |
+| ---------------------------------- | ---------------------------------- | ---------------------------------- |
+| errors.UnauthorizedErrorError      | 401                                | application/json                   |
+| errors.ListUniversesForbiddenError | 403                                | application/json                   |
+| errors.TooManyRequestsError        | 429                                | application/json                   |
+| errors.VerseDbDefaultError         | 4XX, 5XX                           | \*/\*                              |
 
 ## getASpecificUniverse
 
@@ -164,8 +167,9 @@ run();
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| errors.UnauthorizedErrorError | 401                           | application/json              |
-| errors.TooManyRequestsError   | 429                           | application/json              |
-| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
+| Error Type                                | Status Code                               | Content Type                              |
+| ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
+| errors.UnauthorizedErrorError             | 401                                       | application/json                          |
+| errors.GetASpecificUniverseForbiddenError | 403                                       | application/json                          |
+| errors.TooManyRequestsError               | 429                                       | application/json                          |
+| errors.VerseDbDefaultError                | 4XX, 5XX                                  | \*/\*                                     |

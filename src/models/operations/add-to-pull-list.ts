@@ -6,7 +6,6 @@ import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
 import { safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
-import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type AddToPullListRequest = {
@@ -16,18 +15,9 @@ export type AddToPullListRequest = {
   seriesId: number;
 };
 
-export type AddToPullListErrors = {
-  seriesId?: Array<string> | undefined;
-};
-
-/**
- * Success
- */
-export type AddToPullListResponseBody = {};
-
 export type AddToPullListResponse = {
   headers: { [k: string]: Array<string> };
-  result: AddToPullListResponseBody;
+  result: Array<any>;
 };
 
 /** @internal */
@@ -59,54 +49,13 @@ export function addToPullListRequestToJSON(
 }
 
 /** @internal */
-export const AddToPullListErrors$inboundSchema: z.ZodMiniType<
-  AddToPullListErrors,
-  unknown
-> = z.pipe(
-  z.object({
-    series_id: types.optional(z.array(types.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "series_id": "seriesId",
-    });
-  }),
-);
-
-export function addToPullListErrorsFromJSON(
-  jsonString: string,
-): SafeParseResult<AddToPullListErrors, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => AddToPullListErrors$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'AddToPullListErrors' from JSON`,
-  );
-}
-
-/** @internal */
-export const AddToPullListResponseBody$inboundSchema: z.ZodMiniType<
-  AddToPullListResponseBody,
-  unknown
-> = z.object({});
-
-export function addToPullListResponseBodyFromJSON(
-  jsonString: string,
-): SafeParseResult<AddToPullListResponseBody, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => AddToPullListResponseBody$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'AddToPullListResponseBody' from JSON`,
-  );
-}
-
-/** @internal */
 export const AddToPullListResponse$inboundSchema: z.ZodMiniType<
   AddToPullListResponse,
   unknown
 > = z.pipe(
   z.object({
     Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => AddToPullListResponseBody$inboundSchema),
+    Result: z.array(z.any()),
   }),
   z.transform((v) => {
     return remap$(v, {

@@ -16,45 +16,92 @@ export type ListWishlistRequest = {
   perPage?: number | undefined;
 };
 
-export type ListWishlistSeries = {
-  id?: number | undefined;
-  name?: string | undefined;
-  startYear?: number | undefined;
+/**
+ * The pinned cover, while it exists.
+ */
+export type ListWishlistVariant = {
+  id: number;
+  name: string | null;
+  ratio: string | null;
+  coverImageUrl: string | null;
 };
 
+export type ListWishlistSeries = {
+  id: number;
+  name: string | null;
+  slug: string | null;
+  startYear: number | null;
+};
+
+/**
+ * Left out once the issue is gone.
+ */
 export type ListWishlistEntity = {
-  id?: number | undefined;
-  name?: string | undefined;
-  issueNumber?: string | undefined;
-  imageUrl?: string | undefined;
-  publisher?: string | undefined;
-  series?: ListWishlistSeries | undefined;
+  id: number;
+  slug: string | null;
+  name: string | null;
+  issueNumber: string | null;
+  releaseDate: string | null;
+  focDate: string | null;
+  imageUrl: string | null;
+  isNsfw: boolean | null;
+  publisher: string | null;
+  series: ListWishlistSeries | null;
 };
 
 export type ListWishlistData = {
-  id?: number | undefined;
-  position?: string | null | undefined;
+  id: number;
+  position: number | null;
+  /**
+   * Left out for a `read:showcase` token.
+   */
   note?: string | null | undefined;
-  createdAt?: string | undefined;
-  updatedAt?: string | undefined;
-  variantId?: string | null | undefined;
-  entityType?: string | undefined;
+  createdAt: string;
+  updatedAt: string;
+  variantId: number | null;
+  /**
+   * The pinned cover, while it exists.
+   */
+  variant?: ListWishlistVariant | undefined;
+  entityType: string;
+  /**
+   * Left out once the issue is gone.
+   */
   entity?: ListWishlistEntity | undefined;
 };
 
+export type ListWishlistLinks = {
+  first: string;
+  last: string;
+  prev: string | null;
+  next: string | null;
+};
+
+export type ListWishlistLink = {
+  url: string | null;
+  label: string;
+  page?: number | null | undefined;
+  active: boolean;
+};
+
 export type ListWishlistMeta = {
-  currentPage?: number | undefined;
-  lastPage?: number | undefined;
-  perPage?: number | undefined;
-  total?: number | undefined;
+  currentPage: number;
+  from: number | null;
+  lastPage: number;
+  links: Array<ListWishlistLink>;
+  path: string;
+  perPage: number;
+  to: number | null;
+  total: number;
 };
 
 /**
  * Success
  */
 export type ListWishlistResponseBody = {
-  data?: Array<ListWishlistData> | undefined;
-  meta?: ListWishlistMeta | undefined;
+  data: Array<ListWishlistData>;
+  links: ListWishlistLinks;
+  meta: ListWishlistMeta;
 };
 
 export type ListWishlistResponse = {
@@ -91,14 +138,43 @@ export function listWishlistRequestToJSON(
 }
 
 /** @internal */
+export const ListWishlistVariant$inboundSchema: z.ZodMiniType<
+  ListWishlistVariant,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    ratio: types.nullable(types.string()),
+    cover_image_url: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "cover_image_url": "coverImageUrl",
+    });
+  }),
+);
+
+export function listWishlistVariantFromJSON(
+  jsonString: string,
+): SafeParseResult<ListWishlistVariant, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ListWishlistVariant$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListWishlistVariant' from JSON`,
+  );
+}
+
+/** @internal */
 export const ListWishlistSeries$inboundSchema: z.ZodMiniType<
   ListWishlistSeries,
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    name: types.optional(types.string()),
-    start_year: types.optional(types.number()),
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    start_year: types.nullable(types.number()),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -123,17 +199,24 @@ export const ListWishlistEntity$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    name: types.optional(types.string()),
-    issue_number: types.optional(types.string()),
-    image_url: types.optional(types.string()),
-    publisher: types.optional(types.string()),
-    series: types.optional(z.lazy(() => ListWishlistSeries$inboundSchema)),
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    issue_number: types.nullable(types.string()),
+    release_date: types.nullable(types.string()),
+    foc_date: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    is_nsfw: types.nullable(types.boolean()),
+    publisher: types.nullable(types.string()),
+    series: types.nullable(z.lazy(() => ListWishlistSeries$inboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {
       "issue_number": "issueNumber",
+      "release_date": "releaseDate",
+      "foc_date": "focDate",
       "image_url": "imageUrl",
+      "is_nsfw": "isNsfw",
     });
   }),
 );
@@ -154,13 +237,14 @@ export const ListWishlistData$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    position: z.optional(z.nullable(types.string())),
+    id: types.number(),
+    position: types.nullable(types.number()),
     note: z.optional(z.nullable(types.string())),
-    created_at: types.optional(types.string()),
-    updated_at: types.optional(types.string()),
-    variant_id: z.optional(z.nullable(types.string())),
-    entity_type: types.optional(types.string()),
+    created_at: types.string(),
+    updated_at: types.string(),
+    variant_id: types.nullable(types.number()),
+    variant: types.optional(z.lazy(() => ListWishlistVariant$inboundSchema)),
+    entity_type: types.string(),
     entity: types.optional(z.lazy(() => ListWishlistEntity$inboundSchema)),
   }),
   z.transform((v) => {
@@ -184,15 +268,61 @@ export function listWishlistDataFromJSON(
 }
 
 /** @internal */
+export const ListWishlistLinks$inboundSchema: z.ZodMiniType<
+  ListWishlistLinks,
+  unknown
+> = z.object({
+  first: types.string(),
+  last: types.string(),
+  prev: types.nullable(types.string()),
+  next: types.nullable(types.string()),
+});
+
+export function listWishlistLinksFromJSON(
+  jsonString: string,
+): SafeParseResult<ListWishlistLinks, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ListWishlistLinks$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListWishlistLinks' from JSON`,
+  );
+}
+
+/** @internal */
+export const ListWishlistLink$inboundSchema: z.ZodMiniType<
+  ListWishlistLink,
+  unknown
+> = z.object({
+  url: types.nullable(types.string()),
+  label: types.string(),
+  page: z.optional(z.nullable(types.number())),
+  active: types.boolean(),
+});
+
+export function listWishlistLinkFromJSON(
+  jsonString: string,
+): SafeParseResult<ListWishlistLink, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ListWishlistLink$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListWishlistLink' from JSON`,
+  );
+}
+
+/** @internal */
 export const ListWishlistMeta$inboundSchema: z.ZodMiniType<
   ListWishlistMeta,
   unknown
 > = z.pipe(
   z.object({
-    current_page: types.optional(types.number()),
-    last_page: types.optional(types.number()),
-    per_page: types.optional(types.number()),
-    total: types.optional(types.number()),
+    current_page: types.number(),
+    from: types.nullable(types.number()),
+    last_page: types.number(),
+    links: z.array(z.lazy(() => ListWishlistLink$inboundSchema)),
+    path: types.string(),
+    per_page: types.number(),
+    to: types.nullable(types.number()),
+    total: types.number(),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -218,8 +348,9 @@ export const ListWishlistResponseBody$inboundSchema: z.ZodMiniType<
   ListWishlistResponseBody,
   unknown
 > = z.object({
-  data: types.optional(z.array(z.lazy(() => ListWishlistData$inboundSchema))),
-  meta: types.optional(z.lazy(() => ListWishlistMeta$inboundSchema)),
+  data: z.array(z.lazy(() => ListWishlistData$inboundSchema)),
+  links: z.lazy(() => ListWishlistLinks$inboundSchema),
+  meta: z.lazy(() => ListWishlistMeta$inboundSchema),
 });
 
 export function listWishlistResponseBodyFromJSON(

@@ -8,27 +8,30 @@ Success
 import { ListUniversesResponseBody } from "@versedbcom/sdk/models/operations";
 
 let value: ListUniversesResponseBody = {
-  data: [
-    {
-      id: 1,
-      name: "Marvel Universe (616)",
-      nameI18n: {},
-      aliasesI18n: {},
-      originalLocale: "en",
-    },
-  ],
+  data: [],
+  links: {
+    first: "<value>",
+    last: "<value>",
+    prev: "<value>",
+    next: null,
+  },
   meta: {
     currentPage: 1,
-    lastPage: 3,
+    from: 1,
+    lastPage: 25,
+    links: [],
+    path: "/proc",
     perPage: 20,
-    total: 42,
+    to: 20,
+    total: 500,
   },
 };
 ```
 
 ## Fields
 
-| Field                                                                                                          | Type                                                                                                           | Required                                                                                                       | Description                                                                                                    | Example                                                                                                        |
-| -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| `data`                                                                                                         | [operations.ListUniversesData](../../models/operations/list-universes-data.md)[]                               | :heavy_minus_sign:                                                                                             | N/A                                                                                                            | [<br/>{<br/>"id": 1,<br/>"name": "Marvel Universe (616)",<br/>"name_i18n": [],<br/>"aliases_i18n": [],<br/>"original_locale": "en"<br/>}<br/>] |
-| `meta`                                                                                                         | [operations.ListUniversesMeta](../../models/operations/list-universes-meta.md)                                 | :heavy_minus_sign:                                                                                             | N/A                                                                                                            |                                                                                                                |
+| Field                                                                            | Type                                                                             | Required                                                                         | Description                                                                      |
+| -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `data`                                                                           | [operations.ListUniversesData](../../models/operations/list-universes-data.md)[] | :heavy_check_mark:                                                               | N/A                                                                              |
+| `links`                                                                          | [operations.ListUniversesLinks](../../models/operations/list-universes-links.md) | :heavy_check_mark:                                                               | N/A                                                                              |
+| `meta`                                                                           | [operations.ListUniversesMeta](../../models/operations/list-universes-meta.md)   | :heavy_check_mark:                                                               | N/A                                                                              |

@@ -1,6 +1,6 @@
 # UpdateListForbiddenError
 
-Unauthorized
+The list is not yours to update, or the token holds neither write:list nor write:lists.
 
 ## Example Usage
 
@@ -12,6 +12,6 @@ import { UpdateListForbiddenError } from "@versedbcom/sdk/models/errors";
 
 ## Fields
 
-| Field                        | Type                         | Required                     | Description                  | Example                      |
-| ---------------------------- | ---------------------------- | ---------------------------- | ---------------------------- | ---------------------------- |
-| `message`                    | *string*                     | :heavy_minus_sign:           | N/A                          | This action is unauthorized. |
+| Field                     | Type                      | Required                  | Description               | Example                   |
+| ------------------------- | ------------------------- | ------------------------- | ------------------------- | ------------------------- |
+| `message`                 | *string*                  | :heavy_check_mark:        | N/A                       | Insufficient token scope. |

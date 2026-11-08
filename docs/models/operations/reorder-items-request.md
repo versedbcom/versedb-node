@@ -10,6 +10,8 @@ let value: ReorderItemsRequest = {
   body: {
     itemIds: [
       3,
+      1,
+      2,
     ],
   },
 };

@@ -11,7 +11,7 @@ import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type GetStoryArcsForASpecificIssueRequest = {
   /**
-   * The ID of the issue.
+   * The issue ID.
    */
   issueId: number;
   /**
@@ -23,14 +23,14 @@ export type GetStoryArcsForASpecificIssueRequest = {
    */
   limit?: number | undefined;
   /**
-   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.
+   * Page number; meta.last_page says where the list ends.
+   */
+  page?: number | undefined;
+  /**
+   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes.
    */
   languages?: string | undefined;
 };
-
-export type GetStoryArcsForASpecificIssueNameI18n = {};
-
-export type GetStoryArcsForASpecificIssueAliasesI18n = {};
 
 export type GetStoryArcsForASpecificIssueImages = {
   coverSm?: string | undefined;
@@ -38,33 +38,74 @@ export type GetStoryArcsForASpecificIssueImages = {
   coverLg?: string | undefined;
 };
 
+export type GetStoryArcsForASpecificIssueNameI18n = {
+  value: string;
+  source: string;
+  reading?: string | undefined;
+  sort?: string | undefined;
+};
+
 export type GetStoryArcsForASpecificIssueData = {
-  id?: number | undefined;
-  name?: string | undefined;
-  nameI18n?: GetStoryArcsForASpecificIssueNameI18n | undefined;
-  aliasesI18n?: GetStoryArcsForASpecificIssueAliasesI18n | undefined;
-  originalLocale?: string | undefined;
-  slug?: string | undefined;
-  type?: string | undefined;
-  status?: string | undefined;
-  imageUrl?: string | undefined;
-  images?: GetStoryArcsForASpecificIssueImages | undefined;
-  issuesCount?: number | undefined;
+  id: number;
+  name: string | null;
+  slug: string | null;
+  /**
+   * main_story, side_story, tie_in_arc, mini_series_arc, crossover_event, prelude, epilogue or other.
+   */
+  type: string | null;
+  /**
+   * active, ended, upcoming or cancelled.
+   */
+  status: string | null;
+  imageUrl: string | null;
+  images: GetStoryArcsForASpecificIssueImages | null;
+  issuesCount: number | null;
+  /**
+   * One name per language, keyed by BCP 47 tag.
+   */
+  nameI18n: { [k: string]: GetStoryArcsForASpecificIssueNameI18n };
+  /**
+   * Alternative names per language.
+   */
+  aliasesI18n: { [k: string]: Array<string> };
+  /**
+   * The language the story arc is from, a BCP 47 tag.
+   */
+  originalLocale: string | null;
+};
+
+export type GetStoryArcsForASpecificIssueLinks = {
+  first: string;
+  last: string;
+  prev: string | null;
+  next: string | null;
+};
+
+export type GetStoryArcsForASpecificIssueLink = {
+  url: string | null;
+  label: string;
+  page?: number | null | undefined;
+  active: boolean;
 };
 
 export type GetStoryArcsForASpecificIssueMeta = {
-  currentPage?: number | undefined;
-  lastPage?: number | undefined;
-  perPage?: number | undefined;
-  total?: number | undefined;
+  currentPage: number;
+  from: number | null;
+  lastPage: number;
+  links: Array<GetStoryArcsForASpecificIssueLink>;
+  path: string;
+  perPage: number;
+  to: number | null;
+  total: number;
 };
 
 /**
  * Success
  */
 export type GetStoryArcsForASpecificIssueResponseBody = {
-  data?: Array<GetStoryArcsForASpecificIssueData> | undefined;
-  meta?: GetStoryArcsForASpecificIssueMeta | undefined;
+  data: Array<GetStoryArcsForASpecificIssueData>;
+  links: GetStoryArcsForASpecificIssueLinks;
+  meta: GetStoryArcsForASpecificIssueMeta;
 };
 
 export type GetStoryArcsForASpecificIssueResponse = {
@@ -77,6 +118,7 @@ export type GetStoryArcsForASpecificIssueRequest$Outbound = {
   issue_id: number;
   q?: string | undefined;
   limit?: number | undefined;
+  page?: number | undefined;
   languages?: string | undefined;
 };
 
@@ -89,6 +131,7 @@ export const GetStoryArcsForASpecificIssueRequest$outboundSchema: z.ZodMiniType<
     issueId: z.int(),
     q: z.optional(z.string()),
     limit: z.optional(z.int()),
+    page: z.optional(z.int()),
     languages: z.optional(z.string()),
   }),
   z.transform((v) => {
@@ -105,45 +148,6 @@ export function getStoryArcsForASpecificIssueRequestToJSON(
     GetStoryArcsForASpecificIssueRequest$outboundSchema.parse(
       getStoryArcsForASpecificIssueRequest,
     ),
-  );
-}
-
-/** @internal */
-export const GetStoryArcsForASpecificIssueNameI18n$inboundSchema: z.ZodMiniType<
-  GetStoryArcsForASpecificIssueNameI18n,
-  unknown
-> = z.object({});
-
-export function getStoryArcsForASpecificIssueNameI18nFromJSON(
-  jsonString: string,
-): SafeParseResult<GetStoryArcsForASpecificIssueNameI18n, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      GetStoryArcsForASpecificIssueNameI18n$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'GetStoryArcsForASpecificIssueNameI18n' from JSON`,
-  );
-}
-
-/** @internal */
-export const GetStoryArcsForASpecificIssueAliasesI18n$inboundSchema:
-  z.ZodMiniType<GetStoryArcsForASpecificIssueAliasesI18n, unknown> = z.object(
-    {},
-  );
-
-export function getStoryArcsForASpecificIssueAliasesI18nFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  GetStoryArcsForASpecificIssueAliasesI18n,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      GetStoryArcsForASpecificIssueAliasesI18n$inboundSchema.parse(
-        JSON.parse(x),
-      ),
-    `Failed to parse 'GetStoryArcsForASpecificIssueAliasesI18n' from JSON`,
   );
 }
 
@@ -178,36 +182,57 @@ export function getStoryArcsForASpecificIssueImagesFromJSON(
 }
 
 /** @internal */
+export const GetStoryArcsForASpecificIssueNameI18n$inboundSchema: z.ZodMiniType<
+  GetStoryArcsForASpecificIssueNameI18n,
+  unknown
+> = z.object({
+  value: types.string(),
+  source: types.string(),
+  reading: types.optional(types.string()),
+  sort: types.optional(types.string()),
+});
+
+export function getStoryArcsForASpecificIssueNameI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<GetStoryArcsForASpecificIssueNameI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      GetStoryArcsForASpecificIssueNameI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetStoryArcsForASpecificIssueNameI18n' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetStoryArcsForASpecificIssueData$inboundSchema: z.ZodMiniType<
   GetStoryArcsForASpecificIssueData,
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    name: types.optional(types.string()),
-    name_i18n: types.optional(
-      z.lazy(() => GetStoryArcsForASpecificIssueNameI18n$inboundSchema),
-    ),
-    aliases_i18n: types.optional(
-      z.lazy(() => GetStoryArcsForASpecificIssueAliasesI18n$inboundSchema),
-    ),
-    original_locale: types.optional(types.string()),
-    slug: types.optional(types.string()),
-    type: types.optional(types.string()),
-    status: types.optional(types.string()),
-    image_url: types.optional(types.string()),
-    images: types.optional(
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    type: types.nullable(types.string()),
+    status: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    images: types.nullable(
       z.lazy(() => GetStoryArcsForASpecificIssueImages$inboundSchema),
     ),
-    issues_count: types.optional(types.number()),
+    issues_count: types.nullable(types.number()),
+    name_i18n: z.record(
+      z.string(),
+      z.lazy(() => GetStoryArcsForASpecificIssueNameI18n$inboundSchema),
+    ),
+    aliases_i18n: z.record(z.string(), z.array(types.string())),
+    original_locale: types.nullable(types.string()),
   }),
   z.transform((v) => {
     return remap$(v, {
+      "image_url": "imageUrl",
+      "issues_count": "issuesCount",
       "name_i18n": "nameI18n",
       "aliases_i18n": "aliasesI18n",
       "original_locale": "originalLocale",
-      "image_url": "imageUrl",
-      "issues_count": "issuesCount",
     });
   }),
 );
@@ -223,15 +248,64 @@ export function getStoryArcsForASpecificIssueDataFromJSON(
 }
 
 /** @internal */
+export const GetStoryArcsForASpecificIssueLinks$inboundSchema: z.ZodMiniType<
+  GetStoryArcsForASpecificIssueLinks,
+  unknown
+> = z.object({
+  first: types.string(),
+  last: types.string(),
+  prev: types.nullable(types.string()),
+  next: types.nullable(types.string()),
+});
+
+export function getStoryArcsForASpecificIssueLinksFromJSON(
+  jsonString: string,
+): SafeParseResult<GetStoryArcsForASpecificIssueLinks, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      GetStoryArcsForASpecificIssueLinks$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetStoryArcsForASpecificIssueLinks' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetStoryArcsForASpecificIssueLink$inboundSchema: z.ZodMiniType<
+  GetStoryArcsForASpecificIssueLink,
+  unknown
+> = z.object({
+  url: types.nullable(types.string()),
+  label: types.string(),
+  page: z.optional(z.nullable(types.number())),
+  active: types.boolean(),
+});
+
+export function getStoryArcsForASpecificIssueLinkFromJSON(
+  jsonString: string,
+): SafeParseResult<GetStoryArcsForASpecificIssueLink, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetStoryArcsForASpecificIssueLink$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetStoryArcsForASpecificIssueLink' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetStoryArcsForASpecificIssueMeta$inboundSchema: z.ZodMiniType<
   GetStoryArcsForASpecificIssueMeta,
   unknown
 > = z.pipe(
   z.object({
-    current_page: types.optional(types.number()),
-    last_page: types.optional(types.number()),
-    per_page: types.optional(types.number()),
-    total: types.optional(types.number()),
+    current_page: types.number(),
+    from: types.nullable(types.number()),
+    last_page: types.number(),
+    links: z.array(
+      z.lazy(() => GetStoryArcsForASpecificIssueLink$inboundSchema),
+    ),
+    path: types.string(),
+    per_page: types.number(),
+    to: types.nullable(types.number()),
+    total: types.number(),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -255,12 +329,11 @@ export function getStoryArcsForASpecificIssueMetaFromJSON(
 /** @internal */
 export const GetStoryArcsForASpecificIssueResponseBody$inboundSchema:
   z.ZodMiniType<GetStoryArcsForASpecificIssueResponseBody, unknown> = z.object({
-    data: types.optional(
-      z.array(z.lazy(() => GetStoryArcsForASpecificIssueData$inboundSchema)),
+    data: z.array(
+      z.lazy(() => GetStoryArcsForASpecificIssueData$inboundSchema),
     ),
-    meta: types.optional(
-      z.lazy(() => GetStoryArcsForASpecificIssueMeta$inboundSchema),
-    ),
+    links: z.lazy(() => GetStoryArcsForASpecificIssueLinks$inboundSchema),
+    meta: z.lazy(() => GetStoryArcsForASpecificIssueMeta$inboundSchema),
   });
 
 export function getStoryArcsForASpecificIssueResponseBodyFromJSON(

@@ -10,8 +10,8 @@ A series represents a specific volume or run of a title (e.g., "Amazing Spider-M
 ### Available Operations
 
 * [listSeries](#listseries) - List series.
-* [getSeriesDetails](#getseriesdetails) - Get series details.
 * [getSeriesIssues](#getseriesissues) - Get series issues.
+* [getSeriesDetails](#getseriesdetails) - Get series details.
 * [getSeriesCreators](#getseriescreators) - Get series creators.
 * [getSeriesCharacters](#getseriescharacters) - Get series characters.
 
@@ -50,6 +50,7 @@ async function run() {
     sort: "start_year",
     direction: "desc",
     limit: 20,
+    page: 1,
   });
 
   console.log(result);
@@ -93,6 +94,7 @@ async function run() {
     sort: "start_year",
     direction: "desc",
     limit: 20,
+    page: 1,
   });
   if (res.ok) {
     const { value: result } = res;
@@ -120,11 +122,100 @@ run();
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| errors.UnauthorizedErrorError | 401                           | application/json              |
-| errors.TooManyRequestsError   | 429                           | application/json              |
-| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.UnauthorizedErrorError   | 401                             | application/json                |
+| errors.ListSeriesForbiddenError | 403                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.VerseDbDefaultError      | 4XX, 5XX                        | \*/\*                           |
+
+## getSeriesIssues
+
+Returns paginated issues for a specific series.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="getSeriesIssues" method="get" path="/api/v1/series/{id}/issues" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.series.getSeriesIssues({
+    id: 123,
+    q: "247",
+    sort: "issue_number",
+    direction: "asc",
+    limit: 20,
+    page: 1,
+    languages: "ja,ko",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { seriesGetSeriesIssues } from "@versedbcom/sdk/funcs/series-get-series-issues.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await seriesGetSeriesIssues(verseDB, {
+    id: 123,
+    q: "247",
+    sort: "issue_number",
+    direction: "asc",
+    limit: 20,
+    page: 1,
+    languages: "ja,ko",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("seriesGetSeriesIssues failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.GetSeriesIssuesRequest](../../models/operations/get-series-issues-request.md)                                                                                      | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.GetSeriesIssuesResponse](../../models/operations/get-series-issues-response.md)\>**
+
+### Errors
+
+| Error Type                           | Status Code                          | Content Type                         |
+| ------------------------------------ | ------------------------------------ | ------------------------------------ |
+| errors.UnauthorizedErrorError        | 401                                  | application/json                     |
+| errors.GetSeriesIssuesForbiddenError | 403                                  | application/json                     |
+| errors.TooManyRequestsError          | 429                                  | application/json                     |
+| errors.VerseDbDefaultError           | 4XX, 5XX                             | \*/\*                                |
 
 ## getSeriesDetails
 
@@ -198,97 +289,13 @@ run();
 
 ### Errors
 
-| Error Type                           | Status Code                          | Content Type                         |
-| ------------------------------------ | ------------------------------------ | ------------------------------------ |
-| errors.UnauthorizedErrorError        | 401                                  | application/json                     |
-| errors.GetSeriesDetailsNotFoundError | 404                                  | application/json                     |
-| errors.TooManyRequestsError          | 429                                  | application/json                     |
-| errors.VerseDbDefaultError           | 4XX, 5XX                             | \*/\*                                |
-
-## getSeriesIssues
-
-Returns paginated issues for a specific series.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="getSeriesIssues" method="get" path="/api/v1/series/{id}/issues" -->
-```typescript
-import { VerseDB } from "@versedbcom/sdk";
-
-const verseDB = new VerseDB({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const result = await verseDB.series.getSeriesIssues({
-    id: 123,
-    q: "247",
-    sort: "issue_number",
-    direction: "asc",
-    limit: 20,
-    languages: "ja,ko",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { VerseDBCore } from "@versedbcom/sdk/core.js";
-import { seriesGetSeriesIssues } from "@versedbcom/sdk/funcs/series-get-series-issues.js";
-
-// Use `VerseDBCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const verseDB = new VerseDBCore({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const res = await seriesGetSeriesIssues(verseDB, {
-    id: 123,
-    q: "247",
-    sort: "issue_number",
-    direction: "asc",
-    limit: 20,
-    languages: "ja,ko",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("seriesGetSeriesIssues failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.GetSeriesIssuesRequest](../../models/operations/get-series-issues-request.md)                                                                                      | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[operations.GetSeriesIssuesResponse](../../models/operations/get-series-issues-response.md)\>**
-
-### Errors
-
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| errors.UnauthorizedErrorError | 401                           | application/json              |
-| errors.TooManyRequestsError   | 429                           | application/json              |
-| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
+| Error Type                            | Status Code                           | Content Type                          |
+| ------------------------------------- | ------------------------------------- | ------------------------------------- |
+| errors.UnauthorizedErrorError         | 401                                   | application/json                      |
+| errors.GetSeriesDetailsForbiddenError | 403                                   | application/json                      |
+| errors.GetSeriesDetailsNotFoundError  | 404                                   | application/json                      |
+| errors.TooManyRequestsError           | 429                                   | application/json                      |
+| errors.VerseDbDefaultError            | 4XX, 5XX                              | \*/\*                                 |
 
 ## getSeriesCreators
 
@@ -307,6 +314,7 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.series.getSeriesCreators({
     id: 123,
+    page: 1,
     languages: "ja,ko",
   });
 
@@ -333,6 +341,7 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await seriesGetSeriesCreators(verseDB, {
     id: 123,
+    page: 1,
     languages: "ja,ko",
   });
   if (res.ok) {
@@ -361,11 +370,12 @@ run();
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| errors.UnauthorizedErrorError | 401                           | application/json              |
-| errors.TooManyRequestsError   | 429                           | application/json              |
-| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
+| Error Type                             | Status Code                            | Content Type                           |
+| -------------------------------------- | -------------------------------------- | -------------------------------------- |
+| errors.UnauthorizedErrorError          | 401                                    | application/json                       |
+| errors.GetSeriesCreatorsForbiddenError | 403                                    | application/json                       |
+| errors.TooManyRequestsError            | 429                                    | application/json                       |
+| errors.VerseDbDefaultError             | 4XX, 5XX                               | \*/\*                                  |
 
 ## getSeriesCharacters
 
@@ -384,6 +394,7 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.series.getSeriesCharacters({
     id: 123,
+    page: 1,
     languages: "ja,ko",
   });
 
@@ -410,6 +421,7 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await seriesGetSeriesCharacters(verseDB, {
     id: 123,
+    page: 1,
     languages: "ja,ko",
   });
   if (res.ok) {
@@ -438,8 +450,9 @@ run();
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| errors.UnauthorizedErrorError | 401                           | application/json              |
-| errors.TooManyRequestsError   | 429                           | application/json              |
-| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
+| Error Type                               | Status Code                              | Content Type                             |
+| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| errors.UnauthorizedErrorError            | 401                                      | application/json                         |
+| errors.GetSeriesCharactersForbiddenError | 403                                      | application/json                         |
+| errors.TooManyRequestsError              | 429                                      | application/json                         |
+| errors.VerseDbDefaultError               | 4XX, 5XX                                 | \*/\*                                    |

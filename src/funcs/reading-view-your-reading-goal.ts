@@ -44,6 +44,7 @@ export function readingViewYourReadingGoal(
   Result<
     operations.ViewYourReadingGoalResponse,
     | errors.ViewYourReadingGoalUnauthorizedError
+    | errors.ViewYourReadingGoalForbiddenError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -71,6 +72,7 @@ async function $do(
     Result<
       operations.ViewYourReadingGoalResponse,
       | errors.ViewYourReadingGoalUnauthorizedError
+      | errors.ViewYourReadingGoalForbiddenError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -163,6 +165,7 @@ async function $do(
   const [result] = await M.match<
     operations.ViewYourReadingGoalResponse,
     | errors.ViewYourReadingGoalUnauthorizedError
+    | errors.ViewYourReadingGoalForbiddenError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -178,6 +181,7 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.ViewYourReadingGoalUnauthorizedError$inboundSchema),
+    M.jsonErr(403, errors.ViewYourReadingGoalForbiddenError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

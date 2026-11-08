@@ -7,14 +7,14 @@ import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Not Found
+ * No such list, or you blocked its owner, or they blocked you.
  */
 export type GetListNotFoundErrorData = {
-  message?: string | undefined;
+  message: string;
 };
 
 /**
- * Not Found
+ * No such list, or you blocked its owner, or they blocked you.
  */
 export class GetListNotFoundError extends VerseDbError {
   /** The original data that was passed to this error instance. */
@@ -33,14 +33,14 @@ export class GetListNotFoundError extends VerseDbError {
 }
 
 /**
- * Private List
+ * The token lacks the read:public ability; the list is private or a draft and the token may not read its owner's private data (`read:user` on the owner's own token); the list is for Pro members; or the request sent `owned`, `read`, `reviewed`, `alert_filter`, `item_ids` or `alert_id`, which only the app's own API reads.
  */
 export type GetListForbiddenErrorData = {
-  message?: string | undefined;
+  message: string;
 };
 
 /**
- * Private List
+ * The token lacks the read:public ability; the list is private or a draft and the token may not read its owner's private data (`read:user` on the owner's own token); the list is for Pro members; or the request sent `owned`, `read`, `reviewed`, `alert_filter`, `item_ids` or `alert_id`, which only the app's own API reads.
  */
 export class GetListForbiddenError extends VerseDbError {
   /** The original data that was passed to this error instance. */
@@ -64,7 +64,7 @@ export const GetListNotFoundError$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
+    message: types.string(),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),
@@ -84,7 +84,7 @@ export const GetListForbiddenError$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
+    message: types.string(),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),

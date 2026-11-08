@@ -184,27 +184,7 @@ const verseDB = new VerseDB({
 });
 
 async function run() {
-  const result = await verseDB.series.listSeries({
-    q: "spider-man",
-    titleId: 1,
-    publisherId: 1,
-    status: "Ongoing",
-    genreIds: "3,11",
-    publisherIds: "1,4",
-    creatorIds: "812,1907",
-    characterIds: "55,204",
-    languages: "en,ja",
-    medium: "manga",
-    publicationType: "limited_series",
-    format: "Omnibus",
-    startYear: 2018,
-    endYear: 2022,
-    decade: "1990s",
-    hideUnreleased: true,
-    sort: "start_year",
-    direction: "desc",
-    limit: 20,
-  });
+  const result = await verseDB.user.getTheAuthenticatedUser();
 
   console.log(result);
 }
@@ -234,27 +214,7 @@ const verseDB = new VerseDB({
 });
 
 async function run() {
-  const result = await verseDB.series.listSeries({
-    q: "spider-man",
-    titleId: 1,
-    publisherId: 1,
-    status: "Ongoing",
-    genreIds: "3,11",
-    publisherIds: "1,4",
-    creatorIds: "812,1907",
-    characterIds: "55,204",
-    languages: "en,ja",
-    medium: "manga",
-    publicationType: "limited_series",
-    format: "Omnibus",
-    startYear: 2018,
-    endYear: 2022,
-    decade: "1990s",
-    hideUnreleased: true,
-    sort: "start_year",
-    direction: "desc",
-    limit: 20,
-  });
+  const result = await verseDB.user.getTheAuthenticatedUser();
 
   console.log(result);
 }
@@ -278,9 +238,16 @@ run();
 
 ### [Characters](docs/sdks/characters/README.md)
 
+* [listCharacters](docs/sdks/characters/README.md#listcharacters) - List characters.
+* [getCharacterDetails](docs/sdks/characters/README.md#getcharacterdetails) - Get character details.
 * [getCharacterSeries](docs/sdks/characters/README.md#getcharacterseries) - Get character series.
 * [getCharacterIssues](docs/sdks/characters/README.md#getcharacterissues) - Get character issues.
 * [getCharacterTeams](docs/sdks/characters/README.md#getcharacterteams) - Get character teams.
+
+### [ComicShops](docs/sdks/comicshops/README.md)
+
+* [listComicShops](docs/sdks/comicshops/README.md#listcomicshops) - List comic shops.
+* [getAComicShop](docs/sdks/comicshops/README.md#getacomicshop) - Get a comic shop.
 
 ### [ConnectToVerseDB](docs/sdks/connecttoversedb/README.md)
 
@@ -290,15 +257,39 @@ run();
 
 * [lookUpAnIssueByCoverPhoto](docs/sdks/coverlookup/README.md#lookupanissuebycoverphoto) - Look up an issue by cover photo.
 
+### [Creators](docs/sdks/creators/README.md)
+
+* [listCreators](docs/sdks/creators/README.md#listcreators) - List creators.
+* [getCreatorDetails](docs/sdks/creators/README.md#getcreatordetails) - Get creator details.
+* [getCreatorsIssues](docs/sdks/creators/README.md#getcreatorsissues) - Get creator's issues.
+* [getCreatorsSeries](docs/sdks/creators/README.md#getcreatorsseries) - Get creator's series.
+* [getCreatorsBlogPosts](docs/sdks/creators/README.md#getcreatorsblogposts) - Get creator's blog posts.
+
+### [Discovery](docs/sdks/discovery/README.md)
+
+* [fOCDeadlines](docs/sdks/discovery/README.md#focdeadlines) - FOC deadlines.
+* [followUpdates](docs/sdks/discovery/README.md#followupdates) - Follow updates.
+* [upcoming1Issues](docs/sdks/discovery/README.md#upcoming1issues) - Upcoming #1 issues.
+
+### [Events](docs/sdks/events/README.md)
+
+* [listEvents](docs/sdks/events/README.md#listevents) - List events.
+* [getAnEvent](docs/sdks/events/README.md#getanevent) - Get an event.
+
+### [Imprints](docs/sdks/imprints/README.md)
+
+* [getImprintDetails](docs/sdks/imprints/README.md#getimprintdetails) - Get imprint details
+* [listImprints](docs/sdks/imprints/README.md#listimprints) - List imprints
+
 ### [Issues](docs/sdks/issues/README.md)
 
-* [listIssues](docs/sdks/issues/README.md#listissues) - List issues.
-* [getIssueDetails](docs/sdks/issues/README.md#getissuedetails) - Get issue details.
 * [getIssueVariants](docs/sdks/issues/README.md#getissuevariants) - Get issue variants.
+* [getIssueDetails](docs/sdks/issues/README.md#getissuedetails) - Get issue details.
+* [listIssues](docs/sdks/issues/README.md#listissues) - List issues.
 * [getVariantDetails](docs/sdks/issues/README.md#getvariantdetails) - Get variant details.
+* [getKeyIssueReasons](docs/sdks/issues/README.md#getkeyissuereasons) - Get key issue reasons.
 * [getIssueCreators](docs/sdks/issues/README.md#getissuecreators) - Get issue creators.
 * [getIssueCharacters](docs/sdks/issues/README.md#getissuecharacters) - Get issue characters.
-* [getKeyIssueReasons](docs/sdks/issues/README.md#getkeyissuereasons) - Get key issue reasons.
 
 ### [KeyIssueReasons](docs/sdks/keyissuereasons/README.md)
 
@@ -309,38 +300,66 @@ run();
 * [browseLists](docs/sdks/lists/README.md#browselists) - Browse lists.
 * [createList](docs/sdks/lists/README.md#createlist) - Create list.
 * [browseSystemLists](docs/sdks/lists/README.md#browsesystemlists) - Browse system lists.
+* [getUsersLists](docs/sdks/lists/README.md#getuserslists) - Get user's lists.
 * [getList](docs/sdks/lists/README.md#getlist) - Get list.
 * [updateList](docs/sdks/lists/README.md#updatelist) - Update list.
 * [deleteList](docs/sdks/lists/README.md#deletelist) - Delete list.
-* [getUsersLists](docs/sdks/lists/README.md#getuserslists) - Get user's lists.
+* [saveList](docs/sdks/lists/README.md#savelist) - Save list.
+* [unsaveList](docs/sdks/lists/README.md#unsavelist) - Unsave list.
+* [likeListOrReactToIt](docs/sdks/lists/README.md#likelistorreacttoit) - Like list, or react to it.
+* [unlikeList](docs/sdks/lists/README.md#unlikelist) - Unlike list.
 * [convertAListToMixed](docs/sdks/lists/README.md#convertalisttomixed) - Open a list to any type.
 * [stopAListUpdatingItself](docs/sdks/lists/README.md#stopalistupdatingitself) - Stop a list updating itself.
 * [mergeAListIntoThisOne](docs/sdks/lists/README.md#mergealistintothisone) - Merge a list into this one.
 * [addItemToList](docs/sdks/lists/README.md#additemtolist) - Add item to list.
 * [removeItemFromList](docs/sdks/lists/README.md#removeitemfromlist) - Remove item from list.
 * [reorderItems](docs/sdks/lists/README.md#reorderitems) - Reorder items.
-* [likeListOrReactToIt](docs/sdks/lists/README.md#likelistorreacttoit) - Like list, or react to it.
-* [unlikeList](docs/sdks/lists/README.md#unlikelist) - Unlike list.
+
+### [Podcasts](docs/sdks/podcasts/README.md)
+
+* [listAllPodcastsWithOptionalSearch](docs/sdks/podcasts/README.md#listallpodcastswithoptionalsearch) - List all podcasts with optional search
+* [getASpecificPodcast](docs/sdks/podcasts/README.md#getaspecificpodcast) - Get a specific podcast.
+
+### [Publishers](docs/sdks/publishers/README.md)
+
+* [getPublisherDetails](docs/sdks/publishers/README.md#getpublisherdetails) - Get publisher details
+* [listAllPublishersWithOptionalSearch](docs/sdks/publishers/README.md#listallpublisherswithoptionalsearch) - List all publishers with optional search
 
 ### [Reading](docs/sdks/reading/README.md)
 
-* [viewYourUnfinishedComicsFromTheVerseDBReader](docs/sdks/reading/README.md#viewyourunfinishedcomicsfromtheversedbreader) - View your unfinished comics from the VerseDB reader.
+* [viewYourReadingGoal](docs/sdks/reading/README.md#viewyourreadinggoal) - View your reading goal.
 * [viewYearlyReadingStatistics](docs/sdks/reading/README.md#viewyearlyreadingstatistics) - View yearly reading statistics.
 * [viewYourMonthlyReadingCalendar](docs/sdks/reading/README.md#viewyourmonthlyreadingcalendar) - View your monthly reading calendar.
-* [viewYourReadingGoal](docs/sdks/reading/README.md#viewyourreadinggoal) - View your reading goal.
+* [viewYourUnfinishedComicsFromTheVerseDBReader](docs/sdks/reading/README.md#viewyourunfinishedcomicsfromtheversedbreader) - View your unfinished comics from the VerseDB reader.
 
 ### [Series](docs/sdks/series/README.md)
 
 * [listSeries](docs/sdks/series/README.md#listseries) - List series.
-* [getSeriesDetails](docs/sdks/series/README.md#getseriesdetails) - Get series details.
 * [getSeriesIssues](docs/sdks/series/README.md#getseriesissues) - Get series issues.
+* [getSeriesDetails](docs/sdks/series/README.md#getseriesdetails) - Get series details.
 * [getSeriesCreators](docs/sdks/series/README.md#getseriescreators) - Get series creators.
 * [getSeriesCharacters](docs/sdks/series/README.md#getseriescharacters) - Get series characters.
 
 ### [StoryArcs](docs/sdks/storyarcs/README.md)
 
+* [listAllStoryArcsWithOptionalSearch](docs/sdks/storyarcs/README.md#listallstoryarcswithoptionalsearch) - List all story arcs with optional search
 * [getStoryArcsForASpecificIssue](docs/sdks/storyarcs/README.md#getstoryarcsforaspecificissue) - Get story arcs for a specific issue
+* [getStoryArcDetail](docs/sdks/storyarcs/README.md#getstoryarcdetail) - Get story arc detail.
+* [getStoryArcsForASpecificUniverse](docs/sdks/storyarcs/README.md#getstoryarcsforaspecificuniverse) - Get story arcs for a specific universe
 * [getStoryArcsForASpecificCharacter](docs/sdks/storyarcs/README.md#getstoryarcsforaspecificcharacter) - Get story arcs for a specific character
+
+### [Teams](docs/sdks/teams/README.md)
+
+* [listAllTeamsWithOptionalSearch](docs/sdks/teams/README.md#listallteamswithoptionalsearch) - List all teams with optional search
+* [getASpecificTeam](docs/sdks/teams/README.md#getaspecificteam) - Get a specific team
+* [getCharactersForASpecificTeammembers](docs/sdks/teams/README.md#getcharactersforaspecificteammembers) - Get characters for a specific team (members)
+* [getSeriesForASpecificTeam](docs/sdks/teams/README.md#getseriesforaspecificteam) - Get series for a specific team
+* [getIssuesForASpecificTeam](docs/sdks/teams/README.md#getissuesforaspecificteam) - Get issues for a specific team
+
+### [Titles](docs/sdks/titles/README.md)
+
+* [getASpecificTitle](docs/sdks/titles/README.md#getaspecifictitle) - Get a specific title
+* [listTitles](docs/sdks/titles/README.md#listtitles) - List titles
 
 ### [Universes](docs/sdks/universes/README.md)
 
@@ -349,16 +368,24 @@ run();
 
 ### [User](docs/sdks/user/README.md)
 
-* [listPullList](docs/sdks/user/README.md#listpulllist) - List pull list.
-* [addToPullList](docs/sdks/user/README.md#addtopulllist) - Add to pull list.
-* [removeFromPullList](docs/sdks/user/README.md#removefrompulllist) - Remove from pull list.
+* [getTheAuthenticatedUser](docs/sdks/user/README.md#gettheauthenticateduser) - Get the authenticated user.
 * [listReadStatus](docs/sdks/user/README.md#listreadstatus) - List read status.
-* [markAsRead](docs/sdks/user/README.md#markasread) - Mark as read.
-* [editReadingDate](docs/sdks/user/README.md#editreadingdate) - Edit reading date.
-* [markAsUnread](docs/sdks/user/README.md#markasunread) - Mark as unread.
 * [listWishlist](docs/sdks/user/README.md#listwishlist) - List wishlist.
+* [listCollection](docs/sdks/user/README.md#listcollection) - List collection.
+* [checkIssueInCollection](docs/sdks/user/README.md#checkissueincollection) - Check issue in collection.
+* [listPullList](docs/sdks/user/README.md#listpulllist) - List pull list.
+* [markAsRead](docs/sdks/user/README.md#markasread) - Mark as read.
+* [markAsUnread](docs/sdks/user/README.md#markasunread) - Mark as unread.
+* [editReadingDate](docs/sdks/user/README.md#editreadingdate) - Edit reading date.
 * [addToWishlist](docs/sdks/user/README.md#addtowishlist) - Add to wishlist.
 * [removeFromWishlist](docs/sdks/user/README.md#removefromwishlist) - Remove from wishlist.
+* [addToPullList](docs/sdks/user/README.md#addtopulllist) - Add to pull list.
+* [removeFromPullList](docs/sdks/user/README.md#removefrompulllist) - Remove from pull list.
+* [addIssueToCollection](docs/sdks/user/README.md#addissuetocollection) - Add issue to collection.
+* [removeIssueFromCollection](docs/sdks/user/README.md#removeissuefromcollection) - Remove issue from collection.
+* [updateCollectionItem](docs/sdks/user/README.md#updatecollectionitem) - Update collection item.
+* [lendACopyOut](docs/sdks/user/README.md#lendacopyout) - Lend a copy out.
+* [markTheCopysOpenLoanReturned](docs/sdks/user/README.md#markthecopysopenloanreturned) - Mark the copy's open loan returned.
 * [listFollows](docs/sdks/user/README.md#listfollows) - List follows.
 * [checkFollowStatus](docs/sdks/user/README.md#checkfollowstatus) - Check follow status.
 * [followContent](docs/sdks/user/README.md#followcontent) - Follow content.
@@ -386,11 +413,27 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`barcodeLookupLookupByDistributorCode`](docs/sdks/barcodelookup/README.md#lookupbydistributorcode) - Lookup by distributor code.
 - [`barcodeLookupLookupByISBN`](docs/sdks/barcodelookup/README.md#lookupbyisbn) - Lookup by ISBN.
 - [`barcodeLookupLookupByUPC`](docs/sdks/barcodelookup/README.md#lookupbyupc) - Lookup by UPC.
+- [`charactersGetCharacterDetails`](docs/sdks/characters/README.md#getcharacterdetails) - Get character details.
 - [`charactersGetCharacterIssues`](docs/sdks/characters/README.md#getcharacterissues) - Get character issues.
 - [`charactersGetCharacterSeries`](docs/sdks/characters/README.md#getcharacterseries) - Get character series.
 - [`charactersGetCharacterTeams`](docs/sdks/characters/README.md#getcharacterteams) - Get character teams.
+- [`charactersListCharacters`](docs/sdks/characters/README.md#listcharacters) - List characters.
+- [`comicShopsGetAComicShop`](docs/sdks/comicshops/README.md#getacomicshop) - Get a comic shop.
+- [`comicShopsListComicShops`](docs/sdks/comicshops/README.md#listcomicshops) - List comic shops.
 - [`connectToVerseDBExchangeAConnectCodeForAToken`](docs/sdks/connecttoversedb/README.md#exchangeaconnectcodeforatoken) - Exchange a Connect code for a token
 - [`coverLookupLookUpAnIssueByCoverPhoto`](docs/sdks/coverlookup/README.md#lookupanissuebycoverphoto) - Look up an issue by cover photo.
+- [`creatorsGetCreatorDetails`](docs/sdks/creators/README.md#getcreatordetails) - Get creator details.
+- [`creatorsGetCreatorsBlogPosts`](docs/sdks/creators/README.md#getcreatorsblogposts) - Get creator's blog posts.
+- [`creatorsGetCreatorsIssues`](docs/sdks/creators/README.md#getcreatorsissues) - Get creator's issues.
+- [`creatorsGetCreatorsSeries`](docs/sdks/creators/README.md#getcreatorsseries) - Get creator's series.
+- [`creatorsListCreators`](docs/sdks/creators/README.md#listcreators) - List creators.
+- [`discoveryFOCDeadlines`](docs/sdks/discovery/README.md#focdeadlines) - FOC deadlines.
+- [`discoveryFollowUpdates`](docs/sdks/discovery/README.md#followupdates) - Follow updates.
+- [`discoveryUpcoming1Issues`](docs/sdks/discovery/README.md#upcoming1issues) - Upcoming #1 issues.
+- [`eventsGetAnEvent`](docs/sdks/events/README.md#getanevent) - Get an event.
+- [`eventsListEvents`](docs/sdks/events/README.md#listevents) - List events.
+- [`imprintsGetImprintDetails`](docs/sdks/imprints/README.md#getimprintdetails) - Get imprint details
+- [`imprintsListImprints`](docs/sdks/imprints/README.md#listimprints) - List imprints
 - [`issuesGetIssueCharacters`](docs/sdks/issues/README.md#getissuecharacters) - Get issue characters.
 - [`issuesGetIssueCreators`](docs/sdks/issues/README.md#getissuecreators) - Get issue creators.
 - [`issuesGetIssueDetails`](docs/sdks/issues/README.md#getissuedetails) - Get issue details.
@@ -411,9 +454,15 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`listsMergeAListIntoThisOne`](docs/sdks/lists/README.md#mergealistintothisone) - Merge a list into this one.
 - [`listsRemoveItemFromList`](docs/sdks/lists/README.md#removeitemfromlist) - Remove item from list.
 - [`listsReorderItems`](docs/sdks/lists/README.md#reorderitems) - Reorder items.
+- [`listsSaveList`](docs/sdks/lists/README.md#savelist) - Save list.
 - [`listsStopAListUpdatingItself`](docs/sdks/lists/README.md#stopalistupdatingitself) - Stop a list updating itself.
 - [`listsUnlikeList`](docs/sdks/lists/README.md#unlikelist) - Unlike list.
+- [`listsUnsaveList`](docs/sdks/lists/README.md#unsavelist) - Unsave list.
 - [`listsUpdateList`](docs/sdks/lists/README.md#updatelist) - Update list.
+- [`podcastsGetASpecificPodcast`](docs/sdks/podcasts/README.md#getaspecificpodcast) - Get a specific podcast.
+- [`podcastsListAllPodcastsWithOptionalSearch`](docs/sdks/podcasts/README.md#listallpodcastswithoptionalsearch) - List all podcasts with optional search
+- [`publishersGetPublisherDetails`](docs/sdks/publishers/README.md#getpublisherdetails) - Get publisher details
+- [`publishersListAllPublishersWithOptionalSearch`](docs/sdks/publishers/README.md#listallpublisherswithoptionalsearch) - List all publishers with optional search
 - [`readingViewYearlyReadingStatistics`](docs/sdks/reading/README.md#viewyearlyreadingstatistics) - View yearly reading statistics.
 - [`readingViewYourMonthlyReadingCalendar`](docs/sdks/reading/README.md#viewyourmonthlyreadingcalendar) - View your monthly reading calendar.
 - [`readingViewYourReadingGoal`](docs/sdks/reading/README.md#viewyourreadinggoal) - View your reading goal.
@@ -423,24 +472,42 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`seriesGetSeriesDetails`](docs/sdks/series/README.md#getseriesdetails) - Get series details.
 - [`seriesGetSeriesIssues`](docs/sdks/series/README.md#getseriesissues) - Get series issues.
 - [`seriesListSeries`](docs/sdks/series/README.md#listseries) - List series.
+- [`storyArcsGetStoryArcDetail`](docs/sdks/storyarcs/README.md#getstoryarcdetail) - Get story arc detail.
 - [`storyArcsGetStoryArcsForASpecificCharacter`](docs/sdks/storyarcs/README.md#getstoryarcsforaspecificcharacter) - Get story arcs for a specific character
 - [`storyArcsGetStoryArcsForASpecificIssue`](docs/sdks/storyarcs/README.md#getstoryarcsforaspecificissue) - Get story arcs for a specific issue
+- [`storyArcsGetStoryArcsForASpecificUniverse`](docs/sdks/storyarcs/README.md#getstoryarcsforaspecificuniverse) - Get story arcs for a specific universe
+- [`storyArcsListAllStoryArcsWithOptionalSearch`](docs/sdks/storyarcs/README.md#listallstoryarcswithoptionalsearch) - List all story arcs with optional search
+- [`teamsGetASpecificTeam`](docs/sdks/teams/README.md#getaspecificteam) - Get a specific team
+- [`teamsGetCharactersForASpecificTeammembers`](docs/sdks/teams/README.md#getcharactersforaspecificteammembers) - Get characters for a specific team (members)
+- [`teamsGetIssuesForASpecificTeam`](docs/sdks/teams/README.md#getissuesforaspecificteam) - Get issues for a specific team
+- [`teamsGetSeriesForASpecificTeam`](docs/sdks/teams/README.md#getseriesforaspecificteam) - Get series for a specific team
+- [`teamsListAllTeamsWithOptionalSearch`](docs/sdks/teams/README.md#listallteamswithoptionalsearch) - List all teams with optional search
+- [`titlesGetASpecificTitle`](docs/sdks/titles/README.md#getaspecifictitle) - Get a specific title
+- [`titlesListTitles`](docs/sdks/titles/README.md#listtitles) - List titles
 - [`universesGetASpecificUniverse`](docs/sdks/universes/README.md#getaspecificuniverse) - Get a specific universe
 - [`universesListUniverses`](docs/sdks/universes/README.md#listuniverses) - List universes
+- [`userAddIssueToCollection`](docs/sdks/user/README.md#addissuetocollection) - Add issue to collection.
 - [`userAddToPullList`](docs/sdks/user/README.md#addtopulllist) - Add to pull list.
 - [`userAddToWishlist`](docs/sdks/user/README.md#addtowishlist) - Add to wishlist.
 - [`userCheckFollowStatus`](docs/sdks/user/README.md#checkfollowstatus) - Check follow status.
+- [`userCheckIssueInCollection`](docs/sdks/user/README.md#checkissueincollection) - Check issue in collection.
 - [`userEditReadingDate`](docs/sdks/user/README.md#editreadingdate) - Edit reading date.
 - [`userFollowContent`](docs/sdks/user/README.md#followcontent) - Follow content.
+- [`userGetTheAuthenticatedUser`](docs/sdks/user/README.md#gettheauthenticateduser) - Get the authenticated user.
+- [`userLendACopyOut`](docs/sdks/user/README.md#lendacopyout) - Lend a copy out.
+- [`userListCollection`](docs/sdks/user/README.md#listcollection) - List collection.
 - [`userListFollows`](docs/sdks/user/README.md#listfollows) - List follows.
 - [`userListPullList`](docs/sdks/user/README.md#listpulllist) - List pull list.
 - [`userListReadStatus`](docs/sdks/user/README.md#listreadstatus) - List read status.
 - [`userListWishlist`](docs/sdks/user/README.md#listwishlist) - List wishlist.
 - [`userMarkAsRead`](docs/sdks/user/README.md#markasread) - Mark as read.
 - [`userMarkAsUnread`](docs/sdks/user/README.md#markasunread) - Mark as unread.
+- [`userMarkTheCopysOpenLoanReturned`](docs/sdks/user/README.md#markthecopysopenloanreturned) - Mark the copy's open loan returned.
 - [`userRemoveFromPullList`](docs/sdks/user/README.md#removefrompulllist) - Remove from pull list.
 - [`userRemoveFromWishlist`](docs/sdks/user/README.md#removefromwishlist) - Remove from wishlist.
+- [`userRemoveIssueFromCollection`](docs/sdks/user/README.md#removeissuefromcollection) - Remove issue from collection.
 - [`userUnfollowContent`](docs/sdks/user/README.md#unfollowcontent) - Unfollow content.
+- [`userUpdateCollectionItem`](docs/sdks/user/README.md#updatecollectionitem) - Update collection item.
 - ~~[`userGetActivityFeed`](docs/sdks/user/README.md#getactivityfeed)~~ - Get activity feed. :warning: **Deprecated**
 
 </details>
@@ -495,27 +562,7 @@ const verseDB = new VerseDB({
 });
 
 async function run() {
-  const result = await verseDB.series.listSeries({
-    q: "spider-man",
-    titleId: 1,
-    publisherId: 1,
-    status: "Ongoing",
-    genreIds: "3,11",
-    publisherIds: "1,4",
-    creatorIds: "812,1907",
-    characterIds: "55,204",
-    languages: "en,ja",
-    medium: "manga",
-    publicationType: "limited_series",
-    format: "Omnibus",
-    startYear: 2018,
-    endYear: 2022,
-    decade: "1990s",
-    hideUnreleased: true,
-    sort: "start_year",
-    direction: "desc",
-    limit: 20,
-  }, {
+  const result = await verseDB.user.getTheAuthenticatedUser({
     retries: {
       strategy: "backoff",
       backoff: {
@@ -554,27 +601,7 @@ const verseDB = new VerseDB({
 });
 
 async function run() {
-  const result = await verseDB.series.listSeries({
-    q: "spider-man",
-    titleId: 1,
-    publisherId: 1,
-    status: "Ongoing",
-    genreIds: "3,11",
-    publisherIds: "1,4",
-    creatorIds: "812,1907",
-    characterIds: "55,204",
-    languages: "en,ja",
-    medium: "manga",
-    publicationType: "limited_series",
-    format: "Omnibus",
-    startYear: 2018,
-    endYear: 2022,
-    decade: "1990s",
-    hideUnreleased: true,
-    sort: "start_year",
-    direction: "desc",
-    limit: 20,
-  });
+  const result = await verseDB.user.getTheAuthenticatedUser();
 
   console.log(result);
 }
@@ -609,27 +636,7 @@ const verseDB = new VerseDB({
 
 async function run() {
   try {
-    const result = await verseDB.series.listSeries({
-      q: "spider-man",
-      titleId: 1,
-      publisherId: 1,
-      status: "Ongoing",
-      genreIds: "3,11",
-      publisherIds: "1,4",
-      creatorIds: "812,1907",
-      characterIds: "55,204",
-      languages: "en,ja",
-      medium: "manga",
-      publicationType: "limited_series",
-      format: "Omnibus",
-      startYear: 2018,
-      endYear: 2022,
-      decade: "1990s",
-      hideUnreleased: true,
-      sort: "start_year",
-      direction: "desc",
-      limit: 20,
-    });
+    const result = await verseDB.user.getTheAuthenticatedUser();
 
     console.log(result);
   } catch (error) {
@@ -658,7 +665,7 @@ run();
   * [`TooManyRequestsError`](./src/models/errors/too-many-requests-error.ts): Status code `429`.
   * [`UnauthorizedErrorError`](./src/models/errors/unauthorized-error-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. *
 
-<details><summary>Less common errors (49)</summary>
+<details><summary>Less common errors (183)</summary>
 
 <br />
 
@@ -671,49 +678,183 @@ run();
 
 
 **Inherit from [`VerseDbError`](./src/models/errors/verse-db-error.ts)**:
-* [`BadRequestError`](./src/models/errors/bad-request-error.ts): The request could not be processed. Status code `400`. Applicable to 1 of 59 methods.*
-* [`ViewYearlyReadingStatisticsUnauthorizedError`](./src/models/errors/view-yearly-reading-statistics-unauthorized-error.ts): The request could not be processed. Status code `401`. Applicable to 1 of 59 methods.*
-* [`ViewYourMonthlyReadingCalendarUnauthorizedError`](./src/models/errors/view-your-monthly-reading-calendar-unauthorized-error.ts): The request could not be processed. Status code `401`. Applicable to 1 of 59 methods.*
-* [`ViewYourReadingGoalUnauthorizedError`](./src/models/errors/view-your-reading-goal-unauthorized-error.ts): The request could not be processed. Status code `401`. Applicable to 1 of 59 methods.*
-* [`CreateListForbiddenError`](./src/models/errors/create-list-forbidden-error.ts): Limit Reached. Status code `403`. Applicable to 1 of 59 methods.*
-* [`GetListForbiddenError`](./src/models/errors/get-list-forbidden-error.ts): Private List. Status code `403`. Applicable to 1 of 59 methods.*
-* [`UpdateListForbiddenError`](./src/models/errors/update-list-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 59 methods.*
-* [`ResponseBodyError1`](./src/models/errors/response-body-error1.ts): Wishlist. Status code `403`. Applicable to 1 of 59 methods.*
-* [`ResponseBodyError2`](./src/models/errors/response-body-error2.ts): Unauthorized. Status code `403`. Applicable to 1 of 59 methods.*
-* [`OpenAListToAnyTypeForbiddenError`](./src/models/errors/open-a-list-to-any-type-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 59 methods.*
-* [`MergeAListIntoThisOneForbiddenError`](./src/models/errors/merge-a-list-into-this-one-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 59 methods.*
-* [`AddItemToListForbiddenError`](./src/models/errors/add-item-to-list-forbidden-error.ts): Item Limit. Status code `403`. Applicable to 1 of 59 methods.*
-* [`RemoveItemFromListForbiddenError`](./src/models/errors/remove-item-from-list-forbidden-error.ts): Unauthorized. Status code `403`. Applicable to 1 of 59 methods.*
-* [`LikeListOrReactToItForbiddenError`](./src/models/errors/like-list-or-react-to-it-forbidden-error.ts): Own List. Status code `403`. Applicable to 1 of 59 methods.*
-* [`LookupByUPCForbiddenError`](./src/models/errors/lookup-by-upc-forbidden-error.ts): Missing Ability. Status code `403`. Applicable to 1 of 59 methods.*
-* [`LookupByISBNForbiddenError`](./src/models/errors/lookup-by-isbn-forbidden-error.ts): Missing Ability. Status code `403`. Applicable to 1 of 59 methods.*
-* [`LookupByDistributorCodeForbiddenError`](./src/models/errors/lookup-by-distributor-code-forbidden-error.ts): Missing Ability. Status code `403`. Applicable to 1 of 59 methods.*
-* [`ViewYearlyReadingStatisticsForbiddenError`](./src/models/errors/view-yearly-reading-statistics-forbidden-error.ts): Forbidden. The authenticated user may not perform this action. Status code `403`. Applicable to 1 of 59 methods.*
-* [`ViewYourMonthlyReadingCalendarForbiddenError`](./src/models/errors/view-your-monthly-reading-calendar-forbidden-error.ts): Forbidden. The authenticated user may not perform this action. Status code `403`. Applicable to 1 of 59 methods.*
-* [`FollowContentForbiddenError`](./src/models/errors/follow-content-forbidden-error.ts): Refused. Status code `403`. Applicable to 1 of 59 methods.*
-* [`GetSeriesDetailsNotFoundError`](./src/models/errors/get-series-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 59 methods.*
-* [`GetIssueDetailsNotFoundError`](./src/models/errors/get-issue-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 59 methods.*
-* [`GetVariantDetailsNotFoundError`](./src/models/errors/get-variant-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 59 methods.*
-* [`GetListNotFoundError`](./src/models/errors/get-list-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 59 methods.*
-* [`RemoveItemFromListNotFoundError`](./src/models/errors/remove-item-from-list-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 59 methods.*
-* [`LookupByUPCNotFoundError`](./src/models/errors/lookup-by-upc-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 59 methods.*
-* [`LookupByISBNNotFoundError`](./src/models/errors/lookup-by-isbn-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 59 methods.*
-* [`LookupByDistributorCodeNotFoundError`](./src/models/errors/lookup-by-distributor-code-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 59 methods.*
-* [`FollowContentNotFoundError`](./src/models/errors/follow-content-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 59 methods.*
-* [`UnfollowContentNotFoundError`](./src/models/errors/unfollow-content-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 59 methods.*
-* [`AddItemToListConflictError`](./src/models/errors/add-item-to-list-conflict-error.ts): Already Exists. Status code `409`. Applicable to 1 of 59 methods.*
-* [`LookupByUPCConflictError`](./src/models/errors/lookup-by-upc-conflict-error.ts): Multiple Matches. Status code `409`. Applicable to 1 of 59 methods.*
-* [`LookupByDistributorCodeConflictError`](./src/models/errors/lookup-by-distributor-code-conflict-error.ts): Multiple Matches. Status code `409`. Applicable to 1 of 59 methods.*
-* [`OpenAListToAnyTypeUnprocessableEntityError`](./src/models/errors/open-a-list-to-any-type-unprocessable-entity-error.ts): Not convertible. Status code `422`. Applicable to 1 of 59 methods.*
-* [`StopAListUpdatingItselfUnprocessableEntityError`](./src/models/errors/stop-a-list-updating-itself-unprocessable-entity-error.ts): Not rule-built. Status code `422`. Applicable to 1 of 59 methods.*
-* [`MergeAListIntoThisOneUnprocessableEntityError`](./src/models/errors/merge-a-list-into-this-one-unprocessable-entity-error.ts): Invalid merge. Status code `422`. Applicable to 1 of 59 methods.*
-* [`LikeListOrReactToItUnprocessableEntityError`](./src/models/errors/like-list-or-react-to-it-unprocessable-entity-error.ts): Unknown reaction. Status code `422`. Applicable to 1 of 59 methods.*
-* [`LookupByDistributorCodeUnprocessableEntityError`](./src/models/errors/lookup-by-distributor-code-unprocessable-entity-error.ts): Not a Lunar or Universal Code. Status code `422`. Applicable to 1 of 59 methods.*
-* [`LookUpAnIssueByCoverPhotoUnprocessableEntityError`](./src/models/errors/look-up-an-issue-by-cover-photo-unprocessable-entity-error.ts): Not an Image. Status code `422`. Applicable to 1 of 59 methods.*
-* [`AddToPullListUnprocessableEntityError`](./src/models/errors/add-to-pull-list-unprocessable-entity-error.ts): Series Not Found. Status code `422`. Applicable to 1 of 59 methods.*
-* [`MarkAsReadUnprocessableEntityError`](./src/models/errors/mark-as-read-unprocessable-entity-error.ts): Invalid Variant. Status code `422`. Applicable to 1 of 59 methods.*
-* [`AddToWishlistUnprocessableEntityError`](./src/models/errors/add-to-wishlist-unprocessable-entity-error.ts): Wishlist Full. Status code `422`. Applicable to 1 of 59 methods.*
-* [`ServiceUnavailableError`](./src/models/errors/service-unavailable-error.ts): Matching Unavailable. Status code `503`. Applicable to 1 of 59 methods.*
+* [`BadRequestError`](./src/models/errors/bad-request-error.ts): The request could not be processed: an OAuth error and its description. Status code `400`. Applicable to 1 of 99 methods.*
+* [`ViewYourReadingGoalUnauthorizedError`](./src/models/errors/view-your-reading-goal-unauthorized-error.ts): The request could not be processed. Status code `401`. Applicable to 1 of 99 methods.*
+* [`ViewYearlyReadingStatisticsUnauthorizedError`](./src/models/errors/view-yearly-reading-statistics-unauthorized-error.ts): The request could not be processed. Status code `401`. Applicable to 1 of 99 methods.*
+* [`ViewYourMonthlyReadingCalendarUnauthorizedError`](./src/models/errors/view-your-monthly-reading-calendar-unauthorized-error.ts): The request could not be processed. Status code `401`. Applicable to 1 of 99 methods.*
+* [`GetTheAuthenticatedUserForbiddenError`](./src/models/errors/get-the-authenticated-user-forbidden-error.ts): The token holds neither read:user nor read:showcase. Status code `403`. Applicable to 1 of 99 methods.*
+* [`ListReadStatusForbiddenError`](./src/models/errors/list-read-status-forbidden-error.ts): The token holds neither read:user nor read:showcase. Status code `403`. Applicable to 1 of 99 methods.*
+* [`ListWishlistForbiddenError`](./src/models/errors/list-wishlist-forbidden-error.ts): The token holds neither read:user nor read:showcase. Status code `403`. Applicable to 1 of 99 methods.*
+* [`ListCollectionForbiddenError`](./src/models/errors/list-collection-forbidden-error.ts): The token holds neither read:user nor read:showcase. Status code `403`. Applicable to 1 of 99 methods.*
+* [`CheckIssueInCollectionForbiddenError`](./src/models/errors/check-issue-in-collection-forbidden-error.ts): The token does not hold read:user. Status code `403`. Applicable to 1 of 99 methods.*
+* [`ListPullListForbiddenError`](./src/models/errors/list-pull-list-forbidden-error.ts): The token holds neither read:user nor read:showcase. Status code `403`. Applicable to 1 of 99 methods.*
+* [`MarkAsReadForbiddenError`](./src/models/errors/mark-as-read-forbidden-error.ts): The token holds neither write:read-status nor write:lists. Status code `403`. Applicable to 1 of 99 methods.*
+* [`MarkAsUnreadForbiddenError`](./src/models/errors/mark-as-unread-forbidden-error.ts): The token holds neither write:read-status nor write:lists. Status code `403`. Applicable to 1 of 99 methods.*
+* [`EditReadingDateForbiddenError`](./src/models/errors/edit-reading-date-forbidden-error.ts): The token holds neither write:read-status nor write:lists. Status code `403`. Applicable to 1 of 99 methods.*
+* [`AddToWishlistForbiddenError`](./src/models/errors/add-to-wishlist-forbidden-error.ts): The token holds neither write:wishlist nor write:lists. Status code `403`. Applicable to 1 of 99 methods.*
+* [`RemoveFromWishlistForbiddenError`](./src/models/errors/remove-from-wishlist-forbidden-error.ts): The token holds neither write:wishlist nor write:lists. Status code `403`. Applicable to 1 of 99 methods.*
+* [`AddToPullListForbiddenError`](./src/models/errors/add-to-pull-list-forbidden-error.ts): The token holds neither write:pull-list nor write:lists. Status code `403`. Applicable to 1 of 99 methods.*
+* [`RemoveFromPullListForbiddenError`](./src/models/errors/remove-from-pull-list-forbidden-error.ts): The token holds neither write:pull-list nor write:lists. Status code `403`. Applicable to 1 of 99 methods.*
+* [`AddIssueToCollectionForbiddenError`](./src/models/errors/add-issue-to-collection-forbidden-error.ts): The token holds neither write:collection nor write:lists. Status code `403`. Applicable to 1 of 99 methods.*
+* [`RemoveIssueFromCollectionForbiddenError`](./src/models/errors/remove-issue-from-collection-forbidden-error.ts): The token holds neither write:collection nor write:lists. Status code `403`. Applicable to 1 of 99 methods.*
+* [`UpdateCollectionItemForbiddenError`](./src/models/errors/update-collection-item-forbidden-error.ts): The token holds neither write:collection nor write:lists. Status code `403`. Applicable to 1 of 99 methods.*
+* [`LendACopyOutForbiddenError`](./src/models/errors/lend-a-copy-out-forbidden-error.ts): The token holds neither write:collection nor write:lists. Status code `403`. Applicable to 1 of 99 methods.*
+* [`MarkTheCopysOpenLoanReturnedForbiddenError`](./src/models/errors/mark-the-copys-open-loan-returned-forbidden-error.ts): The token holds neither write:collection nor write:lists. Status code `403`. Applicable to 1 of 99 methods.*
+* [`FollowContentForbiddenError`](./src/models/errors/follow-content-forbidden-error.ts): Refused. Status code `403`. Applicable to 1 of 99 methods.*
+* [`ViewYourReadingGoalForbiddenError`](./src/models/errors/view-your-reading-goal-forbidden-error.ts): The token holds neither read:user nor read:showcase. Status code `403`. Applicable to 1 of 99 methods.*
+* [`ViewYearlyReadingStatisticsForbiddenError`](./src/models/errors/view-yearly-reading-statistics-forbidden-error.ts): The token holds neither read:user nor read:showcase, or the member has no Pro. Status code `403`. Applicable to 1 of 99 methods.*
+* [`ViewYourMonthlyReadingCalendarForbiddenError`](./src/models/errors/view-your-monthly-reading-calendar-forbidden-error.ts): The token holds neither read:user nor read:showcase, or the member has no Pro. Status code `403`. Applicable to 1 of 99 methods.*
+* [`ViewYourUnfinishedComicsFromTheVerseDBReaderForbiddenError`](./src/models/errors/view-your-unfinished-comics-from-the-verse-db-reader-forbidden-error.ts): The token holds neither read:user nor read:showcase. Status code `403`. Applicable to 1 of 99 methods.*
+* [`BrowseListsForbiddenError`](./src/models/errors/browse-lists-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`CreateListForbiddenError`](./src/models/errors/create-list-forbidden-error.ts): The token holds neither write:list nor write:lists, or a free account already has its ten lists. Status code `403`. Applicable to 1 of 99 methods.*
+* [`BrowseSystemListsForbiddenError`](./src/models/errors/browse-system-lists-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetUsersListsForbiddenError`](./src/models/errors/get-users-lists-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetListForbiddenError`](./src/models/errors/get-list-forbidden-error.ts): The token lacks the read:public ability; the list is private or a draft and the token may not read its owner's private data (`read:user` on the owner's own token); the list is for Pro members; or the request sent `owned`, `read`, `reviewed`, `alert_filter`, `item_ids` or `alert_id`, which only the app's own API reads. Status code `403`. Applicable to 1 of 99 methods.*
+* [`UpdateListForbiddenError`](./src/models/errors/update-list-forbidden-error.ts): The list is not yours to update, or the token holds neither write:list nor write:lists. Status code `403`. Applicable to 1 of 99 methods.*
+* [`DeleteListForbiddenError`](./src/models/errors/delete-list-forbidden-error.ts): The token holds neither write:list nor write:lists, the list is not yours, or it is your wishlist. Status code `403`. Applicable to 1 of 99 methods.*
+* [`SaveListForbiddenError`](./src/models/errors/save-list-forbidden-error.ts): The token holds neither write:list nor write:lists, or the list is your own or private. Status code `403`. Applicable to 1 of 99 methods.*
+* [`UnsaveListForbiddenError`](./src/models/errors/unsave-list-forbidden-error.ts): The token holds neither write:list nor write:lists. Status code `403`. Applicable to 1 of 99 methods.*
+* [`LikeListOrReactToItForbiddenError`](./src/models/errors/like-list-or-react-to-it-forbidden-error.ts): The token holds neither write:list nor write:lists, or the list is your own or private. Status code `403`. Applicable to 1 of 99 methods.*
+* [`UnlikeListForbiddenError`](./src/models/errors/unlike-list-forbidden-error.ts): The token holds neither write:list nor write:lists. Status code `403`. Applicable to 1 of 99 methods.*
+* [`OpenAListToAnyTypeForbiddenError`](./src/models/errors/open-a-list-to-any-type-forbidden-error.ts): The token holds neither write:list nor write:lists, or the list is not yours. Status code `403`. Applicable to 1 of 99 methods.*
+* [`StopAListUpdatingItselfForbiddenError`](./src/models/errors/stop-a-list-updating-itself-forbidden-error.ts): The token holds neither write:list nor write:lists, or the list is not yours. Status code `403`. Applicable to 1 of 99 methods.*
+* [`MergeAListIntoThisOneForbiddenError`](./src/models/errors/merge-a-list-into-this-one-forbidden-error.ts): The token holds neither write:list nor write:lists, or either list is not yours to merge. Status code `403`. Applicable to 1 of 99 methods.*
+* [`AddItemToListForbiddenError`](./src/models/errors/add-item-to-list-forbidden-error.ts): The list is not yours to change or is built by a rule, the token holds neither write:list nor write:lists, or the list is at its item limit. Status code `403`. Applicable to 1 of 99 methods.*
+* [`RemoveItemFromListForbiddenError`](./src/models/errors/remove-item-from-list-forbidden-error.ts): The token holds neither write:list nor write:lists, or the list is not yours to change. Status code `403`. Applicable to 1 of 99 methods.*
+* [`ReorderItemsForbiddenError`](./src/models/errors/reorder-items-forbidden-error.ts): The list is not yours, is not ranked or is built by a rule, or the token holds neither write:list nor write:lists. Status code `403`. Applicable to 1 of 99 methods.*
+* [`ListKeyIssueReasonsForbiddenError`](./src/models/errors/list-key-issue-reasons-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`ListUniversesForbiddenError`](./src/models/errors/list-universes-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetASpecificUniverseForbiddenError`](./src/models/errors/get-a-specific-universe-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`ListCharactersForbiddenError`](./src/models/errors/list-characters-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetCharacterDetailsForbiddenError`](./src/models/errors/get-character-details-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`ListCreatorsForbiddenError`](./src/models/errors/list-creators-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetCreatorDetailsForbiddenError`](./src/models/errors/get-creator-details-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetCreatorsIssuesForbiddenError`](./src/models/errors/get-creators-issues-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetCreatorsSeriesForbiddenError`](./src/models/errors/get-creators-series-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetCreatorsBlogPostsForbiddenError`](./src/models/errors/get-creators-blog-posts-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`ListAllStoryArcsWithOptionalSearchForbiddenError`](./src/models/errors/list-all-story-arcs-with-optional-search-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetStoryArcsForASpecificIssueForbiddenError`](./src/models/errors/get-story-arcs-for-a-specific-issue-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetStoryArcDetailForbiddenError`](./src/models/errors/get-story-arc-detail-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetStoryArcsForASpecificUniverseForbiddenError`](./src/models/errors/get-story-arcs-for-a-specific-universe-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`ListAllTeamsWithOptionalSearchForbiddenError`](./src/models/errors/list-all-teams-with-optional-search-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetASpecificTeamForbiddenError`](./src/models/errors/get-a-specific-team-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetCharactersForASpecificTeammembersForbiddenError`](./src/models/errors/get-characters-for-a-specific-teammembers-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetSeriesForASpecificTeamForbiddenError`](./src/models/errors/get-series-for-a-specific-team-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetIssuesForASpecificTeamForbiddenError`](./src/models/errors/get-issues-for-a-specific-team-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`ListEventsForbiddenError`](./src/models/errors/list-events-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetAnEventForbiddenError`](./src/models/errors/get-an-event-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`ListAllPodcastsWithOptionalSearchForbiddenError`](./src/models/errors/list-all-podcasts-with-optional-search-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetASpecificPodcastForbiddenError`](./src/models/errors/get-a-specific-podcast-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetImprintDetailsForbiddenError`](./src/models/errors/get-imprint-details-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`ListImprintsForbiddenError`](./src/models/errors/list-imprints-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetASpecificTitleForbiddenError`](./src/models/errors/get-a-specific-title-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`ListTitlesForbiddenError`](./src/models/errors/list-titles-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetPublisherDetailsForbiddenError`](./src/models/errors/get-publisher-details-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`ListAllPublishersWithOptionalSearchForbiddenError`](./src/models/errors/list-all-publishers-with-optional-search-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`ListSeriesForbiddenError`](./src/models/errors/list-series-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetSeriesIssuesForbiddenError`](./src/models/errors/get-series-issues-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetSeriesDetailsForbiddenError`](./src/models/errors/get-series-details-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetSeriesCreatorsForbiddenError`](./src/models/errors/get-series-creators-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetSeriesCharactersForbiddenError`](./src/models/errors/get-series-characters-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetIssueVariantsForbiddenError`](./src/models/errors/get-issue-variants-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetIssueDetailsForbiddenError`](./src/models/errors/get-issue-details-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`ListIssuesForbiddenError`](./src/models/errors/list-issues-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetVariantDetailsForbiddenError`](./src/models/errors/get-variant-details-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetKeyIssueReasonsForbiddenError`](./src/models/errors/get-key-issue-reasons-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetIssueCreatorsForbiddenError`](./src/models/errors/get-issue-creators-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetIssueCharactersForbiddenError`](./src/models/errors/get-issue-characters-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`ListComicShopsForbiddenError`](./src/models/errors/list-comic-shops-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetAComicShopForbiddenError`](./src/models/errors/get-a-comic-shop-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`FOCDeadlinesForbiddenError`](./src/models/errors/foc-deadlines-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`FollowUpdatesForbiddenError`](./src/models/errors/follow-updates-forbidden-error.ts): A token without `read:user`. Status code `403`. Applicable to 1 of 99 methods.*
+* [`Upcoming1IssuesForbiddenError`](./src/models/errors/upcoming1-issues-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`LookupByUPCForbiddenError`](./src/models/errors/lookup-by-upc-forbidden-error.ts): Missing Ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`LookupByISBNForbiddenError`](./src/models/errors/lookup-by-isbn-forbidden-error.ts): Missing Ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`LookupByDistributorCodeForbiddenError`](./src/models/errors/lookup-by-distributor-code-forbidden-error.ts): Missing Ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`MarkAsReadNotFoundError`](./src/models/errors/mark-as-read-not-found-error.ts): No live issue has this ID. Status code `404`. Applicable to 1 of 99 methods.*
+* [`MarkAsUnreadNotFoundError`](./src/models/errors/mark-as-unread-not-found-error.ts): No live issue has this ID. Status code `404`. Applicable to 1 of 99 methods.*
+* [`EditReadingDateNotFoundError`](./src/models/errors/edit-reading-date-not-found-error.ts): No live issue has this ID. Status code `404`. Applicable to 1 of 99 methods.*
+* [`AddToWishlistNotFoundError`](./src/models/errors/add-to-wishlist-not-found-error.ts): No live issue has this ID. Status code `404`. Applicable to 1 of 99 methods.*
+* [`RemoveFromWishlistNotFoundError`](./src/models/errors/remove-from-wishlist-not-found-error.ts): No live issue has this ID. Status code `404`. Applicable to 1 of 99 methods.*
+* [`AddToPullListNotFoundError`](./src/models/errors/add-to-pull-list-not-found-error.ts): The series is deleted. Status code `404`. Applicable to 1 of 99 methods.*
+* [`RemoveFromPullListNotFoundError`](./src/models/errors/remove-from-pull-list-not-found-error.ts): No live series has this ID. Status code `404`. Applicable to 1 of 99 methods.*
+* [`AddIssueToCollectionNotFoundError`](./src/models/errors/add-issue-to-collection-not-found-error.ts): No live issue has this ID. Status code `404`. Applicable to 1 of 99 methods.*
+* [`RemoveIssueFromCollectionResponseBodyError1`](./src/models/errors/remove-issue-from-collection-response-body-error1.ts): No live issue has this ID (`message`), or the user holds no such copy of it (`error`). Status code `404`. Applicable to 1 of 99 methods.*
+* [`RemoveIssueFromCollectionResponseBodyError2`](./src/models/errors/remove-issue-from-collection-response-body-error2.ts): No live issue has this ID (`message`), or the user holds no such copy of it (`error`). Status code `404`. Applicable to 1 of 99 methods.*
+* [`UpdateCollectionItemResponseBodyNotFoundError1`](./src/models/errors/update-collection-item-response-body-not-found-error1.ts): No live issue has this ID (`message`), or the user holds no such copy of it (`error`). Status code `404`. Applicable to 1 of 99 methods.*
+* [`UpdateCollectionItemResponseBodyNotFoundError2`](./src/models/errors/update-collection-item-response-body-not-found-error2.ts): No live issue has this ID (`message`), or the user holds no such copy of it (`error`). Status code `404`. Applicable to 1 of 99 methods.*
+* [`LendACopyOutNotFoundError`](./src/models/errors/lend-a-copy-out-not-found-error.ts): No collection item has this ID, or the user does not own it (`Collection item not found.`). Status code `404`. Applicable to 1 of 99 methods.*
+* [`MarkTheCopysOpenLoanReturnedNotFoundError`](./src/models/errors/mark-the-copys-open-loan-returned-not-found-error.ts): No collection item has this ID, the user does not own it, or it is not on loan. Status code `404`. Applicable to 1 of 99 methods.*
+* [`FollowContentNotFoundError`](./src/models/errors/follow-content-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`UnfollowContentNotFoundError`](./src/models/errors/unfollow-content-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`CreateListNotFoundError`](./src/models/errors/create-list-not-found-error.ts): No live issue has this ID. Status code `404`. Applicable to 1 of 99 methods.*
+* [`GetUsersListsNotFoundError`](./src/models/errors/get-users-lists-not-found-error.ts): You blocked this user, or they blocked you. Status code `404`. Applicable to 1 of 99 methods.*
+* [`GetListNotFoundError`](./src/models/errors/get-list-not-found-error.ts): No such list, or you blocked its owner, or they blocked you. Status code `404`. Applicable to 1 of 99 methods.*
+* [`UpdateListNotFoundError`](./src/models/errors/update-list-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 99 methods.*
+* [`DeleteListNotFoundError`](./src/models/errors/delete-list-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 99 methods.*
+* [`SaveListNotFoundError`](./src/models/errors/save-list-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 99 methods.*
+* [`UnsaveListNotFoundError`](./src/models/errors/unsave-list-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 99 methods.*
+* [`LikeListOrReactToItNotFoundError`](./src/models/errors/like-list-or-react-to-it-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 99 methods.*
+* [`UnlikeListNotFoundError`](./src/models/errors/unlike-list-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 99 methods.*
+* [`OpenAListToAnyTypeNotFoundError`](./src/models/errors/open-a-list-to-any-type-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 99 methods.*
+* [`StopAListUpdatingItselfNotFoundError`](./src/models/errors/stop-a-list-updating-itself-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 99 methods.*
+* [`MergeAListIntoThisOneNotFoundError`](./src/models/errors/merge-a-list-into-this-one-not-found-error.ts): No live list has this ID (`Source list not found.` when it is the source that is gone). Status code `404`. Applicable to 1 of 99 methods.*
+* [`AddItemToListNotFoundError`](./src/models/errors/add-item-to-list-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 99 methods.*
+* [`RemoveItemFromListNotFoundError`](./src/models/errors/remove-item-from-list-not-found-error.ts): No live list or no list item has this ID, or the item belongs to another list (`Item does not belong to this list.`). Status code `404`. Applicable to 1 of 99 methods.*
+* [`ReorderItemsNotFoundError`](./src/models/errors/reorder-items-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 99 methods.*
+* [`GetCharacterDetailsNotFoundError`](./src/models/errors/get-character-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`GetCreatorDetailsNotFoundError`](./src/models/errors/get-creator-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`GetASpecificTeamNotFoundError`](./src/models/errors/get-a-specific-team-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`GetAnEventNotFoundError`](./src/models/errors/get-an-event-not-found-error.ts): An archived event. Status code `404`. Applicable to 1 of 99 methods.*
+* [`GetASpecificPodcastNotFoundError`](./src/models/errors/get-a-specific-podcast-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`GetASpecificTitleNotFoundError`](./src/models/errors/get-a-specific-title-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`GetPublisherDetailsNotFoundError`](./src/models/errors/get-publisher-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`GetSeriesDetailsNotFoundError`](./src/models/errors/get-series-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`GetIssueDetailsNotFoundError`](./src/models/errors/get-issue-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`GetVariantDetailsNotFoundError`](./src/models/errors/get-variant-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`GetAComicShopNotFoundError`](./src/models/errors/get-a-comic-shop-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`LookupByUPCNotFoundError`](./src/models/errors/lookup-by-upc-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`LookupByISBNNotFoundError`](./src/models/errors/lookup-by-isbn-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`LookupByDistributorCodeNotFoundError`](./src/models/errors/lookup-by-distributor-code-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`LendACopyOutConflictError`](./src/models/errors/lend-a-copy-out-conflict-error.ts): The copy is already on loan. Status code `409`. Applicable to 1 of 99 methods.*
+* [`AddItemToListConflictError`](./src/models/errors/add-item-to-list-conflict-error.ts): The entity (with the same cover) is already in the list. Status code `409`. Applicable to 1 of 99 methods.*
+* [`LookupByUPCConflictError`](./src/models/errors/lookup-by-upc-conflict-error.ts): Multiple Matches. Status code `409`. Applicable to 1 of 99 methods.*
+* [`LookupByDistributorCodeConflictError`](./src/models/errors/lookup-by-distributor-code-conflict-error.ts): Multiple Matches. Status code `409`. Applicable to 1 of 99 methods.*
+* [`CheckIssueInCollectionUnprocessableEntityError`](./src/models/errors/check-issue-in-collection-unprocessable-entity-error.ts): A variant that does not exist. Status code `422`. Applicable to 1 of 99 methods.*
+* [`MarkAsReadResponseBodyError1`](./src/models/errors/mark-as-read-response-body-error1.ts): Invalid Variant, a variant that does not exist, or an issue not released yet. Status code `422`. Applicable to 1 of 99 methods.*
+* [`MarkAsReadResponseBodyError2`](./src/models/errors/mark-as-read-response-body-error2.ts): Invalid Variant, a variant that does not exist, or an issue not released yet. Status code `422`. Applicable to 1 of 99 methods.*
+* [`MarkAsReadResponseBodyError3`](./src/models/errors/mark-as-read-response-body-error3.ts): Invalid Variant, a variant that does not exist, or an issue not released yet. Status code `422`. Applicable to 1 of 99 methods.*
+* [`MarkAsUnreadUnprocessableEntityError`](./src/models/errors/mark-as-unread-unprocessable-entity-error.ts): A variant that does not exist. Status code `422`. Applicable to 1 of 99 methods.*
+* [`EditReadingDateResponseBodyError1`](./src/models/errors/edit-reading-date-response-body-error1.ts): Invalid Variant, a date after today, or an issue not released yet. Status code `422`. Applicable to 1 of 99 methods.*
+* [`EditReadingDateResponseBodyError2`](./src/models/errors/edit-reading-date-response-body-error2.ts): Invalid Variant, a date after today, or an issue not released yet. Status code `422`. Applicable to 1 of 99 methods.*
+* [`EditReadingDateResponseBodyError3`](./src/models/errors/edit-reading-date-response-body-error3.ts): Invalid Variant, a date after today, or an issue not released yet. Status code `422`. Applicable to 1 of 99 methods.*
+* [`AddToWishlistResponseBodyError1`](./src/models/errors/add-to-wishlist-response-body-error1.ts): Wishlist Full, or a variant that is not one of the issue's. Status code `422`. Applicable to 1 of 99 methods.*
+* [`AddToWishlistResponseBodyError2`](./src/models/errors/add-to-wishlist-response-body-error2.ts): Wishlist Full, or a variant that is not one of the issue's. Status code `422`. Applicable to 1 of 99 methods.*
+* [`RemoveFromWishlistUnprocessableEntityError`](./src/models/errors/remove-from-wishlist-unprocessable-entity-error.ts): A variant that is not one of the issue's. Status code `422`. Applicable to 1 of 99 methods.*
+* [`AddToPullListUnprocessableEntityError`](./src/models/errors/add-to-pull-list-unprocessable-entity-error.ts): No series has this ID. Status code `422`. Applicable to 1 of 99 methods.*
+* [`AddIssueToCollectionResponseBodyError1`](./src/models/errors/add-issue-to-collection-response-body-error1.ts): A field the rules refuse, a variant of another issue, or an issue not released yet. Status code `422`. Applicable to 1 of 99 methods.*
+* [`AddIssueToCollectionResponseBodyError2`](./src/models/errors/add-issue-to-collection-response-body-error2.ts): A field the rules refuse, a variant of another issue, or an issue not released yet. Status code `422`. Applicable to 1 of 99 methods.*
+* [`AddIssueToCollectionResponseBodyError3`](./src/models/errors/add-issue-to-collection-response-body-error3.ts): A field the rules refuse, a variant of another issue, or an issue not released yet. Status code `422`. Applicable to 1 of 99 methods.*
+* [`RemoveIssueFromCollectionUnprocessableEntityError`](./src/models/errors/remove-issue-from-collection-unprocessable-entity-error.ts): A variant that does not exist, or a collection item ID that is not an integer. Status code `422`. Applicable to 1 of 99 methods.*
+* [`UpdateCollectionItemResponseBodyUnprocessableEntityError1`](./src/models/errors/update-collection-item-response-body-unprocessable-entity-error1.ts): A field the rules refuse, a variant of another issue, or `is_read` on an issue not released yet (the copy is still updated). Status code `422`. Applicable to 1 of 99 methods.*
+* [`UpdateCollectionItemResponseBodyUnprocessableEntityError2`](./src/models/errors/update-collection-item-response-body-unprocessable-entity-error2.ts): A field the rules refuse, a variant of another issue, or `is_read` on an issue not released yet (the copy is still updated). Status code `422`. Applicable to 1 of 99 methods.*
+* [`UpdateCollectionItemResponseBodyUnprocessableEntityError3`](./src/models/errors/update-collection-item-response-body-unprocessable-entity-error3.ts): A field the rules refuse, a variant of another issue, or `is_read` on an issue not released yet (the copy is still updated). Status code `422`. Applicable to 1 of 99 methods.*
+* [`LendACopyOutUnprocessableEntityError`](./src/models/errors/lend-a-copy-out-unprocessable-entity-error.ts): A field the rules refuse. Status code `422`. Applicable to 1 of 99 methods.*
+* [`MarkTheCopysOpenLoanReturnedUnprocessableEntityError`](./src/models/errors/mark-the-copys-open-loan-returned-unprocessable-entity-error.ts): A `returned_at` that is not a date. Status code `422`. Applicable to 1 of 99 methods.*
+* [`CreateListUnprocessableEntityError`](./src/models/errors/create-list-unprocessable-entity-error.ts): The body failed validation. Status code `422`. Applicable to 1 of 99 methods.*
+* [`UpdateListUnprocessableEntityError`](./src/models/errors/update-list-unprocessable-entity-error.ts): The body failed validation. Status code `422`. Applicable to 1 of 99 methods.*
+* [`LikeListOrReactToItUnprocessableEntityError`](./src/models/errors/like-list-or-react-to-it-unprocessable-entity-error.ts): Unknown reaction. Status code `422`. Applicable to 1 of 99 methods.*
+* [`OpenAListToAnyTypeUnprocessableEntityError`](./src/models/errors/open-a-list-to-any-type-unprocessable-entity-error.ts): Not convertible. Status code `422`. Applicable to 1 of 99 methods.*
+* [`StopAListUpdatingItselfUnprocessableEntityError`](./src/models/errors/stop-a-list-updating-itself-unprocessable-entity-error.ts): Not rule-built. Status code `422`. Applicable to 1 of 99 methods.*
+* [`MergeAListIntoThisOneUnprocessableEntityError`](./src/models/errors/merge-a-list-into-this-one-unprocessable-entity-error.ts): The body failed validation, or the merge is refused (an empty source, the item cap). Status code `422`. Applicable to 1 of 99 methods.*
+* [`AddItemToListUnprocessableEntityError`](./src/models/errors/add-item-to-list-unprocessable-entity-error.ts): The body failed validation. Status code `422`. Applicable to 1 of 99 methods.*
+* [`ReorderItemsUnprocessableEntityError`](./src/models/errors/reorder-items-unprocessable-entity-error.ts): The body failed validation. Status code `422`. Applicable to 1 of 99 methods.*
+* [`FOCDeadlinesUnprocessableEntityError`](./src/models/errors/foc-deadlines-unprocessable-entity-error.ts): A query parameter out of range. Status code `422`. Applicable to 1 of 99 methods.*
+* [`FollowUpdatesUnprocessableEntityError`](./src/models/errors/follow-updates-unprocessable-entity-error.ts): A query parameter out of range. Status code `422`. Applicable to 1 of 99 methods.*
+* [`Upcoming1IssuesUnprocessableEntityError`](./src/models/errors/upcoming1-issues-unprocessable-entity-error.ts): A query parameter out of range. Status code `422`. Applicable to 1 of 99 methods.*
+* [`LookupByDistributorCodeUnprocessableEntityError`](./src/models/errors/lookup-by-distributor-code-unprocessable-entity-error.ts): Not a Lunar or Universal Code. Status code `422`. Applicable to 1 of 99 methods.*
+* [`LookUpAnIssueByCoverPhotoUnprocessableEntityError`](./src/models/errors/look-up-an-issue-by-cover-photo-unprocessable-entity-error.ts): Not an Image. Status code `422`. Applicable to 1 of 99 methods.*
+* [`ServiceUnavailableError`](./src/models/errors/service-unavailable-error.ts): Matching Unavailable. Status code `503`. Applicable to 1 of 99 methods.*
 * [`ResponseValidationError`](./src/models/errors/response-validation-error.ts): Type mismatch between the data returned from the server and the structure expected by the SDK. See `error.rawValue` for the raw value and `error.pretty()` for a nicely formatted multi-line string.
 
 </details>
@@ -736,27 +877,7 @@ const verseDB = new VerseDB({
 });
 
 async function run() {
-  const result = await verseDB.series.listSeries({
-    q: "spider-man",
-    titleId: 1,
-    publisherId: 1,
-    status: "Ongoing",
-    genreIds: "3,11",
-    publisherIds: "1,4",
-    creatorIds: "812,1907",
-    characterIds: "55,204",
-    languages: "en,ja",
-    medium: "manga",
-    publicationType: "limited_series",
-    format: "Omnibus",
-    startYear: 2018,
-    endYear: 2022,
-    decade: "1990s",
-    hideUnreleased: true,
-    sort: "start_year",
-    direction: "desc",
-    limit: 20,
-  });
+  const result = await verseDB.user.getTheAuthenticatedUser();
 
   console.log(result);
 }

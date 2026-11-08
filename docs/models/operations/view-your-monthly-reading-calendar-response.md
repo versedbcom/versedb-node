@@ -7,14 +7,21 @@ import { ViewYourMonthlyReadingCalendarResponse } from "@versedbcom/sdk/models/o
 
 let value: ViewYourMonthlyReadingCalendarResponse = {
   headers: {
-    "key": [
+    "key": [],
+    "key1": [
       "<value 1>",
-      "<value 2>",
     ],
-    "key1": [],
   },
   result: {
-    data: [],
+    data: [
+      {
+        id: 5678,
+        date: "2026-09-14",
+        name: "Saga (2012) #1",
+        url: "https://versedb.com/issue/5678/saga-1",
+        cover: "https://...-cover_sm.webp",
+      },
+    ],
     currentPage: 1,
     lastPage: 1,
     total: 0,
@@ -24,7 +31,7 @@ let value: ViewYourMonthlyReadingCalendarResponse = {
 
 ## Fields
 
-| Field                                                                                                                                | Type                                                                                                                                 | Required                                                                                                                             | Description                                                                                                                          | Example                                                                                                                              |
-| ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `headers`                                                                                                                            | Record<string, *string*[]>                                                                                                           | :heavy_check_mark:                                                                                                                   | N/A                                                                                                                                  |                                                                                                                                      |
-| `result`                                                                                                                             | [operations.ViewYourMonthlyReadingCalendarResponseBody](../../models/operations/view-your-monthly-reading-calendar-response-body.md) | :heavy_check_mark:                                                                                                                   | N/A                                                                                                                                  | {<br/>"data": [],<br/>"current_page": 1,<br/>"last_page": 1,<br/>"total": 0<br/>}                                                    |
+| Field                                                                                                                                | Type                                                                                                                                 | Required                                                                                                                             | Description                                                                                                                          |
+| ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `headers`                                                                                                                            | Record<string, *string*[]>                                                                                                           | :heavy_check_mark:                                                                                                                   | N/A                                                                                                                                  |
+| `result`                                                                                                                             | [operations.ViewYourMonthlyReadingCalendarResponseBody](../../models/operations/view-your-monthly-reading-calendar-response-body.md) | :heavy_check_mark:                                                                                                                   | N/A                                                                                                                                  |

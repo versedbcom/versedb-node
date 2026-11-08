@@ -10,7 +10,7 @@ import { VerseDbError } from "./verse-db-error.js";
  * Not Found
  */
 export type GetSeriesDetailsNotFoundErrorData = {
-  message?: string | undefined;
+  message: string;
 };
 
 /**
@@ -32,19 +32,65 @@ export class GetSeriesDetailsNotFoundError extends VerseDbError {
   }
 }
 
+/**
+ * The token lacks the read:public ability.
+ */
+export type GetSeriesDetailsForbiddenErrorData = {
+  message: string;
+};
+
+/**
+ * The token lacks the read:public ability.
+ */
+export class GetSeriesDetailsForbiddenError extends VerseDbError {
+  /** The original data that was passed to this error instance. */
+  data$: GetSeriesDetailsForbiddenErrorData;
+
+  constructor(
+    err: GetSeriesDetailsForbiddenErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+
+    this.name = "GetSeriesDetailsForbiddenError";
+  }
+}
+
 /** @internal */
 export const GetSeriesDetailsNotFoundError$inboundSchema: z.ZodMiniType<
   GetSeriesDetailsNotFoundError,
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
+    message: types.string(),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),
   }),
   z.transform((v) => {
     return new GetSeriesDetailsNotFoundError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
+export const GetSeriesDetailsForbiddenError$inboundSchema: z.ZodMiniType<
+  GetSeriesDetailsForbiddenError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new GetSeriesDetailsForbiddenError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

@@ -1,6 +1,6 @@
 # RemoveItemFromListForbiddenError
 
-Unauthorized
+The token holds neither write:list nor write:lists, or the list is not yours to change.
 
 ## Example Usage
 
@@ -12,6 +12,6 @@ import { RemoveItemFromListForbiddenError } from "@versedbcom/sdk/models/errors"
 
 ## Fields
 
-| Field                                                  | Type                                                   | Required                                               | Description                                            | Example                                                |
-| ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ |
-| `message`                                              | *string*                                               | :heavy_minus_sign:                                     | N/A                                                    | You are not authorized to remove items from this list. |
+| Field                     | Type                      | Required                  | Description               | Example                   |
+| ------------------------- | ------------------------- | ------------------------- | ------------------------- | ------------------------- |
+| `message`                 | *string*                  | :heavy_check_mark:        | N/A                       | Insufficient token scope. |

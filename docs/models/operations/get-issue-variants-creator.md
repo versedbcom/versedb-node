@@ -6,8 +6,8 @@
 import { GetIssueVariantsCreator } from "@versedbcom/sdk/models/operations";
 
 let value: GetIssueVariantsCreator = {
-  id: 101,
-  name: "J. Scott Campbell",
+  id: 81,
+  name: "Fiona Staples",
   role: "Cover Artist",
 };
 ```
@@ -16,6 +16,6 @@ let value: GetIssueVariantsCreator = {
 
 | Field              | Type               | Required           | Description        | Example            |
 | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
-| `id`               | *number*           | :heavy_minus_sign: | N/A                | 101                |
-| `name`             | *string*           | :heavy_minus_sign: | N/A                | J. Scott Campbell  |
-| `role`             | *string*           | :heavy_minus_sign: | N/A                | Cover Artist       |
+| `id`               | *number*           | :heavy_check_mark: | N/A                | 81                 |
+| `name`             | *string*           | :heavy_check_mark: | N/A                | Fiona Staples      |
+| `role`             | *string*           | :heavy_check_mark: | N/A                | Cover Artist       |

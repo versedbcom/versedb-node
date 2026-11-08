@@ -22,7 +22,7 @@ let value: ExchangeAConnectCodeForATokenResponseBody = {
 
 | Field                              | Type                               | Required                           | Description                        | Example                            |
 | ---------------------------------- | ---------------------------------- | ---------------------------------- | ---------------------------------- | ---------------------------------- |
-| `accessToken`                      | *string*                           | :heavy_minus_sign:                 | N/A                                | Sq2mX9p...                         |
-| `tokenType`                        | *string*                           | :heavy_minus_sign:                 | N/A                                | Bearer                             |
-| `expiresAt`                        | *string*                           | :heavy_minus_sign:                 | N/A                                | 2027-09-29T15:00:00Z               |
-| `abilities`                        | *string*[]                         | :heavy_minus_sign:                 | N/A                                | [<br/>"read:public",<br/>"read:showcase"<br/>] |
+| `accessToken`                      | *string*                           | :heavy_check_mark:                 | N/A                                | Sq2mX9p...                         |
+| `tokenType`                        | *string*                           | :heavy_check_mark:                 | N/A                                | Bearer                             |
+| `expiresAt`                        | *string*                           | :heavy_check_mark:                 | N/A                                | 2027-09-29T15:00:00Z               |
+| `abilities`                        | *string*[]                         | :heavy_check_mark:                 | N/A                                | [<br/>"read:public",<br/>"read:showcase"<br/>] |

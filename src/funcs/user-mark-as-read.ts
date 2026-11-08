@@ -41,7 +41,9 @@ export function userMarkAsRead(
   Result<
     operations.MarkAsReadResponse,
     | errors.UnauthorizedErrorError
-    | errors.MarkAsReadUnprocessableEntityError
+    | errors.MarkAsReadForbiddenError
+    | errors.MarkAsReadNotFoundError
+    | errors.MarkAsReadUnprocessableEntity
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -69,7 +71,9 @@ async function $do(
     Result<
       operations.MarkAsReadResponse,
       | errors.UnauthorizedErrorError
-      | errors.MarkAsReadUnprocessableEntityError
+      | errors.MarkAsReadForbiddenError
+      | errors.MarkAsReadNotFoundError
+      | errors.MarkAsReadUnprocessableEntity
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -160,7 +164,9 @@ async function $do(
   const [result] = await M.match<
     operations.MarkAsReadResponse,
     | errors.UnauthorizedErrorError
-    | errors.MarkAsReadUnprocessableEntityError
+    | errors.MarkAsReadForbiddenError
+    | errors.MarkAsReadNotFoundError
+    | errors.MarkAsReadUnprocessableEntity
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -176,7 +182,11 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
-    M.jsonErr(422, errors.MarkAsReadUnprocessableEntityError$inboundSchema),
+    M.jsonErr(403, errors.MarkAsReadForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.MarkAsReadNotFoundError$inboundSchema),
+    M.jsonErr(422, errors.MarkAsReadUnprocessableEntity$inboundSchema, {
+      hdrs: true,
+    }),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

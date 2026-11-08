@@ -3,20 +3,27 @@
  */
 
 import * as z from "zod/v4-mini";
+import { remap as remap$ } from "../../lib/primitives.js";
 import * as types from "../../types/primitives.js";
+import * as operations from "../operations/index.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
  * Unknown reaction
  */
 export type LikeListOrReactToItUnprocessableEntityErrorData = {
-  message?: string | undefined;
+  message: string;
+  errors: operations.LikeListOrReactToItErrors;
+  availableReactions: Array<string>;
 };
 
 /**
  * Unknown reaction
  */
 export class LikeListOrReactToItUnprocessableEntityError extends VerseDbError {
+  errors: operations.LikeListOrReactToItErrors;
+  availableReactions: Array<string>;
+
   /** The original data that was passed to this error instance. */
   data$: LikeListOrReactToItUnprocessableEntityErrorData;
 
@@ -27,20 +34,48 @@ export class LikeListOrReactToItUnprocessableEntityError extends VerseDbError {
     const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
     super(message, httpMeta);
     this.data$ = err;
+    this.errors = err.errors;
+    this.availableReactions = err.availableReactions;
 
     this.name = "LikeListOrReactToItUnprocessableEntityError";
   }
 }
 
 /**
- * Own List
+ * No live list has this ID.
  */
-export type LikeListOrReactToItForbiddenErrorData = {
-  message?: string | undefined;
+export type LikeListOrReactToItNotFoundErrorData = {
+  message: string;
 };
 
 /**
- * Own List
+ * No live list has this ID.
+ */
+export class LikeListOrReactToItNotFoundError extends VerseDbError {
+  /** The original data that was passed to this error instance. */
+  data$: LikeListOrReactToItNotFoundErrorData;
+
+  constructor(
+    err: LikeListOrReactToItNotFoundErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+
+    this.name = "LikeListOrReactToItNotFoundError";
+  }
+}
+
+/**
+ * The token holds neither write:list nor write:lists, or the list is your own or private.
+ */
+export type LikeListOrReactToItForbiddenErrorData = {
+  message: string;
+};
+
+/**
+ * The token holds neither write:list nor write:lists, or the list is your own or private.
  */
 export class LikeListOrReactToItForbiddenError extends VerseDbError {
   /** The original data that was passed to this error instance. */
@@ -62,13 +97,19 @@ export class LikeListOrReactToItForbiddenError extends VerseDbError {
 export const LikeListOrReactToItUnprocessableEntityError$inboundSchema:
   z.ZodMiniType<LikeListOrReactToItUnprocessableEntityError, unknown> = z.pipe(
     z.object({
-      message: types.optional(types.string()),
+      message: types.string(),
+      errors: z.lazy(() => operations.LikeListOrReactToItErrors$inboundSchema),
+      available_reactions: z.array(types.string()),
       request$: z.custom<Request>(x => x instanceof Request),
       response$: z.custom<Response>(x => x instanceof Response),
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new LikeListOrReactToItUnprocessableEntityError(v, {
+      const remapped = remap$(v, {
+        "available_reactions": "availableReactions",
+      });
+
+      return new LikeListOrReactToItUnprocessableEntityError(remapped, {
         request: v.request$,
         response: v.response$,
         body: v.body$,
@@ -77,12 +118,32 @@ export const LikeListOrReactToItUnprocessableEntityError$inboundSchema:
   );
 
 /** @internal */
+export const LikeListOrReactToItNotFoundError$inboundSchema: z.ZodMiniType<
+  LikeListOrReactToItNotFoundError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new LikeListOrReactToItNotFoundError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
 export const LikeListOrReactToItForbiddenError$inboundSchema: z.ZodMiniType<
   LikeListOrReactToItForbiddenError,
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
+    message: types.string(),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),

@@ -7,21 +7,21 @@ import { UnlikeListResponse } from "@versedbcom/sdk/models/operations";
 
 let value: UnlikeListResponse = {
   headers: {
-    "key": [
-      "<value 1>",
-      "<value 2>",
-      "<value 3>",
-    ],
+    "key": [],
     "key1": [
       "<value 1>",
       "<value 2>",
       "<value 3>",
     ],
+    "key2": [
+      "<value 1>",
+      "<value 2>",
+    ],
   },
   result: {
-    message: "List unliked successfully.",
+    message: "List is not liked.",
     liked: false,
-    likesCount: 150,
+    likesCount: 151,
     myReaction: null,
     reactions: [
       {

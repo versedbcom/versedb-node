@@ -2,8 +2,8 @@ speakeasyVersion: 1.806.0
 sources:
     versedb-api:
         sourceNamespace: versedb-api
-        sourceRevisionDigest: sha256:35f820ab7bb6194bc5e4dd5dab21528909eed80b927a6d5e7a687f3645973ee6
-        sourceBlobDigest: sha256:a967748f23ab44297ac9ebf16bd03e86962f5a6532518b575f4f9bf0d57861e5
+        sourceRevisionDigest: sha256:dcbc7bbb5b0c2a0f4f4ef4acf402e32b6caa842eac73b64ad258ef8ee00269b4
+        sourceBlobDigest: sha256:b769dd933a66ce09ada725581c67e7ff66772205fd4fb0cea0ef11f44d6e98b5
         tags:
             - latest
             - 1.0.0
@@ -11,17 +11,17 @@ targets:
     typescript:
         source: versedb-api
         sourceNamespace: versedb-api
-        sourceRevisionDigest: sha256:35f820ab7bb6194bc5e4dd5dab21528909eed80b927a6d5e7a687f3645973ee6
-        sourceBlobDigest: sha256:a967748f23ab44297ac9ebf16bd03e86962f5a6532518b575f4f9bf0d57861e5
+        sourceRevisionDigest: sha256:dcbc7bbb5b0c2a0f4f4ef4acf402e32b6caa842eac73b64ad258ef8ee00269b4
+        sourceBlobDigest: sha256:b769dd933a66ce09ada725581c67e7ff66772205fd4fb0cea0ef11f44d6e98b5
         codeSamplesNamespace: versedb-api-typescript-code-samples
-        codeSamplesRevisionDigest: sha256:65ac7c90430dfbaf40bb9eb8781d330d341edc6692bc947007eaa2c657973fe5
+        codeSamplesRevisionDigest: sha256:e55258b008b98f42336d2e7c956bd3c2edf96e33ceded1659f711f8acc93cb79
 workflow:
     workflowVersion: 1.0.0
     speakeasyVersion: latest
     sources:
         versedb-api:
             inputs:
-                - location: https://versedb.com/api/docs.openapi
+                - location: https://versedb.com/api/v1/openapi.json
             overlays:
                 - location: ./.speakeasy/overlays/pin-operation-names.yaml
             registry:

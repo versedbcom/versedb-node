@@ -7,11 +7,12 @@ import { remap as remap$ } from "../../lib/primitives.js";
 import { safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
+import { smartUnion } from "../../types/smart-union.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type ReorderItemsRequestBody = {
   /**
-   * The list item IDs in their new order. All IDs must belong to this list with no duplicates.
+   * An ordered array of list item IDs representing the new order. All IDs must belong to this list with no duplicates.
    */
   itemIds: Array<number>;
 };
@@ -24,27 +25,134 @@ export type ReorderItemsRequest = {
   body: ReorderItemsRequestBody;
 };
 
-export type ReorderItemsEntity = {
-  id?: number | undefined;
-  name?: string | undefined;
-  issueNumber?: string | undefined;
-  imageUrl?: string | undefined;
-};
-
-export type ReorderItemsItem = {
-  id?: number | undefined;
-  position?: number | undefined;
-  note?: string | null | undefined;
-  entityType?: string | undefined;
-  entity?: ReorderItemsEntity | undefined;
+/**
+ * The pinned cover, while it exists.
+ */
+export type ReorderItemsVariant = {
+  id: number;
+  name: string | null;
+  ratio: string | null;
+  coverImageUrl: string | null;
 };
 
 /**
- * Success
+ * A creator (`image_url` its profile photo) or a team (its logo).
+ */
+export type ReorderItemsEntity5 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  imageUrl: string | null;
+};
+
+/**
+ * A story arc.
+ */
+export type ReorderItemsEntity4 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  imageUrl: string | null;
+  issuesCount: number | null;
+};
+
+/**
+ * A character.
+ */
+export type ReorderItemsEntity3 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  realName: string | null;
+  imageUrl: string | null;
+};
+
+/**
+ * A series.
+ */
+export type ReorderItemsEntity2 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  startYear: number | null;
+  endYear: number | null;
+  status: string | null;
+  publicationType: string | null;
+  imageUrl: string | null;
+  isNsfw: boolean | null;
+  issuesCount: number | null;
+  publisher: string | null;
+};
+
+export type ReorderItemsSeries = {
+  id: number;
+  name: string | null;
+  slug: string | null;
+  startYear: number | null;
+};
+
+/**
+ * An issue.
+ */
+export type ReorderItemsEntity1 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  issueNumber: string | null;
+  releaseDate: string | null;
+  focDate: string | null;
+  imageUrl: string | null;
+  isNsfw: boolean | null;
+  publisher: string | null;
+  series: ReorderItemsSeries | null;
+};
+
+/**
+ * Left out once the entity is gone.
+ */
+export type ReorderItemsEntityUnion =
+  | ReorderItemsEntity2
+  | ReorderItemsEntity1
+  | ReorderItemsEntity3
+  | ReorderItemsEntity4
+  | ReorderItemsEntity5;
+
+export type ReorderItemsItem = {
+  id: number;
+  /**
+   * Its place on a ranked or rule-built list.
+   */
+  position: number | null;
+  note: string | null;
+  createdAt: string;
+  updatedAt: string;
+  variantId: number | null;
+  /**
+   * The pinned cover, while it exists.
+   */
+  variant?: ReorderItemsVariant | undefined;
+  /**
+   * issues, series, characters, creators, story_arcs or teams.
+   */
+  entityType: string;
+  /**
+   * Left out once the entity is gone.
+   */
+  entity?:
+    | ReorderItemsEntity2
+    | ReorderItemsEntity1
+    | ReorderItemsEntity3
+    | ReorderItemsEntity4
+    | ReorderItemsEntity5
+    | undefined;
+};
+
+/**
+ * Reordered.
  */
 export type ReorderItemsResponseBody = {
-  message?: string | undefined;
-  items?: Array<ReorderItemsItem> | undefined;
+  message: string;
+  items: Array<ReorderItemsItem>;
 };
 
 export type ReorderItemsResponse = {
@@ -111,31 +219,246 @@ export function reorderItemsRequestToJSON(
 }
 
 /** @internal */
-export const ReorderItemsEntity$inboundSchema: z.ZodMiniType<
-  ReorderItemsEntity,
+export const ReorderItemsVariant$inboundSchema: z.ZodMiniType<
+  ReorderItemsVariant,
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    name: types.optional(types.string()),
-    issue_number: types.optional(types.string()),
-    image_url: types.optional(types.string()),
+    id: types.number(),
+    name: types.nullable(types.string()),
+    ratio: types.nullable(types.string()),
+    cover_image_url: types.nullable(types.string()),
   }),
   z.transform((v) => {
     return remap$(v, {
-      "issue_number": "issueNumber",
+      "cover_image_url": "coverImageUrl",
+    });
+  }),
+);
+
+export function reorderItemsVariantFromJSON(
+  jsonString: string,
+): SafeParseResult<ReorderItemsVariant, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ReorderItemsVariant$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ReorderItemsVariant' from JSON`,
+  );
+}
+
+/** @internal */
+export const ReorderItemsEntity5$inboundSchema: z.ZodMiniType<
+  ReorderItemsEntity5,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
       "image_url": "imageUrl",
     });
   }),
 );
 
-export function reorderItemsEntityFromJSON(
+export function reorderItemsEntity5FromJSON(
   jsonString: string,
-): SafeParseResult<ReorderItemsEntity, SDKValidationError> {
+): SafeParseResult<ReorderItemsEntity5, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => ReorderItemsEntity$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ReorderItemsEntity' from JSON`,
+    (x) => ReorderItemsEntity5$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ReorderItemsEntity5' from JSON`,
+  );
+}
+
+/** @internal */
+export const ReorderItemsEntity4$inboundSchema: z.ZodMiniType<
+  ReorderItemsEntity4,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    issues_count: types.nullable(types.number()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "image_url": "imageUrl",
+      "issues_count": "issuesCount",
+    });
+  }),
+);
+
+export function reorderItemsEntity4FromJSON(
+  jsonString: string,
+): SafeParseResult<ReorderItemsEntity4, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ReorderItemsEntity4$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ReorderItemsEntity4' from JSON`,
+  );
+}
+
+/** @internal */
+export const ReorderItemsEntity3$inboundSchema: z.ZodMiniType<
+  ReorderItemsEntity3,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    real_name: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "real_name": "realName",
+      "image_url": "imageUrl",
+    });
+  }),
+);
+
+export function reorderItemsEntity3FromJSON(
+  jsonString: string,
+): SafeParseResult<ReorderItemsEntity3, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ReorderItemsEntity3$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ReorderItemsEntity3' from JSON`,
+  );
+}
+
+/** @internal */
+export const ReorderItemsEntity2$inboundSchema: z.ZodMiniType<
+  ReorderItemsEntity2,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    start_year: types.nullable(types.number()),
+    end_year: types.nullable(types.number()),
+    status: types.nullable(types.string()),
+    publication_type: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    is_nsfw: types.nullable(types.boolean()),
+    issues_count: types.nullable(types.number()),
+    publisher: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "start_year": "startYear",
+      "end_year": "endYear",
+      "publication_type": "publicationType",
+      "image_url": "imageUrl",
+      "is_nsfw": "isNsfw",
+      "issues_count": "issuesCount",
+    });
+  }),
+);
+
+export function reorderItemsEntity2FromJSON(
+  jsonString: string,
+): SafeParseResult<ReorderItemsEntity2, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ReorderItemsEntity2$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ReorderItemsEntity2' from JSON`,
+  );
+}
+
+/** @internal */
+export const ReorderItemsSeries$inboundSchema: z.ZodMiniType<
+  ReorderItemsSeries,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    start_year: types.nullable(types.number()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "start_year": "startYear",
+    });
+  }),
+);
+
+export function reorderItemsSeriesFromJSON(
+  jsonString: string,
+): SafeParseResult<ReorderItemsSeries, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ReorderItemsSeries$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ReorderItemsSeries' from JSON`,
+  );
+}
+
+/** @internal */
+export const ReorderItemsEntity1$inboundSchema: z.ZodMiniType<
+  ReorderItemsEntity1,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    issue_number: types.nullable(types.string()),
+    release_date: types.nullable(types.string()),
+    foc_date: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    is_nsfw: types.nullable(types.boolean()),
+    publisher: types.nullable(types.string()),
+    series: types.nullable(z.lazy(() => ReorderItemsSeries$inboundSchema)),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "issue_number": "issueNumber",
+      "release_date": "releaseDate",
+      "foc_date": "focDate",
+      "image_url": "imageUrl",
+      "is_nsfw": "isNsfw",
+    });
+  }),
+);
+
+export function reorderItemsEntity1FromJSON(
+  jsonString: string,
+): SafeParseResult<ReorderItemsEntity1, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ReorderItemsEntity1$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ReorderItemsEntity1' from JSON`,
+  );
+}
+
+/** @internal */
+export const ReorderItemsEntityUnion$inboundSchema: z.ZodMiniType<
+  ReorderItemsEntityUnion,
+  unknown
+> = smartUnion([
+  z.lazy(() => ReorderItemsEntity2$inboundSchema),
+  z.lazy(() => ReorderItemsEntity1$inboundSchema),
+  z.lazy(() => ReorderItemsEntity3$inboundSchema),
+  z.lazy(() => ReorderItemsEntity4$inboundSchema),
+  z.lazy(() => ReorderItemsEntity5$inboundSchema),
+]);
+
+export function reorderItemsEntityUnionFromJSON(
+  jsonString: string,
+): SafeParseResult<ReorderItemsEntityUnion, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ReorderItemsEntityUnion$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ReorderItemsEntityUnion' from JSON`,
   );
 }
 
@@ -145,14 +468,27 @@ export const ReorderItemsItem$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    position: types.optional(types.number()),
-    note: z.optional(z.nullable(types.string())),
-    entity_type: types.optional(types.string()),
-    entity: types.optional(z.lazy(() => ReorderItemsEntity$inboundSchema)),
+    id: types.number(),
+    position: types.nullable(types.number()),
+    note: types.nullable(types.string()),
+    created_at: types.string(),
+    updated_at: types.string(),
+    variant_id: types.nullable(types.number()),
+    variant: types.optional(z.lazy(() => ReorderItemsVariant$inboundSchema)),
+    entity_type: types.string(),
+    entity: types.optional(smartUnion([
+      z.lazy(() => ReorderItemsEntity2$inboundSchema),
+      z.lazy(() => ReorderItemsEntity1$inboundSchema),
+      z.lazy(() => ReorderItemsEntity3$inboundSchema),
+      z.lazy(() => ReorderItemsEntity4$inboundSchema),
+      z.lazy(() => ReorderItemsEntity5$inboundSchema),
+    ])),
   }),
   z.transform((v) => {
     return remap$(v, {
+      "created_at": "createdAt",
+      "updated_at": "updatedAt",
+      "variant_id": "variantId",
       "entity_type": "entityType",
     });
   }),
@@ -173,8 +509,8 @@ export const ReorderItemsResponseBody$inboundSchema: z.ZodMiniType<
   ReorderItemsResponseBody,
   unknown
 > = z.object({
-  message: types.optional(types.string()),
-  items: types.optional(z.array(z.lazy(() => ReorderItemsItem$inboundSchema))),
+  message: types.string(),
+  items: z.array(z.lazy(() => ReorderItemsItem$inboundSchema)),
 });
 
 export function reorderItemsResponseBodyFromJSON(

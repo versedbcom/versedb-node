@@ -32,7 +32,7 @@ import * as types$ from "../types/primitives.js";
  * Remove item from list.
  *
  * @remarks
- * Removes an item from a list. Other items' positions are automatically adjusted.
+ * Removes an item from a list. Other items' positions are kept.
  */
 export function listsRemoveItemFromList(
   client: VerseDBCore,

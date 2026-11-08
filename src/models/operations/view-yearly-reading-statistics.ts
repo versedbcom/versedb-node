@@ -17,78 +17,131 @@ export type ViewYearlyReadingStatisticsRequest = {
 };
 
 export type Progress = {
-  year?: number | undefined;
-  target?: number | undefined;
-  readCount?: number | undefined;
-  percent?: number | undefined;
-  completed?: boolean | undefined;
-  expectedReads?: number | undefined;
-  paceDifference?: number | undefined;
-  remaining?: number | undefined;
-  readsPerWeek?: number | undefined;
-  editable?: boolean | undefined;
-  lastYearReads?: number | undefined;
-  suggestedTarget?: number | undefined;
-  timezone?: string | undefined;
-  isPublic?: boolean | undefined;
+  year: number;
+  target: number | null;
+  readCount: number;
+  percent: number | null;
+  completed: boolean;
+  expectedReads: number | null;
+  paceDifference: number | null;
+  remaining: number | null;
+  readsPerWeek: number | null;
+  editable: boolean;
+  lastYearReads: number | null;
+  suggestedTarget: number | null;
+  timezone: string;
+  isPublic: boolean;
+  /**
+   * Left out for a `read:showcase` token.
+   */
   notifyMilestones?: boolean | undefined;
+  /**
+   * Left out for a `read:showcase` token.
+   */
   notifyLapses?: boolean | undefined;
+  /**
+   * Left out for a `read:showcase` token.
+   */
   emailUpdates?: boolean | undefined;
-  shareUrl?: string | null | undefined;
+  shareUrl: string | null;
 };
 
 export type Day = {
-  date?: string | undefined;
-  count?: number | undefined;
-  total?: number | undefined;
-  expected?: number | undefined;
-};
-
-export type Months = {
-  one?: number | undefined;
-  two?: number | undefined;
-  three?: number | undefined;
-  four?: number | undefined;
-  five?: number | undefined;
-  six?: number | undefined;
-  seven?: number | undefined;
-  eight?: number | undefined;
-  nine?: number | undefined;
-  ten?: number | undefined;
-  eleven?: number | undefined;
-  twelve?: number | undefined;
-};
-
-export type Breakdowns = {
-  series?: Array<any> | undefined;
-  publishers?: Array<any> | undefined;
-  creators?: Array<any> | undefined;
-  characters?: Array<any> | undefined;
-};
-
-export type ViewYearlyReadingStatisticsData = {
-  progress?: Progress | undefined;
-  days?: Array<Day> | undefined;
-  months?: Months | undefined;
-  breakdowns?: Breakdowns | undefined;
-  activeDays?: number | undefined;
-  longestStreak?: number | undefined;
-  currentStreak?: number | undefined;
-  projectedReads?: number | undefined;
-  projectedFinish?: string | null | undefined;
-  thisWeek?: number | undefined;
-  thisMonth?: number | undefined;
-  monthlyTarget?: number | undefined;
-  busiestMonth?: string | null | undefined;
-  finishedSeries?: Array<any> | undefined;
+  date: string | null;
+  count: number;
+  total: number;
+  expected: number;
 };
 
 /**
- * Success.
+ * Reads in each month, keyed 1 to 12.
+ */
+export type Months = {
+  one: number;
+  two: number;
+  three: number;
+  four: number;
+  five: number;
+  six: number;
+  seven: number;
+  eight: number;
+  nine: number;
+  ten: number;
+  eleven: number;
+  twelve: number;
+};
+
+export type ViewYearlyReadingStatisticsSeries = {
+  id: number;
+  name: string | null;
+  total: number;
+};
+
+export type ViewYearlyReadingStatisticsPublisher = {
+  id: number;
+  name: string | null;
+  total: number;
+};
+
+export type ViewYearlyReadingStatisticsCreator = {
+  id: number;
+  name: string | null;
+  total: number;
+};
+
+export type ViewYearlyReadingStatisticsGenre = {
+  id: number;
+  name: string | null;
+  total: number;
+};
+
+export type ViewYearlyReadingStatisticsCharacter = {
+  id: number;
+  name: string | null;
+  total: number;
+};
+
+export type Breakdowns = {
+  series: Array<ViewYearlyReadingStatisticsSeries>;
+  publishers: Array<ViewYearlyReadingStatisticsPublisher>;
+  creators: Array<ViewYearlyReadingStatisticsCreator>;
+  genres: Array<ViewYearlyReadingStatisticsGenre>;
+  characters: Array<ViewYearlyReadingStatisticsCharacter>;
+};
+
+export type FinishedSery = {
+  id: number;
+  name: string | null;
+  total: number;
+  finishedAt: string | null;
+};
+
+export type ViewYearlyReadingStatisticsData = {
+  progress: Progress;
+  days: Array<Day>;
+  /**
+   * Reads in each month, keyed 1 to 12.
+   */
+  months: Months;
+  breakdowns: Breakdowns;
+  activeDays: number;
+  longestStreak: number;
+  currentStreak: number;
+  projectedReads: number;
+  projectedFinish: string | null;
+  thisWeek: number;
+  thisMonth: number;
+  monthlyTarget: number | null;
+  busiestMonth: number | null;
+  finishedSeries: Array<FinishedSery>;
+};
+
+/**
+ * Success
  */
 export type ViewYearlyReadingStatisticsResponseBody = {
-  data?: ViewYearlyReadingStatisticsData | undefined;
-  years?: Array<number> | undefined;
+  data: ViewYearlyReadingStatisticsData;
+  years: Array<number>;
 };
 
 export type ViewYearlyReadingStatisticsResponse = {
@@ -122,24 +175,24 @@ export function viewYearlyReadingStatisticsRequestToJSON(
 /** @internal */
 export const Progress$inboundSchema: z.ZodMiniType<Progress, unknown> = z.pipe(
   z.object({
-    year: types.optional(types.number()),
-    target: types.optional(types.number()),
-    read_count: types.optional(types.number()),
-    percent: types.optional(types.number()),
-    completed: types.optional(types.boolean()),
-    expected_reads: types.optional(types.number()),
-    pace_difference: types.optional(types.number()),
-    remaining: types.optional(types.number()),
-    reads_per_week: types.optional(types.number()),
-    editable: types.optional(types.boolean()),
-    last_year_reads: types.optional(types.number()),
-    suggested_target: types.optional(types.number()),
-    timezone: types.optional(types.string()),
-    is_public: types.optional(types.boolean()),
+    year: types.number(),
+    target: types.nullable(types.number()),
+    read_count: types.number(),
+    percent: types.nullable(types.number()),
+    completed: types.boolean(),
+    expected_reads: types.nullable(types.number()),
+    pace_difference: types.nullable(types.number()),
+    remaining: types.nullable(types.number()),
+    reads_per_week: types.nullable(types.number()),
+    editable: types.boolean(),
+    last_year_reads: types.nullable(types.number()),
+    suggested_target: types.nullable(types.number()),
+    timezone: types.string(),
+    is_public: types.boolean(),
     notify_milestones: types.optional(types.boolean()),
     notify_lapses: types.optional(types.boolean()),
     email_updates: types.optional(types.boolean()),
-    share_url: z.optional(z.nullable(types.string())),
+    share_url: types.nullable(types.string()),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -170,10 +223,10 @@ export function progressFromJSON(
 
 /** @internal */
 export const Day$inboundSchema: z.ZodMiniType<Day, unknown> = z.object({
-  date: types.optional(types.string()),
-  count: types.optional(types.number()),
-  total: types.optional(types.number()),
-  expected: types.optional(types.number()),
+  date: types.nullable(types.string()),
+  count: types.number(),
+  total: types.number(),
+  expected: types.number(),
 });
 
 export function dayFromJSON(
@@ -189,18 +242,18 @@ export function dayFromJSON(
 /** @internal */
 export const Months$inboundSchema: z.ZodMiniType<Months, unknown> = z.pipe(
   z.object({
-    "1": types.optional(types.number()),
-    "2": types.optional(types.number()),
-    "3": types.optional(types.number()),
-    "4": types.optional(types.number()),
-    "5": types.optional(types.number()),
-    "6": types.optional(types.number()),
-    "7": types.optional(types.number()),
-    "8": types.optional(types.number()),
-    "9": types.optional(types.number()),
-    "10": types.optional(types.number()),
-    "11": types.optional(types.number()),
-    "12": types.optional(types.number()),
+    "1": types.number(),
+    "2": types.number(),
+    "3": types.number(),
+    "4": types.number(),
+    "5": types.number(),
+    "6": types.number(),
+    "7": types.number(),
+    "8": types.number(),
+    "9": types.number(),
+    "10": types.number(),
+    "11": types.number(),
+    "12": types.number(),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -231,12 +284,126 @@ export function monthsFromJSON(
 }
 
 /** @internal */
+export const ViewYearlyReadingStatisticsSeries$inboundSchema: z.ZodMiniType<
+  ViewYearlyReadingStatisticsSeries,
+  unknown
+> = z.object({
+  id: types.number(),
+  name: types.nullable(types.string()),
+  total: types.number(),
+});
+
+export function viewYearlyReadingStatisticsSeriesFromJSON(
+  jsonString: string,
+): SafeParseResult<ViewYearlyReadingStatisticsSeries, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ViewYearlyReadingStatisticsSeries$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ViewYearlyReadingStatisticsSeries' from JSON`,
+  );
+}
+
+/** @internal */
+export const ViewYearlyReadingStatisticsPublisher$inboundSchema: z.ZodMiniType<
+  ViewYearlyReadingStatisticsPublisher,
+  unknown
+> = z.object({
+  id: types.number(),
+  name: types.nullable(types.string()),
+  total: types.number(),
+});
+
+export function viewYearlyReadingStatisticsPublisherFromJSON(
+  jsonString: string,
+): SafeParseResult<ViewYearlyReadingStatisticsPublisher, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ViewYearlyReadingStatisticsPublisher$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ViewYearlyReadingStatisticsPublisher' from JSON`,
+  );
+}
+
+/** @internal */
+export const ViewYearlyReadingStatisticsCreator$inboundSchema: z.ZodMiniType<
+  ViewYearlyReadingStatisticsCreator,
+  unknown
+> = z.object({
+  id: types.number(),
+  name: types.nullable(types.string()),
+  total: types.number(),
+});
+
+export function viewYearlyReadingStatisticsCreatorFromJSON(
+  jsonString: string,
+): SafeParseResult<ViewYearlyReadingStatisticsCreator, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ViewYearlyReadingStatisticsCreator$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ViewYearlyReadingStatisticsCreator' from JSON`,
+  );
+}
+
+/** @internal */
+export const ViewYearlyReadingStatisticsGenre$inboundSchema: z.ZodMiniType<
+  ViewYearlyReadingStatisticsGenre,
+  unknown
+> = z.object({
+  id: types.number(),
+  name: types.nullable(types.string()),
+  total: types.number(),
+});
+
+export function viewYearlyReadingStatisticsGenreFromJSON(
+  jsonString: string,
+): SafeParseResult<ViewYearlyReadingStatisticsGenre, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ViewYearlyReadingStatisticsGenre$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ViewYearlyReadingStatisticsGenre' from JSON`,
+  );
+}
+
+/** @internal */
+export const ViewYearlyReadingStatisticsCharacter$inboundSchema: z.ZodMiniType<
+  ViewYearlyReadingStatisticsCharacter,
+  unknown
+> = z.object({
+  id: types.number(),
+  name: types.nullable(types.string()),
+  total: types.number(),
+});
+
+export function viewYearlyReadingStatisticsCharacterFromJSON(
+  jsonString: string,
+): SafeParseResult<ViewYearlyReadingStatisticsCharacter, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ViewYearlyReadingStatisticsCharacter$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ViewYearlyReadingStatisticsCharacter' from JSON`,
+  );
+}
+
+/** @internal */
 export const Breakdowns$inboundSchema: z.ZodMiniType<Breakdowns, unknown> = z
   .object({
-    series: types.optional(z.array(z.any())),
-    publishers: types.optional(z.array(z.any())),
-    creators: types.optional(z.array(z.any())),
-    characters: types.optional(z.array(z.any())),
+    series: z.array(
+      z.lazy(() => ViewYearlyReadingStatisticsSeries$inboundSchema),
+    ),
+    publishers: z.array(
+      z.lazy(() => ViewYearlyReadingStatisticsPublisher$inboundSchema),
+    ),
+    creators: z.array(
+      z.lazy(() => ViewYearlyReadingStatisticsCreator$inboundSchema),
+    ),
+    genres: z.array(
+      z.lazy(() => ViewYearlyReadingStatisticsGenre$inboundSchema),
+    ),
+    characters: z.array(
+      z.lazy(() => ViewYearlyReadingStatisticsCharacter$inboundSchema),
+    ),
   });
 
 export function breakdownsFromJSON(
@@ -250,25 +417,51 @@ export function breakdownsFromJSON(
 }
 
 /** @internal */
+export const FinishedSery$inboundSchema: z.ZodMiniType<FinishedSery, unknown> =
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      total: types.number(),
+      finished_at: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "finished_at": "finishedAt",
+      });
+    }),
+  );
+
+export function finishedSeryFromJSON(
+  jsonString: string,
+): SafeParseResult<FinishedSery, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => FinishedSery$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'FinishedSery' from JSON`,
+  );
+}
+
+/** @internal */
 export const ViewYearlyReadingStatisticsData$inboundSchema: z.ZodMiniType<
   ViewYearlyReadingStatisticsData,
   unknown
 > = z.pipe(
   z.object({
-    progress: types.optional(z.lazy(() => Progress$inboundSchema)),
-    days: types.optional(z.array(z.lazy(() => Day$inboundSchema))),
-    months: types.optional(z.lazy(() => Months$inboundSchema)),
-    breakdowns: types.optional(z.lazy(() => Breakdowns$inboundSchema)),
-    active_days: types.optional(types.number()),
-    longest_streak: types.optional(types.number()),
-    current_streak: types.optional(types.number()),
-    projected_reads: types.optional(types.number()),
-    projected_finish: z.optional(z.nullable(types.string())),
-    this_week: types.optional(types.number()),
-    this_month: types.optional(types.number()),
-    monthly_target: types.optional(types.number()),
-    busiest_month: z.optional(z.nullable(types.string())),
-    finished_series: types.optional(z.array(z.any())),
+    progress: z.lazy(() => Progress$inboundSchema),
+    days: z.array(z.lazy(() => Day$inboundSchema)),
+    months: z.lazy(() => Months$inboundSchema),
+    breakdowns: z.lazy(() => Breakdowns$inboundSchema),
+    active_days: types.number(),
+    longest_streak: types.number(),
+    current_streak: types.number(),
+    projected_reads: types.number(),
+    projected_finish: types.nullable(types.string()),
+    this_week: types.number(),
+    this_month: types.number(),
+    monthly_target: types.nullable(types.number()),
+    busiest_month: types.nullable(types.number()),
+    finished_series: z.array(z.lazy(() => FinishedSery$inboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -299,10 +492,8 @@ export function viewYearlyReadingStatisticsDataFromJSON(
 /** @internal */
 export const ViewYearlyReadingStatisticsResponseBody$inboundSchema:
   z.ZodMiniType<ViewYearlyReadingStatisticsResponseBody, unknown> = z.object({
-    data: types.optional(
-      z.lazy(() => ViewYearlyReadingStatisticsData$inboundSchema),
-    ),
-    years: types.optional(z.array(types.number())),
+    data: z.lazy(() => ViewYearlyReadingStatisticsData$inboundSchema),
+    years: z.array(types.number()),
   });
 
 export function viewYearlyReadingStatisticsResponseBodyFromJSON(

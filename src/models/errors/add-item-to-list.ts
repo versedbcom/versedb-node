@@ -8,18 +8,48 @@ import * as operations from "../operations/index.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Already Exists
+ * The body failed validation.
  */
-export type AddItemToListConflictErrorData = {
-  message?: string | undefined;
-  item?: operations.AddItemToListItem | undefined;
+export type AddItemToListUnprocessableEntityErrorData = {
+  message: string;
+  errors: { [k: string]: Array<string> };
 };
 
 /**
- * Already Exists
+ * The body failed validation.
+ */
+export class AddItemToListUnprocessableEntityError extends VerseDbError {
+  errors: { [k: string]: Array<string> };
+
+  /** The original data that was passed to this error instance. */
+  data$: AddItemToListUnprocessableEntityErrorData;
+
+  constructor(
+    err: AddItemToListUnprocessableEntityErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+    this.errors = err.errors;
+
+    this.name = "AddItemToListUnprocessableEntityError";
+  }
+}
+
+/**
+ * The entity (with the same cover) is already in the list.
+ */
+export type AddItemToListConflictErrorData = {
+  message: string;
+  item: operations.AddItemToListItem;
+};
+
+/**
+ * The entity (with the same cover) is already in the list.
  */
 export class AddItemToListConflictError extends VerseDbError {
-  item?: operations.AddItemToListItem | undefined;
+  item: operations.AddItemToListItem;
 
   /** The original data that was passed to this error instance. */
   data$: AddItemToListConflictErrorData;
@@ -31,21 +61,47 @@ export class AddItemToListConflictError extends VerseDbError {
     const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
     super(message, httpMeta);
     this.data$ = err;
-    if (err.item != null) this.item = err.item;
+    this.item = err.item;
 
     this.name = "AddItemToListConflictError";
   }
 }
 
 /**
- * Item Limit
+ * No live list has this ID.
  */
-export type AddItemToListForbiddenErrorData = {
-  message?: string | undefined;
+export type AddItemToListNotFoundErrorData = {
+  message: string;
 };
 
 /**
- * Item Limit
+ * No live list has this ID.
+ */
+export class AddItemToListNotFoundError extends VerseDbError {
+  /** The original data that was passed to this error instance. */
+  data$: AddItemToListNotFoundErrorData;
+
+  constructor(
+    err: AddItemToListNotFoundErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+
+    this.name = "AddItemToListNotFoundError";
+  }
+}
+
+/**
+ * The list is not yours to change or is built by a rule, the token holds neither write:list nor write:lists, or the list is at its item limit.
+ */
+export type AddItemToListForbiddenErrorData = {
+  message: string;
+};
+
+/**
+ * The list is not yours to change or is built by a rule, the token holds neither write:list nor write:lists, or the list is at its item limit.
  */
 export class AddItemToListForbiddenError extends VerseDbError {
   /** The original data that was passed to this error instance. */
@@ -64,15 +120,34 @@ export class AddItemToListForbiddenError extends VerseDbError {
 }
 
 /** @internal */
+export const AddItemToListUnprocessableEntityError$inboundSchema: z.ZodMiniType<
+  AddItemToListUnprocessableEntityError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    errors: z.record(z.string(), z.array(types.string())),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new AddItemToListUnprocessableEntityError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
 export const AddItemToListConflictError$inboundSchema: z.ZodMiniType<
   AddItemToListConflictError,
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
-    item: types.optional(
-      z.lazy(() => operations.AddItemToListItem$inboundSchema),
-    ),
+    message: types.string(),
+    item: z.lazy(() => operations.AddItemToListItem$inboundSchema),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),
@@ -87,12 +162,32 @@ export const AddItemToListConflictError$inboundSchema: z.ZodMiniType<
 );
 
 /** @internal */
+export const AddItemToListNotFoundError$inboundSchema: z.ZodMiniType<
+  AddItemToListNotFoundError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new AddItemToListNotFoundError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
 export const AddItemToListForbiddenError$inboundSchema: z.ZodMiniType<
   AddItemToListForbiddenError,
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
+    message: types.string(),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),

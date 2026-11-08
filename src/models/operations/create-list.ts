@@ -9,59 +9,133 @@ import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
-/**
- * A smart-list rule. Supply it to have the list built and kept current from a query instead of by hand. Requires a Pro subscription, and forces `is_ranked` to false because the rule carries its own sort. Fetch the field catalog from `/lists/rule-vocabulary` and validate a draft against `/lists/rule-preview`.
- */
-export type CreateListRules = {};
-
 export type CreateListRequest = {
   /**
-   * List title (max 100 chars).
+   * The name of the list (3 to 100 characters).
    */
   title: string;
   /**
-   * List description (max 2000 chars).
+   * An optional description (up to 2000 characters).
    */
   description?: string | null | undefined;
   /**
-   * The kind of item a smart-list rule matches (issues, series, characters, creators, story_arcs, teams). Required, and never `mixed`, when `rules` is supplied; ignored without it, because a list you fill by hand holds any combination of types.
+   * The kind of item a smart-list `rules` query matches; ignored without `rules`.
    */
   entityType?: string | null | undefined;
   /**
-   * Whether items are ranked/ordered. Defaults to true.
+   * Whether items in the list are ordered. Defaults to `true`.
    */
   isRanked?: boolean | undefined;
   /**
-   * Whether the list is private. Requires a Pro subscription. Defaults to false.
+   * Whether the list is private. Requires a Pro subscription. Defaults to `false`.
    */
   isPrivate?: boolean | undefined;
   /**
-   * A smart-list rule. Supply it to have the list built and kept current from a query instead of by hand. Requires a Pro subscription, and forces `is_ranked` to false because the rule carries its own sort. Fetch the field catalog from `/lists/rule-vocabulary` and validate a draft against `/lists/rule-preview`.
+   * A smart-list rule, which builds the list from a query and keeps it current instead of filling it by hand. Requires a Pro subscription and `entity_type` (never `mixed`), and sets `is_ranked` to false, since the rule carries its own sort.
    */
-  rules?: CreateListRules | null | undefined;
+  rules?: { [k: string]: any } | null | undefined;
 };
 
-export type CreateListUser = {
-  id?: number | undefined;
-  username?: string | undefined;
-};
-
-export type CreateListData = {
-  id?: number | undefined;
-  title?: string | undefined;
-  description?: string | undefined;
-  entityType?: string | undefined;
-  isRanked?: boolean | undefined;
-  isPrivate?: boolean | undefined;
-  itemsCount?: number | undefined;
-  user?: CreateListUser | undefined;
+export type CreateListClonedFromUser = {
+  id: number;
+  username: string | null;
 };
 
 /**
- * Success
+ * The list this one was cloned from, while it exists.
+ */
+export type CreateListClonedFrom = {
+  id: number;
+  title: string | null;
+  slug: string | null;
+  user: CreateListClonedFromUser | null;
+};
+
+/**
+ * The owner; null once the account is gone.
+ */
+export type CreateListUser = {
+  id: number;
+  username: string | null;
+  name: string | null;
+  avatar: string | null;
+};
+
+export type CreateListReaction = {
+  reaction: string;
+  emoji: string;
+  label: string;
+  count: number;
+};
+
+export type CreateListData = {
+  id: number;
+  title: string;
+  slug: string;
+  description: string | null;
+  /**
+   * issues, series, characters, creators, story_arcs, teams, or mixed for a list of any type.
+   */
+  entityType: string;
+  entityTypeLabel: string;
+  /**
+   * The list is VerseDB's own.
+   */
+  isCurated: boolean;
+  /**
+   * The types its items hold: its own type, or each type a mixed list holds.
+   */
+  itemTypes: Array<string>;
+  isRanked: boolean;
+  /**
+   * What `sort` takes on this list, each with its label; the empty key is its own order.
+   */
+  sortOptions: { [k: string]: string };
+  isPrivate: boolean;
+  /**
+   * published or draft.
+   */
+  status: string;
+  /**
+   * custom, wishlist or reading_guide.
+   */
+  listType: string;
+  itemsCount: number;
+  savesCount: number;
+  likesCount: number;
+  clonesCount: number;
+  createdAt: string;
+  updatedAt: string;
+  /**
+   * A rule keeps the list up to date.
+   */
+  isSmart: boolean;
+  isRuleBased: boolean;
+  lastRefreshedAt: string | null;
+  /**
+   * A rule-built list that stopped updating while its owner's Pro is inactive.
+   */
+  smartPaused: boolean;
+  clonedFromListId: number | null;
+  /**
+   * The list this one was cloned from, while it exists.
+   */
+  clonedFrom?: CreateListClonedFrom | undefined;
+  /**
+   * The owner; null once the account is gone.
+   */
+  user: CreateListUser | null;
+  /**
+   * The reactions left on the list, the most used first.
+   */
+  reactions: Array<CreateListReaction>;
+};
+
+/**
+ * Created.
  */
 export type CreateListResponseBody = {
-  data?: CreateListData | undefined;
+  data: CreateListData;
 };
 
 export type CreateListResponse = {
@@ -70,28 +144,13 @@ export type CreateListResponse = {
 };
 
 /** @internal */
-export type CreateListRules$Outbound = {};
-
-/** @internal */
-export const CreateListRules$outboundSchema: z.ZodMiniType<
-  CreateListRules$Outbound,
-  CreateListRules
-> = z.object({});
-
-export function createListRulesToJSON(
-  createListRules: CreateListRules,
-): string {
-  return JSON.stringify(CreateListRules$outboundSchema.parse(createListRules));
-}
-
-/** @internal */
 export type CreateListRequest$Outbound = {
   title: string;
   description?: string | null | undefined;
   entity_type?: string | null | undefined;
   is_ranked?: boolean | undefined;
   is_private?: boolean | undefined;
-  rules?: CreateListRules$Outbound | null | undefined;
+  rules?: { [k: string]: any } | null | undefined;
 };
 
 /** @internal */
@@ -105,7 +164,7 @@ export const CreateListRequest$outboundSchema: z.ZodMiniType<
     entityType: z.optional(z.nullable(z.string())),
     isRanked: z.optional(z.boolean()),
     isPrivate: z.optional(z.boolean()),
-    rules: z.optional(z.nullable(z.lazy(() => CreateListRules$outboundSchema))),
+    rules: z.optional(z.nullable(z.record(z.string(), z.any()))),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -125,12 +184,54 @@ export function createListRequestToJSON(
 }
 
 /** @internal */
+export const CreateListClonedFromUser$inboundSchema: z.ZodMiniType<
+  CreateListClonedFromUser,
+  unknown
+> = z.object({
+  id: types.number(),
+  username: types.nullable(types.string()),
+});
+
+export function createListClonedFromUserFromJSON(
+  jsonString: string,
+): SafeParseResult<CreateListClonedFromUser, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => CreateListClonedFromUser$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'CreateListClonedFromUser' from JSON`,
+  );
+}
+
+/** @internal */
+export const CreateListClonedFrom$inboundSchema: z.ZodMiniType<
+  CreateListClonedFrom,
+  unknown
+> = z.object({
+  id: types.number(),
+  title: types.nullable(types.string()),
+  slug: types.nullable(types.string()),
+  user: types.nullable(z.lazy(() => CreateListClonedFromUser$inboundSchema)),
+});
+
+export function createListClonedFromFromJSON(
+  jsonString: string,
+): SafeParseResult<CreateListClonedFrom, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => CreateListClonedFrom$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'CreateListClonedFrom' from JSON`,
+  );
+}
+
+/** @internal */
 export const CreateListUser$inboundSchema: z.ZodMiniType<
   CreateListUser,
   unknown
 > = z.object({
-  id: types.optional(types.number()),
-  username: types.optional(types.string()),
+  id: types.number(),
+  username: types.nullable(types.string()),
+  name: types.nullable(types.string()),
+  avatar: types.nullable(types.string()),
 });
 
 export function createListUserFromJSON(
@@ -144,26 +245,84 @@ export function createListUserFromJSON(
 }
 
 /** @internal */
+export const CreateListReaction$inboundSchema: z.ZodMiniType<
+  CreateListReaction,
+  unknown
+> = z.object({
+  reaction: types.string(),
+  emoji: types.string(),
+  label: types.string(),
+  count: types.number(),
+});
+
+export function createListReactionFromJSON(
+  jsonString: string,
+): SafeParseResult<CreateListReaction, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => CreateListReaction$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'CreateListReaction' from JSON`,
+  );
+}
+
+/** @internal */
 export const CreateListData$inboundSchema: z.ZodMiniType<
   CreateListData,
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    title: types.optional(types.string()),
-    description: types.optional(types.string()),
-    entity_type: types.optional(types.string()),
-    is_ranked: types.optional(types.boolean()),
-    is_private: types.optional(types.boolean()),
-    items_count: types.optional(types.number()),
-    user: types.optional(z.lazy(() => CreateListUser$inboundSchema)),
+    id: types.number(),
+    title: types.string(),
+    slug: types.string(),
+    description: types.nullable(types.string()),
+    entity_type: types.string(),
+    entity_type_label: types.string(),
+    is_curated: types.boolean(),
+    item_types: z.array(types.string()),
+    is_ranked: types.boolean(),
+    sort_options: z.record(z.string(), types.string()),
+    is_private: types.boolean(),
+    status: types.string(),
+    list_type: types.string(),
+    items_count: types.number(),
+    saves_count: types.number(),
+    likes_count: types.number(),
+    clones_count: types.number(),
+    created_at: types.string(),
+    updated_at: types.string(),
+    is_smart: types.boolean(),
+    is_rule_based: types.boolean(),
+    last_refreshed_at: types.nullable(types.string()),
+    smart_paused: types.boolean(),
+    cloned_from_list_id: types.nullable(types.number()),
+    cloned_from: types.optional(
+      z.lazy(() => CreateListClonedFrom$inboundSchema),
+    ),
+    user: types.nullable(z.lazy(() => CreateListUser$inboundSchema)),
+    reactions: z.array(z.lazy(() => CreateListReaction$inboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {
       "entity_type": "entityType",
+      "entity_type_label": "entityTypeLabel",
+      "is_curated": "isCurated",
+      "item_types": "itemTypes",
       "is_ranked": "isRanked",
+      "sort_options": "sortOptions",
       "is_private": "isPrivate",
+      "list_type": "listType",
       "items_count": "itemsCount",
+      "saves_count": "savesCount",
+      "likes_count": "likesCount",
+      "clones_count": "clonesCount",
+      "created_at": "createdAt",
+      "updated_at": "updatedAt",
+      "is_smart": "isSmart",
+      "is_rule_based": "isRuleBased",
+      "last_refreshed_at": "lastRefreshedAt",
+      "smart_paused": "smartPaused",
+      "cloned_from_list_id": "clonedFromListId",
+      "cloned_from": "clonedFrom",
     });
   }),
 );
@@ -183,7 +342,7 @@ export const CreateListResponseBody$inboundSchema: z.ZodMiniType<
   CreateListResponseBody,
   unknown
 > = z.object({
-  data: types.optional(z.lazy(() => CreateListData$inboundSchema)),
+  data: z.lazy(() => CreateListData$inboundSchema),
 });
 
 export function createListResponseBodyFromJSON(

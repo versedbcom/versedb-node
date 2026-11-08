@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * Reorder items.
  *
  * @remarks
- * Reorders items in a list by providing the new order of item IDs.
+ * Reorders items in a ranked list by providing the new order of item IDs.
  */
 export function listsReorderItems(
   client: VerseDBCore,
@@ -41,6 +41,9 @@ export function listsReorderItems(
   Result<
     operations.ReorderItemsResponse,
     | errors.UnauthorizedErrorError
+    | errors.ReorderItemsForbiddenError
+    | errors.ReorderItemsNotFoundError
+    | errors.ReorderItemsUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -68,6 +71,9 @@ async function $do(
     Result<
       operations.ReorderItemsResponse,
       | errors.UnauthorizedErrorError
+      | errors.ReorderItemsForbiddenError
+      | errors.ReorderItemsNotFoundError
+      | errors.ReorderItemsUnprocessableEntityError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -158,6 +164,9 @@ async function $do(
   const [result] = await M.match<
     operations.ReorderItemsResponse,
     | errors.UnauthorizedErrorError
+    | errors.ReorderItemsForbiddenError
+    | errors.ReorderItemsNotFoundError
+    | errors.ReorderItemsUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -173,6 +182,11 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
+    M.jsonErr(403, errors.ReorderItemsForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.ReorderItemsNotFoundError$inboundSchema),
+    M.jsonErr(422, errors.ReorderItemsUnprocessableEntityError$inboundSchema, {
+      hdrs: true,
+    }),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

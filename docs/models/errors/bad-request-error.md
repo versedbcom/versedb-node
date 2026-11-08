@@ -1,6 +1,6 @@
 # BadRequestError
 
-The request could not be processed.
+The request could not be processed: an OAuth error and its description.
 
 ## Example Usage
 
@@ -12,7 +12,7 @@ import { BadRequestError } from "@versedbcom/sdk/models/errors";
 
 ## Fields
 
-| Field                                | Type                                 | Required                             | Description                          | Example                              |
-| ------------------------------------ | ------------------------------------ | ------------------------------------ | ------------------------------------ | ------------------------------------ |
-| `error`                              | *string*                             | :heavy_minus_sign:                   | N/A                                  | invalid_grant                        |
-| `errorDescription`                   | *string*                             | :heavy_minus_sign:                   | N/A                                  | This code is invalid or has expired. |
+| Field                                                     | Type                                                      | Required                                                  | Description                                               | Example                                                   |
+| --------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------- |
+| `error`                                                   | *string*                                                  | :heavy_check_mark:                                        | unsupported_grant_type, invalid_request or invalid_grant. | invalid_grant                                             |
+| `errorDescription`                                        | *string*                                                  | :heavy_check_mark:                                        | N/A                                                       | This code is invalid or has expired.                      |

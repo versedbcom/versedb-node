@@ -19,40 +19,62 @@ export type GetVariantDetailsRequest = {
    */
   variantId: number;
   /**
-   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.
+   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes.
    */
   languages?: string | undefined;
 };
 
-export type GetVariantDetailsVariantNameI18n = {};
+export type GetVariantDetailsImages = {
+  thumb?: string | undefined;
+  coverSm?: string | undefined;
+  coverMd?: string | undefined;
+  coverLg?: string | undefined;
+};
 
 export type GetVariantDetailsCreator = {
-  id?: number | undefined;
-  name?: string | undefined;
-  slug?: string | undefined;
-  role?: string | undefined;
+  id: number;
+  name: string | null;
+  slug: string | null;
+  photoUrl: string | null;
+  role: string;
+  isUncredited: boolean;
+};
+
+export type GetVariantDetailsVariantNameI18n = {
+  value: string;
+  source: string;
+  reading?: string | undefined;
+  sort?: string | undefined;
 };
 
 export type GetVariantDetailsData = {
-  id?: number | undefined;
-  issueId?: number | undefined;
-  variantName?: string | undefined;
-  variantNameI18n?: GetVariantDetailsVariantNameI18n | undefined;
-  variantType?: string | undefined;
-  ratio?: string | undefined;
-  coverUrl?: string | undefined;
-  price?: string | undefined;
-  currencyCode?: string | undefined;
-  formattedPrice?: string | undefined;
-  ean?: string | undefined;
-  creators?: Array<GetVariantDetailsCreator> | undefined;
+  id: number;
+  issueId: number | null;
+  variantName: string | null;
+  coverUrl: string | null;
+  images: GetVariantDetailsImages | null;
+  variantType: string | null;
+  ratio: string | null;
+  price: string | null;
+  currencyCode: string | null;
+  formattedPrice: string | null;
+  ean: string | null;
+  /**
+   * This edition's own on-sale date (YYYY-MM-DD), for a later printing or an exclusive that ships apart from its issue. Null when it ships with the issue: use the issue's release_date.
+   */
+  releaseDate: string | null;
+  creators: Array<GetVariantDetailsCreator>;
+  /**
+   * One name per language, keyed by BCP 47 tag.
+   */
+  variantNameI18n: { [k: string]: GetVariantDetailsVariantNameI18n };
 };
 
 /**
  * Success
  */
 export type GetVariantDetailsResponseBody = {
-  data?: GetVariantDetailsData | undefined;
+  data: GetVariantDetailsData;
 };
 
 export type GetVariantDetailsResponse = {
@@ -94,18 +116,32 @@ export function getVariantDetailsRequestToJSON(
 }
 
 /** @internal */
-export const GetVariantDetailsVariantNameI18n$inboundSchema: z.ZodMiniType<
-  GetVariantDetailsVariantNameI18n,
+export const GetVariantDetailsImages$inboundSchema: z.ZodMiniType<
+  GetVariantDetailsImages,
   unknown
-> = z.object({});
+> = z.pipe(
+  z.object({
+    thumb: types.optional(types.string()),
+    cover_sm: types.optional(types.string()),
+    cover_md: types.optional(types.string()),
+    cover_lg: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "cover_sm": "coverSm",
+      "cover_md": "coverMd",
+      "cover_lg": "coverLg",
+    });
+  }),
+);
 
-export function getVariantDetailsVariantNameI18nFromJSON(
+export function getVariantDetailsImagesFromJSON(
   jsonString: string,
-): SafeParseResult<GetVariantDetailsVariantNameI18n, SDKValidationError> {
+): SafeParseResult<GetVariantDetailsImages, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => GetVariantDetailsVariantNameI18n$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'GetVariantDetailsVariantNameI18n' from JSON`,
+    (x) => GetVariantDetailsImages$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetVariantDetailsImages' from JSON`,
   );
 }
 
@@ -113,12 +149,22 @@ export function getVariantDetailsVariantNameI18nFromJSON(
 export const GetVariantDetailsCreator$inboundSchema: z.ZodMiniType<
   GetVariantDetailsCreator,
   unknown
-> = z.object({
-  id: types.optional(types.number()),
-  name: types.optional(types.string()),
-  slug: types.optional(types.string()),
-  role: types.optional(types.string()),
-});
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    photo_url: types.nullable(types.string()),
+    role: types.string(),
+    is_uncredited: types.boolean(),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "photo_url": "photoUrl",
+      "is_uncredited": "isUncredited",
+    });
+  }),
+);
 
 export function getVariantDetailsCreatorFromJSON(
   jsonString: string,
@@ -131,37 +177,60 @@ export function getVariantDetailsCreatorFromJSON(
 }
 
 /** @internal */
+export const GetVariantDetailsVariantNameI18n$inboundSchema: z.ZodMiniType<
+  GetVariantDetailsVariantNameI18n,
+  unknown
+> = z.object({
+  value: types.string(),
+  source: types.string(),
+  reading: types.optional(types.string()),
+  sort: types.optional(types.string()),
+});
+
+export function getVariantDetailsVariantNameI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<GetVariantDetailsVariantNameI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetVariantDetailsVariantNameI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetVariantDetailsVariantNameI18n' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetVariantDetailsData$inboundSchema: z.ZodMiniType<
   GetVariantDetailsData,
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    issue_id: types.optional(types.number()),
-    variant_name: types.optional(types.string()),
-    variant_name_i18n: types.optional(
+    id: types.number(),
+    issue_id: types.nullable(types.number()),
+    variant_name: types.nullable(types.string()),
+    cover_url: types.nullable(types.string()),
+    images: types.nullable(z.lazy(() => GetVariantDetailsImages$inboundSchema)),
+    variant_type: types.nullable(types.string()),
+    ratio: types.nullable(types.string()),
+    price: types.nullable(types.string()),
+    currency_code: types.nullable(types.string()),
+    formatted_price: types.nullable(types.string()),
+    ean: types.nullable(types.string()),
+    release_date: types.nullable(types.string()),
+    creators: z.array(z.lazy(() => GetVariantDetailsCreator$inboundSchema)),
+    variant_name_i18n: z.record(
+      z.string(),
       z.lazy(() => GetVariantDetailsVariantNameI18n$inboundSchema),
-    ),
-    variant_type: types.optional(types.string()),
-    ratio: types.optional(types.string()),
-    cover_url: types.optional(types.string()),
-    price: types.optional(types.string()),
-    currency_code: types.optional(types.string()),
-    formatted_price: types.optional(types.string()),
-    ean: types.optional(types.string()),
-    creators: types.optional(
-      z.array(z.lazy(() => GetVariantDetailsCreator$inboundSchema)),
     ),
   }),
   z.transform((v) => {
     return remap$(v, {
       "issue_id": "issueId",
       "variant_name": "variantName",
-      "variant_name_i18n": "variantNameI18n",
-      "variant_type": "variantType",
       "cover_url": "coverUrl",
+      "variant_type": "variantType",
       "currency_code": "currencyCode",
       "formatted_price": "formattedPrice",
+      "release_date": "releaseDate",
+      "variant_name_i18n": "variantNameI18n",
     });
   }),
 );
@@ -181,7 +250,7 @@ export const GetVariantDetailsResponseBody$inboundSchema: z.ZodMiniType<
   GetVariantDetailsResponseBody,
   unknown
 > = z.object({
-  data: types.optional(z.lazy(() => GetVariantDetailsData$inboundSchema)),
+  data: z.lazy(() => GetVariantDetailsData$inboundSchema),
 });
 
 export function getVariantDetailsResponseBodyFromJSON(

@@ -32,7 +32,7 @@ export type EditReadingDateRequest = {
  * Updated
  */
 export type EditReadingDateResponseBody = {
-  readAt?: string | undefined;
+  readAt: string;
 };
 
 export type EditReadingDateResponse = {
@@ -107,7 +107,7 @@ export const EditReadingDateResponseBody$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    read_at: types.optional(types.string()),
+    read_at: types.string(),
   }),
   z.transform((v) => {
     return remap$(v, {

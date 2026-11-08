@@ -32,7 +32,7 @@ import * as types$ from "../types/primitives.js";
  * Remove from pull list.
  *
  * @remarks
- * Removes a series from the authenticated user's pull list.
+ * Removes a series from the authenticated user's pull list. Idempotent: returns 204 whether or not the series was on it.
  */
 export function userRemoveFromPullList(
   client: VerseDBCore,
@@ -42,6 +42,8 @@ export function userRemoveFromPullList(
   Result<
     operations.RemoveFromPullListResponse | undefined,
     | errors.UnauthorizedErrorError
+    | errors.RemoveFromPullListForbiddenError
+    | errors.RemoveFromPullListNotFoundError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -69,6 +71,8 @@ async function $do(
     Result<
       operations.RemoveFromPullListResponse | undefined,
       | errors.UnauthorizedErrorError
+      | errors.RemoveFromPullListForbiddenError
+      | errors.RemoveFromPullListNotFoundError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -159,6 +163,8 @@ async function $do(
   const [result] = await M.match<
     operations.RemoveFromPullListResponse | undefined,
     | errors.UnauthorizedErrorError
+    | errors.RemoveFromPullListForbiddenError
+    | errors.RemoveFromPullListNotFoundError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -175,6 +181,8 @@ async function $do(
       { hdrs: true },
     ),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
+    M.jsonErr(403, errors.RemoveFromPullListForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.RemoveFromPullListNotFoundError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

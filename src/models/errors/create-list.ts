@@ -7,14 +7,70 @@ import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Limit Reached
+ * The body failed validation.
  */
-export type CreateListForbiddenErrorData = {
-  message?: string | undefined;
+export type CreateListUnprocessableEntityErrorData = {
+  message: string;
+  errors: { [k: string]: Array<string> };
 };
 
 /**
- * Limit Reached
+ * The body failed validation.
+ */
+export class CreateListUnprocessableEntityError extends VerseDbError {
+  errors: { [k: string]: Array<string> };
+
+  /** The original data that was passed to this error instance. */
+  data$: CreateListUnprocessableEntityErrorData;
+
+  constructor(
+    err: CreateListUnprocessableEntityErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+    this.errors = err.errors;
+
+    this.name = "CreateListUnprocessableEntityError";
+  }
+}
+
+/**
+ * No live issue has this ID.
+ */
+export type CreateListNotFoundErrorData = {
+  message: string;
+};
+
+/**
+ * No live issue has this ID.
+ */
+export class CreateListNotFoundError extends VerseDbError {
+  /** The original data that was passed to this error instance. */
+  data$: CreateListNotFoundErrorData;
+
+  constructor(
+    err: CreateListNotFoundErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+
+    this.name = "CreateListNotFoundError";
+  }
+}
+
+/**
+ * The token holds neither write:list nor write:lists, or a free account already has its ten lists.
+ */
+export type CreateListForbiddenErrorData = {
+  message: string;
+};
+
+/**
+ * The token holds neither write:list nor write:lists, or a free account already has its ten lists.
  */
 export class CreateListForbiddenError extends VerseDbError {
   /** The original data that was passed to this error instance. */
@@ -33,12 +89,53 @@ export class CreateListForbiddenError extends VerseDbError {
 }
 
 /** @internal */
+export const CreateListUnprocessableEntityError$inboundSchema: z.ZodMiniType<
+  CreateListUnprocessableEntityError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    errors: z.record(z.string(), z.array(types.string())),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new CreateListUnprocessableEntityError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
+export const CreateListNotFoundError$inboundSchema: z.ZodMiniType<
+  CreateListNotFoundError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new CreateListNotFoundError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
 export const CreateListForbiddenError$inboundSchema: z.ZodMiniType<
   CreateListForbiddenError,
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
+    message: types.string(),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),

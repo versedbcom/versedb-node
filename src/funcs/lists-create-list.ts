@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * Create list.
  *
  * @remarks
- * Creates a new user list.
+ * Creates a new user list. A list filled by hand holds items of any type, so `entity_type` is ignored without a smart-list rule.
  */
 export function listsCreateList(
   client: VerseDBCore,
@@ -42,6 +42,8 @@ export function listsCreateList(
     operations.CreateListResponse,
     | errors.UnauthorizedErrorError
     | errors.CreateListForbiddenError
+    | errors.CreateListNotFoundError
+    | errors.CreateListUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -70,6 +72,8 @@ async function $do(
       operations.CreateListResponse,
       | errors.UnauthorizedErrorError
       | errors.CreateListForbiddenError
+      | errors.CreateListNotFoundError
+      | errors.CreateListUnprocessableEntityError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -155,6 +159,8 @@ async function $do(
     operations.CreateListResponse,
     | errors.UnauthorizedErrorError
     | errors.CreateListForbiddenError
+    | errors.CreateListNotFoundError
+    | errors.CreateListUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -171,6 +177,10 @@ async function $do(
     }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
     M.jsonErr(403, errors.CreateListForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.CreateListNotFoundError$inboundSchema),
+    M.jsonErr(422, errors.CreateListUnprocessableEntityError$inboundSchema, {
+      hdrs: true,
+    }),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

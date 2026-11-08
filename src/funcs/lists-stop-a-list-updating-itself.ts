@@ -31,9 +31,7 @@ import { Result } from "../types/fp.js";
  * Stop a list updating itself.
  *
  * @remarks
- * One-way: drops a smart list's rule and keeps every item the last refresh left,
- * handing the contents back for editing by hand. A rule is only ever attached when
- * a list is created, so it cannot be put back.
+ * One-way: drops a smart list's rule and keeps every item the last refresh left, handing the contents back for editing by hand. A rule is only ever attached when a list is created, so it cannot be put back.
  */
 export function listsStopAListUpdatingItself(
   client: VerseDBCore,
@@ -43,6 +41,8 @@ export function listsStopAListUpdatingItself(
   Result<
     operations.StopAListUpdatingItselfResponse,
     | errors.UnauthorizedErrorError
+    | errors.StopAListUpdatingItselfForbiddenError
+    | errors.StopAListUpdatingItselfNotFoundError
     | errors.StopAListUpdatingItselfUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
@@ -71,6 +71,8 @@ async function $do(
     Result<
       operations.StopAListUpdatingItselfResponse,
       | errors.UnauthorizedErrorError
+      | errors.StopAListUpdatingItselfForbiddenError
+      | errors.StopAListUpdatingItselfNotFoundError
       | errors.StopAListUpdatingItselfUnprocessableEntityError
       | errors.TooManyRequestsError
       | VerseDbError
@@ -162,6 +164,8 @@ async function $do(
   const [result] = await M.match<
     operations.StopAListUpdatingItselfResponse,
     | errors.UnauthorizedErrorError
+    | errors.StopAListUpdatingItselfForbiddenError
+    | errors.StopAListUpdatingItselfNotFoundError
     | errors.StopAListUpdatingItselfUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
@@ -178,9 +182,12 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
+    M.jsonErr(403, errors.StopAListUpdatingItselfForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.StopAListUpdatingItselfNotFoundError$inboundSchema),
     M.jsonErr(
       422,
       errors.StopAListUpdatingItselfUnprocessableEntityError$inboundSchema,
+      { hdrs: true },
     ),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),

@@ -8,19 +8,25 @@ import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * The request could not be processed.
+ * The request could not be processed: an OAuth error and its description.
  */
 export type BadRequestErrorData = {
-  error?: string | undefined;
-  errorDescription?: string | undefined;
+  /**
+   * unsupported_grant_type, invalid_request or invalid_grant.
+   */
+  error: string;
+  errorDescription: string;
 };
 
 /**
- * The request could not be processed.
+ * The request could not be processed: an OAuth error and its description.
  */
 export class BadRequestError extends VerseDbError {
-  error?: string | undefined;
-  errorDescription?: string | undefined;
+  /**
+   * unsupported_grant_type, invalid_request or invalid_grant.
+   */
+  error: string;
+  errorDescription: string;
 
   /** The original data that was passed to this error instance. */
   data$: BadRequestErrorData;
@@ -34,10 +40,8 @@ export class BadRequestError extends VerseDbError {
       : `API error occurred: ${JSON.stringify(err)}`;
     super(message, httpMeta);
     this.data$ = err;
-    if (err.error != null) this.error = err.error;
-    if (err.errorDescription != null) {
-      this.errorDescription = err.errorDescription;
-    }
+    this.error = err.error;
+    this.errorDescription = err.errorDescription;
 
     this.name = "BadRequestError";
   }
@@ -49,8 +53,8 @@ export const BadRequestError$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    error: types.optional(types.string()),
-    error_description: types.optional(types.string()),
+    error: types.string(),
+    error_description: types.string(),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),

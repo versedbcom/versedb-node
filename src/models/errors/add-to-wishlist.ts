@@ -3,48 +3,209 @@
  */
 
 import * as z from "zod/v4-mini";
+import { safeParse } from "../../lib/schemas.js";
+import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
+import { smartUnion } from "../../types/smart-union.js";
+import { SDKValidationError } from "./sdk-validation-error.js";
 import { VerseDbError } from "./verse-db-error.js";
 
-/**
- * Wishlist Full
- */
-export type AddToWishlistUnprocessableEntityErrorData = {
-  message?: string | undefined;
+export type AddToWishlistResponseBodyError2Data = {
+  message: string;
 };
 
-/**
- * Wishlist Full
- */
-export class AddToWishlistUnprocessableEntityError extends VerseDbError {
+export class AddToWishlistResponseBodyError2 extends VerseDbError {
   /** The original data that was passed to this error instance. */
-  data$: AddToWishlistUnprocessableEntityErrorData;
+  data$: AddToWishlistResponseBodyError2Data;
 
   constructor(
-    err: AddToWishlistUnprocessableEntityErrorData,
+    err: AddToWishlistResponseBodyError2Data,
     httpMeta: { response: Response; request: Request; body: string },
   ) {
     const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
     super(message, httpMeta);
     this.data$ = err;
 
-    this.name = "AddToWishlistUnprocessableEntityError";
+    this.name = "AddToWishlistResponseBodyError2";
+  }
+}
+
+export type AddToWishlistResponseBodyError1Data = {
+  message: string;
+  errors: { [k: string]: Array<string> };
+};
+
+export class AddToWishlistResponseBodyError1 extends VerseDbError {
+  errors: { [k: string]: Array<string> };
+
+  /** The original data that was passed to this error instance. */
+  data$: AddToWishlistResponseBodyError1Data;
+
+  constructor(
+    err: AddToWishlistResponseBodyError1Data,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+    this.errors = err.errors;
+
+    this.name = "AddToWishlistResponseBodyError1";
+  }
+}
+
+/**
+ * Wishlist Full, or a variant that is not one of the issue's.
+ */
+export type AddToWishlistUnprocessableEntity =
+  | AddToWishlistResponseBodyError1
+  | AddToWishlistResponseBodyError2;
+
+/**
+ * No live issue has this ID.
+ */
+export type AddToWishlistNotFoundErrorData = {
+  message: string;
+};
+
+/**
+ * No live issue has this ID.
+ */
+export class AddToWishlistNotFoundError extends VerseDbError {
+  /** The original data that was passed to this error instance. */
+  data$: AddToWishlistNotFoundErrorData;
+
+  constructor(
+    err: AddToWishlistNotFoundErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+
+    this.name = "AddToWishlistNotFoundError";
+  }
+}
+
+/**
+ * The token holds neither write:wishlist nor write:lists.
+ */
+export type AddToWishlistForbiddenErrorData = {
+  message: string;
+};
+
+/**
+ * The token holds neither write:wishlist nor write:lists.
+ */
+export class AddToWishlistForbiddenError extends VerseDbError {
+  /** The original data that was passed to this error instance. */
+  data$: AddToWishlistForbiddenErrorData;
+
+  constructor(
+    err: AddToWishlistForbiddenErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+
+    this.name = "AddToWishlistForbiddenError";
   }
 }
 
 /** @internal */
-export const AddToWishlistUnprocessableEntityError$inboundSchema: z.ZodMiniType<
-  AddToWishlistUnprocessableEntityError,
+export const AddToWishlistResponseBodyError2$inboundSchema: z.ZodMiniType<
+  AddToWishlistResponseBodyError2,
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
+    message: types.string(),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),
   }),
   z.transform((v) => {
-    return new AddToWishlistUnprocessableEntityError(v, {
+    return new AddToWishlistResponseBodyError2(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
+export const AddToWishlistResponseBodyError1$inboundSchema: z.ZodMiniType<
+  AddToWishlistResponseBodyError1,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    errors: z.record(z.string(), z.array(types.string())),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new AddToWishlistResponseBodyError1(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
+export const AddToWishlistUnprocessableEntity$inboundSchema: z.ZodMiniType<
+  AddToWishlistUnprocessableEntity,
+  unknown
+> = smartUnion([
+  z.lazy(() => AddToWishlistResponseBodyError1$inboundSchema),
+  z.lazy(() => AddToWishlistResponseBodyError2$inboundSchema),
+]);
+
+export function addToWishlistUnprocessableEntityFromJSON(
+  jsonString: string,
+): SafeParseResult<AddToWishlistUnprocessableEntity, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => AddToWishlistUnprocessableEntity$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'AddToWishlistUnprocessableEntity' from JSON`,
+  );
+}
+
+/** @internal */
+export const AddToWishlistNotFoundError$inboundSchema: z.ZodMiniType<
+  AddToWishlistNotFoundError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new AddToWishlistNotFoundError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
+export const AddToWishlistForbiddenError$inboundSchema: z.ZodMiniType<
+  AddToWishlistForbiddenError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new AddToWishlistForbiddenError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

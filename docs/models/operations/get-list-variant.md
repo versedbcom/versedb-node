@@ -1,5 +1,7 @@
 # GetListVariant
 
+The pinned cover, while it exists.
+
 ## Example Usage
 
 ```typescript
@@ -8,14 +10,16 @@ import { GetListVariant } from "@versedbcom/sdk/models/operations";
 let value: GetListVariant = {
   id: 7,
   name: "Virgin Variant",
-  coverImageUrl: "https://cdn.versedb.com/variants/7/cover_md.webp",
+  ratio: "1:25",
+  coverImageUrl: "https://...-cover_md.webp",
 };
 ```
 
 ## Fields
 
-| Field                                            | Type                                             | Required                                         | Description                                      | Example                                          |
-| ------------------------------------------------ | ------------------------------------------------ | ------------------------------------------------ | ------------------------------------------------ | ------------------------------------------------ |
-| `id`                                             | *number*                                         | :heavy_minus_sign:                               | N/A                                              | 7                                                |
-| `name`                                           | *string*                                         | :heavy_minus_sign:                               | N/A                                              | Virgin Variant                                   |
-| `coverImageUrl`                                  | *string*                                         | :heavy_minus_sign:                               | N/A                                              | https://cdn.versedb.com/variants/7/cover_md.webp |
+| Field                     | Type                      | Required                  | Description               | Example                   |
+| ------------------------- | ------------------------- | ------------------------- | ------------------------- | ------------------------- |
+| `id`                      | *number*                  | :heavy_check_mark:        | N/A                       | 7                         |
+| `name`                    | *string*                  | :heavy_check_mark:        | N/A                       | Virgin Variant            |
+| `ratio`                   | *string*                  | :heavy_check_mark:        | N/A                       | 1:25                      |
+| `coverImageUrl`           | *string*                  | :heavy_check_mark:        | N/A                       | https://...-cover_md.webp |

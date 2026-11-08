@@ -7,6 +7,7 @@ import { remap as remap$ } from "../../lib/primitives.js";
 import { safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
+import { smartUnion } from "../../types/smart-union.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type StopAListUpdatingItselfRequest = {
@@ -16,16 +17,232 @@ export type StopAListUpdatingItselfRequest = {
   listId: number;
 };
 
-export type StopAListUpdatingItselfData = {
-  id?: number | undefined;
-  entityType?: string | undefined;
+export type StopAListUpdatingItselfClonedFromUser = {
+  id: number;
+  username: string | null;
 };
 
 /**
- * Success
+ * The list this one was cloned from, while it exists.
+ */
+export type StopAListUpdatingItselfClonedFrom = {
+  id: number;
+  title: string | null;
+  slug: string | null;
+  user: StopAListUpdatingItselfClonedFromUser | null;
+};
+
+/**
+ * The owner; null once the account is gone.
+ */
+export type StopAListUpdatingItselfUser = {
+  id: number;
+  username: string | null;
+  name: string | null;
+  avatar: string | null;
+};
+
+/**
+ * The pinned cover, while it exists.
+ */
+export type StopAListUpdatingItselfVariant = {
+  id: number;
+  name: string | null;
+  ratio: string | null;
+  coverImageUrl: string | null;
+};
+
+/**
+ * A creator (`image_url` its profile photo) or a team (its logo).
+ */
+export type StopAListUpdatingItselfEntity5 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  imageUrl: string | null;
+};
+
+/**
+ * A story arc.
+ */
+export type StopAListUpdatingItselfEntity4 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  imageUrl: string | null;
+  issuesCount: number | null;
+};
+
+/**
+ * A character.
+ */
+export type StopAListUpdatingItselfEntity3 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  realName: string | null;
+  imageUrl: string | null;
+};
+
+/**
+ * A series.
+ */
+export type StopAListUpdatingItselfEntity2 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  startYear: number | null;
+  endYear: number | null;
+  status: string | null;
+  publicationType: string | null;
+  imageUrl: string | null;
+  isNsfw: boolean | null;
+  issuesCount: number | null;
+  publisher: string | null;
+};
+
+export type StopAListUpdatingItselfSeries = {
+  id: number;
+  name: string | null;
+  slug: string | null;
+  startYear: number | null;
+};
+
+/**
+ * An issue.
+ */
+export type StopAListUpdatingItselfEntity1 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  issueNumber: string | null;
+  releaseDate: string | null;
+  focDate: string | null;
+  imageUrl: string | null;
+  isNsfw: boolean | null;
+  publisher: string | null;
+  series: StopAListUpdatingItselfSeries | null;
+};
+
+/**
+ * Left out once the entity is gone.
+ */
+export type StopAListUpdatingItselfEntityUnion =
+  | StopAListUpdatingItselfEntity2
+  | StopAListUpdatingItselfEntity1
+  | StopAListUpdatingItselfEntity3
+  | StopAListUpdatingItselfEntity4
+  | StopAListUpdatingItselfEntity5;
+
+export type StopAListUpdatingItselfItem = {
+  id: number;
+  /**
+   * Its place on a ranked or rule-built list.
+   */
+  position: number | null;
+  note: string | null;
+  createdAt: string;
+  updatedAt: string;
+  variantId: number | null;
+  /**
+   * The pinned cover, while it exists.
+   */
+  variant?: StopAListUpdatingItselfVariant | undefined;
+  /**
+   * issues, series, characters, creators, story_arcs or teams.
+   */
+  entityType: string;
+  /**
+   * Left out once the entity is gone.
+   */
+  entity?:
+    | StopAListUpdatingItselfEntity2
+    | StopAListUpdatingItselfEntity1
+    | StopAListUpdatingItselfEntity3
+    | StopAListUpdatingItselfEntity4
+    | StopAListUpdatingItselfEntity5
+    | undefined;
+};
+
+export type StopAListUpdatingItselfReaction = {
+  reaction: string;
+  emoji: string;
+  label: string;
+  count: number;
+};
+
+export type StopAListUpdatingItselfData = {
+  id: number;
+  title: string;
+  slug: string;
+  description: string | null;
+  /**
+   * issues, series, characters, creators, story_arcs, teams, or mixed for a list of any type.
+   */
+  entityType: string;
+  entityTypeLabel: string;
+  /**
+   * The list is VerseDB's own.
+   */
+  isCurated: boolean;
+  /**
+   * The types its items hold: its own type, or each type a mixed list holds.
+   */
+  itemTypes: Array<string>;
+  isRanked: boolean;
+  /**
+   * What `sort` takes on this list, each with its label; the empty key is its own order.
+   */
+  sortOptions: { [k: string]: string };
+  isPrivate: boolean;
+  /**
+   * published or draft.
+   */
+  status: string;
+  /**
+   * custom, wishlist or reading_guide.
+   */
+  listType: string;
+  itemsCount: number;
+  savesCount: number;
+  likesCount: number;
+  clonesCount: number;
+  createdAt: string;
+  updatedAt: string;
+  /**
+   * A rule keeps the list up to date.
+   */
+  isSmart: boolean;
+  isRuleBased: boolean;
+  lastRefreshedAt: string | null;
+  /**
+   * A rule-built list that stopped updating while its owner's Pro is inactive.
+   */
+  smartPaused: boolean;
+  clonedFromListId: number | null;
+  /**
+   * The list this one was cloned from, while it exists.
+   */
+  clonedFrom?: StopAListUpdatingItselfClonedFrom | undefined;
+  /**
+   * The owner; null once the account is gone.
+   */
+  user: StopAListUpdatingItselfUser | null;
+  /**
+   * Every item, in the list's own order or by `sort`.
+   */
+  items: Array<StopAListUpdatingItselfItem>;
+  /**
+   * The reactions left on the list, the most used first.
+   */
+  reactions: Array<StopAListUpdatingItselfReaction>;
+};
+
+/**
+ * Success.
  */
 export type StopAListUpdatingItselfResponseBody = {
-  data?: StopAListUpdatingItselfData | undefined;
+  data: StopAListUpdatingItselfData;
 };
 
 export type StopAListUpdatingItselfResponse = {
@@ -64,17 +281,444 @@ export function stopAListUpdatingItselfRequestToJSON(
 }
 
 /** @internal */
+export const StopAListUpdatingItselfClonedFromUser$inboundSchema: z.ZodMiniType<
+  StopAListUpdatingItselfClonedFromUser,
+  unknown
+> = z.object({
+  id: types.number(),
+  username: types.nullable(types.string()),
+});
+
+export function stopAListUpdatingItselfClonedFromUserFromJSON(
+  jsonString: string,
+): SafeParseResult<StopAListUpdatingItselfClonedFromUser, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      StopAListUpdatingItselfClonedFromUser$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'StopAListUpdatingItselfClonedFromUser' from JSON`,
+  );
+}
+
+/** @internal */
+export const StopAListUpdatingItselfClonedFrom$inboundSchema: z.ZodMiniType<
+  StopAListUpdatingItselfClonedFrom,
+  unknown
+> = z.object({
+  id: types.number(),
+  title: types.nullable(types.string()),
+  slug: types.nullable(types.string()),
+  user: types.nullable(
+    z.lazy(() => StopAListUpdatingItselfClonedFromUser$inboundSchema),
+  ),
+});
+
+export function stopAListUpdatingItselfClonedFromFromJSON(
+  jsonString: string,
+): SafeParseResult<StopAListUpdatingItselfClonedFrom, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => StopAListUpdatingItselfClonedFrom$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'StopAListUpdatingItselfClonedFrom' from JSON`,
+  );
+}
+
+/** @internal */
+export const StopAListUpdatingItselfUser$inboundSchema: z.ZodMiniType<
+  StopAListUpdatingItselfUser,
+  unknown
+> = z.object({
+  id: types.number(),
+  username: types.nullable(types.string()),
+  name: types.nullable(types.string()),
+  avatar: types.nullable(types.string()),
+});
+
+export function stopAListUpdatingItselfUserFromJSON(
+  jsonString: string,
+): SafeParseResult<StopAListUpdatingItselfUser, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => StopAListUpdatingItselfUser$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'StopAListUpdatingItselfUser' from JSON`,
+  );
+}
+
+/** @internal */
+export const StopAListUpdatingItselfVariant$inboundSchema: z.ZodMiniType<
+  StopAListUpdatingItselfVariant,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    ratio: types.nullable(types.string()),
+    cover_image_url: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "cover_image_url": "coverImageUrl",
+    });
+  }),
+);
+
+export function stopAListUpdatingItselfVariantFromJSON(
+  jsonString: string,
+): SafeParseResult<StopAListUpdatingItselfVariant, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => StopAListUpdatingItselfVariant$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'StopAListUpdatingItselfVariant' from JSON`,
+  );
+}
+
+/** @internal */
+export const StopAListUpdatingItselfEntity5$inboundSchema: z.ZodMiniType<
+  StopAListUpdatingItselfEntity5,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "image_url": "imageUrl",
+    });
+  }),
+);
+
+export function stopAListUpdatingItselfEntity5FromJSON(
+  jsonString: string,
+): SafeParseResult<StopAListUpdatingItselfEntity5, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => StopAListUpdatingItselfEntity5$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'StopAListUpdatingItselfEntity5' from JSON`,
+  );
+}
+
+/** @internal */
+export const StopAListUpdatingItselfEntity4$inboundSchema: z.ZodMiniType<
+  StopAListUpdatingItselfEntity4,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    issues_count: types.nullable(types.number()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "image_url": "imageUrl",
+      "issues_count": "issuesCount",
+    });
+  }),
+);
+
+export function stopAListUpdatingItselfEntity4FromJSON(
+  jsonString: string,
+): SafeParseResult<StopAListUpdatingItselfEntity4, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => StopAListUpdatingItselfEntity4$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'StopAListUpdatingItselfEntity4' from JSON`,
+  );
+}
+
+/** @internal */
+export const StopAListUpdatingItselfEntity3$inboundSchema: z.ZodMiniType<
+  StopAListUpdatingItselfEntity3,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    real_name: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "real_name": "realName",
+      "image_url": "imageUrl",
+    });
+  }),
+);
+
+export function stopAListUpdatingItselfEntity3FromJSON(
+  jsonString: string,
+): SafeParseResult<StopAListUpdatingItselfEntity3, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => StopAListUpdatingItselfEntity3$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'StopAListUpdatingItselfEntity3' from JSON`,
+  );
+}
+
+/** @internal */
+export const StopAListUpdatingItselfEntity2$inboundSchema: z.ZodMiniType<
+  StopAListUpdatingItselfEntity2,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    start_year: types.nullable(types.number()),
+    end_year: types.nullable(types.number()),
+    status: types.nullable(types.string()),
+    publication_type: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    is_nsfw: types.nullable(types.boolean()),
+    issues_count: types.nullable(types.number()),
+    publisher: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "start_year": "startYear",
+      "end_year": "endYear",
+      "publication_type": "publicationType",
+      "image_url": "imageUrl",
+      "is_nsfw": "isNsfw",
+      "issues_count": "issuesCount",
+    });
+  }),
+);
+
+export function stopAListUpdatingItselfEntity2FromJSON(
+  jsonString: string,
+): SafeParseResult<StopAListUpdatingItselfEntity2, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => StopAListUpdatingItselfEntity2$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'StopAListUpdatingItselfEntity2' from JSON`,
+  );
+}
+
+/** @internal */
+export const StopAListUpdatingItselfSeries$inboundSchema: z.ZodMiniType<
+  StopAListUpdatingItselfSeries,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    start_year: types.nullable(types.number()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "start_year": "startYear",
+    });
+  }),
+);
+
+export function stopAListUpdatingItselfSeriesFromJSON(
+  jsonString: string,
+): SafeParseResult<StopAListUpdatingItselfSeries, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => StopAListUpdatingItselfSeries$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'StopAListUpdatingItselfSeries' from JSON`,
+  );
+}
+
+/** @internal */
+export const StopAListUpdatingItselfEntity1$inboundSchema: z.ZodMiniType<
+  StopAListUpdatingItselfEntity1,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    issue_number: types.nullable(types.string()),
+    release_date: types.nullable(types.string()),
+    foc_date: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    is_nsfw: types.nullable(types.boolean()),
+    publisher: types.nullable(types.string()),
+    series: types.nullable(
+      z.lazy(() => StopAListUpdatingItselfSeries$inboundSchema),
+    ),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "issue_number": "issueNumber",
+      "release_date": "releaseDate",
+      "foc_date": "focDate",
+      "image_url": "imageUrl",
+      "is_nsfw": "isNsfw",
+    });
+  }),
+);
+
+export function stopAListUpdatingItselfEntity1FromJSON(
+  jsonString: string,
+): SafeParseResult<StopAListUpdatingItselfEntity1, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => StopAListUpdatingItselfEntity1$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'StopAListUpdatingItselfEntity1' from JSON`,
+  );
+}
+
+/** @internal */
+export const StopAListUpdatingItselfEntityUnion$inboundSchema: z.ZodMiniType<
+  StopAListUpdatingItselfEntityUnion,
+  unknown
+> = smartUnion([
+  z.lazy(() => StopAListUpdatingItselfEntity2$inboundSchema),
+  z.lazy(() => StopAListUpdatingItselfEntity1$inboundSchema),
+  z.lazy(() => StopAListUpdatingItselfEntity3$inboundSchema),
+  z.lazy(() => StopAListUpdatingItselfEntity4$inboundSchema),
+  z.lazy(() => StopAListUpdatingItselfEntity5$inboundSchema),
+]);
+
+export function stopAListUpdatingItselfEntityUnionFromJSON(
+  jsonString: string,
+): SafeParseResult<StopAListUpdatingItselfEntityUnion, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      StopAListUpdatingItselfEntityUnion$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'StopAListUpdatingItselfEntityUnion' from JSON`,
+  );
+}
+
+/** @internal */
+export const StopAListUpdatingItselfItem$inboundSchema: z.ZodMiniType<
+  StopAListUpdatingItselfItem,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    position: types.nullable(types.number()),
+    note: types.nullable(types.string()),
+    created_at: types.string(),
+    updated_at: types.string(),
+    variant_id: types.nullable(types.number()),
+    variant: types.optional(
+      z.lazy(() => StopAListUpdatingItselfVariant$inboundSchema),
+    ),
+    entity_type: types.string(),
+    entity: types.optional(smartUnion([
+      z.lazy(() => StopAListUpdatingItselfEntity2$inboundSchema),
+      z.lazy(() => StopAListUpdatingItselfEntity1$inboundSchema),
+      z.lazy(() => StopAListUpdatingItselfEntity3$inboundSchema),
+      z.lazy(() => StopAListUpdatingItselfEntity4$inboundSchema),
+      z.lazy(() => StopAListUpdatingItselfEntity5$inboundSchema),
+    ])),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "created_at": "createdAt",
+      "updated_at": "updatedAt",
+      "variant_id": "variantId",
+      "entity_type": "entityType",
+    });
+  }),
+);
+
+export function stopAListUpdatingItselfItemFromJSON(
+  jsonString: string,
+): SafeParseResult<StopAListUpdatingItselfItem, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => StopAListUpdatingItselfItem$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'StopAListUpdatingItselfItem' from JSON`,
+  );
+}
+
+/** @internal */
+export const StopAListUpdatingItselfReaction$inboundSchema: z.ZodMiniType<
+  StopAListUpdatingItselfReaction,
+  unknown
+> = z.object({
+  reaction: types.string(),
+  emoji: types.string(),
+  label: types.string(),
+  count: types.number(),
+});
+
+export function stopAListUpdatingItselfReactionFromJSON(
+  jsonString: string,
+): SafeParseResult<StopAListUpdatingItselfReaction, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => StopAListUpdatingItselfReaction$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'StopAListUpdatingItselfReaction' from JSON`,
+  );
+}
+
+/** @internal */
 export const StopAListUpdatingItselfData$inboundSchema: z.ZodMiniType<
   StopAListUpdatingItselfData,
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    entity_type: types.optional(types.string()),
+    id: types.number(),
+    title: types.string(),
+    slug: types.string(),
+    description: types.nullable(types.string()),
+    entity_type: types.string(),
+    entity_type_label: types.string(),
+    is_curated: types.boolean(),
+    item_types: z.array(types.string()),
+    is_ranked: types.boolean(),
+    sort_options: z.record(z.string(), types.string()),
+    is_private: types.boolean(),
+    status: types.string(),
+    list_type: types.string(),
+    items_count: types.number(),
+    saves_count: types.number(),
+    likes_count: types.number(),
+    clones_count: types.number(),
+    created_at: types.string(),
+    updated_at: types.string(),
+    is_smart: types.boolean(),
+    is_rule_based: types.boolean(),
+    last_refreshed_at: types.nullable(types.string()),
+    smart_paused: types.boolean(),
+    cloned_from_list_id: types.nullable(types.number()),
+    cloned_from: types.optional(
+      z.lazy(() => StopAListUpdatingItselfClonedFrom$inboundSchema),
+    ),
+    user: types.nullable(
+      z.lazy(() => StopAListUpdatingItselfUser$inboundSchema),
+    ),
+    items: z.array(z.lazy(() => StopAListUpdatingItselfItem$inboundSchema)),
+    reactions: z.array(
+      z.lazy(() => StopAListUpdatingItselfReaction$inboundSchema),
+    ),
   }),
   z.transform((v) => {
     return remap$(v, {
       "entity_type": "entityType",
+      "entity_type_label": "entityTypeLabel",
+      "is_curated": "isCurated",
+      "item_types": "itemTypes",
+      "is_ranked": "isRanked",
+      "sort_options": "sortOptions",
+      "is_private": "isPrivate",
+      "list_type": "listType",
+      "items_count": "itemsCount",
+      "saves_count": "savesCount",
+      "likes_count": "likesCount",
+      "clones_count": "clonesCount",
+      "created_at": "createdAt",
+      "updated_at": "updatedAt",
+      "is_smart": "isSmart",
+      "is_rule_based": "isRuleBased",
+      "last_refreshed_at": "lastRefreshedAt",
+      "smart_paused": "smartPaused",
+      "cloned_from_list_id": "clonedFromListId",
+      "cloned_from": "clonedFrom",
     });
   }),
 );
@@ -94,7 +738,7 @@ export const StopAListUpdatingItselfResponseBody$inboundSchema: z.ZodMiniType<
   StopAListUpdatingItselfResponseBody,
   unknown
 > = z.object({
-  data: types.optional(z.lazy(() => StopAListUpdatingItselfData$inboundSchema)),
+  data: z.lazy(() => StopAListUpdatingItselfData$inboundSchema),
 });
 
 export function stopAListUpdatingItselfResponseBodyFromJSON(

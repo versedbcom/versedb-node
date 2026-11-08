@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * List pull list.
  *
  * @remarks
- * Returns all series on the user's pull list (series they're tracking for new releases).
+ * Returns all series on the user's pull list (series they're tracking for new releases), most recently added first.
  *
  * Needs `read:user` or `read:showcase`. A `read:showcase` token gets each entry without
  * `personal_notes`, `notify_on_release`, `notification_settings`, `auto_pull`,
@@ -45,6 +45,7 @@ export function userListPullList(
   Result<
     operations.ListPullListResponse,
     | errors.UnauthorizedErrorError
+    | errors.ListPullListForbiddenError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -72,6 +73,7 @@ async function $do(
     Result<
       operations.ListPullListResponse,
       | errors.UnauthorizedErrorError
+      | errors.ListPullListForbiddenError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -100,6 +102,8 @@ async function $do(
   const path = pathToFunc("/api/v1/user/pull-list")();
 
   const query = encodeFormQuery({
+    "languages": payload?.languages,
+    "page": payload?.page,
     "per_page": payload?.per_page,
   });
 
@@ -161,6 +165,7 @@ async function $do(
   const [result] = await M.match<
     operations.ListPullListResponse,
     | errors.UnauthorizedErrorError
+    | errors.ListPullListForbiddenError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -176,6 +181,7 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
+    M.jsonErr(403, errors.ListPullListForbiddenError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

@@ -10,25 +10,18 @@ import { UnlikeListResponseBody1 } from "@versedbcom/sdk/models/operations";
 let value: UnlikeListResponseBody1 = {
   message: "List unliked successfully.",
   liked: false,
-  likesCount: 150,
+  likesCount: 151,
   myReaction: null,
-  reactions: [
-    {
-      reaction: "heart",
-      emoji: "❤️",
-      label: "Love",
-      count: 150,
-    },
-  ],
+  reactions: [],
 };
 ```
 
 ## Fields
 
-| Field                                                                              | Type                                                                               | Required                                                                           | Description                                                                        | Example                                                                            |
-| ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| `message`                                                                          | *string*                                                                           | :heavy_minus_sign:                                                                 | N/A                                                                                | List unliked successfully.                                                         |
-| `liked`                                                                            | *boolean*                                                                          | :heavy_minus_sign:                                                                 | N/A                                                                                | false                                                                              |
-| `likesCount`                                                                       | *number*                                                                           | :heavy_minus_sign:                                                                 | N/A                                                                                | 150                                                                                |
-| `myReaction`                                                                       | *string*                                                                           | :heavy_minus_sign:                                                                 | N/A                                                                                | null                                                                               |
-| `reactions`                                                                        | [operations.UnlikeListReaction](../../models/operations/unlike-list-reaction.md)[] | :heavy_minus_sign:                                                                 | N/A                                                                                | [<br/>{<br/>"reaction": "heart",<br/>"emoji": "❤️",<br/>"label": "Love",<br/>"count": 150<br/>}<br/>] |
+| Field                                                                                | Type                                                                                 | Required                                                                             | Description                                                                          | Example                                                                              |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| `message`                                                                            | *string*                                                                             | :heavy_check_mark:                                                                   | N/A                                                                                  | List unliked successfully.                                                           |
+| `liked`                                                                              | *boolean*                                                                            | :heavy_check_mark:                                                                   | N/A                                                                                  | false                                                                                |
+| `likesCount`                                                                         | *number*                                                                             | :heavy_check_mark:                                                                   | N/A                                                                                  | 151                                                                                  |
+| `myReaction`                                                                         | *string*                                                                             | :heavy_check_mark:                                                                   | The reaction the user now holds, null for none.                                      | null                                                                                 |
+| `reactions`                                                                          | [operations.UnlikeListReaction1](../../models/operations/unlike-list-reaction1.md)[] | :heavy_check_mark:                                                                   | Each reaction left on the list with its count, most used first.                      |                                                                                      |

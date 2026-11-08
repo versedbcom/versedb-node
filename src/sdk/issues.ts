@@ -15,16 +15,16 @@ import { unwrapAsync } from "../types/fp.js";
 
 export class Issues extends ClientSDK {
   /**
-   * List issues.
+   * Get issue variants.
    *
    * @remarks
-   * Returns paginated issues with optional search, filtering, and sorting.
+   * Returns all variant covers for a specific issue.
    */
-  async listIssues(
-    request?: operations.ListIssuesRequest | undefined,
+  async getIssueVariants(
+    request: operations.GetIssueVariantsRequest,
     options?: RequestOptions,
-  ): Promise<operations.ListIssuesResponse> {
-    return unwrapAsync(issuesListIssues(
+  ): Promise<operations.GetIssueVariantsResponse> {
+    return unwrapAsync(issuesGetIssueVariants(
       this,
       request,
       options,
@@ -50,16 +50,16 @@ export class Issues extends ClientSDK {
   }
 
   /**
-   * Get issue variants.
+   * List issues.
    *
    * @remarks
-   * Returns all variant covers for a specific issue.
+   * Returns paginated issues with optional search, filtering, and sorting.
    */
-  async getIssueVariants(
-    request: operations.GetIssueVariantsRequest,
+  async listIssues(
+    request?: operations.ListIssuesRequest | undefined,
     options?: RequestOptions,
-  ): Promise<operations.GetIssueVariantsResponse> {
-    return unwrapAsync(issuesGetIssueVariants(
+  ): Promise<operations.ListIssuesResponse> {
+    return unwrapAsync(issuesListIssues(
       this,
       request,
       options,
@@ -77,6 +77,23 @@ export class Issues extends ClientSDK {
     options?: RequestOptions,
   ): Promise<operations.GetVariantDetailsResponse> {
     return unwrapAsync(issuesGetVariantDetails(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Get key issue reasons.
+   *
+   * @remarks
+   * Returns key issue reasons for a specific issue (e.g., "1st Appearance", "Death").
+   */
+  async getKeyIssueReasons(
+    request: operations.GetKeyIssueReasonsRequest,
+    options?: RequestOptions,
+  ): Promise<operations.GetKeyIssueReasonsResponse> {
+    return unwrapAsync(issuesGetKeyIssueReasons(
       this,
       request,
       options,
@@ -111,23 +128,6 @@ export class Issues extends ClientSDK {
     options?: RequestOptions,
   ): Promise<operations.GetIssueCharactersResponse> {
     return unwrapAsync(issuesGetIssueCharacters(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
-   * Get key issue reasons.
-   *
-   * @remarks
-   * Returns key issue reasons for a specific issue (e.g., "1st Appearance", "Death").
-   */
-  async getKeyIssueReasons(
-    request: operations.GetKeyIssueReasonsRequest,
-    options?: RequestOptions,
-  ): Promise<operations.GetKeyIssueReasonsResponse> {
-    return unwrapAsync(issuesGetKeyIssueReasons(
       this,
       request,
       options,

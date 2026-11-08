@@ -6,34 +6,38 @@
 import { GetSeriesCreatorsResponse } from "@versedbcom/sdk/models/operations";
 
 let value: GetSeriesCreatorsResponse = {
-  headers: {},
+  headers: {
+    "key": [
+      "<value 1>",
+    ],
+  },
   result: {
-    data: [
+    currentPage: 1,
+    data: [],
+    firstPageUrl: "https://polite-gray.com/",
+    from: 1,
+    lastPage: 1,
+    lastPageUrl: "https://live-sundae.net/",
+    links: [
       {
-        id: 789,
-        name: "Nick Spencer",
-        nameI18n: {},
-        aliasesI18n: {},
-        originalLocale: "en",
-        role: {
-          id: 1,
-          name: "Writer",
-        },
+        url: "https://infatuated-knuckle.org",
+        label: "<value>",
+        active: true,
       },
     ],
-    meta: {
-      currentPage: 1,
-      lastPage: 1,
-      perPage: 50,
-      total: 15,
-    },
+    nextPageUrl: "https://impolite-instance.org",
+    path: "/mnt",
+    perPage: 50,
+    prevPageUrl: "https://unlined-reasoning.com/",
+    to: 15,
+    total: 15,
   },
 };
 ```
 
 ## Fields
 
-| Field                                                                                                                                                                                                                                  | Type                                                                                                                                                                                                                                   | Required                                                                                                                                                                                                                               | Description                                                                                                                                                                                                                            | Example                                                                                                                                                                                                                                |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `headers`                                                                                                                                                                                                                              | Record<string, *string*[]>                                                                                                                                                                                                             | :heavy_check_mark:                                                                                                                                                                                                                     | N/A                                                                                                                                                                                                                                    |                                                                                                                                                                                                                                        |
-| `result`                                                                                                                                                                                                                               | [operations.GetSeriesCreatorsResponseBody](../../models/operations/get-series-creators-response-body.md)                                                                                                                               | :heavy_check_mark:                                                                                                                                                                                                                     | N/A                                                                                                                                                                                                                                    | {<br/>"data": [<br/>{<br/>"id": 789,<br/>"name": "Nick Spencer",<br/>"name_i18n": {},<br/>"aliases_i18n": {},<br/>"original_locale": "en",<br/>"role": {<br/>"id": 1,<br/>"name": "Writer"<br/>}<br/>}<br/>],<br/>"meta": {<br/>"current_page": 1,<br/>"last_page": 1,<br/>"per_page": 50,<br/>"total": 15<br/>}<br/>} |
+| Field                                                                                                    | Type                                                                                                     | Required                                                                                                 | Description                                                                                              |
+| -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `headers`                                                                                                | Record<string, *string*[]>                                                                               | :heavy_check_mark:                                                                                       | N/A                                                                                                      |
+| `result`                                                                                                 | [operations.GetSeriesCreatorsResponseBody](../../models/operations/get-series-creators-response-body.md) | :heavy_check_mark:                                                                                       | N/A                                                                                                      |

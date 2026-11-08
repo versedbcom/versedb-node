@@ -7,14 +7,14 @@ import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Invalid merge
+ * The body failed validation, or the merge is refused (an empty source, the item cap).
  */
 export type MergeAListIntoThisOneUnprocessableEntityErrorData = {
-  message?: string | undefined;
+  message: string;
 };
 
 /**
- * Invalid merge
+ * The body failed validation, or the merge is refused (an empty source, the item cap).
  */
 export class MergeAListIntoThisOneUnprocessableEntityError
   extends VerseDbError
@@ -35,14 +35,40 @@ export class MergeAListIntoThisOneUnprocessableEntityError
 }
 
 /**
- * Unauthorized
+ * No live list has this ID (`Source list not found.` when it is the source that is gone).
  */
-export type MergeAListIntoThisOneForbiddenErrorData = {
-  message?: string | undefined;
+export type MergeAListIntoThisOneNotFoundErrorData = {
+  message: string;
 };
 
 /**
- * Unauthorized
+ * No live list has this ID (`Source list not found.` when it is the source that is gone).
+ */
+export class MergeAListIntoThisOneNotFoundError extends VerseDbError {
+  /** The original data that was passed to this error instance. */
+  data$: MergeAListIntoThisOneNotFoundErrorData;
+
+  constructor(
+    err: MergeAListIntoThisOneNotFoundErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+
+    this.name = "MergeAListIntoThisOneNotFoundError";
+  }
+}
+
+/**
+ * The token holds neither write:list nor write:lists, or either list is not yours to merge.
+ */
+export type MergeAListIntoThisOneForbiddenErrorData = {
+  message: string;
+};
+
+/**
+ * The token holds neither write:list nor write:lists, or either list is not yours to merge.
  */
 export class MergeAListIntoThisOneForbiddenError extends VerseDbError {
   /** The original data that was passed to this error instance. */
@@ -65,7 +91,7 @@ export const MergeAListIntoThisOneUnprocessableEntityError$inboundSchema:
   z.ZodMiniType<MergeAListIntoThisOneUnprocessableEntityError, unknown> = z
     .pipe(
       z.object({
-        message: types.optional(types.string()),
+        message: types.string(),
         request$: z.custom<Request>(x => x instanceof Request),
         response$: z.custom<Response>(x => x instanceof Response),
         body$: z.string(),
@@ -80,12 +106,32 @@ export const MergeAListIntoThisOneUnprocessableEntityError$inboundSchema:
     );
 
 /** @internal */
+export const MergeAListIntoThisOneNotFoundError$inboundSchema: z.ZodMiniType<
+  MergeAListIntoThisOneNotFoundError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new MergeAListIntoThisOneNotFoundError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
 export const MergeAListIntoThisOneForbiddenError$inboundSchema: z.ZodMiniType<
   MergeAListIntoThisOneForbiddenError,
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
+    message: types.string(),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),

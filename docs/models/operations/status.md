@@ -1,6 +1,6 @@
 # Status
 
-The list status. One of: `published`, `draft`.
+The list status.
 
 ## Example Usage
 

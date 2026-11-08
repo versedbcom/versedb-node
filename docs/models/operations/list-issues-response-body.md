@@ -8,34 +8,36 @@ Success
 import { ListIssuesResponseBody } from "@versedbcom/sdk/models/operations";
 
 let value: ListIssuesResponseBody = {
-  data: [
-    {
-      id: 5432,
-      slug: "amazing-spider-man-1",
-      seriesId: 123,
-      issueNumber: "1",
-      name: "The Amazing Spider-Man #1",
-      nameI18n: {},
-      releaseDate: "2018-07-11",
-      coverUrl: "https://...",
-      isReprint: false,
-      contentRatingLabel: "15+",
-      minAge: 15,
-      isNsfw: false,
-    },
-  ],
+  data: [],
+  links: {
+    first: "<value>",
+    last: "<value>",
+    prev: "<value>",
+    next: "<value>",
+  },
   meta: {
     currentPage: 1,
-    lastPage: 10,
+    from: 1,
+    lastPage: 25,
+    links: [
+      {
+        url: "https://linear-injunction.net/",
+        label: "<value>",
+        active: true,
+      },
+    ],
+    path: "/opt/sbin",
     perPage: 20,
-    total: 200,
+    to: 20,
+    total: 500,
   },
 };
 ```
 
 ## Fields
 
-| Field                                                                                                                                                                                                                                                                                          | Type                                                                                                                                                                                                                                                                                           | Required                                                                                                                                                                                                                                                                                       | Description                                                                                                                                                                                                                                                                                    | Example                                                                                                                                                                                                                                                                                        |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `data`                                                                                                                                                                                                                                                                                         | [operations.ListIssuesData](../../models/operations/list-issues-data.md)[]                                                                                                                                                                                                                     | :heavy_minus_sign:                                                                                                                                                                                                                                                                             | N/A                                                                                                                                                                                                                                                                                            | [<br/>{<br/>"id": 5432,<br/>"slug": "amazing-spider-man-1",<br/>"series_id": 123,<br/>"issue_number": "1",<br/>"name": "The Amazing Spider-Man #1",<br/>"name_i18n": [],<br/>"release_date": "2018-07-11",<br/>"cover_url": "https://...",<br/>"is_reprint": false,<br/>"content_rating_label": "15+",<br/>"min_age": 15,<br/>"is_nsfw": false<br/>}<br/>] |
-| `meta`                                                                                                                                                                                                                                                                                         | [operations.ListIssuesMeta](../../models/operations/list-issues-meta.md)                                                                                                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                                                                                                                                             | N/A                                                                                                                                                                                                                                                                                            |                                                                                                                                                                                                                                                                                                |
+| Field                                                                      | Type                                                                       | Required                                                                   | Description                                                                |
+| -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `data`                                                                     | [operations.ListIssuesData](../../models/operations/list-issues-data.md)[] | :heavy_check_mark:                                                         | N/A                                                                        |
+| `links`                                                                    | [operations.ListIssuesLinks](../../models/operations/list-issues-links.md) | :heavy_check_mark:                                                         | N/A                                                                        |
+| `meta`                                                                     | [operations.ListIssuesMeta](../../models/operations/list-issues-meta.md)   | :heavy_check_mark:                                                         | N/A                                                                        |

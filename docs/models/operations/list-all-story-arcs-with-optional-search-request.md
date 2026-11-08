@@ -1,0 +1,31 @@
+# ListAllStoryArcsWithOptionalSearchRequest
+
+## Example Usage
+
+```typescript
+import { ListAllStoryArcsWithOptionalSearchRequest } from "@versedbcom/sdk/models/operations";
+
+let value: ListAllStoryArcsWithOptionalSearchRequest = {
+  q: "civil war",
+  status: "ended",
+  type: "crossover_event",
+  sort: "name",
+  direction: "asc",
+  limit: 20,
+  page: 1,
+  languages: "ja,ko",
+};
+```
+
+## Fields
+
+| Field                                                                                                            | Type                                                                                                             | Required                                                                                                         | Description                                                                                                      | Example                                                                                                          |
+| ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `q`                                                                                                              | *string*                                                                                                         | :heavy_minus_sign:                                                                                               | Search by story arc name.                                                                                        | civil war                                                                                                        |
+| `status`                                                                                                         | *string*                                                                                                         | :heavy_minus_sign:                                                                                               | Filter by status (active, ended, upcoming, cancelled).                                                           | ended                                                                                                            |
+| `type`                                                                                                           | *string*                                                                                                         | :heavy_minus_sign:                                                                                               | Filter by type (main_story, side_story, tie_in_arc, mini_series_arc, crossover_event, prelude, epilogue, other). | crossover_event                                                                                                  |
+| `sort`                                                                                                           | *string*                                                                                                         | :heavy_minus_sign:                                                                                               | Pass any value to replace the relevance ordering applied to q results with the name.                             | name                                                                                                             |
+| `direction`                                                                                                      | *string*                                                                                                         | :heavy_minus_sign:                                                                                               | Sort direction (asc, desc).                                                                                      | asc                                                                                                              |
+| `limit`                                                                                                          | *number*                                                                                                         | :heavy_minus_sign:                                                                                               | Number of results per page (max 50).                                                                             | 20                                                                                                               |
+| `page`                                                                                                           | *number*                                                                                                         | :heavy_minus_sign:                                                                                               | Page number; meta.last_page says where the list ends.                                                            | 1                                                                                                                |
+| `languages`                                                                                                      | *string*                                                                                                         | :heavy_minus_sign:                                                                                               | Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes.             | ja,ko                                                                                                            |

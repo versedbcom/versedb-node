@@ -7,8 +7,101 @@ Endpoints for browsing story arcs and crossover events.
 
 ### Available Operations
 
+* [listAllStoryArcsWithOptionalSearch](#listallstoryarcswithoptionalsearch) - List all story arcs with optional search
 * [getStoryArcsForASpecificIssue](#getstoryarcsforaspecificissue) - Get story arcs for a specific issue
+* [getStoryArcDetail](#getstoryarcdetail) - Get story arc detail.
+* [getStoryArcsForASpecificUniverse](#getstoryarcsforaspecificuniverse) - Get story arcs for a specific universe
 * [getStoryArcsForASpecificCharacter](#getstoryarcsforaspecificcharacter) - Get story arcs for a specific character
+
+## listAllStoryArcsWithOptionalSearch
+
+Returns a paginated list of story arcs and crossover events by name. Narrow the results with `q`, `status`, or `type`.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="listAllStoryArcsWithOptionalSearch" method="get" path="/api/v1/story-arcs" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.storyArcs.listAllStoryArcsWithOptionalSearch({
+    q: "civil war",
+    status: "ended",
+    type: "crossover_event",
+    sort: "name",
+    direction: "asc",
+    limit: 20,
+    page: 1,
+    languages: "ja,ko",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { storyArcsListAllStoryArcsWithOptionalSearch } from "@versedbcom/sdk/funcs/story-arcs-list-all-story-arcs-with-optional-search.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await storyArcsListAllStoryArcsWithOptionalSearch(verseDB, {
+    q: "civil war",
+    status: "ended",
+    type: "crossover_event",
+    sort: "name",
+    direction: "asc",
+    limit: 20,
+    page: 1,
+    languages: "ja,ko",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("storyArcsListAllStoryArcsWithOptionalSearch failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.ListAllStoryArcsWithOptionalSearchRequest](../../models/operations/list-all-story-arcs-with-optional-search-request.md)                                            | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.ListAllStoryArcsWithOptionalSearchResponse](../../models/operations/list-all-story-arcs-with-optional-search-response.md)\>**
+
+### Errors
+
+| Error Type                                              | Status Code                                             | Content Type                                            |
+| ------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- |
+| errors.UnauthorizedErrorError                           | 401                                                     | application/json                                        |
+| errors.ListAllStoryArcsWithOptionalSearchForbiddenError | 403                                                     | application/json                                        |
+| errors.TooManyRequestsError                             | 429                                                     | application/json                                        |
+| errors.VerseDbDefaultError                              | 4XX, 5XX                                                | \*/\*                                                   |
 
 ## getStoryArcsForASpecificIssue
 
@@ -29,6 +122,7 @@ async function run() {
     issueId: 3,
     q: "batman",
     limit: 20,
+    page: 1,
     languages: "ja,ko",
   });
 
@@ -57,6 +151,7 @@ async function run() {
     issueId: 3,
     q: "batman",
     limit: 20,
+    page: 1,
     languages: "ja,ko",
   });
   if (res.ok) {
@@ -85,11 +180,174 @@ run();
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| errors.UnauthorizedErrorError | 401                           | application/json              |
-| errors.TooManyRequestsError   | 429                           | application/json              |
-| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
+| Error Type                                         | Status Code                                        | Content Type                                       |
+| -------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- |
+| errors.UnauthorizedErrorError                      | 401                                                | application/json                                   |
+| errors.GetStoryArcsForASpecificIssueForbiddenError | 403                                                | application/json                                   |
+| errors.TooManyRequestsError                        | 429                                                | application/json                                   |
+| errors.VerseDbDefaultError                         | 4XX, 5XX                                           | \*/\*                                              |
+
+## getStoryArcDetail
+
+Returns full story arc detail with the primary and secondary universes, a denormalized characters count, the start/end issue summaries (each with its parent series).
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="getStoryArcDetail" method="get" path="/api/v1/story-arcs/{storyArc_id}" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.storyArcs.getStoryArcDetail({
+    storyArcId: 16,
+    languages: "ja,ko",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { storyArcsGetStoryArcDetail } from "@versedbcom/sdk/funcs/story-arcs-get-story-arc-detail.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await storyArcsGetStoryArcDetail(verseDB, {
+    storyArcId: 16,
+    languages: "ja,ko",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("storyArcsGetStoryArcDetail failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.GetStoryArcDetailRequest](../../models/operations/get-story-arc-detail-request.md)                                                                                 | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.GetStoryArcDetailResponse](../../models/operations/get-story-arc-detail-response.md)\>**
+
+### Errors
+
+| Error Type                             | Status Code                            | Content Type                           |
+| -------------------------------------- | -------------------------------------- | -------------------------------------- |
+| errors.UnauthorizedErrorError          | 401                                    | application/json                       |
+| errors.GetStoryArcDetailForbiddenError | 403                                    | application/json                       |
+| errors.TooManyRequestsError            | 429                                    | application/json                       |
+| errors.VerseDbDefaultError             | 4XX, 5XX                               | \*/\*                                  |
+
+## getStoryArcsForASpecificUniverse
+
+Returns every story arc that takes place in the given universe.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="getStoryArcsForASpecificUniverse" method="get" path="/api/v1/universes/{universe_id}/story-arcs" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.storyArcs.getStoryArcsForASpecificUniverse({
+    universeId: 16,
+    q: "batman",
+    limit: 20,
+    page: 1,
+    languages: "ja,ko",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { storyArcsGetStoryArcsForASpecificUniverse } from "@versedbcom/sdk/funcs/story-arcs-get-story-arcs-for-a-specific-universe.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await storyArcsGetStoryArcsForASpecificUniverse(verseDB, {
+    universeId: 16,
+    q: "batman",
+    limit: 20,
+    page: 1,
+    languages: "ja,ko",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("storyArcsGetStoryArcsForASpecificUniverse failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.GetStoryArcsForASpecificUniverseRequest](../../models/operations/get-story-arcs-for-a-specific-universe-request.md)                                                | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.GetStoryArcsForASpecificUniverseResponse](../../models/operations/get-story-arcs-for-a-specific-universe-response.md)\>**
+
+### Errors
+
+| Error Type                                            | Status Code                                           | Content Type                                          |
+| ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
+| errors.UnauthorizedErrorError                         | 401                                                   | application/json                                      |
+| errors.GetStoryArcsForASpecificUniverseForbiddenError | 403                                                   | application/json                                      |
+| errors.TooManyRequestsError                           | 429                                                   | application/json                                      |
+| errors.VerseDbDefaultError                            | 4XX, 5XX                                              | \*/\*                                                 |
 
 ## getStoryArcsForASpecificCharacter
 

@@ -1,6 +1,6 @@
 # MergeAListIntoThisOneUnprocessableEntityError
 
-Invalid merge
+The body failed validation, or the merge is refused (an empty source, the item cap).
 
 ## Example Usage
 
@@ -14,4 +14,4 @@ import { MergeAListIntoThisOneUnprocessableEntityError } from "@versedbcom/sdk/m
 
 | Field                                  | Type                                   | Required                               | Description                            | Example                                |
 | -------------------------------------- | -------------------------------------- | -------------------------------------- | -------------------------------------- | -------------------------------------- |
-| `message`                              | *string*                               | :heavy_minus_sign:                     | N/A                                    | The source list has no items to merge. |
+| `message`                              | *string*                               | :heavy_check_mark:                     | N/A                                    | The source list has no items to merge. |

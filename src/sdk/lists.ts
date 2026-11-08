@@ -14,8 +14,10 @@ import { listsLikeListOrReactToIt } from "../funcs/lists-like-list-or-react-to-i
 import { listsMergeAListIntoThisOne } from "../funcs/lists-merge-a-list-into-this-one.js";
 import { listsRemoveItemFromList } from "../funcs/lists-remove-item-from-list.js";
 import { listsReorderItems } from "../funcs/lists-reorder-items.js";
+import { listsSaveList } from "../funcs/lists-save-list.js";
 import { listsStopAListUpdatingItself } from "../funcs/lists-stop-a-list-updating-itself.js";
 import { listsUnlikeList } from "../funcs/lists-unlike-list.js";
+import { listsUnsaveList } from "../funcs/lists-unsave-list.js";
 import { listsUpdateList } from "../funcs/lists-update-list.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as operations from "../models/operations/index.js";
@@ -44,7 +46,7 @@ export class Lists extends ClientSDK {
    * Create list.
    *
    * @remarks
-   * Creates a new user list.
+   * Creates a new user list. A list filled by hand holds items of any type, so `entity_type` is ignored without a smart-list rule.
    */
   async createList(
     request: operations.CreateListRequest,
@@ -68,6 +70,24 @@ export class Lists extends ClientSDK {
     options?: RequestOptions,
   ): Promise<operations.BrowseSystemListsResponse> {
     return unwrapAsync(listsBrowseSystemLists(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Get user's lists.
+   *
+   * @remarks
+   * Returns a user's public lists. Your own lists also include private and draft ones when the
+   * token has `read:user`.
+   */
+  async getUsersLists(
+    request: operations.GetUsersListsRequest,
+    options?: RequestOptions,
+  ): Promise<operations.GetUsersListsResponse> {
+    return unwrapAsync(listsGetUsersLists(
       this,
       request,
       options,
@@ -126,17 +146,67 @@ export class Lists extends ClientSDK {
   }
 
   /**
-   * Get user's lists.
+   * Save list.
    *
    * @remarks
-   * Returns a user's public lists. Your own lists also include private and draft ones when the
-   * token has `read:user`.
+   * Saves a list to the user's saved lists for quick access. Cannot save your own lists.
    */
-  async getUsersLists(
-    request: operations.GetUsersListsRequest,
+  async saveList(
+    request: operations.SaveListRequest,
     options?: RequestOptions,
-  ): Promise<operations.GetUsersListsResponse> {
-    return unwrapAsync(listsGetUsersLists(
+  ): Promise<operations.SaveListResponse> {
+    return unwrapAsync(listsSaveList(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Unsave list.
+   *
+   * @remarks
+   * Removes a list from the user's saved lists.
+   */
+  async unsaveList(
+    request: operations.UnsaveListRequest,
+    options?: RequestOptions,
+  ): Promise<operations.UnsaveListResponse> {
+    return unwrapAsync(listsUnsaveList(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Like list, or react to it.
+   *
+   * @remarks
+   * With no body this likes the list. Send `reaction` to leave that reaction instead, or to change the one already held; `DELETE` takes it back whichever it is. A member holds one reaction per list and every reaction counts toward `likes_count`. Cannot like your own lists.
+   */
+  async likeListOrReactToIt(
+    request: operations.LikeListOrReactToItRequest,
+    options?: RequestOptions,
+  ): Promise<operations.LikeListOrReactToItResponse> {
+    return unwrapAsync(listsLikeListOrReactToIt(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Unlike list.
+   *
+   * @remarks
+   * Removes the user's like or reaction from a list.
+   */
+  async unlikeList(
+    request: operations.UnlikeListRequest,
+    options?: RequestOptions,
+  ): Promise<operations.UnlikeListResponse> {
+    return unwrapAsync(listsUnlikeList(
       this,
       request,
       options,
@@ -147,8 +217,7 @@ export class Lists extends ClientSDK {
    * Open a list to any type.
    *
    * @remarks
-   * One-way: broadens a single-type list so it can hold items of any type. Existing items keep
-   * their own type. It cannot be narrowed back, and a wishlist already holds any type.
+   * One-way: broadens a single-type list so it can hold items of any type. Existing items keep their own type. It cannot be narrowed back, and a wishlist already holds any type.
    */
   async convertAListToMixed(
     request: operations.OpenAListToAnyTypeRequest,
@@ -165,9 +234,7 @@ export class Lists extends ClientSDK {
    * Stop a list updating itself.
    *
    * @remarks
-   * One-way: drops a smart list's rule and keeps every item the last refresh left,
-   * handing the contents back for editing by hand. A rule is only ever attached when
-   * a list is created, so it cannot be put back.
+   * One-way: drops a smart list's rule and keeps every item the last refresh left, handing the contents back for editing by hand. A rule is only ever attached when a list is created, so it cannot be put back.
    */
   async stopAListUpdatingItself(
     request: operations.StopAListUpdatingItselfRequest,
@@ -184,9 +251,7 @@ export class Lists extends ClientSDK {
    * Merge a list into this one.
    *
    * @remarks
-   * Pulls every item from the source list into this (destination) list, skipping items already
-   * present (by entity + variant) and appending the rest. Both lists must be owned by the
-   * authenticated user. Merging items of a different type opens this list to any type.
+   * Pulls every item from the source list into this (destination) list, skipping items already present (by entity + variant) and appending the rest. Both lists must be owned by the authenticated user. Merging items of a different type opens this list to any type.
    */
   async mergeAListIntoThisOne(
     request: operations.MergeAListIntoThisOneRequest,
@@ -220,7 +285,7 @@ export class Lists extends ClientSDK {
    * Remove item from list.
    *
    * @remarks
-   * Removes an item from a list. Other items' positions are automatically adjusted.
+   * Removes an item from a list. Other items' positions are kept.
    */
   async removeItemFromList(
     request: operations.RemoveItemFromListRequest,
@@ -237,49 +302,13 @@ export class Lists extends ClientSDK {
    * Reorder items.
    *
    * @remarks
-   * Reorders items in a list by providing the new order of item IDs.
+   * Reorders items in a ranked list by providing the new order of item IDs.
    */
   async reorderItems(
     request: operations.ReorderItemsRequest,
     options?: RequestOptions,
   ): Promise<operations.ReorderItemsResponse> {
     return unwrapAsync(listsReorderItems(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
-   * Like list, or react to it.
-   *
-   * @remarks
-   * With no body this likes the list. Send `reaction` to leave that reaction instead, or to
-   * change the one already held; `DELETE` takes it back whichever it is. A member holds one
-   * reaction per list and every reaction counts toward `likes_count`. Cannot like your own lists.
-   */
-  async likeListOrReactToIt(
-    request: operations.LikeListOrReactToItRequest,
-    options?: RequestOptions,
-  ): Promise<operations.LikeListOrReactToItResponse> {
-    return unwrapAsync(listsLikeListOrReactToIt(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
-   * Unlike list.
-   *
-   * @remarks
-   * Removes the user's like or reaction from a list.
-   */
-  async unlikeList(
-    request: operations.UnlikeListRequest,
-    options?: RequestOptions,
-  ): Promise<operations.UnlikeListResponse> {
-    return unwrapAsync(listsUnlikeList(
       this,
       request,
       options,

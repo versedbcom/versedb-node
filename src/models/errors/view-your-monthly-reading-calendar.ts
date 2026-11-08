@@ -7,14 +7,14 @@ import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Forbidden. The authenticated user may not perform this action.
+ * The token holds neither read:user nor read:showcase, or the member has no Pro.
  */
 export type ViewYourMonthlyReadingCalendarForbiddenErrorData = {
-  message?: string | undefined;
+  message: string;
 };
 
 /**
- * Forbidden. The authenticated user may not perform this action.
+ * The token holds neither read:user nor read:showcase, or the member has no Pro.
  */
 export class ViewYourMonthlyReadingCalendarForbiddenError extends VerseDbError {
   /** The original data that was passed to this error instance. */
@@ -36,7 +36,7 @@ export class ViewYourMonthlyReadingCalendarForbiddenError extends VerseDbError {
  * The request could not be processed.
  */
 export type ViewYourMonthlyReadingCalendarUnauthorizedErrorData = {
-  message?: string | undefined;
+  message: string;
 };
 
 /**
@@ -64,7 +64,7 @@ export class ViewYourMonthlyReadingCalendarUnauthorizedError
 export const ViewYourMonthlyReadingCalendarForbiddenError$inboundSchema:
   z.ZodMiniType<ViewYourMonthlyReadingCalendarForbiddenError, unknown> = z.pipe(
     z.object({
-      message: types.optional(types.string()),
+      message: types.string(),
       request$: z.custom<Request>(x => x instanceof Request),
       response$: z.custom<Response>(x => x instanceof Response),
       body$: z.string(),
@@ -83,7 +83,7 @@ export const ViewYourMonthlyReadingCalendarUnauthorizedError$inboundSchema:
   z.ZodMiniType<ViewYourMonthlyReadingCalendarUnauthorizedError, unknown> = z
     .pipe(
       z.object({
-        message: types.optional(types.string()),
+        message: types.string(),
         request$: z.custom<Request>(x => x instanceof Request),
         response$: z.custom<Response>(x => x instanceof Response),
         body$: z.string(),

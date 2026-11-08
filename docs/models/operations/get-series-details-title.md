@@ -6,16 +6,16 @@
 import { GetSeriesDetailsTitle } from "@versedbcom/sdk/models/operations";
 
 let value: GetSeriesDetailsTitle = {
-  id: 45,
-  name: "Amazing Spider-Man",
-  urlSlug: "amazing-spider-man",
+  id: 1,
+  name: "The Amazing Spider-Man",
+  slug: "the-amazing-spider-man",
 };
 ```
 
 ## Fields
 
-| Field              | Type               | Required           | Description        | Example            |
-| ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
-| `id`               | *number*           | :heavy_minus_sign: | N/A                | 45                 |
-| `name`             | *string*           | :heavy_minus_sign: | N/A                | Amazing Spider-Man |
-| `urlSlug`          | *string*           | :heavy_minus_sign: | N/A                | amazing-spider-man |
+| Field                  | Type                   | Required               | Description            | Example                |
+| ---------------------- | ---------------------- | ---------------------- | ---------------------- | ---------------------- |
+| `id`                   | *number*               | :heavy_check_mark:     | N/A                    | 1                      |
+| `name`                 | *string*               | :heavy_check_mark:     | N/A                    | The Amazing Spider-Man |
+| `slug`                 | *string*               | :heavy_check_mark:     | N/A                    | the-amazing-spider-man |

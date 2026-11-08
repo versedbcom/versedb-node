@@ -25,48 +25,64 @@ export type LikeListOrReactToItRequest = {
   body?: LikeListOrReactToItRequestBody | undefined;
 };
 
+export type LikeListOrReactToItErrors = {
+  reaction: Array<string>;
+};
+
 export type LikeListOrReactToItReaction2 = {
-  reaction?: string | undefined;
-  emoji?: string | undefined;
-  label?: string | undefined;
-  count?: number | undefined;
+  reaction: string;
+  emoji: string;
+  label: string;
+  count: number;
 };
 
 /**
  * Liked
  */
 export type LikeListOrReactToItResponseBody = {
-  message?: string | undefined;
-  liked?: boolean | undefined;
-  likesCount?: number | undefined;
-  myReaction?: string | undefined;
-  reactions?: Array<LikeListOrReactToItReaction2> | undefined;
+  message: string;
+  liked: boolean;
+  likesCount: number;
+  /**
+   * The reaction the user now holds, null for none.
+   */
+  myReaction: string | null;
+  /**
+   * Each reaction left on the list with its count, most used first.
+   */
+  reactions: Array<LikeListOrReactToItReaction2>;
 };
 
 /**
  * Already Liked
  */
 export type LikeListOrReactToItResponseBody2 = {
-  message?: string | undefined;
-  liked?: boolean | undefined;
+  message: string;
+  liked: boolean;
 };
 
 export type LikeListOrReactToItReaction1 = {
-  reaction?: string | undefined;
-  emoji?: string | undefined;
-  label?: string | undefined;
-  count?: number | undefined;
+  reaction: string;
+  emoji: string;
+  label: string;
+  count: number;
 };
 
 /**
  * Reaction changed
  */
 export type LikeListOrReactToItResponseBody1 = {
-  message?: string | undefined;
-  liked?: boolean | undefined;
-  likesCount?: number | undefined;
-  myReaction?: string | undefined;
-  reactions?: Array<LikeListOrReactToItReaction1> | undefined;
+  message: string;
+  liked: boolean;
+  likesCount: number;
+  /**
+   * The reaction the user now holds, null for none.
+   */
+  myReaction: string | null;
+  /**
+   * Each reaction left on the list with its count, most used first.
+   */
+  reactions: Array<LikeListOrReactToItReaction1>;
 };
 
 /**
@@ -77,16 +93,16 @@ export type LikeListOrReactToItResponseBodyUnion =
   | LikeListOrReactToItResponseBody2;
 
 export type LikeListOrReactToItResponseResult =
+  | LikeListOrReactToItResponseBody
   | LikeListOrReactToItResponseBody1
-  | LikeListOrReactToItResponseBody2
-  | LikeListOrReactToItResponseBody;
+  | LikeListOrReactToItResponseBody2;
 
 export type LikeListOrReactToItResponse = {
   headers: { [k: string]: Array<string> };
   result:
+    | LikeListOrReactToItResponseBody
     | LikeListOrReactToItResponseBody1
-    | LikeListOrReactToItResponseBody2
-    | LikeListOrReactToItResponseBody;
+    | LikeListOrReactToItResponseBody2;
 };
 
 /** @internal */
@@ -145,14 +161,32 @@ export function likeListOrReactToItRequestToJSON(
 }
 
 /** @internal */
+export const LikeListOrReactToItErrors$inboundSchema: z.ZodMiniType<
+  LikeListOrReactToItErrors,
+  unknown
+> = z.object({
+  reaction: z.array(types.string()),
+});
+
+export function likeListOrReactToItErrorsFromJSON(
+  jsonString: string,
+): SafeParseResult<LikeListOrReactToItErrors, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LikeListOrReactToItErrors$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LikeListOrReactToItErrors' from JSON`,
+  );
+}
+
+/** @internal */
 export const LikeListOrReactToItReaction2$inboundSchema: z.ZodMiniType<
   LikeListOrReactToItReaction2,
   unknown
 > = z.object({
-  reaction: types.optional(types.string()),
-  emoji: types.optional(types.string()),
-  label: types.optional(types.string()),
-  count: types.optional(types.number()),
+  reaction: types.string(),
+  emoji: types.string(),
+  label: types.string(),
+  count: types.number(),
 });
 
 export function likeListOrReactToItReaction2FromJSON(
@@ -171,12 +205,12 @@ export const LikeListOrReactToItResponseBody$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
-    liked: types.optional(types.boolean()),
-    likes_count: types.optional(types.number()),
-    my_reaction: types.optional(types.string()),
-    reactions: types.optional(
-      z.array(z.lazy(() => LikeListOrReactToItReaction2$inboundSchema)),
+    message: types.string(),
+    liked: types.boolean(),
+    likes_count: types.number(),
+    my_reaction: types.nullable(types.string()),
+    reactions: z.array(
+      z.lazy(() => LikeListOrReactToItReaction2$inboundSchema),
     ),
   }),
   z.transform((v) => {
@@ -202,8 +236,8 @@ export const LikeListOrReactToItResponseBody2$inboundSchema: z.ZodMiniType<
   LikeListOrReactToItResponseBody2,
   unknown
 > = z.object({
-  message: types.optional(types.string()),
-  liked: types.optional(types.boolean()),
+  message: types.string(),
+  liked: types.boolean(),
 });
 
 export function likeListOrReactToItResponseBody2FromJSON(
@@ -221,10 +255,10 @@ export const LikeListOrReactToItReaction1$inboundSchema: z.ZodMiniType<
   LikeListOrReactToItReaction1,
   unknown
 > = z.object({
-  reaction: types.optional(types.string()),
-  emoji: types.optional(types.string()),
-  label: types.optional(types.string()),
-  count: types.optional(types.number()),
+  reaction: types.string(),
+  emoji: types.string(),
+  label: types.string(),
+  count: types.number(),
 });
 
 export function likeListOrReactToItReaction1FromJSON(
@@ -243,12 +277,12 @@ export const LikeListOrReactToItResponseBody1$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
-    liked: types.optional(types.boolean()),
-    likes_count: types.optional(types.number()),
-    my_reaction: types.optional(types.string()),
-    reactions: types.optional(
-      z.array(z.lazy(() => LikeListOrReactToItReaction1$inboundSchema)),
+    message: types.string(),
+    liked: types.boolean(),
+    likes_count: types.number(),
+    my_reaction: types.nullable(types.string()),
+    reactions: z.array(
+      z.lazy(() => LikeListOrReactToItReaction1$inboundSchema),
     ),
   }),
   z.transform((v) => {
@@ -294,11 +328,11 @@ export const LikeListOrReactToItResponseResult$inboundSchema: z.ZodMiniType<
   LikeListOrReactToItResponseResult,
   unknown
 > = smartUnion([
+  z.lazy(() => LikeListOrReactToItResponseBody$inboundSchema),
   smartUnion([
     z.lazy(() => LikeListOrReactToItResponseBody1$inboundSchema),
     z.lazy(() => LikeListOrReactToItResponseBody2$inboundSchema),
   ]),
-  z.lazy(() => LikeListOrReactToItResponseBody$inboundSchema),
 ]);
 
 export function likeListOrReactToItResponseResultFromJSON(
@@ -319,11 +353,11 @@ export const LikeListOrReactToItResponse$inboundSchema: z.ZodMiniType<
   z.object({
     Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
     Result: smartUnion([
+      z.lazy(() => LikeListOrReactToItResponseBody$inboundSchema),
       smartUnion([
         z.lazy(() => LikeListOrReactToItResponseBody1$inboundSchema),
         z.lazy(() => LikeListOrReactToItResponseBody2$inboundSchema),
       ]),
-      z.lazy(() => LikeListOrReactToItResponseBody$inboundSchema),
     ]),
   }),
   z.transform((v) => {

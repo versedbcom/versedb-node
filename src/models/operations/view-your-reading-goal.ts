@@ -17,32 +17,41 @@ export type ViewYourReadingGoalRequest = {
 };
 
 export type ViewYourReadingGoalData = {
-  year?: number | undefined;
-  target?: number | undefined;
-  readCount?: number | undefined;
-  percent?: number | undefined;
-  completed?: boolean | undefined;
-  expectedReads?: number | undefined;
-  paceDifference?: number | undefined;
-  remaining?: number | undefined;
-  readsPerWeek?: number | undefined;
-  editable?: boolean | undefined;
-  lastYearReads?: number | undefined;
-  suggestedTarget?: number | undefined;
-  timezone?: string | undefined;
-  isPublic?: boolean | undefined;
+  year: number;
+  target: number | null;
+  readCount: number;
+  percent: number | null;
+  completed: boolean;
+  expectedReads: number | null;
+  paceDifference: number | null;
+  remaining: number | null;
+  readsPerWeek: number | null;
+  editable: boolean;
+  lastYearReads: number | null;
+  suggestedTarget: number | null;
+  timezone: string;
+  isPublic: boolean;
+  /**
+   * Left out for a `read:showcase` token.
+   */
   notifyMilestones?: boolean | undefined;
+  /**
+   * Left out for a `read:showcase` token.
+   */
   notifyLapses?: boolean | undefined;
+  /**
+   * Left out for a `read:showcase` token.
+   */
   emailUpdates?: boolean | undefined;
-  shareUrl?: string | null | undefined;
+  shareUrl: string | null;
 };
 
 /**
- * Success.
+ * Success
  */
 export type ViewYourReadingGoalResponseBody = {
-  data?: ViewYourReadingGoalData | undefined;
-  years?: Array<number> | undefined;
+  data: ViewYourReadingGoalData;
+  years: Array<number>;
 };
 
 export type ViewYourReadingGoalResponse = {
@@ -77,24 +86,24 @@ export const ViewYourReadingGoalData$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    year: types.optional(types.number()),
-    target: types.optional(types.number()),
-    read_count: types.optional(types.number()),
-    percent: types.optional(types.number()),
-    completed: types.optional(types.boolean()),
-    expected_reads: types.optional(types.number()),
-    pace_difference: types.optional(types.number()),
-    remaining: types.optional(types.number()),
-    reads_per_week: types.optional(types.number()),
-    editable: types.optional(types.boolean()),
-    last_year_reads: types.optional(types.number()),
-    suggested_target: types.optional(types.number()),
-    timezone: types.optional(types.string()),
-    is_public: types.optional(types.boolean()),
+    year: types.number(),
+    target: types.nullable(types.number()),
+    read_count: types.number(),
+    percent: types.nullable(types.number()),
+    completed: types.boolean(),
+    expected_reads: types.nullable(types.number()),
+    pace_difference: types.nullable(types.number()),
+    remaining: types.nullable(types.number()),
+    reads_per_week: types.nullable(types.number()),
+    editable: types.boolean(),
+    last_year_reads: types.nullable(types.number()),
+    suggested_target: types.nullable(types.number()),
+    timezone: types.string(),
+    is_public: types.boolean(),
     notify_milestones: types.optional(types.boolean()),
     notify_lapses: types.optional(types.boolean()),
     email_updates: types.optional(types.boolean()),
-    share_url: z.optional(z.nullable(types.string())),
+    share_url: types.nullable(types.string()),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -128,8 +137,8 @@ export const ViewYourReadingGoalResponseBody$inboundSchema: z.ZodMiniType<
   ViewYourReadingGoalResponseBody,
   unknown
 > = z.object({
-  data: types.optional(z.lazy(() => ViewYourReadingGoalData$inboundSchema)),
-  years: types.optional(z.array(types.number())),
+  data: z.lazy(() => ViewYourReadingGoalData$inboundSchema),
+  years: z.array(types.number()),
 });
 
 export function viewYourReadingGoalResponseBodyFromJSON(

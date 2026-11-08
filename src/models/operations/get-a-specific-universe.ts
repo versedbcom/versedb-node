@@ -15,28 +15,40 @@ export type GetASpecificUniverseRequest = {
    */
   universeId: number;
   /**
-   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.
+   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes.
    */
   languages?: string | undefined;
 };
 
-export type GetASpecificUniverseNameI18n = {};
-
-export type GetASpecificUniverseAliasesI18n = {};
+export type GetASpecificUniverseNameI18n = {
+  value: string;
+  source: string;
+  reading?: string | undefined;
+  sort?: string | undefined;
+};
 
 export type GetASpecificUniverseData = {
-  id?: number | undefined;
-  name?: string | undefined;
-  nameI18n?: GetASpecificUniverseNameI18n | undefined;
-  aliasesI18n?: GetASpecificUniverseAliasesI18n | undefined;
-  originalLocale?: string | undefined;
+  id: number;
+  name: string | null;
+  /**
+   * One name per language, keyed by BCP 47 tag.
+   */
+  nameI18n: { [k: string]: GetASpecificUniverseNameI18n };
+  /**
+   * Alternative names per language.
+   */
+  aliasesI18n: { [k: string]: Array<string> };
+  /**
+   * The language the universe is from, a BCP 47 tag.
+   */
+  originalLocale: string | null;
 };
 
 /**
  * Success
  */
 export type GetASpecificUniverseResponseBody = {
-  data?: GetASpecificUniverseData | undefined;
+  data: GetASpecificUniverseData;
 };
 
 export type GetASpecificUniverseResponse = {
@@ -80,7 +92,12 @@ export function getASpecificUniverseRequestToJSON(
 export const GetASpecificUniverseNameI18n$inboundSchema: z.ZodMiniType<
   GetASpecificUniverseNameI18n,
   unknown
-> = z.object({});
+> = z.object({
+  value: types.string(),
+  source: types.string(),
+  reading: types.optional(types.string()),
+  sort: types.optional(types.string()),
+});
 
 export function getASpecificUniverseNameI18nFromJSON(
   jsonString: string,
@@ -93,36 +110,19 @@ export function getASpecificUniverseNameI18nFromJSON(
 }
 
 /** @internal */
-export const GetASpecificUniverseAliasesI18n$inboundSchema: z.ZodMiniType<
-  GetASpecificUniverseAliasesI18n,
-  unknown
-> = z.object({});
-
-export function getASpecificUniverseAliasesI18nFromJSON(
-  jsonString: string,
-): SafeParseResult<GetASpecificUniverseAliasesI18n, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => GetASpecificUniverseAliasesI18n$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'GetASpecificUniverseAliasesI18n' from JSON`,
-  );
-}
-
-/** @internal */
 export const GetASpecificUniverseData$inboundSchema: z.ZodMiniType<
   GetASpecificUniverseData,
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    name: types.optional(types.string()),
-    name_i18n: types.optional(
+    id: types.number(),
+    name: types.nullable(types.string()),
+    name_i18n: z.record(
+      z.string(),
       z.lazy(() => GetASpecificUniverseNameI18n$inboundSchema),
     ),
-    aliases_i18n: types.optional(
-      z.lazy(() => GetASpecificUniverseAliasesI18n$inboundSchema),
-    ),
-    original_locale: types.optional(types.string()),
+    aliases_i18n: z.record(z.string(), z.array(types.string())),
+    original_locale: types.nullable(types.string()),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -148,7 +148,7 @@ export const GetASpecificUniverseResponseBody$inboundSchema: z.ZodMiniType<
   GetASpecificUniverseResponseBody,
   unknown
 > = z.object({
-  data: types.optional(z.lazy(() => GetASpecificUniverseData$inboundSchema)),
+  data: z.lazy(() => GetASpecificUniverseData$inboundSchema),
 });
 
 export function getASpecificUniverseResponseBodyFromJSON(

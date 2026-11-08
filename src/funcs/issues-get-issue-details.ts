@@ -42,6 +42,7 @@ export function issuesGetIssueDetails(
   Result<
     operations.GetIssueDetailsResponse,
     | errors.UnauthorizedErrorError
+    | errors.GetIssueDetailsForbiddenError
     | errors.GetIssueDetailsNotFoundError
     | errors.TooManyRequestsError
     | VerseDbError
@@ -70,6 +71,7 @@ async function $do(
     Result<
       operations.GetIssueDetailsResponse,
       | errors.UnauthorizedErrorError
+      | errors.GetIssueDetailsForbiddenError
       | errors.GetIssueDetailsNotFoundError
       | errors.TooManyRequestsError
       | VerseDbError
@@ -165,6 +167,7 @@ async function $do(
   const [result] = await M.match<
     operations.GetIssueDetailsResponse,
     | errors.UnauthorizedErrorError
+    | errors.GetIssueDetailsForbiddenError
     | errors.GetIssueDetailsNotFoundError
     | errors.TooManyRequestsError
     | VerseDbError
@@ -181,6 +184,7 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
+    M.jsonErr(403, errors.GetIssueDetailsForbiddenError$inboundSchema),
     M.jsonErr(404, errors.GetIssueDetailsNotFoundError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),

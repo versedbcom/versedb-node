@@ -1,25 +1,89 @@
 # ListPullListSeries
 
+Null once the series is gone.
+
 ## Example Usage
 
 ```typescript
 import { ListPullListSeries } from "@versedbcom/sdk/models/operations";
 
 let value: ListPullListSeries = {
-  id: 456,
-  name: "Amazing Spider-Man",
-  publisher: {
-    id: 1,
-    name: "Marvel",
+  id: 123,
+  titleId: 1,
+  name: "The Amazing Spider-Man",
+  displayName: "The Amazing Spider-Man (2018)",
+  slug: "amazing-spider-man-2018",
+  number: 6,
+  startYear: 2018,
+  endYear: 2022,
+  coverUrl: "https://...-cover_lg.webp",
+  images: {
+    coverSm: "https://...-cover_sm.webp",
+    coverMd: "https://...-cover_md.webp",
+    coverLg: "https://...-cover_lg.webp",
   },
+  medium: "comic",
+  publicationType: "regular_series",
+  format: "Standard",
+  status: "Ongoing",
+  originalName: "The Amazing Spider-Man",
+  originalLanguage: "en",
+  language: "en",
+  cachedIssuesCount: 94,
+  averageRating: "4.25",
+  totalReviews: 12,
+  issuesAverageRating: "4.10",
+  issuesRatedCount: 40,
+  contentRatingLabel: "Teen",
+  minAge: 13,
+  isNsfw: true,
+  publisherName: "Marvel",
+  nameI18n: {
+    "ja": {
+      value: "講談社",
+      source: "madb",
+      reading: "こうだんしゃ",
+    },
+  },
+  aliasesI18n: {
+    "en": [
+      "Kodansha Comics",
+    ],
+  },
+  originalLocale: "ja",
 };
 ```
 
 ## Fields
 
-| Field                                                                                   | Type                                                                                    | Required                                                                                | Description                                                                             | Example                                                                                 |
-| --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| `id`                                                                                    | *number*                                                                                | :heavy_minus_sign:                                                                      | N/A                                                                                     | 456                                                                                     |
-| `name`                                                                                  | *string*                                                                                | :heavy_minus_sign:                                                                      | N/A                                                                                     | Amazing Spider-Man                                                                      |
-| `publisher`                                                                             | [operations.ListPullListPublisher](../../models/operations/list-pull-list-publisher.md) | :heavy_minus_sign:                                                                      | N/A                                                                                     |                                                                                         |
-| `coverUrl`                                                                              | *string*                                                                                | :heavy_minus_sign:                                                                      | N/A                                                                                     | ...                                                                                     |
+| Field                                                                                          | Type                                                                                           | Required                                                                                       | Description                                                                                    | Example                                                                                        |
+| ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `id`                                                                                           | *number*                                                                                       | :heavy_check_mark:                                                                             | N/A                                                                                            | 123                                                                                            |
+| `titleId`                                                                                      | *number*                                                                                       | :heavy_check_mark:                                                                             | N/A                                                                                            | 1                                                                                              |
+| `name`                                                                                         | *string*                                                                                       | :heavy_check_mark:                                                                             | N/A                                                                                            | The Amazing Spider-Man                                                                         |
+| `displayName`                                                                                  | *string*                                                                                       | :heavy_check_mark:                                                                             | N/A                                                                                            | The Amazing Spider-Man (2018)                                                                  |
+| `slug`                                                                                         | *string*                                                                                       | :heavy_check_mark:                                                                             | N/A                                                                                            | amazing-spider-man-2018                                                                        |
+| `number`                                                                                       | *number*                                                                                       | :heavy_check_mark:                                                                             | N/A                                                                                            | 6                                                                                              |
+| `startYear`                                                                                    | *number*                                                                                       | :heavy_check_mark:                                                                             | N/A                                                                                            | 2018                                                                                           |
+| `endYear`                                                                                      | *number*                                                                                       | :heavy_check_mark:                                                                             | N/A                                                                                            | 2022                                                                                           |
+| `coverUrl`                                                                                     | *string*                                                                                       | :heavy_check_mark:                                                                             | N/A                                                                                            | https://...-cover_lg.webp                                                                      |
+| `images`                                                                                       | [operations.ListPullListSeriesImages](../../models/operations/list-pull-list-series-images.md) | :heavy_check_mark:                                                                             | N/A                                                                                            |                                                                                                |
+| `medium`                                                                                       | *string*                                                                                       | :heavy_check_mark:                                                                             | N/A                                                                                            | comic                                                                                          |
+| `publicationType`                                                                              | *string*                                                                                       | :heavy_check_mark:                                                                             | N/A                                                                                            | regular_series                                                                                 |
+| `format`                                                                                       | *string*                                                                                       | :heavy_check_mark:                                                                             | N/A                                                                                            | Standard                                                                                       |
+| `status`                                                                                       | *string*                                                                                       | :heavy_check_mark:                                                                             | N/A                                                                                            | Ongoing                                                                                        |
+| `originalName`                                                                                 | *string*                                                                                       | :heavy_check_mark:                                                                             | N/A                                                                                            | The Amazing Spider-Man                                                                         |
+| `originalLanguage`                                                                             | *string*                                                                                       | :heavy_check_mark:                                                                             | N/A                                                                                            | en                                                                                             |
+| `language`                                                                                     | *string*                                                                                       | :heavy_check_mark:                                                                             | N/A                                                                                            | en                                                                                             |
+| `cachedIssuesCount`                                                                            | *number*                                                                                       | :heavy_check_mark:                                                                             | N/A                                                                                            | 94                                                                                             |
+| `averageRating`                                                                                | *string*                                                                                       | :heavy_check_mark:                                                                             | N/A                                                                                            | 4.25                                                                                           |
+| `totalReviews`                                                                                 | *number*                                                                                       | :heavy_check_mark:                                                                             | N/A                                                                                            | 12                                                                                             |
+| `issuesAverageRating`                                                                          | *string*                                                                                       | :heavy_check_mark:                                                                             | N/A                                                                                            | 4.10                                                                                           |
+| `issuesRatedCount`                                                                             | *number*                                                                                       | :heavy_check_mark:                                                                             | N/A                                                                                            | 40                                                                                             |
+| `contentRatingLabel`                                                                           | *string*                                                                                       | :heavy_check_mark:                                                                             | N/A                                                                                            | Teen                                                                                           |
+| `minAge`                                                                                       | *number*                                                                                       | :heavy_check_mark:                                                                             | N/A                                                                                            | 13                                                                                             |
+| `isNsfw`                                                                                       | *boolean*                                                                                      | :heavy_check_mark:                                                                             | N/A                                                                                            |                                                                                                |
+| `publisherName`                                                                                | *string*                                                                                       | :heavy_check_mark:                                                                             | N/A                                                                                            | Marvel                                                                                         |
+| `nameI18n`                                                                                     | Record<string, [operations.SeriesNameI18n](../../models/operations/series-name-i18n.md)>       | :heavy_check_mark:                                                                             | One name per language, keyed by BCP 47 tag.                                                    | {<br/>"ja": {<br/>"value": "講談社",<br/>"reading": "こうだんしゃ",<br/>"source": "madb"<br/>}<br/>}    |
+| `aliasesI18n`                                                                                  | Record<string, *string*[]>                                                                     | :heavy_check_mark:                                                                             | Alternative names per language.                                                                | {<br/>"en": [<br/>"Kodansha Comics"<br/>]<br/>}                                                |
+| `originalLocale`                                                                               | *string*                                                                                       | :heavy_check_mark:                                                                             | The language the series is from, a BCP 47 tag.                                                 | ja                                                                                             |

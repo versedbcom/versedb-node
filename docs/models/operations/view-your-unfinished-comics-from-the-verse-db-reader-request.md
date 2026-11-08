@@ -13,7 +13,7 @@ let value: ViewYourUnfinishedComicsFromTheVerseDBReaderRequest = {
 
 ## Fields
 
-| Field                    | Type                     | Required                 | Description              | Example                  |
-| ------------------------ | ------------------------ | ------------------------ | ------------------------ | ------------------------ |
-| `limit`                  | *number*                 | :heavy_minus_sign:       | Results per page (1-50). | 12                       |
-| `page`                   | *number*                 | :heavy_minus_sign:       | Page number.             | 1                        |
+| Field                                    | Type                                     | Required                                 | Description                              | Example                                  |
+| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| `limit`                                  | *number*                                 | :heavy_minus_sign:                       | Results per page (1-50); defaults to 12. | 12                                       |
+| `page`                                   | *number*                                 | :heavy_minus_sign:                       | Page number, starting at 1.              | 1                                        |

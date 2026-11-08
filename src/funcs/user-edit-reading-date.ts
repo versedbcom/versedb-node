@@ -43,6 +43,9 @@ export function userEditReadingDate(
   Result<
     operations.EditReadingDateResponse | undefined,
     | errors.UnauthorizedErrorError
+    | errors.EditReadingDateForbiddenError
+    | errors.EditReadingDateNotFoundError
+    | errors.EditReadingDateUnprocessableEntity
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -70,6 +73,9 @@ async function $do(
     Result<
       operations.EditReadingDateResponse | undefined,
       | errors.UnauthorizedErrorError
+      | errors.EditReadingDateForbiddenError
+      | errors.EditReadingDateNotFoundError
+      | errors.EditReadingDateUnprocessableEntity
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -160,6 +166,9 @@ async function $do(
   const [result] = await M.match<
     operations.EditReadingDateResponse | undefined,
     | errors.UnauthorizedErrorError
+    | errors.EditReadingDateForbiddenError
+    | errors.EditReadingDateNotFoundError
+    | errors.EditReadingDateUnprocessableEntity
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -181,6 +190,11 @@ async function $do(
       { hdrs: true },
     ),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
+    M.jsonErr(403, errors.EditReadingDateForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.EditReadingDateNotFoundError$inboundSchema),
+    M.jsonErr(422, errors.EditReadingDateUnprocessableEntity$inboundSchema, {
+      hdrs: true,
+    }),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

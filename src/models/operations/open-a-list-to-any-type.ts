@@ -7,6 +7,7 @@ import { remap as remap$ } from "../../lib/primitives.js";
 import { safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
+import { smartUnion } from "../../types/smart-union.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type OpenAListToAnyTypeRequest = {
@@ -16,16 +17,232 @@ export type OpenAListToAnyTypeRequest = {
   listId: number;
 };
 
-export type OpenAListToAnyTypeData = {
-  id?: number | undefined;
-  entityType?: string | undefined;
+export type OpenAListToAnyTypeClonedFromUser = {
+  id: number;
+  username: string | null;
 };
 
 /**
- * Converted
+ * The list this one was cloned from, while it exists.
+ */
+export type OpenAListToAnyTypeClonedFrom = {
+  id: number;
+  title: string | null;
+  slug: string | null;
+  user: OpenAListToAnyTypeClonedFromUser | null;
+};
+
+/**
+ * The owner; null once the account is gone.
+ */
+export type OpenAListToAnyTypeUser = {
+  id: number;
+  username: string | null;
+  name: string | null;
+  avatar: string | null;
+};
+
+/**
+ * The pinned cover, while it exists.
+ */
+export type OpenAListToAnyTypeVariant = {
+  id: number;
+  name: string | null;
+  ratio: string | null;
+  coverImageUrl: string | null;
+};
+
+/**
+ * A creator (`image_url` its profile photo) or a team (its logo).
+ */
+export type OpenAListToAnyTypeEntity5 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  imageUrl: string | null;
+};
+
+/**
+ * A story arc.
+ */
+export type OpenAListToAnyTypeEntity4 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  imageUrl: string | null;
+  issuesCount: number | null;
+};
+
+/**
+ * A character.
+ */
+export type OpenAListToAnyTypeEntity3 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  realName: string | null;
+  imageUrl: string | null;
+};
+
+/**
+ * A series.
+ */
+export type OpenAListToAnyTypeEntity2 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  startYear: number | null;
+  endYear: number | null;
+  status: string | null;
+  publicationType: string | null;
+  imageUrl: string | null;
+  isNsfw: boolean | null;
+  issuesCount: number | null;
+  publisher: string | null;
+};
+
+export type OpenAListToAnyTypeSeries = {
+  id: number;
+  name: string | null;
+  slug: string | null;
+  startYear: number | null;
+};
+
+/**
+ * An issue.
+ */
+export type OpenAListToAnyTypeEntity1 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  issueNumber: string | null;
+  releaseDate: string | null;
+  focDate: string | null;
+  imageUrl: string | null;
+  isNsfw: boolean | null;
+  publisher: string | null;
+  series: OpenAListToAnyTypeSeries | null;
+};
+
+/**
+ * Left out once the entity is gone.
+ */
+export type OpenAListToAnyTypeEntityUnion =
+  | OpenAListToAnyTypeEntity2
+  | OpenAListToAnyTypeEntity1
+  | OpenAListToAnyTypeEntity3
+  | OpenAListToAnyTypeEntity4
+  | OpenAListToAnyTypeEntity5;
+
+export type OpenAListToAnyTypeItem = {
+  id: number;
+  /**
+   * Its place on a ranked or rule-built list.
+   */
+  position: number | null;
+  note: string | null;
+  createdAt: string;
+  updatedAt: string;
+  variantId: number | null;
+  /**
+   * The pinned cover, while it exists.
+   */
+  variant?: OpenAListToAnyTypeVariant | undefined;
+  /**
+   * issues, series, characters, creators, story_arcs or teams.
+   */
+  entityType: string;
+  /**
+   * Left out once the entity is gone.
+   */
+  entity?:
+    | OpenAListToAnyTypeEntity2
+    | OpenAListToAnyTypeEntity1
+    | OpenAListToAnyTypeEntity3
+    | OpenAListToAnyTypeEntity4
+    | OpenAListToAnyTypeEntity5
+    | undefined;
+};
+
+export type OpenAListToAnyTypeReaction = {
+  reaction: string;
+  emoji: string;
+  label: string;
+  count: number;
+};
+
+export type OpenAListToAnyTypeData = {
+  id: number;
+  title: string;
+  slug: string;
+  description: string | null;
+  /**
+   * issues, series, characters, creators, story_arcs, teams, or mixed for a list of any type.
+   */
+  entityType: string;
+  entityTypeLabel: string;
+  /**
+   * The list is VerseDB's own.
+   */
+  isCurated: boolean;
+  /**
+   * The types its items hold: its own type, or each type a mixed list holds.
+   */
+  itemTypes: Array<string>;
+  isRanked: boolean;
+  /**
+   * What `sort` takes on this list, each with its label; the empty key is its own order.
+   */
+  sortOptions: { [k: string]: string };
+  isPrivate: boolean;
+  /**
+   * published or draft.
+   */
+  status: string;
+  /**
+   * custom, wishlist or reading_guide.
+   */
+  listType: string;
+  itemsCount: number;
+  savesCount: number;
+  likesCount: number;
+  clonesCount: number;
+  createdAt: string;
+  updatedAt: string;
+  /**
+   * A rule keeps the list up to date.
+   */
+  isSmart: boolean;
+  isRuleBased: boolean;
+  lastRefreshedAt: string | null;
+  /**
+   * A rule-built list that stopped updating while its owner's Pro is inactive.
+   */
+  smartPaused: boolean;
+  clonedFromListId: number | null;
+  /**
+   * The list this one was cloned from, while it exists.
+   */
+  clonedFrom?: OpenAListToAnyTypeClonedFrom | undefined;
+  /**
+   * The owner; null once the account is gone.
+   */
+  user: OpenAListToAnyTypeUser | null;
+  /**
+   * Every item, in the list's own order or by `sort`.
+   */
+  items: Array<OpenAListToAnyTypeItem>;
+  /**
+   * The reactions left on the list, the most used first.
+   */
+  reactions: Array<OpenAListToAnyTypeReaction>;
+};
+
+/**
+ * Converted.
  */
 export type OpenAListToAnyTypeResponseBody = {
-  data?: OpenAListToAnyTypeData | undefined;
+  data: OpenAListToAnyTypeData;
 };
 
 export type OpenAListToAnyTypeResponse = {
@@ -62,17 +279,438 @@ export function openAListToAnyTypeRequestToJSON(
 }
 
 /** @internal */
+export const OpenAListToAnyTypeClonedFromUser$inboundSchema: z.ZodMiniType<
+  OpenAListToAnyTypeClonedFromUser,
+  unknown
+> = z.object({
+  id: types.number(),
+  username: types.nullable(types.string()),
+});
+
+export function openAListToAnyTypeClonedFromUserFromJSON(
+  jsonString: string,
+): SafeParseResult<OpenAListToAnyTypeClonedFromUser, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => OpenAListToAnyTypeClonedFromUser$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'OpenAListToAnyTypeClonedFromUser' from JSON`,
+  );
+}
+
+/** @internal */
+export const OpenAListToAnyTypeClonedFrom$inboundSchema: z.ZodMiniType<
+  OpenAListToAnyTypeClonedFrom,
+  unknown
+> = z.object({
+  id: types.number(),
+  title: types.nullable(types.string()),
+  slug: types.nullable(types.string()),
+  user: types.nullable(
+    z.lazy(() => OpenAListToAnyTypeClonedFromUser$inboundSchema),
+  ),
+});
+
+export function openAListToAnyTypeClonedFromFromJSON(
+  jsonString: string,
+): SafeParseResult<OpenAListToAnyTypeClonedFrom, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => OpenAListToAnyTypeClonedFrom$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'OpenAListToAnyTypeClonedFrom' from JSON`,
+  );
+}
+
+/** @internal */
+export const OpenAListToAnyTypeUser$inboundSchema: z.ZodMiniType<
+  OpenAListToAnyTypeUser,
+  unknown
+> = z.object({
+  id: types.number(),
+  username: types.nullable(types.string()),
+  name: types.nullable(types.string()),
+  avatar: types.nullable(types.string()),
+});
+
+export function openAListToAnyTypeUserFromJSON(
+  jsonString: string,
+): SafeParseResult<OpenAListToAnyTypeUser, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => OpenAListToAnyTypeUser$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'OpenAListToAnyTypeUser' from JSON`,
+  );
+}
+
+/** @internal */
+export const OpenAListToAnyTypeVariant$inboundSchema: z.ZodMiniType<
+  OpenAListToAnyTypeVariant,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    ratio: types.nullable(types.string()),
+    cover_image_url: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "cover_image_url": "coverImageUrl",
+    });
+  }),
+);
+
+export function openAListToAnyTypeVariantFromJSON(
+  jsonString: string,
+): SafeParseResult<OpenAListToAnyTypeVariant, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => OpenAListToAnyTypeVariant$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'OpenAListToAnyTypeVariant' from JSON`,
+  );
+}
+
+/** @internal */
+export const OpenAListToAnyTypeEntity5$inboundSchema: z.ZodMiniType<
+  OpenAListToAnyTypeEntity5,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "image_url": "imageUrl",
+    });
+  }),
+);
+
+export function openAListToAnyTypeEntity5FromJSON(
+  jsonString: string,
+): SafeParseResult<OpenAListToAnyTypeEntity5, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => OpenAListToAnyTypeEntity5$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'OpenAListToAnyTypeEntity5' from JSON`,
+  );
+}
+
+/** @internal */
+export const OpenAListToAnyTypeEntity4$inboundSchema: z.ZodMiniType<
+  OpenAListToAnyTypeEntity4,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    issues_count: types.nullable(types.number()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "image_url": "imageUrl",
+      "issues_count": "issuesCount",
+    });
+  }),
+);
+
+export function openAListToAnyTypeEntity4FromJSON(
+  jsonString: string,
+): SafeParseResult<OpenAListToAnyTypeEntity4, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => OpenAListToAnyTypeEntity4$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'OpenAListToAnyTypeEntity4' from JSON`,
+  );
+}
+
+/** @internal */
+export const OpenAListToAnyTypeEntity3$inboundSchema: z.ZodMiniType<
+  OpenAListToAnyTypeEntity3,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    real_name: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "real_name": "realName",
+      "image_url": "imageUrl",
+    });
+  }),
+);
+
+export function openAListToAnyTypeEntity3FromJSON(
+  jsonString: string,
+): SafeParseResult<OpenAListToAnyTypeEntity3, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => OpenAListToAnyTypeEntity3$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'OpenAListToAnyTypeEntity3' from JSON`,
+  );
+}
+
+/** @internal */
+export const OpenAListToAnyTypeEntity2$inboundSchema: z.ZodMiniType<
+  OpenAListToAnyTypeEntity2,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    start_year: types.nullable(types.number()),
+    end_year: types.nullable(types.number()),
+    status: types.nullable(types.string()),
+    publication_type: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    is_nsfw: types.nullable(types.boolean()),
+    issues_count: types.nullable(types.number()),
+    publisher: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "start_year": "startYear",
+      "end_year": "endYear",
+      "publication_type": "publicationType",
+      "image_url": "imageUrl",
+      "is_nsfw": "isNsfw",
+      "issues_count": "issuesCount",
+    });
+  }),
+);
+
+export function openAListToAnyTypeEntity2FromJSON(
+  jsonString: string,
+): SafeParseResult<OpenAListToAnyTypeEntity2, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => OpenAListToAnyTypeEntity2$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'OpenAListToAnyTypeEntity2' from JSON`,
+  );
+}
+
+/** @internal */
+export const OpenAListToAnyTypeSeries$inboundSchema: z.ZodMiniType<
+  OpenAListToAnyTypeSeries,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    start_year: types.nullable(types.number()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "start_year": "startYear",
+    });
+  }),
+);
+
+export function openAListToAnyTypeSeriesFromJSON(
+  jsonString: string,
+): SafeParseResult<OpenAListToAnyTypeSeries, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => OpenAListToAnyTypeSeries$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'OpenAListToAnyTypeSeries' from JSON`,
+  );
+}
+
+/** @internal */
+export const OpenAListToAnyTypeEntity1$inboundSchema: z.ZodMiniType<
+  OpenAListToAnyTypeEntity1,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    issue_number: types.nullable(types.string()),
+    release_date: types.nullable(types.string()),
+    foc_date: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    is_nsfw: types.nullable(types.boolean()),
+    publisher: types.nullable(types.string()),
+    series: types.nullable(
+      z.lazy(() => OpenAListToAnyTypeSeries$inboundSchema),
+    ),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "issue_number": "issueNumber",
+      "release_date": "releaseDate",
+      "foc_date": "focDate",
+      "image_url": "imageUrl",
+      "is_nsfw": "isNsfw",
+    });
+  }),
+);
+
+export function openAListToAnyTypeEntity1FromJSON(
+  jsonString: string,
+): SafeParseResult<OpenAListToAnyTypeEntity1, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => OpenAListToAnyTypeEntity1$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'OpenAListToAnyTypeEntity1' from JSON`,
+  );
+}
+
+/** @internal */
+export const OpenAListToAnyTypeEntityUnion$inboundSchema: z.ZodMiniType<
+  OpenAListToAnyTypeEntityUnion,
+  unknown
+> = smartUnion([
+  z.lazy(() => OpenAListToAnyTypeEntity2$inboundSchema),
+  z.lazy(() => OpenAListToAnyTypeEntity1$inboundSchema),
+  z.lazy(() => OpenAListToAnyTypeEntity3$inboundSchema),
+  z.lazy(() => OpenAListToAnyTypeEntity4$inboundSchema),
+  z.lazy(() => OpenAListToAnyTypeEntity5$inboundSchema),
+]);
+
+export function openAListToAnyTypeEntityUnionFromJSON(
+  jsonString: string,
+): SafeParseResult<OpenAListToAnyTypeEntityUnion, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => OpenAListToAnyTypeEntityUnion$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'OpenAListToAnyTypeEntityUnion' from JSON`,
+  );
+}
+
+/** @internal */
+export const OpenAListToAnyTypeItem$inboundSchema: z.ZodMiniType<
+  OpenAListToAnyTypeItem,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    position: types.nullable(types.number()),
+    note: types.nullable(types.string()),
+    created_at: types.string(),
+    updated_at: types.string(),
+    variant_id: types.nullable(types.number()),
+    variant: types.optional(
+      z.lazy(() => OpenAListToAnyTypeVariant$inboundSchema),
+    ),
+    entity_type: types.string(),
+    entity: types.optional(smartUnion([
+      z.lazy(() => OpenAListToAnyTypeEntity2$inboundSchema),
+      z.lazy(() => OpenAListToAnyTypeEntity1$inboundSchema),
+      z.lazy(() => OpenAListToAnyTypeEntity3$inboundSchema),
+      z.lazy(() => OpenAListToAnyTypeEntity4$inboundSchema),
+      z.lazy(() => OpenAListToAnyTypeEntity5$inboundSchema),
+    ])),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "created_at": "createdAt",
+      "updated_at": "updatedAt",
+      "variant_id": "variantId",
+      "entity_type": "entityType",
+    });
+  }),
+);
+
+export function openAListToAnyTypeItemFromJSON(
+  jsonString: string,
+): SafeParseResult<OpenAListToAnyTypeItem, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => OpenAListToAnyTypeItem$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'OpenAListToAnyTypeItem' from JSON`,
+  );
+}
+
+/** @internal */
+export const OpenAListToAnyTypeReaction$inboundSchema: z.ZodMiniType<
+  OpenAListToAnyTypeReaction,
+  unknown
+> = z.object({
+  reaction: types.string(),
+  emoji: types.string(),
+  label: types.string(),
+  count: types.number(),
+});
+
+export function openAListToAnyTypeReactionFromJSON(
+  jsonString: string,
+): SafeParseResult<OpenAListToAnyTypeReaction, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => OpenAListToAnyTypeReaction$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'OpenAListToAnyTypeReaction' from JSON`,
+  );
+}
+
+/** @internal */
 export const OpenAListToAnyTypeData$inboundSchema: z.ZodMiniType<
   OpenAListToAnyTypeData,
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    entity_type: types.optional(types.string()),
+    id: types.number(),
+    title: types.string(),
+    slug: types.string(),
+    description: types.nullable(types.string()),
+    entity_type: types.string(),
+    entity_type_label: types.string(),
+    is_curated: types.boolean(),
+    item_types: z.array(types.string()),
+    is_ranked: types.boolean(),
+    sort_options: z.record(z.string(), types.string()),
+    is_private: types.boolean(),
+    status: types.string(),
+    list_type: types.string(),
+    items_count: types.number(),
+    saves_count: types.number(),
+    likes_count: types.number(),
+    clones_count: types.number(),
+    created_at: types.string(),
+    updated_at: types.string(),
+    is_smart: types.boolean(),
+    is_rule_based: types.boolean(),
+    last_refreshed_at: types.nullable(types.string()),
+    smart_paused: types.boolean(),
+    cloned_from_list_id: types.nullable(types.number()),
+    cloned_from: types.optional(
+      z.lazy(() => OpenAListToAnyTypeClonedFrom$inboundSchema),
+    ),
+    user: types.nullable(z.lazy(() => OpenAListToAnyTypeUser$inboundSchema)),
+    items: z.array(z.lazy(() => OpenAListToAnyTypeItem$inboundSchema)),
+    reactions: z.array(z.lazy(() => OpenAListToAnyTypeReaction$inboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {
       "entity_type": "entityType",
+      "entity_type_label": "entityTypeLabel",
+      "is_curated": "isCurated",
+      "item_types": "itemTypes",
+      "is_ranked": "isRanked",
+      "sort_options": "sortOptions",
+      "is_private": "isPrivate",
+      "list_type": "listType",
+      "items_count": "itemsCount",
+      "saves_count": "savesCount",
+      "likes_count": "likesCount",
+      "clones_count": "clonesCount",
+      "created_at": "createdAt",
+      "updated_at": "updatedAt",
+      "is_smart": "isSmart",
+      "is_rule_based": "isRuleBased",
+      "last_refreshed_at": "lastRefreshedAt",
+      "smart_paused": "smartPaused",
+      "cloned_from_list_id": "clonedFromListId",
+      "cloned_from": "clonedFrom",
     });
   }),
 );
@@ -92,7 +730,7 @@ export const OpenAListToAnyTypeResponseBody$inboundSchema: z.ZodMiniType<
   OpenAListToAnyTypeResponseBody,
   unknown
 > = z.object({
-  data: types.optional(z.lazy(() => OpenAListToAnyTypeData$inboundSchema)),
+  data: z.lazy(() => OpenAListToAnyTypeData$inboundSchema),
 });
 
 export function openAListToAnyTypeResponseBodyFromJSON(

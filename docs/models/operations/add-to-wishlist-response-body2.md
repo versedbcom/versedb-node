@@ -17,5 +17,5 @@ let value: AddToWishlistResponseBody2 = {
 
 | Field              | Type               | Required           | Description        | Example            |
 | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
-| `inWishlist`       | *boolean*          | :heavy_minus_sign: | N/A                | true               |
-| `variantId`        | *number*           | :heavy_minus_sign: | N/A                | 7                  |
+| `inWishlist`       | *boolean*          | :heavy_check_mark: | N/A                | true               |
+| `variantId`        | *number*           | :heavy_check_mark: | N/A                | 7                  |

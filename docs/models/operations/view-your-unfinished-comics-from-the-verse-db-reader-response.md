@@ -6,16 +6,26 @@
 import { ViewYourUnfinishedComicsFromTheVerseDBReaderResponse } from "@versedbcom/sdk/models/operations";
 
 let value: ViewYourUnfinishedComicsFromTheVerseDBReaderResponse = {
-  headers: {
-    "key": [],
-    "key1": [
-      "<value 1>",
-      "<value 2>",
-      "<value 3>",
-    ],
-  },
+  headers: {},
   result: {
-    data: [],
+    data: [
+      {
+        issue: {
+          id: 5678,
+          name: "The Beginning",
+          slug: "saga-1-5678",
+          issueNumber: "1",
+          coverUrl: "https://...-cover_lg.webp",
+          isNsfw: false,
+          releaseDate: "2012-03-14",
+          series: {
+            name: "Saga",
+            publisherName: "Image Comics",
+          },
+        },
+        percent: 42.5,
+      },
+    ],
     meta: {
       currentPage: 1,
       lastPage: 1,
@@ -28,7 +38,7 @@ let value: ViewYourUnfinishedComicsFromTheVerseDBReaderResponse = {
 
 ## Fields
 
-| Field                                                                                                                                                                | Type                                                                                                                                                                 | Required                                                                                                                                                             | Description                                                                                                                                                          | Example                                                                                                                                                              |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `headers`                                                                                                                                                            | Record<string, *string*[]>                                                                                                                                           | :heavy_check_mark:                                                                                                                                                   | N/A                                                                                                                                                                  |                                                                                                                                                                      |
-| `result`                                                                                                                                                             | [operations.ViewYourUnfinishedComicsFromTheVerseDBReaderResponseBody](../../models/operations/view-your-unfinished-comics-from-the-verse-db-reader-response-body.md) | :heavy_check_mark:                                                                                                                                                   | N/A                                                                                                                                                                  | {<br/>"data": [],<br/>"meta": {<br/>"current_page": 1,<br/>"last_page": 1,<br/>"per_page": 12,<br/>"total": 0<br/>}<br/>}                                            |
+| Field                                                                                                                                                                | Type                                                                                                                                                                 | Required                                                                                                                                                             | Description                                                                                                                                                          |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `headers`                                                                                                                                                            | Record<string, *string*[]>                                                                                                                                           | :heavy_check_mark:                                                                                                                                                   | N/A                                                                                                                                                                  |
+| `result`                                                                                                                                                             | [operations.ViewYourUnfinishedComicsFromTheVerseDBReaderResponseBody](../../models/operations/view-your-unfinished-comics-from-the-verse-db-reader-response-body.md) | :heavy_check_mark:                                                                                                                                                   | N/A                                                                                                                                                                  |

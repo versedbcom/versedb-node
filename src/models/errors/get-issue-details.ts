@@ -10,7 +10,7 @@ import { VerseDbError } from "./verse-db-error.js";
  * Not Found
  */
 export type GetIssueDetailsNotFoundErrorData = {
-  message?: string | undefined;
+  message: string;
 };
 
 /**
@@ -32,19 +32,65 @@ export class GetIssueDetailsNotFoundError extends VerseDbError {
   }
 }
 
+/**
+ * The token lacks the read:public ability.
+ */
+export type GetIssueDetailsForbiddenErrorData = {
+  message: string;
+};
+
+/**
+ * The token lacks the read:public ability.
+ */
+export class GetIssueDetailsForbiddenError extends VerseDbError {
+  /** The original data that was passed to this error instance. */
+  data$: GetIssueDetailsForbiddenErrorData;
+
+  constructor(
+    err: GetIssueDetailsForbiddenErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+
+    this.name = "GetIssueDetailsForbiddenError";
+  }
+}
+
 /** @internal */
 export const GetIssueDetailsNotFoundError$inboundSchema: z.ZodMiniType<
   GetIssueDetailsNotFoundError,
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
+    message: types.string(),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),
   }),
   z.transform((v) => {
     return new GetIssueDetailsNotFoundError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
+export const GetIssueDetailsForbiddenError$inboundSchema: z.ZodMiniType<
+  GetIssueDetailsForbiddenError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new GetIssueDetailsForbiddenError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

@@ -86,52 +86,98 @@ export type ListSeriesRequest = {
    * Number of results per page (max 50).
    */
   limit?: number | undefined;
+  /**
+   * Page number; meta.last_page says where the list ends.
+   */
+  page?: number | undefined;
 };
 
-export type ListSeriesNameI18n = {};
+export type ListSeriesImages = {
+  coverSm?: string | undefined;
+  coverMd?: string | undefined;
+  coverLg?: string | undefined;
+};
 
-export type ListSeriesAliasesI18n = {};
+export type ListSeriesNameI18n = {
+  value: string;
+  source: string;
+  reading?: string | undefined;
+  sort?: string | undefined;
+};
 
 export type ListSeriesData = {
-  id?: number | undefined;
-  titleId?: number | undefined;
-  name?: string | undefined;
-  nameI18n?: ListSeriesNameI18n | undefined;
-  aliasesI18n?: ListSeriesAliasesI18n | undefined;
-  originalLocale?: string | undefined;
-  originalName?: string | null | undefined;
-  slug?: string | undefined;
-  number?: number | undefined;
-  startYear?: number | undefined;
-  endYear?: number | undefined;
-  coverUrl?: string | undefined;
-  publicationType?: string | undefined;
-  format?: string | undefined;
-  status?: string | undefined;
-  originalLanguage?: string | undefined;
-  cachedIssuesCount?: number | undefined;
-  averageRating?: number | undefined;
-  totalReviews?: number | undefined;
-  issuesAverageRating?: number | undefined;
-  issuesRatedCount?: number | undefined;
-  contentRatingLabel?: string | undefined;
-  minAge?: number | undefined;
-  isNsfw?: boolean | undefined;
+  id: number;
+  titleId: number | null;
+  name: string | null;
+  displayName: string;
+  slug: string | null;
+  number: number | null;
+  startYear: number | null;
+  endYear: number | null;
+  coverUrl: string | null;
+  images: ListSeriesImages | null;
+  medium: string | null;
+  publicationType: string | null;
+  format: string | null;
+  status: string | null;
+  originalName: string | null;
+  originalLanguage: string | null;
+  language: string | null;
+  cachedIssuesCount: number | null;
+  averageRating: string | null;
+  totalReviews: number | null;
+  issuesAverageRating: string | null;
+  issuesRatedCount: number | null;
+  contentRatingLabel: string | null;
+  minAge: number | null;
+  isNsfw: boolean | null;
+  publisherName: string | null;
+  /**
+   * One name per language, keyed by BCP 47 tag.
+   */
+  nameI18n: { [k: string]: ListSeriesNameI18n };
+  /**
+   * Alternative names per language.
+   */
+  aliasesI18n: { [k: string]: Array<string> };
+  /**
+   * The language the series is from, a BCP 47 tag.
+   */
+  originalLocale: string | null;
+};
+
+export type ListSeriesLinks = {
+  first: string;
+  last: string;
+  prev: string | null;
+  next: string | null;
+};
+
+export type ListSeriesLink = {
+  url: string | null;
+  label: string;
+  page?: number | null | undefined;
+  active: boolean;
 };
 
 export type ListSeriesMeta = {
-  currentPage?: number | undefined;
-  lastPage?: number | undefined;
-  perPage?: number | undefined;
-  total?: number | undefined;
+  currentPage: number;
+  from: number | null;
+  lastPage: number;
+  links: Array<ListSeriesLink>;
+  path: string;
+  perPage: number;
+  to: number | null;
+  total: number;
 };
 
 /**
  * Success
  */
 export type ListSeriesResponseBody = {
-  data?: Array<ListSeriesData> | undefined;
-  meta?: ListSeriesMeta | undefined;
+  data: Array<ListSeriesData>;
+  links: ListSeriesLinks;
+  meta: ListSeriesMeta;
 };
 
 export type ListSeriesResponse = {
@@ -160,6 +206,7 @@ export type ListSeriesRequest$Outbound = {
   sort?: string | undefined;
   direction?: string | undefined;
   limit?: number | undefined;
+  page?: number | undefined;
 };
 
 /** @internal */
@@ -187,6 +234,7 @@ export const ListSeriesRequest$outboundSchema: z.ZodMiniType<
     sort: z.optional(z.string()),
     direction: z.optional(z.string()),
     limit: z.optional(z.int()),
+    page: z.optional(z.int()),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -213,10 +261,44 @@ export function listSeriesRequestToJSON(
 }
 
 /** @internal */
+export const ListSeriesImages$inboundSchema: z.ZodMiniType<
+  ListSeriesImages,
+  unknown
+> = z.pipe(
+  z.object({
+    cover_sm: types.optional(types.string()),
+    cover_md: types.optional(types.string()),
+    cover_lg: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "cover_sm": "coverSm",
+      "cover_md": "coverMd",
+      "cover_lg": "coverLg",
+    });
+  }),
+);
+
+export function listSeriesImagesFromJSON(
+  jsonString: string,
+): SafeParseResult<ListSeriesImages, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ListSeriesImages$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListSeriesImages' from JSON`,
+  );
+}
+
+/** @internal */
 export const ListSeriesNameI18n$inboundSchema: z.ZodMiniType<
   ListSeriesNameI18n,
   unknown
-> = z.object({});
+> = z.object({
+  value: types.string(),
+  source: types.string(),
+  reading: types.optional(types.string()),
+  sort: types.optional(types.string()),
+});
 
 export function listSeriesNameI18nFromJSON(
   jsonString: string,
@@ -229,65 +311,53 @@ export function listSeriesNameI18nFromJSON(
 }
 
 /** @internal */
-export const ListSeriesAliasesI18n$inboundSchema: z.ZodMiniType<
-  ListSeriesAliasesI18n,
-  unknown
-> = z.object({});
-
-export function listSeriesAliasesI18nFromJSON(
-  jsonString: string,
-): SafeParseResult<ListSeriesAliasesI18n, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => ListSeriesAliasesI18n$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ListSeriesAliasesI18n' from JSON`,
-  );
-}
-
-/** @internal */
 export const ListSeriesData$inboundSchema: z.ZodMiniType<
   ListSeriesData,
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    title_id: types.optional(types.number()),
-    name: types.optional(types.string()),
-    name_i18n: types.optional(z.lazy(() => ListSeriesNameI18n$inboundSchema)),
-    aliases_i18n: types.optional(
-      z.lazy(() => ListSeriesAliasesI18n$inboundSchema),
+    id: types.number(),
+    title_id: types.nullable(types.number()),
+    name: types.nullable(types.string()),
+    display_name: types.string(),
+    slug: types.nullable(types.string()),
+    number: types.nullable(types.number()),
+    start_year: types.nullable(types.number()),
+    end_year: types.nullable(types.number()),
+    cover_url: types.nullable(types.string()),
+    images: types.nullable(z.lazy(() => ListSeriesImages$inboundSchema)),
+    medium: types.nullable(types.string()),
+    publication_type: types.nullable(types.string()),
+    format: types.nullable(types.string()),
+    status: types.nullable(types.string()),
+    original_name: types.nullable(types.string()),
+    original_language: types.nullable(types.string()),
+    language: types.nullable(types.string()),
+    cached_issues_count: types.nullable(types.number()),
+    average_rating: types.nullable(types.string()),
+    total_reviews: types.nullable(types.number()),
+    issues_average_rating: types.nullable(types.string()),
+    issues_rated_count: types.nullable(types.number()),
+    content_rating_label: types.nullable(types.string()),
+    min_age: types.nullable(types.number()),
+    is_nsfw: types.nullable(types.boolean()),
+    publisher_name: types.nullable(types.string()),
+    name_i18n: z.record(
+      z.string(),
+      z.lazy(() => ListSeriesNameI18n$inboundSchema),
     ),
-    original_locale: types.optional(types.string()),
-    original_name: z.optional(z.nullable(types.string())),
-    slug: types.optional(types.string()),
-    number: types.optional(types.number()),
-    start_year: types.optional(types.number()),
-    end_year: types.optional(types.number()),
-    cover_url: types.optional(types.string()),
-    publication_type: types.optional(types.string()),
-    format: types.optional(types.string()),
-    status: types.optional(types.string()),
-    original_language: types.optional(types.string()),
-    cached_issues_count: types.optional(types.number()),
-    average_rating: types.optional(types.number()),
-    total_reviews: types.optional(types.number()),
-    issues_average_rating: types.optional(types.number()),
-    issues_rated_count: types.optional(types.number()),
-    content_rating_label: types.optional(types.string()),
-    min_age: types.optional(types.number()),
-    is_nsfw: types.optional(types.boolean()),
+    aliases_i18n: z.record(z.string(), z.array(types.string())),
+    original_locale: types.nullable(types.string()),
   }),
   z.transform((v) => {
     return remap$(v, {
       "title_id": "titleId",
-      "name_i18n": "nameI18n",
-      "aliases_i18n": "aliasesI18n",
-      "original_locale": "originalLocale",
-      "original_name": "originalName",
+      "display_name": "displayName",
       "start_year": "startYear",
       "end_year": "endYear",
       "cover_url": "coverUrl",
       "publication_type": "publicationType",
+      "original_name": "originalName",
       "original_language": "originalLanguage",
       "cached_issues_count": "cachedIssuesCount",
       "average_rating": "averageRating",
@@ -297,6 +367,10 @@ export const ListSeriesData$inboundSchema: z.ZodMiniType<
       "content_rating_label": "contentRatingLabel",
       "min_age": "minAge",
       "is_nsfw": "isNsfw",
+      "publisher_name": "publisherName",
+      "name_i18n": "nameI18n",
+      "aliases_i18n": "aliasesI18n",
+      "original_locale": "originalLocale",
     });
   }),
 );
@@ -312,15 +386,61 @@ export function listSeriesDataFromJSON(
 }
 
 /** @internal */
+export const ListSeriesLinks$inboundSchema: z.ZodMiniType<
+  ListSeriesLinks,
+  unknown
+> = z.object({
+  first: types.string(),
+  last: types.string(),
+  prev: types.nullable(types.string()),
+  next: types.nullable(types.string()),
+});
+
+export function listSeriesLinksFromJSON(
+  jsonString: string,
+): SafeParseResult<ListSeriesLinks, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ListSeriesLinks$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListSeriesLinks' from JSON`,
+  );
+}
+
+/** @internal */
+export const ListSeriesLink$inboundSchema: z.ZodMiniType<
+  ListSeriesLink,
+  unknown
+> = z.object({
+  url: types.nullable(types.string()),
+  label: types.string(),
+  page: z.optional(z.nullable(types.number())),
+  active: types.boolean(),
+});
+
+export function listSeriesLinkFromJSON(
+  jsonString: string,
+): SafeParseResult<ListSeriesLink, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ListSeriesLink$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListSeriesLink' from JSON`,
+  );
+}
+
+/** @internal */
 export const ListSeriesMeta$inboundSchema: z.ZodMiniType<
   ListSeriesMeta,
   unknown
 > = z.pipe(
   z.object({
-    current_page: types.optional(types.number()),
-    last_page: types.optional(types.number()),
-    per_page: types.optional(types.number()),
-    total: types.optional(types.number()),
+    current_page: types.number(),
+    from: types.nullable(types.number()),
+    last_page: types.number(),
+    links: z.array(z.lazy(() => ListSeriesLink$inboundSchema)),
+    path: types.string(),
+    per_page: types.number(),
+    to: types.nullable(types.number()),
+    total: types.number(),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -346,8 +466,9 @@ export const ListSeriesResponseBody$inboundSchema: z.ZodMiniType<
   ListSeriesResponseBody,
   unknown
 > = z.object({
-  data: types.optional(z.array(z.lazy(() => ListSeriesData$inboundSchema))),
-  meta: types.optional(z.lazy(() => ListSeriesMeta$inboundSchema)),
+  data: z.array(z.lazy(() => ListSeriesData$inboundSchema)),
+  links: z.lazy(() => ListSeriesLinks$inboundSchema),
+  meta: z.lazy(() => ListSeriesMeta$inboundSchema),
 });
 
 export function listSeriesResponseBodyFromJSON(

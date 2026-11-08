@@ -17,7 +17,7 @@ let value: Merge = {
 
 | Field               | Type                | Required            | Description         | Example             |
 | ------------------- | ------------------- | ------------------- | ------------------- | ------------------- |
-| `moved`             | *number*            | :heavy_minus_sign:  | N/A                 | 4                   |
-| `skippedDuplicates` | *number*            | :heavy_minus_sign:  | N/A                 | 1                   |
-| `convertedToMixed`  | *boolean*           | :heavy_minus_sign:  | N/A                 | false               |
-| `sourceDeleted`     | *boolean*           | :heavy_minus_sign:  | N/A                 | false               |
+| `moved`             | *number*            | :heavy_check_mark:  | N/A                 | 4                   |
+| `skippedDuplicates` | *number*            | :heavy_check_mark:  | N/A                 | 1                   |
+| `convertedToMixed`  | *boolean*           | :heavy_check_mark:  | N/A                 | false               |
+| `sourceDeleted`     | *boolean*           | :heavy_check_mark:  | N/A                 | false               |

@@ -41,6 +41,7 @@ export function seriesListSeries(
   Result<
     operations.ListSeriesResponse,
     | errors.UnauthorizedErrorError
+    | errors.ListSeriesForbiddenError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -68,6 +69,7 @@ async function $do(
     Result<
       operations.ListSeriesResponse,
       | errors.UnauthorizedErrorError
+      | errors.ListSeriesForbiddenError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -107,6 +109,7 @@ async function $do(
     "languages": payload?.languages,
     "limit": payload?.limit,
     "medium": payload?.medium,
+    "page": payload?.page,
     "publication_type": payload?.publication_type,
     "publisher_id": payload?.publisher_id,
     "publisher_ids": payload?.publisher_ids,
@@ -175,6 +178,7 @@ async function $do(
   const [result] = await M.match<
     operations.ListSeriesResponse,
     | errors.UnauthorizedErrorError
+    | errors.ListSeriesForbiddenError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -190,6 +194,7 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
+    M.jsonErr(403, errors.ListSeriesForbiddenError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

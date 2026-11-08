@@ -1,6 +1,6 @@
 # OpenAListToAnyTypeUnprocessableEntityError
 
-Not convertible
+Not convertible.
 
 ## Example Usage
 
@@ -14,4 +14,4 @@ import { OpenAListToAnyTypeUnprocessableEntityError } from "@versedbcom/sdk/mode
 
 | Field                             | Type                              | Required                          | Description                       | Example                           |
 | --------------------------------- | --------------------------------- | --------------------------------- | --------------------------------- | --------------------------------- |
-| `message`                         | *string*                          | :heavy_minus_sign:                | N/A                               | This list already holds any type. |
+| `message`                         | *string*                          | :heavy_check_mark:                | N/A                               | This list already holds any type. |

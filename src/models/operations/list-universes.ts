@@ -19,36 +19,71 @@ export type ListUniversesRequest = {
    */
   limit?: number | undefined;
   /**
-   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.
+   * Page number; meta.last_page says where the list ends.
+   */
+  page?: number | undefined;
+  /**
+   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes.
    */
   languages?: string | undefined;
 };
 
-export type ListUniversesNameI18n = {};
-
-export type ListUniversesAliasesI18n = {};
+export type ListUniversesNameI18n = {
+  value: string;
+  source: string;
+  reading?: string | undefined;
+  sort?: string | undefined;
+};
 
 export type ListUniversesData = {
-  id?: number | undefined;
-  name?: string | undefined;
-  nameI18n?: ListUniversesNameI18n | undefined;
-  aliasesI18n?: ListUniversesAliasesI18n | undefined;
-  originalLocale?: string | undefined;
+  id: number;
+  name: string | null;
+  /**
+   * One name per language, keyed by BCP 47 tag.
+   */
+  nameI18n: { [k: string]: ListUniversesNameI18n };
+  /**
+   * Alternative names per language.
+   */
+  aliasesI18n: { [k: string]: Array<string> };
+  /**
+   * The language the universe is from, a BCP 47 tag.
+   */
+  originalLocale: string | null;
+};
+
+export type ListUniversesLinks = {
+  first: string;
+  last: string;
+  prev: string | null;
+  next: string | null;
+};
+
+export type ListUniversesLink = {
+  url: string | null;
+  label: string;
+  page?: number | null | undefined;
+  active: boolean;
 };
 
 export type ListUniversesMeta = {
-  currentPage?: number | undefined;
-  lastPage?: number | undefined;
-  perPage?: number | undefined;
-  total?: number | undefined;
+  currentPage: number;
+  from: number | null;
+  lastPage: number;
+  links: Array<ListUniversesLink>;
+  path: string;
+  perPage: number;
+  to: number | null;
+  total: number;
 };
 
 /**
  * Success
  */
 export type ListUniversesResponseBody = {
-  data?: Array<ListUniversesData> | undefined;
-  meta?: ListUniversesMeta | undefined;
+  data: Array<ListUniversesData>;
+  links: ListUniversesLinks;
+  meta: ListUniversesMeta;
 };
 
 export type ListUniversesResponse = {
@@ -60,6 +95,7 @@ export type ListUniversesResponse = {
 export type ListUniversesRequest$Outbound = {
   q?: string | undefined;
   limit?: number | undefined;
+  page?: number | undefined;
   languages?: string | undefined;
 };
 
@@ -70,6 +106,7 @@ export const ListUniversesRequest$outboundSchema: z.ZodMiniType<
 > = z.object({
   q: z.optional(z.string()),
   limit: z.optional(z.int()),
+  page: z.optional(z.int()),
   languages: z.optional(z.string()),
 });
 
@@ -85,7 +122,12 @@ export function listUniversesRequestToJSON(
 export const ListUniversesNameI18n$inboundSchema: z.ZodMiniType<
   ListUniversesNameI18n,
   unknown
-> = z.object({});
+> = z.object({
+  value: types.string(),
+  source: types.string(),
+  reading: types.optional(types.string()),
+  sort: types.optional(types.string()),
+});
 
 export function listUniversesNameI18nFromJSON(
   jsonString: string,
@@ -98,36 +140,19 @@ export function listUniversesNameI18nFromJSON(
 }
 
 /** @internal */
-export const ListUniversesAliasesI18n$inboundSchema: z.ZodMiniType<
-  ListUniversesAliasesI18n,
-  unknown
-> = z.object({});
-
-export function listUniversesAliasesI18nFromJSON(
-  jsonString: string,
-): SafeParseResult<ListUniversesAliasesI18n, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => ListUniversesAliasesI18n$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ListUniversesAliasesI18n' from JSON`,
-  );
-}
-
-/** @internal */
 export const ListUniversesData$inboundSchema: z.ZodMiniType<
   ListUniversesData,
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    name: types.optional(types.string()),
-    name_i18n: types.optional(
+    id: types.number(),
+    name: types.nullable(types.string()),
+    name_i18n: z.record(
+      z.string(),
       z.lazy(() => ListUniversesNameI18n$inboundSchema),
     ),
-    aliases_i18n: types.optional(
-      z.lazy(() => ListUniversesAliasesI18n$inboundSchema),
-    ),
-    original_locale: types.optional(types.string()),
+    aliases_i18n: z.record(z.string(), z.array(types.string())),
+    original_locale: types.nullable(types.string()),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -149,15 +174,61 @@ export function listUniversesDataFromJSON(
 }
 
 /** @internal */
+export const ListUniversesLinks$inboundSchema: z.ZodMiniType<
+  ListUniversesLinks,
+  unknown
+> = z.object({
+  first: types.string(),
+  last: types.string(),
+  prev: types.nullable(types.string()),
+  next: types.nullable(types.string()),
+});
+
+export function listUniversesLinksFromJSON(
+  jsonString: string,
+): SafeParseResult<ListUniversesLinks, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ListUniversesLinks$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListUniversesLinks' from JSON`,
+  );
+}
+
+/** @internal */
+export const ListUniversesLink$inboundSchema: z.ZodMiniType<
+  ListUniversesLink,
+  unknown
+> = z.object({
+  url: types.nullable(types.string()),
+  label: types.string(),
+  page: z.optional(z.nullable(types.number())),
+  active: types.boolean(),
+});
+
+export function listUniversesLinkFromJSON(
+  jsonString: string,
+): SafeParseResult<ListUniversesLink, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ListUniversesLink$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListUniversesLink' from JSON`,
+  );
+}
+
+/** @internal */
 export const ListUniversesMeta$inboundSchema: z.ZodMiniType<
   ListUniversesMeta,
   unknown
 > = z.pipe(
   z.object({
-    current_page: types.optional(types.number()),
-    last_page: types.optional(types.number()),
-    per_page: types.optional(types.number()),
-    total: types.optional(types.number()),
+    current_page: types.number(),
+    from: types.nullable(types.number()),
+    last_page: types.number(),
+    links: z.array(z.lazy(() => ListUniversesLink$inboundSchema)),
+    path: types.string(),
+    per_page: types.number(),
+    to: types.nullable(types.number()),
+    total: types.number(),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -183,8 +254,9 @@ export const ListUniversesResponseBody$inboundSchema: z.ZodMiniType<
   ListUniversesResponseBody,
   unknown
 > = z.object({
-  data: types.optional(z.array(z.lazy(() => ListUniversesData$inboundSchema))),
-  meta: types.optional(z.lazy(() => ListUniversesMeta$inboundSchema)),
+  data: z.array(z.lazy(() => ListUniversesData$inboundSchema)),
+  links: z.lazy(() => ListUniversesLinks$inboundSchema),
+  meta: z.lazy(() => ListUniversesMeta$inboundSchema),
 });
 
 export function listUniversesResponseBodyFromJSON(

@@ -6,6 +6,7 @@ import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
 import { safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
+import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type MarkAsReadRequestBody = {
@@ -24,9 +25,22 @@ export type MarkAsReadRequest = {
 };
 
 /**
- * Success
+ * Every live issue of the series is now read.
  */
-export type MarkAsReadResponseBody = {};
+export type SeriesCompleted = {
+  seriesId: number;
+  seriesName: string | null;
+};
+
+/**
+ * Success. `series_completed` is there when this read finishes the series.
+ */
+export type MarkAsReadResponseBody = {
+  /**
+   * Every live issue of the series is now read.
+   */
+  seriesCompleted?: SeriesCompleted | undefined;
+};
 
 export type MarkAsReadResponse = {
   headers: { [k: string]: Array<string> };
@@ -92,10 +106,48 @@ export function markAsReadRequestToJSON(
 }
 
 /** @internal */
+export const SeriesCompleted$inboundSchema: z.ZodMiniType<
+  SeriesCompleted,
+  unknown
+> = z.pipe(
+  z.object({
+    series_id: types.number(),
+    series_name: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "series_id": "seriesId",
+      "series_name": "seriesName",
+    });
+  }),
+);
+
+export function seriesCompletedFromJSON(
+  jsonString: string,
+): SafeParseResult<SeriesCompleted, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => SeriesCompleted$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'SeriesCompleted' from JSON`,
+  );
+}
+
+/** @internal */
 export const MarkAsReadResponseBody$inboundSchema: z.ZodMiniType<
   MarkAsReadResponseBody,
   unknown
-> = z.object({});
+> = z.pipe(
+  z.object({
+    series_completed: types.optional(
+      z.lazy(() => SeriesCompleted$inboundSchema),
+    ),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "series_completed": "seriesCompleted",
+    });
+  }),
+);
 
 export function markAsReadResponseBodyFromJSON(
   jsonString: string,

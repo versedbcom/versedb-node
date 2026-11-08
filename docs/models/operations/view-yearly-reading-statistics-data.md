@@ -24,16 +24,9 @@ let value: ViewYearlyReadingStatisticsData = {
     notifyMilestones: false,
     notifyLapses: false,
     emailUpdates: false,
-    shareUrl: null,
+    shareUrl: "https://versedb.com/user/reader/2026",
   },
-  days: [
-    {
-      date: "2026-01-01",
-      count: 0,
-      total: 0,
-      expected: 0.032876712328767,
-    },
-  ],
+  days: [],
   months: {
     one: 0,
     two: 0,
@@ -50,8 +43,21 @@ let value: ViewYearlyReadingStatisticsData = {
   },
   breakdowns: {
     series: [],
-    publishers: [],
+    publishers: [
+      {
+        id: 42,
+        name: "Saga",
+        total: 3,
+      },
+    ],
     creators: [],
+    genres: [
+      {
+        id: 42,
+        name: "Saga",
+        total: 3,
+      },
+    ],
     characters: [],
   },
   activeDays: 0,
@@ -63,25 +69,32 @@ let value: ViewYearlyReadingStatisticsData = {
   thisMonth: 0,
   monthlyTarget: 3,
   busiestMonth: null,
-  finishedSeries: [],
+  finishedSeries: [
+    {
+      id: 42,
+      name: "Saga",
+      total: 54,
+      finishedAt: "2026-03-01 10:00:00",
+    },
+  ],
 };
 ```
 
 ## Fields
 
-| Field                                                                               | Type                                                                                | Required                                                                            | Description                                                                         | Example                                                                             |
-| ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| `progress`                                                                          | [operations.Progress](../../models/operations/progress.md)                          | :heavy_minus_sign:                                                                  | N/A                                                                                 |                                                                                     |
-| `days`                                                                              | [operations.Day](../../models/operations/day.md)[]                                  | :heavy_minus_sign:                                                                  | N/A                                                                                 | [<br/>{<br/>"date": "2026-01-01",<br/>"count": 0,<br/>"total": 0,<br/>"expected": 0.032876712328767<br/>}<br/>] |
-| `months`                                                                            | [operations.Months](../../models/operations/months.md)                              | :heavy_minus_sign:                                                                  | N/A                                                                                 |                                                                                     |
-| `breakdowns`                                                                        | [operations.Breakdowns](../../models/operations/breakdowns.md)                      | :heavy_minus_sign:                                                                  | N/A                                                                                 |                                                                                     |
-| `activeDays`                                                                        | *number*                                                                            | :heavy_minus_sign:                                                                  | N/A                                                                                 | 0                                                                                   |
-| `longestStreak`                                                                     | *number*                                                                            | :heavy_minus_sign:                                                                  | N/A                                                                                 | 0                                                                                   |
-| `currentStreak`                                                                     | *number*                                                                            | :heavy_minus_sign:                                                                  | N/A                                                                                 | 0                                                                                   |
-| `projectedReads`                                                                    | *number*                                                                            | :heavy_minus_sign:                                                                  | N/A                                                                                 | 0                                                                                   |
-| `projectedFinish`                                                                   | *string*                                                                            | :heavy_minus_sign:                                                                  | N/A                                                                                 | null                                                                                |
-| `thisWeek`                                                                          | *number*                                                                            | :heavy_minus_sign:                                                                  | N/A                                                                                 | 0                                                                                   |
-| `thisMonth`                                                                         | *number*                                                                            | :heavy_minus_sign:                                                                  | N/A                                                                                 | 0                                                                                   |
-| `monthlyTarget`                                                                     | *number*                                                                            | :heavy_minus_sign:                                                                  | N/A                                                                                 | 3                                                                                   |
-| `busiestMonth`                                                                      | *string*                                                                            | :heavy_minus_sign:                                                                  | N/A                                                                                 | null                                                                                |
-| `finishedSeries`                                                                    | *any*[]                                                                             | :heavy_minus_sign:                                                                  | N/A                                                                                 | []                                                                                  |
+| Field                                                                 | Type                                                                  | Required                                                              | Description                                                           | Example                                                               |
+| --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `progress`                                                            | [operations.Progress](../../models/operations/progress.md)            | :heavy_check_mark:                                                    | N/A                                                                   |                                                                       |
+| `days`                                                                | [operations.Day](../../models/operations/day.md)[]                    | :heavy_check_mark:                                                    | N/A                                                                   |                                                                       |
+| `months`                                                              | [operations.Months](../../models/operations/months.md)                | :heavy_check_mark:                                                    | Reads in each month, keyed 1 to 12.                                   |                                                                       |
+| `breakdowns`                                                          | [operations.Breakdowns](../../models/operations/breakdowns.md)        | :heavy_check_mark:                                                    | N/A                                                                   |                                                                       |
+| `activeDays`                                                          | *number*                                                              | :heavy_check_mark:                                                    | N/A                                                                   | 0                                                                     |
+| `longestStreak`                                                       | *number*                                                              | :heavy_check_mark:                                                    | N/A                                                                   | 0                                                                     |
+| `currentStreak`                                                       | *number*                                                              | :heavy_check_mark:                                                    | N/A                                                                   | 0                                                                     |
+| `projectedReads`                                                      | *number*                                                              | :heavy_check_mark:                                                    | N/A                                                                   | 0                                                                     |
+| `projectedFinish`                                                     | *string*                                                              | :heavy_check_mark:                                                    | N/A                                                                   | null                                                                  |
+| `thisWeek`                                                            | *number*                                                              | :heavy_check_mark:                                                    | N/A                                                                   | 0                                                                     |
+| `thisMonth`                                                           | *number*                                                              | :heavy_check_mark:                                                    | N/A                                                                   | 0                                                                     |
+| `monthlyTarget`                                                       | *number*                                                              | :heavy_check_mark:                                                    | N/A                                                                   | 3                                                                     |
+| `busiestMonth`                                                        | *number*                                                              | :heavy_check_mark:                                                    | N/A                                                                   | null                                                                  |
+| `finishedSeries`                                                      | [operations.FinishedSery](../../models/operations/finished-sery.md)[] | :heavy_check_mark:                                                    | N/A                                                                   |                                                                       |

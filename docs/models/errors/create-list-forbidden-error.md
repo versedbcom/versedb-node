@@ -1,6 +1,6 @@
 # CreateListForbiddenError
 
-Limit Reached
+The token holds neither write:list nor write:lists, or a free account already has its ten lists.
 
 ## Example Usage
 
@@ -12,6 +12,6 @@ import { CreateListForbiddenError } from "@versedbcom/sdk/models/errors";
 
 ## Fields
 
-| Field                                                                  | Type                                                                   | Required                                                               | Description                                                            | Example                                                                |
-| ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| `message`                                                              | *string*                                                               | :heavy_minus_sign:                                                     | N/A                                                                    | You have reached the maximum number of lists. Upgrade to PRO for more. |
+| Field                     | Type                      | Required                  | Description               | Example                   |
+| ------------------------- | ------------------------- | ------------------------- | ------------------------- | ------------------------- |
+| `message`                 | *string*                  | :heavy_check_mark:        | N/A                       | Insufficient token scope. |

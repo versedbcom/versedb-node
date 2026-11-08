@@ -8,41 +8,36 @@ Success
 import { BrowseListsResponseBody } from "@versedbcom/sdk/models/operations";
 
 let value: BrowseListsResponseBody = {
-  data: [
-    {
-      id: 101,
-      title: "Best Spider-Man Stories",
-      entityType: "issues",
-      isRanked: true,
-      itemsCount: 25,
-      likesCount: 150,
-      savesCount: 89,
-      user: {
-        id: 123,
-        username: "comic_fan",
-        avatar: "https://...",
-      },
-      previewItems: [
-        {
-          id: 1,
-          imageUrl: "https://...",
-          isNsfw: false,
-        },
-      ],
-    },
-  ],
+  data: [],
+  links: {
+    first: "<value>",
+    last: "<value>",
+    prev: "<value>",
+    next: "<value>",
+  },
   meta: {
     currentPage: 1,
-    lastPage: 5,
+    from: 1,
+    lastPage: 25,
+    links: [
+      {
+        url: "https://wry-republican.org",
+        label: "<value>",
+        active: true,
+      },
+    ],
+    path: "/proc",
     perPage: 20,
-    total: 100,
+    to: 20,
+    total: 500,
   },
 };
 ```
 
 ## Fields
 
-| Field                                                                                                                                                                                                                                                                                                                | Type                                                                                                                                                                                                                                                                                                                 | Required                                                                                                                                                                                                                                                                                                             | Description                                                                                                                                                                                                                                                                                                          | Example                                                                                                                                                                                                                                                                                                              |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `data`                                                                                                                                                                                                                                                                                                               | [operations.BrowseListsData](../../models/operations/browse-lists-data.md)[]                                                                                                                                                                                                                                         | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                   | N/A                                                                                                                                                                                                                                                                                                                  | [<br/>{<br/>"id": 101,<br/>"title": "Best Spider-Man Stories",<br/>"entity_type": "issues",<br/>"is_ranked": true,<br/>"items_count": 25,<br/>"likes_count": 150,<br/>"saves_count": 89,<br/>"user": {<br/>"id": 123,<br/>"username": "comic_fan",<br/>"avatar": "https://..."<br/>},<br/>"preview_items": [<br/>{<br/>"id": 1,<br/>"image_url": "https://...",<br/>"is_nsfw": false<br/>}<br/>]<br/>}<br/>] |
-| `meta`                                                                                                                                                                                                                                                                                                               | [operations.BrowseListsMeta](../../models/operations/browse-lists-meta.md)                                                                                                                                                                                                                                           | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                   | N/A                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                                                                                      |
+| Field                                                                        | Type                                                                         | Required                                                                     | Description                                                                  |
+| ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `data`                                                                       | [operations.BrowseListsData](../../models/operations/browse-lists-data.md)[] | :heavy_check_mark:                                                           | N/A                                                                          |
+| `links`                                                                      | [operations.BrowseListsLinks](../../models/operations/browse-lists-links.md) | :heavy_check_mark:                                                           | N/A                                                                          |
+| `meta`                                                                       | [operations.BrowseListsMeta](../../models/operations/browse-lists-meta.md)   | :heavy_check_mark:                                                           | N/A                                                                          |

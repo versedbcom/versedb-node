@@ -7,6 +7,7 @@ import { remap as remap$ } from "../../lib/primitives.js";
 import { safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
+import { smartUnion } from "../../types/smart-union.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type GetListRequest = {
@@ -26,69 +27,232 @@ export type GetListRequest = {
   sort?: string | undefined;
 };
 
-export type GetListUser = {
-  id?: number | undefined;
-  username?: string | undefined;
-  name?: string | undefined;
+export type GetListClonedFromUser = {
+  id: number;
+  username: string | null;
 };
 
+/**
+ * The list this one was cloned from, while it exists.
+ */
+export type GetListClonedFrom = {
+  id: number;
+  title: string | null;
+  slug: string | null;
+  user: GetListClonedFromUser | null;
+};
+
+/**
+ * The owner; null once the account is gone.
+ */
+export type GetListUser = {
+  id: number;
+  username: string | null;
+  name: string | null;
+  avatar: string | null;
+};
+
+/**
+ * The pinned cover, while it exists.
+ */
 export type GetListVariant = {
-  id?: number | undefined;
-  name?: string | undefined;
-  coverImageUrl?: string | undefined;
+  id: number;
+  name: string | null;
+  ratio: string | null;
+  coverImageUrl: string | null;
+};
+
+/**
+ * A creator (`image_url` its profile photo) or a team (its logo).
+ */
+export type GetListEntity5 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  imageUrl: string | null;
+};
+
+/**
+ * A story arc.
+ */
+export type GetListEntity4 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  imageUrl: string | null;
+  issuesCount: number | null;
+};
+
+/**
+ * A character.
+ */
+export type GetListEntity3 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  realName: string | null;
+  imageUrl: string | null;
+};
+
+/**
+ * A series.
+ */
+export type GetListEntity2 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  startYear: number | null;
+  endYear: number | null;
+  status: string | null;
+  publicationType: string | null;
+  imageUrl: string | null;
+  isNsfw: boolean | null;
+  issuesCount: number | null;
+  publisher: string | null;
 };
 
 export type GetListSeries = {
-  id?: number | undefined;
-  name?: string | undefined;
-  slug?: string | undefined;
-  startYear?: number | undefined;
+  id: number;
+  name: string | null;
+  slug: string | null;
+  startYear: number | null;
 };
 
-export type GetListEntity = {
-  id?: number | undefined;
-  slug?: string | undefined;
-  name?: string | undefined;
-  issueNumber?: string | undefined;
-  releaseDate?: string | undefined;
-  imageUrl?: string | undefined;
-  isNsfw?: boolean | undefined;
-  publisher?: string | undefined;
-  series?: GetListSeries | undefined;
+/**
+ * An issue.
+ */
+export type GetListEntity1 = {
+  id: number;
+  slug: string | null;
+  name: string | null;
+  issueNumber: string | null;
+  releaseDate: string | null;
+  focDate: string | null;
+  imageUrl: string | null;
+  isNsfw: boolean | null;
+  publisher: string | null;
+  series: GetListSeries | null;
 };
+
+/**
+ * Left out once the entity is gone.
+ */
+export type GetListEntityUnion =
+  | GetListEntity2
+  | GetListEntity1
+  | GetListEntity3
+  | GetListEntity4
+  | GetListEntity5;
 
 export type GetListItem = {
-  id?: number | undefined;
-  position?: number | undefined;
-  note?: string | undefined;
-  createdAt?: string | undefined;
-  updatedAt?: string | undefined;
-  variantId?: number | undefined;
+  id: number;
+  /**
+   * Its place on a ranked or rule-built list.
+   */
+  position: number | null;
+  note: string | null;
+  createdAt: string;
+  updatedAt: string;
+  variantId: number | null;
+  /**
+   * The pinned cover, while it exists.
+   */
   variant?: GetListVariant | undefined;
-  entityType?: string | undefined;
-  entity?: GetListEntity | undefined;
+  /**
+   * issues, series, characters, creators, story_arcs or teams.
+   */
+  entityType: string;
+  /**
+   * Left out once the entity is gone.
+   */
+  entity?:
+    | GetListEntity2
+    | GetListEntity1
+    | GetListEntity3
+    | GetListEntity4
+    | GetListEntity5
+    | undefined;
+};
+
+export type GetListReaction = {
+  reaction: string;
+  emoji: string;
+  label: string;
+  count: number;
 };
 
 export type GetListData = {
-  id?: number | undefined;
-  title?: string | undefined;
-  description?: string | undefined;
-  entityType?: string | undefined;
-  isRanked?: boolean | undefined;
-  isPrivate?: boolean | undefined;
-  itemsCount?: number | undefined;
-  likesCount?: number | undefined;
-  savesCount?: number | undefined;
-  user?: GetListUser | undefined;
-  items?: Array<GetListItem> | undefined;
-  createdAt?: string | undefined;
+  id: number;
+  title: string;
+  slug: string;
+  description: string | null;
+  /**
+   * issues, series, characters, creators, story_arcs, teams, or mixed for a list of any type.
+   */
+  entityType: string;
+  entityTypeLabel: string;
+  /**
+   * The list is VerseDB's own.
+   */
+  isCurated: boolean;
+  /**
+   * The types its items hold: its own type, or each type a mixed list holds.
+   */
+  itemTypes: Array<string>;
+  isRanked: boolean;
+  /**
+   * What `sort` takes on this list, each with its label; the empty key is its own order.
+   */
+  sortOptions: { [k: string]: string };
+  isPrivate: boolean;
+  /**
+   * published or draft.
+   */
+  status: string;
+  /**
+   * custom, wishlist or reading_guide.
+   */
+  listType: string;
+  itemsCount: number;
+  savesCount: number;
+  likesCount: number;
+  clonesCount: number;
+  createdAt: string;
+  updatedAt: string;
+  /**
+   * A rule keeps the list up to date.
+   */
+  isSmart: boolean;
+  isRuleBased: boolean;
+  lastRefreshedAt: string | null;
+  /**
+   * A rule-built list that stopped updating while its owner's Pro is inactive.
+   */
+  smartPaused: boolean;
+  clonedFromListId: number | null;
+  /**
+   * The list this one was cloned from, while it exists.
+   */
+  clonedFrom?: GetListClonedFrom | undefined;
+  /**
+   * The owner; null once the account is gone.
+   */
+  user: GetListUser | null;
+  /**
+   * Every item, in the list's own order or by `sort`.
+   */
+  items: Array<GetListItem>;
+  /**
+   * The reactions left on the list, the most used first.
+   */
+  reactions: Array<GetListReaction>;
 };
 
 /**
  * Success
  */
 export type GetListResponseBody = {
-  data?: GetListData | undefined;
+  data: GetListData;
 };
 
 export type GetListResponse = {
@@ -123,11 +287,52 @@ export function getListRequestToJSON(getListRequest: GetListRequest): string {
 }
 
 /** @internal */
+export const GetListClonedFromUser$inboundSchema: z.ZodMiniType<
+  GetListClonedFromUser,
+  unknown
+> = z.object({
+  id: types.number(),
+  username: types.nullable(types.string()),
+});
+
+export function getListClonedFromUserFromJSON(
+  jsonString: string,
+): SafeParseResult<GetListClonedFromUser, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetListClonedFromUser$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetListClonedFromUser' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetListClonedFrom$inboundSchema: z.ZodMiniType<
+  GetListClonedFrom,
+  unknown
+> = z.object({
+  id: types.number(),
+  title: types.nullable(types.string()),
+  slug: types.nullable(types.string()),
+  user: types.nullable(z.lazy(() => GetListClonedFromUser$inboundSchema)),
+});
+
+export function getListClonedFromFromJSON(
+  jsonString: string,
+): SafeParseResult<GetListClonedFrom, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetListClonedFrom$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetListClonedFrom' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetListUser$inboundSchema: z.ZodMiniType<GetListUser, unknown> = z
   .object({
-    id: types.optional(types.number()),
-    username: types.optional(types.string()),
-    name: types.optional(types.string()),
+    id: types.number(),
+    username: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    avatar: types.nullable(types.string()),
   });
 
 export function getListUserFromJSON(
@@ -146,9 +351,10 @@ export const GetListVariant$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    name: types.optional(types.string()),
-    cover_image_url: types.optional(types.string()),
+    id: types.number(),
+    name: types.nullable(types.string()),
+    ratio: types.nullable(types.string()),
+    cover_image_url: types.nullable(types.string()),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -168,15 +374,143 @@ export function getListVariantFromJSON(
 }
 
 /** @internal */
+export const GetListEntity5$inboundSchema: z.ZodMiniType<
+  GetListEntity5,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "image_url": "imageUrl",
+    });
+  }),
+);
+
+export function getListEntity5FromJSON(
+  jsonString: string,
+): SafeParseResult<GetListEntity5, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetListEntity5$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetListEntity5' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetListEntity4$inboundSchema: z.ZodMiniType<
+  GetListEntity4,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    issues_count: types.nullable(types.number()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "image_url": "imageUrl",
+      "issues_count": "issuesCount",
+    });
+  }),
+);
+
+export function getListEntity4FromJSON(
+  jsonString: string,
+): SafeParseResult<GetListEntity4, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetListEntity4$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetListEntity4' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetListEntity3$inboundSchema: z.ZodMiniType<
+  GetListEntity3,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    real_name: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "real_name": "realName",
+      "image_url": "imageUrl",
+    });
+  }),
+);
+
+export function getListEntity3FromJSON(
+  jsonString: string,
+): SafeParseResult<GetListEntity3, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetListEntity3$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetListEntity3' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetListEntity2$inboundSchema: z.ZodMiniType<
+  GetListEntity2,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    start_year: types.nullable(types.number()),
+    end_year: types.nullable(types.number()),
+    status: types.nullable(types.string()),
+    publication_type: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    is_nsfw: types.nullable(types.boolean()),
+    issues_count: types.nullable(types.number()),
+    publisher: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "start_year": "startYear",
+      "end_year": "endYear",
+      "publication_type": "publicationType",
+      "image_url": "imageUrl",
+      "is_nsfw": "isNsfw",
+      "issues_count": "issuesCount",
+    });
+  }),
+);
+
+export function getListEntity2FromJSON(
+  jsonString: string,
+): SafeParseResult<GetListEntity2, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetListEntity2$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetListEntity2' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetListSeries$inboundSchema: z.ZodMiniType<
   GetListSeries,
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    name: types.optional(types.string()),
-    slug: types.optional(types.string()),
-    start_year: types.optional(types.number()),
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    start_year: types.nullable(types.number()),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -196,38 +530,62 @@ export function getListSeriesFromJSON(
 }
 
 /** @internal */
-export const GetListEntity$inboundSchema: z.ZodMiniType<
-  GetListEntity,
+export const GetListEntity1$inboundSchema: z.ZodMiniType<
+  GetListEntity1,
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    slug: types.optional(types.string()),
-    name: types.optional(types.string()),
-    issue_number: types.optional(types.string()),
-    release_date: types.optional(types.string()),
-    image_url: types.optional(types.string()),
-    is_nsfw: types.optional(types.boolean()),
-    publisher: types.optional(types.string()),
-    series: types.optional(z.lazy(() => GetListSeries$inboundSchema)),
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    issue_number: types.nullable(types.string()),
+    release_date: types.nullable(types.string()),
+    foc_date: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    is_nsfw: types.nullable(types.boolean()),
+    publisher: types.nullable(types.string()),
+    series: types.nullable(z.lazy(() => GetListSeries$inboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {
       "issue_number": "issueNumber",
       "release_date": "releaseDate",
+      "foc_date": "focDate",
       "image_url": "imageUrl",
       "is_nsfw": "isNsfw",
     });
   }),
 );
 
-export function getListEntityFromJSON(
+export function getListEntity1FromJSON(
   jsonString: string,
-): SafeParseResult<GetListEntity, SDKValidationError> {
+): SafeParseResult<GetListEntity1, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => GetListEntity$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'GetListEntity' from JSON`,
+    (x) => GetListEntity1$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetListEntity1' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetListEntityUnion$inboundSchema: z.ZodMiniType<
+  GetListEntityUnion,
+  unknown
+> = smartUnion([
+  z.lazy(() => GetListEntity2$inboundSchema),
+  z.lazy(() => GetListEntity1$inboundSchema),
+  z.lazy(() => GetListEntity3$inboundSchema),
+  z.lazy(() => GetListEntity4$inboundSchema),
+  z.lazy(() => GetListEntity5$inboundSchema),
+]);
+
+export function getListEntityUnionFromJSON(
+  jsonString: string,
+): SafeParseResult<GetListEntityUnion, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetListEntityUnion$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetListEntityUnion' from JSON`,
   );
 }
 
@@ -235,15 +593,21 @@ export function getListEntityFromJSON(
 export const GetListItem$inboundSchema: z.ZodMiniType<GetListItem, unknown> = z
   .pipe(
     z.object({
-      id: types.optional(types.number()),
-      position: types.optional(types.number()),
-      note: types.optional(types.string()),
-      created_at: types.optional(types.string()),
-      updated_at: types.optional(types.string()),
-      variant_id: types.optional(types.number()),
+      id: types.number(),
+      position: types.nullable(types.number()),
+      note: types.nullable(types.string()),
+      created_at: types.string(),
+      updated_at: types.string(),
+      variant_id: types.nullable(types.number()),
       variant: types.optional(z.lazy(() => GetListVariant$inboundSchema)),
-      entity_type: types.optional(types.string()),
-      entity: types.optional(z.lazy(() => GetListEntity$inboundSchema)),
+      entity_type: types.string(),
+      entity: types.optional(smartUnion([
+        z.lazy(() => GetListEntity2$inboundSchema),
+        z.lazy(() => GetListEntity1$inboundSchema),
+        z.lazy(() => GetListEntity3$inboundSchema),
+        z.lazy(() => GetListEntity4$inboundSchema),
+        z.lazy(() => GetListEntity5$inboundSchema),
+      ])),
     }),
     z.transform((v) => {
       return remap$(v, {
@@ -266,31 +630,83 @@ export function getListItemFromJSON(
 }
 
 /** @internal */
+export const GetListReaction$inboundSchema: z.ZodMiniType<
+  GetListReaction,
+  unknown
+> = z.object({
+  reaction: types.string(),
+  emoji: types.string(),
+  label: types.string(),
+  count: types.number(),
+});
+
+export function getListReactionFromJSON(
+  jsonString: string,
+): SafeParseResult<GetListReaction, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetListReaction$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetListReaction' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetListData$inboundSchema: z.ZodMiniType<GetListData, unknown> = z
   .pipe(
     z.object({
-      id: types.optional(types.number()),
-      title: types.optional(types.string()),
-      description: types.optional(types.string()),
-      entity_type: types.optional(types.string()),
-      is_ranked: types.optional(types.boolean()),
-      is_private: types.optional(types.boolean()),
-      items_count: types.optional(types.number()),
-      likes_count: types.optional(types.number()),
-      saves_count: types.optional(types.number()),
-      user: types.optional(z.lazy(() => GetListUser$inboundSchema)),
-      items: types.optional(z.array(z.lazy(() => GetListItem$inboundSchema))),
-      created_at: types.optional(types.string()),
+      id: types.number(),
+      title: types.string(),
+      slug: types.string(),
+      description: types.nullable(types.string()),
+      entity_type: types.string(),
+      entity_type_label: types.string(),
+      is_curated: types.boolean(),
+      item_types: z.array(types.string()),
+      is_ranked: types.boolean(),
+      sort_options: z.record(z.string(), types.string()),
+      is_private: types.boolean(),
+      status: types.string(),
+      list_type: types.string(),
+      items_count: types.number(),
+      saves_count: types.number(),
+      likes_count: types.number(),
+      clones_count: types.number(),
+      created_at: types.string(),
+      updated_at: types.string(),
+      is_smart: types.boolean(),
+      is_rule_based: types.boolean(),
+      last_refreshed_at: types.nullable(types.string()),
+      smart_paused: types.boolean(),
+      cloned_from_list_id: types.nullable(types.number()),
+      cloned_from: types.optional(
+        z.lazy(() => GetListClonedFrom$inboundSchema),
+      ),
+      user: types.nullable(z.lazy(() => GetListUser$inboundSchema)),
+      items: z.array(z.lazy(() => GetListItem$inboundSchema)),
+      reactions: z.array(z.lazy(() => GetListReaction$inboundSchema)),
     }),
     z.transform((v) => {
       return remap$(v, {
         "entity_type": "entityType",
+        "entity_type_label": "entityTypeLabel",
+        "is_curated": "isCurated",
+        "item_types": "itemTypes",
         "is_ranked": "isRanked",
+        "sort_options": "sortOptions",
         "is_private": "isPrivate",
+        "list_type": "listType",
         "items_count": "itemsCount",
-        "likes_count": "likesCount",
         "saves_count": "savesCount",
+        "likes_count": "likesCount",
+        "clones_count": "clonesCount",
         "created_at": "createdAt",
+        "updated_at": "updatedAt",
+        "is_smart": "isSmart",
+        "is_rule_based": "isRuleBased",
+        "last_refreshed_at": "lastRefreshedAt",
+        "smart_paused": "smartPaused",
+        "cloned_from_list_id": "clonedFromListId",
+        "cloned_from": "clonedFrom",
       });
     }),
   );
@@ -310,7 +726,7 @@ export const GetListResponseBody$inboundSchema: z.ZodMiniType<
   GetListResponseBody,
   unknown
 > = z.object({
-  data: types.optional(z.lazy(() => GetListData$inboundSchema)),
+  data: z.lazy(() => GetListData$inboundSchema),
 });
 
 export function getListResponseBodyFromJSON(

@@ -41,6 +41,8 @@ export function listsUnlikeList(
   Result<
     operations.UnlikeListResponse,
     | errors.UnauthorizedErrorError
+    | errors.UnlikeListForbiddenError
+    | errors.UnlikeListNotFoundError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -68,6 +70,8 @@ async function $do(
     Result<
       operations.UnlikeListResponse,
       | errors.UnauthorizedErrorError
+      | errors.UnlikeListForbiddenError
+      | errors.UnlikeListNotFoundError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -157,6 +161,8 @@ async function $do(
   const [result] = await M.match<
     operations.UnlikeListResponse,
     | errors.UnauthorizedErrorError
+    | errors.UnlikeListForbiddenError
+    | errors.UnlikeListNotFoundError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -172,6 +178,8 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
+    M.jsonErr(403, errors.UnlikeListForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.UnlikeListNotFoundError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

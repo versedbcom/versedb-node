@@ -12,20 +12,19 @@ import { unwrapAsync } from "../types/fp.js";
 
 export class Reading extends ClientSDK {
   /**
-   * View your unfinished comics from the VerseDB reader.
+   * View your reading goal.
    *
    * @remarks
-   * Available with read:user or read:showcase. Returns display fields only;
-   * page URLs, resume positions and private account data are excluded.
-   * Finished and unavailable books are omitted, with content preferences applied.
+   * Available to every authenticated member. Returns only the caller's goal.
+   *
+   * Needs `read:user` or `read:showcase`. A `read:showcase` token gets the goal without
+   * `notify_milestones`, `notify_lapses` and `email_updates`.
    */
-  async viewYourUnfinishedComicsFromTheVerseDBReader(
-    request?:
-      | operations.ViewYourUnfinishedComicsFromTheVerseDBReaderRequest
-      | undefined,
+  async viewYourReadingGoal(
+    request?: operations.ViewYourReadingGoalRequest | undefined,
     options?: RequestOptions,
-  ): Promise<operations.ViewYourUnfinishedComicsFromTheVerseDBReaderResponse> {
-    return unwrapAsync(readingViewYourUnfinishedComicsFromTheVerseDBReader(
+  ): Promise<operations.ViewYourReadingGoalResponse> {
+    return unwrapAsync(readingViewYourReadingGoal(
       this,
       request,
       options,
@@ -73,19 +72,21 @@ export class Reading extends ClientSDK {
   }
 
   /**
-   * View your reading goal.
+   * View your unfinished comics from the VerseDB reader.
    *
    * @remarks
-   * Available to every authenticated member. Returns only the caller's goal.
+   * Returns display fields only; page URLs, resume positions and private account data are excluded.
+   * Finished and unavailable books are omitted, with content preferences applied. Newest first.
    *
-   * Needs `read:user` or `read:showcase`. A `read:showcase` token gets the goal without
-   * `notify_milestones`, `notify_lapses` and `email_updates`.
+   * Needs `read:user` or `read:showcase`; both get the same response.
    */
-  async viewYourReadingGoal(
-    request?: operations.ViewYourReadingGoalRequest | undefined,
+  async viewYourUnfinishedComicsFromTheVerseDBReader(
+    request?:
+      | operations.ViewYourUnfinishedComicsFromTheVerseDBReaderRequest
+      | undefined,
     options?: RequestOptions,
-  ): Promise<operations.ViewYourReadingGoalResponse> {
-    return unwrapAsync(readingViewYourReadingGoal(
+  ): Promise<operations.ViewYourUnfinishedComicsFromTheVerseDBReaderResponse> {
+    return unwrapAsync(readingViewYourUnfinishedComicsFromTheVerseDBReader(
       this,
       request,
       options,

@@ -1,6 +1,6 @@
 # ViewYearlyReadingStatisticsForbiddenError
 
-Forbidden. The authenticated user may not perform this action.
+The token holds neither read:user nor read:showcase, or the member has no Pro.
 
 ## Example Usage
 
@@ -12,6 +12,6 @@ import { ViewYearlyReadingStatisticsForbiddenError } from "@versedbcom/sdk/model
 
 ## Fields
 
-| Field                           | Type                            | Required                        | Description                     | Example                         |
-| ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------- |
-| `message`                       | *string*                        | :heavy_minus_sign:              | N/A                             | Reading Stats is a Pro feature. |
+| Field                     | Type                      | Required                  | Description               | Example                   |
+| ------------------------- | ------------------------- | ------------------------- | ------------------------- | ------------------------- |
+| `message`                 | *string*                  | :heavy_check_mark:        | N/A                       | Insufficient token scope. |

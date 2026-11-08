@@ -7,14 +7,14 @@ import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Not convertible
+ * Not convertible.
  */
 export type OpenAListToAnyTypeUnprocessableEntityErrorData = {
-  message?: string | undefined;
+  message: string;
 };
 
 /**
- * Not convertible
+ * Not convertible.
  */
 export class OpenAListToAnyTypeUnprocessableEntityError extends VerseDbError {
   /** The original data that was passed to this error instance. */
@@ -33,14 +33,40 @@ export class OpenAListToAnyTypeUnprocessableEntityError extends VerseDbError {
 }
 
 /**
- * Unauthorized
+ * No live list has this ID.
  */
-export type OpenAListToAnyTypeForbiddenErrorData = {
-  message?: string | undefined;
+export type OpenAListToAnyTypeNotFoundErrorData = {
+  message: string;
 };
 
 /**
- * Unauthorized
+ * No live list has this ID.
+ */
+export class OpenAListToAnyTypeNotFoundError extends VerseDbError {
+  /** The original data that was passed to this error instance. */
+  data$: OpenAListToAnyTypeNotFoundErrorData;
+
+  constructor(
+    err: OpenAListToAnyTypeNotFoundErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+
+    this.name = "OpenAListToAnyTypeNotFoundError";
+  }
+}
+
+/**
+ * The token holds neither write:list nor write:lists, or the list is not yours.
+ */
+export type OpenAListToAnyTypeForbiddenErrorData = {
+  message: string;
+};
+
+/**
+ * The token holds neither write:list nor write:lists, or the list is not yours.
  */
 export class OpenAListToAnyTypeForbiddenError extends VerseDbError {
   /** The original data that was passed to this error instance. */
@@ -62,7 +88,7 @@ export class OpenAListToAnyTypeForbiddenError extends VerseDbError {
 export const OpenAListToAnyTypeUnprocessableEntityError$inboundSchema:
   z.ZodMiniType<OpenAListToAnyTypeUnprocessableEntityError, unknown> = z.pipe(
     z.object({
-      message: types.optional(types.string()),
+      message: types.string(),
       request$: z.custom<Request>(x => x instanceof Request),
       response$: z.custom<Response>(x => x instanceof Response),
       body$: z.string(),
@@ -77,12 +103,32 @@ export const OpenAListToAnyTypeUnprocessableEntityError$inboundSchema:
   );
 
 /** @internal */
+export const OpenAListToAnyTypeNotFoundError$inboundSchema: z.ZodMiniType<
+  OpenAListToAnyTypeNotFoundError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new OpenAListToAnyTypeNotFoundError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
 export const OpenAListToAnyTypeForbiddenError$inboundSchema: z.ZodMiniType<
   OpenAListToAnyTypeForbiddenError,
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
+    message: types.string(),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),

@@ -30,45 +30,101 @@ export type BrowseListsRequest = {
    * Items per page (max 100).
    */
   limit?: number | undefined;
+  /**
+   * Page number; meta.last_page says where the list ends.
+   */
+  page?: number | undefined;
 };
 
+/**
+ * The owner; null once the account is gone.
+ */
 export type BrowseListsUser = {
-  id?: number | undefined;
-  username?: string | undefined;
-  avatar?: string | undefined;
+  id: number;
+  username: string | null;
+  avatar: string | null;
 };
 
 export type BrowseListsPreviewItem = {
-  id?: number | undefined;
-  imageUrl?: string | undefined;
-  isNsfw?: boolean | undefined;
+  id: number;
+  imageUrl: string | null;
+  isNsfw: boolean;
 };
 
 export type BrowseListsData = {
-  id?: number | undefined;
-  title?: string | undefined;
-  entityType?: string | undefined;
-  isRanked?: boolean | undefined;
-  itemsCount?: number | undefined;
-  likesCount?: number | undefined;
-  savesCount?: number | undefined;
-  user?: BrowseListsUser | undefined;
+  id: number;
+  title: string;
+  slug: string;
+  /**
+   * The first 150 characters; left out when the list has none.
+   */
+  description?: string | undefined;
+  /**
+   * issues, series, characters, creators, story_arcs, teams, or mixed for a list of any type.
+   */
+  entityType: string;
+  /**
+   * custom, wishlist or reading_guide.
+   */
+  listType: string;
+  entityTypeLabel: string;
+  /**
+   * The list is VerseDB's own.
+   */
+  isCurated: boolean;
+  /**
+   * A rule keeps the list up to date.
+   */
+  isSmart: boolean;
+  isRanked: boolean;
+  isPrivate: boolean;
+  itemsCount: number;
+  savesCount: number;
+  likesCount: number;
+  createdAt: string;
+  updatedAt: string;
+  /**
+   * The owner; null once the account is gone.
+   */
+  user: BrowseListsUser | null;
+  /**
+   * The list's first four items in its own order; left out when it holds none.
+   */
   previewItems?: Array<BrowseListsPreviewItem> | undefined;
 };
 
+export type BrowseListsLinks = {
+  first: string;
+  last: string;
+  prev: string | null;
+  next: string | null;
+};
+
+export type BrowseListsLink = {
+  url: string | null;
+  label: string;
+  page?: number | null | undefined;
+  active: boolean;
+};
+
 export type BrowseListsMeta = {
-  currentPage?: number | undefined;
-  lastPage?: number | undefined;
-  perPage?: number | undefined;
-  total?: number | undefined;
+  currentPage: number;
+  from: number | null;
+  lastPage: number;
+  links: Array<BrowseListsLink>;
+  path: string;
+  perPage: number;
+  to: number | null;
+  total: number;
 };
 
 /**
  * Success
  */
 export type BrowseListsResponseBody = {
-  data?: Array<BrowseListsData> | undefined;
-  meta?: BrowseListsMeta | undefined;
+  data: Array<BrowseListsData>;
+  links: BrowseListsLinks;
+  meta: BrowseListsMeta;
 };
 
 export type BrowseListsResponse = {
@@ -83,6 +139,7 @@ export type BrowseListsRequest$Outbound = {
   type?: string | undefined;
   sort?: string | undefined;
   limit?: number | undefined;
+  page?: number | undefined;
 };
 
 /** @internal */
@@ -96,6 +153,7 @@ export const BrowseListsRequest$outboundSchema: z.ZodMiniType<
     type: z.optional(z.string()),
     sort: z.optional(z.string()),
     limit: z.optional(z.int()),
+    page: z.optional(z.int()),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -117,9 +175,9 @@ export const BrowseListsUser$inboundSchema: z.ZodMiniType<
   BrowseListsUser,
   unknown
 > = z.object({
-  id: types.optional(types.number()),
-  username: types.optional(types.string()),
-  avatar: types.optional(types.string()),
+  id: types.number(),
+  username: types.nullable(types.string()),
+  avatar: types.nullable(types.string()),
 });
 
 export function browseListsUserFromJSON(
@@ -138,9 +196,9 @@ export const BrowseListsPreviewItem$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    image_url: types.optional(types.string()),
-    is_nsfw: types.optional(types.boolean()),
+    id: types.number(),
+    image_url: types.nullable(types.string()),
+    is_nsfw: types.boolean(),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -166,14 +224,23 @@ export const BrowseListsData$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    title: types.optional(types.string()),
-    entity_type: types.optional(types.string()),
-    is_ranked: types.optional(types.boolean()),
-    items_count: types.optional(types.number()),
-    likes_count: types.optional(types.number()),
-    saves_count: types.optional(types.number()),
-    user: types.optional(z.lazy(() => BrowseListsUser$inboundSchema)),
+    id: types.number(),
+    title: types.string(),
+    slug: types.string(),
+    description: types.optional(types.string()),
+    entity_type: types.string(),
+    list_type: types.string(),
+    entity_type_label: types.string(),
+    is_curated: types.boolean(),
+    is_smart: types.boolean(),
+    is_ranked: types.boolean(),
+    is_private: types.boolean(),
+    items_count: types.number(),
+    saves_count: types.number(),
+    likes_count: types.number(),
+    created_at: types.string(),
+    updated_at: types.string(),
+    user: types.nullable(z.lazy(() => BrowseListsUser$inboundSchema)),
     preview_items: types.optional(
       z.array(z.lazy(() => BrowseListsPreviewItem$inboundSchema)),
     ),
@@ -181,10 +248,17 @@ export const BrowseListsData$inboundSchema: z.ZodMiniType<
   z.transform((v) => {
     return remap$(v, {
       "entity_type": "entityType",
+      "list_type": "listType",
+      "entity_type_label": "entityTypeLabel",
+      "is_curated": "isCurated",
+      "is_smart": "isSmart",
       "is_ranked": "isRanked",
+      "is_private": "isPrivate",
       "items_count": "itemsCount",
-      "likes_count": "likesCount",
       "saves_count": "savesCount",
+      "likes_count": "likesCount",
+      "created_at": "createdAt",
+      "updated_at": "updatedAt",
       "preview_items": "previewItems",
     });
   }),
@@ -201,15 +275,61 @@ export function browseListsDataFromJSON(
 }
 
 /** @internal */
+export const BrowseListsLinks$inboundSchema: z.ZodMiniType<
+  BrowseListsLinks,
+  unknown
+> = z.object({
+  first: types.string(),
+  last: types.string(),
+  prev: types.nullable(types.string()),
+  next: types.nullable(types.string()),
+});
+
+export function browseListsLinksFromJSON(
+  jsonString: string,
+): SafeParseResult<BrowseListsLinks, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => BrowseListsLinks$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'BrowseListsLinks' from JSON`,
+  );
+}
+
+/** @internal */
+export const BrowseListsLink$inboundSchema: z.ZodMiniType<
+  BrowseListsLink,
+  unknown
+> = z.object({
+  url: types.nullable(types.string()),
+  label: types.string(),
+  page: z.optional(z.nullable(types.number())),
+  active: types.boolean(),
+});
+
+export function browseListsLinkFromJSON(
+  jsonString: string,
+): SafeParseResult<BrowseListsLink, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => BrowseListsLink$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'BrowseListsLink' from JSON`,
+  );
+}
+
+/** @internal */
 export const BrowseListsMeta$inboundSchema: z.ZodMiniType<
   BrowseListsMeta,
   unknown
 > = z.pipe(
   z.object({
-    current_page: types.optional(types.number()),
-    last_page: types.optional(types.number()),
-    per_page: types.optional(types.number()),
-    total: types.optional(types.number()),
+    current_page: types.number(),
+    from: types.nullable(types.number()),
+    last_page: types.number(),
+    links: z.array(z.lazy(() => BrowseListsLink$inboundSchema)),
+    path: types.string(),
+    per_page: types.number(),
+    to: types.nullable(types.number()),
+    total: types.number(),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -235,8 +355,9 @@ export const BrowseListsResponseBody$inboundSchema: z.ZodMiniType<
   BrowseListsResponseBody,
   unknown
 > = z.object({
-  data: types.optional(z.array(z.lazy(() => BrowseListsData$inboundSchema))),
-  meta: types.optional(z.lazy(() => BrowseListsMeta$inboundSchema)),
+  data: z.array(z.lazy(() => BrowseListsData$inboundSchema)),
+  links: z.lazy(() => BrowseListsLinks$inboundSchema),
+  meta: z.lazy(() => BrowseListsMeta$inboundSchema),
 });
 
 export function browseListsResponseBodyFromJSON(

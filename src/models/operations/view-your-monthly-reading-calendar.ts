@@ -24,14 +24,22 @@ export type ViewYourMonthlyReadingCalendarRequest = {
   page?: number | undefined;
 };
 
+export type ViewYourMonthlyReadingCalendarData = {
+  id: number;
+  date: string | null;
+  name: string | null;
+  url: string | null;
+  cover: string | null;
+};
+
 /**
- * Success.
+ * Success
  */
 export type ViewYourMonthlyReadingCalendarResponseBody = {
-  data?: Array<any> | undefined;
-  currentPage?: number | undefined;
-  lastPage?: number | undefined;
-  total?: number | undefined;
+  data: Array<ViewYourMonthlyReadingCalendarData>;
+  currentPage: number;
+  lastPage: number;
+  total: number;
 };
 
 export type ViewYourMonthlyReadingCalendarResponse = {
@@ -68,13 +76,38 @@ export function viewYourMonthlyReadingCalendarRequestToJSON(
 }
 
 /** @internal */
+export const ViewYourMonthlyReadingCalendarData$inboundSchema: z.ZodMiniType<
+  ViewYourMonthlyReadingCalendarData,
+  unknown
+> = z.object({
+  id: types.number(),
+  date: types.nullable(types.string()),
+  name: types.nullable(types.string()),
+  url: types.nullable(types.string()),
+  cover: types.nullable(types.string()),
+});
+
+export function viewYourMonthlyReadingCalendarDataFromJSON(
+  jsonString: string,
+): SafeParseResult<ViewYourMonthlyReadingCalendarData, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ViewYourMonthlyReadingCalendarData$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ViewYourMonthlyReadingCalendarData' from JSON`,
+  );
+}
+
+/** @internal */
 export const ViewYourMonthlyReadingCalendarResponseBody$inboundSchema:
   z.ZodMiniType<ViewYourMonthlyReadingCalendarResponseBody, unknown> = z.pipe(
     z.object({
-      data: types.optional(z.array(z.any())),
-      current_page: types.optional(types.number()),
-      last_page: types.optional(types.number()),
-      total: types.optional(types.number()),
+      data: z.array(z.lazy(() =>
+        ViewYourMonthlyReadingCalendarData$inboundSchema
+      )),
+      current_page: types.number(),
+      last_page: types.number(),
+      total: types.number(),
     }),
     z.transform((v) => {
       return remap$(v, {

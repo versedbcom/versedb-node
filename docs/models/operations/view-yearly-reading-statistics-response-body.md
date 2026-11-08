@@ -1,6 +1,6 @@
 # ViewYearlyReadingStatisticsResponseBody
 
-Success.
+Success
 
 ## Example Usage
 
@@ -27,14 +27,14 @@ let value: ViewYearlyReadingStatisticsResponseBody = {
       notifyMilestones: false,
       notifyLapses: false,
       emailUpdates: false,
-      shareUrl: null,
+      shareUrl: "https://versedb.com/user/reader/2026",
     },
     days: [
       {
         date: "2026-01-01",
         count: 0,
         total: 0,
-        expected: 0.032876712328767,
+        expected: 0.03287671232876712,
       },
     ],
     months: {
@@ -53,8 +53,21 @@ let value: ViewYearlyReadingStatisticsResponseBody = {
     },
     breakdowns: {
       series: [],
-      publishers: [],
+      publishers: [
+        {
+          id: 42,
+          name: "Saga",
+          total: 3,
+        },
+      ],
       creators: [],
+      genres: [
+        {
+          id: 42,
+          name: "Saga",
+          total: 3,
+        },
+      ],
       characters: [],
     },
     activeDays: 0,
@@ -66,7 +79,14 @@ let value: ViewYearlyReadingStatisticsResponseBody = {
     thisMonth: 0,
     monthlyTarget: 3,
     busiestMonth: null,
-    finishedSeries: [],
+    finishedSeries: [
+      {
+        id: 42,
+        name: "Saga",
+        total: 54,
+        finishedAt: "2026-03-01 10:00:00",
+      },
+    ],
   },
   years: [
     2026,
@@ -76,7 +96,7 @@ let value: ViewYearlyReadingStatisticsResponseBody = {
 
 ## Fields
 
-| Field                                                                                                        | Type                                                                                                         | Required                                                                                                     | Description                                                                                                  | Example                                                                                                      |
-| ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
-| `data`                                                                                                       | [operations.ViewYearlyReadingStatisticsData](../../models/operations/view-yearly-reading-statistics-data.md) | :heavy_minus_sign:                                                                                           | N/A                                                                                                          |                                                                                                              |
-| `years`                                                                                                      | *number*[]                                                                                                   | :heavy_minus_sign:                                                                                           | N/A                                                                                                          | [<br/>2026<br/>]                                                                                             |
+| Field                                                                                                        | Type                                                                                                         | Required                                                                                                     | Description                                                                                                  |
+| ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| `data`                                                                                                       | [operations.ViewYearlyReadingStatisticsData](../../models/operations/view-yearly-reading-statistics-data.md) | :heavy_check_mark:                                                                                           | N/A                                                                                                          |
+| `years`                                                                                                      | *number*[]                                                                                                   | :heavy_check_mark:                                                                                           | N/A                                                                                                          |

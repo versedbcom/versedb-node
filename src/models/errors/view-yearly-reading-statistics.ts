@@ -7,14 +7,14 @@ import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Forbidden. The authenticated user may not perform this action.
+ * The token holds neither read:user nor read:showcase, or the member has no Pro.
  */
 export type ViewYearlyReadingStatisticsForbiddenErrorData = {
-  message?: string | undefined;
+  message: string;
 };
 
 /**
- * Forbidden. The authenticated user may not perform this action.
+ * The token holds neither read:user nor read:showcase, or the member has no Pro.
  */
 export class ViewYearlyReadingStatisticsForbiddenError extends VerseDbError {
   /** The original data that was passed to this error instance. */
@@ -36,7 +36,7 @@ export class ViewYearlyReadingStatisticsForbiddenError extends VerseDbError {
  * The request could not be processed.
  */
 export type ViewYearlyReadingStatisticsUnauthorizedErrorData = {
-  message?: string | undefined;
+  message: string;
 };
 
 /**
@@ -62,7 +62,7 @@ export class ViewYearlyReadingStatisticsUnauthorizedError extends VerseDbError {
 export const ViewYearlyReadingStatisticsForbiddenError$inboundSchema:
   z.ZodMiniType<ViewYearlyReadingStatisticsForbiddenError, unknown> = z.pipe(
     z.object({
-      message: types.optional(types.string()),
+      message: types.string(),
       request$: z.custom<Request>(x => x instanceof Request),
       response$: z.custom<Response>(x => x instanceof Response),
       body$: z.string(),
@@ -80,7 +80,7 @@ export const ViewYearlyReadingStatisticsForbiddenError$inboundSchema:
 export const ViewYearlyReadingStatisticsUnauthorizedError$inboundSchema:
   z.ZodMiniType<ViewYearlyReadingStatisticsUnauthorizedError, unknown> = z.pipe(
     z.object({
-      message: types.optional(types.string()),
+      message: types.string(),
       request$: z.custom<Request>(x => x instanceof Request),
       response$: z.custom<Response>(x => x instanceof Response),
       body$: z.string(),

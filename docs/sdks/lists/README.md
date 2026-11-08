@@ -20,18 +20,20 @@ Users can save and like lists, and lists can be ranked or unranked.
 * [browseLists](#browselists) - Browse lists.
 * [createList](#createlist) - Create list.
 * [browseSystemLists](#browsesystemlists) - Browse system lists.
+* [getUsersLists](#getuserslists) - Get user's lists.
 * [getList](#getlist) - Get list.
 * [updateList](#updatelist) - Update list.
 * [deleteList](#deletelist) - Delete list.
-* [getUsersLists](#getuserslists) - Get user's lists.
+* [saveList](#savelist) - Save list.
+* [unsaveList](#unsavelist) - Unsave list.
+* [likeListOrReactToIt](#likelistorreacttoit) - Like list, or react to it.
+* [unlikeList](#unlikelist) - Unlike list.
 * [convertAListToMixed](#convertalisttomixed) - Open a list to any type.
 * [stopAListUpdatingItself](#stopalistupdatingitself) - Stop a list updating itself.
 * [mergeAListIntoThisOne](#mergealistintothisone) - Merge a list into this one.
 * [addItemToList](#additemtolist) - Add item to list.
 * [removeItemFromList](#removeitemfromlist) - Remove item from list.
 * [reorderItems](#reorderitems) - Reorder items.
-* [likeListOrReactToIt](#likelistorreacttoit) - Like list, or react to it.
-* [unlikeList](#unlikelist) - Unlike list.
 
 ## browseLists
 
@@ -55,6 +57,7 @@ async function run() {
     type: "curated",
     sort: "popular",
     limit: 20,
+    page: 1,
   });
 
   console.log(result);
@@ -84,6 +87,7 @@ async function run() {
     type: "curated",
     sort: "popular",
     limit: 20,
+    page: 1,
   });
   if (res.ok) {
     const { value: result } = res;
@@ -111,15 +115,16 @@ run();
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| errors.UnauthorizedErrorError | 401                           | application/json              |
-| errors.TooManyRequestsError   | 429                           | application/json              |
-| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
+| Error Type                       | Status Code                      | Content Type                     |
+| -------------------------------- | -------------------------------- | -------------------------------- |
+| errors.UnauthorizedErrorError    | 401                              | application/json                 |
+| errors.BrowseListsForbiddenError | 403                              | application/json                 |
+| errors.TooManyRequestsError      | 429                              | application/json                 |
+| errors.VerseDbDefaultError       | 4XX, 5XX                         | \*/\*                            |
 
 ## createList
 
-Creates a new user list.
+Creates a new user list. A list filled by hand holds items of any type, so `entity_type` is ignored without a smart-list rule.
 
 ### Example Usage
 
@@ -138,7 +143,9 @@ async function run() {
     entityType: "issues",
     isRanked: true,
     isPrivate: false,
-    rules: {},
+    rules: {
+
+    },
   });
 
   console.log(result);
@@ -168,7 +175,9 @@ async function run() {
     entityType: "issues",
     isRanked: true,
     isPrivate: false,
-    rules: {},
+    rules: {
+  
+    },
   });
   if (res.ok) {
     const { value: result } = res;
@@ -196,12 +205,14 @@ run();
 
 ### Errors
 
-| Error Type                      | Status Code                     | Content Type                    |
-| ------------------------------- | ------------------------------- | ------------------------------- |
-| errors.UnauthorizedErrorError   | 401                             | application/json                |
-| errors.CreateListForbiddenError | 403                             | application/json                |
-| errors.TooManyRequestsError     | 429                             | application/json                |
-| errors.VerseDbDefaultError      | 4XX, 5XX                        | \*/\*                           |
+| Error Type                                | Status Code                               | Content Type                              |
+| ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
+| errors.UnauthorizedErrorError             | 401                                       | application/json                          |
+| errors.CreateListForbiddenError           | 403                                       | application/json                          |
+| errors.CreateListNotFoundError            | 404                                       | application/json                          |
+| errors.CreateListUnprocessableEntityError | 422                                       | application/json                          |
+| errors.TooManyRequestsError               | 429                                       | application/json                          |
+| errors.VerseDbDefaultError                | 4XX, 5XX                                  | \*/\*                                     |
 
 ## browseSystemLists
 
@@ -222,6 +233,7 @@ async function run() {
     entityType: "issues",
     sort: "popular",
     limit: 20,
+    page: 1,
   });
 
   console.log(result);
@@ -249,6 +261,7 @@ async function run() {
     entityType: "issues",
     sort: "popular",
     limit: 20,
+    page: 1,
   });
   if (res.ok) {
     const { value: result } = res;
@@ -276,11 +289,98 @@ run();
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| errors.UnauthorizedErrorError | 401                           | application/json              |
-| errors.TooManyRequestsError   | 429                           | application/json              |
-| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
+| Error Type                             | Status Code                            | Content Type                           |
+| -------------------------------------- | -------------------------------------- | -------------------------------------- |
+| errors.UnauthorizedErrorError          | 401                                    | application/json                       |
+| errors.BrowseSystemListsForbiddenError | 403                                    | application/json                       |
+| errors.TooManyRequestsError            | 429                                    | application/json                       |
+| errors.VerseDbDefaultError             | 4XX, 5XX                               | \*/\*                                  |
+
+## getUsersLists
+
+Returns a user's public lists. Your own lists also include private and draft ones when the
+token has `read:user`.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="getUsersLists" method="get" path="/api/v1/users/{user_id}/lists" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.lists.getUsersLists({
+    userId: 123,
+    entityType: "issues",
+    sort: "newest",
+    limit: 20,
+    page: 1,
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { listsGetUsersLists } from "@versedbcom/sdk/funcs/lists-get-users-lists.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await listsGetUsersLists(verseDB, {
+    userId: 123,
+    entityType: "issues",
+    sort: "newest",
+    limit: 20,
+    page: 1,
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("listsGetUsersLists failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.GetUsersListsRequest](../../models/operations/get-users-lists-request.md)                                                                                          | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.GetUsersListsResponse](../../models/operations/get-users-lists-response.md)\>**
+
+### Errors
+
+| Error Type                         | Status Code                        | Content Type                       |
+| ---------------------------------- | ---------------------------------- | ---------------------------------- |
+| errors.UnauthorizedErrorError      | 401                                | application/json                   |
+| errors.GetUsersListsForbiddenError | 403                                | application/json                   |
+| errors.GetUsersListsNotFoundError  | 404                                | application/json                   |
+| errors.TooManyRequestsError        | 429                                | application/json                   |
+| errors.VerseDbDefaultError         | 4XX, 5XX                           | \*/\*                              |
 
 ## getList
 
@@ -384,7 +484,6 @@ async function run() {
       isRanked: false,
       isPrivate: true,
       status: "published",
-      rules: {},
     },
   });
 
@@ -417,7 +516,6 @@ async function run() {
       isRanked: false,
       isPrivate: true,
       status: "published",
-      rules: {},
     },
   });
   if (res.ok) {
@@ -446,12 +544,14 @@ run();
 
 ### Errors
 
-| Error Type                      | Status Code                     | Content Type                    |
-| ------------------------------- | ------------------------------- | ------------------------------- |
-| errors.UnauthorizedErrorError   | 401                             | application/json                |
-| errors.UpdateListForbiddenError | 403                             | application/json                |
-| errors.TooManyRequestsError     | 429                             | application/json                |
-| errors.VerseDbDefaultError      | 4XX, 5XX                        | \*/\*                           |
+| Error Type                                | Status Code                               | Content Type                              |
+| ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
+| errors.UnauthorizedErrorError             | 401                                       | application/json                          |
+| errors.UpdateListForbiddenError           | 403                                       | application/json                          |
+| errors.UpdateListNotFoundError            | 404                                       | application/json                          |
+| errors.UpdateListUnprocessableEntityError | 422                                       | application/json                          |
+| errors.TooManyRequestsError               | 429                                       | application/json                          |
+| errors.VerseDbDefaultError                | 4XX, 5XX                                  | \*/\*                                     |
 
 ## deleteList
 
@@ -522,22 +622,21 @@ run();
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| errors.UnauthorizedErrorError | 401                           | application/json              |
-| errors.ResponseBodyError1     | 403                           | application/json              |
-| errors.ResponseBodyError2     | 403                           | application/json              |
-| errors.TooManyRequestsError   | 429                           | application/json              |
-| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.UnauthorizedErrorError   | 401                             | application/json                |
+| errors.DeleteListForbiddenError | 403                             | application/json                |
+| errors.DeleteListNotFoundError  | 404                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.VerseDbDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
-## getUsersLists
+## saveList
 
-Returns a user's public lists. Your own lists also include private and draft ones when the
-token has `read:user`.
+Saves a list to the user's saved lists for quick access. Cannot save your own lists.
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="getUsersLists" method="get" path="/api/v1/users/{user_id}/lists" -->
+<!-- UsageSnippet language="typescript" operationID="saveList" method="post" path="/api/v1/lists/{list_id}/save" -->
 ```typescript
 import { VerseDB } from "@versedbcom/sdk";
 
@@ -546,11 +645,8 @@ const verseDB = new VerseDB({
 });
 
 async function run() {
-  const result = await verseDB.lists.getUsersLists({
-    userId: 123,
-    entityType: "issues",
-    sort: "newest",
-    limit: 20,
+  const result = await verseDB.lists.saveList({
+    listId: 101,
   });
 
   console.log(result);
@@ -565,7 +661,7 @@ The standalone function version of this method:
 
 ```typescript
 import { VerseDBCore } from "@versedbcom/sdk/core.js";
-import { listsGetUsersLists } from "@versedbcom/sdk/funcs/lists-get-users-lists.js";
+import { listsSaveList } from "@versedbcom/sdk/funcs/lists-save-list.js";
 
 // Use `VerseDBCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -574,17 +670,14 @@ const verseDB = new VerseDBCore({
 });
 
 async function run() {
-  const res = await listsGetUsersLists(verseDB, {
-    userId: 123,
-    entityType: "issues",
-    sort: "newest",
-    limit: 20,
+  const res = await listsSaveList(verseDB, {
+    listId: 101,
   });
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("listsGetUsersLists failed:", res.error);
+    console.log("listsSaveList failed:", res.error);
   }
 }
 
@@ -595,27 +688,266 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.GetUsersListsRequest](../../models/operations/get-users-lists-request.md)                                                                                          | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.SaveListRequest](../../models/operations/save-list-request.md)                                                                                                     | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.GetUsersListsResponse](../../models/operations/get-users-lists-response.md)\>**
+**Promise\<[operations.SaveListResponse](../../models/operations/save-list-response.md)\>**
 
 ### Errors
 
 | Error Type                    | Status Code                   | Content Type                  |
 | ----------------------------- | ----------------------------- | ----------------------------- |
 | errors.UnauthorizedErrorError | 401                           | application/json              |
+| errors.SaveListForbiddenError | 403                           | application/json              |
+| errors.SaveListNotFoundError  | 404                           | application/json              |
 | errors.TooManyRequestsError   | 429                           | application/json              |
 | errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
 
+## unsaveList
+
+Removes a list from the user's saved lists.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="unsaveList" method="delete" path="/api/v1/lists/{list_id}/save" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.lists.unsaveList({
+    listId: 101,
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { listsUnsaveList } from "@versedbcom/sdk/funcs/lists-unsave-list.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await listsUnsaveList(verseDB, {
+    listId: 101,
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("listsUnsaveList failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.UnsaveListRequest](../../models/operations/unsave-list-request.md)                                                                                                 | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.UnsaveListResponse](../../models/operations/unsave-list-response.md)\>**
+
+### Errors
+
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.UnauthorizedErrorError   | 401                             | application/json                |
+| errors.UnsaveListForbiddenError | 403                             | application/json                |
+| errors.UnsaveListNotFoundError  | 404                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.VerseDbDefaultError      | 4XX, 5XX                        | \*/\*                           |
+
+## likeListOrReactToIt
+
+With no body this likes the list. Send `reaction` to leave that reaction instead, or to change the one already held; `DELETE` takes it back whichever it is. A member holds one reaction per list and every reaction counts toward `likes_count`. Cannot like your own lists.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="likeListOrReactToIt" method="post" path="/api/v1/lists/{list_id}/like" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.lists.likeListOrReactToIt({
+    listId: 101,
+    body: {
+      reaction: "clap",
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { listsLikeListOrReactToIt } from "@versedbcom/sdk/funcs/lists-like-list-or-react-to-it.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await listsLikeListOrReactToIt(verseDB, {
+    listId: 101,
+    body: {
+      reaction: "clap",
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("listsLikeListOrReactToIt failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.LikeListOrReactToItRequest](../../models/operations/like-list-or-react-to-it-request.md)                                                                           | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.LikeListOrReactToItResponse](../../models/operations/like-list-or-react-to-it-response.md)\>**
+
+### Errors
+
+| Error Type                                         | Status Code                                        | Content Type                                       |
+| -------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- |
+| errors.UnauthorizedErrorError                      | 401                                                | application/json                                   |
+| errors.LikeListOrReactToItForbiddenError           | 403                                                | application/json                                   |
+| errors.LikeListOrReactToItNotFoundError            | 404                                                | application/json                                   |
+| errors.LikeListOrReactToItUnprocessableEntityError | 422                                                | application/json                                   |
+| errors.TooManyRequestsError                        | 429                                                | application/json                                   |
+| errors.VerseDbDefaultError                         | 4XX, 5XX                                           | \*/\*                                              |
+
+## unlikeList
+
+Removes the user's like or reaction from a list.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="unlikeList" method="delete" path="/api/v1/lists/{list_id}/like" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.lists.unlikeList({
+    listId: 101,
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { listsUnlikeList } from "@versedbcom/sdk/funcs/lists-unlike-list.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await listsUnlikeList(verseDB, {
+    listId: 101,
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("listsUnlikeList failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.UnlikeListRequest](../../models/operations/unlike-list-request.md)                                                                                                 | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.UnlikeListResponse](../../models/operations/unlike-list-response.md)\>**
+
+### Errors
+
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.UnauthorizedErrorError   | 401                             | application/json                |
+| errors.UnlikeListForbiddenError | 403                             | application/json                |
+| errors.UnlikeListNotFoundError  | 404                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.VerseDbDefaultError      | 4XX, 5XX                        | \*/\*                           |
+
 ## convertAListToMixed
 
-One-way: broadens a single-type list so it can hold items of any type. Existing items keep
-their own type. It cannot be narrowed back, and a wishlist already holds any type.
+One-way: broadens a single-type list so it can hold items of any type. Existing items keep their own type. It cannot be narrowed back, and a wishlist already holds any type.
 
 ### Example Usage
 
@@ -686,15 +1018,14 @@ run();
 | ------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------- |
 | errors.UnauthorizedErrorError                     | 401                                               | application/json                                  |
 | errors.OpenAListToAnyTypeForbiddenError           | 403                                               | application/json                                  |
+| errors.OpenAListToAnyTypeNotFoundError            | 404                                               | application/json                                  |
 | errors.OpenAListToAnyTypeUnprocessableEntityError | 422                                               | application/json                                  |
 | errors.TooManyRequestsError                       | 429                                               | application/json                                  |
 | errors.VerseDbDefaultError                        | 4XX, 5XX                                          | \*/\*                                             |
 
 ## stopAListUpdatingItself
 
-One-way: drops a smart list's rule and keeps every item the last refresh left,
-handing the contents back for editing by hand. A rule is only ever attached when
-a list is created, so it cannot be put back.
+One-way: drops a smart list's rule and keeps every item the last refresh left, handing the contents back for editing by hand. A rule is only ever attached when a list is created, so it cannot be put back.
 
 ### Example Usage
 
@@ -764,15 +1095,15 @@ run();
 | Error Type                                             | Status Code                                            | Content Type                                           |
 | ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ |
 | errors.UnauthorizedErrorError                          | 401                                                    | application/json                                       |
+| errors.StopAListUpdatingItselfForbiddenError           | 403                                                    | application/json                                       |
+| errors.StopAListUpdatingItselfNotFoundError            | 404                                                    | application/json                                       |
 | errors.StopAListUpdatingItselfUnprocessableEntityError | 422                                                    | application/json                                       |
 | errors.TooManyRequestsError                            | 429                                                    | application/json                                       |
 | errors.VerseDbDefaultError                             | 4XX, 5XX                                               | \*/\*                                                  |
 
 ## mergeAListIntoThisOne
 
-Pulls every item from the source list into this (destination) list, skipping items already
-present (by entity + variant) and appending the rest. Both lists must be owned by the
-authenticated user. Merging items of a different type opens this list to any type.
+Pulls every item from the source list into this (destination) list, skipping items already present (by entity + variant) and appending the rest. Both lists must be owned by the authenticated user. Merging items of a different type opens this list to any type.
 
 ### Example Usage
 
@@ -851,6 +1182,7 @@ run();
 | ---------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------- |
 | errors.UnauthorizedErrorError                        | 401                                                  | application/json                                     |
 | errors.MergeAListIntoThisOneForbiddenError           | 403                                                  | application/json                                     |
+| errors.MergeAListIntoThisOneNotFoundError            | 404                                                  | application/json                                     |
 | errors.MergeAListIntoThisOneUnprocessableEntityError | 422                                                  | application/json                                     |
 | errors.TooManyRequestsError                          | 429                                                  | application/json                                     |
 | errors.VerseDbDefaultError                           | 4XX, 5XX                                             | \*/\*                                                |
@@ -938,17 +1270,19 @@ run();
 
 ### Errors
 
-| Error Type                         | Status Code                        | Content Type                       |
-| ---------------------------------- | ---------------------------------- | ---------------------------------- |
-| errors.UnauthorizedErrorError      | 401                                | application/json                   |
-| errors.AddItemToListForbiddenError | 403                                | application/json                   |
-| errors.AddItemToListConflictError  | 409                                | application/json                   |
-| errors.TooManyRequestsError        | 429                                | application/json                   |
-| errors.VerseDbDefaultError         | 4XX, 5XX                           | \*/\*                              |
+| Error Type                                   | Status Code                                  | Content Type                                 |
+| -------------------------------------------- | -------------------------------------------- | -------------------------------------------- |
+| errors.UnauthorizedErrorError                | 401                                          | application/json                             |
+| errors.AddItemToListForbiddenError           | 403                                          | application/json                             |
+| errors.AddItemToListNotFoundError            | 404                                          | application/json                             |
+| errors.AddItemToListConflictError            | 409                                          | application/json                             |
+| errors.AddItemToListUnprocessableEntityError | 422                                          | application/json                             |
+| errors.TooManyRequestsError                  | 429                                          | application/json                             |
+| errors.VerseDbDefaultError                   | 4XX, 5XX                                     | \*/\*                                        |
 
 ## removeItemFromList
 
-Removes an item from a list. Other items' positions are automatically adjusted.
+Removes an item from a list. Other items' positions are kept.
 
 ### Example Usage
 
@@ -1027,7 +1361,7 @@ run();
 
 ## reorderItems
 
-Reorders items in a list by providing the new order of item IDs.
+Reorders items in a ranked list by providing the new order of item IDs.
 
 ### Example Usage
 
@@ -1108,168 +1442,11 @@ run();
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| errors.UnauthorizedErrorError | 401                           | application/json              |
-| errors.TooManyRequestsError   | 429                           | application/json              |
-| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
-
-## likeListOrReactToIt
-
-With no body this likes the list. Send `reaction` to leave that reaction instead, or to
-change the one already held; `DELETE` takes it back whichever it is. A member holds one
-reaction per list and every reaction counts toward `likes_count`. Cannot like your own lists.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="likeListOrReactToIt" method="post" path="/api/v1/lists/{list_id}/like" -->
-```typescript
-import { VerseDB } from "@versedbcom/sdk";
-
-const verseDB = new VerseDB({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const result = await verseDB.lists.likeListOrReactToIt({
-    listId: 101,
-    body: {
-      reaction: "clap",
-    },
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { VerseDBCore } from "@versedbcom/sdk/core.js";
-import { listsLikeListOrReactToIt } from "@versedbcom/sdk/funcs/lists-like-list-or-react-to-it.js";
-
-// Use `VerseDBCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const verseDB = new VerseDBCore({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const res = await listsLikeListOrReactToIt(verseDB, {
-    listId: 101,
-    body: {
-      reaction: "clap",
-    },
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("listsLikeListOrReactToIt failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.LikeListOrReactToItRequest](../../models/operations/like-list-or-react-to-it-request.md)                                                                           | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[operations.LikeListOrReactToItResponse](../../models/operations/like-list-or-react-to-it-response.md)\>**
-
-### Errors
-
-| Error Type                                         | Status Code                                        | Content Type                                       |
-| -------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- |
-| errors.UnauthorizedErrorError                      | 401                                                | application/json                                   |
-| errors.LikeListOrReactToItForbiddenError           | 403                                                | application/json                                   |
-| errors.LikeListOrReactToItUnprocessableEntityError | 422                                                | application/json                                   |
-| errors.TooManyRequestsError                        | 429                                                | application/json                                   |
-| errors.VerseDbDefaultError                         | 4XX, 5XX                                           | \*/\*                                              |
-
-## unlikeList
-
-Removes the user's like or reaction from a list.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="unlikeList" method="delete" path="/api/v1/lists/{list_id}/like" -->
-```typescript
-import { VerseDB } from "@versedbcom/sdk";
-
-const verseDB = new VerseDB({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const result = await verseDB.lists.unlikeList({
-    listId: 101,
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { VerseDBCore } from "@versedbcom/sdk/core.js";
-import { listsUnlikeList } from "@versedbcom/sdk/funcs/lists-unlike-list.js";
-
-// Use `VerseDBCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const verseDB = new VerseDBCore({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const res = await listsUnlikeList(verseDB, {
-    listId: 101,
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("listsUnlikeList failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.UnlikeListRequest](../../models/operations/unlike-list-request.md)                                                                                                 | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[operations.UnlikeListResponse](../../models/operations/unlike-list-response.md)\>**
-
-### Errors
-
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| errors.UnauthorizedErrorError | 401                           | application/json              |
-| errors.TooManyRequestsError   | 429                           | application/json              |
-| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
+| Error Type                                  | Status Code                                 | Content Type                                |
+| ------------------------------------------- | ------------------------------------------- | ------------------------------------------- |
+| errors.UnauthorizedErrorError               | 401                                         | application/json                            |
+| errors.ReorderItemsForbiddenError           | 403                                         | application/json                            |
+| errors.ReorderItemsNotFoundError            | 404                                         | application/json                            |
+| errors.ReorderItemsUnprocessableEntityError | 422                                         | application/json                            |
+| errors.TooManyRequestsError                 | 429                                         | application/json                            |
+| errors.VerseDbDefaultError                  | 4XX, 5XX                                    | \*/\*                                       |

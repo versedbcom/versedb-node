@@ -17,5 +17,5 @@ let value: LikeListOrReactToItResponseBody2 = {
 
 | Field                  | Type                   | Required               | Description            | Example                |
 | ---------------------- | ---------------------- | ---------------------- | ---------------------- | ---------------------- |
-| `message`              | *string*               | :heavy_minus_sign:     | N/A                    | List is already liked. |
-| `liked`                | *boolean*              | :heavy_minus_sign:     | N/A                    | true                   |
+| `message`              | *string*               | :heavy_check_mark:     | N/A                    | List is already liked. |
+| `liked`                | *boolean*              | :heavy_check_mark:     | N/A                    | true                   |

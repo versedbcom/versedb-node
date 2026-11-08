@@ -8,13 +8,6 @@ import { safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
-export type RemoveFromWishlistRequestBody = {
-  /**
-   * Optional cover variant of the issue. Must belong to the issue. Omit for "any cover" — the base entry, which is what the app's quick-add heart writes. Must match an existing stored value.
-   */
-  variantId?: number | null | undefined;
-};
-
 export type RemoveFromWishlistRequest = {
   /**
    * The issue ID.
@@ -24,7 +17,6 @@ export type RemoveFromWishlistRequest = {
    * Optional cover variant to remove. Omit to remove the "any cover" entry — variant-pinned entries for the same issue are left alone.
    */
   variantId?: number | undefined;
-  body?: RemoveFromWishlistRequestBody | undefined;
 };
 
 export type RemoveFromWishlistResponse = {
@@ -32,40 +24,9 @@ export type RemoveFromWishlistResponse = {
 };
 
 /** @internal */
-export type RemoveFromWishlistRequestBody$Outbound = {
-  variant_id?: number | null | undefined;
-};
-
-/** @internal */
-export const RemoveFromWishlistRequestBody$outboundSchema: z.ZodMiniType<
-  RemoveFromWishlistRequestBody$Outbound,
-  RemoveFromWishlistRequestBody
-> = z.pipe(
-  z.object({
-    variantId: z.optional(z.nullable(z.int())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      variantId: "variant_id",
-    });
-  }),
-);
-
-export function removeFromWishlistRequestBodyToJSON(
-  removeFromWishlistRequestBody: RemoveFromWishlistRequestBody,
-): string {
-  return JSON.stringify(
-    RemoveFromWishlistRequestBody$outboundSchema.parse(
-      removeFromWishlistRequestBody,
-    ),
-  );
-}
-
-/** @internal */
 export type RemoveFromWishlistRequest$Outbound = {
   issue_id: number;
   variant_id?: number | undefined;
-  body?: RemoveFromWishlistRequestBody$Outbound | undefined;
 };
 
 /** @internal */
@@ -76,9 +37,6 @@ export const RemoveFromWishlistRequest$outboundSchema: z.ZodMiniType<
   z.object({
     issueId: z.int(),
     variantId: z.optional(z.int()),
-    body: z.optional(
-      z.lazy(() => RemoveFromWishlistRequestBody$outboundSchema),
-    ),
   }),
   z.transform((v) => {
     return remap$(v, {

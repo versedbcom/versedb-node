@@ -20,7 +20,7 @@ specific category of applications.
 
 ```typescript
 import { VerseDBCore } from "@versedbcom/sdk/core.js";
-import { seriesListSeries } from "@versedbcom/sdk/funcs/series-list-series.js";
+import { userGetTheAuthenticatedUser } from "@versedbcom/sdk/funcs/user-get-the-authenticated-user.js";
 
 // Use `VerseDBCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -29,32 +29,12 @@ const verseDB = new VerseDBCore({
 });
 
 async function run() {
-  const res = await seriesListSeries(verseDB, {
-    q: "spider-man",
-    titleId: 1,
-    publisherId: 1,
-    status: "Ongoing",
-    genreIds: "3,11",
-    publisherIds: "1,4",
-    creatorIds: "812,1907",
-    characterIds: "55,204",
-    languages: "en,ja",
-    medium: "manga",
-    publicationType: "limited_series",
-    format: "Omnibus",
-    startYear: 2018,
-    endYear: 2022,
-    decade: "1990s",
-    hideUnreleased: true,
-    sort: "start_year",
-    direction: "desc",
-    limit: 20,
-  });
+  const res = await userGetTheAuthenticatedUser(verseDB);
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("seriesListSeries failed:", res.error);
+    console.log("userGetTheAuthenticatedUser failed:", res.error);
   }
 }
 

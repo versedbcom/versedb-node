@@ -30,6 +30,23 @@ export class Series extends ClientSDK {
   }
 
   /**
+   * Get series issues.
+   *
+   * @remarks
+   * Returns paginated issues for a specific series.
+   */
+  async getSeriesIssues(
+    request: operations.GetSeriesIssuesRequest,
+    options?: RequestOptions,
+  ): Promise<operations.GetSeriesIssuesResponse> {
+    return unwrapAsync(seriesGetSeriesIssues(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
    * Get series details.
    *
    * @remarks
@@ -41,23 +58,6 @@ export class Series extends ClientSDK {
     options?: RequestOptions,
   ): Promise<operations.GetSeriesDetailsResponse> {
     return unwrapAsync(seriesGetSeriesDetails(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
-   * Get series issues.
-   *
-   * @remarks
-   * Returns paginated issues for a specific series.
-   */
-  async getSeriesIssues(
-    request: operations.GetSeriesIssuesRequest,
-    options?: RequestOptions,
-  ): Promise<operations.GetSeriesIssuesResponse> {
-    return unwrapAsync(seriesGetSeriesIssues(
       this,
       request,
       options,

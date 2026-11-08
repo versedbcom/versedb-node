@@ -1,6 +1,6 @@
 # AddToPullListUnprocessableEntityError
 
-Series Not Found
+No series has this ID.
 
 ## Example Usage
 
@@ -12,7 +12,7 @@ import { AddToPullListUnprocessableEntityError } from "@versedbcom/sdk/models/er
 
 ## Fields
 
-| Field                                                                                | Type                                                                                 | Required                                                                             | Description                                                                          | Example                                                                              |
-| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
-| `message`                                                                            | *string*                                                                             | :heavy_minus_sign:                                                                   | N/A                                                                                  | The selected series id is invalid.                                                   |
-| `errors`                                                                             | [operations.AddToPullListErrors](../../models/operations/add-to-pull-list-errors.md) | :heavy_minus_sign:                                                                   | N/A                                                                                  |                                                                                      |
+| Field                                                                                          | Type                                                                                           | Required                                                                                       | Description                                                                                    | Example                                                                                        |
+| ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `message`                                                                                      | *string*                                                                                       | :heavy_check_mark:                                                                             | N/A                                                                                            | The specified variant does not exist or does not belong to this issue.                         |
+| `errors`                                                                                       | Record<string, *string*[]>                                                                     | :heavy_check_mark:                                                                             | N/A                                                                                            | {<br/>"variant_id": [<br/>"The specified variant does not exist or does not belong to this issue."<br/>]<br/>} |

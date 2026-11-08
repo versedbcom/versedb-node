@@ -1,6 +1,6 @@
 # ViewYourReadingGoalResponseBody
 
-Success.
+Success
 
 ## Example Usage
 
@@ -26,7 +26,7 @@ let value: ViewYourReadingGoalResponseBody = {
     notifyMilestones: false,
     notifyLapses: false,
     emailUpdates: false,
-    shareUrl: null,
+    shareUrl: "https://versedb.com/user/reader/2026",
   },
   years: [
     2026,
@@ -36,7 +36,7 @@ let value: ViewYourReadingGoalResponseBody = {
 
 ## Fields
 
-| Field                                                                                        | Type                                                                                         | Required                                                                                     | Description                                                                                  | Example                                                                                      |
-| -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| `data`                                                                                       | [operations.ViewYourReadingGoalData](../../models/operations/view-your-reading-goal-data.md) | :heavy_minus_sign:                                                                           | N/A                                                                                          |                                                                                              |
-| `years`                                                                                      | *number*[]                                                                                   | :heavy_minus_sign:                                                                           | N/A                                                                                          | [<br/>2026<br/>]                                                                             |
+| Field                                                                                        | Type                                                                                         | Required                                                                                     | Description                                                                                  |
+| -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| `data`                                                                                       | [operations.ViewYourReadingGoalData](../../models/operations/view-your-reading-goal-data.md) | :heavy_check_mark:                                                                           | N/A                                                                                          |
+| `years`                                                                                      | *number*[]                                                                                   | :heavy_check_mark:                                                                           | N/A                                                                                          |

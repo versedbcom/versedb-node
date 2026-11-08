@@ -13,7 +13,7 @@ let value: ListKeyIssueReasonsResponseBody = {
       id: 1,
       name: "1st Appearance",
       category: "appearance",
-      description: "First appearance of a character",
+      description: "First appearance of a character.",
     },
   ],
 };
@@ -21,6 +21,6 @@ let value: ListKeyIssueReasonsResponseBody = {
 
 ## Fields
 
-| Field                                                                                                                 | Type                                                                                                                  | Required                                                                                                              | Description                                                                                                           | Example                                                                                                               |
-| --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| `data`                                                                                                                | [operations.ListKeyIssueReasonsData](../../models/operations/list-key-issue-reasons-data.md)[]                        | :heavy_minus_sign:                                                                                                    | N/A                                                                                                                   | [<br/>{<br/>"id": 1,<br/>"name": "1st Appearance",<br/>"category": "appearance",<br/>"description": "First appearance of a character"<br/>}<br/>] |
+| Field                                                                                          | Type                                                                                           | Required                                                                                       | Description                                                                                    |
+| ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `data`                                                                                         | [operations.ListKeyIssueReasonsData](../../models/operations/list-key-issue-reasons-data.md)[] | :heavy_check_mark:                                                                             | N/A                                                                                            |

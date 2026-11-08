@@ -42,6 +42,8 @@ export function listsGetUsersLists(
   Result<
     operations.GetUsersListsResponse,
     | errors.UnauthorizedErrorError
+    | errors.GetUsersListsForbiddenError
+    | errors.GetUsersListsNotFoundError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -69,6 +71,8 @@ async function $do(
     Result<
       operations.GetUsersListsResponse,
       | errors.UnauthorizedErrorError
+      | errors.GetUsersListsForbiddenError
+      | errors.GetUsersListsNotFoundError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -104,6 +108,7 @@ async function $do(
   const query = encodeFormQuery({
     "entity_type": payload.entity_type,
     "limit": payload.limit,
+    "page": payload.page,
     "sort": payload.sort,
   });
 
@@ -165,6 +170,8 @@ async function $do(
   const [result] = await M.match<
     operations.GetUsersListsResponse,
     | errors.UnauthorizedErrorError
+    | errors.GetUsersListsForbiddenError
+    | errors.GetUsersListsNotFoundError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -180,6 +187,8 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
+    M.jsonErr(403, errors.GetUsersListsForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.GetUsersListsNotFoundError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

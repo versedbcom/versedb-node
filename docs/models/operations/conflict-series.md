@@ -17,7 +17,7 @@ let value: ConflictSeries = {
 
 | Field                  | Type                   | Required               | Description            | Example                |
 | ---------------------- | ---------------------- | ---------------------- | ---------------------- | ---------------------- |
-| `id`                   | *number*               | :heavy_minus_sign:     | N/A                    | 88                     |
-| `name`                 | *string*               | :heavy_minus_sign:     | N/A                    | The Amazing Spider-Man |
-| `slug`                 | *string*               | :heavy_minus_sign:     | N/A                    | the-amazing-spider-man |
-| `startYear`            | *number*               | :heavy_minus_sign:     | N/A                    | 2018                   |
+| `id`                   | *number*               | :heavy_check_mark:     | N/A                    | 88                     |
+| `name`                 | *string*               | :heavy_check_mark:     | N/A                    | The Amazing Spider-Man |
+| `slug`                 | *string*               | :heavy_check_mark:     | N/A                    | the-amazing-spider-man |
+| `startYear`            | *number*               | :heavy_check_mark:     | N/A                    | 2018                   |

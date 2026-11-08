@@ -3,27 +3,25 @@
  */
 
 import * as z from "zod/v4-mini";
+import { safeParse } from "../../lib/schemas.js";
+import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
+import { smartUnion } from "../../types/smart-union.js";
+import { SDKValidationError } from "./sdk-validation-error.js";
 import { VerseDbError } from "./verse-db-error.js";
 
-/**
- * Invalid Variant
- */
-export type MarkAsReadUnprocessableEntityErrorData = {
-  error?: string | undefined;
+export type MarkAsReadResponseBodyError3Data = {
+  error: string;
 };
 
-/**
- * Invalid Variant
- */
-export class MarkAsReadUnprocessableEntityError extends VerseDbError {
-  error?: string | undefined;
+export class MarkAsReadResponseBodyError3 extends VerseDbError {
+  error: string;
 
   /** The original data that was passed to this error instance. */
-  data$: MarkAsReadUnprocessableEntityErrorData;
+  data$: MarkAsReadResponseBodyError3Data;
 
   constructor(
-    err: MarkAsReadUnprocessableEntityErrorData,
+    err: MarkAsReadResponseBodyError3Data,
     httpMeta: { response: Response; request: Request; body: string },
   ) {
     const message = "message" in err && typeof err.message === "string"
@@ -31,25 +29,235 @@ export class MarkAsReadUnprocessableEntityError extends VerseDbError {
       : `API error occurred: ${JSON.stringify(err)}`;
     super(message, httpMeta);
     this.data$ = err;
-    if (err.error != null) this.error = err.error;
+    this.error = err.error;
 
-    this.name = "MarkAsReadUnprocessableEntityError";
+    this.name = "MarkAsReadResponseBodyError3";
+  }
+}
+
+export type MarkAsReadResponseBodyError2Data = {
+  message: string;
+  error: string;
+};
+
+export class MarkAsReadResponseBodyError2 extends VerseDbError {
+  error: string;
+
+  /** The original data that was passed to this error instance. */
+  data$: MarkAsReadResponseBodyError2Data;
+
+  constructor(
+    err: MarkAsReadResponseBodyError2Data,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+    this.error = err.error;
+
+    this.name = "MarkAsReadResponseBodyError2";
+  }
+}
+
+export type MarkAsReadResponseBodyError1Data = {
+  message: string;
+  errors: { [k: string]: Array<string> };
+};
+
+export class MarkAsReadResponseBodyError1 extends VerseDbError {
+  errors: { [k: string]: Array<string> };
+
+  /** The original data that was passed to this error instance. */
+  data$: MarkAsReadResponseBodyError1Data;
+
+  constructor(
+    err: MarkAsReadResponseBodyError1Data,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+    this.errors = err.errors;
+
+    this.name = "MarkAsReadResponseBodyError1";
+  }
+}
+
+/**
+ * Invalid Variant, a variant that does not exist, or an issue not released yet.
+ */
+export type MarkAsReadUnprocessableEntity =
+  | MarkAsReadResponseBodyError1
+  | MarkAsReadResponseBodyError2
+  | MarkAsReadResponseBodyError3;
+
+/**
+ * No live issue has this ID.
+ */
+export type MarkAsReadNotFoundErrorData = {
+  message: string;
+};
+
+/**
+ * No live issue has this ID.
+ */
+export class MarkAsReadNotFoundError extends VerseDbError {
+  /** The original data that was passed to this error instance. */
+  data$: MarkAsReadNotFoundErrorData;
+
+  constructor(
+    err: MarkAsReadNotFoundErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+
+    this.name = "MarkAsReadNotFoundError";
+  }
+}
+
+/**
+ * The token holds neither write:read-status nor write:lists.
+ */
+export type MarkAsReadForbiddenErrorData = {
+  message: string;
+};
+
+/**
+ * The token holds neither write:read-status nor write:lists.
+ */
+export class MarkAsReadForbiddenError extends VerseDbError {
+  /** The original data that was passed to this error instance. */
+  data$: MarkAsReadForbiddenErrorData;
+
+  constructor(
+    err: MarkAsReadForbiddenErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+
+    this.name = "MarkAsReadForbiddenError";
   }
 }
 
 /** @internal */
-export const MarkAsReadUnprocessableEntityError$inboundSchema: z.ZodMiniType<
-  MarkAsReadUnprocessableEntityError,
+export const MarkAsReadResponseBodyError3$inboundSchema: z.ZodMiniType<
+  MarkAsReadResponseBodyError3,
   unknown
 > = z.pipe(
   z.object({
-    error: types.optional(types.string()),
+    error: types.string(),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),
   }),
   z.transform((v) => {
-    return new MarkAsReadUnprocessableEntityError(v, {
+    return new MarkAsReadResponseBodyError3(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
+export const MarkAsReadResponseBodyError2$inboundSchema: z.ZodMiniType<
+  MarkAsReadResponseBodyError2,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    error: types.string(),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new MarkAsReadResponseBodyError2(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
+export const MarkAsReadResponseBodyError1$inboundSchema: z.ZodMiniType<
+  MarkAsReadResponseBodyError1,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    errors: z.record(z.string(), z.array(types.string())),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new MarkAsReadResponseBodyError1(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
+export const MarkAsReadUnprocessableEntity$inboundSchema: z.ZodMiniType<
+  MarkAsReadUnprocessableEntity,
+  unknown
+> = smartUnion([
+  z.lazy(() => MarkAsReadResponseBodyError1$inboundSchema),
+  z.lazy(() => MarkAsReadResponseBodyError2$inboundSchema),
+  z.lazy(() => MarkAsReadResponseBodyError3$inboundSchema),
+]);
+
+export function markAsReadUnprocessableEntityFromJSON(
+  jsonString: string,
+): SafeParseResult<MarkAsReadUnprocessableEntity, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => MarkAsReadUnprocessableEntity$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'MarkAsReadUnprocessableEntity' from JSON`,
+  );
+}
+
+/** @internal */
+export const MarkAsReadNotFoundError$inboundSchema: z.ZodMiniType<
+  MarkAsReadNotFoundError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new MarkAsReadNotFoundError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
+export const MarkAsReadForbiddenError$inboundSchema: z.ZodMiniType<
+  MarkAsReadForbiddenError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new MarkAsReadForbiddenError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

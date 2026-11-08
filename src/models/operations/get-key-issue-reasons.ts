@@ -17,19 +17,21 @@ export type GetKeyIssueReasonsRequest = {
 };
 
 export type GetKeyIssueReasonsData = {
-  id?: number | undefined;
-  name?: string | undefined;
-  category?: string | undefined;
-  description?: string | undefined;
-  notes?: string | undefined;
-  source?: string | undefined;
+  id: number;
+  name: string | null;
+  /**
+   * appearance, story, creator, market or media.
+   */
+  category: string | null;
+  description: string | null;
+  notes: string | null;
 };
 
 /**
  * Success
  */
 export type GetKeyIssueReasonsResponseBody = {
-  data?: Array<GetKeyIssueReasonsData> | undefined;
+  data: Array<GetKeyIssueReasonsData>;
 };
 
 export type GetKeyIssueReasonsResponse = {
@@ -70,12 +72,11 @@ export const GetKeyIssueReasonsData$inboundSchema: z.ZodMiniType<
   GetKeyIssueReasonsData,
   unknown
 > = z.object({
-  id: types.optional(types.number()),
-  name: types.optional(types.string()),
-  category: types.optional(types.string()),
-  description: types.optional(types.string()),
-  notes: types.optional(types.string()),
-  source: types.optional(types.string()),
+  id: types.number(),
+  name: types.nullable(types.string()),
+  category: types.nullable(types.string()),
+  description: types.nullable(types.string()),
+  notes: types.nullable(types.string()),
 });
 
 export function getKeyIssueReasonsDataFromJSON(
@@ -93,9 +94,7 @@ export const GetKeyIssueReasonsResponseBody$inboundSchema: z.ZodMiniType<
   GetKeyIssueReasonsResponseBody,
   unknown
 > = z.object({
-  data: types.optional(
-    z.array(z.lazy(() => GetKeyIssueReasonsData$inboundSchema)),
-  ),
+  data: z.array(z.lazy(() => GetKeyIssueReasonsData$inboundSchema)),
 });
 
 export function getKeyIssueReasonsResponseBodyFromJSON(
