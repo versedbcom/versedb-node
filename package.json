@@ -1,6 +1,6 @@
 {
   "name": "@versedbcom/sdk",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "author": "VerseDB",
   "license": "MIT",
   "type": "module",
@@ -62,6 +62,6 @@
     "typescript": "~5.8.3"
   },
   "dependencies": {
-    "zod": "^3.25.65 || ^4.0.0"
+    "zod": "^3.25.65 || ^4.6.6"
   }
 }
