@@ -17,16 +17,24 @@ Hand edits to generated files are overwritten on the next generation run.
 - [.speakeasy/gen.yaml](.speakeasy/gen.yaml) holds package config (`@versedbcom/sdk`,
   SDK class name `VerseDB`).
 - [sdk_generation.yaml](.github/workflows/sdk_generation.yaml) regenerates the SDK
-  (daily + on demand) and opens a version-bump PR when the spec changed.
-- [sdk_publish.yaml](.github/workflows/sdk_publish.yaml) publishes to npm when a
-  generation PR merges to `main` (triggered by the `RELEASES.md` update).
+  (daily at 06:00 UTC and on demand, with `force` to regenerate an unchanged spec). It runs in
+  `mode: direct`: when the spec changed it commits the version bump to `main` and publishes to
+  npm in the same run.
+- [sdk_publish.yaml](.github/workflows/sdk_publish.yaml) publishes the version on `main` to npm
+  without regenerating. Run it by hand (`workflow_dispatch`) to retry a failed publish; it also
+  fires on a push to `main` that changes `RELEASES.md`.
 
 Local generation: install the [Speakeasy CLI](https://www.speakeasy.com/docs/speakeasy-cli/getting-started),
 authenticate, then run `speakeasy run` from the repo root.
 
 ## Maintainer setup (one-time)
 
-1. Repo secrets for CI: `SPEAKEASY_API_KEY`, `NPM_TOKEN` (npm org `@versedbcom`).
+1. Repo secrets for CI: `SPEAKEASY_API_KEY` and `NPM_TOKEN`, a granular npm access token with
+   read and write on `@versedbcom/sdk` (npm org `versedbcom`) that can publish without 2FA.
+   Granular write tokens expire (90 days at most). When one lapses, the "Publish Typescript
+   SDK" step fails with `E404` on the registry `PUT`. Make a new token, run
+   `gh secret set NPM_TOKEN --repo versedbcom/versedb-node`, then run Publish SDK by hand.
+   The Speakeasy action (v15) publishes to npm only with a token, not npm trusted publishing.
 2. Confirm the spec URL above serves the current OpenAPI 3.1 document.
 
 ## Versioning
