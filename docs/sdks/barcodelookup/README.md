@@ -21,8 +21,8 @@ market quote.
 
 ## lookupByUPC
 
-Find an issue by its UPC barcode (typically 12-17 digits).
-Returns full issue details including series information.
+Find an issue by its UPC barcode (10 to 18 digits; anything else in the code is dropped). A variant's printed code finds its issue, and a bare 12-digit series code
+widens to every issue built on it. One issue returns 200 with its covers; a code several issues hold returns 409 with up to 25 candidates.
 
 ### Example Usage
 
@@ -37,6 +37,7 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.barcodeLookup.lookupByUPC({
     upc: "75960608936700111",
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -62,6 +63,7 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await barcodeLookupLookupByUPC(verseDB, {
     upc: "75960608936700111",
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -89,14 +91,15 @@ run();
 
 ### Errors
 
-| Error Type                       | Status Code                      | Content Type                     |
-| -------------------------------- | -------------------------------- | -------------------------------- |
-| errors.UnauthorizedErrorError    | 401                              | application/json                 |
-| errors.LookupByUPCForbiddenError | 403                              | application/json                 |
-| errors.LookupByUPCNotFoundError  | 404                              | application/json                 |
-| errors.LookupByUPCConflictError  | 409                              | application/json                 |
-| errors.TooManyRequestsError      | 429                              | application/json                 |
-| errors.VerseDbDefaultError       | 4XX, 5XX                         | \*/\*                            |
+| Error Type                                 | Status Code                                | Content Type                               |
+| ------------------------------------------ | ------------------------------------------ | ------------------------------------------ |
+| errors.UnauthorizedErrorError              | 401                                        | application/json                           |
+| errors.LookupByUPCForbiddenError           | 403                                        | application/json                           |
+| errors.LookupByUPCNotFoundError            | 404                                        | application/json                           |
+| errors.LookupByUPCConflictError            | 409                                        | application/json                           |
+| errors.LookupByUPCUnprocessableEntityError | 422                                        | application/json                           |
+| errors.TooManyRequestsError                | 429                                        | application/json                           |
+| errors.VerseDbDefaultError                 | 4XX, 5XX                                   | \*/\*                                      |
 
 ## lookupByISBN
 
@@ -117,6 +120,7 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.barcodeLookup.lookupByISBN({
     isbn: "978-1302913847",
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -142,6 +146,7 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await barcodeLookupLookupByISBN(verseDB, {
     isbn: "978-1302913847",
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -169,13 +174,14 @@ run();
 
 ### Errors
 
-| Error Type                        | Status Code                       | Content Type                      |
-| --------------------------------- | --------------------------------- | --------------------------------- |
-| errors.UnauthorizedErrorError     | 401                               | application/json                  |
-| errors.LookupByISBNForbiddenError | 403                               | application/json                  |
-| errors.LookupByISBNNotFoundError  | 404                               | application/json                  |
-| errors.TooManyRequestsError       | 429                               | application/json                  |
-| errors.VerseDbDefaultError        | 4XX, 5XX                          | \*/\*                             |
+| Error Type                                  | Status Code                                 | Content Type                                |
+| ------------------------------------------- | ------------------------------------------- | ------------------------------------------- |
+| errors.UnauthorizedErrorError               | 401                                         | application/json                            |
+| errors.LookupByISBNForbiddenError           | 403                                         | application/json                            |
+| errors.LookupByISBNNotFoundError            | 404                                         | application/json                            |
+| errors.LookupByISBNUnprocessableEntityError | 422                                         | application/json                            |
+| errors.TooManyRequestsError                 | 429                                         | application/json                            |
+| errors.VerseDbDefaultError                  | 4XX, 5XX                                    | \*/\*                                       |
 
 ## lookupByDistributorCode
 
@@ -197,6 +203,7 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.barcodeLookup.lookupByDistributorCode({
     code: "1125DC0151",
+    languages: "ja,ko",
   });
 
   console.log(result);
@@ -222,6 +229,7 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await barcodeLookupLookupByDistributorCode(verseDB, {
     code: "1125DC0151",
+    languages: "ja,ko",
   });
   if (res.ok) {
     const { value: result } = res;

@@ -23,7 +23,7 @@ export type LookUpAnIssueByCoverPhotoRequest = {
 };
 
 export type LookUpAnIssueByCoverPhotoErrors = {
-  image?: Array<string> | undefined;
+  image: Array<string>;
 };
 
 export type LookUpAnIssueByCoverPhotoImages = {
@@ -33,6 +33,13 @@ export type LookUpAnIssueByCoverPhotoImages = {
   coverLg?: string | undefined;
 };
 
+export type LookUpAnIssueByCoverPhotoNameI18n = {
+  value: string;
+  source: string;
+  reading?: string | undefined;
+  sort?: string | undefined;
+};
+
 export type LookUpAnIssueByCoverPhotoSeriesImages = {
   coverSm?: string | undefined;
   coverMd?: string | undefined;
@@ -40,48 +47,52 @@ export type LookUpAnIssueByCoverPhotoSeriesImages = {
 };
 
 export type LookUpAnIssueByCoverPhotoSeries = {
-  id?: number | undefined;
-  name?: string | undefined;
-  slug?: string | undefined;
-  startYear?: number | undefined;
-  endYear?: string | null | undefined;
-  volumeNumber?: number | undefined;
-  publicationType?: string | undefined;
-  format?: string | undefined;
-  cachedIssuesCount?: number | undefined;
-  coverUrl?: string | undefined;
-  images?: LookUpAnIssueByCoverPhotoSeriesImages | undefined;
-  publisherName?: string | undefined;
+  id: number;
+  name: string | null;
+  slug: string | null;
+  startYear: number | null;
+  endYear: number | null;
+  volumeNumber: number | null;
+  publicationType: string | null;
+  format: string | null;
+  cachedIssuesCount: number | null;
+  coverUrl: string | null;
+  images: LookUpAnIssueByCoverPhotoSeriesImages | null;
+  publisherName: string | null;
 };
 
 /**
  * The issue, as `GET /api/v1/issues` returns it with `include=series`.
  */
 export type LookUpAnIssueByCoverPhotoIssue = {
-  id?: number | undefined;
-  slug?: string | undefined;
-  seriesId?: number | undefined;
-  issueNumber?: string | undefined;
-  name?: string | undefined;
-  coverDate?: string | undefined;
-  releaseDate?: string | undefined;
-  focDate?: string | undefined;
-  isUnreleased?: boolean | undefined;
-  coverUrl?: string | undefined;
-  images?: LookUpAnIssueByCoverPhotoImages | undefined;
-  isReprint?: boolean | undefined;
-  contentRatingLabel?: string | null | undefined;
-  minAge?: string | null | undefined;
-  isNsfw?: boolean | undefined;
-  averageRating?: number | undefined;
-  series?: LookUpAnIssueByCoverPhotoSeries | undefined;
+  id: number;
+  slug: string | null;
+  seriesId: number | null;
+  issueNumber: string | null;
+  name: string | null;
+  coverDate: string | null;
+  releaseDate: string | null;
+  focDate: string | null;
+  isUnreleased: boolean;
+  coverUrl: string | null;
+  images: LookUpAnIssueByCoverPhotoImages | null;
+  isReprint: boolean;
+  contentRatingLabel: string | null;
+  minAge: number | null;
+  isNsfw: boolean;
+  averageRating: number | null;
+  /**
+   * One name per language, keyed by BCP 47 tag.
+   */
+  nameI18n: { [k: string]: LookUpAnIssueByCoverPhotoNameI18n };
+  series?: LookUpAnIssueByCoverPhotoSeries | null | undefined;
 };
 
 export type Candidate = {
   /**
    * The candidate issue.
    */
-  issueId?: number | undefined;
+  issueId: number;
   /**
    * The candidate's best-scoring variant cover; null is the issue's own cover.
    */
@@ -89,21 +100,21 @@ export type Candidate = {
   /**
    * The issue, as `GET /api/v1/issues` returns it with `include=series`.
    */
-  issue?: LookUpAnIssueByCoverPhotoIssue | undefined;
+  issue: LookUpAnIssueByCoverPhotoIssue;
 };
 
 /**
- * Clear Match
+ * Success.
  */
 export type LookUpAnIssueByCoverPhotoResponseBody = {
   /**
    * Always `image`: the answer comes from the image match.
    */
-  matchedBy?: string | undefined;
+  matchedBy: string;
   /**
    * Whether the image match is sure of the issue.
    */
-  clearMatch?: boolean | undefined;
+  clearMatch: boolean;
   /**
    * The matched issue when `clear_match` is true, otherwise null.
    */
@@ -115,7 +126,7 @@ export type LookUpAnIssueByCoverPhotoResponseBody = {
   /**
    * Best first: the matched issue alone on a clear match, otherwise up to five possibilities.
    */
-  candidates?: Array<Candidate> | undefined;
+  candidates: Array<Candidate>;
 };
 
 export type LookUpAnIssueByCoverPhotoResponse = {
@@ -173,7 +184,7 @@ export const LookUpAnIssueByCoverPhotoErrors$inboundSchema: z.ZodMiniType<
   LookUpAnIssueByCoverPhotoErrors,
   unknown
 > = z.object({
-  image: types.optional(z.array(types.string())),
+  image: z.array(types.string()),
 });
 
 export function lookUpAnIssueByCoverPhotoErrorsFromJSON(
@@ -217,6 +228,27 @@ export function lookUpAnIssueByCoverPhotoImagesFromJSON(
 }
 
 /** @internal */
+export const LookUpAnIssueByCoverPhotoNameI18n$inboundSchema: z.ZodMiniType<
+  LookUpAnIssueByCoverPhotoNameI18n,
+  unknown
+> = z.object({
+  value: types.string(),
+  source: types.string(),
+  reading: types.optional(types.string()),
+  sort: types.optional(types.string()),
+});
+
+export function lookUpAnIssueByCoverPhotoNameI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<LookUpAnIssueByCoverPhotoNameI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookUpAnIssueByCoverPhotoNameI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookUpAnIssueByCoverPhotoNameI18n' from JSON`,
+  );
+}
+
+/** @internal */
 export const LookUpAnIssueByCoverPhotoSeriesImages$inboundSchema: z.ZodMiniType<
   LookUpAnIssueByCoverPhotoSeriesImages,
   unknown
@@ -252,20 +284,20 @@ export const LookUpAnIssueByCoverPhotoSeries$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    name: types.optional(types.string()),
-    slug: types.optional(types.string()),
-    start_year: types.optional(types.number()),
-    end_year: z.optional(z.nullable(types.string())),
-    volume_number: types.optional(types.number()),
-    publication_type: types.optional(types.string()),
-    format: types.optional(types.string()),
-    cached_issues_count: types.optional(types.number()),
-    cover_url: types.optional(types.string()),
-    images: types.optional(
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    start_year: types.nullable(types.number()),
+    end_year: types.nullable(types.number()),
+    volume_number: types.nullable(types.number()),
+    publication_type: types.nullable(types.string()),
+    format: types.nullable(types.string()),
+    cached_issues_count: types.nullable(types.number()),
+    cover_url: types.nullable(types.string()),
+    images: types.nullable(
       z.lazy(() => LookUpAnIssueByCoverPhotoSeriesImages$inboundSchema),
     ),
-    publisher_name: types.optional(types.string()),
+    publisher_name: types.nullable(types.string()),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -296,26 +328,30 @@ export const LookUpAnIssueByCoverPhotoIssue$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    slug: types.optional(types.string()),
-    series_id: types.optional(types.number()),
-    issue_number: types.optional(types.string()),
-    name: types.optional(types.string()),
-    cover_date: types.optional(types.string()),
-    release_date: types.optional(types.string()),
-    foc_date: types.optional(types.string()),
-    is_unreleased: types.optional(types.boolean()),
-    cover_url: types.optional(types.string()),
-    images: types.optional(
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    series_id: types.nullable(types.number()),
+    issue_number: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    cover_date: types.nullable(types.string()),
+    release_date: types.nullable(types.string()),
+    foc_date: types.nullable(types.string()),
+    is_unreleased: types.boolean(),
+    cover_url: types.nullable(types.string()),
+    images: types.nullable(
       z.lazy(() => LookUpAnIssueByCoverPhotoImages$inboundSchema),
     ),
-    is_reprint: types.optional(types.boolean()),
-    content_rating_label: z.optional(z.nullable(types.string())),
-    min_age: z.optional(z.nullable(types.string())),
-    is_nsfw: types.optional(types.boolean()),
-    average_rating: types.optional(types.number()),
-    series: types.optional(
-      z.lazy(() => LookUpAnIssueByCoverPhotoSeries$inboundSchema),
+    is_reprint: types.boolean(),
+    content_rating_label: types.nullable(types.string()),
+    min_age: types.nullable(types.number()),
+    is_nsfw: types.boolean(),
+    average_rating: types.nullable(types.number()),
+    name_i18n: z.record(
+      z.string(),
+      z.lazy(() => LookUpAnIssueByCoverPhotoNameI18n$inboundSchema),
+    ),
+    series: z.optional(
+      z.nullable(z.lazy(() => LookUpAnIssueByCoverPhotoSeries$inboundSchema)),
     ),
   }),
   z.transform((v) => {
@@ -332,6 +368,7 @@ export const LookUpAnIssueByCoverPhotoIssue$inboundSchema: z.ZodMiniType<
       "min_age": "minAge",
       "is_nsfw": "isNsfw",
       "average_rating": "averageRating",
+      "name_i18n": "nameI18n",
     });
   }),
 );
@@ -350,11 +387,9 @@ export function lookUpAnIssueByCoverPhotoIssueFromJSON(
 export const Candidate$inboundSchema: z.ZodMiniType<Candidate, unknown> = z
   .pipe(
     z.object({
-      issue_id: types.optional(types.number()),
+      issue_id: types.number(),
       variant_id: types.nullable(types.number()),
-      issue: types.optional(
-        z.lazy(() => LookUpAnIssueByCoverPhotoIssue$inboundSchema),
-      ),
+      issue: z.lazy(() => LookUpAnIssueByCoverPhotoIssue$inboundSchema),
     }),
     z.transform((v) => {
       return remap$(v, {
@@ -380,11 +415,11 @@ export const LookUpAnIssueByCoverPhotoResponseBody$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    matched_by: types.optional(types.string()),
-    clear_match: types.optional(types.boolean()),
+    matched_by: types.string(),
+    clear_match: types.boolean(),
     issue_id: types.nullable(types.number()),
     variant_id: types.nullable(types.number()),
-    candidates: types.optional(z.array(z.lazy(() => Candidate$inboundSchema))),
+    candidates: z.array(z.lazy(() => Candidate$inboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {

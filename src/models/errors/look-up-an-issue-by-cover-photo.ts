@@ -8,14 +8,14 @@ import * as operations from "../operations/index.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Matching Unavailable
+ * Cover matching is unavailable right now.
  */
 export type ServiceUnavailableErrorData = {
-  message?: string | undefined;
+  message: string;
 };
 
 /**
- * Matching Unavailable
+ * Cover matching is unavailable right now.
  */
 export class ServiceUnavailableError extends VerseDbError {
   /** The original data that was passed to this error instance. */
@@ -34,20 +34,20 @@ export class ServiceUnavailableError extends VerseDbError {
 }
 
 /**
- * Not an Image
+ * No photo, not an image, not one of the listed types, or over 5MB.
  */
 export type LookUpAnIssueByCoverPhotoUnprocessableEntityErrorData = {
-  message?: string | undefined;
-  errors?: operations.LookUpAnIssueByCoverPhotoErrors | undefined;
+  message: string;
+  errors: operations.LookUpAnIssueByCoverPhotoErrors;
 };
 
 /**
- * Not an Image
+ * No photo, not an image, not one of the listed types, or over 5MB.
  */
 export class LookUpAnIssueByCoverPhotoUnprocessableEntityError
   extends VerseDbError
 {
-  errors?: operations.LookUpAnIssueByCoverPhotoErrors | undefined;
+  errors: operations.LookUpAnIssueByCoverPhotoErrors;
 
   /** The original data that was passed to this error instance. */
   data$: LookUpAnIssueByCoverPhotoUnprocessableEntityErrorData;
@@ -59,9 +59,35 @@ export class LookUpAnIssueByCoverPhotoUnprocessableEntityError
     const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
     super(message, httpMeta);
     this.data$ = err;
-    if (err.errors != null) this.errors = err.errors;
+    this.errors = err.errors;
 
     this.name = "LookUpAnIssueByCoverPhotoUnprocessableEntityError";
+  }
+}
+
+/**
+ * The token lacks the `read:public` ability.
+ */
+export type LookUpAnIssueByCoverPhotoForbiddenErrorData = {
+  message: string;
+};
+
+/**
+ * The token lacks the `read:public` ability.
+ */
+export class LookUpAnIssueByCoverPhotoForbiddenError extends VerseDbError {
+  /** The original data that was passed to this error instance. */
+  data$: LookUpAnIssueByCoverPhotoForbiddenErrorData;
+
+  constructor(
+    err: LookUpAnIssueByCoverPhotoForbiddenErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+
+    this.name = "LookUpAnIssueByCoverPhotoForbiddenError";
   }
 }
 
@@ -71,7 +97,7 @@ export const ServiceUnavailableError$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
+    message: types.string(),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),
@@ -90,11 +116,9 @@ export const LookUpAnIssueByCoverPhotoUnprocessableEntityError$inboundSchema:
   z.ZodMiniType<LookUpAnIssueByCoverPhotoUnprocessableEntityError, unknown> = z
     .pipe(
       z.object({
-        message: types.optional(types.string()),
-        errors: types.optional(
-          z.lazy(() =>
-            operations.LookUpAnIssueByCoverPhotoErrors$inboundSchema
-          ),
+        message: types.string(),
+        errors: z.lazy(() =>
+          operations.LookUpAnIssueByCoverPhotoErrors$inboundSchema
         ),
         request$: z.custom<Request>(x => x instanceof Request),
         response$: z.custom<Response>(x => x instanceof Response),
@@ -108,3 +132,21 @@ export const LookUpAnIssueByCoverPhotoUnprocessableEntityError$inboundSchema:
         });
       }),
     );
+
+/** @internal */
+export const LookUpAnIssueByCoverPhotoForbiddenError$inboundSchema:
+  z.ZodMiniType<LookUpAnIssueByCoverPhotoForbiddenError, unknown> = z.pipe(
+    z.object({
+      message: types.string(),
+      request$: z.custom<Request>(x => x instanceof Request),
+      response$: z.custom<Response>(x => x instanceof Response),
+      body$: z.string(),
+    }),
+    z.transform((v) => {
+      return new LookUpAnIssueByCoverPhotoForbiddenError(v, {
+        request: v.request$,
+        response: v.response$,
+        body: v.body$,
+      });
+    }),
+  );

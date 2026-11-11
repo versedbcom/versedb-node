@@ -665,7 +665,7 @@ run();
   * [`TooManyRequestsError`](./src/models/errors/too-many-requests-error.ts): Status code `429`.
   * [`UnauthorizedErrorError`](./src/models/errors/unauthorized-error-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. *
 
-<details><summary>Less common errors (183)</summary>
+<details><summary>Less common errors (186)</summary>
 
 <br />
 
@@ -763,14 +763,15 @@ run();
 * [`GetKeyIssueReasonsForbiddenError`](./src/models/errors/get-key-issue-reasons-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
 * [`GetIssueCreatorsForbiddenError`](./src/models/errors/get-issue-creators-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
 * [`GetIssueCharactersForbiddenError`](./src/models/errors/get-issue-characters-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`LookupByUPCForbiddenError`](./src/models/errors/lookup-by-upc-forbidden-error.ts): The token lacks the `lookup:barcode` ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`LookupByISBNForbiddenError`](./src/models/errors/lookup-by-isbn-forbidden-error.ts): The token lacks the `lookup:barcode` ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`LookupByDistributorCodeForbiddenError`](./src/models/errors/lookup-by-distributor-code-forbidden-error.ts): The token lacks the `lookup:barcode` ability. Status code `403`. Applicable to 1 of 99 methods.*
 * [`ListComicShopsForbiddenError`](./src/models/errors/list-comic-shops-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
 * [`GetAComicShopForbiddenError`](./src/models/errors/get-a-comic-shop-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
 * [`FOCDeadlinesForbiddenError`](./src/models/errors/foc-deadlines-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
 * [`FollowUpdatesForbiddenError`](./src/models/errors/follow-updates-forbidden-error.ts): A token without `read:user`. Status code `403`. Applicable to 1 of 99 methods.*
 * [`Upcoming1IssuesForbiddenError`](./src/models/errors/upcoming1-issues-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
-* [`LookupByUPCForbiddenError`](./src/models/errors/lookup-by-upc-forbidden-error.ts): Missing Ability. Status code `403`. Applicable to 1 of 99 methods.*
-* [`LookupByISBNForbiddenError`](./src/models/errors/lookup-by-isbn-forbidden-error.ts): Missing Ability. Status code `403`. Applicable to 1 of 99 methods.*
-* [`LookupByDistributorCodeForbiddenError`](./src/models/errors/lookup-by-distributor-code-forbidden-error.ts): Missing Ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`LookUpAnIssueByCoverPhotoForbiddenError`](./src/models/errors/look-up-an-issue-by-cover-photo-forbidden-error.ts): The token lacks the `read:public` ability. Status code `403`. Applicable to 1 of 99 methods.*
 * [`MarkAsReadNotFoundError`](./src/models/errors/mark-as-read-not-found-error.ts): No live issue has this ID. Status code `404`. Applicable to 1 of 99 methods.*
 * [`MarkAsUnreadNotFoundError`](./src/models/errors/mark-as-unread-not-found-error.ts): No live issue has this ID. Status code `404`. Applicable to 1 of 99 methods.*
 * [`EditReadingDateNotFoundError`](./src/models/errors/edit-reading-date-not-found-error.ts): No live issue has this ID. Status code `404`. Applicable to 1 of 99 methods.*
@@ -812,10 +813,10 @@ run();
 * [`GetSeriesDetailsNotFoundError`](./src/models/errors/get-series-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
 * [`GetIssueDetailsNotFoundError`](./src/models/errors/get-issue-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
 * [`GetVariantDetailsNotFoundError`](./src/models/errors/get-variant-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
-* [`GetAComicShopNotFoundError`](./src/models/errors/get-a-comic-shop-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
 * [`LookupByUPCNotFoundError`](./src/models/errors/lookup-by-upc-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
 * [`LookupByISBNNotFoundError`](./src/models/errors/lookup-by-isbn-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
 * [`LookupByDistributorCodeNotFoundError`](./src/models/errors/lookup-by-distributor-code-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`GetAComicShopNotFoundError`](./src/models/errors/get-a-comic-shop-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
 * [`LendACopyOutConflictError`](./src/models/errors/lend-a-copy-out-conflict-error.ts): The copy is already on loan. Status code `409`. Applicable to 1 of 99 methods.*
 * [`AddItemToListConflictError`](./src/models/errors/add-item-to-list-conflict-error.ts): The entity (with the same cover) is already in the list. Status code `409`. Applicable to 1 of 99 methods.*
 * [`LookupByUPCConflictError`](./src/models/errors/lookup-by-upc-conflict-error.ts): Multiple Matches. Status code `409`. Applicable to 1 of 99 methods.*
@@ -849,12 +850,14 @@ run();
 * [`MergeAListIntoThisOneUnprocessableEntityError`](./src/models/errors/merge-a-list-into-this-one-unprocessable-entity-error.ts): The body failed validation, or the merge is refused (an empty source, the item cap). Status code `422`. Applicable to 1 of 99 methods.*
 * [`AddItemToListUnprocessableEntityError`](./src/models/errors/add-item-to-list-unprocessable-entity-error.ts): The body failed validation. Status code `422`. Applicable to 1 of 99 methods.*
 * [`ReorderItemsUnprocessableEntityError`](./src/models/errors/reorder-items-unprocessable-entity-error.ts): The body failed validation. Status code `422`. Applicable to 1 of 99 methods.*
+* [`LookupByUPCUnprocessableEntityError`](./src/models/errors/lookup-by-upc-unprocessable-entity-error.ts): Invalid UPC. Status code `422`. Applicable to 1 of 99 methods.*
+* [`LookupByISBNUnprocessableEntityError`](./src/models/errors/lookup-by-isbn-unprocessable-entity-error.ts): Invalid ISBN. Status code `422`. Applicable to 1 of 99 methods.*
+* [`LookupByDistributorCodeUnprocessableEntityError`](./src/models/errors/lookup-by-distributor-code-unprocessable-entity-error.ts): Not a Lunar or Universal Code. Status code `422`. Applicable to 1 of 99 methods.*
 * [`FOCDeadlinesUnprocessableEntityError`](./src/models/errors/foc-deadlines-unprocessable-entity-error.ts): A query parameter out of range. Status code `422`. Applicable to 1 of 99 methods.*
 * [`FollowUpdatesUnprocessableEntityError`](./src/models/errors/follow-updates-unprocessable-entity-error.ts): A query parameter out of range. Status code `422`. Applicable to 1 of 99 methods.*
 * [`Upcoming1IssuesUnprocessableEntityError`](./src/models/errors/upcoming1-issues-unprocessable-entity-error.ts): A query parameter out of range. Status code `422`. Applicable to 1 of 99 methods.*
-* [`LookupByDistributorCodeUnprocessableEntityError`](./src/models/errors/lookup-by-distributor-code-unprocessable-entity-error.ts): Not a Lunar or Universal Code. Status code `422`. Applicable to 1 of 99 methods.*
-* [`LookUpAnIssueByCoverPhotoUnprocessableEntityError`](./src/models/errors/look-up-an-issue-by-cover-photo-unprocessable-entity-error.ts): Not an Image. Status code `422`. Applicable to 1 of 99 methods.*
-* [`ServiceUnavailableError`](./src/models/errors/service-unavailable-error.ts): Matching Unavailable. Status code `503`. Applicable to 1 of 99 methods.*
+* [`LookUpAnIssueByCoverPhotoUnprocessableEntityError`](./src/models/errors/look-up-an-issue-by-cover-photo-unprocessable-entity-error.ts): No photo, not an image, not one of the listed types, or over 5MB. Status code `422`. Applicable to 1 of 99 methods.*
+* [`ServiceUnavailableError`](./src/models/errors/service-unavailable-error.ts): Cover matching is unavailable right now. Status code `503`. Applicable to 1 of 99 methods.*
 * [`ResponseValidationError`](./src/models/errors/response-validation-error.ts): Type mismatch between the data returned from the server and the structure expected by the SDK. See `error.rawValue` for the raw value and `error.pretty()` for a nicely formatted multi-line string.
 
 </details>

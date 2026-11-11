@@ -1,6 +1,6 @@
 # LookupByDistributorCodeForbiddenError
 
-Missing Ability
+The token lacks the `lookup:barcode` ability.
 
 ## Example Usage
 
@@ -12,6 +12,6 @@ import { LookupByDistributorCodeForbiddenError } from "@versedbcom/sdk/models/er
 
 ## Fields
 
-| Field              | Type               | Required           | Description        | Example            |
-| ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
-| `message`          | *string*           | :heavy_minus_sign: | N/A                | Unauthorized       |
+| Field                     | Type                      | Required                  | Description               | Example                   |
+| ------------------------- | ------------------------- | ------------------------- | ------------------------- | ------------------------- |
+| `message`                 | *string*                  | :heavy_check_mark:        | N/A                       | Insufficient token scope. |

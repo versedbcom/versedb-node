@@ -14,81 +14,304 @@ export type LookupByDistributorCodeRequest = {
    * A Lunar or Universal code.
    */
   code: string;
+  /**
+   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes.
+   */
+  languages?: string | undefined;
 };
 
 export type LookupByDistributorCodeMatchVariant = {
-  variantId?: string | null | undefined;
-  variantName?: string | undefined;
-  coverUrl?: string | undefined;
-  upc?: string | undefined;
-  lunarCode?: string | undefined;
-  universalCode?: string | null | undefined;
-  diamondCode?: string | null | undefined;
+  variantId: number | null;
+  variantName: string;
+  coverUrl: string | null;
+  upc: string | null;
+  lunarCode: string | null;
+  universalCode: string | null;
+  diamondCode: string | null;
 };
 
 export type LookupByDistributorCodeMatch = {
-  issueId?: number | undefined;
-  seriesName?: string | undefined;
-  seriesId?: number | undefined;
-  issueNumber?: string | undefined;
-  coverUrl?: string | undefined;
-  variantName?: string | null | undefined;
-  suggestedVariantId?: string | null | undefined;
-  variants?: Array<LookupByDistributorCodeMatchVariant> | undefined;
-  publisherName?: string | undefined;
-  releaseDate?: string | undefined;
-  startYear?: number | undefined;
+  issueId: number;
+  seriesName: string | null;
+  seriesId: number | null;
+  issueNumber: string | null;
+  coverUrl: string | null;
+  variantName: any | null;
+  suggestedVariantId: number | null;
+  variants: Array<LookupByDistributorCodeMatchVariant>;
+  publisherName: string | null;
+  releaseDate: string | null;
+  startYear: number | null;
+};
+
+export type LookupByDistributorCodeImages = {
+  thumb?: string | undefined;
+  coverSm?: string | undefined;
+  coverMd?: string | undefined;
+  coverLg?: string | undefined;
+};
+
+export type LookupByDistributorCodeTitle = {
+  id: number;
+  name: string | null;
+  slug: string | null;
+};
+
+export type LookupByDistributorCodeGenre = {
+  id: number;
+  name: string | null;
+  slug: any | null;
+};
+
+export type LookupByDistributorCodeSeriesImprint = {
+  id: number;
+  name: string | null;
+};
+
+export type LookupByDistributorCodeForeignEditionOf = {
+  id: number;
+  name: string;
+  slug: string | null;
+  language: string | null;
+};
+
+export type LookupByDistributorCodeForeignEdition = {
+  id: number;
+  name: string;
+  slug: string | null;
+  language: string | null;
 };
 
 export type LookupByDistributorCodeSeries = {
-  id?: number | undefined;
-  name?: string | undefined;
-  slug?: string | undefined;
-  startYear?: number | undefined;
-  volumeNumber?: number | undefined;
+  id: number;
+  name: string | null;
+  slug: string | null;
+  startYear: number | null;
+  endYear: number | null;
+  volumeNumber: number | null;
+  status: string | null;
+  publicationType: string | null;
+  cachedIssuesCount: number | null;
+  medium: string;
+  format: string | null;
+  contentRatingLabel: string | null;
+  minAge: number | null;
+  isNsfw: boolean;
+  originalLanguage: string | null;
+  language: string | null;
+  genres: Array<LookupByDistributorCodeGenre>;
+  aliases: Array<string>;
+  imprint: LookupByDistributorCodeSeriesImprint | null;
+  foreignEditionOf: Array<LookupByDistributorCodeForeignEditionOf>;
+  foreignEditions: Array<LookupByDistributorCodeForeignEdition>;
 };
 
 export type LookupByDistributorCodePublisher = {
-  id?: number | undefined;
-  name?: string | undefined;
-  slug?: string | undefined;
+  id: number;
+  name: string | null;
+  slug: string | null;
+};
+
+export type LookupByDistributorCodeImprint = {
+  id: number;
+  name: string | null;
+};
+
+export type LookupByDistributorCodeAward = {
+  id: number;
+  name: string | null;
+  category: string | null;
+  year: number | null;
+};
+
+export type LookupByDistributorCodeCreatorImages = {
+  tileSm?: string | undefined;
+  profileMd?: string | undefined;
+  fullLg?: string | undefined;
+};
+
+export type LookupByDistributorCodeCreator = {
+  id: number;
+  name: string | null;
+  slug: string | null;
+  photoUrl: string | null;
+  images: LookupByDistributorCodeCreatorImages | null;
+  role: string;
+  sortOrder: number | null;
+};
+
+export type LookupByDistributorCodeCharacterImages = {
+  tileSm?: string | undefined;
+  profileMd?: string | undefined;
+  fullLg?: string | undefined;
+};
+
+export type LookupByDistributorCodeCharacter = {
+  id: number;
+  name: string | null;
+  slug: string | null;
+  realName: string | null;
+  imageUrl: string | null;
+  images: LookupByDistributorCodeCharacterImages | null;
+  sortOrder: number | null;
+};
+
+export type LookupByDistributorCodeTeamImages = {
+  tileSm?: string | undefined;
+  profileMd?: string | undefined;
+  fullLg?: string | undefined;
+};
+
+export type LookupByDistributorCodeTeam = {
+  id: number;
+  name: string | null;
+  slug: string | null;
+  headquarters: string | null;
+  imageUrl: string | null;
+  images: LookupByDistributorCodeTeamImages | null;
+  sortOrder: number | null;
+};
+
+export type LookupByDistributorCodeStoryArcImages = {
+  coverSm?: string | undefined;
+  coverMd?: string | undefined;
+  coverLg?: string | undefined;
+};
+
+export type LookupByDistributorCodeStoryArc = {
+  id: number;
+  name: string | null;
+  slug: string | null;
+  imageUrl: string | null;
+  images: LookupByDistributorCodeStoryArcImages | null;
+  sortOrder: number | null;
+};
+
+export type LookupByDistributorCodeUniverse = {
+  id: number;
+  name: string | null;
+};
+
+export type LookupByDistributorCodeComicEvent = {
+  id: number;
+  name: string | null;
+  slug: string | null;
+  type: string | null;
+  notes: string | null;
+  displayOrder: number | null;
+};
+
+export type LookupByDistributorCodeKeyIssueReason = {
+  id: number;
+  name: string | null;
+  category: string;
+  notes: string | null;
+};
+
+export type LookupByDistributorCodeAvailability = {
+  id: number | null;
+  provider: string;
+  providerLabel: string;
+  /**
+   * buy, read or watch.
+   */
+  kind: string;
+  storeName: string | null;
+  customName: string | null;
+  displayName: string;
+  storeLogo: string | null;
+  url: string;
+  externalId: string | null;
+  price: number | null;
+  formattedPrice: string | null;
+  currency: string | null;
+  isDigital: boolean | null;
+  isAffiliate: boolean;
+  isSynthesized: boolean;
+  verifiedAt: string | null;
+};
+
+export type LookupByDistributorCodeNameI18n = {
+  value: string;
+  source: string;
+  reading?: string | undefined;
+  sort?: string | undefined;
 };
 
 export type LookupByDistributorCodeData = {
-  id?: number | undefined;
-  slug?: string | undefined;
-  seriesId?: number | undefined;
-  titleId?: number | undefined;
-  issueNumber?: string | undefined;
-  name?: string | undefined;
-  solicitation?: string | undefined;
-  releaseDate?: string | undefined;
-  coverUrl?: string | undefined;
-  upc?: string | undefined;
-  lunarCode?: string | undefined;
-  universalCode?: string | undefined;
-  diamondCode?: string | null | undefined;
-  series?: LookupByDistributorCodeSeries | undefined;
-  publisher?: LookupByDistributorCodePublisher | undefined;
+  id: number;
+  slug: string | null;
+  seriesId: number | null;
+  issueNumber: string | null;
+  name: string | null;
+  solicitation: string | null;
+  releaseDate: string | null;
+  focDate: string | null;
+  coverDate: string | null;
+  isUnreleased: boolean;
+  coverUrl: string | null;
+  images: LookupByDistributorCodeImages | null;
+  isReprint: boolean | null;
+  contentRatingLabel: string | null;
+  minAge: number | null;
+  isNsfw: boolean | null;
+  pageCount: number | null;
+  price: string | null;
+  currencyCode: string | null;
+  formattedPrice: string | null;
+  isbn: string | null;
+  upc: string | null;
+  lunarCode: string | null;
+  universalCode: string | null;
+  diamondCode: string | null;
+  ean: string | null;
+  issn: string | null;
+  isAnthology: boolean | null;
+  isTieIn: boolean;
+  adaptedFrom: string | null;
+  printRun: number | null;
+  locations: string | null;
+  sku: string | null;
+  variantCount: number;
+  readsCount: number;
+  averageRating?: number | undefined;
+  reviewCount?: number | undefined;
+  title?: LookupByDistributorCodeTitle | undefined;
+  series: LookupByDistributorCodeSeries | null;
+  publisher?: LookupByDistributorCodePublisher | null | undefined;
+  imprint?: LookupByDistributorCodeImprint | undefined;
+  awards?: Array<LookupByDistributorCodeAward> | undefined;
+  creators?: Array<LookupByDistributorCodeCreator> | undefined;
+  characters?: Array<LookupByDistributorCodeCharacter> | undefined;
+  teams?: Array<LookupByDistributorCodeTeam> | undefined;
+  storyArcs?: Array<LookupByDistributorCodeStoryArc> | undefined;
+  universes?: Array<LookupByDistributorCodeUniverse> | undefined;
+  comicEvents?: Array<LookupByDistributorCodeComicEvent> | undefined;
+  keyIssueReasons?: Array<LookupByDistributorCodeKeyIssueReason> | undefined;
+  availabilities: Array<LookupByDistributorCodeAvailability>;
+  /**
+   * One name per language, keyed by BCP 47 tag.
+   */
+  nameI18n: { [k: string]: LookupByDistributorCodeNameI18n };
 };
 
 export type LookupByDistributorCodeVariant = {
-  variantId?: string | null | undefined;
-  variantName?: string | undefined;
-  coverUrl?: string | undefined;
-  upc?: string | undefined;
-  lunarCode?: string | undefined;
-  universalCode?: string | undefined;
-  diamondCode?: string | null | undefined;
+  variantId: number | null;
+  variantName: string;
+  coverUrl: string | null;
+  upc: string | null;
+  lunarCode: string | null;
+  universalCode: string | null;
+  diamondCode: string | null;
 };
 
 /**
  * Success
  */
 export type LookupByDistributorCodeResponseBody = {
-  data?: LookupByDistributorCodeData | undefined;
-  suggestedVariantId?: number | undefined;
-  variants?: Array<LookupByDistributorCodeVariant> | undefined;
+  data: LookupByDistributorCodeData;
+  suggestedVariantId: number | null;
+  variants: Array<LookupByDistributorCodeVariant>;
 };
 
 export type LookupByDistributorCodeResponse = {
@@ -99,6 +322,7 @@ export type LookupByDistributorCodeResponse = {
 /** @internal */
 export type LookupByDistributorCodeRequest$Outbound = {
   code: string;
+  languages?: string | undefined;
 };
 
 /** @internal */
@@ -107,6 +331,7 @@ export const LookupByDistributorCodeRequest$outboundSchema: z.ZodMiniType<
   LookupByDistributorCodeRequest
 > = z.object({
   code: z.string(),
+  languages: z.optional(z.string()),
 });
 
 export function lookupByDistributorCodeRequestToJSON(
@@ -125,13 +350,13 @@ export const LookupByDistributorCodeMatchVariant$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    variant_id: z.optional(z.nullable(types.string())),
-    variant_name: types.optional(types.string()),
-    cover_url: types.optional(types.string()),
-    upc: types.optional(types.string()),
-    lunar_code: types.optional(types.string()),
-    universal_code: z.optional(z.nullable(types.string())),
-    diamond_code: z.optional(z.nullable(types.string())),
+    variant_id: types.nullable(types.number()),
+    variant_name: types.string(),
+    cover_url: types.nullable(types.string()),
+    upc: types.nullable(types.string()),
+    lunar_code: types.nullable(types.string()),
+    universal_code: types.nullable(types.string()),
+    diamond_code: types.nullable(types.string()),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -162,19 +387,19 @@ export const LookupByDistributorCodeMatch$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    issue_id: types.optional(types.number()),
-    series_name: types.optional(types.string()),
-    series_id: types.optional(types.number()),
-    issue_number: types.optional(types.string()),
-    cover_url: types.optional(types.string()),
-    variant_name: z.optional(z.nullable(types.string())),
-    suggested_variant_id: z.optional(z.nullable(types.string())),
-    variants: types.optional(
-      z.array(z.lazy(() => LookupByDistributorCodeMatchVariant$inboundSchema)),
+    issue_id: types.number(),
+    series_name: types.nullable(types.string()),
+    series_id: types.nullable(types.number()),
+    issue_number: types.nullable(types.string()),
+    cover_url: types.nullable(types.string()),
+    variant_name: types.nullable(z.any()),
+    suggested_variant_id: types.nullable(types.number()),
+    variants: z.array(
+      z.lazy(() => LookupByDistributorCodeMatchVariant$inboundSchema),
     ),
-    publisher_name: types.optional(types.string()),
-    release_date: types.optional(types.string()),
-    start_year: types.optional(types.number()),
+    publisher_name: types.nullable(types.string()),
+    release_date: types.nullable(types.string()),
+    start_year: types.nullable(types.number()),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -203,21 +428,189 @@ export function lookupByDistributorCodeMatchFromJSON(
 }
 
 /** @internal */
+export const LookupByDistributorCodeImages$inboundSchema: z.ZodMiniType<
+  LookupByDistributorCodeImages,
+  unknown
+> = z.pipe(
+  z.object({
+    thumb: types.optional(types.string()),
+    cover_sm: types.optional(types.string()),
+    cover_md: types.optional(types.string()),
+    cover_lg: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "cover_sm": "coverSm",
+      "cover_md": "coverMd",
+      "cover_lg": "coverLg",
+    });
+  }),
+);
+
+export function lookupByDistributorCodeImagesFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByDistributorCodeImages, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByDistributorCodeImages$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByDistributorCodeImages' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByDistributorCodeTitle$inboundSchema: z.ZodMiniType<
+  LookupByDistributorCodeTitle,
+  unknown
+> = z.object({
+  id: types.number(),
+  name: types.nullable(types.string()),
+  slug: types.nullable(types.string()),
+});
+
+export function lookupByDistributorCodeTitleFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByDistributorCodeTitle, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByDistributorCodeTitle$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByDistributorCodeTitle' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByDistributorCodeGenre$inboundSchema: z.ZodMiniType<
+  LookupByDistributorCodeGenre,
+  unknown
+> = z.object({
+  id: types.number(),
+  name: types.nullable(types.string()),
+  slug: types.nullable(z.any()),
+});
+
+export function lookupByDistributorCodeGenreFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByDistributorCodeGenre, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByDistributorCodeGenre$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByDistributorCodeGenre' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByDistributorCodeSeriesImprint$inboundSchema: z.ZodMiniType<
+  LookupByDistributorCodeSeriesImprint,
+  unknown
+> = z.object({
+  id: types.number(),
+  name: types.nullable(types.string()),
+});
+
+export function lookupByDistributorCodeSeriesImprintFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByDistributorCodeSeriesImprint, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      LookupByDistributorCodeSeriesImprint$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByDistributorCodeSeriesImprint' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByDistributorCodeForeignEditionOf$inboundSchema:
+  z.ZodMiniType<LookupByDistributorCodeForeignEditionOf, unknown> = z.object({
+    id: types.number(),
+    name: types.string(),
+    slug: types.nullable(types.string()),
+    language: types.nullable(types.string()),
+  });
+
+export function lookupByDistributorCodeForeignEditionOfFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  LookupByDistributorCodeForeignEditionOf,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      LookupByDistributorCodeForeignEditionOf$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'LookupByDistributorCodeForeignEditionOf' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByDistributorCodeForeignEdition$inboundSchema: z.ZodMiniType<
+  LookupByDistributorCodeForeignEdition,
+  unknown
+> = z.object({
+  id: types.number(),
+  name: types.string(),
+  slug: types.nullable(types.string()),
+  language: types.nullable(types.string()),
+});
+
+export function lookupByDistributorCodeForeignEditionFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByDistributorCodeForeignEdition, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      LookupByDistributorCodeForeignEdition$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByDistributorCodeForeignEdition' from JSON`,
+  );
+}
+
+/** @internal */
 export const LookupByDistributorCodeSeries$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeSeries,
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    name: types.optional(types.string()),
-    slug: types.optional(types.string()),
-    start_year: types.optional(types.number()),
-    volume_number: types.optional(types.number()),
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    start_year: types.nullable(types.number()),
+    end_year: types.nullable(types.number()),
+    volume_number: types.nullable(types.number()),
+    status: types.nullable(types.string()),
+    publication_type: types.nullable(types.string()),
+    cached_issues_count: types.nullable(types.number()),
+    medium: types.string(),
+    format: types.nullable(types.string()),
+    content_rating_label: types.nullable(types.string()),
+    min_age: types.nullable(types.number()),
+    is_nsfw: types.boolean(),
+    original_language: types.nullable(types.string()),
+    language: types.nullable(types.string()),
+    genres: z.array(z.lazy(() => LookupByDistributorCodeGenre$inboundSchema)),
+    aliases: z.array(types.string()),
+    imprint: types.nullable(
+      z.lazy(() => LookupByDistributorCodeSeriesImprint$inboundSchema),
+    ),
+    foreign_edition_of: z.array(
+      z.lazy(() => LookupByDistributorCodeForeignEditionOf$inboundSchema),
+    ),
+    foreign_editions: z.array(
+      z.lazy(() => LookupByDistributorCodeForeignEdition$inboundSchema),
+    ),
   }),
   z.transform((v) => {
     return remap$(v, {
       "start_year": "startYear",
+      "end_year": "endYear",
       "volume_number": "volumeNumber",
+      "publication_type": "publicationType",
+      "cached_issues_count": "cachedIssuesCount",
+      "content_rating_label": "contentRatingLabel",
+      "min_age": "minAge",
+      "is_nsfw": "isNsfw",
+      "original_language": "originalLanguage",
+      "foreign_edition_of": "foreignEditionOf",
+      "foreign_editions": "foreignEditions",
     });
   }),
 );
@@ -237,9 +630,9 @@ export const LookupByDistributorCodePublisher$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodePublisher,
   unknown
 > = z.object({
-  id: types.optional(types.number()),
-  name: types.optional(types.string()),
-  slug: types.optional(types.string()),
+  id: types.number(),
+  name: types.nullable(types.string()),
+  slug: types.nullable(types.string()),
 });
 
 export function lookupByDistributorCodePublisherFromJSON(
@@ -253,41 +646,564 @@ export function lookupByDistributorCodePublisherFromJSON(
 }
 
 /** @internal */
+export const LookupByDistributorCodeImprint$inboundSchema: z.ZodMiniType<
+  LookupByDistributorCodeImprint,
+  unknown
+> = z.object({
+  id: types.number(),
+  name: types.nullable(types.string()),
+});
+
+export function lookupByDistributorCodeImprintFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByDistributorCodeImprint, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByDistributorCodeImprint$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByDistributorCodeImprint' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByDistributorCodeAward$inboundSchema: z.ZodMiniType<
+  LookupByDistributorCodeAward,
+  unknown
+> = z.object({
+  id: types.number(),
+  name: types.nullable(types.string()),
+  category: types.nullable(types.string()),
+  year: types.nullable(types.number()),
+});
+
+export function lookupByDistributorCodeAwardFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByDistributorCodeAward, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByDistributorCodeAward$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByDistributorCodeAward' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByDistributorCodeCreatorImages$inboundSchema: z.ZodMiniType<
+  LookupByDistributorCodeCreatorImages,
+  unknown
+> = z.pipe(
+  z.object({
+    tile_sm: types.optional(types.string()),
+    profile_md: types.optional(types.string()),
+    full_lg: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "tile_sm": "tileSm",
+      "profile_md": "profileMd",
+      "full_lg": "fullLg",
+    });
+  }),
+);
+
+export function lookupByDistributorCodeCreatorImagesFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByDistributorCodeCreatorImages, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      LookupByDistributorCodeCreatorImages$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByDistributorCodeCreatorImages' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByDistributorCodeCreator$inboundSchema: z.ZodMiniType<
+  LookupByDistributorCodeCreator,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    photo_url: types.nullable(types.string()),
+    images: types.nullable(
+      z.lazy(() => LookupByDistributorCodeCreatorImages$inboundSchema),
+    ),
+    role: types.string(),
+    sort_order: types.nullable(types.number()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "photo_url": "photoUrl",
+      "sort_order": "sortOrder",
+    });
+  }),
+);
+
+export function lookupByDistributorCodeCreatorFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByDistributorCodeCreator, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByDistributorCodeCreator$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByDistributorCodeCreator' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByDistributorCodeCharacterImages$inboundSchema:
+  z.ZodMiniType<LookupByDistributorCodeCharacterImages, unknown> = z.pipe(
+    z.object({
+      tile_sm: types.optional(types.string()),
+      profile_md: types.optional(types.string()),
+      full_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "tile_sm": "tileSm",
+        "profile_md": "profileMd",
+        "full_lg": "fullLg",
+      });
+    }),
+  );
+
+export function lookupByDistributorCodeCharacterImagesFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByDistributorCodeCharacterImages, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      LookupByDistributorCodeCharacterImages$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByDistributorCodeCharacterImages' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByDistributorCodeCharacter$inboundSchema: z.ZodMiniType<
+  LookupByDistributorCodeCharacter,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    real_name: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    images: types.nullable(
+      z.lazy(() => LookupByDistributorCodeCharacterImages$inboundSchema),
+    ),
+    sort_order: types.nullable(types.number()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "real_name": "realName",
+      "image_url": "imageUrl",
+      "sort_order": "sortOrder",
+    });
+  }),
+);
+
+export function lookupByDistributorCodeCharacterFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByDistributorCodeCharacter, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByDistributorCodeCharacter$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByDistributorCodeCharacter' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByDistributorCodeTeamImages$inboundSchema: z.ZodMiniType<
+  LookupByDistributorCodeTeamImages,
+  unknown
+> = z.pipe(
+  z.object({
+    tile_sm: types.optional(types.string()),
+    profile_md: types.optional(types.string()),
+    full_lg: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "tile_sm": "tileSm",
+      "profile_md": "profileMd",
+      "full_lg": "fullLg",
+    });
+  }),
+);
+
+export function lookupByDistributorCodeTeamImagesFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByDistributorCodeTeamImages, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByDistributorCodeTeamImages$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByDistributorCodeTeamImages' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByDistributorCodeTeam$inboundSchema: z.ZodMiniType<
+  LookupByDistributorCodeTeam,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    headquarters: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    images: types.nullable(
+      z.lazy(() => LookupByDistributorCodeTeamImages$inboundSchema),
+    ),
+    sort_order: types.nullable(types.number()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "image_url": "imageUrl",
+      "sort_order": "sortOrder",
+    });
+  }),
+);
+
+export function lookupByDistributorCodeTeamFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByDistributorCodeTeam, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByDistributorCodeTeam$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByDistributorCodeTeam' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByDistributorCodeStoryArcImages$inboundSchema: z.ZodMiniType<
+  LookupByDistributorCodeStoryArcImages,
+  unknown
+> = z.pipe(
+  z.object({
+    cover_sm: types.optional(types.string()),
+    cover_md: types.optional(types.string()),
+    cover_lg: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "cover_sm": "coverSm",
+      "cover_md": "coverMd",
+      "cover_lg": "coverLg",
+    });
+  }),
+);
+
+export function lookupByDistributorCodeStoryArcImagesFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByDistributorCodeStoryArcImages, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      LookupByDistributorCodeStoryArcImages$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByDistributorCodeStoryArcImages' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByDistributorCodeStoryArc$inboundSchema: z.ZodMiniType<
+  LookupByDistributorCodeStoryArc,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    images: types.nullable(
+      z.lazy(() => LookupByDistributorCodeStoryArcImages$inboundSchema),
+    ),
+    sort_order: types.nullable(types.number()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "image_url": "imageUrl",
+      "sort_order": "sortOrder",
+    });
+  }),
+);
+
+export function lookupByDistributorCodeStoryArcFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByDistributorCodeStoryArc, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByDistributorCodeStoryArc$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByDistributorCodeStoryArc' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByDistributorCodeUniverse$inboundSchema: z.ZodMiniType<
+  LookupByDistributorCodeUniverse,
+  unknown
+> = z.object({
+  id: types.number(),
+  name: types.nullable(types.string()),
+});
+
+export function lookupByDistributorCodeUniverseFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByDistributorCodeUniverse, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByDistributorCodeUniverse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByDistributorCodeUniverse' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByDistributorCodeComicEvent$inboundSchema: z.ZodMiniType<
+  LookupByDistributorCodeComicEvent,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    type: types.nullable(types.string()),
+    notes: types.nullable(types.string()),
+    display_order: types.nullable(types.number()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "display_order": "displayOrder",
+    });
+  }),
+);
+
+export function lookupByDistributorCodeComicEventFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByDistributorCodeComicEvent, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByDistributorCodeComicEvent$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByDistributorCodeComicEvent' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByDistributorCodeKeyIssueReason$inboundSchema: z.ZodMiniType<
+  LookupByDistributorCodeKeyIssueReason,
+  unknown
+> = z.object({
+  id: types.number(),
+  name: types.nullable(types.string()),
+  category: types.string(),
+  notes: types.nullable(types.string()),
+});
+
+export function lookupByDistributorCodeKeyIssueReasonFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByDistributorCodeKeyIssueReason, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      LookupByDistributorCodeKeyIssueReason$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByDistributorCodeKeyIssueReason' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByDistributorCodeAvailability$inboundSchema: z.ZodMiniType<
+  LookupByDistributorCodeAvailability,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.nullable(types.number()),
+    provider: types.string(),
+    provider_label: types.string(),
+    kind: types.string(),
+    store_name: types.nullable(types.string()),
+    custom_name: types.nullable(types.string()),
+    display_name: types.string(),
+    store_logo: types.nullable(types.string()),
+    url: types.string(),
+    external_id: types.nullable(types.string()),
+    price: types.nullable(types.number()),
+    formatted_price: types.nullable(types.string()),
+    currency: types.nullable(types.string()),
+    is_digital: types.nullable(types.boolean()),
+    is_affiliate: types.boolean(),
+    is_synthesized: types.boolean(),
+    verified_at: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "provider_label": "providerLabel",
+      "store_name": "storeName",
+      "custom_name": "customName",
+      "display_name": "displayName",
+      "store_logo": "storeLogo",
+      "external_id": "externalId",
+      "formatted_price": "formattedPrice",
+      "is_digital": "isDigital",
+      "is_affiliate": "isAffiliate",
+      "is_synthesized": "isSynthesized",
+      "verified_at": "verifiedAt",
+    });
+  }),
+);
+
+export function lookupByDistributorCodeAvailabilityFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByDistributorCodeAvailability, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      LookupByDistributorCodeAvailability$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByDistributorCodeAvailability' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByDistributorCodeNameI18n$inboundSchema: z.ZodMiniType<
+  LookupByDistributorCodeNameI18n,
+  unknown
+> = z.object({
+  value: types.string(),
+  source: types.string(),
+  reading: types.optional(types.string()),
+  sort: types.optional(types.string()),
+});
+
+export function lookupByDistributorCodeNameI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByDistributorCodeNameI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByDistributorCodeNameI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByDistributorCodeNameI18n' from JSON`,
+  );
+}
+
+/** @internal */
 export const LookupByDistributorCodeData$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeData,
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    slug: types.optional(types.string()),
-    series_id: types.optional(types.number()),
-    title_id: types.optional(types.number()),
-    issue_number: types.optional(types.string()),
-    name: types.optional(types.string()),
-    solicitation: types.optional(types.string()),
-    release_date: types.optional(types.string()),
-    cover_url: types.optional(types.string()),
-    upc: types.optional(types.string()),
-    lunar_code: types.optional(types.string()),
-    universal_code: types.optional(types.string()),
-    diamond_code: z.optional(z.nullable(types.string())),
-    series: types.optional(
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    series_id: types.nullable(types.number()),
+    issue_number: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    solicitation: types.nullable(types.string()),
+    release_date: types.nullable(types.string()),
+    foc_date: types.nullable(types.string()),
+    cover_date: types.nullable(types.string()),
+    is_unreleased: types.boolean(),
+    cover_url: types.nullable(types.string()),
+    images: types.nullable(
+      z.lazy(() => LookupByDistributorCodeImages$inboundSchema),
+    ),
+    is_reprint: types.nullable(types.boolean()),
+    content_rating_label: types.nullable(types.string()),
+    min_age: types.nullable(types.number()),
+    is_nsfw: types.nullable(types.boolean()),
+    page_count: types.nullable(types.number()),
+    price: types.nullable(types.string()),
+    currency_code: types.nullable(types.string()),
+    formatted_price: types.nullable(types.string()),
+    isbn: types.nullable(types.string()),
+    upc: types.nullable(types.string()),
+    lunar_code: types.nullable(types.string()),
+    universal_code: types.nullable(types.string()),
+    diamond_code: types.nullable(types.string()),
+    ean: types.nullable(types.string()),
+    issn: types.nullable(types.string()),
+    is_anthology: types.nullable(types.boolean()),
+    is_tie_in: types.boolean(),
+    adapted_from: types.nullable(types.string()),
+    print_run: types.nullable(types.number()),
+    locations: types.nullable(types.string()),
+    sku: types.nullable(types.string()),
+    variant_count: types.number(),
+    reads_count: types.number(),
+    average_rating: types.optional(types.number()),
+    review_count: types.optional(types.number()),
+    title: types.optional(
+      z.lazy(() => LookupByDistributorCodeTitle$inboundSchema),
+    ),
+    series: types.nullable(
       z.lazy(() => LookupByDistributorCodeSeries$inboundSchema),
     ),
-    publisher: types.optional(
-      z.lazy(() => LookupByDistributorCodePublisher$inboundSchema),
+    publisher: z.optional(
+      z.nullable(z.lazy(() => LookupByDistributorCodePublisher$inboundSchema)),
+    ),
+    imprint: types.optional(
+      z.lazy(() => LookupByDistributorCodeImprint$inboundSchema),
+    ),
+    awards: types.optional(
+      z.array(z.lazy(() => LookupByDistributorCodeAward$inboundSchema)),
+    ),
+    creators: types.optional(
+      z.array(z.lazy(() => LookupByDistributorCodeCreator$inboundSchema)),
+    ),
+    characters: types.optional(
+      z.array(z.lazy(() => LookupByDistributorCodeCharacter$inboundSchema)),
+    ),
+    teams: types.optional(
+      z.array(z.lazy(() => LookupByDistributorCodeTeam$inboundSchema)),
+    ),
+    story_arcs: types.optional(
+      z.array(z.lazy(() => LookupByDistributorCodeStoryArc$inboundSchema)),
+    ),
+    universes: types.optional(
+      z.array(z.lazy(() => LookupByDistributorCodeUniverse$inboundSchema)),
+    ),
+    comic_events: types.optional(
+      z.array(z.lazy(() => LookupByDistributorCodeComicEvent$inboundSchema)),
+    ),
+    key_issue_reasons: types.optional(
+      z.array(
+        z.lazy(() => LookupByDistributorCodeKeyIssueReason$inboundSchema),
+      ),
+    ),
+    availabilities: z.array(
+      z.lazy(() => LookupByDistributorCodeAvailability$inboundSchema),
+    ),
+    name_i18n: z.record(
+      z.string(),
+      z.lazy(() => LookupByDistributorCodeNameI18n$inboundSchema),
     ),
   }),
   z.transform((v) => {
     return remap$(v, {
       "series_id": "seriesId",
-      "title_id": "titleId",
       "issue_number": "issueNumber",
       "release_date": "releaseDate",
+      "foc_date": "focDate",
+      "cover_date": "coverDate",
+      "is_unreleased": "isUnreleased",
       "cover_url": "coverUrl",
+      "is_reprint": "isReprint",
+      "content_rating_label": "contentRatingLabel",
+      "min_age": "minAge",
+      "is_nsfw": "isNsfw",
+      "page_count": "pageCount",
+      "currency_code": "currencyCode",
+      "formatted_price": "formattedPrice",
       "lunar_code": "lunarCode",
       "universal_code": "universalCode",
       "diamond_code": "diamondCode",
+      "is_anthology": "isAnthology",
+      "is_tie_in": "isTieIn",
+      "adapted_from": "adaptedFrom",
+      "print_run": "printRun",
+      "variant_count": "variantCount",
+      "reads_count": "readsCount",
+      "average_rating": "averageRating",
+      "review_count": "reviewCount",
+      "story_arcs": "storyArcs",
+      "comic_events": "comicEvents",
+      "key_issue_reasons": "keyIssueReasons",
+      "name_i18n": "nameI18n",
     });
   }),
 );
@@ -308,13 +1224,13 @@ export const LookupByDistributorCodeVariant$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    variant_id: z.optional(z.nullable(types.string())),
-    variant_name: types.optional(types.string()),
-    cover_url: types.optional(types.string()),
-    upc: types.optional(types.string()),
-    lunar_code: types.optional(types.string()),
-    universal_code: types.optional(types.string()),
-    diamond_code: z.optional(z.nullable(types.string())),
+    variant_id: types.nullable(types.number()),
+    variant_name: types.string(),
+    cover_url: types.nullable(types.string()),
+    upc: types.nullable(types.string()),
+    lunar_code: types.nullable(types.string()),
+    universal_code: types.nullable(types.string()),
+    diamond_code: types.nullable(types.string()),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -344,12 +1260,10 @@ export const LookupByDistributorCodeResponseBody$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    data: types.optional(
-      z.lazy(() => LookupByDistributorCodeData$inboundSchema),
-    ),
-    suggested_variant_id: types.optional(types.number()),
-    variants: types.optional(
-      z.array(z.lazy(() => LookupByDistributorCodeVariant$inboundSchema)),
+    data: z.lazy(() => LookupByDistributorCodeData$inboundSchema),
+    suggested_variant_id: types.nullable(types.number()),
+    variants: z.array(
+      z.lazy(() => LookupByDistributorCodeVariant$inboundSchema),
     ),
   }),
   z.transform((v) => {

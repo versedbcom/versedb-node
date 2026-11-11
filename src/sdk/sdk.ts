@@ -106,6 +106,11 @@ export class VerseDB extends ClientSDK {
     return (this._issues ??= new Issues(this._options));
   }
 
+  private _barcodeLookup?: BarcodeLookup;
+  get barcodeLookup(): BarcodeLookup {
+    return (this._barcodeLookup ??= new BarcodeLookup(this._options));
+  }
+
   private _comicShops?: ComicShops;
   get comicShops(): ComicShops {
     return (this._comicShops ??= new ComicShops(this._options));
@@ -116,18 +121,13 @@ export class VerseDB extends ClientSDK {
     return (this._discovery ??= new Discovery(this._options));
   }
 
-  private _connectToVerseDB?: ConnectToVerseDB;
-  get connectToVerseDB(): ConnectToVerseDB {
-    return (this._connectToVerseDB ??= new ConnectToVerseDB(this._options));
-  }
-
-  private _barcodeLookup?: BarcodeLookup;
-  get barcodeLookup(): BarcodeLookup {
-    return (this._barcodeLookup ??= new BarcodeLookup(this._options));
-  }
-
   private _coverLookup?: CoverLookup;
   get coverLookup(): CoverLookup {
     return (this._coverLookup ??= new CoverLookup(this._options));
+  }
+
+  private _connectToVerseDB?: ConnectToVerseDB;
+  get connectToVerseDB(): ConnectToVerseDB {
+    return (this._connectToVerseDB ??= new ConnectToVerseDB(this._options));
   }
 }

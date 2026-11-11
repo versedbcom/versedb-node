@@ -6,13 +6,13 @@
 import { LookupByDistributorCodeVariant } from "@versedbcom/sdk/models/operations";
 
 let value: LookupByDistributorCodeVariant = {
-  variantId: null,
-  variantName: "Cover A",
+  variantId: 789,
+  variantName: "Cover B",
   coverUrl: "https://...",
-  upc: "76194138441201511",
-  lunarCode: "1125DC0151",
-  universalCode: "DC10251016",
-  diamondCode: null,
+  upc: "75960608936700121",
+  lunarCode: "0518MA0102",
+  universalCode: "DC10251017",
+  diamondCode: "MAY180902",
 };
 ```
 
@@ -20,10 +20,10 @@ let value: LookupByDistributorCodeVariant = {
 
 | Field              | Type               | Required           | Description        | Example            |
 | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
-| `variantId`        | *string*           | :heavy_minus_sign: | N/A                | null               |
-| `variantName`      | *string*           | :heavy_minus_sign: | N/A                | Cover A            |
-| `coverUrl`         | *string*           | :heavy_minus_sign: | N/A                | https://...        |
-| `upc`              | *string*           | :heavy_minus_sign: | N/A                | 76194138441201511  |
-| `lunarCode`        | *string*           | :heavy_minus_sign: | N/A                | 1125DC0151         |
-| `universalCode`    | *string*           | :heavy_minus_sign: | N/A                | DC10251016         |
-| `diamondCode`      | *string*           | :heavy_minus_sign: | N/A                | null               |
+| `variantId`        | *number*           | :heavy_check_mark: | N/A                | 789                |
+| `variantName`      | *string*           | :heavy_check_mark: | N/A                | Cover B            |
+| `coverUrl`         | *string*           | :heavy_check_mark: | N/A                | https://...        |
+| `upc`              | *string*           | :heavy_check_mark: | N/A                | 75960608936700121  |
+| `lunarCode`        | *string*           | :heavy_check_mark: | N/A                | 0518MA0102         |
+| `universalCode`    | *string*           | :heavy_check_mark: | N/A                | DC10251017         |
+| `diamondCode`      | *string*           | :heavy_check_mark: | N/A                | MAY180902          |

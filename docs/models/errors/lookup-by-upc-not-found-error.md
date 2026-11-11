@@ -14,4 +14,4 @@ import { LookupByUPCNotFoundError } from "@versedbcom/sdk/models/errors";
 
 | Field                                      | Type                                       | Required                                   | Description                                | Example                                    |
 | ------------------------------------------ | ------------------------------------------ | ------------------------------------------ | ------------------------------------------ | ------------------------------------------ |
-| `message`                                  | *string*                                   | :heavy_minus_sign:                         | N/A                                        | No issue found with UPC: 75960608936700111 |
+| `message`                                  | *string*                                   | :heavy_check_mark:                         | N/A                                        | No issue found with UPC: 75960608936700111 |

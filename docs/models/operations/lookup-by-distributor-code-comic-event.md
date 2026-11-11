@@ -1,11 +1,11 @@
-# ComicEvent
+# LookupByDistributorCodeComicEvent
 
 ## Example Usage
 
 ```typescript
-import { ComicEvent } from "@versedbcom/sdk/models/operations";
+import { LookupByDistributorCodeComicEvent } from "@versedbcom/sdk/models/operations";
 
-let value: ComicEvent = {
+let value: LookupByDistributorCodeComicEvent = {
   id: 1,
   name: "San Diego Comic-Con",
   slug: "sdcc",

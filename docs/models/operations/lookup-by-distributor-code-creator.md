@@ -1,0 +1,29 @@
+# LookupByDistributorCodeCreator
+
+## Example Usage
+
+```typescript
+import { LookupByDistributorCodeCreator } from "@versedbcom/sdk/models/operations";
+
+let value: LookupByDistributorCodeCreator = {
+  id: 81,
+  name: "Nick Spencer",
+  slug: "nick-spencer",
+  photoUrl: "https://...-profile_md.webp",
+  images: null,
+  role: "Writer",
+  sortOrder: 1,
+};
+```
+
+## Fields
+
+| Field                                                                                                                   | Type                                                                                                                    | Required                                                                                                                | Description                                                                                                             | Example                                                                                                                 |
+| ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `id`                                                                                                                    | *number*                                                                                                                | :heavy_check_mark:                                                                                                      | N/A                                                                                                                     | 81                                                                                                                      |
+| `name`                                                                                                                  | *string*                                                                                                                | :heavy_check_mark:                                                                                                      | N/A                                                                                                                     | Nick Spencer                                                                                                            |
+| `slug`                                                                                                                  | *string*                                                                                                                | :heavy_check_mark:                                                                                                      | N/A                                                                                                                     | nick-spencer                                                                                                            |
+| `photoUrl`                                                                                                              | *string*                                                                                                                | :heavy_check_mark:                                                                                                      | N/A                                                                                                                     | https://...-profile_md.webp                                                                                             |
+| `images`                                                                                                                | [operations.LookupByDistributorCodeCreatorImages](../../models/operations/lookup-by-distributor-code-creator-images.md) | :heavy_check_mark:                                                                                                      | N/A                                                                                                                     |                                                                                                                         |
+| `role`                                                                                                                  | *string*                                                                                                                | :heavy_check_mark:                                                                                                      | N/A                                                                                                                     | Writer                                                                                                                  |
+| `sortOrder`                                                                                                             | *number*                                                                                                                | :heavy_check_mark:                                                                                                      | N/A                                                                                                                     | 1                                                                                                                       |

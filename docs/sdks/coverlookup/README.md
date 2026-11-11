@@ -93,6 +93,7 @@ run();
 | Error Type                                               | Status Code                                              | Content Type                                             |
 | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
 | errors.UnauthorizedErrorError                            | 401                                                      | application/json                                         |
+| errors.LookUpAnIssueByCoverPhotoForbiddenError           | 403                                                      | application/json                                         |
 | errors.LookUpAnIssueByCoverPhotoUnprocessableEntityError | 422                                                      | application/json                                         |
 | errors.TooManyRequestsError                              | 429                                                      | application/json                                         |
 | errors.ServiceUnavailableError                           | 503                                                      | application/json                                         |

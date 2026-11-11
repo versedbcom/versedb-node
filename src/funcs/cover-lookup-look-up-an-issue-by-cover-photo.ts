@@ -56,6 +56,7 @@ export function coverLookupLookUpAnIssueByCoverPhoto(
   Result<
     operations.LookUpAnIssueByCoverPhotoResponse,
     | errors.UnauthorizedErrorError
+    | errors.LookUpAnIssueByCoverPhotoForbiddenError
     | errors.LookUpAnIssueByCoverPhotoUnprocessableEntityError
     | errors.TooManyRequestsError
     | errors.ServiceUnavailableError
@@ -85,6 +86,7 @@ async function $do(
     Result<
       operations.LookUpAnIssueByCoverPhotoResponse,
       | errors.UnauthorizedErrorError
+      | errors.LookUpAnIssueByCoverPhotoForbiddenError
       | errors.LookUpAnIssueByCoverPhotoUnprocessableEntityError
       | errors.TooManyRequestsError
       | errors.ServiceUnavailableError
@@ -200,6 +202,7 @@ async function $do(
   const [result] = await M.match<
     operations.LookUpAnIssueByCoverPhotoResponse,
     | errors.UnauthorizedErrorError
+    | errors.LookUpAnIssueByCoverPhotoForbiddenError
     | errors.LookUpAnIssueByCoverPhotoUnprocessableEntityError
     | errors.TooManyRequestsError
     | errors.ServiceUnavailableError
@@ -217,6 +220,10 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
+    M.jsonErr(
+      403,
+      errors.LookUpAnIssueByCoverPhotoForbiddenError$inboundSchema,
+    ),
     M.jsonErr(
       422,
       errors.LookUpAnIssueByCoverPhotoUnprocessableEntityError$inboundSchema,

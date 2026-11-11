@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { VerseDBCore } from "../core.js";
-import { encodeSimple } from "../lib/encodings.js";
+import { encodeFormQuery, encodeSimple } from "../lib/encodings.js";
 import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
@@ -45,6 +45,7 @@ export function barcodeLookupLookupByISBN(
     | errors.UnauthorizedErrorError
     | errors.LookupByISBNForbiddenError
     | errors.LookupByISBNNotFoundError
+    | errors.LookupByISBNUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -74,6 +75,7 @@ async function $do(
       | errors.UnauthorizedErrorError
       | errors.LookupByISBNForbiddenError
       | errors.LookupByISBNNotFoundError
+      | errors.LookupByISBNUnprocessableEntityError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -106,6 +108,10 @@ async function $do(
   };
   const path = pathToFunc("/api/v1/lookup/isbn/{isbn}")(pathParams);
 
+  const query = encodeFormQuery({
+    "languages": payload.languages,
+  });
+
   const headers = new Headers(compactMap({
     Accept: "application/json",
   }));
@@ -135,6 +141,7 @@ async function $do(
     baseURL: options?.serverURL,
     path: path,
     headers: headers,
+    query: query,
     body: body,
     userAgent: client._options.userAgent,
     timeoutMs: options?.timeoutMs || client._options.timeoutMs || -1,
@@ -165,6 +172,7 @@ async function $do(
     | errors.UnauthorizedErrorError
     | errors.LookupByISBNForbiddenError
     | errors.LookupByISBNNotFoundError
+    | errors.LookupByISBNUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -182,6 +190,7 @@ async function $do(
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
     M.jsonErr(403, errors.LookupByISBNForbiddenError$inboundSchema),
     M.jsonErr(404, errors.LookupByISBNNotFoundError$inboundSchema),
+    M.jsonErr(422, errors.LookupByISBNUnprocessableEntityError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

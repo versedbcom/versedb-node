@@ -1,11 +1,11 @@
-# CharacterImages
+# LookupByISBNCreatorImages
 
 ## Example Usage
 
 ```typescript
-import { CharacterImages } from "@versedbcom/sdk/models/operations";
+import { LookupByISBNCreatorImages } from "@versedbcom/sdk/models/operations";
 
-let value: CharacterImages = {
+let value: LookupByISBNCreatorImages = {
   tileSm: "https://...-tile_sm.webp",
   profileMd: "https://...-profile_md.webp",
   fullLg: "https://...-full_lg.webp",

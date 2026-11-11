@@ -14,82 +14,304 @@ export type LookupByUPCRequest = {
    * The UPC barcode.
    */
   upc: string;
+  /**
+   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes.
+   */
+  languages?: string | undefined;
 };
 
 export type LookupByUPCMatchVariant = {
-  variantId?: string | null | undefined;
-  variantName?: string | undefined;
-  coverUrl?: string | undefined;
-  upc?: string | undefined;
-  lunarCode?: string | null | undefined;
-  universalCode?: string | null | undefined;
-  diamondCode?: string | null | undefined;
+  variantId: number | null;
+  variantName: string;
+  coverUrl: string | null;
+  upc: string | null;
+  lunarCode: string | null;
+  universalCode: string | null;
+  diamondCode: string | null;
 };
 
 export type LookupByUPCMatch = {
-  issueId?: number | undefined;
-  seriesName?: string | undefined;
-  seriesId?: number | undefined;
-  issueNumber?: string | undefined;
-  coverUrl?: string | undefined;
-  variantName?: string | null | undefined;
-  suggestedVariantId?: string | null | undefined;
-  variants?: Array<LookupByUPCMatchVariant> | undefined;
-  publisherName?: string | undefined;
-  releaseDate?: string | undefined;
-  startYear?: number | undefined;
+  issueId: number;
+  seriesName: string | null;
+  seriesId: number | null;
+  issueNumber: string | null;
+  coverUrl: string | null;
+  variantName: any | null;
+  suggestedVariantId: number | null;
+  variants: Array<LookupByUPCMatchVariant>;
+  publisherName: string | null;
+  releaseDate: string | null;
+  startYear: number | null;
+};
+
+export type LookupByUPCImages = {
+  thumb?: string | undefined;
+  coverSm?: string | undefined;
+  coverMd?: string | undefined;
+  coverLg?: string | undefined;
+};
+
+export type LookupByUPCTitle = {
+  id: number;
+  name: string | null;
+  slug: string | null;
+};
+
+export type LookupByUPCGenre = {
+  id: number;
+  name: string | null;
+  slug: any | null;
+};
+
+export type LookupByUPCSeriesImprint = {
+  id: number;
+  name: string | null;
+};
+
+export type LookupByUPCForeignEditionOf = {
+  id: number;
+  name: string;
+  slug: string | null;
+  language: string | null;
+};
+
+export type LookupByUPCForeignEdition = {
+  id: number;
+  name: string;
+  slug: string | null;
+  language: string | null;
 };
 
 export type LookupByUPCSeries = {
-  id?: number | undefined;
-  name?: string | undefined;
-  slug?: string | undefined;
-  startYear?: number | undefined;
-  volumeNumber?: number | undefined;
+  id: number;
+  name: string | null;
+  slug: string | null;
+  startYear: number | null;
+  endYear: number | null;
+  volumeNumber: number | null;
+  status: string | null;
+  publicationType: string | null;
+  cachedIssuesCount: number | null;
+  medium: string;
+  format: string | null;
+  contentRatingLabel: string | null;
+  minAge: number | null;
+  isNsfw: boolean;
+  originalLanguage: string | null;
+  language: string | null;
+  genres: Array<LookupByUPCGenre>;
+  aliases: Array<string>;
+  imprint: LookupByUPCSeriesImprint | null;
+  foreignEditionOf: Array<LookupByUPCForeignEditionOf>;
+  foreignEditions: Array<LookupByUPCForeignEdition>;
 };
 
 export type LookupByUPCPublisher = {
-  id?: number | undefined;
-  name?: string | undefined;
-  slug?: string | undefined;
+  id: number;
+  name: string | null;
+  slug: string | null;
+};
+
+export type LookupByUPCImprint = {
+  id: number;
+  name: string | null;
+};
+
+export type LookupByUPCAward = {
+  id: number;
+  name: string | null;
+  category: string | null;
+  year: number | null;
+};
+
+export type LookupByUPCCreatorImages = {
+  tileSm?: string | undefined;
+  profileMd?: string | undefined;
+  fullLg?: string | undefined;
+};
+
+export type LookupByUPCCreator = {
+  id: number;
+  name: string | null;
+  slug: string | null;
+  photoUrl: string | null;
+  images: LookupByUPCCreatorImages | null;
+  role: string;
+  sortOrder: number | null;
+};
+
+export type LookupByUPCCharacterImages = {
+  tileSm?: string | undefined;
+  profileMd?: string | undefined;
+  fullLg?: string | undefined;
+};
+
+export type LookupByUPCCharacter = {
+  id: number;
+  name: string | null;
+  slug: string | null;
+  realName: string | null;
+  imageUrl: string | null;
+  images: LookupByUPCCharacterImages | null;
+  sortOrder: number | null;
+};
+
+export type LookupByUPCTeamImages = {
+  tileSm?: string | undefined;
+  profileMd?: string | undefined;
+  fullLg?: string | undefined;
+};
+
+export type LookupByUPCTeam = {
+  id: number;
+  name: string | null;
+  slug: string | null;
+  headquarters: string | null;
+  imageUrl: string | null;
+  images: LookupByUPCTeamImages | null;
+  sortOrder: number | null;
+};
+
+export type LookupByUPCStoryArcImages = {
+  coverSm?: string | undefined;
+  coverMd?: string | undefined;
+  coverLg?: string | undefined;
+};
+
+export type LookupByUPCStoryArc = {
+  id: number;
+  name: string | null;
+  slug: string | null;
+  imageUrl: string | null;
+  images: LookupByUPCStoryArcImages | null;
+  sortOrder: number | null;
+};
+
+export type LookupByUPCUniverse = {
+  id: number;
+  name: string | null;
+};
+
+export type LookupByUPCComicEvent = {
+  id: number;
+  name: string | null;
+  slug: string | null;
+  type: string | null;
+  notes: string | null;
+  displayOrder: number | null;
+};
+
+export type LookupByUPCKeyIssueReason = {
+  id: number;
+  name: string | null;
+  category: string;
+  notes: string | null;
+};
+
+export type LookupByUPCAvailability = {
+  id: number | null;
+  provider: string;
+  providerLabel: string;
+  /**
+   * buy, read or watch.
+   */
+  kind: string;
+  storeName: string | null;
+  customName: string | null;
+  displayName: string;
+  storeLogo: string | null;
+  url: string;
+  externalId: string | null;
+  price: number | null;
+  formattedPrice: string | null;
+  currency: string | null;
+  isDigital: boolean | null;
+  isAffiliate: boolean;
+  isSynthesized: boolean;
+  verifiedAt: string | null;
+};
+
+export type LookupByUPCNameI18n = {
+  value: string;
+  source: string;
+  reading?: string | undefined;
+  sort?: string | undefined;
 };
 
 export type LookupByUPCData = {
-  id?: number | undefined;
-  slug?: string | undefined;
-  seriesId?: number | undefined;
-  titleId?: number | undefined;
-  issueNumber?: string | undefined;
-  name?: string | undefined;
-  solicitation?: string | undefined;
-  releaseDate?: string | undefined;
-  coverDate?: string | undefined;
-  coverUrl?: string | undefined;
-  upc?: string | undefined;
-  lunarCode?: string | undefined;
-  universalCode?: string | null | undefined;
-  diamondCode?: string | undefined;
-  series?: LookupByUPCSeries | undefined;
-  publisher?: LookupByUPCPublisher | undefined;
+  id: number;
+  slug: string | null;
+  seriesId: number | null;
+  issueNumber: string | null;
+  name: string | null;
+  solicitation: string | null;
+  releaseDate: string | null;
+  focDate: string | null;
+  coverDate: string | null;
+  isUnreleased: boolean;
+  coverUrl: string | null;
+  images: LookupByUPCImages | null;
+  isReprint: boolean | null;
+  contentRatingLabel: string | null;
+  minAge: number | null;
+  isNsfw: boolean | null;
+  pageCount: number | null;
+  price: string | null;
+  currencyCode: string | null;
+  formattedPrice: string | null;
+  isbn: string | null;
+  upc: string | null;
+  lunarCode: string | null;
+  universalCode: string | null;
+  diamondCode: string | null;
+  ean: string | null;
+  issn: string | null;
+  isAnthology: boolean | null;
+  isTieIn: boolean;
+  adaptedFrom: string | null;
+  printRun: number | null;
+  locations: string | null;
+  sku: string | null;
+  variantCount: number;
+  readsCount: number;
+  averageRating?: number | undefined;
+  reviewCount?: number | undefined;
+  title?: LookupByUPCTitle | undefined;
+  series: LookupByUPCSeries | null;
+  publisher?: LookupByUPCPublisher | null | undefined;
+  imprint?: LookupByUPCImprint | undefined;
+  awards?: Array<LookupByUPCAward> | undefined;
+  creators?: Array<LookupByUPCCreator> | undefined;
+  characters?: Array<LookupByUPCCharacter> | undefined;
+  teams?: Array<LookupByUPCTeam> | undefined;
+  storyArcs?: Array<LookupByUPCStoryArc> | undefined;
+  universes?: Array<LookupByUPCUniverse> | undefined;
+  comicEvents?: Array<LookupByUPCComicEvent> | undefined;
+  keyIssueReasons?: Array<LookupByUPCKeyIssueReason> | undefined;
+  availabilities: Array<LookupByUPCAvailability>;
+  /**
+   * One name per language, keyed by BCP 47 tag.
+   */
+  nameI18n: { [k: string]: LookupByUPCNameI18n };
 };
 
 export type LookupByUPCVariant = {
-  variantId?: string | null | undefined;
-  variantName?: string | undefined;
-  coverUrl?: string | undefined;
-  upc?: string | undefined;
-  lunarCode?: string | undefined;
-  universalCode?: string | null | undefined;
-  diamondCode?: string | undefined;
+  variantId: number | null;
+  variantName: string;
+  coverUrl: string | null;
+  upc: string | null;
+  lunarCode: string | null;
+  universalCode: string | null;
+  diamondCode: string | null;
 };
 
 /**
  * Success
  */
 export type LookupByUPCResponseBody = {
-  data?: LookupByUPCData | undefined;
-  suggestedVariantId?: number | undefined;
-  variants?: Array<LookupByUPCVariant> | undefined;
+  data: LookupByUPCData;
+  suggestedVariantId: number | null;
+  variants: Array<LookupByUPCVariant>;
 };
 
 export type LookupByUPCResponse = {
@@ -100,6 +322,7 @@ export type LookupByUPCResponse = {
 /** @internal */
 export type LookupByUPCRequest$Outbound = {
   upc: string;
+  languages?: string | undefined;
 };
 
 /** @internal */
@@ -108,6 +331,7 @@ export const LookupByUPCRequest$outboundSchema: z.ZodMiniType<
   LookupByUPCRequest
 > = z.object({
   upc: z.string(),
+  languages: z.optional(z.string()),
 });
 
 export function lookupByUPCRequestToJSON(
@@ -124,13 +348,13 @@ export const LookupByUPCMatchVariant$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    variant_id: z.optional(z.nullable(types.string())),
-    variant_name: types.optional(types.string()),
-    cover_url: types.optional(types.string()),
-    upc: types.optional(types.string()),
-    lunar_code: z.optional(z.nullable(types.string())),
-    universal_code: z.optional(z.nullable(types.string())),
-    diamond_code: z.optional(z.nullable(types.string())),
+    variant_id: types.nullable(types.number()),
+    variant_name: types.string(),
+    cover_url: types.nullable(types.string()),
+    upc: types.nullable(types.string()),
+    lunar_code: types.nullable(types.string()),
+    universal_code: types.nullable(types.string()),
+    diamond_code: types.nullable(types.string()),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -160,19 +384,17 @@ export const LookupByUPCMatch$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    issue_id: types.optional(types.number()),
-    series_name: types.optional(types.string()),
-    series_id: types.optional(types.number()),
-    issue_number: types.optional(types.string()),
-    cover_url: types.optional(types.string()),
-    variant_name: z.optional(z.nullable(types.string())),
-    suggested_variant_id: z.optional(z.nullable(types.string())),
-    variants: types.optional(
-      z.array(z.lazy(() => LookupByUPCMatchVariant$inboundSchema)),
-    ),
-    publisher_name: types.optional(types.string()),
-    release_date: types.optional(types.string()),
-    start_year: types.optional(types.number()),
+    issue_id: types.number(),
+    series_name: types.nullable(types.string()),
+    series_id: types.nullable(types.number()),
+    issue_number: types.nullable(types.string()),
+    cover_url: types.nullable(types.string()),
+    variant_name: types.nullable(z.any()),
+    suggested_variant_id: types.nullable(types.number()),
+    variants: z.array(z.lazy(() => LookupByUPCMatchVariant$inboundSchema)),
+    publisher_name: types.nullable(types.string()),
+    release_date: types.nullable(types.string()),
+    start_year: types.nullable(types.number()),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -201,21 +423,183 @@ export function lookupByUPCMatchFromJSON(
 }
 
 /** @internal */
+export const LookupByUPCImages$inboundSchema: z.ZodMiniType<
+  LookupByUPCImages,
+  unknown
+> = z.pipe(
+  z.object({
+    thumb: types.optional(types.string()),
+    cover_sm: types.optional(types.string()),
+    cover_md: types.optional(types.string()),
+    cover_lg: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "cover_sm": "coverSm",
+      "cover_md": "coverMd",
+      "cover_lg": "coverLg",
+    });
+  }),
+);
+
+export function lookupByUPCImagesFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByUPCImages, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByUPCImages$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByUPCImages' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByUPCTitle$inboundSchema: z.ZodMiniType<
+  LookupByUPCTitle,
+  unknown
+> = z.object({
+  id: types.number(),
+  name: types.nullable(types.string()),
+  slug: types.nullable(types.string()),
+});
+
+export function lookupByUPCTitleFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByUPCTitle, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByUPCTitle$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByUPCTitle' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByUPCGenre$inboundSchema: z.ZodMiniType<
+  LookupByUPCGenre,
+  unknown
+> = z.object({
+  id: types.number(),
+  name: types.nullable(types.string()),
+  slug: types.nullable(z.any()),
+});
+
+export function lookupByUPCGenreFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByUPCGenre, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByUPCGenre$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByUPCGenre' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByUPCSeriesImprint$inboundSchema: z.ZodMiniType<
+  LookupByUPCSeriesImprint,
+  unknown
+> = z.object({
+  id: types.number(),
+  name: types.nullable(types.string()),
+});
+
+export function lookupByUPCSeriesImprintFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByUPCSeriesImprint, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByUPCSeriesImprint$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByUPCSeriesImprint' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByUPCForeignEditionOf$inboundSchema: z.ZodMiniType<
+  LookupByUPCForeignEditionOf,
+  unknown
+> = z.object({
+  id: types.number(),
+  name: types.string(),
+  slug: types.nullable(types.string()),
+  language: types.nullable(types.string()),
+});
+
+export function lookupByUPCForeignEditionOfFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByUPCForeignEditionOf, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByUPCForeignEditionOf$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByUPCForeignEditionOf' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByUPCForeignEdition$inboundSchema: z.ZodMiniType<
+  LookupByUPCForeignEdition,
+  unknown
+> = z.object({
+  id: types.number(),
+  name: types.string(),
+  slug: types.nullable(types.string()),
+  language: types.nullable(types.string()),
+});
+
+export function lookupByUPCForeignEditionFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByUPCForeignEdition, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByUPCForeignEdition$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByUPCForeignEdition' from JSON`,
+  );
+}
+
+/** @internal */
 export const LookupByUPCSeries$inboundSchema: z.ZodMiniType<
   LookupByUPCSeries,
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    name: types.optional(types.string()),
-    slug: types.optional(types.string()),
-    start_year: types.optional(types.number()),
-    volume_number: types.optional(types.number()),
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    start_year: types.nullable(types.number()),
+    end_year: types.nullable(types.number()),
+    volume_number: types.nullable(types.number()),
+    status: types.nullable(types.string()),
+    publication_type: types.nullable(types.string()),
+    cached_issues_count: types.nullable(types.number()),
+    medium: types.string(),
+    format: types.nullable(types.string()),
+    content_rating_label: types.nullable(types.string()),
+    min_age: types.nullable(types.number()),
+    is_nsfw: types.boolean(),
+    original_language: types.nullable(types.string()),
+    language: types.nullable(types.string()),
+    genres: z.array(z.lazy(() => LookupByUPCGenre$inboundSchema)),
+    aliases: z.array(types.string()),
+    imprint: types.nullable(
+      z.lazy(() => LookupByUPCSeriesImprint$inboundSchema),
+    ),
+    foreign_edition_of: z.array(
+      z.lazy(() => LookupByUPCForeignEditionOf$inboundSchema),
+    ),
+    foreign_editions: z.array(
+      z.lazy(() => LookupByUPCForeignEdition$inboundSchema),
+    ),
   }),
   z.transform((v) => {
     return remap$(v, {
       "start_year": "startYear",
+      "end_year": "endYear",
       "volume_number": "volumeNumber",
+      "publication_type": "publicationType",
+      "cached_issues_count": "cachedIssuesCount",
+      "content_rating_label": "contentRatingLabel",
+      "min_age": "minAge",
+      "is_nsfw": "isNsfw",
+      "original_language": "originalLanguage",
+      "foreign_edition_of": "foreignEditionOf",
+      "foreign_editions": "foreignEditions",
     });
   }),
 );
@@ -235,9 +619,9 @@ export const LookupByUPCPublisher$inboundSchema: z.ZodMiniType<
   LookupByUPCPublisher,
   unknown
 > = z.object({
-  id: types.optional(types.number()),
-  name: types.optional(types.string()),
-  slug: types.optional(types.string()),
+  id: types.number(),
+  name: types.nullable(types.string()),
+  slug: types.nullable(types.string()),
 });
 
 export function lookupByUPCPublisherFromJSON(
@@ -251,39 +635,547 @@ export function lookupByUPCPublisherFromJSON(
 }
 
 /** @internal */
+export const LookupByUPCImprint$inboundSchema: z.ZodMiniType<
+  LookupByUPCImprint,
+  unknown
+> = z.object({
+  id: types.number(),
+  name: types.nullable(types.string()),
+});
+
+export function lookupByUPCImprintFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByUPCImprint, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByUPCImprint$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByUPCImprint' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByUPCAward$inboundSchema: z.ZodMiniType<
+  LookupByUPCAward,
+  unknown
+> = z.object({
+  id: types.number(),
+  name: types.nullable(types.string()),
+  category: types.nullable(types.string()),
+  year: types.nullable(types.number()),
+});
+
+export function lookupByUPCAwardFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByUPCAward, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByUPCAward$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByUPCAward' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByUPCCreatorImages$inboundSchema: z.ZodMiniType<
+  LookupByUPCCreatorImages,
+  unknown
+> = z.pipe(
+  z.object({
+    tile_sm: types.optional(types.string()),
+    profile_md: types.optional(types.string()),
+    full_lg: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "tile_sm": "tileSm",
+      "profile_md": "profileMd",
+      "full_lg": "fullLg",
+    });
+  }),
+);
+
+export function lookupByUPCCreatorImagesFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByUPCCreatorImages, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByUPCCreatorImages$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByUPCCreatorImages' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByUPCCreator$inboundSchema: z.ZodMiniType<
+  LookupByUPCCreator,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    photo_url: types.nullable(types.string()),
+    images: types.nullable(
+      z.lazy(() => LookupByUPCCreatorImages$inboundSchema),
+    ),
+    role: types.string(),
+    sort_order: types.nullable(types.number()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "photo_url": "photoUrl",
+      "sort_order": "sortOrder",
+    });
+  }),
+);
+
+export function lookupByUPCCreatorFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByUPCCreator, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByUPCCreator$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByUPCCreator' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByUPCCharacterImages$inboundSchema: z.ZodMiniType<
+  LookupByUPCCharacterImages,
+  unknown
+> = z.pipe(
+  z.object({
+    tile_sm: types.optional(types.string()),
+    profile_md: types.optional(types.string()),
+    full_lg: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "tile_sm": "tileSm",
+      "profile_md": "profileMd",
+      "full_lg": "fullLg",
+    });
+  }),
+);
+
+export function lookupByUPCCharacterImagesFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByUPCCharacterImages, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByUPCCharacterImages$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByUPCCharacterImages' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByUPCCharacter$inboundSchema: z.ZodMiniType<
+  LookupByUPCCharacter,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    real_name: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    images: types.nullable(
+      z.lazy(() => LookupByUPCCharacterImages$inboundSchema),
+    ),
+    sort_order: types.nullable(types.number()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "real_name": "realName",
+      "image_url": "imageUrl",
+      "sort_order": "sortOrder",
+    });
+  }),
+);
+
+export function lookupByUPCCharacterFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByUPCCharacter, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByUPCCharacter$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByUPCCharacter' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByUPCTeamImages$inboundSchema: z.ZodMiniType<
+  LookupByUPCTeamImages,
+  unknown
+> = z.pipe(
+  z.object({
+    tile_sm: types.optional(types.string()),
+    profile_md: types.optional(types.string()),
+    full_lg: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "tile_sm": "tileSm",
+      "profile_md": "profileMd",
+      "full_lg": "fullLg",
+    });
+  }),
+);
+
+export function lookupByUPCTeamImagesFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByUPCTeamImages, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByUPCTeamImages$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByUPCTeamImages' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByUPCTeam$inboundSchema: z.ZodMiniType<
+  LookupByUPCTeam,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    headquarters: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    images: types.nullable(z.lazy(() => LookupByUPCTeamImages$inboundSchema)),
+    sort_order: types.nullable(types.number()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "image_url": "imageUrl",
+      "sort_order": "sortOrder",
+    });
+  }),
+);
+
+export function lookupByUPCTeamFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByUPCTeam, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByUPCTeam$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByUPCTeam' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByUPCStoryArcImages$inboundSchema: z.ZodMiniType<
+  LookupByUPCStoryArcImages,
+  unknown
+> = z.pipe(
+  z.object({
+    cover_sm: types.optional(types.string()),
+    cover_md: types.optional(types.string()),
+    cover_lg: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "cover_sm": "coverSm",
+      "cover_md": "coverMd",
+      "cover_lg": "coverLg",
+    });
+  }),
+);
+
+export function lookupByUPCStoryArcImagesFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByUPCStoryArcImages, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByUPCStoryArcImages$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByUPCStoryArcImages' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByUPCStoryArc$inboundSchema: z.ZodMiniType<
+  LookupByUPCStoryArc,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    images: types.nullable(
+      z.lazy(() => LookupByUPCStoryArcImages$inboundSchema),
+    ),
+    sort_order: types.nullable(types.number()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "image_url": "imageUrl",
+      "sort_order": "sortOrder",
+    });
+  }),
+);
+
+export function lookupByUPCStoryArcFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByUPCStoryArc, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByUPCStoryArc$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByUPCStoryArc' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByUPCUniverse$inboundSchema: z.ZodMiniType<
+  LookupByUPCUniverse,
+  unknown
+> = z.object({
+  id: types.number(),
+  name: types.nullable(types.string()),
+});
+
+export function lookupByUPCUniverseFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByUPCUniverse, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByUPCUniverse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByUPCUniverse' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByUPCComicEvent$inboundSchema: z.ZodMiniType<
+  LookupByUPCComicEvent,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    type: types.nullable(types.string()),
+    notes: types.nullable(types.string()),
+    display_order: types.nullable(types.number()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "display_order": "displayOrder",
+    });
+  }),
+);
+
+export function lookupByUPCComicEventFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByUPCComicEvent, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByUPCComicEvent$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByUPCComicEvent' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByUPCKeyIssueReason$inboundSchema: z.ZodMiniType<
+  LookupByUPCKeyIssueReason,
+  unknown
+> = z.object({
+  id: types.number(),
+  name: types.nullable(types.string()),
+  category: types.string(),
+  notes: types.nullable(types.string()),
+});
+
+export function lookupByUPCKeyIssueReasonFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByUPCKeyIssueReason, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByUPCKeyIssueReason$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByUPCKeyIssueReason' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByUPCAvailability$inboundSchema: z.ZodMiniType<
+  LookupByUPCAvailability,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.nullable(types.number()),
+    provider: types.string(),
+    provider_label: types.string(),
+    kind: types.string(),
+    store_name: types.nullable(types.string()),
+    custom_name: types.nullable(types.string()),
+    display_name: types.string(),
+    store_logo: types.nullable(types.string()),
+    url: types.string(),
+    external_id: types.nullable(types.string()),
+    price: types.nullable(types.number()),
+    formatted_price: types.nullable(types.string()),
+    currency: types.nullable(types.string()),
+    is_digital: types.nullable(types.boolean()),
+    is_affiliate: types.boolean(),
+    is_synthesized: types.boolean(),
+    verified_at: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "provider_label": "providerLabel",
+      "store_name": "storeName",
+      "custom_name": "customName",
+      "display_name": "displayName",
+      "store_logo": "storeLogo",
+      "external_id": "externalId",
+      "formatted_price": "formattedPrice",
+      "is_digital": "isDigital",
+      "is_affiliate": "isAffiliate",
+      "is_synthesized": "isSynthesized",
+      "verified_at": "verifiedAt",
+    });
+  }),
+);
+
+export function lookupByUPCAvailabilityFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByUPCAvailability, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByUPCAvailability$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByUPCAvailability' from JSON`,
+  );
+}
+
+/** @internal */
+export const LookupByUPCNameI18n$inboundSchema: z.ZodMiniType<
+  LookupByUPCNameI18n,
+  unknown
+> = z.object({
+  value: types.string(),
+  source: types.string(),
+  reading: types.optional(types.string()),
+  sort: types.optional(types.string()),
+});
+
+export function lookupByUPCNameI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<LookupByUPCNameI18n, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LookupByUPCNameI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LookupByUPCNameI18n' from JSON`,
+  );
+}
+
+/** @internal */
 export const LookupByUPCData$inboundSchema: z.ZodMiniType<
   LookupByUPCData,
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    slug: types.optional(types.string()),
-    series_id: types.optional(types.number()),
-    title_id: types.optional(types.number()),
-    issue_number: types.optional(types.string()),
-    name: types.optional(types.string()),
-    solicitation: types.optional(types.string()),
-    release_date: types.optional(types.string()),
-    cover_date: types.optional(types.string()),
-    cover_url: types.optional(types.string()),
-    upc: types.optional(types.string()),
-    lunar_code: types.optional(types.string()),
-    universal_code: z.optional(z.nullable(types.string())),
-    diamond_code: types.optional(types.string()),
-    series: types.optional(z.lazy(() => LookupByUPCSeries$inboundSchema)),
-    publisher: types.optional(z.lazy(() => LookupByUPCPublisher$inboundSchema)),
+    id: types.number(),
+    slug: types.nullable(types.string()),
+    series_id: types.nullable(types.number()),
+    issue_number: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    solicitation: types.nullable(types.string()),
+    release_date: types.nullable(types.string()),
+    foc_date: types.nullable(types.string()),
+    cover_date: types.nullable(types.string()),
+    is_unreleased: types.boolean(),
+    cover_url: types.nullable(types.string()),
+    images: types.nullable(z.lazy(() => LookupByUPCImages$inboundSchema)),
+    is_reprint: types.nullable(types.boolean()),
+    content_rating_label: types.nullable(types.string()),
+    min_age: types.nullable(types.number()),
+    is_nsfw: types.nullable(types.boolean()),
+    page_count: types.nullable(types.number()),
+    price: types.nullable(types.string()),
+    currency_code: types.nullable(types.string()),
+    formatted_price: types.nullable(types.string()),
+    isbn: types.nullable(types.string()),
+    upc: types.nullable(types.string()),
+    lunar_code: types.nullable(types.string()),
+    universal_code: types.nullable(types.string()),
+    diamond_code: types.nullable(types.string()),
+    ean: types.nullable(types.string()),
+    issn: types.nullable(types.string()),
+    is_anthology: types.nullable(types.boolean()),
+    is_tie_in: types.boolean(),
+    adapted_from: types.nullable(types.string()),
+    print_run: types.nullable(types.number()),
+    locations: types.nullable(types.string()),
+    sku: types.nullable(types.string()),
+    variant_count: types.number(),
+    reads_count: types.number(),
+    average_rating: types.optional(types.number()),
+    review_count: types.optional(types.number()),
+    title: types.optional(z.lazy(() => LookupByUPCTitle$inboundSchema)),
+    series: types.nullable(z.lazy(() => LookupByUPCSeries$inboundSchema)),
+    publisher: z.optional(
+      z.nullable(z.lazy(() => LookupByUPCPublisher$inboundSchema)),
+    ),
+    imprint: types.optional(z.lazy(() => LookupByUPCImprint$inboundSchema)),
+    awards: types.optional(
+      z.array(z.lazy(() => LookupByUPCAward$inboundSchema)),
+    ),
+    creators: types.optional(
+      z.array(z.lazy(() => LookupByUPCCreator$inboundSchema)),
+    ),
+    characters: types.optional(
+      z.array(z.lazy(() => LookupByUPCCharacter$inboundSchema)),
+    ),
+    teams: types.optional(z.array(z.lazy(() => LookupByUPCTeam$inboundSchema))),
+    story_arcs: types.optional(
+      z.array(z.lazy(() => LookupByUPCStoryArc$inboundSchema)),
+    ),
+    universes: types.optional(
+      z.array(z.lazy(() => LookupByUPCUniverse$inboundSchema)),
+    ),
+    comic_events: types.optional(
+      z.array(z.lazy(() => LookupByUPCComicEvent$inboundSchema)),
+    ),
+    key_issue_reasons: types.optional(
+      z.array(z.lazy(() => LookupByUPCKeyIssueReason$inboundSchema)),
+    ),
+    availabilities: z.array(
+      z.lazy(() => LookupByUPCAvailability$inboundSchema),
+    ),
+    name_i18n: z.record(
+      z.string(),
+      z.lazy(() => LookupByUPCNameI18n$inboundSchema),
+    ),
   }),
   z.transform((v) => {
     return remap$(v, {
       "series_id": "seriesId",
-      "title_id": "titleId",
       "issue_number": "issueNumber",
       "release_date": "releaseDate",
+      "foc_date": "focDate",
       "cover_date": "coverDate",
+      "is_unreleased": "isUnreleased",
       "cover_url": "coverUrl",
+      "is_reprint": "isReprint",
+      "content_rating_label": "contentRatingLabel",
+      "min_age": "minAge",
+      "is_nsfw": "isNsfw",
+      "page_count": "pageCount",
+      "currency_code": "currencyCode",
+      "formatted_price": "formattedPrice",
       "lunar_code": "lunarCode",
       "universal_code": "universalCode",
       "diamond_code": "diamondCode",
+      "is_anthology": "isAnthology",
+      "is_tie_in": "isTieIn",
+      "adapted_from": "adaptedFrom",
+      "print_run": "printRun",
+      "variant_count": "variantCount",
+      "reads_count": "readsCount",
+      "average_rating": "averageRating",
+      "review_count": "reviewCount",
+      "story_arcs": "storyArcs",
+      "comic_events": "comicEvents",
+      "key_issue_reasons": "keyIssueReasons",
+      "name_i18n": "nameI18n",
     });
   }),
 );
@@ -304,13 +1196,13 @@ export const LookupByUPCVariant$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    variant_id: z.optional(z.nullable(types.string())),
-    variant_name: types.optional(types.string()),
-    cover_url: types.optional(types.string()),
-    upc: types.optional(types.string()),
-    lunar_code: types.optional(types.string()),
-    universal_code: z.optional(z.nullable(types.string())),
-    diamond_code: types.optional(types.string()),
+    variant_id: types.nullable(types.number()),
+    variant_name: types.string(),
+    cover_url: types.nullable(types.string()),
+    upc: types.nullable(types.string()),
+    lunar_code: types.nullable(types.string()),
+    universal_code: types.nullable(types.string()),
+    diamond_code: types.nullable(types.string()),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -340,11 +1232,9 @@ export const LookupByUPCResponseBody$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    data: types.optional(z.lazy(() => LookupByUPCData$inboundSchema)),
-    suggested_variant_id: types.optional(types.number()),
-    variants: types.optional(
-      z.array(z.lazy(() => LookupByUPCVariant$inboundSchema)),
-    ),
+    data: z.lazy(() => LookupByUPCData$inboundSchema),
+    suggested_variant_id: types.nullable(types.number()),
+    variants: z.array(z.lazy(() => LookupByUPCVariant$inboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {

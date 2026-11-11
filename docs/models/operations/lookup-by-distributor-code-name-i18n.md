@@ -1,11 +1,11 @@
-# IssueNameI18n
+# LookupByDistributorCodeNameI18n
 
 ## Example Usage
 
 ```typescript
-import { IssueNameI18n } from "@versedbcom/sdk/models/operations";
+import { LookupByDistributorCodeNameI18n } from "@versedbcom/sdk/models/operations";
 
-let value: IssueNameI18n = {
+let value: LookupByDistributorCodeNameI18n = {
   value: "<value>",
   source: "<value>",
 };

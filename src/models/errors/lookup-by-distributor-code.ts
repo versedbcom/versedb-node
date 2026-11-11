@@ -12,7 +12,7 @@ import { VerseDbError } from "./verse-db-error.js";
  * Not a Lunar or Universal Code
  */
 export type LookupByDistributorCodeUnprocessableEntityErrorData = {
-  message?: string | undefined;
+  message: string;
 };
 
 /**
@@ -40,19 +40,19 @@ export class LookupByDistributorCodeUnprocessableEntityError
  * Multiple Matches
  */
 export type LookupByDistributorCodeConflictErrorData = {
-  message?: string | undefined;
-  count?: number | undefined;
-  totalCount?: number | undefined;
-  matches?: Array<operations.LookupByDistributorCodeMatch> | undefined;
+  message: string;
+  count: number;
+  totalCount: number;
+  matches: Array<operations.LookupByDistributorCodeMatch>;
 };
 
 /**
  * Multiple Matches
  */
 export class LookupByDistributorCodeConflictError extends VerseDbError {
-  count?: number | undefined;
-  totalCount?: number | undefined;
-  matches?: Array<operations.LookupByDistributorCodeMatch> | undefined;
+  count: number;
+  totalCount: number;
+  matches: Array<operations.LookupByDistributorCodeMatch>;
 
   /** The original data that was passed to this error instance. */
   data$: LookupByDistributorCodeConflictErrorData;
@@ -64,9 +64,9 @@ export class LookupByDistributorCodeConflictError extends VerseDbError {
     const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
     super(message, httpMeta);
     this.data$ = err;
-    if (err.count != null) this.count = err.count;
-    if (err.totalCount != null) this.totalCount = err.totalCount;
-    if (err.matches != null) this.matches = err.matches;
+    this.count = err.count;
+    this.totalCount = err.totalCount;
+    this.matches = err.matches;
 
     this.name = "LookupByDistributorCodeConflictError";
   }
@@ -76,7 +76,7 @@ export class LookupByDistributorCodeConflictError extends VerseDbError {
  * Not Found
  */
 export type LookupByDistributorCodeNotFoundErrorData = {
-  message?: string | undefined;
+  message: string;
 };
 
 /**
@@ -99,14 +99,14 @@ export class LookupByDistributorCodeNotFoundError extends VerseDbError {
 }
 
 /**
- * Missing Ability
+ * The token lacks the `lookup:barcode` ability.
  */
 export type LookupByDistributorCodeForbiddenErrorData = {
-  message?: string | undefined;
+  message: string;
 };
 
 /**
- * Missing Ability
+ * The token lacks the `lookup:barcode` ability.
  */
 export class LookupByDistributorCodeForbiddenError extends VerseDbError {
   /** The original data that was passed to this error instance. */
@@ -129,7 +129,7 @@ export const LookupByDistributorCodeUnprocessableEntityError$inboundSchema:
   z.ZodMiniType<LookupByDistributorCodeUnprocessableEntityError, unknown> = z
     .pipe(
       z.object({
-        message: types.optional(types.string()),
+        message: types.string(),
         request$: z.custom<Request>(x => x instanceof Request),
         response$: z.custom<Response>(x => x instanceof Response),
         body$: z.string(),
@@ -149,15 +149,13 @@ export const LookupByDistributorCodeConflictError$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
-    count: types.optional(types.number()),
-    total_count: types.optional(types.number()),
-    matches: types.optional(z.array(z.lazy(() =>
-      operations.LookupByDistributorCodeMatch$inboundSchema
-    ))),
-    request$: z.custom<Request>(x =>
-      x instanceof Request
+    message: types.string(),
+    count: types.number(),
+    total_count: types.number(),
+    matches: z.array(
+      z.lazy(() => operations.LookupByDistributorCodeMatch$inboundSchema),
     ),
+    request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),
   }),
@@ -180,7 +178,7 @@ export const LookupByDistributorCodeNotFoundError$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
+    message: types.string(),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),
@@ -200,7 +198,7 @@ export const LookupByDistributorCodeForbiddenError$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
+    message: types.string(),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),

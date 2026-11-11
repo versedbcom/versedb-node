@@ -39,7 +39,7 @@ export type GetIssueDetailsGenre = {
   slug: any | null;
 };
 
-export type SeriesImprint = {
+export type GetIssueDetailsSeriesImprint = {
   id: number;
   name: string | null;
 };
@@ -77,7 +77,7 @@ export type GetIssueDetailsSeries = {
   language: string | null;
   genres: Array<GetIssueDetailsGenre>;
   aliases: Array<string>;
-  imprint: SeriesImprint | null;
+  imprint: GetIssueDetailsSeriesImprint | null;
   foreignEditionOf: Array<GetIssueDetailsForeignEditionOf>;
   foreignEditions: Array<GetIssueDetailsForeignEdition>;
 };
@@ -116,7 +116,7 @@ export type GetIssueDetailsCreator = {
   sortOrder: number | null;
 };
 
-export type CharacterImages = {
+export type GetIssueDetailsCharacterImages = {
   tileSm?: string | undefined;
   profileMd?: string | undefined;
   fullLg?: string | undefined;
@@ -128,11 +128,11 @@ export type GetIssueDetailsCharacter = {
   slug: string | null;
   realName: string | null;
   imageUrl: string | null;
-  images: CharacterImages | null;
+  images: GetIssueDetailsCharacterImages | null;
   sortOrder: number | null;
 };
 
-export type TeamImages = {
+export type GetIssueDetailsTeamImages = {
   tileSm?: string | undefined;
   profileMd?: string | undefined;
   fullLg?: string | undefined;
@@ -144,22 +144,22 @@ export type GetIssueDetailsTeam = {
   slug: string | null;
   headquarters: string | null;
   imageUrl: string | null;
-  images: TeamImages | null;
+  images: GetIssueDetailsTeamImages | null;
   sortOrder: number | null;
 };
 
-export type StoryArcImages = {
+export type GetIssueDetailsStoryArcImages = {
   coverSm?: string | undefined;
   coverMd?: string | undefined;
   coverLg?: string | undefined;
 };
 
-export type StoryArc = {
+export type GetIssueDetailsStoryArc = {
   id: number;
   name: string | null;
   slug: string | null;
   imageUrl: string | null;
-  images: StoryArcImages | null;
+  images: GetIssueDetailsStoryArcImages | null;
   sortOrder: number | null;
 };
 
@@ -168,7 +168,7 @@ export type GetIssueDetailsUniverse = {
   name: string | null;
 };
 
-export type ComicEvent = {
+export type GetIssueDetailsComicEvent = {
   id: number;
   name: string | null;
   slug: string | null;
@@ -260,9 +260,9 @@ export type GetIssueDetailsData = {
   creators: Array<GetIssueDetailsCreator>;
   characters: Array<GetIssueDetailsCharacter>;
   teams: Array<GetIssueDetailsTeam>;
-  storyArcs: Array<StoryArc>;
+  storyArcs: Array<GetIssueDetailsStoryArc>;
   universes: Array<GetIssueDetailsUniverse>;
-  comicEvents: Array<ComicEvent>;
+  comicEvents: Array<GetIssueDetailsComicEvent>;
   keyIssueReasons: Array<GetIssueDetailsKeyIssueReason>;
   availabilities: Array<GetIssueDetailsAvailability>;
   /**
@@ -384,21 +384,21 @@ export function getIssueDetailsGenreFromJSON(
 }
 
 /** @internal */
-export const SeriesImprint$inboundSchema: z.ZodMiniType<
-  SeriesImprint,
+export const GetIssueDetailsSeriesImprint$inboundSchema: z.ZodMiniType<
+  GetIssueDetailsSeriesImprint,
   unknown
 > = z.object({
   id: types.number(),
   name: types.nullable(types.string()),
 });
 
-export function seriesImprintFromJSON(
+export function getIssueDetailsSeriesImprintFromJSON(
   jsonString: string,
-): SafeParseResult<SeriesImprint, SDKValidationError> {
+): SafeParseResult<GetIssueDetailsSeriesImprint, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => SeriesImprint$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'SeriesImprint' from JSON`,
+    (x) => GetIssueDetailsSeriesImprint$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetIssueDetailsSeriesImprint' from JSON`,
   );
 }
 
@@ -468,7 +468,9 @@ export const GetIssueDetailsSeries$inboundSchema: z.ZodMiniType<
     language: types.nullable(types.string()),
     genres: z.array(z.lazy(() => GetIssueDetailsGenre$inboundSchema)),
     aliases: z.array(types.string()),
-    imprint: types.nullable(z.lazy(() => SeriesImprint$inboundSchema)),
+    imprint: types.nullable(
+      z.lazy(() => GetIssueDetailsSeriesImprint$inboundSchema),
+    ),
     foreign_edition_of: z.array(
       z.lazy(() => GetIssueDetailsForeignEditionOf$inboundSchema),
     ),
@@ -627,8 +629,8 @@ export function getIssueDetailsCreatorFromJSON(
 }
 
 /** @internal */
-export const CharacterImages$inboundSchema: z.ZodMiniType<
-  CharacterImages,
+export const GetIssueDetailsCharacterImages$inboundSchema: z.ZodMiniType<
+  GetIssueDetailsCharacterImages,
   unknown
 > = z.pipe(
   z.object({
@@ -645,13 +647,13 @@ export const CharacterImages$inboundSchema: z.ZodMiniType<
   }),
 );
 
-export function characterImagesFromJSON(
+export function getIssueDetailsCharacterImagesFromJSON(
   jsonString: string,
-): SafeParseResult<CharacterImages, SDKValidationError> {
+): SafeParseResult<GetIssueDetailsCharacterImages, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => CharacterImages$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'CharacterImages' from JSON`,
+    (x) => GetIssueDetailsCharacterImages$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetIssueDetailsCharacterImages' from JSON`,
   );
 }
 
@@ -666,7 +668,9 @@ export const GetIssueDetailsCharacter$inboundSchema: z.ZodMiniType<
     slug: types.nullable(types.string()),
     real_name: types.nullable(types.string()),
     image_url: types.nullable(types.string()),
-    images: types.nullable(z.lazy(() => CharacterImages$inboundSchema)),
+    images: types.nullable(
+      z.lazy(() => GetIssueDetailsCharacterImages$inboundSchema),
+    ),
     sort_order: types.nullable(types.number()),
   }),
   z.transform((v) => {
@@ -689,29 +693,31 @@ export function getIssueDetailsCharacterFromJSON(
 }
 
 /** @internal */
-export const TeamImages$inboundSchema: z.ZodMiniType<TeamImages, unknown> = z
-  .pipe(
-    z.object({
-      tile_sm: types.optional(types.string()),
-      profile_md: types.optional(types.string()),
-      full_lg: types.optional(types.string()),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "tile_sm": "tileSm",
-        "profile_md": "profileMd",
-        "full_lg": "fullLg",
-      });
-    }),
-  );
+export const GetIssueDetailsTeamImages$inboundSchema: z.ZodMiniType<
+  GetIssueDetailsTeamImages,
+  unknown
+> = z.pipe(
+  z.object({
+    tile_sm: types.optional(types.string()),
+    profile_md: types.optional(types.string()),
+    full_lg: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "tile_sm": "tileSm",
+      "profile_md": "profileMd",
+      "full_lg": "fullLg",
+    });
+  }),
+);
 
-export function teamImagesFromJSON(
+export function getIssueDetailsTeamImagesFromJSON(
   jsonString: string,
-): SafeParseResult<TeamImages, SDKValidationError> {
+): SafeParseResult<GetIssueDetailsTeamImages, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => TeamImages$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'TeamImages' from JSON`,
+    (x) => GetIssueDetailsTeamImages$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetIssueDetailsTeamImages' from JSON`,
   );
 }
 
@@ -726,7 +732,9 @@ export const GetIssueDetailsTeam$inboundSchema: z.ZodMiniType<
     slug: types.nullable(types.string()),
     headquarters: types.nullable(types.string()),
     image_url: types.nullable(types.string()),
-    images: types.nullable(z.lazy(() => TeamImages$inboundSchema)),
+    images: types.nullable(
+      z.lazy(() => GetIssueDetailsTeamImages$inboundSchema),
+    ),
     sort_order: types.nullable(types.number()),
   }),
   z.transform((v) => {
@@ -748,8 +756,8 @@ export function getIssueDetailsTeamFromJSON(
 }
 
 /** @internal */
-export const StoryArcImages$inboundSchema: z.ZodMiniType<
-  StoryArcImages,
+export const GetIssueDetailsStoryArcImages$inboundSchema: z.ZodMiniType<
+  GetIssueDetailsStoryArcImages,
   unknown
 > = z.pipe(
   z.object({
@@ -766,24 +774,29 @@ export const StoryArcImages$inboundSchema: z.ZodMiniType<
   }),
 );
 
-export function storyArcImagesFromJSON(
+export function getIssueDetailsStoryArcImagesFromJSON(
   jsonString: string,
-): SafeParseResult<StoryArcImages, SDKValidationError> {
+): SafeParseResult<GetIssueDetailsStoryArcImages, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => StoryArcImages$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'StoryArcImages' from JSON`,
+    (x) => GetIssueDetailsStoryArcImages$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetIssueDetailsStoryArcImages' from JSON`,
   );
 }
 
 /** @internal */
-export const StoryArc$inboundSchema: z.ZodMiniType<StoryArc, unknown> = z.pipe(
+export const GetIssueDetailsStoryArc$inboundSchema: z.ZodMiniType<
+  GetIssueDetailsStoryArc,
+  unknown
+> = z.pipe(
   z.object({
     id: types.number(),
     name: types.nullable(types.string()),
     slug: types.nullable(types.string()),
     image_url: types.nullable(types.string()),
-    images: types.nullable(z.lazy(() => StoryArcImages$inboundSchema)),
+    images: types.nullable(
+      z.lazy(() => GetIssueDetailsStoryArcImages$inboundSchema),
+    ),
     sort_order: types.nullable(types.number()),
   }),
   z.transform((v) => {
@@ -794,13 +807,13 @@ export const StoryArc$inboundSchema: z.ZodMiniType<StoryArc, unknown> = z.pipe(
   }),
 );
 
-export function storyArcFromJSON(
+export function getIssueDetailsStoryArcFromJSON(
   jsonString: string,
-): SafeParseResult<StoryArc, SDKValidationError> {
+): SafeParseResult<GetIssueDetailsStoryArc, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => StoryArc$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'StoryArc' from JSON`,
+    (x) => GetIssueDetailsStoryArc$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetIssueDetailsStoryArc' from JSON`,
   );
 }
 
@@ -824,30 +837,32 @@ export function getIssueDetailsUniverseFromJSON(
 }
 
 /** @internal */
-export const ComicEvent$inboundSchema: z.ZodMiniType<ComicEvent, unknown> = z
-  .pipe(
-    z.object({
-      id: types.number(),
-      name: types.nullable(types.string()),
-      slug: types.nullable(types.string()),
-      type: types.nullable(types.string()),
-      notes: types.nullable(types.string()),
-      display_order: types.nullable(types.number()),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "display_order": "displayOrder",
-      });
-    }),
-  );
+export const GetIssueDetailsComicEvent$inboundSchema: z.ZodMiniType<
+  GetIssueDetailsComicEvent,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    type: types.nullable(types.string()),
+    notes: types.nullable(types.string()),
+    display_order: types.nullable(types.number()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "display_order": "displayOrder",
+    });
+  }),
+);
 
-export function comicEventFromJSON(
+export function getIssueDetailsComicEventFromJSON(
   jsonString: string,
-): SafeParseResult<ComicEvent, SDKValidationError> {
+): SafeParseResult<GetIssueDetailsComicEvent, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => ComicEvent$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ComicEvent' from JSON`,
+    (x) => GetIssueDetailsComicEvent$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetIssueDetailsComicEvent' from JSON`,
   );
 }
 
@@ -997,9 +1012,11 @@ export const GetIssueDetailsData$inboundSchema: z.ZodMiniType<
     creators: z.array(z.lazy(() => GetIssueDetailsCreator$inboundSchema)),
     characters: z.array(z.lazy(() => GetIssueDetailsCharacter$inboundSchema)),
     teams: z.array(z.lazy(() => GetIssueDetailsTeam$inboundSchema)),
-    story_arcs: z.array(z.lazy(() => StoryArc$inboundSchema)),
+    story_arcs: z.array(z.lazy(() => GetIssueDetailsStoryArc$inboundSchema)),
     universes: z.array(z.lazy(() => GetIssueDetailsUniverse$inboundSchema)),
-    comic_events: z.array(z.lazy(() => ComicEvent$inboundSchema)),
+    comic_events: z.array(
+      z.lazy(() => GetIssueDetailsComicEvent$inboundSchema),
+    ),
     key_issue_reasons: z.array(
       z.lazy(() => GetIssueDetailsKeyIssueReason$inboundSchema),
     ),

@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { VerseDBCore } from "../core.js";
-import { encodeSimple } from "../lib/encodings.js";
+import { encodeFormQuery, encodeSimple } from "../lib/encodings.js";
 import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
@@ -31,8 +31,8 @@ import { Result } from "../types/fp.js";
  * Lookup by UPC.
  *
  * @remarks
- * Find an issue by its UPC barcode (typically 12-17 digits).
- * Returns full issue details including series information.
+ * Find an issue by its UPC barcode (10 to 18 digits; anything else in the code is dropped). A variant's printed code finds its issue, and a bare 12-digit series code
+ * widens to every issue built on it. One issue returns 200 with its covers; a code several issues hold returns 409 with up to 25 candidates.
  */
 export function barcodeLookupLookupByUPC(
   client: VerseDBCore,
@@ -45,6 +45,7 @@ export function barcodeLookupLookupByUPC(
     | errors.LookupByUPCForbiddenError
     | errors.LookupByUPCNotFoundError
     | errors.LookupByUPCConflictError
+    | errors.LookupByUPCUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -75,6 +76,7 @@ async function $do(
       | errors.LookupByUPCForbiddenError
       | errors.LookupByUPCNotFoundError
       | errors.LookupByUPCConflictError
+      | errors.LookupByUPCUnprocessableEntityError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -107,6 +109,10 @@ async function $do(
   };
   const path = pathToFunc("/api/v1/lookup/upc/{upc}")(pathParams);
 
+  const query = encodeFormQuery({
+    "languages": payload.languages,
+  });
+
   const headers = new Headers(compactMap({
     Accept: "application/json",
   }));
@@ -136,6 +142,7 @@ async function $do(
     baseURL: options?.serverURL,
     path: path,
     headers: headers,
+    query: query,
     body: body,
     userAgent: client._options.userAgent,
     timeoutMs: options?.timeoutMs || client._options.timeoutMs || -1,
@@ -167,6 +174,7 @@ async function $do(
     | errors.LookupByUPCForbiddenError
     | errors.LookupByUPCNotFoundError
     | errors.LookupByUPCConflictError
+    | errors.LookupByUPCUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -185,6 +193,7 @@ async function $do(
     M.jsonErr(403, errors.LookupByUPCForbiddenError$inboundSchema),
     M.jsonErr(404, errors.LookupByUPCNotFoundError$inboundSchema),
     M.jsonErr(409, errors.LookupByUPCConflictError$inboundSchema),
+    M.jsonErr(422, errors.LookupByUPCUnprocessableEntityError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

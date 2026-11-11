@@ -16,4 +16,4 @@ let value: LookUpAnIssueByCoverPhotoErrors = {
 
 | Field                                 | Type                                  | Required                              | Description                           | Example                               |
 | ------------------------------------- | ------------------------------------- | ------------------------------------- | ------------------------------------- | ------------------------------------- |
-| `image`                               | *string*[]                            | :heavy_minus_sign:                    | N/A                                   | [<br/>"The file must be a valid image."<br/>] |
+| `image`                               | *string*[]                            | :heavy_check_mark:                    | N/A                                   | [<br/>"The file must be a valid image."<br/>] |

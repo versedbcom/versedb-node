@@ -1,11 +1,11 @@
-# SeriesImprint
+# LookupByUPCSeriesImprint
 
 ## Example Usage
 
 ```typescript
-import { SeriesImprint } from "@versedbcom/sdk/models/operations";
+import { LookupByUPCSeriesImprint } from "@versedbcom/sdk/models/operations";
 
-let value: SeriesImprint = {
+let value: LookupByUPCSeriesImprint = {
   id: 7,
   name: "Marvel Knights",
 };

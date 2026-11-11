@@ -7,10 +7,36 @@ import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
+ * Invalid ISBN
+ */
+export type LookupByISBNUnprocessableEntityErrorData = {
+  message: string;
+};
+
+/**
+ * Invalid ISBN
+ */
+export class LookupByISBNUnprocessableEntityError extends VerseDbError {
+  /** The original data that was passed to this error instance. */
+  data$: LookupByISBNUnprocessableEntityErrorData;
+
+  constructor(
+    err: LookupByISBNUnprocessableEntityErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+
+    this.name = "LookupByISBNUnprocessableEntityError";
+  }
+}
+
+/**
  * Not Found
  */
 export type LookupByISBNNotFoundErrorData = {
-  message?: string | undefined;
+  message: string;
 };
 
 /**
@@ -33,14 +59,14 @@ export class LookupByISBNNotFoundError extends VerseDbError {
 }
 
 /**
- * Missing Ability
+ * The token lacks the `lookup:barcode` ability.
  */
 export type LookupByISBNForbiddenErrorData = {
-  message?: string | undefined;
+  message: string;
 };
 
 /**
- * Missing Ability
+ * The token lacks the `lookup:barcode` ability.
  */
 export class LookupByISBNForbiddenError extends VerseDbError {
   /** The original data that was passed to this error instance. */
@@ -59,12 +85,32 @@ export class LookupByISBNForbiddenError extends VerseDbError {
 }
 
 /** @internal */
+export const LookupByISBNUnprocessableEntityError$inboundSchema: z.ZodMiniType<
+  LookupByISBNUnprocessableEntityError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new LookupByISBNUnprocessableEntityError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
 export const LookupByISBNNotFoundError$inboundSchema: z.ZodMiniType<
   LookupByISBNNotFoundError,
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
+    message: types.string(),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),
@@ -84,7 +130,7 @@ export const LookupByISBNForbiddenError$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
+    message: types.string(),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),

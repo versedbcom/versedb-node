@@ -14,4 +14,4 @@ import { LookupByDistributorCodeNotFoundError } from "@versedbcom/sdk/models/err
 
 | Field                                      | Type                                       | Required                                   | Description                                | Example                                    |
 | ------------------------------------------ | ------------------------------------------ | ------------------------------------------ | ------------------------------------------ | ------------------------------------------ |
-| `message`                                  | *string*                                   | :heavy_minus_sign:                         | N/A                                        | No issue found with Lunar code: 1125DC0151 |
+| `message`                                  | *string*                                   | :heavy_check_mark:                         | N/A                                        | No issue found with Lunar code: 1125DC0151 |

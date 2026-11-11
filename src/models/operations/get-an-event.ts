@@ -64,7 +64,7 @@ export type GetAnEventIssueImages = {
   coverLg?: string | undefined;
 };
 
-export type IssueNameI18n = {
+export type GetAnEventIssueNameI18n = {
   value: string;
   source: string;
   reading?: string | undefined;
@@ -112,7 +112,7 @@ export type GetAnEventIssue = {
   /**
    * One name per language, keyed by BCP 47 tag.
    */
-  nameI18n: { [k: string]: IssueNameI18n };
+  nameI18n: { [k: string]: GetAnEventIssueNameI18n };
   series?: GetAnEventSeries | null | undefined;
   pivotIssueOrder: any | null;
   pivotIsPrologue: boolean;
@@ -492,8 +492,8 @@ export function getAnEventIssueImagesFromJSON(
 }
 
 /** @internal */
-export const IssueNameI18n$inboundSchema: z.ZodMiniType<
-  IssueNameI18n,
+export const GetAnEventIssueNameI18n$inboundSchema: z.ZodMiniType<
+  GetAnEventIssueNameI18n,
   unknown
 > = z.object({
   value: types.string(),
@@ -502,13 +502,13 @@ export const IssueNameI18n$inboundSchema: z.ZodMiniType<
   sort: types.optional(types.string()),
 });
 
-export function issueNameI18nFromJSON(
+export function getAnEventIssueNameI18nFromJSON(
   jsonString: string,
-): SafeParseResult<IssueNameI18n, SDKValidationError> {
+): SafeParseResult<GetAnEventIssueNameI18n, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => IssueNameI18n$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'IssueNameI18n' from JSON`,
+    (x) => GetAnEventIssueNameI18n$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetAnEventIssueNameI18n' from JSON`,
   );
 }
 
@@ -605,7 +605,10 @@ export const GetAnEventIssue$inboundSchema: z.ZodMiniType<
     min_age: types.nullable(types.number()),
     is_nsfw: types.boolean(),
     average_rating: types.nullable(types.number()),
-    name_i18n: z.record(z.string(), z.lazy(() => IssueNameI18n$inboundSchema)),
+    name_i18n: z.record(
+      z.string(),
+      z.lazy(() => GetAnEventIssueNameI18n$inboundSchema),
+    ),
     series: z.optional(
       z.nullable(z.lazy(() => GetAnEventSeries$inboundSchema)),
     ),

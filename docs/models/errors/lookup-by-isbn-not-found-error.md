@@ -14,4 +14,4 @@ import { LookupByISBNNotFoundError } from "@versedbcom/sdk/models/errors";
 
 | Field                                    | Type                                     | Required                                 | Description                              | Example                                  |
 | ---------------------------------------- | ---------------------------------------- | ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
-| `message`                                | *string*                                 | :heavy_minus_sign:                       | N/A                                      | No issue found with ISBN: 978-1302913847 |
+| `message`                                | *string*                                 | :heavy_check_mark:                       | N/A                                      | No issue found with ISBN: 978-1302913847 |

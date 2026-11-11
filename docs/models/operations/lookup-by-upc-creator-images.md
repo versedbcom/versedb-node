@@ -1,11 +1,11 @@
-# TeamImages
+# LookupByUPCCreatorImages
 
 ## Example Usage
 
 ```typescript
-import { TeamImages } from "@versedbcom/sdk/models/operations";
+import { LookupByUPCCreatorImages } from "@versedbcom/sdk/models/operations";
 
-let value: TeamImages = {
+let value: LookupByUPCCreatorImages = {
   tileSm: "https://...-tile_sm.webp",
   profileMd: "https://...-profile_md.webp",
   fullLg: "https://...-full_lg.webp",

@@ -1,0 +1,23 @@
+# LookupByISBNKeyIssueReason
+
+## Example Usage
+
+```typescript
+import { LookupByISBNKeyIssueReason } from "@versedbcom/sdk/models/operations";
+
+let value: LookupByISBNKeyIssueReason = {
+  id: 1,
+  name: "1st Appearance",
+  category: "appearance",
+  notes: "Cameo",
+};
+```
+
+## Fields
+
+| Field              | Type               | Required           | Description        | Example            |
+| ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
+| `id`               | *number*           | :heavy_check_mark: | N/A                | 1                  |
+| `name`             | *string*           | :heavy_check_mark: | N/A                | 1st Appearance     |
+| `category`         | *string*           | :heavy_check_mark: | N/A                | appearance         |
+| `notes`            | *string*           | :heavy_check_mark: | N/A                | Cameo              |

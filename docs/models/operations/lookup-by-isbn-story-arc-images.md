@@ -1,11 +1,11 @@
-# StoryArcImages
+# LookupByISBNStoryArcImages
 
 ## Example Usage
 
 ```typescript
-import { StoryArcImages } from "@versedbcom/sdk/models/operations";
+import { LookupByISBNStoryArcImages } from "@versedbcom/sdk/models/operations";
 
-let value: StoryArcImages = {
+let value: LookupByISBNStoryArcImages = {
   coverSm: "https://...-cover_sm.webp",
   coverMd: "https://...-cover_md.webp",
   coverLg: "https://...-cover_lg.webp",

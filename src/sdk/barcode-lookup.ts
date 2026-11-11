@@ -14,8 +14,8 @@ export class BarcodeLookup extends ClientSDK {
    * Lookup by UPC.
    *
    * @remarks
-   * Find an issue by its UPC barcode (typically 12-17 digits).
-   * Returns full issue details including series information.
+   * Find an issue by its UPC barcode (10 to 18 digits; anything else in the code is dropped). A variant's printed code finds its issue, and a bare 12-digit series code
+   * widens to every issue built on it. One issue returns 200 with its covers; a code several issues hold returns 409 with up to 25 candidates.
    */
   async lookupByUPC(
     request: operations.LookupByUPCRequest,

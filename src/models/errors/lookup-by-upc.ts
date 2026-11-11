@@ -9,22 +9,48 @@ import * as operations from "../operations/index.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
+ * Invalid UPC
+ */
+export type LookupByUPCUnprocessableEntityErrorData = {
+  message: string;
+};
+
+/**
+ * Invalid UPC
+ */
+export class LookupByUPCUnprocessableEntityError extends VerseDbError {
+  /** The original data that was passed to this error instance. */
+  data$: LookupByUPCUnprocessableEntityErrorData;
+
+  constructor(
+    err: LookupByUPCUnprocessableEntityErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+
+    this.name = "LookupByUPCUnprocessableEntityError";
+  }
+}
+
+/**
  * Multiple Matches
  */
 export type LookupByUPCConflictErrorData = {
-  message?: string | undefined;
-  count?: number | undefined;
-  totalCount?: number | undefined;
-  matches?: Array<operations.LookupByUPCMatch> | undefined;
+  message: string;
+  count: number;
+  totalCount: number;
+  matches: Array<operations.LookupByUPCMatch>;
 };
 
 /**
  * Multiple Matches
  */
 export class LookupByUPCConflictError extends VerseDbError {
-  count?: number | undefined;
-  totalCount?: number | undefined;
-  matches?: Array<operations.LookupByUPCMatch> | undefined;
+  count: number;
+  totalCount: number;
+  matches: Array<operations.LookupByUPCMatch>;
 
   /** The original data that was passed to this error instance. */
   data$: LookupByUPCConflictErrorData;
@@ -36,9 +62,9 @@ export class LookupByUPCConflictError extends VerseDbError {
     const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
     super(message, httpMeta);
     this.data$ = err;
-    if (err.count != null) this.count = err.count;
-    if (err.totalCount != null) this.totalCount = err.totalCount;
-    if (err.matches != null) this.matches = err.matches;
+    this.count = err.count;
+    this.totalCount = err.totalCount;
+    this.matches = err.matches;
 
     this.name = "LookupByUPCConflictError";
   }
@@ -48,7 +74,7 @@ export class LookupByUPCConflictError extends VerseDbError {
  * Not Found
  */
 export type LookupByUPCNotFoundErrorData = {
-  message?: string | undefined;
+  message: string;
 };
 
 /**
@@ -71,14 +97,14 @@ export class LookupByUPCNotFoundError extends VerseDbError {
 }
 
 /**
- * Missing Ability
+ * The token lacks the `lookup:barcode` ability.
  */
 export type LookupByUPCForbiddenErrorData = {
-  message?: string | undefined;
+  message: string;
 };
 
 /**
- * Missing Ability
+ * The token lacks the `lookup:barcode` ability.
  */
 export class LookupByUPCForbiddenError extends VerseDbError {
   /** The original data that was passed to this error instance. */
@@ -97,17 +123,35 @@ export class LookupByUPCForbiddenError extends VerseDbError {
 }
 
 /** @internal */
+export const LookupByUPCUnprocessableEntityError$inboundSchema: z.ZodMiniType<
+  LookupByUPCUnprocessableEntityError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new LookupByUPCUnprocessableEntityError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
 export const LookupByUPCConflictError$inboundSchema: z.ZodMiniType<
   LookupByUPCConflictError,
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
-    count: types.optional(types.number()),
-    total_count: types.optional(types.number()),
-    matches: types.optional(
-      z.array(z.lazy(() => operations.LookupByUPCMatch$inboundSchema)),
-    ),
+    message: types.string(),
+    count: types.number(),
+    total_count: types.number(),
+    matches: z.array(z.lazy(() => operations.LookupByUPCMatch$inboundSchema)),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),
@@ -131,7 +175,7 @@ export const LookupByUPCNotFoundError$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
+    message: types.string(),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),
@@ -151,7 +195,7 @@ export const LookupByUPCForbiddenError$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
+    message: types.string(),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),

@@ -1,6 +1,6 @@
 # ServiceUnavailableError
 
-Matching Unavailable
+Cover matching is unavailable right now.
 
 ## Example Usage
 
@@ -14,4 +14,4 @@ import { ServiceUnavailableError } from "@versedbcom/sdk/models/errors";
 
 | Field                                                                                     | Type                                                                                      | Required                                                                                  | Description                                                                               | Example                                                                                   |
 | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| `message`                                                                                 | *string*                                                                                  | :heavy_minus_sign:                                                                        | N/A                                                                                       | Cover matching is unavailable right now. Try again later or look the comic up by barcode. |
+| `message`                                                                                 | *string*                                                                                  | :heavy_check_mark:                                                                        | N/A                                                                                       | Cover matching is unavailable right now. Try again later or look the comic up by barcode. |
