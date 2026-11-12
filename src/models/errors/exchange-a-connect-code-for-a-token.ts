@@ -10,7 +10,7 @@ import { VerseDbError } from "./verse-db-error.js";
 /**
  * The request could not be processed: an OAuth error and its description.
  */
-export type BadRequestErrorData = {
+export type ExchangeAConnectCodeForATokenBadRequestErrorData = {
   /**
    * unsupported_grant_type, invalid_request or invalid_grant.
    */
@@ -21,7 +21,7 @@ export type BadRequestErrorData = {
 /**
  * The request could not be processed: an OAuth error and its description.
  */
-export class BadRequestError extends VerseDbError {
+export class ExchangeAConnectCodeForATokenBadRequestError extends VerseDbError {
   /**
    * unsupported_grant_type, invalid_request or invalid_grant.
    */
@@ -29,10 +29,10 @@ export class BadRequestError extends VerseDbError {
   errorDescription: string;
 
   /** The original data that was passed to this error instance. */
-  data$: BadRequestErrorData;
+  data$: ExchangeAConnectCodeForATokenBadRequestErrorData;
 
   constructor(
-    err: BadRequestErrorData,
+    err: ExchangeAConnectCodeForATokenBadRequestErrorData,
     httpMeta: { response: Response; request: Request; body: string },
   ) {
     const message = "message" in err && typeof err.message === "string"
@@ -43,31 +43,29 @@ export class BadRequestError extends VerseDbError {
     this.error = err.error;
     this.errorDescription = err.errorDescription;
 
-    this.name = "BadRequestError";
+    this.name = "ExchangeAConnectCodeForATokenBadRequestError";
   }
 }
 
 /** @internal */
-export const BadRequestError$inboundSchema: z.ZodMiniType<
-  BadRequestError,
-  unknown
-> = z.pipe(
-  z.object({
-    error: types.string(),
-    error_description: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    const remapped = remap$(v, {
-      "error_description": "errorDescription",
-    });
+export const ExchangeAConnectCodeForATokenBadRequestError$inboundSchema:
+  z.ZodMiniType<ExchangeAConnectCodeForATokenBadRequestError, unknown> = z.pipe(
+    z.object({
+      error: types.string(),
+      error_description: types.string(),
+      request$: z.custom<Request>(x => x instanceof Request),
+      response$: z.custom<Response>(x => x instanceof Response),
+      body$: z.string(),
+    }),
+    z.transform((v) => {
+      const remapped = remap$(v, {
+        "error_description": "errorDescription",
+      });
 
-    return new BadRequestError(remapped, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
+      return new ExchangeAConnectCodeForATokenBadRequestError(remapped, {
+        request: v.request$,
+        response: v.response$,
+        body: v.body$,
+      });
+    }),
+  );

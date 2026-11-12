@@ -10,6 +10,9 @@ All endpoints in this group require authentication with a Bearer API token.
 ### Available Operations
 
 * [getTheAuthenticatedUser](#gettheauthenticateduser) - Get the authenticated user.
+* [listFollows](#listfollows) - List follows.
+* [~~getActivityFeed~~](#getactivityfeed) - Get activity feed. :warning: **Deprecated**
+* [checkFollowStatus](#checkfollowstatus) - Check follow status.
 * [listReadStatus](#listreadstatus) - List read status.
 * [listWishlist](#listwishlist) - List wishlist.
 * [listCollection](#listcollection) - List collection.
@@ -27,11 +30,8 @@ All endpoints in this group require authentication with a Bearer API token.
 * [updateCollectionItem](#updatecollectionitem) - Update collection item.
 * [lendACopyOut](#lendacopyout) - Lend a copy out.
 * [markTheCopysOpenLoanReturned](#markthecopysopenloanreturned) - Mark the copy's open loan returned.
-* [listFollows](#listfollows) - List follows.
-* [checkFollowStatus](#checkfollowstatus) - Check follow status.
 * [followContent](#followcontent) - Follow content.
 * [unfollowContent](#unfollowcontent) - Unfollow content.
-* [~~getActivityFeed~~](#getactivityfeed) - Get activity feed. :warning: **Deprecated**
 
 ## getTheAuthenticatedUser
 
@@ -108,6 +108,252 @@ run();
 | errors.GetTheAuthenticatedUserForbiddenError | 403                                          | application/json                             |
 | errors.TooManyRequestsError                  | 429                                          | application/json                             |
 | errors.VerseDbDefaultError                   | 4XX, 5XX                                     | \*/\*                                        |
+
+## listFollows
+
+Returns the entities the user follows (titles, characters, podcasts and the rest), newest first, without members a block
+stands between.
+
+Needs `read:user`.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="listFollows" method="get" path="/api/v1/user/follows" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.user.listFollows({
+    perPage: 20,
+    type: "Character",
+    q: "spider",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { userListFollows } from "@versedbcom/sdk/funcs/user-list-follows.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await userListFollows(verseDB, {
+    perPage: 20,
+    type: "Character",
+    q: "spider",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("userListFollows failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.ListFollowsRequest](../../models/operations/list-follows-request.md)                                                                                               | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.ListFollowsResponse](../../models/operations/list-follows-response.md)\>**
+
+### Errors
+
+| Error Type                                 | Status Code                                | Content Type                               |
+| ------------------------------------------ | ------------------------------------------ | ------------------------------------------ |
+| errors.UnauthorizedErrorError              | 401                                        | application/json                           |
+| errors.ListFollowsForbiddenError           | 403                                        | application/json                           |
+| errors.ListFollowsUnprocessableEntityError | 422                                        | application/json                           |
+| errors.TooManyRequestsError                | 429                                        | application/json                           |
+| errors.VerseDbDefaultError                 | 4XX, 5XX                                   | \*/\*                                      |
+
+## ~~getActivityFeed~~
+
+Aggregates the user's activity from collections, reads, follows and issue reviews, one entry per row, newest first.
+
+Needs `read:user`.
+
+> :warning: **DEPRECATED**: This will be removed in a future release, please migrate away from it as soon as possible.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="getActivityFeed" method="get" path="/api/v1/user/activity" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.user.getActivityFeed({
+    perPage: 20,
+    page: 1,
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { userGetActivityFeed } from "@versedbcom/sdk/funcs/user-get-activity-feed.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await userGetActivityFeed(verseDB, {
+    perPage: 20,
+    page: 1,
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("userGetActivityFeed failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.GetActivityFeedRequest](../../models/operations/get-activity-feed-request.md)                                                                                      | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.GetActivityFeedResponse](../../models/operations/get-activity-feed-response.md)\>**
+
+### Errors
+
+| Error Type                           | Status Code                          | Content Type                         |
+| ------------------------------------ | ------------------------------------ | ------------------------------------ |
+| errors.UnauthorizedErrorError        | 401                                  | application/json                     |
+| errors.GetActivityFeedForbiddenError | 403                                  | application/json                     |
+| errors.TooManyRequestsError          | 429                                  | application/json                     |
+| errors.VerseDbDefaultError           | 4XX, 5XX                             | \*/\*                                |
+
+## checkFollowStatus
+
+Reports whether the authenticated user currently follows the given entity. An event in a franchise counts as followed when the franchise is.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="checkFollowStatus" method="get" path="/api/v1/follow/{type}/{id}/check" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.user.checkFollowStatus({
+    type: "title",
+    id: 45,
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { userCheckFollowStatus } from "@versedbcom/sdk/funcs/user-check-follow-status.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await userCheckFollowStatus(verseDB, {
+    type: "title",
+    id: 45,
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("userCheckFollowStatus failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.CheckFollowStatusRequest](../../models/operations/check-follow-status-request.md)                                                                                  | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.CheckFollowStatusResponse](../../models/operations/check-follow-status-response.md)\>**
+
+### Errors
+
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| errors.CheckFollowStatusBadRequestError | 400                                     | application/json                        |
+| errors.UnauthorizedErrorError           | 401                                     | application/json                        |
+| errors.CheckFollowStatusForbiddenError  | 403                                     | application/json                        |
+| errors.CheckFollowStatusNotFoundError   | 404                                     | application/json                        |
+| errors.TooManyRequestsError             | 429                                     | application/json                        |
+| errors.VerseDbDefaultError              | 4XX, 5XX                                | \*/\*                                   |
 
 ## listReadStatus
 
@@ -1724,165 +1970,9 @@ run();
 | errors.TooManyRequestsError                                 | 429                                                         | application/json                                            |
 | errors.VerseDbDefaultError                                  | 4XX, 5XX                                                    | \*/\*                                                       |
 
-## listFollows
-
-Returns all entities the user is following (titles, characters, podcasts, etc.).
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="listFollows" method="get" path="/api/v1/user/follows" -->
-```typescript
-import { VerseDB } from "@versedbcom/sdk";
-
-const verseDB = new VerseDB({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const result = await verseDB.user.listFollows({
-    perPage: 20,
-    type: "Character",
-    q: "spider",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { VerseDBCore } from "@versedbcom/sdk/core.js";
-import { userListFollows } from "@versedbcom/sdk/funcs/user-list-follows.js";
-
-// Use `VerseDBCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const verseDB = new VerseDBCore({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const res = await userListFollows(verseDB, {
-    perPage: 20,
-    type: "Character",
-    q: "spider",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("userListFollows failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.ListFollowsRequest](../../models/operations/list-follows-request.md)                                                                                               | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[operations.ListFollowsResponse](../../models/operations/list-follows-response.md)\>**
-
-### Errors
-
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| errors.UnauthorizedErrorError | 401                           | application/json              |
-| errors.TooManyRequestsError   | 429                           | application/json              |
-| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
-
-## checkFollowStatus
-
-Reports whether the authenticated user currently follows the given entity.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="checkFollowStatus" method="get" path="/api/v1/follow/{type}/{id}/check" -->
-```typescript
-import { VerseDB } from "@versedbcom/sdk";
-
-const verseDB = new VerseDB({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const result = await verseDB.user.checkFollowStatus({
-    type: "title",
-    id: 45,
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { VerseDBCore } from "@versedbcom/sdk/core.js";
-import { userCheckFollowStatus } from "@versedbcom/sdk/funcs/user-check-follow-status.js";
-
-// Use `VerseDBCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const verseDB = new VerseDBCore({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const res = await userCheckFollowStatus(verseDB, {
-    type: "title",
-    id: 45,
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("userCheckFollowStatus failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.CheckFollowStatusRequest](../../models/operations/check-follow-status-request.md)                                                                                  | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[operations.CheckFollowStatusResponse](../../models/operations/check-follow-status-response.md)\>**
-
-### Errors
-
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| errors.UnauthorizedErrorError | 401                           | application/json              |
-| errors.TooManyRequestsError   | 429                           | application/json              |
-| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
-
 ## followContent
 
-Follows a title, character, podcast, creator, publisher, team, story arc, comic shop, event, event franchise, or user.
+Follows a title, character, podcast, creator, publisher, team, story arc, comic shop, event, event franchise, or user. Following an event that belongs to a franchise follows the franchise too.
 
 ### Example Usage
 
@@ -1959,17 +2049,18 @@ run();
 
 ### Errors
 
-| Error Type                         | Status Code                        | Content Type                       |
-| ---------------------------------- | ---------------------------------- | ---------------------------------- |
-| errors.UnauthorizedErrorError      | 401                                | application/json                   |
-| errors.FollowContentForbiddenError | 403                                | application/json                   |
-| errors.FollowContentNotFoundError  | 404                                | application/json                   |
-| errors.TooManyRequestsError        | 429                                | application/json                   |
-| errors.VerseDbDefaultError         | 4XX, 5XX                           | \*/\*                              |
+| Error Type                                   | Status Code                                  | Content Type                                 |
+| -------------------------------------------- | -------------------------------------------- | -------------------------------------------- |
+| errors.UnauthorizedErrorError                | 401                                          | application/json                             |
+| errors.FollowContentForbiddenError           | 403                                          | application/json                             |
+| errors.FollowContentNotFoundError            | 404                                          | application/json                             |
+| errors.FollowContentUnprocessableEntityError | 422                                          | application/json                             |
+| errors.TooManyRequestsError                  | 429                                          | application/json                             |
+| errors.VerseDbDefaultError                   | 4XX, 5XX                                     | \*/\*                                        |
 
 ## unfollowContent
 
-Stops following the given entity for the authenticated user.
+Stops following the given entity for the authenticated user. Unfollowing an event in a franchise, or the franchise, clears both.
 
 ### Example Usage
 
@@ -2038,88 +2129,11 @@ run();
 
 ### Errors
 
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| errors.UnauthorizedErrorError       | 401                                 | application/json                    |
-| errors.UnfollowContentNotFoundError | 404                                 | application/json                    |
-| errors.TooManyRequestsError         | 429                                 | application/json                    |
-| errors.VerseDbDefaultError          | 4XX, 5XX                            | \*/\*                               |
-
-## ~~getActivityFeed~~
-
-Aggregates recent activity from collections, reads, follows, and reviews.
-
-> :warning: **DEPRECATED**: This will be removed in a future release, please migrate away from it as soon as possible.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="getActivityFeed" method="get" path="/api/v1/user/activity" -->
-```typescript
-import { VerseDB } from "@versedbcom/sdk";
-
-const verseDB = new VerseDB({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const result = await verseDB.user.getActivityFeed({
-    perPage: 20,
-    page: 1,
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { VerseDBCore } from "@versedbcom/sdk/core.js";
-import { userGetActivityFeed } from "@versedbcom/sdk/funcs/user-get-activity-feed.js";
-
-// Use `VerseDBCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const verseDB = new VerseDBCore({
-  token: "<YOUR_BEARER_TOKEN_HERE>",
-});
-
-async function run() {
-  const res = await userGetActivityFeed(verseDB, {
-    perPage: 20,
-    page: 1,
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("userGetActivityFeed failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.GetActivityFeedRequest](../../models/operations/get-activity-feed-request.md)                                                                                      | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[operations.GetActivityFeedResponse](../../models/operations/get-activity-feed-response.md)\>**
-
-### Errors
-
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| errors.UnauthorizedErrorError | 401                           | application/json              |
-| errors.TooManyRequestsError   | 429                           | application/json              |
-| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
+| Error Type                            | Status Code                           | Content Type                          |
+| ------------------------------------- | ------------------------------------- | ------------------------------------- |
+| errors.UnfollowContentBadRequestError | 400                                   | application/json                      |
+| errors.UnauthorizedErrorError         | 401                                   | application/json                      |
+| errors.UnfollowContentForbiddenError  | 403                                   | application/json                      |
+| errors.UnfollowContentNotFoundError   | 404                                   | application/json                      |
+| errors.TooManyRequestsError           | 429                                   | application/json                      |
+| errors.VerseDbDefaultError            | 4XX, 5XX                              | \*/\*                                 |

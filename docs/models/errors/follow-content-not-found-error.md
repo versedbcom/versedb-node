@@ -1,6 +1,6 @@
 # FollowContentNotFoundError
 
-Not Found
+No live entity of this type has this ID.
 
 ## Example Usage
 
@@ -14,4 +14,4 @@ import { FollowContentNotFoundError } from "@versedbcom/sdk/models/errors";
 
 | Field              | Type               | Required           | Description        | Example            |
 | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
-| `message`          | *string*           | :heavy_minus_sign: | N/A                | Title not found    |
+| `message`          | *string*           | :heavy_check_mark: | N/A                | Title not found    |

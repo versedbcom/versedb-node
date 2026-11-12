@@ -31,7 +31,9 @@ import { Result } from "../types/fp.js";
  * Get activity feed.
  *
  * @remarks
- * Aggregates recent activity from collections, reads, follows, and reviews.
+ * Aggregates the user's activity from collections, reads, follows and issue reviews, one entry per row, newest first.
+ *
+ * Needs `read:user`.
  *
  * @deprecated method: This will be removed in a future release, please migrate away from it as soon as possible.
  */
@@ -43,6 +45,7 @@ export function userGetActivityFeed(
   Result<
     operations.GetActivityFeedResponse,
     | errors.UnauthorizedErrorError
+    | errors.GetActivityFeedForbiddenError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -70,6 +73,7 @@ async function $do(
     Result<
       operations.GetActivityFeedResponse,
       | errors.UnauthorizedErrorError
+      | errors.GetActivityFeedForbiddenError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -163,6 +167,7 @@ async function $do(
   const [result] = await M.match<
     operations.GetActivityFeedResponse,
     | errors.UnauthorizedErrorError
+    | errors.GetActivityFeedForbiddenError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -178,6 +183,7 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
+    M.jsonErr(403, errors.GetActivityFeedForbiddenError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

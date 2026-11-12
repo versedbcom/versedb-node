@@ -5,8 +5,11 @@
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
 import { safeParse } from "../../lib/schemas.js";
+import * as openEnums from "../../types/enums.js";
+import { OpenEnum } from "../../types/enums.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
+import { smartUnion } from "../../types/smart-union.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type GetActivityFeedRequest = {
@@ -20,35 +23,104 @@ export type GetActivityFeedRequest = {
   page?: number | undefined;
 };
 
-export type GetActivityFeedDataData = {
-  issueId?: number | undefined;
-  issueName?: string | undefined;
-  seriesName?: string | undefined;
-  seriesStartYear?: number | undefined;
-  coverUrl?: string | undefined;
+export const Type = {
+  Collection: "collection",
+  Read: "read",
+  Follow: "follow",
+  Review: "review",
+} as const;
+export type Type = OpenEnum<typeof Type>;
+
+export const Action = {
+  AddedToCollection: "added_to_collection",
+  MarkedAsRead: "marked_as_read",
+  StartedFollowing: "started_following",
+  WroteReview: "wrote_review",
+} as const;
+export type Action = OpenEnum<typeof Action>;
+
+export type GetActivityFeedData3 = {
+  /**
+   * The followed type, lower-cased (title, character, comicevent, user, ...).
+   */
+  followableType: string;
+  followableId: number;
+  /**
+   * The followed entity, or null when it is gone.
+   */
+  name: string | null;
+  /**
+   * A followed title's cover; null for other types.
+   */
+  imageUrl: string | null;
 };
 
-export type GetActivityFeedData = {
-  id?: string | undefined;
-  type?: string | undefined;
-  action?: string | undefined;
-  createdAt?: string | undefined;
-  data?: GetActivityFeedDataData | undefined;
+export type GetActivityFeedData2 = {
+  reviewId: number;
+  issueId: number;
+  /**
+   * The issue as its series names it, or null when the issue is gone.
+   */
+  issueName: string | null;
+  seriesName: string | null;
+  seriesStartYear: number | null;
+  /**
+   * The rating to one decimal place, as text.
+   */
+  rating: string | null;
+  /**
+   * The first 100 characters of the review.
+   */
+  contentPreview: string | null;
+  coverUrl: string | null;
+};
+
+export type GetActivityFeedData1 = {
+  issueId: number;
+  /**
+   * The issue as its series names it, or null when the issue is gone.
+   */
+  issueName: string | null;
+  seriesName: string | null;
+  seriesStartYear: number | null;
+  coverUrl: string | null;
+};
+
+/**
+ * The issue, review or followed entity the entry is about.
+ */
+export type Data =
+  | GetActivityFeedData2
+  | GetActivityFeedData1
+  | GetActivityFeedData3;
+
+export type GetActivityFeedData4 = {
+  /**
+   * The source and its row id.
+   */
+  id: string;
+  type: Type;
+  action: Action;
+  createdAt: string | null;
+  /**
+   * The issue, review or followed entity the entry is about.
+   */
+  data: GetActivityFeedData2 | GetActivityFeedData1 | GetActivityFeedData3;
 };
 
 export type GetActivityFeedMeta = {
-  currentPage?: number | undefined;
-  perPage?: number | undefined;
-  total?: number | undefined;
-  lastPage?: number | undefined;
+  currentPage: number;
+  perPage: number;
+  total: number;
+  lastPage: number;
 };
 
 /**
  * Success
  */
 export type GetActivityFeedResponseBody = {
-  data?: Array<GetActivityFeedData> | undefined;
-  meta?: GetActivityFeedMeta | undefined;
+  data: Array<GetActivityFeedData4>;
+  meta: GetActivityFeedMeta;
 };
 
 export type GetActivityFeedResponse = {
@@ -87,16 +159,92 @@ export function getActivityFeedRequestToJSON(
 }
 
 /** @internal */
-export const GetActivityFeedDataData$inboundSchema: z.ZodMiniType<
-  GetActivityFeedDataData,
+export const Type$inboundSchema: z.ZodMiniType<Type, unknown> = openEnums
+  .inboundSchema(Type);
+
+/** @internal */
+export const Action$inboundSchema: z.ZodMiniType<Action, unknown> = openEnums
+  .inboundSchema(Action);
+
+/** @internal */
+export const GetActivityFeedData3$inboundSchema: z.ZodMiniType<
+  GetActivityFeedData3,
   unknown
 > = z.pipe(
   z.object({
-    issue_id: types.optional(types.number()),
-    issue_name: types.optional(types.string()),
-    series_name: types.optional(types.string()),
-    series_start_year: types.optional(types.number()),
-    cover_url: types.optional(types.string()),
+    followable_type: types.string(),
+    followable_id: types.number(),
+    name: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "followable_type": "followableType",
+      "followable_id": "followableId",
+      "image_url": "imageUrl",
+    });
+  }),
+);
+
+export function getActivityFeedData3FromJSON(
+  jsonString: string,
+): SafeParseResult<GetActivityFeedData3, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetActivityFeedData3$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetActivityFeedData3' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetActivityFeedData2$inboundSchema: z.ZodMiniType<
+  GetActivityFeedData2,
+  unknown
+> = z.pipe(
+  z.object({
+    review_id: types.number(),
+    issue_id: types.number(),
+    issue_name: types.nullable(types.string()),
+    series_name: types.nullable(types.string()),
+    series_start_year: types.nullable(types.number()),
+    rating: types.nullable(types.string()),
+    content_preview: types.nullable(types.string()),
+    cover_url: types.nullable(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "review_id": "reviewId",
+      "issue_id": "issueId",
+      "issue_name": "issueName",
+      "series_name": "seriesName",
+      "series_start_year": "seriesStartYear",
+      "content_preview": "contentPreview",
+      "cover_url": "coverUrl",
+    });
+  }),
+);
+
+export function getActivityFeedData2FromJSON(
+  jsonString: string,
+): SafeParseResult<GetActivityFeedData2, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetActivityFeedData2$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetActivityFeedData2' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetActivityFeedData1$inboundSchema: z.ZodMiniType<
+  GetActivityFeedData1,
+  unknown
+> = z.pipe(
+  z.object({
+    issue_id: types.number(),
+    issue_name: types.nullable(types.string()),
+    series_name: types.nullable(types.string()),
+    series_start_year: types.nullable(types.number()),
+    cover_url: types.nullable(types.string()),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -109,27 +257,48 @@ export const GetActivityFeedDataData$inboundSchema: z.ZodMiniType<
   }),
 );
 
-export function getActivityFeedDataDataFromJSON(
+export function getActivityFeedData1FromJSON(
   jsonString: string,
-): SafeParseResult<GetActivityFeedDataData, SDKValidationError> {
+): SafeParseResult<GetActivityFeedData1, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => GetActivityFeedDataData$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'GetActivityFeedDataData' from JSON`,
+    (x) => GetActivityFeedData1$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetActivityFeedData1' from JSON`,
   );
 }
 
 /** @internal */
-export const GetActivityFeedData$inboundSchema: z.ZodMiniType<
-  GetActivityFeedData,
+export const Data$inboundSchema: z.ZodMiniType<Data, unknown> = smartUnion([
+  z.lazy(() => GetActivityFeedData2$inboundSchema),
+  z.lazy(() => GetActivityFeedData1$inboundSchema),
+  z.lazy(() => GetActivityFeedData3$inboundSchema),
+]);
+
+export function dataFromJSON(
+  jsonString: string,
+): SafeParseResult<Data, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => Data$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'Data' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetActivityFeedData4$inboundSchema: z.ZodMiniType<
+  GetActivityFeedData4,
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.string()),
-    type: types.optional(types.string()),
-    action: types.optional(types.string()),
-    created_at: types.optional(types.string()),
-    data: types.optional(z.lazy(() => GetActivityFeedDataData$inboundSchema)),
+    id: types.string(),
+    type: Type$inboundSchema,
+    action: Action$inboundSchema,
+    created_at: types.nullable(types.string()),
+    data: smartUnion([
+      z.lazy(() => GetActivityFeedData2$inboundSchema),
+      z.lazy(() => GetActivityFeedData1$inboundSchema),
+      z.lazy(() => GetActivityFeedData3$inboundSchema),
+    ]),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -138,13 +307,13 @@ export const GetActivityFeedData$inboundSchema: z.ZodMiniType<
   }),
 );
 
-export function getActivityFeedDataFromJSON(
+export function getActivityFeedData4FromJSON(
   jsonString: string,
-): SafeParseResult<GetActivityFeedData, SDKValidationError> {
+): SafeParseResult<GetActivityFeedData4, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => GetActivityFeedData$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'GetActivityFeedData' from JSON`,
+    (x) => GetActivityFeedData4$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetActivityFeedData4' from JSON`,
   );
 }
 
@@ -154,10 +323,10 @@ export const GetActivityFeedMeta$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    current_page: types.optional(types.number()),
-    per_page: types.optional(types.number()),
-    total: types.optional(types.number()),
-    last_page: types.optional(types.number()),
+    current_page: types.number(),
+    per_page: types.number(),
+    total: types.number(),
+    last_page: types.number(),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -183,10 +352,8 @@ export const GetActivityFeedResponseBody$inboundSchema: z.ZodMiniType<
   GetActivityFeedResponseBody,
   unknown
 > = z.object({
-  data: types.optional(
-    z.array(z.lazy(() => GetActivityFeedData$inboundSchema)),
-  ),
-  meta: types.optional(z.lazy(() => GetActivityFeedMeta$inboundSchema)),
+  data: z.array(z.lazy(() => GetActivityFeedData4$inboundSchema)),
+  meta: z.lazy(() => GetActivityFeedMeta$inboundSchema),
 });
 
 export function getActivityFeedResponseBodyFromJSON(

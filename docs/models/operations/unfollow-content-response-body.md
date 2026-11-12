@@ -1,21 +1,25 @@
 # UnfollowContentResponseBody
 
-Success
+Success.
 
-## Example Usage
+
+## Supported Types
+
+### `operations.UnfollowContentResponseBody1`
 
 ```typescript
-import { UnfollowContentResponseBody } from "@versedbcom/sdk/models/operations";
-
-let value: UnfollowContentResponseBody = {
+const value: operations.UnfollowContentResponseBody1 = {
   message: "Unfollowed title successfully",
   isFollowing: false,
 };
 ```
 
-## Fields
+### `operations.UnfollowContentResponseBody2`
 
-| Field                         | Type                          | Required                      | Description                   | Example                       |
-| ----------------------------- | ----------------------------- | ----------------------------- | ----------------------------- | ----------------------------- |
-| `message`                     | *string*                      | :heavy_minus_sign:            | N/A                           | Unfollowed title successfully |
-| `isFollowing`                 | *boolean*                     | :heavy_minus_sign:            | N/A                           | false                         |
+```typescript
+const value: operations.UnfollowContentResponseBody2 = {
+  message: "Not following this title",
+  isFollowing: false,
+};
+```
+

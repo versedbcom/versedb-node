@@ -51,6 +51,64 @@ export class User extends ClientSDK {
   }
 
   /**
+   * List follows.
+   *
+   * @remarks
+   * Returns the entities the user follows (titles, characters, podcasts and the rest), newest first, without members a block
+   * stands between.
+   *
+   * Needs `read:user`.
+   */
+  async listFollows(
+    request?: operations.ListFollowsRequest | undefined,
+    options?: RequestOptions,
+  ): Promise<operations.ListFollowsResponse> {
+    return unwrapAsync(userListFollows(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Get activity feed.
+   *
+   * @remarks
+   * Aggregates the user's activity from collections, reads, follows and issue reviews, one entry per row, newest first.
+   *
+   * Needs `read:user`.
+   *
+   * @deprecated method: This will be removed in a future release, please migrate away from it as soon as possible.
+   */
+  async getActivityFeed(
+    request?: operations.GetActivityFeedRequest | undefined,
+    options?: RequestOptions,
+  ): Promise<operations.GetActivityFeedResponse> {
+    return unwrapAsync(userGetActivityFeed(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Check follow status.
+   *
+   * @remarks
+   * Reports whether the authenticated user currently follows the given entity. An event in a franchise counts as followed when the franchise is.
+   */
+  async checkFollowStatus(
+    request: operations.CheckFollowStatusRequest,
+    options?: RequestOptions,
+  ): Promise<operations.CheckFollowStatusResponse> {
+    return unwrapAsync(userCheckFollowStatus(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
    * List read status.
    *
    * @remarks
@@ -361,44 +419,10 @@ export class User extends ClientSDK {
   }
 
   /**
-   * List follows.
-   *
-   * @remarks
-   * Returns all entities the user is following (titles, characters, podcasts, etc.).
-   */
-  async listFollows(
-    request?: operations.ListFollowsRequest | undefined,
-    options?: RequestOptions,
-  ): Promise<operations.ListFollowsResponse> {
-    return unwrapAsync(userListFollows(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
-   * Check follow status.
-   *
-   * @remarks
-   * Reports whether the authenticated user currently follows the given entity.
-   */
-  async checkFollowStatus(
-    request: operations.CheckFollowStatusRequest,
-    options?: RequestOptions,
-  ): Promise<operations.CheckFollowStatusResponse> {
-    return unwrapAsync(userCheckFollowStatus(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
    * Follow content.
    *
    * @remarks
-   * Follows a title, character, podcast, creator, publisher, team, story arc, comic shop, event, event franchise, or user.
+   * Follows a title, character, podcast, creator, publisher, team, story arc, comic shop, event, event franchise, or user. Following an event that belongs to a franchise follows the franchise too.
    */
   async followContent(
     request: operations.FollowContentRequest,
@@ -415,32 +439,13 @@ export class User extends ClientSDK {
    * Unfollow content.
    *
    * @remarks
-   * Stops following the given entity for the authenticated user.
+   * Stops following the given entity for the authenticated user. Unfollowing an event in a franchise, or the franchise, clears both.
    */
   async unfollowContent(
     request: operations.UnfollowContentRequest,
     options?: RequestOptions,
   ): Promise<operations.UnfollowContentResponse> {
     return unwrapAsync(userUnfollowContent(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
-   * Get activity feed.
-   *
-   * @remarks
-   * Aggregates recent activity from collections, reads, follows, and reviews.
-   *
-   * @deprecated method: This will be removed in a future release, please migrate away from it as soon as possible.
-   */
-  async getActivityFeed(
-    request?: operations.GetActivityFeedRequest | undefined,
-    options?: RequestOptions,
-  ): Promise<operations.GetActivityFeedResponse> {
-    return unwrapAsync(userGetActivityFeed(
       this,
       request,
       options,

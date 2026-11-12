@@ -40,7 +40,7 @@ export function connectToVerseDBExchangeAConnectCodeForAToken(
 ): APIPromise<
   Result<
     operations.ExchangeAConnectCodeForATokenResponse,
-    | errors.BadRequestError
+    | errors.ExchangeAConnectCodeForATokenBadRequestError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -67,7 +67,7 @@ async function $do(
   [
     Result<
       operations.ExchangeAConnectCodeForATokenResponse,
-      | errors.BadRequestError
+      | errors.ExchangeAConnectCodeForATokenBadRequestError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -150,7 +150,7 @@ async function $do(
 
   const [result] = await M.match<
     operations.ExchangeAConnectCodeForATokenResponse,
-    | errors.BadRequestError
+    | errors.ExchangeAConnectCodeForATokenBadRequestError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -166,7 +166,10 @@ async function $do(
       operations.ExchangeAConnectCodeForATokenResponse$inboundSchema,
       { hdrs: true, key: "Result" },
     ),
-    M.jsonErr(400, errors.BadRequestError$inboundSchema),
+    M.jsonErr(
+      400,
+      errors.ExchangeAConnectCodeForATokenBadRequestError$inboundSchema,
+    ),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

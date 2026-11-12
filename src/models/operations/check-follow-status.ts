@@ -24,7 +24,7 @@ export type CheckFollowStatusRequest = {
  * Success
  */
 export type CheckFollowStatusResponseBody = {
-  isFollowing?: boolean | undefined;
+  isFollowing: boolean;
 };
 
 export type CheckFollowStatusResponse = {
@@ -61,7 +61,7 @@ export const CheckFollowStatusResponseBody$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    is_following: types.optional(types.boolean()),
+    is_following: types.boolean(),
   }),
   z.transform((v) => {
     return remap$(v, {

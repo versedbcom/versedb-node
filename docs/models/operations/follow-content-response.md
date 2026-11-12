@@ -6,10 +6,7 @@
 import { FollowContentResponse } from "@versedbcom/sdk/models/operations";
 
 let value: FollowContentResponse = {
-  headers: {
-    "key": [],
-    "key1": [],
-  },
+  headers: {},
   result: {
     message: "Following title successfully",
     isFollowing: true,
@@ -19,7 +16,7 @@ let value: FollowContentResponse = {
 
 ## Fields
 
-| Field                                                                                           | Type                                                                                            | Required                                                                                        | Description                                                                                     | Example                                                                                         |
-| ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| `headers`                                                                                       | Record<string, *string*[]>                                                                      | :heavy_check_mark:                                                                              | N/A                                                                                             |                                                                                                 |
-| `result`                                                                                        | [operations.FollowContentResponseBody](../../models/operations/follow-content-response-body.md) | :heavy_check_mark:                                                                              | N/A                                                                                             | {<br/>"message": "Following title successfully",<br/>"is_following": true<br/>}                 |
+| Field                                  | Type                                   | Required                               | Description                            |
+| -------------------------------------- | -------------------------------------- | -------------------------------------- | -------------------------------------- |
+| `headers`                              | Record<string, *string*[]>             | :heavy_check_mark:                     | N/A                                    |
+| `result`                               | *operations.FollowContentResponseBody* | :heavy_check_mark:                     | N/A                                    |

@@ -8,30 +8,30 @@ Success
 import { ListFollowsResponseBody } from "@versedbcom/sdk/models/operations";
 
 let value: ListFollowsResponseBody = {
-  data: [
-    {
-      id: 789,
-      followableType: "title",
-      followableId: 123,
-      followable: {
-        id: 123,
-        name: "Spider-Man",
-      },
-      createdAt: "2024-01-15T10:30:00Z",
-    },
-  ],
+  data: [],
+  links: {
+    first: "<value>",
+    last: "<value>",
+    prev: "<value>",
+    next: null,
+  },
   meta: {
     currentPage: 1,
-    lastPage: 1,
+    from: 1,
+    lastPage: 25,
+    links: [],
+    path: "/opt/sbin",
     perPage: 20,
-    total: 12,
+    to: 20,
+    total: 500,
   },
 };
 ```
 
 ## Fields
 
-| Field                                                                                                                                                                            | Type                                                                                                                                                                             | Required                                                                                                                                                                         | Description                                                                                                                                                                      | Example                                                                                                                                                                          |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `data`                                                                                                                                                                           | [operations.ListFollowsData](../../models/operations/list-follows-data.md)[]                                                                                                     | :heavy_minus_sign:                                                                                                                                                               | N/A                                                                                                                                                                              | [<br/>{<br/>"id": 789,<br/>"followable_type": "title",<br/>"followable_id": 123,<br/>"followable": {<br/>"id": 123,<br/>"name": "Spider-Man",<br/>"cover_url": "..."<br/>},<br/>"created_at": "2024-01-15T10:30:00Z"<br/>}<br/>] |
-| `meta`                                                                                                                                                                           | [operations.ListFollowsMeta](../../models/operations/list-follows-meta.md)                                                                                                       | :heavy_minus_sign:                                                                                                                                                               | N/A                                                                                                                                                                              |                                                                                                                                                                                  |
+| Field                                                                        | Type                                                                         | Required                                                                     | Description                                                                  |
+| ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `data`                                                                       | [operations.ListFollowsData](../../models/operations/list-follows-data.md)[] | :heavy_check_mark:                                                           | N/A                                                                          |
+| `links`                                                                      | [operations.ListFollowsLinks](../../models/operations/list-follows-links.md) | :heavy_check_mark:                                                           | N/A                                                                          |
+| `meta`                                                                       | [operations.ListFollowsMeta](../../models/operations/list-follows-meta.md)   | :heavy_check_mark:                                                           | N/A                                                                          |

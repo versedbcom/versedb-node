@@ -1,13 +1,13 @@
-# Preferences
+# FollowContentPreferences
 
 Notification preferences.
 
 ## Example Usage
 
 ```typescript
-import { Preferences } from "@versedbcom/sdk/models/operations";
+import { FollowContentPreferences } from "@versedbcom/sdk/models/operations";
 
-let value: Preferences = {
+let value: FollowContentPreferences = {
   emailNotifications: true,
   pushNotifications: false,
 };

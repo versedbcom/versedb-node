@@ -7,6 +7,7 @@ import { remap as remap$ } from "../../lib/primitives.js";
 import { safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
+import { smartUnion } from "../../types/smart-union.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type UnfollowContentRequest = {
@@ -21,16 +22,31 @@ export type UnfollowContentRequest = {
 };
 
 /**
- * Success
+ * Not Following
  */
-export type UnfollowContentResponseBody = {
-  message?: string | undefined;
-  isFollowing?: boolean | undefined;
+export type UnfollowContentResponseBody2 = {
+  message: string;
+  isFollowing: boolean;
 };
+
+/**
+ * Unfollowed
+ */
+export type UnfollowContentResponseBody1 = {
+  message: string;
+  isFollowing: boolean;
+};
+
+/**
+ * Success.
+ */
+export type UnfollowContentResponseBody =
+  | UnfollowContentResponseBody1
+  | UnfollowContentResponseBody2;
 
 export type UnfollowContentResponse = {
   headers: { [k: string]: Array<string> };
-  result: UnfollowContentResponseBody;
+  result: UnfollowContentResponseBody1 | UnfollowContentResponseBody2;
 };
 
 /** @internal */
@@ -57,13 +73,13 @@ export function unfollowContentRequestToJSON(
 }
 
 /** @internal */
-export const UnfollowContentResponseBody$inboundSchema: z.ZodMiniType<
-  UnfollowContentResponseBody,
+export const UnfollowContentResponseBody2$inboundSchema: z.ZodMiniType<
+  UnfollowContentResponseBody2,
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
-    is_following: types.optional(types.boolean()),
+    message: types.string(),
+    is_following: types.boolean(),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -71,6 +87,51 @@ export const UnfollowContentResponseBody$inboundSchema: z.ZodMiniType<
     });
   }),
 );
+
+export function unfollowContentResponseBody2FromJSON(
+  jsonString: string,
+): SafeParseResult<UnfollowContentResponseBody2, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => UnfollowContentResponseBody2$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'UnfollowContentResponseBody2' from JSON`,
+  );
+}
+
+/** @internal */
+export const UnfollowContentResponseBody1$inboundSchema: z.ZodMiniType<
+  UnfollowContentResponseBody1,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    is_following: types.boolean(),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "is_following": "isFollowing",
+    });
+  }),
+);
+
+export function unfollowContentResponseBody1FromJSON(
+  jsonString: string,
+): SafeParseResult<UnfollowContentResponseBody1, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => UnfollowContentResponseBody1$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'UnfollowContentResponseBody1' from JSON`,
+  );
+}
+
+/** @internal */
+export const UnfollowContentResponseBody$inboundSchema: z.ZodMiniType<
+  UnfollowContentResponseBody,
+  unknown
+> = smartUnion([
+  z.lazy(() => UnfollowContentResponseBody1$inboundSchema),
+  z.lazy(() => UnfollowContentResponseBody2$inboundSchema),
+]);
 
 export function unfollowContentResponseBodyFromJSON(
   jsonString: string,
@@ -89,7 +150,10 @@ export const UnfollowContentResponse$inboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => UnfollowContentResponseBody$inboundSchema),
+    Result: smartUnion([
+      z.lazy(() => UnfollowContentResponseBody1$inboundSchema),
+      z.lazy(() => UnfollowContentResponseBody2$inboundSchema),
+    ]),
   }),
   z.transform((v) => {
     return remap$(v, {

@@ -31,7 +31,10 @@ import { Result } from "../types/fp.js";
  * List follows.
  *
  * @remarks
- * Returns all entities the user is following (titles, characters, podcasts, etc.).
+ * Returns the entities the user follows (titles, characters, podcasts and the rest), newest first, without members a block
+ * stands between.
+ *
+ * Needs `read:user`.
  */
 export function userListFollows(
   client: VerseDBCore,
@@ -41,6 +44,8 @@ export function userListFollows(
   Result<
     operations.ListFollowsResponse,
     | errors.UnauthorizedErrorError
+    | errors.ListFollowsForbiddenError
+    | errors.ListFollowsUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -68,6 +73,8 @@ async function $do(
     Result<
       operations.ListFollowsResponse,
       | errors.UnauthorizedErrorError
+      | errors.ListFollowsForbiddenError
+      | errors.ListFollowsUnprocessableEntityError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -159,6 +166,8 @@ async function $do(
   const [result] = await M.match<
     operations.ListFollowsResponse,
     | errors.UnauthorizedErrorError
+    | errors.ListFollowsForbiddenError
+    | errors.ListFollowsUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -174,6 +183,8 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
+    M.jsonErr(403, errors.ListFollowsForbiddenError$inboundSchema),
+    M.jsonErr(422, errors.ListFollowsUnprocessableEntityError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

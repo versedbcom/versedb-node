@@ -1,6 +1,6 @@
 # FollowContentForbiddenError
 
-Refused
+The token holds neither write:follows nor write:lists, or the profile is private or a block stands between the two members (the body names `code`).
 
 ## Example Usage
 
@@ -12,8 +12,6 @@ import { FollowContentForbiddenError } from "@versedbcom/sdk/models/errors";
 
 ## Fields
 
-| Field                                              | Type                                               | Required                                           | Description                                        | Example                                            |
-| -------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- |
-| `message`                                          | *string*                                           | :heavy_minus_sign:                                 | N/A                                                | This profile is private, so it cannot be followed. |
-| `code`                                             | *string*                                           | :heavy_minus_sign:                                 | N/A                                                | private_profile                                    |
-| `isFollowing`                                      | *boolean*                                          | :heavy_minus_sign:                                 | N/A                                                | false                                              |
+| Field                     | Type                      | Required                  | Description               | Example                   |
+| ------------------------- | ------------------------- | ------------------------- | ------------------------- | ------------------------- |
+| `message`                 | *string*                  | :heavy_check_mark:        | N/A                       | Insufficient token scope. |

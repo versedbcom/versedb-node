@@ -7,12 +7,13 @@ import { remap as remap$ } from "../../lib/primitives.js";
 import { safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
+import { smartUnion } from "../../types/smart-union.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 /**
  * Notification preferences.
  */
-export type Preferences = {
+export type FollowContentPreferences = {
   /**
    * Receive email notifications.
    */
@@ -35,32 +36,47 @@ export type FollowContentRequest = {
   /**
    * Notification preferences.
    */
-  preferences?: Preferences | null | undefined;
+  preferences?: FollowContentPreferences | null | undefined;
 };
 
 /**
- * Success
+ * Already Following
  */
-export type FollowContentResponseBody = {
-  message?: string | undefined;
-  isFollowing?: boolean | undefined;
+export type FollowContentResponseBody2 = {
+  message: string;
+  isFollowing: boolean;
 };
+
+/**
+ * Followed
+ */
+export type FollowContentResponseBody1 = {
+  message: string;
+  isFollowing: boolean;
+};
+
+/**
+ * Success.
+ */
+export type FollowContentResponseBody =
+  | FollowContentResponseBody1
+  | FollowContentResponseBody2;
 
 export type FollowContentResponse = {
   headers: { [k: string]: Array<string> };
-  result: FollowContentResponseBody;
+  result: FollowContentResponseBody1 | FollowContentResponseBody2;
 };
 
 /** @internal */
-export type Preferences$Outbound = {
+export type FollowContentPreferences$Outbound = {
   email_notifications?: boolean | undefined;
   push_notifications?: boolean | undefined;
 };
 
 /** @internal */
-export const Preferences$outboundSchema: z.ZodMiniType<
-  Preferences$Outbound,
-  Preferences
+export const FollowContentPreferences$outboundSchema: z.ZodMiniType<
+  FollowContentPreferences$Outbound,
+  FollowContentPreferences
 > = z.pipe(
   z.object({
     emailNotifications: z.optional(z.boolean()),
@@ -74,15 +90,19 @@ export const Preferences$outboundSchema: z.ZodMiniType<
   }),
 );
 
-export function preferencesToJSON(preferences: Preferences): string {
-  return JSON.stringify(Preferences$outboundSchema.parse(preferences));
+export function followContentPreferencesToJSON(
+  followContentPreferences: FollowContentPreferences,
+): string {
+  return JSON.stringify(
+    FollowContentPreferences$outboundSchema.parse(followContentPreferences),
+  );
 }
 
 /** @internal */
 export type FollowContentRequest$Outbound = {
   type: string;
   id: number;
-  preferences?: Preferences$Outbound | null | undefined;
+  preferences?: FollowContentPreferences$Outbound | null | undefined;
 };
 
 /** @internal */
@@ -92,7 +112,9 @@ export const FollowContentRequest$outboundSchema: z.ZodMiniType<
 > = z.object({
   type: z.string(),
   id: z.int(),
-  preferences: z.optional(z.nullable(z.lazy(() => Preferences$outboundSchema))),
+  preferences: z.optional(
+    z.nullable(z.lazy(() => FollowContentPreferences$outboundSchema)),
+  ),
 });
 
 export function followContentRequestToJSON(
@@ -104,13 +126,13 @@ export function followContentRequestToJSON(
 }
 
 /** @internal */
-export const FollowContentResponseBody$inboundSchema: z.ZodMiniType<
-  FollowContentResponseBody,
+export const FollowContentResponseBody2$inboundSchema: z.ZodMiniType<
+  FollowContentResponseBody2,
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
-    is_following: types.optional(types.boolean()),
+    message: types.string(),
+    is_following: types.boolean(),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -118,6 +140,51 @@ export const FollowContentResponseBody$inboundSchema: z.ZodMiniType<
     });
   }),
 );
+
+export function followContentResponseBody2FromJSON(
+  jsonString: string,
+): SafeParseResult<FollowContentResponseBody2, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => FollowContentResponseBody2$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'FollowContentResponseBody2' from JSON`,
+  );
+}
+
+/** @internal */
+export const FollowContentResponseBody1$inboundSchema: z.ZodMiniType<
+  FollowContentResponseBody1,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    is_following: types.boolean(),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "is_following": "isFollowing",
+    });
+  }),
+);
+
+export function followContentResponseBody1FromJSON(
+  jsonString: string,
+): SafeParseResult<FollowContentResponseBody1, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => FollowContentResponseBody1$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'FollowContentResponseBody1' from JSON`,
+  );
+}
+
+/** @internal */
+export const FollowContentResponseBody$inboundSchema: z.ZodMiniType<
+  FollowContentResponseBody,
+  unknown
+> = smartUnion([
+  z.lazy(() => FollowContentResponseBody1$inboundSchema),
+  z.lazy(() => FollowContentResponseBody2$inboundSchema),
+]);
 
 export function followContentResponseBodyFromJSON(
   jsonString: string,
@@ -136,7 +203,10 @@ export const FollowContentResponse$inboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => FollowContentResponseBody$inboundSchema),
+    Result: smartUnion([
+      z.lazy(() => FollowContentResponseBody1$inboundSchema),
+      z.lazy(() => FollowContentResponseBody2$inboundSchema),
+    ]),
   }),
   z.transform((v) => {
     return remap$(v, {

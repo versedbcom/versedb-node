@@ -6,9 +6,13 @@
 import { UnfollowContentResponse } from "@versedbcom/sdk/models/operations";
 
 let value: UnfollowContentResponse = {
-  headers: {},
+  headers: {
+    "key": [
+      "<value 1>",
+    ],
+  },
   result: {
-    message: "Unfollowed title successfully",
+    message: "Not following this title",
     isFollowing: false,
   },
 };
@@ -16,7 +20,7 @@ let value: UnfollowContentResponse = {
 
 ## Fields
 
-| Field                                                                                               | Type                                                                                                | Required                                                                                            | Description                                                                                         | Example                                                                                             |
-| --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| `headers`                                                                                           | Record<string, *string*[]>                                                                          | :heavy_check_mark:                                                                                  | N/A                                                                                                 |                                                                                                     |
-| `result`                                                                                            | [operations.UnfollowContentResponseBody](../../models/operations/unfollow-content-response-body.md) | :heavy_check_mark:                                                                                  | N/A                                                                                                 | {<br/>"message": "Unfollowed title successfully",<br/>"is_following": false<br/>}                   |
+| Field                                    | Type                                     | Required                                 | Description                              |
+| ---------------------------------------- | ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| `headers`                                | Record<string, *string*[]>               | :heavy_check_mark:                       | N/A                                      |
+| `result`                                 | *operations.UnfollowContentResponseBody* | :heavy_check_mark:                       | N/A                                      |

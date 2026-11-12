@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * Check follow status.
  *
  * @remarks
- * Reports whether the authenticated user currently follows the given entity.
+ * Reports whether the authenticated user currently follows the given entity. An event in a franchise counts as followed when the franchise is.
  */
 export function userCheckFollowStatus(
   client: VerseDBCore,
@@ -40,7 +40,10 @@ export function userCheckFollowStatus(
 ): APIPromise<
   Result<
     operations.CheckFollowStatusResponse,
+    | errors.CheckFollowStatusBadRequestError
     | errors.UnauthorizedErrorError
+    | errors.CheckFollowStatusForbiddenError
+    | errors.CheckFollowStatusNotFoundError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -67,7 +70,10 @@ async function $do(
   [
     Result<
       operations.CheckFollowStatusResponse,
+      | errors.CheckFollowStatusBadRequestError
       | errors.UnauthorizedErrorError
+      | errors.CheckFollowStatusForbiddenError
+      | errors.CheckFollowStatusNotFoundError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -161,7 +167,10 @@ async function $do(
 
   const [result] = await M.match<
     operations.CheckFollowStatusResponse,
+    | errors.CheckFollowStatusBadRequestError
     | errors.UnauthorizedErrorError
+    | errors.CheckFollowStatusForbiddenError
+    | errors.CheckFollowStatusNotFoundError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -176,7 +185,10 @@ async function $do(
       hdrs: true,
       key: "Result",
     }),
+    M.jsonErr(400, errors.CheckFollowStatusBadRequestError$inboundSchema),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
+    M.jsonErr(403, errors.CheckFollowStatusForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.CheckFollowStatusNotFoundError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

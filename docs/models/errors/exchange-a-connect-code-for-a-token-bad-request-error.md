@@ -1,11 +1,11 @@
-# BadRequestError
+# ExchangeAConnectCodeForATokenBadRequestError
 
 The request could not be processed: an OAuth error and its description.
 
 ## Example Usage
 
 ```typescript
-import { BadRequestError } from "@versedbcom/sdk/models/errors";
+import { ExchangeAConnectCodeForATokenBadRequestError } from "@versedbcom/sdk/models/errors";
 
 // No examples available for this model
 ```

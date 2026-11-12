@@ -7,14 +7,14 @@ import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Not Found
+ * No live entity of this type has this ID.
  */
 export type UnfollowContentNotFoundErrorData = {
-  message?: string | undefined;
+  message: string;
 };
 
 /**
- * Not Found
+ * No live entity of this type has this ID.
  */
 export class UnfollowContentNotFoundError extends VerseDbError {
   /** The original data that was passed to this error instance. */
@@ -32,19 +32,111 @@ export class UnfollowContentNotFoundError extends VerseDbError {
   }
 }
 
+/**
+ * The token holds neither write:follows nor write:lists.
+ */
+export type UnfollowContentForbiddenErrorData = {
+  message: string;
+};
+
+/**
+ * The token holds neither write:follows nor write:lists.
+ */
+export class UnfollowContentForbiddenError extends VerseDbError {
+  /** The original data that was passed to this error instance. */
+  data$: UnfollowContentForbiddenErrorData;
+
+  constructor(
+    err: UnfollowContentForbiddenErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+
+    this.name = "UnfollowContentForbiddenError";
+  }
+}
+
+/**
+ * A type that is not followable.
+ */
+export type UnfollowContentBadRequestErrorData = {
+  message: string;
+};
+
+/**
+ * A type that is not followable.
+ */
+export class UnfollowContentBadRequestError extends VerseDbError {
+  /** The original data that was passed to this error instance. */
+  data$: UnfollowContentBadRequestErrorData;
+
+  constructor(
+    err: UnfollowContentBadRequestErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+
+    this.name = "UnfollowContentBadRequestError";
+  }
+}
+
 /** @internal */
 export const UnfollowContentNotFoundError$inboundSchema: z.ZodMiniType<
   UnfollowContentNotFoundError,
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
+    message: types.string(),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),
   }),
   z.transform((v) => {
     return new UnfollowContentNotFoundError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
+export const UnfollowContentForbiddenError$inboundSchema: z.ZodMiniType<
+  UnfollowContentForbiddenError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new UnfollowContentForbiddenError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
+export const UnfollowContentBadRequestError$inboundSchema: z.ZodMiniType<
+  UnfollowContentBadRequestError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new UnfollowContentBadRequestError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

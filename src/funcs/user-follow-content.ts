@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * Follow content.
  *
  * @remarks
- * Follows a title, character, podcast, creator, publisher, team, story arc, comic shop, event, event franchise, or user.
+ * Follows a title, character, podcast, creator, publisher, team, story arc, comic shop, event, event franchise, or user. Following an event that belongs to a franchise follows the franchise too.
  */
 export function userFollowContent(
   client: VerseDBCore,
@@ -43,6 +43,7 @@ export function userFollowContent(
     | errors.UnauthorizedErrorError
     | errors.FollowContentForbiddenError
     | errors.FollowContentNotFoundError
+    | errors.FollowContentUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -72,6 +73,7 @@ async function $do(
       | errors.UnauthorizedErrorError
       | errors.FollowContentForbiddenError
       | errors.FollowContentNotFoundError
+      | errors.FollowContentUnprocessableEntityError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -158,6 +160,7 @@ async function $do(
     | errors.UnauthorizedErrorError
     | errors.FollowContentForbiddenError
     | errors.FollowContentNotFoundError
+    | errors.FollowContentUnprocessableEntityError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -175,6 +178,9 @@ async function $do(
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
     M.jsonErr(403, errors.FollowContentForbiddenError$inboundSchema),
     M.jsonErr(404, errors.FollowContentNotFoundError$inboundSchema),
+    M.jsonErr(422, errors.FollowContentUnprocessableEntityError$inboundSchema, {
+      hdrs: true,
+    }),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

@@ -16,4 +16,4 @@ let value: CheckFollowStatusResponseBody = {
 
 | Field              | Type               | Required           | Description        | Example            |
 | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
-| `isFollowing`      | *boolean*          | :heavy_minus_sign: | N/A                | true               |
+| `isFollowing`      | *boolean*          | :heavy_check_mark: | N/A                | true               |

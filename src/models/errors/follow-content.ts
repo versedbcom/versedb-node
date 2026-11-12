@@ -3,19 +3,48 @@
  */
 
 import * as z from "zod/v4-mini";
-import { remap as remap$ } from "../../lib/primitives.js";
 import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
 /**
- * Not Found
+ * The body fails its rules, or the member is following themselves.
  */
-export type FollowContentNotFoundErrorData = {
-  message?: string | undefined;
+export type FollowContentUnprocessableEntityErrorData = {
+  message: string;
+  errors?: { [k: string]: Array<string> } | undefined;
 };
 
 /**
- * Not Found
+ * The body fails its rules, or the member is following themselves.
+ */
+export class FollowContentUnprocessableEntityError extends VerseDbError {
+  errors?: { [k: string]: Array<string> } | undefined;
+
+  /** The original data that was passed to this error instance. */
+  data$: FollowContentUnprocessableEntityErrorData;
+
+  constructor(
+    err: FollowContentUnprocessableEntityErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+    if (err.errors != null) this.errors = err.errors;
+
+    this.name = "FollowContentUnprocessableEntityError";
+  }
+}
+
+/**
+ * No live entity of this type has this ID.
+ */
+export type FollowContentNotFoundErrorData = {
+  message: string;
+};
+
+/**
+ * No live entity of this type has this ID.
  */
 export class FollowContentNotFoundError extends VerseDbError {
   /** The original data that was passed to this error instance. */
@@ -34,21 +63,16 @@ export class FollowContentNotFoundError extends VerseDbError {
 }
 
 /**
- * Refused
+ * The token holds neither write:follows nor write:lists, or the profile is private or a block stands between the two members (the body names `code`).
  */
 export type FollowContentForbiddenErrorData = {
-  message?: string | undefined;
-  code?: string | undefined;
-  isFollowing?: boolean | undefined;
+  message: string;
 };
 
 /**
- * Refused
+ * The token holds neither write:follows nor write:lists, or the profile is private or a block stands between the two members (the body names `code`).
  */
 export class FollowContentForbiddenError extends VerseDbError {
-  code?: string | undefined;
-  isFollowing?: boolean | undefined;
-
   /** The original data that was passed to this error instance. */
   data$: FollowContentForbiddenErrorData;
 
@@ -59,12 +83,31 @@ export class FollowContentForbiddenError extends VerseDbError {
     const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
     super(message, httpMeta);
     this.data$ = err;
-    if (err.code != null) this.code = err.code;
-    if (err.isFollowing != null) this.isFollowing = err.isFollowing;
 
     this.name = "FollowContentForbiddenError";
   }
 }
+
+/** @internal */
+export const FollowContentUnprocessableEntityError$inboundSchema: z.ZodMiniType<
+  FollowContentUnprocessableEntityError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    errors: types.optional(z.record(z.string(), z.array(types.string()))),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new FollowContentUnprocessableEntityError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
 
 /** @internal */
 export const FollowContentNotFoundError$inboundSchema: z.ZodMiniType<
@@ -72,7 +115,7 @@ export const FollowContentNotFoundError$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
+    message: types.string(),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),
@@ -92,19 +135,13 @@ export const FollowContentForbiddenError$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    message: types.optional(types.string()),
-    code: types.optional(types.string()),
-    is_following: types.optional(types.boolean()),
+    message: types.string(),
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),
   }),
   z.transform((v) => {
-    const remapped = remap$(v, {
-      "is_following": "isFollowing",
-    });
-
-    return new FollowContentForbiddenError(remapped, {
+    return new FollowContentForbiddenError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

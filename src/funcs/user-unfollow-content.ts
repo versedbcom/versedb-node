@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * Unfollow content.
  *
  * @remarks
- * Stops following the given entity for the authenticated user.
+ * Stops following the given entity for the authenticated user. Unfollowing an event in a franchise, or the franchise, clears both.
  */
 export function userUnfollowContent(
   client: VerseDBCore,
@@ -40,7 +40,9 @@ export function userUnfollowContent(
 ): APIPromise<
   Result<
     operations.UnfollowContentResponse,
+    | errors.UnfollowContentBadRequestError
     | errors.UnauthorizedErrorError
+    | errors.UnfollowContentForbiddenError
     | errors.UnfollowContentNotFoundError
     | errors.TooManyRequestsError
     | VerseDbError
@@ -68,7 +70,9 @@ async function $do(
   [
     Result<
       operations.UnfollowContentResponse,
+      | errors.UnfollowContentBadRequestError
       | errors.UnauthorizedErrorError
+      | errors.UnfollowContentForbiddenError
       | errors.UnfollowContentNotFoundError
       | errors.TooManyRequestsError
       | VerseDbError
@@ -162,7 +166,9 @@ async function $do(
 
   const [result] = await M.match<
     operations.UnfollowContentResponse,
+    | errors.UnfollowContentBadRequestError
     | errors.UnauthorizedErrorError
+    | errors.UnfollowContentForbiddenError
     | errors.UnfollowContentNotFoundError
     | errors.TooManyRequestsError
     | VerseDbError
@@ -178,7 +184,11 @@ async function $do(
       hdrs: true,
       key: "Result",
     }),
+    M.jsonErr(400, errors.UnfollowContentBadRequestError$inboundSchema, {
+      hdrs: true,
+    }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
+    M.jsonErr(403, errors.UnfollowContentForbiddenError$inboundSchema),
     M.jsonErr(404, errors.UnfollowContentNotFoundError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),

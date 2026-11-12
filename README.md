@@ -369,6 +369,9 @@ run();
 ### [User](docs/sdks/user/README.md)
 
 * [getTheAuthenticatedUser](docs/sdks/user/README.md#gettheauthenticateduser) - Get the authenticated user.
+* [listFollows](docs/sdks/user/README.md#listfollows) - List follows.
+* [~~getActivityFeed~~](docs/sdks/user/README.md#getactivityfeed) - Get activity feed. :warning: **Deprecated**
+* [checkFollowStatus](docs/sdks/user/README.md#checkfollowstatus) - Check follow status.
 * [listReadStatus](docs/sdks/user/README.md#listreadstatus) - List read status.
 * [listWishlist](docs/sdks/user/README.md#listwishlist) - List wishlist.
 * [listCollection](docs/sdks/user/README.md#listcollection) - List collection.
@@ -386,11 +389,8 @@ run();
 * [updateCollectionItem](docs/sdks/user/README.md#updatecollectionitem) - Update collection item.
 * [lendACopyOut](docs/sdks/user/README.md#lendacopyout) - Lend a copy out.
 * [markTheCopysOpenLoanReturned](docs/sdks/user/README.md#markthecopysopenloanreturned) - Mark the copy's open loan returned.
-* [listFollows](docs/sdks/user/README.md#listfollows) - List follows.
-* [checkFollowStatus](docs/sdks/user/README.md#checkfollowstatus) - Check follow status.
 * [followContent](docs/sdks/user/README.md#followcontent) - Follow content.
 * [unfollowContent](docs/sdks/user/README.md#unfollowcontent) - Unfollow content.
-* [~~getActivityFeed~~](docs/sdks/user/README.md#getactivityfeed) - Get activity feed. :warning: **Deprecated**
 
 </details>
 <!-- End Available Resources and Operations [operations] -->
@@ -665,7 +665,7 @@ run();
   * [`TooManyRequestsError`](./src/models/errors/too-many-requests-error.ts): Status code `429`.
   * [`UnauthorizedErrorError`](./src/models/errors/unauthorized-error-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. *
 
-<details><summary>Less common errors (186)</summary>
+<details><summary>Less common errors (195)</summary>
 
 <br />
 
@@ -678,11 +678,16 @@ run();
 
 
 **Inherit from [`VerseDbError`](./src/models/errors/verse-db-error.ts)**:
-* [`BadRequestError`](./src/models/errors/bad-request-error.ts): The request could not be processed: an OAuth error and its description. Status code `400`. Applicable to 1 of 99 methods.*
+* [`CheckFollowStatusBadRequestError`](./src/models/errors/check-follow-status-bad-request-error.ts): A type that is not followable. Status code `400`. Applicable to 1 of 99 methods.*
+* [`UnfollowContentBadRequestError`](./src/models/errors/unfollow-content-bad-request-error.ts): A type that is not followable. Status code `400`. Applicable to 1 of 99 methods.*
+* [`ExchangeAConnectCodeForATokenBadRequestError`](./src/models/errors/exchange-a-connect-code-for-a-token-bad-request-error.ts): The request could not be processed: an OAuth error and its description. Status code `400`. Applicable to 1 of 99 methods.*
 * [`ViewYourReadingGoalUnauthorizedError`](./src/models/errors/view-your-reading-goal-unauthorized-error.ts): The request could not be processed. Status code `401`. Applicable to 1 of 99 methods.*
 * [`ViewYearlyReadingStatisticsUnauthorizedError`](./src/models/errors/view-yearly-reading-statistics-unauthorized-error.ts): The request could not be processed. Status code `401`. Applicable to 1 of 99 methods.*
 * [`ViewYourMonthlyReadingCalendarUnauthorizedError`](./src/models/errors/view-your-monthly-reading-calendar-unauthorized-error.ts): The request could not be processed. Status code `401`. Applicable to 1 of 99 methods.*
 * [`GetTheAuthenticatedUserForbiddenError`](./src/models/errors/get-the-authenticated-user-forbidden-error.ts): The token holds neither read:user nor read:showcase. Status code `403`. Applicable to 1 of 99 methods.*
+* [`ListFollowsForbiddenError`](./src/models/errors/list-follows-forbidden-error.ts): The token lacks the read:user ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetActivityFeedForbiddenError`](./src/models/errors/get-activity-feed-forbidden-error.ts): The token lacks the read:user ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`CheckFollowStatusForbiddenError`](./src/models/errors/check-follow-status-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
 * [`ListReadStatusForbiddenError`](./src/models/errors/list-read-status-forbidden-error.ts): The token holds neither read:user nor read:showcase. Status code `403`. Applicable to 1 of 99 methods.*
 * [`ListWishlistForbiddenError`](./src/models/errors/list-wishlist-forbidden-error.ts): The token holds neither read:user nor read:showcase. Status code `403`. Applicable to 1 of 99 methods.*
 * [`ListCollectionForbiddenError`](./src/models/errors/list-collection-forbidden-error.ts): The token holds neither read:user nor read:showcase. Status code `403`. Applicable to 1 of 99 methods.*
@@ -700,7 +705,8 @@ run();
 * [`UpdateCollectionItemForbiddenError`](./src/models/errors/update-collection-item-forbidden-error.ts): The token holds neither write:collection nor write:lists. Status code `403`. Applicable to 1 of 99 methods.*
 * [`LendACopyOutForbiddenError`](./src/models/errors/lend-a-copy-out-forbidden-error.ts): The token holds neither write:collection nor write:lists. Status code `403`. Applicable to 1 of 99 methods.*
 * [`MarkTheCopysOpenLoanReturnedForbiddenError`](./src/models/errors/mark-the-copys-open-loan-returned-forbidden-error.ts): The token holds neither write:collection nor write:lists. Status code `403`. Applicable to 1 of 99 methods.*
-* [`FollowContentForbiddenError`](./src/models/errors/follow-content-forbidden-error.ts): Refused. Status code `403`. Applicable to 1 of 99 methods.*
+* [`FollowContentForbiddenError`](./src/models/errors/follow-content-forbidden-error.ts): The token holds neither write:follows nor write:lists, or the profile is private or a block stands between the two members (the body names `code`). Status code `403`. Applicable to 1 of 99 methods.*
+* [`UnfollowContentForbiddenError`](./src/models/errors/unfollow-content-forbidden-error.ts): The token holds neither write:follows nor write:lists. Status code `403`. Applicable to 1 of 99 methods.*
 * [`ViewYourReadingGoalForbiddenError`](./src/models/errors/view-your-reading-goal-forbidden-error.ts): The token holds neither read:user nor read:showcase. Status code `403`. Applicable to 1 of 99 methods.*
 * [`ViewYearlyReadingStatisticsForbiddenError`](./src/models/errors/view-yearly-reading-statistics-forbidden-error.ts): The token holds neither read:user nor read:showcase, or the member has no Pro. Status code `403`. Applicable to 1 of 99 methods.*
 * [`ViewYourMonthlyReadingCalendarForbiddenError`](./src/models/errors/view-your-monthly-reading-calendar-forbidden-error.ts): The token holds neither read:user nor read:showcase, or the member has no Pro. Status code `403`. Applicable to 1 of 99 methods.*
@@ -772,6 +778,7 @@ run();
 * [`FollowUpdatesForbiddenError`](./src/models/errors/follow-updates-forbidden-error.ts): A token without `read:user`. Status code `403`. Applicable to 1 of 99 methods.*
 * [`Upcoming1IssuesForbiddenError`](./src/models/errors/upcoming1-issues-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
 * [`LookUpAnIssueByCoverPhotoForbiddenError`](./src/models/errors/look-up-an-issue-by-cover-photo-forbidden-error.ts): The token lacks the `read:public` ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`CheckFollowStatusNotFoundError`](./src/models/errors/check-follow-status-not-found-error.ts): No live entity of this type has this ID. Status code `404`. Applicable to 1 of 99 methods.*
 * [`MarkAsReadNotFoundError`](./src/models/errors/mark-as-read-not-found-error.ts): No live issue has this ID. Status code `404`. Applicable to 1 of 99 methods.*
 * [`MarkAsUnreadNotFoundError`](./src/models/errors/mark-as-unread-not-found-error.ts): No live issue has this ID. Status code `404`. Applicable to 1 of 99 methods.*
 * [`EditReadingDateNotFoundError`](./src/models/errors/edit-reading-date-not-found-error.ts): No live issue has this ID. Status code `404`. Applicable to 1 of 99 methods.*
@@ -786,8 +793,8 @@ run();
 * [`UpdateCollectionItemResponseBodyNotFoundError2`](./src/models/errors/update-collection-item-response-body-not-found-error2.ts): No live issue has this ID (`message`), or the user holds no such copy of it (`error`). Status code `404`. Applicable to 1 of 99 methods.*
 * [`LendACopyOutNotFoundError`](./src/models/errors/lend-a-copy-out-not-found-error.ts): No collection item has this ID, or the user does not own it (`Collection item not found.`). Status code `404`. Applicable to 1 of 99 methods.*
 * [`MarkTheCopysOpenLoanReturnedNotFoundError`](./src/models/errors/mark-the-copys-open-loan-returned-not-found-error.ts): No collection item has this ID, the user does not own it, or it is not on loan. Status code `404`. Applicable to 1 of 99 methods.*
-* [`FollowContentNotFoundError`](./src/models/errors/follow-content-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
-* [`UnfollowContentNotFoundError`](./src/models/errors/unfollow-content-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`FollowContentNotFoundError`](./src/models/errors/follow-content-not-found-error.ts): No live entity of this type has this ID. Status code `404`. Applicable to 1 of 99 methods.*
+* [`UnfollowContentNotFoundError`](./src/models/errors/unfollow-content-not-found-error.ts): No live entity of this type has this ID. Status code `404`. Applicable to 1 of 99 methods.*
 * [`CreateListNotFoundError`](./src/models/errors/create-list-not-found-error.ts): No live issue has this ID. Status code `404`. Applicable to 1 of 99 methods.*
 * [`GetUsersListsNotFoundError`](./src/models/errors/get-users-lists-not-found-error.ts): You blocked this user, or they blocked you. Status code `404`. Applicable to 1 of 99 methods.*
 * [`GetListNotFoundError`](./src/models/errors/get-list-not-found-error.ts): No such list, or you blocked its owner, or they blocked you. Status code `404`. Applicable to 1 of 99 methods.*
@@ -821,6 +828,7 @@ run();
 * [`AddItemToListConflictError`](./src/models/errors/add-item-to-list-conflict-error.ts): The entity (with the same cover) is already in the list. Status code `409`. Applicable to 1 of 99 methods.*
 * [`LookupByUPCConflictError`](./src/models/errors/lookup-by-upc-conflict-error.ts): Multiple Matches. Status code `409`. Applicable to 1 of 99 methods.*
 * [`LookupByDistributorCodeConflictError`](./src/models/errors/lookup-by-distributor-code-conflict-error.ts): Multiple Matches. Status code `409`. Applicable to 1 of 99 methods.*
+* [`ListFollowsUnprocessableEntityError`](./src/models/errors/list-follows-unprocessable-entity-error.ts): A type that is not followable, or a search past 100 characters. Status code `422`. Applicable to 1 of 99 methods.*
 * [`CheckIssueInCollectionUnprocessableEntityError`](./src/models/errors/check-issue-in-collection-unprocessable-entity-error.ts): A variant that does not exist. Status code `422`. Applicable to 1 of 99 methods.*
 * [`MarkAsReadResponseBodyError1`](./src/models/errors/mark-as-read-response-body-error1.ts): Invalid Variant, a variant that does not exist, or an issue not released yet. Status code `422`. Applicable to 1 of 99 methods.*
 * [`MarkAsReadResponseBodyError2`](./src/models/errors/mark-as-read-response-body-error2.ts): Invalid Variant, a variant that does not exist, or an issue not released yet. Status code `422`. Applicable to 1 of 99 methods.*
@@ -842,6 +850,7 @@ run();
 * [`UpdateCollectionItemResponseBodyUnprocessableEntityError3`](./src/models/errors/update-collection-item-response-body-unprocessable-entity-error3.ts): A field the rules refuse, a variant of another issue, or `is_read` on an issue not released yet (the copy is still updated). Status code `422`. Applicable to 1 of 99 methods.*
 * [`LendACopyOutUnprocessableEntityError`](./src/models/errors/lend-a-copy-out-unprocessable-entity-error.ts): A field the rules refuse. Status code `422`. Applicable to 1 of 99 methods.*
 * [`MarkTheCopysOpenLoanReturnedUnprocessableEntityError`](./src/models/errors/mark-the-copys-open-loan-returned-unprocessable-entity-error.ts): A `returned_at` that is not a date. Status code `422`. Applicable to 1 of 99 methods.*
+* [`FollowContentUnprocessableEntityError`](./src/models/errors/follow-content-unprocessable-entity-error.ts): The body fails its rules, or the member is following themselves. Status code `422`. Applicable to 1 of 99 methods.*
 * [`CreateListUnprocessableEntityError`](./src/models/errors/create-list-unprocessable-entity-error.ts): The body failed validation. Status code `422`. Applicable to 1 of 99 methods.*
 * [`UpdateListUnprocessableEntityError`](./src/models/errors/update-list-unprocessable-entity-error.ts): The body failed validation. Status code `422`. Applicable to 1 of 99 methods.*
 * [`LikeListOrReactToItUnprocessableEntityError`](./src/models/errors/like-list-or-react-to-it-unprocessable-entity-error.ts): Unknown reaction. Status code `422`. Applicable to 1 of 99 methods.*

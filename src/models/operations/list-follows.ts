@@ -7,6 +7,7 @@ import { remap as remap$ } from "../../lib/primitives.js";
 import { safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
+import { smartUnion } from "../../types/smart-union.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type ListFollowsRequest = {
@@ -24,33 +25,85 @@ export type ListFollowsRequest = {
   q?: string | undefined;
 };
 
+/**
+ * The notification preferences given with the follow.
+ */
+export type ListFollowsPreferences = string | number | boolean | Array<any> | {
+  [k: string]: any;
+};
+
+/**
+ * The followed entity, or null when it is gone.
+ */
 export type Followable = {
-  id?: number | undefined;
-  name?: string | undefined;
-  coverUrl?: string | undefined;
+  id: number;
+  name: string;
+  slug: string | null;
+  /**
+   * A member's username; null for anything else.
+   */
+  username: string | null;
+  imageUrl: string | null;
 };
 
 export type ListFollowsData = {
-  id?: number | undefined;
-  followableType?: string | undefined;
-  followableId?: number | undefined;
-  followable?: Followable | undefined;
-  createdAt?: string | undefined;
+  id: number;
+  userId: number;
+  /**
+   * The morph alias of the followed entity.
+   */
+  followableType: string;
+  followableId: number;
+  /**
+   * The notification preferences given with the follow.
+   */
+  preferences:
+    | string
+    | number
+    | boolean
+    | Array<any>
+    | { [k: string]: any }
+    | null;
+  createdAt: string | null;
+  updatedAt: string | null;
+  /**
+   * The followed entity, or null when it is gone.
+   */
+  followable: Followable | null;
+};
+
+export type ListFollowsLinks = {
+  first: string;
+  last: string;
+  prev: string | null;
+  next: string | null;
+};
+
+export type ListFollowsLink = {
+  url: string | null;
+  label: string;
+  page?: number | null | undefined;
+  active: boolean;
 };
 
 export type ListFollowsMeta = {
-  currentPage?: number | undefined;
-  lastPage?: number | undefined;
-  perPage?: number | undefined;
-  total?: number | undefined;
+  currentPage: number;
+  from: number | null;
+  lastPage: number;
+  links: Array<ListFollowsLink>;
+  path: string;
+  perPage: number;
+  to: number | null;
+  total: number;
 };
 
 /**
  * Success
  */
 export type ListFollowsResponseBody = {
-  data?: Array<ListFollowsData> | undefined;
-  meta?: ListFollowsMeta | undefined;
+  data: Array<ListFollowsData>;
+  links: ListFollowsLinks;
+  meta: ListFollowsMeta;
 };
 
 export type ListFollowsResponse = {
@@ -91,16 +144,40 @@ export function listFollowsRequestToJSON(
 }
 
 /** @internal */
+export const ListFollowsPreferences$inboundSchema: z.ZodMiniType<
+  ListFollowsPreferences,
+  unknown
+> = smartUnion([
+  types.string(),
+  types.number(),
+  types.boolean(),
+  z.array(z.any()),
+  z.record(z.string(), z.any()),
+]);
+
+export function listFollowsPreferencesFromJSON(
+  jsonString: string,
+): SafeParseResult<ListFollowsPreferences, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ListFollowsPreferences$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListFollowsPreferences' from JSON`,
+  );
+}
+
+/** @internal */
 export const Followable$inboundSchema: z.ZodMiniType<Followable, unknown> = z
   .pipe(
     z.object({
-      id: types.optional(types.number()),
-      name: types.optional(types.string()),
-      cover_url: types.optional(types.string()),
+      id: types.number(),
+      name: types.string(),
+      slug: types.nullable(types.string()),
+      username: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
     }),
     z.transform((v) => {
       return remap$(v, {
-        "cover_url": "coverUrl",
+        "image_url": "imageUrl",
       });
     }),
   );
@@ -121,17 +198,30 @@ export const ListFollowsData$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    followable_type: types.optional(types.string()),
-    followable_id: types.optional(types.number()),
-    followable: types.optional(z.lazy(() => Followable$inboundSchema)),
-    created_at: types.optional(types.string()),
+    id: types.number(),
+    user_id: types.number(),
+    followable_type: types.string(),
+    followable_id: types.number(),
+    preferences: types.nullable(
+      smartUnion([
+        types.string(),
+        types.number(),
+        types.boolean(),
+        z.array(z.any()),
+        z.record(z.string(), z.any()),
+      ]),
+    ),
+    created_at: types.nullable(types.string()),
+    updated_at: types.nullable(types.string()),
+    followable: types.nullable(z.lazy(() => Followable$inboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {
+      "user_id": "userId",
       "followable_type": "followableType",
       "followable_id": "followableId",
       "created_at": "createdAt",
+      "updated_at": "updatedAt",
     });
   }),
 );
@@ -147,15 +237,61 @@ export function listFollowsDataFromJSON(
 }
 
 /** @internal */
+export const ListFollowsLinks$inboundSchema: z.ZodMiniType<
+  ListFollowsLinks,
+  unknown
+> = z.object({
+  first: types.string(),
+  last: types.string(),
+  prev: types.nullable(types.string()),
+  next: types.nullable(types.string()),
+});
+
+export function listFollowsLinksFromJSON(
+  jsonString: string,
+): SafeParseResult<ListFollowsLinks, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ListFollowsLinks$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListFollowsLinks' from JSON`,
+  );
+}
+
+/** @internal */
+export const ListFollowsLink$inboundSchema: z.ZodMiniType<
+  ListFollowsLink,
+  unknown
+> = z.object({
+  url: types.nullable(types.string()),
+  label: types.string(),
+  page: z.optional(z.nullable(types.number())),
+  active: types.boolean(),
+});
+
+export function listFollowsLinkFromJSON(
+  jsonString: string,
+): SafeParseResult<ListFollowsLink, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ListFollowsLink$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListFollowsLink' from JSON`,
+  );
+}
+
+/** @internal */
 export const ListFollowsMeta$inboundSchema: z.ZodMiniType<
   ListFollowsMeta,
   unknown
 > = z.pipe(
   z.object({
-    current_page: types.optional(types.number()),
-    last_page: types.optional(types.number()),
-    per_page: types.optional(types.number()),
-    total: types.optional(types.number()),
+    current_page: types.number(),
+    from: types.nullable(types.number()),
+    last_page: types.number(),
+    links: z.array(z.lazy(() => ListFollowsLink$inboundSchema)),
+    path: types.string(),
+    per_page: types.number(),
+    to: types.nullable(types.number()),
+    total: types.number(),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -181,8 +317,9 @@ export const ListFollowsResponseBody$inboundSchema: z.ZodMiniType<
   ListFollowsResponseBody,
   unknown
 > = z.object({
-  data: types.optional(z.array(z.lazy(() => ListFollowsData$inboundSchema))),
-  meta: types.optional(z.lazy(() => ListFollowsMeta$inboundSchema)),
+  data: z.array(z.lazy(() => ListFollowsData$inboundSchema)),
+  links: z.lazy(() => ListFollowsLinks$inboundSchema),
+  meta: z.lazy(() => ListFollowsMeta$inboundSchema),
 });
 
 export function listFollowsResponseBodyFromJSON(
