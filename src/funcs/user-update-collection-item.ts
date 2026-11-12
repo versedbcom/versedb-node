@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * Update collection item.
  *
  * @remarks
- * Updates one of the user's copies of the issue: the copy `collection_item_id` names (query or body), else the oldest copy (of the query's `variant_id` cover when one is sent). Only the fields sent change; `tags` replaces the copy's tags. `is_read` and `read_at` set the issue's read status too.
+ * Updates one of the user's copies of the issue: the copy `collection_item_id` names (query or body), else the oldest copy (of the query's `variant_id` cover when one is sent). Only the fields sent change; `tags` replaces the copy's tags. `is_read`, `read_at` and `read_undated` set the issue's read status too: `is_read` with no `read_at` marks it read with no date (an existing read keeps its date).
  */
 export function userUpdateCollectionItem(
   client: VerseDBCore,

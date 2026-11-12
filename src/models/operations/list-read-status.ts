@@ -96,6 +96,9 @@ export type ListReadStatusData = {
   readableType: string;
   readableId: number;
   variantId: number | null;
+  /**
+   * When the issue was read; null when the read has no date.
+   */
   readAt: string | null;
   createdAt: string | null;
   updatedAt: string | null;

@@ -804,7 +804,7 @@ run();
 
 ## markAsRead
 
-Marks an issue (optionally a specific variant) as read with the current timestamp.
+Marks an issue (optionally a specific variant) as read. With no `read_at` the read has no date; with one it is dated that day. An issue already read is left as it is, its date included, and the answer gives that date.
 
 ### Example Usage
 
@@ -820,6 +820,7 @@ async function run() {
   const result = await verseDB.user.markAsRead({
     issueId: 5432,
     body: {
+      readAt: "2026-03-01",
       variantId: 789,
     },
   });
@@ -848,6 +849,7 @@ async function run() {
   const res = await userMarkAsRead(verseDB, {
     issueId: 5432,
     body: {
+      readAt: "2026-03-01",
       variantId: 789,
     },
   });
@@ -976,6 +978,7 @@ run();
 
 Updates the `read_at` date on an existing read entry, or removes the entry when `read_at` is null.
 If no entry exists yet and a date is provided, one is created (upsert).
+`undated: true` clears the date, or creates a read with no date; sending it with `read_at` is a 422.
 
 ### Example Usage
 
@@ -992,6 +995,7 @@ async function run() {
     issueId: 5432,
     body: {
       readAt: "2026-03-01",
+      undated: true,
       variantId: 789,
     },
   });
@@ -1021,6 +1025,7 @@ async function run() {
     issueId: 5432,
     body: {
       readAt: "2026-03-01",
+      undated: true,
       variantId: 789,
     },
   });
@@ -1628,7 +1633,7 @@ run();
 
 ## updateCollectionItem
 
-Updates one of the user's copies of the issue: the copy `collection_item_id` names (query or body), else the oldest copy (of the query's `variant_id` cover when one is sent). Only the fields sent change; `tags` replaces the copy's tags. `is_read` and `read_at` set the issue's read status too.
+Updates one of the user's copies of the issue: the copy `collection_item_id` names (query or body), else the oldest copy (of the query's `variant_id` cover when one is sent). Only the fields sent change; `tags` replaces the copy's tags. `is_read`, `read_at` and `read_undated` set the issue's read status too: `is_read` with no `read_at` marks it read with no date (an existing read keeps its date).
 
 ### Example Usage
 
@@ -1686,6 +1691,7 @@ async function run() {
       isPublic: true,
       isRead: true,
       readAt: "2024-06-15",
+      readUndated: true,
     },
   });
 
@@ -1755,6 +1761,7 @@ async function run() {
       isPublic: true,
       isRead: true,
       readAt: "2024-06-15",
+      readUndated: true,
     },
   });
   if (res.ok) {

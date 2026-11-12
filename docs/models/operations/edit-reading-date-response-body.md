@@ -14,6 +14,6 @@ let value: EditReadingDateResponseBody = {
 
 ## Fields
 
-| Field                     | Type                      | Required                  | Description               | Example                   |
-| ------------------------- | ------------------------- | ------------------------- | ------------------------- | ------------------------- |
-| `readAt`                  | *string*                  | :heavy_check_mark:        | N/A                       | 2026-03-01T00:00:00+00:00 |
+| Field                               | Type                                | Required                            | Description                         | Example                             |
+| ----------------------------------- | ----------------------------------- | ----------------------------------- | ----------------------------------- | ----------------------------------- |
+| `readAt`                            | *string*                            | :heavy_check_mark:                  | The new date; null after `undated`. | 2026-03-01T00:00:00+00:00           |

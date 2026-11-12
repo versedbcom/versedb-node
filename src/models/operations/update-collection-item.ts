@@ -163,6 +163,10 @@ export type UpdateCollectionItemRequestBody = {
    * When the issue was read (YYYY-MM-DD). Cannot be in the future. Must be a valid date. Must be a date before or equal to <code>today</code>.
    */
   readAt?: string | null | undefined;
+  /**
+   * True to clear the date of the issue's read and keep it read. Cannot be sent with `read_at`.
+   */
+  readUndated?: boolean | undefined;
 };
 
 export type UpdateCollectionItemRequest = {
@@ -446,6 +450,7 @@ export type UpdateCollectionItemRequestBody$Outbound = {
   is_public?: boolean | undefined;
   is_read?: boolean | undefined;
   read_at?: string | null | undefined;
+  read_undated?: boolean | undefined;
 };
 
 /** @internal */
@@ -492,6 +497,7 @@ export const UpdateCollectionItemRequestBody$outboundSchema: z.ZodMiniType<
     isPublic: z.optional(z.boolean()),
     isRead: z.optional(z.boolean()),
     readAt: z.optional(z.nullable(z.string())),
+    readUndated: z.optional(z.boolean()),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -527,6 +533,7 @@ export const UpdateCollectionItemRequestBody$outboundSchema: z.ZodMiniType<
       isPublic: "is_public",
       isRead: "is_read",
       readAt: "read_at",
+      readUndated: "read_undated",
     });
   }),
 );

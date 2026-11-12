@@ -15,6 +15,10 @@ export type EditReadingDateRequestBody = {
    */
   readAt?: string | null | undefined;
   /**
+   * True to clear the date and keep the issue read (optional). Cannot be sent with `read_at`.
+   */
+  undated?: boolean | undefined;
+  /**
    * Specific variant ID (optional).
    */
   variantId?: number | null | undefined;
@@ -32,7 +36,10 @@ export type EditReadingDateRequest = {
  * Updated
  */
 export type EditReadingDateResponseBody = {
-  readAt: string;
+  /**
+   * The new date; null after `undated`.
+   */
+  readAt: string | null;
 };
 
 export type EditReadingDateResponse = {
@@ -43,6 +50,7 @@ export type EditReadingDateResponse = {
 /** @internal */
 export type EditReadingDateRequestBody$Outbound = {
   read_at?: string | null | undefined;
+  undated?: boolean | undefined;
   variant_id?: number | null | undefined;
 };
 
@@ -53,6 +61,7 @@ export const EditReadingDateRequestBody$outboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     readAt: z.optional(z.nullable(z.string())),
+    undated: z.optional(z.boolean()),
     variantId: z.optional(z.nullable(z.int())),
   }),
   z.transform((v) => {
@@ -107,7 +116,7 @@ export const EditReadingDateResponseBody$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
-    read_at: types.string(),
+    read_at: types.nullable(types.string()),
   }),
   z.transform((v) => {
     return remap$(v, {

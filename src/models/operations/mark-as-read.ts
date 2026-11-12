@@ -11,6 +11,10 @@ import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type MarkAsReadRequestBody = {
   /**
+   * The day it was read, YYYY-MM-DD, not in the future (optional). Leave it out when the date is unknown.
+   */
+  readAt?: string | undefined;
+  /**
    * Specific variant ID (optional).
    */
   variantId?: number | null | undefined;
@@ -37,6 +41,10 @@ export type SeriesCompleted = {
  */
 export type MarkAsReadResponseBody = {
   /**
+   * The read's date; null when it has none.
+   */
+  readAt: string | null;
+  /**
    * Every live issue of the series is now read.
    */
   seriesCompleted?: SeriesCompleted | undefined;
@@ -49,6 +57,7 @@ export type MarkAsReadResponse = {
 
 /** @internal */
 export type MarkAsReadRequestBody$Outbound = {
+  read_at?: string | undefined;
   variant_id?: number | null | undefined;
 };
 
@@ -58,10 +67,12 @@ export const MarkAsReadRequestBody$outboundSchema: z.ZodMiniType<
   MarkAsReadRequestBody
 > = z.pipe(
   z.object({
+    readAt: z.optional(z.string()),
     variantId: z.optional(z.nullable(z.int())),
   }),
   z.transform((v) => {
     return remap$(v, {
+      readAt: "read_at",
       variantId: "variant_id",
     });
   }),
@@ -138,12 +149,14 @@ export const MarkAsReadResponseBody$inboundSchema: z.ZodMiniType<
   unknown
 > = z.pipe(
   z.object({
+    read_at: types.nullable(types.string()),
     series_completed: types.optional(
       z.lazy(() => SeriesCompleted$inboundSchema),
     ),
   }),
   z.transform((v) => {
     return remap$(v, {
+      "read_at": "readAt",
       "series_completed": "seriesCompleted",
     });
   }),

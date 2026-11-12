@@ -1,6 +1,6 @@
 # MarkAsReadUnprocessableEntity
 
-Invalid Variant, a variant that does not exist, or an issue not released yet.
+Invalid Variant, a variant that does not exist, a `read_at` that is not a day up to today, or an issue not released yet.
 
 
 ## Supported Types

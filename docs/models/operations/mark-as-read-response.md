@@ -13,6 +13,7 @@ let value: MarkAsReadResponse = {
     ],
   },
   result: {
+    readAt: "2026-03-01T00:00:00+00:00",
     seriesCompleted: {
       seriesId: 123,
       seriesName: "Saga",

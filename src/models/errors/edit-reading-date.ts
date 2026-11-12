@@ -84,7 +84,7 @@ export class EditReadingDateResponseBodyError1 extends VerseDbError {
 }
 
 /**
- * Invalid Variant, a date after today, or an issue not released yet.
+ * Invalid Variant, a date after today, `undated` sent with `read_at`, or an issue not released yet.
  */
 export type EditReadingDateUnprocessableEntity =
   | EditReadingDateResponseBodyError1

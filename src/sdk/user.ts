@@ -215,7 +215,7 @@ export class User extends ClientSDK {
    * Mark as read.
    *
    * @remarks
-   * Marks an issue (optionally a specific variant) as read with the current timestamp.
+   * Marks an issue (optionally a specific variant) as read. With no `read_at` the read has no date; with one it is dated that day. An issue already read is left as it is, its date included, and the answer gives that date.
    */
   async markAsRead(
     request: operations.MarkAsReadRequest,
@@ -251,6 +251,7 @@ export class User extends ClientSDK {
    * @remarks
    * Updates the `read_at` date on an existing read entry, or removes the entry when `read_at` is null.
    * If no entry exists yet and a date is provided, one is created (upsert).
+   * `undated: true` clears the date, or creates a read with no date; sending it with `read_at` is a 422.
    */
   async editReadingDate(
     request: operations.EditReadingDateRequest,
@@ -371,7 +372,7 @@ export class User extends ClientSDK {
    * Update collection item.
    *
    * @remarks
-   * Updates one of the user's copies of the issue: the copy `collection_item_id` names (query or body), else the oldest copy (of the query's `variant_id` cover when one is sent). Only the fields sent change; `tags` replaces the copy's tags. `is_read` and `read_at` set the issue's read status too.
+   * Updates one of the user's copies of the issue: the copy `collection_item_id` names (query or body), else the oldest copy (of the query's `variant_id` cover when one is sent). Only the fields sent change; `tags` replaces the copy's tags. `is_read`, `read_at` and `read_undated` set the issue's read status too: `is_read` with no `read_at` marks it read with no date (an existing read keeps its date).
    */
   async updateCollectionItem(
     request: operations.UpdateCollectionItemRequest,
