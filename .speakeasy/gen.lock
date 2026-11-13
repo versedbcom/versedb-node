@@ -5,15 +5,15 @@ management:
   docVersion: 1.0.0
   speakeasyVersion: 1.808.1
   generationVersion: 2.960.8
-  releaseVersion: 3.0.6
-  configChecksum: 340a341a3655800eb69edff468737bea
+  releaseVersion: 3.0.7
+  configChecksum: 33c6627679becccbc8b16dd7fbda83b5
   repoURL: https://github.com/versedbcom/versedb-node.git
   installationURL: https://github.com/versedbcom/versedb-node
   published: true
 persistentEdits:
-  generation_id: 1ed62b62-3494-4bbe-ad55-81f5bc522d01
-  pristine_commit_hash: 8d824af6a3f86a4fc76c1d8501aabba937e404e7
-  pristine_tree_hash: a6caf0a03a88f98215b4503dbd9cc84c7465c415
+  generation_id: 47300c37-3d14-4fc4-8647-c58a3e32a0c2
+  pristine_commit_hash: b2475833c0558c4c82c82f253521ce23d19fc286
+  pristine_tree_hash: 31cc0508377b86cd87052a42dd35c7c575785cd8
 features:
   typescript:
     additionalDependencies: 0.1.0
@@ -4939,12 +4939,12 @@ trackedFiles:
     pristine_git_object: ecffeb89ec7a40b74d527168b2ecf23d81f8cc94
   jsr.json:
     id: 7f6ab7767282
-    last_write_checksum: sha1:89664e234ff54773dbf5d98bbfa969e0326ed716
-    pristine_git_object: 3294c6fcbbd76e6dc860d444a79d1cdbe295ea94
+    last_write_checksum: sha1:ce2843fc0874c02b1eac7b61877e9fdb383835c3
+    pristine_git_object: bae0c359eb32e440b271e4e098ae19857f4d9bfd
   package.json:
     id: 7030d0b2f71b
-    last_write_checksum: sha1:f98a488a16b17573148b4dca762a7a6cac6c1cb3
-    pristine_git_object: 867c093b8aafd4d4e9817685276956529566d556
+    last_write_checksum: sha1:fc226c4e07afbafe18e50aef1d1de09cc887d539
+    pristine_git_object: a40981ece825b8b064113f0d4bf6882699233e24
   src/core.ts:
     id: f431fdbcd144
     last_write_checksum: sha1:ad0063bee03825028052e52cef3fa240c6101bdf
@@ -5367,8 +5367,8 @@ trackedFiles:
     pristine_git_object: 44be0eae8246521b230e8e711a88eff738fc015d
   src/lib/config.ts:
     id: 320761608fb3
-    last_write_checksum: sha1:98174a9396e1341c850f2e9bc357826704d4804c
-    pristine_git_object: 67cf5312968f7896d470d87b578981f091a043d2
+    last_write_checksum: sha1:d9137d39e5458122d53ec888b90b50d77936510c
+    pristine_git_object: 03990186f111fd2b58690b78222e9ef795e077c4
   src/lib/encodings.ts:
     id: 3bd8ead98afd
     last_write_checksum: sha1:4481b2a380f8a16856ef92c66fb370299f56d135
@@ -8459,4 +8459,3 @@ examples:
         "403":
           application/json: {"message": "Insufficient token scope."}
 examplesVersion: 1.0.2
-releaseNotes: "## Typescript SDK Changes:\n* `versedb.user.editReadingDate()`: \n  *  `request.body.undated` **Added**\n  *  `response.readAt` **Changed** (Breaking ⚠️)\n* `versedb.user.markAsRead()`: \n  *  `request.body.readAt` **Added**\n  *  `response.readAt` **Added**\n* `versedb.user.updateCollectionItem()`: \n  *  `request.body.readUndated` **Added**\n"
