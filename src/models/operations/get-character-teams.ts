@@ -15,53 +15,95 @@ export type GetCharacterTeamsRequest = {
    */
   characterId: number;
   /**
-   * Results per page (max 50).
-   */
-  limit?: number | undefined;
-  /**
    * Optional case-insensitive search within these results.
    */
   q?: string | undefined;
   /**
-   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.
+   * Results per page (max 50).
+   */
+  limit?: number | undefined;
+  /**
+   * Page number; meta.last_page says where the list ends.
+   */
+  page?: number | undefined;
+  /**
+   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes.
    */
   languages?: string | undefined;
 };
 
-export type GetCharacterTeamsNameI18n = {};
+export type GetCharacterTeamsImages = {
+  tileSm?: string | undefined;
+  profileMd?: string | undefined;
+  fullLg?: string | undefined;
+};
 
-export type GetCharacterTeamsAliasesI18n = {};
-
-export type Membership = {
-  role?: string | undefined;
-  joinedDate?: string | undefined;
-  leftDate?: string | null | undefined;
+export type GetCharacterTeamsNameI18n = {
+  value: string;
+  source: string;
+  reading?: string | undefined;
+  sort?: string | undefined;
 };
 
 export type GetCharacterTeamsData = {
-  id?: number | undefined;
-  name?: string | undefined;
-  nameI18n?: GetCharacterTeamsNameI18n | undefined;
-  aliasesI18n?: GetCharacterTeamsAliasesI18n | undefined;
-  originalLocale?: string | undefined;
-  slug?: string | undefined;
-  imageUrl?: string | undefined;
-  membership?: Membership | undefined;
+  id: number;
+  name: string | null;
+  slug: string | null;
+  aliases: Array<string>;
+  headquarters: string | null;
+  membersCount: number;
+  /**
+   * Present when the team has an appearance count.
+   */
+  appearancesCount?: number | undefined;
+  imageUrl: string | null;
+  images: GetCharacterTeamsImages | null;
+  /**
+   * One name per language, keyed by BCP 47 tag.
+   */
+  nameI18n: { [k: string]: GetCharacterTeamsNameI18n };
+  /**
+   * Alternative names per language.
+   */
+  aliasesI18n: { [k: string]: Array<string> };
+  /**
+   * The language the entity is from, a BCP 47 tag.
+   */
+  originalLocale: string | null;
+};
+
+export type GetCharacterTeamsLinks = {
+  first: string;
+  last: string;
+  prev: string | null;
+  next: string | null;
+};
+
+export type GetCharacterTeamsLink = {
+  url: string | null;
+  label: string;
+  page?: number | null | undefined;
+  active: boolean;
 };
 
 export type GetCharacterTeamsMeta = {
-  currentPage?: number | undefined;
-  lastPage?: number | undefined;
-  perPage?: number | undefined;
-  total?: number | undefined;
+  currentPage: number;
+  from: number | null;
+  lastPage: number;
+  links: Array<GetCharacterTeamsLink>;
+  path: string;
+  perPage: number;
+  to: number | null;
+  total: number;
 };
 
 /**
  * Success
  */
 export type GetCharacterTeamsResponseBody = {
-  data?: Array<GetCharacterTeamsData> | undefined;
-  meta?: GetCharacterTeamsMeta | undefined;
+  data: Array<GetCharacterTeamsData>;
+  links: GetCharacterTeamsLinks;
+  meta: GetCharacterTeamsMeta;
 };
 
 export type GetCharacterTeamsResponse = {
@@ -72,8 +114,9 @@ export type GetCharacterTeamsResponse = {
 /** @internal */
 export type GetCharacterTeamsRequest$Outbound = {
   character_id: number;
-  limit?: number | undefined;
   q?: string | undefined;
+  limit?: number | undefined;
+  page?: number | undefined;
   languages?: string | undefined;
 };
 
@@ -84,8 +127,9 @@ export const GetCharacterTeamsRequest$outboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     characterId: z.int(),
-    limit: z.optional(z.int()),
     q: z.optional(z.string()),
+    limit: z.optional(z.int()),
+    page: z.optional(z.int()),
     languages: z.optional(z.string()),
   }),
   z.transform((v) => {
@@ -104,10 +148,44 @@ export function getCharacterTeamsRequestToJSON(
 }
 
 /** @internal */
+export const GetCharacterTeamsImages$inboundSchema: z.ZodMiniType<
+  GetCharacterTeamsImages,
+  unknown
+> = z.pipe(
+  z.object({
+    tile_sm: types.optional(types.string()),
+    profile_md: types.optional(types.string()),
+    full_lg: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "tile_sm": "tileSm",
+      "profile_md": "profileMd",
+      "full_lg": "fullLg",
+    });
+  }),
+);
+
+export function getCharacterTeamsImagesFromJSON(
+  jsonString: string,
+): SafeParseResult<GetCharacterTeamsImages, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetCharacterTeamsImages$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetCharacterTeamsImages' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetCharacterTeamsNameI18n$inboundSchema: z.ZodMiniType<
   GetCharacterTeamsNameI18n,
   unknown
-> = z.object({});
+> = z.object({
+  value: types.string(),
+  source: types.string(),
+  reading: types.optional(types.string()),
+  sort: types.optional(types.string()),
+});
 
 export function getCharacterTeamsNameI18nFromJSON(
   jsonString: string,
@@ -120,72 +198,35 @@ export function getCharacterTeamsNameI18nFromJSON(
 }
 
 /** @internal */
-export const GetCharacterTeamsAliasesI18n$inboundSchema: z.ZodMiniType<
-  GetCharacterTeamsAliasesI18n,
-  unknown
-> = z.object({});
-
-export function getCharacterTeamsAliasesI18nFromJSON(
-  jsonString: string,
-): SafeParseResult<GetCharacterTeamsAliasesI18n, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => GetCharacterTeamsAliasesI18n$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'GetCharacterTeamsAliasesI18n' from JSON`,
-  );
-}
-
-/** @internal */
-export const Membership$inboundSchema: z.ZodMiniType<Membership, unknown> = z
-  .pipe(
-    z.object({
-      role: types.optional(types.string()),
-      joined_date: types.optional(types.string()),
-      left_date: z.optional(z.nullable(types.string())),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "joined_date": "joinedDate",
-        "left_date": "leftDate",
-      });
-    }),
-  );
-
-export function membershipFromJSON(
-  jsonString: string,
-): SafeParseResult<Membership, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => Membership$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'Membership' from JSON`,
-  );
-}
-
-/** @internal */
 export const GetCharacterTeamsData$inboundSchema: z.ZodMiniType<
   GetCharacterTeamsData,
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    name: types.optional(types.string()),
-    name_i18n: types.optional(
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    aliases: z.array(types.string()),
+    headquarters: types.nullable(types.string()),
+    members_count: types.number(),
+    appearances_count: types.optional(types.number()),
+    image_url: types.nullable(types.string()),
+    images: types.nullable(z.lazy(() => GetCharacterTeamsImages$inboundSchema)),
+    name_i18n: z.record(
+      z.string(),
       z.lazy(() => GetCharacterTeamsNameI18n$inboundSchema),
     ),
-    aliases_i18n: types.optional(
-      z.lazy(() => GetCharacterTeamsAliasesI18n$inboundSchema),
-    ),
-    original_locale: types.optional(types.string()),
-    slug: types.optional(types.string()),
-    image_url: types.optional(types.string()),
-    membership: types.optional(z.lazy(() => Membership$inboundSchema)),
+    aliases_i18n: z.record(z.string(), z.array(types.string())),
+    original_locale: types.nullable(types.string()),
   }),
   z.transform((v) => {
     return remap$(v, {
+      "members_count": "membersCount",
+      "appearances_count": "appearancesCount",
+      "image_url": "imageUrl",
       "name_i18n": "nameI18n",
       "aliases_i18n": "aliasesI18n",
       "original_locale": "originalLocale",
-      "image_url": "imageUrl",
     });
   }),
 );
@@ -201,15 +242,61 @@ export function getCharacterTeamsDataFromJSON(
 }
 
 /** @internal */
+export const GetCharacterTeamsLinks$inboundSchema: z.ZodMiniType<
+  GetCharacterTeamsLinks,
+  unknown
+> = z.object({
+  first: types.string(),
+  last: types.string(),
+  prev: types.nullable(types.string()),
+  next: types.nullable(types.string()),
+});
+
+export function getCharacterTeamsLinksFromJSON(
+  jsonString: string,
+): SafeParseResult<GetCharacterTeamsLinks, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetCharacterTeamsLinks$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetCharacterTeamsLinks' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetCharacterTeamsLink$inboundSchema: z.ZodMiniType<
+  GetCharacterTeamsLink,
+  unknown
+> = z.object({
+  url: types.nullable(types.string()),
+  label: types.string(),
+  page: z.optional(z.nullable(types.number())),
+  active: types.boolean(),
+});
+
+export function getCharacterTeamsLinkFromJSON(
+  jsonString: string,
+): SafeParseResult<GetCharacterTeamsLink, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetCharacterTeamsLink$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetCharacterTeamsLink' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetCharacterTeamsMeta$inboundSchema: z.ZodMiniType<
   GetCharacterTeamsMeta,
   unknown
 > = z.pipe(
   z.object({
-    current_page: types.optional(types.number()),
-    last_page: types.optional(types.number()),
-    per_page: types.optional(types.number()),
-    total: types.optional(types.number()),
+    current_page: types.number(),
+    from: types.nullable(types.number()),
+    last_page: types.number(),
+    links: z.array(z.lazy(() => GetCharacterTeamsLink$inboundSchema)),
+    path: types.string(),
+    per_page: types.number(),
+    to: types.nullable(types.number()),
+    total: types.number(),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -235,10 +322,9 @@ export const GetCharacterTeamsResponseBody$inboundSchema: z.ZodMiniType<
   GetCharacterTeamsResponseBody,
   unknown
 > = z.object({
-  data: types.optional(
-    z.array(z.lazy(() => GetCharacterTeamsData$inboundSchema)),
-  ),
-  meta: types.optional(z.lazy(() => GetCharacterTeamsMeta$inboundSchema)),
+  data: z.array(z.lazy(() => GetCharacterTeamsData$inboundSchema)),
+  links: z.lazy(() => GetCharacterTeamsLinks$inboundSchema),
+  meta: z.lazy(() => GetCharacterTeamsMeta$inboundSchema),
 });
 
 export function getCharacterTeamsResponseBodyFromJSON(

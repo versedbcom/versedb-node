@@ -186,7 +186,7 @@ run();
 
 ## getCharacterSeries
 
-Returns paginated series where the character appears.
+Returns paginated series where the character appears, newest start year first.
 
 ### Example Usage
 
@@ -201,8 +201,9 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.characters.getCharacterSeries({
     characterId: 456,
-    limit: 20,
     q: "batman",
+    limit: 20,
+    page: 1,
     medium: "comic,manga",
     languages: "ja,ko",
   });
@@ -230,8 +231,9 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await charactersGetCharacterSeries(verseDB, {
     characterId: 456,
-    limit: 20,
     q: "batman",
+    limit: 20,
+    page: 1,
     medium: "comic,manga",
     languages: "ja,ko",
   });
@@ -261,11 +263,13 @@ run();
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| errors.UnauthorizedErrorError | 401                           | application/json              |
-| errors.TooManyRequestsError   | 429                           | application/json              |
-| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| errors.UnauthorizedErrorError           | 401                                     | application/json                        |
+| errors.GetCharacterSeriesForbiddenError | 403                                     | application/json                        |
+| errors.GetCharacterSeriesNotFoundError  | 404                                     | application/json                        |
+| errors.TooManyRequestsError             | 429                                     | application/json                        |
+| errors.VerseDbDefaultError              | 4XX, 5XX                                | \*/\*                                   |
 
 ## getCharacterIssues
 
@@ -284,8 +288,9 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.characters.getCharacterIssues({
     characterId: 456,
-    limit: 20,
     q: "batman",
+    limit: 20,
+    page: 1,
     medium: "comic,manga",
     languages: "ja,ko",
   });
@@ -313,8 +318,9 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await charactersGetCharacterIssues(verseDB, {
     characterId: 456,
-    limit: 20,
     q: "batman",
+    limit: 20,
+    page: 1,
     medium: "comic,manga",
     languages: "ja,ko",
   });
@@ -344,15 +350,17 @@ run();
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| errors.UnauthorizedErrorError | 401                           | application/json              |
-| errors.TooManyRequestsError   | 429                           | application/json              |
-| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| errors.UnauthorizedErrorError           | 401                                     | application/json                        |
+| errors.GetCharacterIssuesForbiddenError | 403                                     | application/json                        |
+| errors.GetCharacterIssuesNotFoundError  | 404                                     | application/json                        |
+| errors.TooManyRequestsError             | 429                                     | application/json                        |
+| errors.VerseDbDefaultError              | 4XX, 5XX                                | \*/\*                                   |
 
 ## getCharacterTeams
 
-Returns paginated teams the character is a member of, including membership details.
+Returns paginated teams the character is a member of, by name.
 
 ### Example Usage
 
@@ -367,8 +375,9 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.characters.getCharacterTeams({
     characterId: 456,
-    limit: 20,
     q: "batman",
+    limit: 20,
+    page: 1,
     languages: "ja,ko",
   });
 
@@ -395,8 +404,9 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await charactersGetCharacterTeams(verseDB, {
     characterId: 456,
-    limit: 20,
     q: "batman",
+    limit: 20,
+    page: 1,
     languages: "ja,ko",
   });
   if (res.ok) {
@@ -425,8 +435,10 @@ run();
 
 ### Errors
 
-| Error Type                    | Status Code                   | Content Type                  |
-| ----------------------------- | ----------------------------- | ----------------------------- |
-| errors.UnauthorizedErrorError | 401                           | application/json              |
-| errors.TooManyRequestsError   | 429                           | application/json              |
-| errors.VerseDbDefaultError    | 4XX, 5XX                      | \*/\*                         |
+| Error Type                             | Status Code                            | Content Type                           |
+| -------------------------------------- | -------------------------------------- | -------------------------------------- |
+| errors.UnauthorizedErrorError          | 401                                    | application/json                       |
+| errors.GetCharacterTeamsForbiddenError | 403                                    | application/json                       |
+| errors.GetCharacterTeamsNotFoundError  | 404                                    | application/json                       |
+| errors.TooManyRequestsError            | 429                                    | application/json                       |
+| errors.VerseDbDefaultError             | 4XX, 5XX                               | \*/\*                                  |

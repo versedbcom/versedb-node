@@ -6,16 +6,16 @@
 import { GetStoryArcsForASpecificCharacterImages } from "@versedbcom/sdk/models/operations";
 
 let value: GetStoryArcsForASpecificCharacterImages = {
-  coverSm: "https://cdn.versedb.com/story_arcs/civil-war-sm.jpg",
-  coverMd: "https://cdn.versedb.com/story_arcs/civil-war-md.jpg",
-  coverLg: "https://cdn.versedb.com/story_arcs/civil-war-lg.jpg",
+  coverSm: "https://...-cover_sm.webp",
+  coverMd: "https://...-cover_md.webp",
+  coverLg: "https://...-cover_lg.webp",
 };
 ```
 
 ## Fields
 
-| Field                                               | Type                                                | Required                                            | Description                                         | Example                                             |
-| --------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------- |
-| `coverSm`                                           | *string*                                            | :heavy_minus_sign:                                  | N/A                                                 | https://cdn.versedb.com/story_arcs/civil-war-sm.jpg |
-| `coverMd`                                           | *string*                                            | :heavy_minus_sign:                                  | N/A                                                 | https://cdn.versedb.com/story_arcs/civil-war-md.jpg |
-| `coverLg`                                           | *string*                                            | :heavy_minus_sign:                                  | N/A                                                 | https://cdn.versedb.com/story_arcs/civil-war-lg.jpg |
+| Field                     | Type                      | Required                  | Description               | Example                   |
+| ------------------------- | ------------------------- | ------------------------- | ------------------------- | ------------------------- |
+| `coverSm`                 | *string*                  | :heavy_minus_sign:        | N/A                       | https://...-cover_sm.webp |
+| `coverMd`                 | *string*                  | :heavy_minus_sign:        | N/A                       | https://...-cover_md.webp |
+| `coverLg`                 | *string*                  | :heavy_minus_sign:        | N/A                       | https://...-cover_lg.webp |

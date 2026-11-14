@@ -41,6 +41,8 @@ export function storyArcsGetStoryArcsForASpecificCharacter(
   Result<
     operations.GetStoryArcsForASpecificCharacterResponse,
     | errors.UnauthorizedErrorError
+    | errors.GetStoryArcsForASpecificCharacterForbiddenError
+    | errors.GetStoryArcsForASpecificCharacterNotFoundError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -68,6 +70,8 @@ async function $do(
     Result<
       operations.GetStoryArcsForASpecificCharacterResponse,
       | errors.UnauthorizedErrorError
+      | errors.GetStoryArcsForASpecificCharacterForbiddenError
+      | errors.GetStoryArcsForASpecificCharacterNotFoundError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -109,6 +113,7 @@ async function $do(
   const query = encodeFormQuery({
     "languages": payload.languages,
     "limit": payload.limit,
+    "page": payload.page,
     "q": payload.q,
   });
 
@@ -170,6 +175,8 @@ async function $do(
   const [result] = await M.match<
     operations.GetStoryArcsForASpecificCharacterResponse,
     | errors.UnauthorizedErrorError
+    | errors.GetStoryArcsForASpecificCharacterForbiddenError
+    | errors.GetStoryArcsForASpecificCharacterNotFoundError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -186,6 +193,14 @@ async function $do(
       { hdrs: true, key: "Result" },
     ),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
+    M.jsonErr(
+      403,
+      errors.GetStoryArcsForASpecificCharacterForbiddenError$inboundSchema,
+    ),
+    M.jsonErr(
+      404,
+      errors.GetStoryArcsForASpecificCharacterNotFoundError$inboundSchema,
+    ),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

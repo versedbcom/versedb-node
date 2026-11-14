@@ -41,6 +41,8 @@ export function charactersGetCharacterIssues(
   Result<
     operations.GetCharacterIssuesResponse,
     | errors.UnauthorizedErrorError
+    | errors.GetCharacterIssuesForbiddenError
+    | errors.GetCharacterIssuesNotFoundError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -68,6 +70,8 @@ async function $do(
     Result<
       operations.GetCharacterIssuesResponse,
       | errors.UnauthorizedErrorError
+      | errors.GetCharacterIssuesForbiddenError
+      | errors.GetCharacterIssuesNotFoundError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -107,6 +111,7 @@ async function $do(
     "languages": payload.languages,
     "limit": payload.limit,
     "medium": payload.medium,
+    "page": payload.page,
     "q": payload.q,
   });
 
@@ -168,6 +173,8 @@ async function $do(
   const [result] = await M.match<
     operations.GetCharacterIssuesResponse,
     | errors.UnauthorizedErrorError
+    | errors.GetCharacterIssuesForbiddenError
+    | errors.GetCharacterIssuesNotFoundError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -183,6 +190,8 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
+    M.jsonErr(403, errors.GetCharacterIssuesForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.GetCharacterIssuesNotFoundError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

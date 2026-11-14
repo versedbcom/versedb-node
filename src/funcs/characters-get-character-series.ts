@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * Get character series.
  *
  * @remarks
- * Returns paginated series where the character appears.
+ * Returns paginated series where the character appears, newest start year first.
  */
 export function charactersGetCharacterSeries(
   client: VerseDBCore,
@@ -41,6 +41,8 @@ export function charactersGetCharacterSeries(
   Result<
     operations.GetCharacterSeriesResponse,
     | errors.UnauthorizedErrorError
+    | errors.GetCharacterSeriesForbiddenError
+    | errors.GetCharacterSeriesNotFoundError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -68,6 +70,8 @@ async function $do(
     Result<
       operations.GetCharacterSeriesResponse,
       | errors.UnauthorizedErrorError
+      | errors.GetCharacterSeriesForbiddenError
+      | errors.GetCharacterSeriesNotFoundError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -107,6 +111,7 @@ async function $do(
     "languages": payload.languages,
     "limit": payload.limit,
     "medium": payload.medium,
+    "page": payload.page,
     "q": payload.q,
   });
 
@@ -168,6 +173,8 @@ async function $do(
   const [result] = await M.match<
     operations.GetCharacterSeriesResponse,
     | errors.UnauthorizedErrorError
+    | errors.GetCharacterSeriesForbiddenError
+    | errors.GetCharacterSeriesNotFoundError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -183,6 +190,8 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
+    M.jsonErr(403, errors.GetCharacterSeriesForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.GetCharacterSeriesNotFoundError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

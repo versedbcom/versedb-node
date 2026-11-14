@@ -345,8 +345,8 @@ run();
 * [listAllStoryArcsWithOptionalSearch](docs/sdks/storyarcs/README.md#listallstoryarcswithoptionalsearch) - List all story arcs with optional search
 * [getStoryArcsForASpecificIssue](docs/sdks/storyarcs/README.md#getstoryarcsforaspecificissue) - Get story arcs for a specific issue
 * [getStoryArcDetail](docs/sdks/storyarcs/README.md#getstoryarcdetail) - Get story arc detail.
-* [getStoryArcsForASpecificUniverse](docs/sdks/storyarcs/README.md#getstoryarcsforaspecificuniverse) - Get story arcs for a specific universe
 * [getStoryArcsForASpecificCharacter](docs/sdks/storyarcs/README.md#getstoryarcsforaspecificcharacter) - Get story arcs for a specific character
+* [getStoryArcsForASpecificUniverse](docs/sdks/storyarcs/README.md#getstoryarcsforaspecificuniverse) - Get story arcs for a specific universe
 
 ### [Teams](docs/sdks/teams/README.md)
 
@@ -665,7 +665,7 @@ run();
   * [`TooManyRequestsError`](./src/models/errors/too-many-requests-error.ts): Status code `429`.
   * [`UnauthorizedErrorError`](./src/models/errors/unauthorized-error-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. *
 
-<details><summary>Less common errors (195)</summary>
+<details><summary>Less common errors (203)</summary>
 
 <br />
 
@@ -733,6 +733,9 @@ run();
 * [`GetASpecificUniverseForbiddenError`](./src/models/errors/get-a-specific-universe-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
 * [`ListCharactersForbiddenError`](./src/models/errors/list-characters-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
 * [`GetCharacterDetailsForbiddenError`](./src/models/errors/get-character-details-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetCharacterSeriesForbiddenError`](./src/models/errors/get-character-series-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetCharacterIssuesForbiddenError`](./src/models/errors/get-character-issues-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetCharacterTeamsForbiddenError`](./src/models/errors/get-character-teams-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
 * [`ListCreatorsForbiddenError`](./src/models/errors/list-creators-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
 * [`GetCreatorDetailsForbiddenError`](./src/models/errors/get-creator-details-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
 * [`GetCreatorsIssuesForbiddenError`](./src/models/errors/get-creators-issues-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
@@ -741,6 +744,7 @@ run();
 * [`ListAllStoryArcsWithOptionalSearchForbiddenError`](./src/models/errors/list-all-story-arcs-with-optional-search-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
 * [`GetStoryArcsForASpecificIssueForbiddenError`](./src/models/errors/get-story-arcs-for-a-specific-issue-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
 * [`GetStoryArcDetailForbiddenError`](./src/models/errors/get-story-arc-detail-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
+* [`GetStoryArcsForASpecificCharacterForbiddenError`](./src/models/errors/get-story-arcs-for-a-specific-character-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
 * [`GetStoryArcsForASpecificUniverseForbiddenError`](./src/models/errors/get-story-arcs-for-a-specific-universe-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
 * [`ListAllTeamsWithOptionalSearchForbiddenError`](./src/models/errors/list-all-teams-with-optional-search-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
 * [`GetASpecificTeamForbiddenError`](./src/models/errors/get-a-specific-team-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 99 methods.*
@@ -811,7 +815,11 @@ run();
 * [`RemoveItemFromListNotFoundError`](./src/models/errors/remove-item-from-list-not-found-error.ts): No live list or no list item has this ID, or the item belongs to another list (`Item does not belong to this list.`). Status code `404`. Applicable to 1 of 99 methods.*
 * [`ReorderItemsNotFoundError`](./src/models/errors/reorder-items-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 99 methods.*
 * [`GetCharacterDetailsNotFoundError`](./src/models/errors/get-character-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`GetCharacterSeriesNotFoundError`](./src/models/errors/get-character-series-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`GetCharacterIssuesNotFoundError`](./src/models/errors/get-character-issues-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`GetCharacterTeamsNotFoundError`](./src/models/errors/get-character-teams-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
 * [`GetCreatorDetailsNotFoundError`](./src/models/errors/get-creator-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
+* [`GetStoryArcsForASpecificCharacterNotFoundError`](./src/models/errors/get-story-arcs-for-a-specific-character-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
 * [`GetASpecificTeamNotFoundError`](./src/models/errors/get-a-specific-team-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
 * [`GetAnEventNotFoundError`](./src/models/errors/get-an-event-not-found-error.ts): An archived event. Status code `404`. Applicable to 1 of 99 methods.*
 * [`GetASpecificPodcastNotFoundError`](./src/models/errors/get-a-specific-podcast-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 99 methods.*
@@ -865,7 +873,7 @@ run();
 * [`FOCDeadlinesUnprocessableEntityError`](./src/models/errors/foc-deadlines-unprocessable-entity-error.ts): A query parameter out of range. Status code `422`. Applicable to 1 of 99 methods.*
 * [`FollowUpdatesUnprocessableEntityError`](./src/models/errors/follow-updates-unprocessable-entity-error.ts): A query parameter out of range. Status code `422`. Applicable to 1 of 99 methods.*
 * [`Upcoming1IssuesUnprocessableEntityError`](./src/models/errors/upcoming1-issues-unprocessable-entity-error.ts): A query parameter out of range. Status code `422`. Applicable to 1 of 99 methods.*
-* [`LookUpAnIssueByCoverPhotoUnprocessableEntityError`](./src/models/errors/look-up-an-issue-by-cover-photo-unprocessable-entity-error.ts): No photo, not an image, not one of the listed types, or over 5MB. Status code `422`. Applicable to 1 of 99 methods.*
+* [`LookUpAnIssueByCoverPhotoUnprocessableEntityError`](./src/models/errors/look-up-an-issue-by-cover-photo-unprocessable-entity-error.ts): No photo, not an image, not one of the listed types, over 5MB, or sent as a part with no file name, which is read as text. Status code `422`. Applicable to 1 of 99 methods.*
 * [`ServiceUnavailableError`](./src/models/errors/service-unavailable-error.ts): Cover matching is unavailable right now. Status code `503`. Applicable to 1 of 99 methods.*
 * [`ResponseValidationError`](./src/models/errors/response-validation-error.ts): Type mismatch between the data returned from the server and the structure expected by the SDK. See `error.rawValue` for the raw value and `error.pretty()` for a nicely formatted multi-line string.
 

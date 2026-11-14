@@ -19,18 +19,18 @@ export type GetStoryArcsForASpecificCharacterRequest = {
    */
   q?: string | undefined;
   /**
-   * Number of results per page (max 50).
+   * Results per page (max 50).
    */
   limit?: number | undefined;
   /**
-   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.
+   * Page number; meta.last_page says where the list ends.
+   */
+  page?: number | undefined;
+  /**
+   * Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes.
    */
   languages?: string | undefined;
 };
-
-export type GetStoryArcsForASpecificCharacterNameI18n = {};
-
-export type GetStoryArcsForASpecificCharacterAliasesI18n = {};
 
 export type GetStoryArcsForASpecificCharacterImages = {
   coverSm?: string | undefined;
@@ -38,33 +38,74 @@ export type GetStoryArcsForASpecificCharacterImages = {
   coverLg?: string | undefined;
 };
 
+export type GetStoryArcsForASpecificCharacterNameI18n = {
+  value: string;
+  source: string;
+  reading?: string | undefined;
+  sort?: string | undefined;
+};
+
 export type GetStoryArcsForASpecificCharacterData = {
-  id?: number | undefined;
-  name?: string | undefined;
-  nameI18n?: GetStoryArcsForASpecificCharacterNameI18n | undefined;
-  aliasesI18n?: GetStoryArcsForASpecificCharacterAliasesI18n | undefined;
-  originalLocale?: string | undefined;
-  slug?: string | undefined;
-  type?: string | undefined;
-  status?: string | undefined;
-  imageUrl?: string | undefined;
-  images?: GetStoryArcsForASpecificCharacterImages | undefined;
-  issuesCount?: number | undefined;
+  id: number;
+  name: string | null;
+  slug: string | null;
+  /**
+   * main_story, side_story, tie_in_arc, mini_series_arc, crossover_event, prelude, epilogue or other.
+   */
+  type: string | null;
+  /**
+   * active, ended, upcoming or cancelled.
+   */
+  status: string | null;
+  imageUrl: string | null;
+  images: GetStoryArcsForASpecificCharacterImages | null;
+  issuesCount: number | null;
+  /**
+   * One name per language, keyed by BCP 47 tag.
+   */
+  nameI18n: { [k: string]: GetStoryArcsForASpecificCharacterNameI18n };
+  /**
+   * Alternative names per language.
+   */
+  aliasesI18n: { [k: string]: Array<string> };
+  /**
+   * The language the story arc is from, a BCP 47 tag.
+   */
+  originalLocale: string | null;
+};
+
+export type GetStoryArcsForASpecificCharacterLinks = {
+  first: string;
+  last: string;
+  prev: string | null;
+  next: string | null;
+};
+
+export type GetStoryArcsForASpecificCharacterLink = {
+  url: string | null;
+  label: string;
+  page?: number | null | undefined;
+  active: boolean;
 };
 
 export type GetStoryArcsForASpecificCharacterMeta = {
-  currentPage?: number | undefined;
-  lastPage?: number | undefined;
-  perPage?: number | undefined;
-  total?: number | undefined;
+  currentPage: number;
+  from: number | null;
+  lastPage: number;
+  links: Array<GetStoryArcsForASpecificCharacterLink>;
+  path: string;
+  perPage: number;
+  to: number | null;
+  total: number;
 };
 
 /**
  * Success
  */
 export type GetStoryArcsForASpecificCharacterResponseBody = {
-  data?: Array<GetStoryArcsForASpecificCharacterData> | undefined;
-  meta?: GetStoryArcsForASpecificCharacterMeta | undefined;
+  data: Array<GetStoryArcsForASpecificCharacterData>;
+  links: GetStoryArcsForASpecificCharacterLinks;
+  meta: GetStoryArcsForASpecificCharacterMeta;
 };
 
 export type GetStoryArcsForASpecificCharacterResponse = {
@@ -77,6 +118,7 @@ export type GetStoryArcsForASpecificCharacterRequest$Outbound = {
   character_id: number;
   q?: string | undefined;
   limit?: number | undefined;
+  page?: number | undefined;
   languages?: string | undefined;
 };
 
@@ -90,6 +132,7 @@ export const GetStoryArcsForASpecificCharacterRequest$outboundSchema:
       characterId: z.int(),
       q: z.optional(z.string()),
       limit: z.optional(z.int()),
+      page: z.optional(z.int()),
       languages: z.optional(z.string()),
     }),
     z.transform((v) => {
@@ -107,49 +150,6 @@ export function getStoryArcsForASpecificCharacterRequestToJSON(
     GetStoryArcsForASpecificCharacterRequest$outboundSchema.parse(
       getStoryArcsForASpecificCharacterRequest,
     ),
-  );
-}
-
-/** @internal */
-export const GetStoryArcsForASpecificCharacterNameI18n$inboundSchema:
-  z.ZodMiniType<GetStoryArcsForASpecificCharacterNameI18n, unknown> = z.object(
-    {},
-  );
-
-export function getStoryArcsForASpecificCharacterNameI18nFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  GetStoryArcsForASpecificCharacterNameI18n,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      GetStoryArcsForASpecificCharacterNameI18n$inboundSchema.parse(
-        JSON.parse(x),
-      ),
-    `Failed to parse 'GetStoryArcsForASpecificCharacterNameI18n' from JSON`,
-  );
-}
-
-/** @internal */
-export const GetStoryArcsForASpecificCharacterAliasesI18n$inboundSchema:
-  z.ZodMiniType<GetStoryArcsForASpecificCharacterAliasesI18n, unknown> = z
-    .object({});
-
-export function getStoryArcsForASpecificCharacterAliasesI18nFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  GetStoryArcsForASpecificCharacterAliasesI18n,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      GetStoryArcsForASpecificCharacterAliasesI18n$inboundSchema.parse(
-        JSON.parse(x),
-      ),
-    `Failed to parse 'GetStoryArcsForASpecificCharacterAliasesI18n' from JSON`,
   );
 }
 
@@ -187,36 +187,60 @@ export function getStoryArcsForASpecificCharacterImagesFromJSON(
 }
 
 /** @internal */
+export const GetStoryArcsForASpecificCharacterNameI18n$inboundSchema:
+  z.ZodMiniType<GetStoryArcsForASpecificCharacterNameI18n, unknown> = z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  });
+
+export function getStoryArcsForASpecificCharacterNameI18nFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  GetStoryArcsForASpecificCharacterNameI18n,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      GetStoryArcsForASpecificCharacterNameI18n$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'GetStoryArcsForASpecificCharacterNameI18n' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetStoryArcsForASpecificCharacterData$inboundSchema: z.ZodMiniType<
   GetStoryArcsForASpecificCharacterData,
   unknown
 > = z.pipe(
   z.object({
-    id: types.optional(types.number()),
-    name: types.optional(types.string()),
-    name_i18n: types.optional(
-      z.lazy(() => GetStoryArcsForASpecificCharacterNameI18n$inboundSchema),
-    ),
-    aliases_i18n: types.optional(
-      z.lazy(() => GetStoryArcsForASpecificCharacterAliasesI18n$inboundSchema),
-    ),
-    original_locale: types.optional(types.string()),
-    slug: types.optional(types.string()),
-    type: types.optional(types.string()),
-    status: types.optional(types.string()),
-    image_url: types.optional(types.string()),
-    images: types.optional(
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    type: types.nullable(types.string()),
+    status: types.nullable(types.string()),
+    image_url: types.nullable(types.string()),
+    images: types.nullable(
       z.lazy(() => GetStoryArcsForASpecificCharacterImages$inboundSchema),
     ),
-    issues_count: types.optional(types.number()),
+    issues_count: types.nullable(types.number()),
+    name_i18n: z.record(
+      z.string(),
+      z.lazy(() => GetStoryArcsForASpecificCharacterNameI18n$inboundSchema),
+    ),
+    aliases_i18n: z.record(z.string(), z.array(types.string())),
+    original_locale: types.nullable(types.string()),
   }),
   z.transform((v) => {
     return remap$(v, {
+      "image_url": "imageUrl",
+      "issues_count": "issuesCount",
       "name_i18n": "nameI18n",
       "aliases_i18n": "aliasesI18n",
       "original_locale": "originalLocale",
-      "image_url": "imageUrl",
-      "issues_count": "issuesCount",
     });
   }),
 );
@@ -233,15 +257,63 @@ export function getStoryArcsForASpecificCharacterDataFromJSON(
 }
 
 /** @internal */
+export const GetStoryArcsForASpecificCharacterLinks$inboundSchema:
+  z.ZodMiniType<GetStoryArcsForASpecificCharacterLinks, unknown> = z.object({
+    first: types.string(),
+    last: types.string(),
+    prev: types.nullable(types.string()),
+    next: types.nullable(types.string()),
+  });
+
+export function getStoryArcsForASpecificCharacterLinksFromJSON(
+  jsonString: string,
+): SafeParseResult<GetStoryArcsForASpecificCharacterLinks, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      GetStoryArcsForASpecificCharacterLinks$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetStoryArcsForASpecificCharacterLinks' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetStoryArcsForASpecificCharacterLink$inboundSchema: z.ZodMiniType<
+  GetStoryArcsForASpecificCharacterLink,
+  unknown
+> = z.object({
+  url: types.nullable(types.string()),
+  label: types.string(),
+  page: z.optional(z.nullable(types.number())),
+  active: types.boolean(),
+});
+
+export function getStoryArcsForASpecificCharacterLinkFromJSON(
+  jsonString: string,
+): SafeParseResult<GetStoryArcsForASpecificCharacterLink, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      GetStoryArcsForASpecificCharacterLink$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetStoryArcsForASpecificCharacterLink' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetStoryArcsForASpecificCharacterMeta$inboundSchema: z.ZodMiniType<
   GetStoryArcsForASpecificCharacterMeta,
   unknown
 > = z.pipe(
   z.object({
-    current_page: types.optional(types.number()),
-    last_page: types.optional(types.number()),
-    per_page: types.optional(types.number()),
-    total: types.optional(types.number()),
+    current_page: types.number(),
+    from: types.nullable(types.number()),
+    last_page: types.number(),
+    links: z.array(
+      z.lazy(() => GetStoryArcsForASpecificCharacterLink$inboundSchema),
+    ),
+    path: types.string(),
+    per_page: types.number(),
+    to: types.nullable(types.number()),
+    total: types.number(),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -267,14 +339,11 @@ export function getStoryArcsForASpecificCharacterMetaFromJSON(
 export const GetStoryArcsForASpecificCharacterResponseBody$inboundSchema:
   z.ZodMiniType<GetStoryArcsForASpecificCharacterResponseBody, unknown> = z
     .object({
-      data: types.optional(
-        z.array(
-          z.lazy(() => GetStoryArcsForASpecificCharacterData$inboundSchema),
-        ),
+      data: z.array(
+        z.lazy(() => GetStoryArcsForASpecificCharacterData$inboundSchema),
       ),
-      meta: types.optional(
-        z.lazy(() => GetStoryArcsForASpecificCharacterMeta$inboundSchema),
-      ),
+      links: z.lazy(() => GetStoryArcsForASpecificCharacterLinks$inboundSchema),
+      meta: z.lazy(() => GetStoryArcsForASpecificCharacterMeta$inboundSchema),
     });
 
 export function getStoryArcsForASpecificCharacterResponseBodyFromJSON(

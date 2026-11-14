@@ -7,30 +7,77 @@ import { GetCharacterSeriesResponse } from "@versedbcom/sdk/models/operations";
 
 let value: GetCharacterSeriesResponse = {
   headers: {
-    "key": [
-      "<value 1>",
-    ],
-    "key1": [],
+    "key": [],
   },
   result: {
     data: [
       {
         id: 123,
-        name: "Amazing Spider-Man",
-        nameI18n: {},
-        aliasesI18n: {},
-        originalLocale: "en",
+        titleId: 1,
+        name: "The Amazing Spider-Man",
+        displayName: "The Amazing Spider-Man (2018)",
         slug: "amazing-spider-man-2018",
+        number: 6,
         startYear: 2018,
         endYear: 2022,
-        imageUrl: "https://...",
+        coverUrl: "https://...-cover_lg.webp",
+        images: {
+          coverSm: "https://...-cover_sm.webp",
+          coverMd: "https://...-cover_md.webp",
+          coverLg: "https://...-cover_lg.webp",
+        },
+        medium: "comic",
+        publicationType: "regular_series",
+        format: "Standard",
+        status: "Ongoing",
+        originalName: "The Amazing Spider-Man",
+        originalLanguage: "en",
+        language: "en",
+        cachedIssuesCount: 94,
+        averageRating: "4.25",
+        totalReviews: 12,
+        issuesAverageRating: "4.10",
+        issuesRatedCount: 40,
+        contentRatingLabel: "Teen",
+        minAge: 13,
+        isNsfw: false,
+        publisherName: "Marvel",
+        nameI18n: {
+          "ja": {
+            value: "講談社",
+            source: "madb",
+            reading: "こうだんしゃ",
+          },
+        },
+        aliasesI18n: {
+          "en": [
+            "Kodansha Comics",
+          ],
+        },
+        originalLocale: "ja",
       },
     ],
+    links: {
+      first: "<value>",
+      last: "<value>",
+      prev: "<value>",
+      next: "<value>",
+    },
     meta: {
       currentPage: 1,
-      lastPage: 5,
+      from: 1,
+      lastPage: 25,
+      links: [
+        {
+          url: "https://steel-case.name/",
+          label: "<value>",
+          active: false,
+        },
+      ],
+      path: "/opt/bin",
       perPage: 20,
-      total: 100,
+      to: 20,
+      total: 500,
     },
   },
 };
@@ -38,7 +85,7 @@ let value: GetCharacterSeriesResponse = {
 
 ## Fields
 
-| Field                                                                                                                                                                                                                                                                                                       | Type                                                                                                                                                                                                                                                                                                        | Required                                                                                                                                                                                                                                                                                                    | Description                                                                                                                                                                                                                                                                                                 | Example                                                                                                                                                                                                                                                                                                     |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `headers`                                                                                                                                                                                                                                                                                                   | Record<string, *string*[]>                                                                                                                                                                                                                                                                                  | :heavy_check_mark:                                                                                                                                                                                                                                                                                          | N/A                                                                                                                                                                                                                                                                                                         |                                                                                                                                                                                                                                                                                                             |
-| `result`                                                                                                                                                                                                                                                                                                    | [operations.GetCharacterSeriesResponseBody](../../models/operations/get-character-series-response-body.md)                                                                                                                                                                                                  | :heavy_check_mark:                                                                                                                                                                                                                                                                                          | N/A                                                                                                                                                                                                                                                                                                         | {<br/>"data": [<br/>{<br/>"id": 123,<br/>"name": "Amazing Spider-Man",<br/>"name_i18n": {},<br/>"aliases_i18n": {},<br/>"original_locale": "en",<br/>"slug": "amazing-spider-man-2018",<br/>"start_year": 2018,<br/>"end_year": 2022,<br/>"image_url": "https://..."<br/>}<br/>],<br/>"meta": {<br/>"current_page": 1,<br/>"last_page": 5,<br/>"per_page": 20,<br/>"total": 100<br/>}<br/>} |
+| Field                                                                                                      | Type                                                                                                       | Required                                                                                                   | Description                                                                                                |
+| ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `headers`                                                                                                  | Record<string, *string*[]>                                                                                 | :heavy_check_mark:                                                                                         | N/A                                                                                                        |
+| `result`                                                                                                   | [operations.GetCharacterSeriesResponseBody](../../models/operations/get-character-series-response-body.md) | :heavy_check_mark:                                                                                         | N/A                                                                                                        |

@@ -64,23 +64,6 @@ export class StoryArcs extends ClientSDK {
   }
 
   /**
-   * Get story arcs for a specific universe
-   *
-   * @remarks
-   * Returns every story arc that takes place in the given universe.
-   */
-  async getStoryArcsForASpecificUniverse(
-    request: operations.GetStoryArcsForASpecificUniverseRequest,
-    options?: RequestOptions,
-  ): Promise<operations.GetStoryArcsForASpecificUniverseResponse> {
-    return unwrapAsync(storyArcsGetStoryArcsForASpecificUniverse(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
    * Get story arcs for a specific character
    *
    * @remarks
@@ -91,6 +74,23 @@ export class StoryArcs extends ClientSDK {
     options?: RequestOptions,
   ): Promise<operations.GetStoryArcsForASpecificCharacterResponse> {
     return unwrapAsync(storyArcsGetStoryArcsForASpecificCharacter(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Get story arcs for a specific universe
+   *
+   * @remarks
+   * Returns every story arc that takes place in the given universe.
+   */
+  async getStoryArcsForASpecificUniverse(
+    request: operations.GetStoryArcsForASpecificUniverseRequest,
+    options?: RequestOptions,
+  ): Promise<operations.GetStoryArcsForASpecificUniverseResponse> {
+    return unwrapAsync(storyArcsGetStoryArcsForASpecificUniverse(
       this,
       request,
       options,

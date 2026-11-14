@@ -50,7 +50,7 @@ export class Characters extends ClientSDK {
    * Get character series.
    *
    * @remarks
-   * Returns paginated series where the character appears.
+   * Returns paginated series where the character appears, newest start year first.
    */
   async getCharacterSeries(
     request: operations.GetCharacterSeriesRequest,
@@ -84,7 +84,7 @@ export class Characters extends ClientSDK {
    * Get character teams.
    *
    * @remarks
-   * Returns paginated teams the character is a member of, including membership details.
+   * Returns paginated teams the character is a member of, by name.
    */
   async getCharacterTeams(
     request: operations.GetCharacterTeamsRequest,

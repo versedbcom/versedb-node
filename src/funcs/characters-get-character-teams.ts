@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * Get character teams.
  *
  * @remarks
- * Returns paginated teams the character is a member of, including membership details.
+ * Returns paginated teams the character is a member of, by name.
  */
 export function charactersGetCharacterTeams(
   client: VerseDBCore,
@@ -41,6 +41,8 @@ export function charactersGetCharacterTeams(
   Result<
     operations.GetCharacterTeamsResponse,
     | errors.UnauthorizedErrorError
+    | errors.GetCharacterTeamsForbiddenError
+    | errors.GetCharacterTeamsNotFoundError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -68,6 +70,8 @@ async function $do(
     Result<
       operations.GetCharacterTeamsResponse,
       | errors.UnauthorizedErrorError
+      | errors.GetCharacterTeamsForbiddenError
+      | errors.GetCharacterTeamsNotFoundError
       | errors.TooManyRequestsError
       | VerseDbError
       | ResponseValidationError
@@ -106,6 +110,7 @@ async function $do(
   const query = encodeFormQuery({
     "languages": payload.languages,
     "limit": payload.limit,
+    "page": payload.page,
     "q": payload.q,
   });
 
@@ -167,6 +172,8 @@ async function $do(
   const [result] = await M.match<
     operations.GetCharacterTeamsResponse,
     | errors.UnauthorizedErrorError
+    | errors.GetCharacterTeamsForbiddenError
+    | errors.GetCharacterTeamsNotFoundError
     | errors.TooManyRequestsError
     | VerseDbError
     | ResponseValidationError
@@ -182,6 +189,8 @@ async function $do(
       key: "Result",
     }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
+    M.jsonErr(403, errors.GetCharacterTeamsForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.GetCharacterTeamsNotFoundError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema, { hdrs: true }),
     M.fail("4XX"),
     M.fail("5XX"),

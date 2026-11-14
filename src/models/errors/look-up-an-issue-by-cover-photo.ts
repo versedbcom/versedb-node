@@ -34,7 +34,7 @@ export class ServiceUnavailableError extends VerseDbError {
 }
 
 /**
- * No photo, not an image, not one of the listed types, or over 5MB.
+ * No photo, not an image, not one of the listed types, over 5MB, or sent as a part with no file name, which is read as text.
  */
 export type LookUpAnIssueByCoverPhotoUnprocessableEntityErrorData = {
   message: string;
@@ -42,7 +42,7 @@ export type LookUpAnIssueByCoverPhotoUnprocessableEntityErrorData = {
 };
 
 /**
- * No photo, not an image, not one of the listed types, or over 5MB.
+ * No photo, not an image, not one of the listed types, over 5MB, or sent as a part with no file name, which is read as text.
  */
 export class LookUpAnIssueByCoverPhotoUnprocessableEntityError
   extends VerseDbError
