@@ -88,6 +88,22 @@ let value: ListPullListData = {
       },
     },
   },
+  nextIssueCovers: [
+    {
+      variantId: 789,
+      code: "B",
+      name: "Cover B Jock Variant",
+      type: "cover_variant",
+      ratio: "1:25",
+      kind: "regular",
+      images: null,
+      price: "4.99",
+      priceFromIssue: true,
+      currency: "USD",
+      coverNsfw: false,
+    },
+  ],
+  nextIssueVariantCount: 2,
   series: null,
 };
 ```
@@ -122,4 +138,6 @@ let value: ListPullListData = {
 | `publisherName`                                                                   | *string*                                                                          | :heavy_check_mark:                                                                | N/A                                                                               | Marvel                                                                            |
 | `isNsfw`                                                                          | *boolean*                                                                         | :heavy_check_mark:                                                                | N/A                                                                               |                                                                                   |
 | `nextIssue`                                                                       | [operations.NextIssue](../../models/operations/next-issue.md)                     | :heavy_check_mark:                                                                | The series' next issue released today or later that the member hasn't skipped.    |                                                                                   |
+| `nextIssueCovers`                                                                 | [operations.NextIssueCover](../../models/operations/next-issue-cover.md)[]        | :heavy_minus_sign:                                                                | Left out for a `read:showcase` token.                                             |                                                                                   |
+| `nextIssueVariantCount`                                                           | *number*                                                                          | :heavy_minus_sign:                                                                | Left out for a `read:showcase` token.                                             | 2                                                                                 |
 | `series`                                                                          | [operations.ListPullListSeries](../../models/operations/list-pull-list-series.md) | :heavy_check_mark:                                                                | Null once the series is gone.                                                     |                                                                                   |

@@ -5,6 +5,8 @@
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
 import { safeParse } from "../../lib/schemas.js";
+import * as openEnums from "../../types/enums.js";
+import { OpenEnum } from "../../types/enums.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { smartUnion } from "../../types/smart-union.js";
@@ -96,6 +98,64 @@ export type NextIssue = {
    * One name per language, keyed by BCP 47 tag.
    */
   nameI18n: { [k: string]: NextIssueNameI18n };
+};
+
+/**
+ * `ratio` for an incentive or ratio variant, or any variant with a ratio; `exclusive` for a convention or retailer exclusive; `regular` for the rest and for the main cover.
+ */
+export const ListPullListKind = {
+  Regular: "regular",
+  Ratio: "ratio",
+  Exclusive: "exclusive",
+} as const;
+/**
+ * `ratio` for an incentive or ratio variant, or any variant with a ratio; `exclusive` for a convention or retailer exclusive; `regular` for the rest and for the main cover.
+ */
+export type ListPullListKind = OpenEnum<typeof ListPullListKind>;
+
+export type NextIssueCoverImages = {
+  thumb?: string | undefined;
+  coverSm?: string | undefined;
+  coverMd?: string | undefined;
+  coverLg?: string | undefined;
+};
+
+export type NextIssueCover = {
+  /**
+   * The variant's ID; null for the main cover, the issue's standard cover.
+   */
+  variantId: number | null;
+  /**
+   * The letter the variant's name starts with ("B" for "Cover B Jock Variant"); null for the main cover and unlettered variants.
+   */
+  code: string | null;
+  /**
+   * The variant's name; null for the main cover.
+   */
+  name: string | null;
+  type: string | null;
+  /**
+   * The ratio a shop orders to get the cover, when the catalog has one.
+   */
+  ratio: string | null;
+  /**
+   * `ratio` for an incentive or ratio variant, or any variant with a ratio; `exclusive` for a convention or retailer exclusive; `regular` for the rest and for the main cover.
+   */
+  kind: ListPullListKind;
+  images: NextIssueCoverImages | null;
+  /**
+   * The cover's price. A regular variant with none listed carries the issue's; a ratio or exclusive cover with none has null, since the shop sets it.
+   */
+  price: string | null;
+  /**
+   * True when `price` is the issue's, for a regular variant with no price of its own.
+   */
+  priceFromIssue: boolean;
+  /**
+   * The price's currency code; null for an untagged price.
+   */
+  currency: string | null;
+  coverNsfw: boolean;
 };
 
 export type ListPullListSeriesImages = {
@@ -231,6 +291,14 @@ export type ListPullListData = {
    * The series' next issue released today or later that the member hasn't skipped.
    */
   nextIssue: NextIssue | null;
+  /**
+   * Left out for a `read:showcase` token.
+   */
+  nextIssueCovers?: Array<NextIssueCover> | undefined;
+  /**
+   * Left out for a `read:showcase` token.
+   */
+  nextIssueVariantCount?: number | undefined;
   /**
    * Null once the series is gone.
    */
@@ -507,6 +575,79 @@ export function nextIssueFromJSON(
 }
 
 /** @internal */
+export const ListPullListKind$inboundSchema: z.ZodMiniType<
+  ListPullListKind,
+  unknown
+> = openEnums.inboundSchema(ListPullListKind);
+
+/** @internal */
+export const NextIssueCoverImages$inboundSchema: z.ZodMiniType<
+  NextIssueCoverImages,
+  unknown
+> = z.pipe(
+  z.object({
+    thumb: types.optional(types.string()),
+    cover_sm: types.optional(types.string()),
+    cover_md: types.optional(types.string()),
+    cover_lg: types.optional(types.string()),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "cover_sm": "coverSm",
+      "cover_md": "coverMd",
+      "cover_lg": "coverLg",
+    });
+  }),
+);
+
+export function nextIssueCoverImagesFromJSON(
+  jsonString: string,
+): SafeParseResult<NextIssueCoverImages, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => NextIssueCoverImages$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'NextIssueCoverImages' from JSON`,
+  );
+}
+
+/** @internal */
+export const NextIssueCover$inboundSchema: z.ZodMiniType<
+  NextIssueCover,
+  unknown
+> = z.pipe(
+  z.object({
+    variant_id: types.nullable(types.number()),
+    code: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    type: types.nullable(types.string()),
+    ratio: types.nullable(types.string()),
+    kind: ListPullListKind$inboundSchema,
+    images: types.nullable(z.lazy(() => NextIssueCoverImages$inboundSchema)),
+    price: types.nullable(types.string()),
+    price_from_issue: types.boolean(),
+    currency: types.nullable(types.string()),
+    cover_nsfw: types.boolean(),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "variant_id": "variantId",
+      "price_from_issue": "priceFromIssue",
+      "cover_nsfw": "coverNsfw",
+    });
+  }),
+);
+
+export function nextIssueCoverFromJSON(
+  jsonString: string,
+): SafeParseResult<NextIssueCover, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => NextIssueCover$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'NextIssueCover' from JSON`,
+  );
+}
+
+/** @internal */
 export const ListPullListSeriesImages$inboundSchema: z.ZodMiniType<
   ListPullListSeriesImages,
   unknown
@@ -674,6 +815,10 @@ export const ListPullListData$inboundSchema: z.ZodMiniType<
     publisher_name: types.nullable(types.string()),
     is_nsfw: types.boolean(),
     next_issue: types.nullable(z.lazy(() => NextIssue$inboundSchema)),
+    next_issue_covers: types.optional(
+      z.array(z.lazy(() => NextIssueCover$inboundSchema)),
+    ),
+    next_issue_variant_count: types.optional(types.number()),
     series: types.nullable(z.lazy(() => ListPullListSeries$inboundSchema)),
   }),
   z.transform((v) => {
@@ -702,6 +847,8 @@ export const ListPullListData$inboundSchema: z.ZodMiniType<
       "publisher_name": "publisherName",
       "is_nsfw": "isNsfw",
       "next_issue": "nextIssue",
+      "next_issue_covers": "nextIssueCovers",
+      "next_issue_variant_count": "nextIssueVariantCount",
     });
   }),
 );

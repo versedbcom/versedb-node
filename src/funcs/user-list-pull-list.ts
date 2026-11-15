@@ -35,7 +35,7 @@ import { Result } from "../types/fp.js";
  *
  * Needs `read:user` or `read:showcase`. A `read:showcase` token gets each entry without
  * `personal_notes`, `notify_on_release`, `notification_settings`, `auto_pull`,
- * `last_pulled_at`, `preferred_cover_type`, `pull_priority` or the pull source fields.
+ * `last_pulled_at`, `preferred_cover_type`, `pull_priority`, the pull source fields or the next issue's covers.
  */
 export function userListPullList(
   client: VerseDBCore,

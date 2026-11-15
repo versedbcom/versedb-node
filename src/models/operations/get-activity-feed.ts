@@ -72,6 +72,10 @@ export type GetActivityFeedData2 = {
    * The first 100 characters of the review.
    */
   contentPreview: string | null;
+  /**
+   * The review's language as a BCP 47 primary subtag (`en`, `es`, `ja`), `und` when it could not be told or the review has no text, or null until it is detected.
+   */
+  language: string | null;
   coverUrl: string | null;
 };
 
@@ -209,6 +213,7 @@ export const GetActivityFeedData2$inboundSchema: z.ZodMiniType<
     series_start_year: types.nullable(types.number()),
     rating: types.nullable(types.string()),
     content_preview: types.nullable(types.string()),
+    language: types.nullable(types.string()),
     cover_url: types.nullable(types.string()),
   }),
   z.transform((v) => {

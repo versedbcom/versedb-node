@@ -30,6 +30,7 @@ const value: operations.GetActivityFeedData2 = {
   rating: "4.5",
   contentPreview:
     "A strong anniversary issue that pays off years of buildup...",
+  language: "en",
   coverUrl:
     "https://r2.versedb.com/uploads/issues/asm-5432/asm-5432-cover_md.webp",
 };

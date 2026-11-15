@@ -18,6 +18,8 @@ All endpoints in this group require authentication with a Bearer API token.
 * [listCollection](#listcollection) - List collection.
 * [checkIssueInCollection](#checkissueincollection) - Check issue in collection.
 * [listPullList](#listpulllist) - List pull list.
+* [getPullListIssueCovers](#getpulllistissuecovers) - Get the covers of a pull list issue.
+* [setPullListIssueCovers](#setpulllistissuecovers) - Set the covers of a pull list issue.
 * [markAsRead](#markasread) - Mark as read.
 * [markAsUnread](#markasunread) - Mark as unread.
 * [editReadingDate](#editreadingdate) - Edit reading date.
@@ -724,7 +726,7 @@ Returns all series on the user's pull list (series they're tracking for new rele
 
 Needs `read:user` or `read:showcase`. A `read:showcase` token gets each entry without
 `personal_notes`, `notify_on_release`, `notification_settings`, `auto_pull`,
-`last_pulled_at`, `preferred_cover_type`, `pull_priority` or the pull source fields.
+`last_pulled_at`, `preferred_cover_type`, `pull_priority`, the pull source fields or the next issue's covers.
 
 ### Example Usage
 
@@ -801,6 +803,175 @@ run();
 | errors.ListPullListForbiddenError | 403                               | application/json                  |
 | errors.TooManyRequestsError       | 429                               | application/json                  |
 | errors.VerseDbDefaultError        | 4XX, 5XX                          | \*/\*                             |
+
+## getPullListIssueCovers
+
+Returns the covers of one issue of a series on the user's pull list: the main cover (the standard cover), then each variant, regular covers first, then ratio covers, then exclusives, each marked `selected` when the user is getting it. A user who has chosen nothing is getting the main cover.
+
+Needs `read:user`.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="getPullListIssueCovers" method="get" path="/api/v1/pull-list/issues/{issue_id}/covers" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.user.getPullListIssueCovers({
+    issueId: 5432,
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { userGetPullListIssueCovers } from "@versedbcom/sdk/funcs/user-get-pull-list-issue-covers.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await userGetPullListIssueCovers(verseDB, {
+    issueId: 5432,
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("userGetPullListIssueCovers failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.GetPullListIssueCoversRequest](../../models/operations/get-pull-list-issue-covers-request.md)                                                                      | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.GetPullListIssueCoversResponse](../../models/operations/get-pull-list-issue-covers-response.md)\>**
+
+### Errors
+
+| Error Type                                  | Status Code                                 | Content Type                                |
+| ------------------------------------------- | ------------------------------------------- | ------------------------------------------- |
+| errors.UnauthorizedErrorError               | 401                                         | application/json                            |
+| errors.GetPullListIssueCoversForbiddenError | 403                                         | application/json                            |
+| errors.GetPullListIssueCoversNotFoundError  | 404                                         | application/json                            |
+| errors.TooManyRequestsError                 | 429                                         | application/json                            |
+| errors.VerseDbDefaultError                  | 4XX, 5XX                                    | \*/\*                                       |
+
+## setPullListIssueCovers
+
+Sets which covers of one issue the user is getting, replacing any earlier choice for that issue. Only variants of that issue count. `standard` alone goes back to the main cover. Saving also takes the issue out of the user's skipped issues.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="setPullListIssueCovers" method="put" path="/api/v1/pull-list/issues/{issue_id}/covers" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.user.setPullListIssueCovers({
+    issueId: 5432,
+    body: {
+      standard: true,
+      variantIds: [
+        789,
+      ],
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { userSetPullListIssueCovers } from "@versedbcom/sdk/funcs/user-set-pull-list-issue-covers.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await userSetPullListIssueCovers(verseDB, {
+    issueId: 5432,
+    body: {
+      standard: true,
+      variantIds: [
+        789,
+      ],
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("userSetPullListIssueCovers failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.SetPullListIssueCoversRequest](../../models/operations/set-pull-list-issue-covers-request.md)                                                                      | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.SetPullListIssueCoversResponse](../../models/operations/set-pull-list-issue-covers-response.md)\>**
+
+### Errors
+
+| Error Type                                            | Status Code                                           | Content Type                                          |
+| ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
+| errors.UnauthorizedErrorError                         | 401                                                   | application/json                                      |
+| errors.SetPullListIssueCoversForbiddenError           | 403                                                   | application/json                                      |
+| errors.SetPullListIssueCoversNotFoundError            | 404                                                   | application/json                                      |
+| errors.SetPullListIssueCoversUnprocessableEntityError | 422                                                   | application/json                                      |
+| errors.TooManyRequestsError                           | 429                                                   | application/json                                      |
+| errors.VerseDbDefaultError                            | 4XX, 5XX                                              | \*/\*                                                 |
 
 ## markAsRead
 

@@ -10,6 +10,7 @@ import { userCheckIssueInCollection } from "../funcs/user-check-issue-in-collect
 import { userEditReadingDate } from "../funcs/user-edit-reading-date.js";
 import { userFollowContent } from "../funcs/user-follow-content.js";
 import { userGetActivityFeed } from "../funcs/user-get-activity-feed.js";
+import { userGetPullListIssueCovers } from "../funcs/user-get-pull-list-issue-covers.js";
 import { userGetTheAuthenticatedUser } from "../funcs/user-get-the-authenticated-user.js";
 import { userLendACopyOut } from "../funcs/user-lend-a-copy-out.js";
 import { userListCollection } from "../funcs/user-list-collection.js";
@@ -23,6 +24,7 @@ import { userMarkTheCopysOpenLoanReturned } from "../funcs/user-mark-the-copys-o
 import { userRemoveFromPullList } from "../funcs/user-remove-from-pull-list.js";
 import { userRemoveFromWishlist } from "../funcs/user-remove-from-wishlist.js";
 import { userRemoveIssueFromCollection } from "../funcs/user-remove-issue-from-collection.js";
+import { userSetPullListIssueCovers } from "../funcs/user-set-pull-list-issue-covers.js";
 import { userUnfollowContent } from "../funcs/user-unfollow-content.js";
 import { userUpdateCollectionItem } from "../funcs/user-update-collection-item.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
@@ -198,13 +200,49 @@ export class User extends ClientSDK {
    *
    * Needs `read:user` or `read:showcase`. A `read:showcase` token gets each entry without
    * `personal_notes`, `notify_on_release`, `notification_settings`, `auto_pull`,
-   * `last_pulled_at`, `preferred_cover_type`, `pull_priority` or the pull source fields.
+   * `last_pulled_at`, `preferred_cover_type`, `pull_priority`, the pull source fields or the next issue's covers.
    */
   async listPullList(
     request?: operations.ListPullListRequest | undefined,
     options?: RequestOptions,
   ): Promise<operations.ListPullListResponse> {
     return unwrapAsync(userListPullList(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Get the covers of a pull list issue.
+   *
+   * @remarks
+   * Returns the covers of one issue of a series on the user's pull list: the main cover (the standard cover), then each variant, regular covers first, then ratio covers, then exclusives, each marked `selected` when the user is getting it. A user who has chosen nothing is getting the main cover.
+   *
+   * Needs `read:user`.
+   */
+  async getPullListIssueCovers(
+    request: operations.GetPullListIssueCoversRequest,
+    options?: RequestOptions,
+  ): Promise<operations.GetPullListIssueCoversResponse> {
+    return unwrapAsync(userGetPullListIssueCovers(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Set the covers of a pull list issue.
+   *
+   * @remarks
+   * Sets which covers of one issue the user is getting, replacing any earlier choice for that issue. Only variants of that issue count. `standard` alone goes back to the main cover. Saving also takes the issue out of the user's skipped issues.
+   */
+  async setPullListIssueCovers(
+    request: operations.SetPullListIssueCoversRequest,
+    options?: RequestOptions,
+  ): Promise<operations.SetPullListIssueCoversResponse> {
+    return unwrapAsync(userSetPullListIssueCovers(
       this,
       request,
       options,
