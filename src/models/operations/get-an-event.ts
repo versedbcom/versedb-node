@@ -146,6 +146,14 @@ export type IssueVariant = {
   currencyCode: string | null;
   formattedPrice: string | null;
   ean: string | null;
+  /**
+   * How many copies of this cover were printed. Null when no source states it.
+   */
+  printRun: number | null;
+  /**
+   * The letter the cover is listed under, one to three capitals (A, B, AA). Null where covers are not lettered.
+   */
+  coverLetter: string | null;
   isNsfw: boolean | null;
   /**
    * One name per language, keyed by BCP 47 tag.
@@ -716,6 +724,8 @@ export const IssueVariant$inboundSchema: z.ZodMiniType<IssueVariant, unknown> =
       currency_code: types.nullable(types.string()),
       formatted_price: types.nullable(types.string()),
       ean: types.nullable(types.string()),
+      print_run: types.nullable(types.number()),
+      cover_letter: types.nullable(types.string()),
       is_nsfw: types.nullable(types.boolean()),
       variant_name_i18n: z.record(
         z.string(),
@@ -730,6 +740,8 @@ export const IssueVariant$inboundSchema: z.ZodMiniType<IssueVariant, unknown> =
         "variant_type": "variantType",
         "currency_code": "currencyCode",
         "formatted_price": "formattedPrice",
+        "print_run": "printRun",
+        "cover_letter": "coverLetter",
         "is_nsfw": "isNsfw",
         "variant_name_i18n": "variantNameI18n",
       });

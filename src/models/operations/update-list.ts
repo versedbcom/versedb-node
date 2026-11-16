@@ -14,14 +14,14 @@ import { SDKValidationError } from "../errors/sdk-validation-error.js";
 /**
  * The list status.
  */
-export const Status = {
+export const UpdateListStatus = {
   Published: "published",
   Draft: "draft",
 } as const;
 /**
  * The list status.
  */
-export type Status = ClosedEnum<typeof Status>;
+export type UpdateListStatus = ClosedEnum<typeof UpdateListStatus>;
 
 export type UpdateListRequestBody = {
   /**
@@ -43,7 +43,7 @@ export type UpdateListRequestBody = {
   /**
    * The list status.
    */
-  status?: Status | undefined;
+  status?: UpdateListStatus | undefined;
   /**
    * Replaces the smart-list rule. Only a list built from a rule takes one, and the list is rebuilt from the new rule unless its updates are paused.
    */
@@ -292,9 +292,9 @@ export type UpdateListResponse = {
 };
 
 /** @internal */
-export const Status$outboundSchema: z.ZodMiniEnum<typeof Status> = z.enum(
-  Status,
-);
+export const UpdateListStatus$outboundSchema: z.ZodMiniEnum<
+  typeof UpdateListStatus
+> = z.enum(UpdateListStatus);
 
 /** @internal */
 export type UpdateListRequestBody$Outbound = {
@@ -316,7 +316,7 @@ export const UpdateListRequestBody$outboundSchema: z.ZodMiniType<
     description: z.optional(z.nullable(z.string())),
     isRanked: z.optional(z.boolean()),
     isPrivate: z.optional(z.boolean()),
-    status: z.optional(Status$outboundSchema),
+    status: z.optional(UpdateListStatus$outboundSchema),
     rules: z.optional(z.record(z.string(), z.any())),
   }),
   z.transform((v) => {

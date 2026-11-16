@@ -27,6 +27,7 @@ import { userRemoveIssueFromCollection } from "../funcs/user-remove-issue-from-c
 import { userSetPullListIssueCovers } from "../funcs/user-set-pull-list-issue-covers.js";
 import { userUnfollowContent } from "../funcs/user-unfollow-content.js";
 import { userUpdateCollectionItem } from "../funcs/user-update-collection-item.js";
+import { userUpdatePullListItem } from "../funcs/user-update-pull-list-item.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as operations from "../models/operations/index.js";
 import { unwrapAsync } from "../types/fp.js";
@@ -236,7 +237,7 @@ export class User extends ClientSDK {
    * Set the covers of a pull list issue.
    *
    * @remarks
-   * Sets which covers of one issue the user is getting, replacing any earlier choice for that issue. Only variants of that issue count. `standard` alone goes back to the main cover. Saving also takes the issue out of the user's skipped issues.
+   * Sets which covers of one issue the user is getting, replacing any earlier choice for that issue. Only variants of that issue count. Choosing exactly what the series' standing cover choice gives (`updatePullListItem`) clears the issue's own choice, so it follows the series again. Saving also takes the issue out of the user's skipped issues.
    */
   async setPullListIssueCovers(
     request: operations.SetPullListIssueCoversRequest,
@@ -373,10 +374,27 @@ export class User extends ClientSDK {
   }
 
   /**
+   * Update a pull list entry.
+   *
+   * @remarks
+   * Changes one series on the authenticated user's pull list: its status, notes, places, or the standing cover choice. The standing choice applies to every issue of the series the user hasn't chosen covers of (see `setPullListIssueCovers`), covers added to the catalog later included: `standard` the main cover; `standard_and_regular` the main cover and every regular cover; `regular` every regular cover without the main one, or the main cover when an issue has none. Ratio and exclusive covers are only ever chosen per issue. Send at least one field.
+   */
+  async updatePullListItem(
+    request: operations.UpdatePullListItemRequest,
+    options?: RequestOptions,
+  ): Promise<operations.UpdatePullListItemResponse> {
+    return unwrapAsync(userUpdatePullListItem(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
    * Add issue to collection.
    *
    * @remarks
-   * Adds a copy of the issue to the user's collection; every field is optional. When the issue was on the user's wishlist it comes off when the user chose that, else `was_on_wishlist` is true so the app can offer it. `follow_up` says whether to offer marking it read or reviewing it.
+   * Adds a copy of the issue to the user's collection; every field is optional. When the issue was on the user's wishlist it comes off when the user chose that, else `was_on_wishlist` is true so the app can offer it. `follow_up` says whether to offer marking it read or reviewing it. Send an `Idempotency-Key` to make a retry safe: for 14 days a repeat with the same key, user and issue answers the copy the first request added, as it is now, and adds nothing.
    */
   async addIssueToCollection(
     request: operations.AddIssueToCollectionRequest,

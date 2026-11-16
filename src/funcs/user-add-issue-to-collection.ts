@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * Add issue to collection.
  *
  * @remarks
- * Adds a copy of the issue to the user's collection; every field is optional. When the issue was on the user's wishlist it comes off when the user chose that, else `was_on_wishlist` is true so the app can offer it. `follow_up` says whether to offer marking it read or reviewing it.
+ * Adds a copy of the issue to the user's collection; every field is optional. When the issue was on the user's wishlist it comes off when the user chose that, else `was_on_wishlist` is true so the app can offer it. `follow_up` says whether to offer marking it read or reviewing it. Send an `Idempotency-Key` to make a retry safe: for 14 days a repeat with the same key, user and issue answers the copy the first request added, as it is now, and adds nothing.
  */
 export function userAddIssueToCollection(
   client: VerseDBCore,
@@ -40,9 +40,11 @@ export function userAddIssueToCollection(
 ): APIPromise<
   Result<
     operations.AddIssueToCollectionResponse,
+    | errors.AddIssueToCollectionBadRequestError
     | errors.UnauthorizedErrorError
     | errors.AddIssueToCollectionForbiddenError
     | errors.AddIssueToCollectionNotFoundError
+    | errors.AddIssueToCollectionConflictError
     | errors.AddIssueToCollectionUnprocessableEntity
     | errors.TooManyRequestsError
     | VerseDbError
@@ -70,9 +72,11 @@ async function $do(
   [
     Result<
       operations.AddIssueToCollectionResponse,
+      | errors.AddIssueToCollectionBadRequestError
       | errors.UnauthorizedErrorError
       | errors.AddIssueToCollectionForbiddenError
       | errors.AddIssueToCollectionNotFoundError
+      | errors.AddIssueToCollectionConflictError
       | errors.AddIssueToCollectionUnprocessableEntity
       | errors.TooManyRequestsError
       | VerseDbError
@@ -110,6 +114,11 @@ async function $do(
   const headers = new Headers(compactMap({
     "Content-Type": "application/json",
     Accept: "application/json",
+    "Idempotency-Key": encodeSimple(
+      "Idempotency-Key",
+      payload["Idempotency-Key"],
+      { explode: false, charEncoding: "none" },
+    ),
   }));
 
   const secConfig = await extractSecurity(client._options.token);
@@ -164,9 +173,11 @@ async function $do(
 
   const [result] = await M.match<
     operations.AddIssueToCollectionResponse,
+    | errors.AddIssueToCollectionBadRequestError
     | errors.UnauthorizedErrorError
     | errors.AddIssueToCollectionForbiddenError
     | errors.AddIssueToCollectionNotFoundError
+    | errors.AddIssueToCollectionConflictError
     | errors.AddIssueToCollectionUnprocessableEntity
     | errors.TooManyRequestsError
     | VerseDbError
@@ -182,9 +193,15 @@ async function $do(
       hdrs: true,
       key: "Result",
     }),
+    M.jsonErr(400, errors.AddIssueToCollectionBadRequestError$inboundSchema, {
+      hdrs: true,
+    }),
     M.jsonErr(401, errors.UnauthorizedErrorError$inboundSchema),
     M.jsonErr(403, errors.AddIssueToCollectionForbiddenError$inboundSchema),
     M.jsonErr(404, errors.AddIssueToCollectionNotFoundError$inboundSchema),
+    M.jsonErr(409, errors.AddIssueToCollectionConflictError$inboundSchema, {
+      hdrs: true,
+    }),
     M.jsonErr(
       422,
       errors.AddIssueToCollectionUnprocessableEntity$inboundSchema,

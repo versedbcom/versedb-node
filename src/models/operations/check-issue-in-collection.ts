@@ -5,6 +5,8 @@
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
 import { safeParse } from "../../lib/schemas.js";
+import * as openEnums from "../../types/enums.js";
+import { OpenEnum } from "../../types/enums.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -24,9 +26,30 @@ export type CheckIssueInCollectionRequest = {
   languages?: string | undefined;
 };
 
+/**
+ * Which cover the copy is of: `catalog` when `variant_id` names a live variant of the copy's issue, `custom` when it names none and the copy is flagged a variant (`is_variant`), else `main`, the issue's own cover.
+ */
+export const CopyCoverKind = {
+  Main: "main",
+  Catalog: "catalog",
+  Custom: "custom",
+} as const;
+/**
+ * Which cover the copy is of: `catalog` when `variant_id` names a live variant of the copy's issue, `custom` when it names none and the copy is flagged a variant (`is_variant`), else `main`, the issue's own cover.
+ */
+export type CopyCoverKind = OpenEnum<typeof CopyCoverKind>;
+
 export type Copy = {
   id: number;
   variantId: number | null;
+  /**
+   * Which cover the copy is of: `catalog` when `variant_id` names a live variant of the copy's issue, `custom` when it names none and the copy is flagged a variant (`is_variant`), else `main`, the issue's own cover.
+   */
+  coverKind: CopyCoverKind;
+  /**
+   * What the copy's cover is called. A copy of a catalog variant: the variant's name, or "Variant" when it has none. A variation of the member's own: their description, else its variant type, else "Variant". Null for a main cover copy.
+   */
+  variantLabel: string | null;
   condition: string | null;
   graded: boolean;
   gradeScore: string | null;
@@ -41,6 +64,41 @@ export type Copy = {
   createdAt: string | null;
   updatedAt: string | null;
 };
+
+/**
+ * The catalog variant `variant_id` names, while it is a live variant of the copy's issue; null for any other copy.
+ */
+export type CheckIssueInCollectionVariant = {
+  id: number;
+  name: string | null;
+  /**
+   * The variant's `variant_type`.
+   */
+  type: string | null;
+  coverUrl: string | null;
+  coverUrlLg: string | null;
+  ratio: string | null;
+  printing: number | null;
+  /**
+   * The variant cover's own flag, or the issue's when the variant has no cover.
+   */
+  isNsfw: boolean;
+};
+
+/**
+ * Which cover the copy is of: `catalog` when `variant_id` names a live variant of the copy's issue, `custom` when it names none and the copy is flagged a variant (`is_variant`), else `main`, the issue's own cover.
+ */
+export const CheckIssueInCollectionDataCoverKind = {
+  Main: "main",
+  Catalog: "catalog",
+  Custom: "custom",
+} as const;
+/**
+ * Which cover the copy is of: `catalog` when `variant_id` names a live variant of the copy's issue, `custom` when it names none and the copy is flagged a variant (`is_variant`), else `main`, the issue's own cover.
+ */
+export type CheckIssueInCollectionDataCoverKind = OpenEnum<
+  typeof CheckIssueInCollectionDataCoverKind
+>;
 
 /**
  * Left out for a `read:showcase` token.
@@ -125,6 +183,14 @@ export type CheckIssueInCollectionData = {
   collectableType: string;
   collectableId: number;
   variantId: number | null;
+  /**
+   * The catalog variant `variant_id` names, while it is a live variant of the copy's issue; null for any other copy.
+   */
+  variant: CheckIssueInCollectionVariant | null;
+  /**
+   * Which cover the copy is of: `catalog` when `variant_id` names a live variant of the copy's issue, `custom` when it names none and the copy is flagged a variant (`is_variant`), else `main`, the issue's own cover.
+   */
+  coverKind: CheckIssueInCollectionDataCoverKind;
   condition: string | null;
   /**
    * Left out for a `read:showcase` token.
@@ -290,10 +356,18 @@ export function checkIssueInCollectionRequestToJSON(
 }
 
 /** @internal */
+export const CopyCoverKind$inboundSchema: z.ZodMiniType<
+  CopyCoverKind,
+  unknown
+> = openEnums.inboundSchema(CopyCoverKind);
+
+/** @internal */
 export const Copy$inboundSchema: z.ZodMiniType<Copy, unknown> = z.pipe(
   z.object({
     id: types.number(),
     variant_id: types.nullable(types.number()),
+    cover_kind: CopyCoverKind$inboundSchema,
+    variant_label: types.nullable(types.string()),
     condition: types.nullable(types.string()),
     graded: types.boolean(),
     grade_score: types.nullable(types.string()),
@@ -311,6 +385,8 @@ export const Copy$inboundSchema: z.ZodMiniType<Copy, unknown> = z.pipe(
   z.transform((v) => {
     return remap$(v, {
       "variant_id": "variantId",
+      "cover_kind": "coverKind",
+      "variant_label": "variantLabel",
       "grade_score": "gradeScore",
       "grading_company": "gradingCompany",
       "is_signed": "isSigned",
@@ -333,6 +409,46 @@ export function copyFromJSON(
     `Failed to parse 'Copy' from JSON`,
   );
 }
+
+/** @internal */
+export const CheckIssueInCollectionVariant$inboundSchema: z.ZodMiniType<
+  CheckIssueInCollectionVariant,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    type: types.nullable(types.string()),
+    cover_url: types.nullable(types.string()),
+    cover_url_lg: types.nullable(types.string()),
+    ratio: types.nullable(types.string()),
+    printing: types.nullable(types.number()),
+    is_nsfw: types.boolean(),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "cover_url": "coverUrl",
+      "cover_url_lg": "coverUrlLg",
+      "is_nsfw": "isNsfw",
+    });
+  }),
+);
+
+export function checkIssueInCollectionVariantFromJSON(
+  jsonString: string,
+): SafeParseResult<CheckIssueInCollectionVariant, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => CheckIssueInCollectionVariant$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'CheckIssueInCollectionVariant' from JSON`,
+  );
+}
+
+/** @internal */
+export const CheckIssueInCollectionDataCoverKind$inboundSchema: z.ZodMiniType<
+  CheckIssueInCollectionDataCoverKind,
+  unknown
+> = openEnums.inboundSchema(CheckIssueInCollectionDataCoverKind);
 
 /** @internal */
 export const CheckIssueInCollectionLoan$inboundSchema: z.ZodMiniType<
@@ -565,6 +681,10 @@ export const CheckIssueInCollectionData$inboundSchema: z.ZodMiniType<
     collectable_type: types.string(),
     collectable_id: types.number(),
     variant_id: types.nullable(types.number()),
+    variant: types.nullable(
+      z.lazy(() => CheckIssueInCollectionVariant$inboundSchema),
+    ),
+    cover_kind: CheckIssueInCollectionDataCoverKind$inboundSchema,
     condition: types.nullable(types.string()),
     purchased_at: z.optional(z.nullable(types.string())),
     notes: z.optional(z.nullable(types.string())),
@@ -621,6 +741,7 @@ export const CheckIssueInCollectionData$inboundSchema: z.ZodMiniType<
       "collectable_type": "collectableType",
       "collectable_id": "collectableId",
       "variant_id": "variantId",
+      "cover_kind": "coverKind",
       "purchased_at": "purchasedAt",
       "storage_location": "storageLocation",
       "price_paid": "pricePaid",

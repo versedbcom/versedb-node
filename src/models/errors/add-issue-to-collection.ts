@@ -7,6 +7,7 @@ import { safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { smartUnion } from "../../types/smart-union.js";
+import * as operations from "../operations/index.js";
 import { SDKValidationError } from "./sdk-validation-error.js";
 import { VerseDbError } from "./verse-db-error.js";
 
@@ -92,6 +93,36 @@ export type AddIssueToCollectionUnprocessableEntity =
   | AddIssueToCollectionResponseBodyError3;
 
 /**
+ * A request with the same `Idempotency-Key` is still adding the copy (`add_in_progress`; repeat it after a moment), or the copy that key added has since been removed (`copy_removed`).
+ */
+export type AddIssueToCollectionConflictErrorData = {
+  message: string;
+  error: operations.ErrorT;
+};
+
+/**
+ * A request with the same `Idempotency-Key` is still adding the copy (`add_in_progress`; repeat it after a moment), or the copy that key added has since been removed (`copy_removed`).
+ */
+export class AddIssueToCollectionConflictError extends VerseDbError {
+  error: operations.ErrorT;
+
+  /** The original data that was passed to this error instance. */
+  data$: AddIssueToCollectionConflictErrorData;
+
+  constructor(
+    err: AddIssueToCollectionConflictErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+    this.error = err.error;
+
+    this.name = "AddIssueToCollectionConflictError";
+  }
+}
+
+/**
  * No live issue has this ID.
  */
 export type AddIssueToCollectionNotFoundErrorData = {
@@ -140,6 +171,32 @@ export class AddIssueToCollectionForbiddenError extends VerseDbError {
     this.data$ = err;
 
     this.name = "AddIssueToCollectionForbiddenError";
+  }
+}
+
+/**
+ * An `Idempotency-Key` that is not a UUID.
+ */
+export type AddIssueToCollectionBadRequestErrorData = {
+  message: string;
+};
+
+/**
+ * An `Idempotency-Key` that is not a UUID.
+ */
+export class AddIssueToCollectionBadRequestError extends VerseDbError {
+  /** The original data that was passed to this error instance. */
+  data$: AddIssueToCollectionBadRequestErrorData;
+
+  constructor(
+    err: AddIssueToCollectionBadRequestErrorData,
+    httpMeta: { response: Response; request: Request; body: string },
+  ) {
+    const message = err.message || `API error occurred: ${JSON.stringify(err)}`;
+    super(message, httpMeta);
+    this.data$ = err;
+
+    this.name = "AddIssueToCollectionBadRequestError";
   }
 }
 
@@ -224,6 +281,27 @@ export function addIssueToCollectionUnprocessableEntityFromJSON(
 }
 
 /** @internal */
+export const AddIssueToCollectionConflictError$inboundSchema: z.ZodMiniType<
+  AddIssueToCollectionConflictError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    error: operations.ErrorT$inboundSchema,
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new AddIssueToCollectionConflictError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
 export const AddIssueToCollectionNotFoundError$inboundSchema: z.ZodMiniType<
   AddIssueToCollectionNotFoundError,
   unknown
@@ -256,6 +334,26 @@ export const AddIssueToCollectionForbiddenError$inboundSchema: z.ZodMiniType<
   }),
   z.transform((v) => {
     return new AddIssueToCollectionForbiddenError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
+export const AddIssueToCollectionBadRequestError$inboundSchema: z.ZodMiniType<
+  AddIssueToCollectionBadRequestError,
+  unknown
+> = z.pipe(
+  z.object({
+    message: types.string(),
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new AddIssueToCollectionBadRequestError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

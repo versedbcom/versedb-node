@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * Set the covers of a pull list issue.
  *
  * @remarks
- * Sets which covers of one issue the user is getting, replacing any earlier choice for that issue. Only variants of that issue count. `standard` alone goes back to the main cover. Saving also takes the issue out of the user's skipped issues.
+ * Sets which covers of one issue the user is getting, replacing any earlier choice for that issue. Only variants of that issue count. Choosing exactly what the series' standing cover choice gives (`updatePullListItem`) clears the issue's own choice, so it follows the series again. Saving also takes the issue out of the user's skipped issues.
  */
 export function userSetPullListIssueCovers(
   client: VerseDBCore,

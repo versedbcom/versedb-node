@@ -5,6 +5,8 @@
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
 import { safeParse } from "../../lib/schemas.js";
+import * as openEnums from "../../types/enums.js";
+import { OpenEnum } from "../../types/enums.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { smartUnion } from "../../types/smart-union.js";
@@ -12,7 +14,7 @@ import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type UpdateCollectionItemRequestBody = {
   /**
-   * Link to a specific issue variant. Must belong to the issue. Must match an existing stored value.
+   * The catalog variant the copy is of. Must be a live variant of the issue. A copy with a `variant_id` is always saved with `is_variant: true`, whatever `is_variant` the request sends. On an update, leave it out to keep the copy on its variant; `null` unlinks the copy, which then keeps `is_variant` only if it has a `variant_description` or a `variant_type` other than `standard`, unless the same request sends `is_variant`.
    */
   variantId?: number | null | undefined;
   /**
@@ -80,7 +82,7 @@ export type UpdateCollectionItemRequestBody = {
    */
   signedBy?: string | null | undefined;
   /**
-   * Whether this copy is a variant cover.
+   * Whether this copy is a variant cover. Ignored for a copy with a `variant_id`, which is always a variant. On an update that sends `variant_id: null`, this is the value the unlinked copy takes.
    */
   isVariant?: boolean | undefined;
   /**
@@ -191,6 +193,41 @@ export type UpdateCollectionItemRequest = {
 export type UpdateCollectionItemVariantId = number | string;
 
 /**
+ * The catalog variant `variant_id` names, while it is a live variant of the copy's issue; null for any other copy.
+ */
+export type UpdateCollectionItemVariant = {
+  id: number;
+  name: string | null;
+  /**
+   * The variant's `variant_type`.
+   */
+  type: string | null;
+  coverUrl: string | null;
+  coverUrlLg: string | null;
+  ratio: string | null;
+  printing: number | null;
+  /**
+   * The variant cover's own flag, or the issue's when the variant has no cover.
+   */
+  isNsfw: boolean;
+};
+
+/**
+ * Which cover the copy is of: `catalog` when `variant_id` names a live variant of the copy's issue, `custom` when it names none and the copy is flagged a variant (`is_variant`), else `main`, the issue's own cover.
+ */
+export const UpdateCollectionItemCoverKind = {
+  Main: "main",
+  Catalog: "catalog",
+  Custom: "custom",
+} as const;
+/**
+ * Which cover the copy is of: `catalog` when `variant_id` names a live variant of the copy's issue, `custom` when it names none and the copy is flagged a variant (`is_variant`), else `main`, the issue's own cover.
+ */
+export type UpdateCollectionItemCoverKind = OpenEnum<
+  typeof UpdateCollectionItemCoverKind
+>;
+
+/**
  * As sent: a number, or digits as text.
  */
 export type UpdateCollectionItemComicShopId = number | string;
@@ -287,6 +324,14 @@ export type UpdateCollectionItemData = {
    * As sent: a number, or digits as text.
    */
   variantId: number | string | null;
+  /**
+   * The catalog variant `variant_id` names, while it is a live variant of the copy's issue; null for any other copy.
+   */
+  variant: UpdateCollectionItemVariant | null;
+  /**
+   * Which cover the copy is of: `catalog` when `variant_id` names a live variant of the copy's issue, `custom` when it names none and the copy is flagged a variant (`is_variant`), else `main`, the issue's own cover.
+   */
+  coverKind: UpdateCollectionItemCoverKind;
   condition: string | null;
   /**
    * Left out for a `read:showcase` token.
@@ -605,6 +650,46 @@ export function updateCollectionItemVariantIdFromJSON(
 }
 
 /** @internal */
+export const UpdateCollectionItemVariant$inboundSchema: z.ZodMiniType<
+  UpdateCollectionItemVariant,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    type: types.nullable(types.string()),
+    cover_url: types.nullable(types.string()),
+    cover_url_lg: types.nullable(types.string()),
+    ratio: types.nullable(types.string()),
+    printing: types.nullable(types.number()),
+    is_nsfw: types.boolean(),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "cover_url": "coverUrl",
+      "cover_url_lg": "coverUrlLg",
+      "is_nsfw": "isNsfw",
+    });
+  }),
+);
+
+export function updateCollectionItemVariantFromJSON(
+  jsonString: string,
+): SafeParseResult<UpdateCollectionItemVariant, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => UpdateCollectionItemVariant$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'UpdateCollectionItemVariant' from JSON`,
+  );
+}
+
+/** @internal */
+export const UpdateCollectionItemCoverKind$inboundSchema: z.ZodMiniType<
+  UpdateCollectionItemCoverKind,
+  unknown
+> = openEnums.inboundSchema(UpdateCollectionItemCoverKind);
+
+/** @internal */
 export const UpdateCollectionItemComicShopId$inboundSchema: z.ZodMiniType<
   UpdateCollectionItemComicShopId,
   unknown
@@ -872,6 +957,10 @@ export const UpdateCollectionItemData$inboundSchema: z.ZodMiniType<
     collectable_type: types.string(),
     collectable_id: types.number(),
     variant_id: types.nullable(smartUnion([types.number(), types.string()])),
+    variant: types.nullable(
+      z.lazy(() => UpdateCollectionItemVariant$inboundSchema),
+    ),
+    cover_kind: UpdateCollectionItemCoverKind$inboundSchema,
     condition: types.nullable(types.string()),
     purchased_at: z.optional(z.nullable(types.string())),
     notes: z.optional(z.nullable(types.string())),
@@ -933,6 +1022,7 @@ export const UpdateCollectionItemData$inboundSchema: z.ZodMiniType<
       "collectable_type": "collectableType",
       "collectable_id": "collectableId",
       "variant_id": "variantId",
+      "cover_kind": "coverKind",
       "purchased_at": "purchasedAt",
       "storage_location": "storageLocation",
       "price_paid": "pricePaid",

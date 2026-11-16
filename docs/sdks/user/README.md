@@ -27,6 +27,7 @@ All endpoints in this group require authentication with a Bearer API token.
 * [removeFromWishlist](#removefromwishlist) - Remove from wishlist.
 * [addToPullList](#addtopulllist) - Add to pull list.
 * [removeFromPullList](#removefrompulllist) - Remove from pull list.
+* [updatePullListItem](#updatepulllistitem) - Update a pull list entry.
 * [addIssueToCollection](#addissuetocollection) - Add issue to collection.
 * [removeIssueFromCollection](#removeissuefromcollection) - Remove issue from collection.
 * [updateCollectionItem](#updatecollectionitem) - Update collection item.
@@ -885,7 +886,7 @@ run();
 
 ## setPullListIssueCovers
 
-Sets which covers of one issue the user is getting, replacing any earlier choice for that issue. Only variants of that issue count. `standard` alone goes back to the main cover. Saving also takes the issue out of the user's skipped issues.
+Sets which covers of one issue the user is getting, replacing any earlier choice for that issue. Only variants of that issue count. Choosing exactly what the series' standing cover choice gives (`updatePullListItem`) clears the issue's own choice, so it follows the series again. Saving also takes the issue out of the user's skipped issues.
 
 ### Example Usage
 
@@ -1559,9 +1560,103 @@ run();
 | errors.TooManyRequestsError             | 429                                     | application/json                        |
 | errors.VerseDbDefaultError              | 4XX, 5XX                                | \*/\*                                   |
 
+## updatePullListItem
+
+Changes one series on the authenticated user's pull list: its status, notes, places, or the standing cover choice. The standing choice applies to every issue of the series the user hasn't chosen covers of (see `setPullListIssueCovers`), covers added to the catalog later included: `standard` the main cover; `standard_and_regular` the main cover and every regular cover; `regular` every regular cover without the main one, or the main cover when an issue has none. Ratio and exclusive covers are only ever chosen per issue. Send at least one field.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="updatePullListItem" method="patch" path="/api/v1/pull-list/items/{item_id}" -->
+```typescript
+import { VerseDB } from "@versedbcom/sdk";
+
+const verseDB = new VerseDB({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const result = await verseDB.user.updatePullListItem({
+    itemId: 456,
+    body: {
+      status: "active",
+      personalNotes: "Trade wait",
+      preferredCoverType: "standard_and_regular",
+      pullSourceIds: [
+        12,
+      ],
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { VerseDBCore } from "@versedbcom/sdk/core.js";
+import { userUpdatePullListItem } from "@versedbcom/sdk/funcs/user-update-pull-list-item.js";
+
+// Use `VerseDBCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const verseDB = new VerseDBCore({
+  token: "<YOUR_BEARER_TOKEN_HERE>",
+});
+
+async function run() {
+  const res = await userUpdatePullListItem(verseDB, {
+    itemId: 456,
+    body: {
+      status: "active",
+      personalNotes: "Trade wait",
+      preferredCoverType: "standard_and_regular",
+      pullSourceIds: [
+        12,
+      ],
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("userUpdatePullListItem failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.UpdatePullListItemRequest](../../models/operations/update-pull-list-item-request.md)                                                                               | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.UpdatePullListItemResponse](../../models/operations/update-pull-list-item-response.md)\>**
+
+### Errors
+
+| Error Type                                        | Status Code                                       | Content Type                                      |
+| ------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------- |
+| errors.UnauthorizedErrorError                     | 401                                               | application/json                                  |
+| errors.UpdatePullListItemForbiddenError           | 403                                               | application/json                                  |
+| errors.UpdatePullListItemNotFoundError            | 404                                               | application/json                                  |
+| errors.UpdatePullListItemUnprocessableEntityError | 422                                               | application/json                                  |
+| errors.TooManyRequestsError                       | 429                                               | application/json                                  |
+| errors.VerseDbDefaultError                        | 4XX, 5XX                                          | \*/\*                                             |
+
 ## addIssueToCollection
 
-Adds a copy of the issue to the user's collection; every field is optional. When the issue was on the user's wishlist it comes off when the user chose that, else `was_on_wishlist` is true so the app can offer it. `follow_up` says whether to offer marking it read or reviewing it.
+Adds a copy of the issue to the user's collection; every field is optional. When the issue was on the user's wishlist it comes off when the user chose that, else `was_on_wishlist` is true so the app can offer it. `follow_up` says whether to offer marking it read or reviewing it. Send an `Idempotency-Key` to make a retry safe: for 14 days a repeat with the same key, user and issue answers the copy the first request added, as it is now, and adds nothing.
 
 ### Example Usage
 
@@ -1576,6 +1671,7 @@ const verseDB = new VerseDB({
 async function run() {
   const result = await verseDB.user.addIssueToCollection({
     issueId: 5432,
+    idempotencyKey: "7c0e4c7e-3a55-4f0c-9a58-2f6f4a0d1b21",
     body: {
       variantId: 789,
       condition: "NM",
@@ -1641,6 +1737,7 @@ const verseDB = new VerseDBCore({
 async function run() {
   const res = await userAddIssueToCollection(verseDB, {
     issueId: 5432,
+    idempotencyKey: "7c0e4c7e-3a55-4f0c-9a58-2f6f4a0d1b21",
     body: {
       variantId: 789,
       condition: "NM",
@@ -1710,9 +1807,11 @@ run();
 
 | Error Type                                    | Status Code                                   | Content Type                                  |
 | --------------------------------------------- | --------------------------------------------- | --------------------------------------------- |
+| errors.AddIssueToCollectionBadRequestError    | 400                                           | application/json                              |
 | errors.UnauthorizedErrorError                 | 401                                           | application/json                              |
 | errors.AddIssueToCollectionForbiddenError     | 403                                           | application/json                              |
 | errors.AddIssueToCollectionNotFoundError      | 404                                           | application/json                              |
+| errors.AddIssueToCollectionConflictError      | 409                                           | application/json                              |
 | errors.AddIssueToCollectionResponseBodyError1 | 422                                           | application/json                              |
 | errors.AddIssueToCollectionResponseBodyError2 | 422                                           | application/json                              |
 | errors.AddIssueToCollectionResponseBodyError3 | 422                                           | application/json                              |

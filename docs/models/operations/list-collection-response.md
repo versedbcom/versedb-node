@@ -6,11 +6,7 @@
 import { ListCollectionResponse } from "@versedbcom/sdk/models/operations";
 
 let value: ListCollectionResponse = {
-  headers: {
-    "key": [
-      "<value 1>",
-    ],
-  },
+  headers: {},
   result: {
     data: [
       {
@@ -19,6 +15,17 @@ let value: ListCollectionResponse = {
         collectableType: "Issue",
         collectableId: 5432,
         variantId: null,
+        variant: {
+          id: 789,
+          name: "Cover B",
+          type: "cover_variant",
+          coverUrl: "https://...-cover_md.webp",
+          coverUrlLg: "https://...-cover_lg.webp",
+          ratio: "1:25",
+          printing: 1,
+          isNsfw: true,
+        },
+        coverKind: "catalog",
         condition: "NM",
         purchasedAt: "2024-01-15T00:00:00.000000Z",
         notes: "First print",
@@ -52,28 +59,21 @@ let value: ListCollectionResponse = {
         tags: [
           "keys",
         ],
-        loan: {
-          id: 3,
-          loanedTo: "Sam",
-          loanedAt: "2024-01-15",
-          dueAt: "2024-02-15",
-          isOverdue: false,
-          daysUntilDue: 12,
-        },
-        isSigned: null,
+        loan: null,
+        isSigned: true,
         signedBy: "Stan Lee",
         signatureWitness: "CGC",
         signatureAuthenticated: false,
-        isCgcSs: true,
+        isCgcSs: false,
         printNumber: "1",
         estimatedValue: "125.00",
         valueLastUpdated: "2024-01-15T00:00:00.000000Z",
         status: "owned",
         forSale: false,
-        forTrade: false,
+        forTrade: null,
         soldAt: "2024-01-15T00:00:00.000000Z",
         priceSold: "150.00",
-        isPublic: null,
+        isPublic: true,
         coverScanUrl: "https://...-cover_md.webp",
         coverScanUrlLg: "https://...-cover_lg.webp",
         coverScanUploadedAt: "2024-01-15T10:30:00.000000Z",
@@ -99,7 +99,7 @@ let value: ListCollectionResponse = {
           isReprint: true,
           contentRatingLabel: "Teen",
           minAge: 13,
-          isNsfw: false,
+          isNsfw: true,
           averageRating: 4.5,
           nameI18n: {
             "ja": {

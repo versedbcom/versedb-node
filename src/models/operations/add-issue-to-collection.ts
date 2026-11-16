@@ -5,6 +5,8 @@
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
 import { safeParse } from "../../lib/schemas.js";
+import * as openEnums from "../../types/enums.js";
+import { OpenEnum } from "../../types/enums.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { smartUnion } from "../../types/smart-union.js";
@@ -12,7 +14,7 @@ import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
 export type AddIssueToCollectionRequestBody = {
   /**
-   * Link to a specific issue variant. Must belong to the issue. Must match an existing stored value.
+   * The catalog variant the copy is of. Must be a live variant of the issue. A copy with a `variant_id` is always saved with `is_variant: true`, whatever `is_variant` the request sends. On an update, leave it out to keep the copy on its variant; `null` unlinks the copy, which then keeps `is_variant` only if it has a `variant_description` or a `variant_type` other than `standard`, unless the same request sends `is_variant`.
    */
   variantId?: number | null | undefined;
   /**
@@ -80,7 +82,7 @@ export type AddIssueToCollectionRequestBody = {
    */
   signedBy?: string | null | undefined;
   /**
-   * Whether this copy is a variant cover.
+   * Whether this copy is a variant cover. Ignored for a copy with a `variant_id`, which is always a variant. On an update that sends `variant_id: null`, this is the value the unlinked copy takes.
    */
   isVariant?: boolean | undefined;
   /**
@@ -162,13 +164,58 @@ export type AddIssueToCollectionRequest = {
    * The issue ID.
    */
   issueId: number;
+  /**
+   * A UUID you choose for this add. Repeating the request with the same key returns the copy the first request added instead of adding another.
+   */
+  idempotencyKey?: string | undefined;
   body?: AddIssueToCollectionRequestBody | undefined;
 };
+
+export const ErrorT = {
+  AddInProgress: "add_in_progress",
+  CopyRemoved: "copy_removed",
+} as const;
+export type ErrorT = OpenEnum<typeof ErrorT>;
 
 /**
  * As sent: a number, or digits as text.
  */
 export type AddIssueToCollectionVariantId = number | string;
+
+/**
+ * The catalog variant `variant_id` names, while it is a live variant of the copy's issue; null for any other copy.
+ */
+export type AddIssueToCollectionVariant = {
+  id: number;
+  name: string | null;
+  /**
+   * The variant's `variant_type`.
+   */
+  type: string | null;
+  coverUrl: string | null;
+  coverUrlLg: string | null;
+  ratio: string | null;
+  printing: number | null;
+  /**
+   * The variant cover's own flag, or the issue's when the variant has no cover.
+   */
+  isNsfw: boolean;
+};
+
+/**
+ * Which cover the copy is of: `catalog` when `variant_id` names a live variant of the copy's issue, `custom` when it names none and the copy is flagged a variant (`is_variant`), else `main`, the issue's own cover.
+ */
+export const AddIssueToCollectionCoverKind = {
+  Main: "main",
+  Catalog: "catalog",
+  Custom: "custom",
+} as const;
+/**
+ * Which cover the copy is of: `catalog` when `variant_id` names a live variant of the copy's issue, `custom` when it names none and the copy is flagged a variant (`is_variant`), else `main`, the issue's own cover.
+ */
+export type AddIssueToCollectionCoverKind = OpenEnum<
+  typeof AddIssueToCollectionCoverKind
+>;
 
 /**
  * As sent: a number, or digits as text.
@@ -267,6 +314,14 @@ export type AddIssueToCollectionData = {
    * As sent: a number, or digits as text.
    */
   variantId: number | string | null;
+  /**
+   * The catalog variant `variant_id` names, while it is a live variant of the copy's issue; null for any other copy.
+   */
+  variant: AddIssueToCollectionVariant | null;
+  /**
+   * Which cover the copy is of: `catalog` when `variant_id` names a live variant of the copy's issue, `custom` when it names none and the copy is flagged a variant (`is_variant`), else `main`, the issue's own cover.
+   */
+  coverKind: AddIssueToCollectionCoverKind;
   condition: string | null;
   /**
    * Left out for a `read:showcase` token.
@@ -534,6 +589,7 @@ export function addIssueToCollectionRequestBodyToJSON(
 /** @internal */
 export type AddIssueToCollectionRequest$Outbound = {
   issue_id: number;
+  "Idempotency-Key"?: string | undefined;
   body?: AddIssueToCollectionRequestBody$Outbound | undefined;
 };
 
@@ -544,6 +600,7 @@ export const AddIssueToCollectionRequest$outboundSchema: z.ZodMiniType<
 > = z.pipe(
   z.object({
     issueId: z.int(),
+    idempotencyKey: z.optional(z.string()),
     body: z.optional(
       z.lazy(() => AddIssueToCollectionRequestBody$outboundSchema),
     ),
@@ -551,6 +608,7 @@ export const AddIssueToCollectionRequest$outboundSchema: z.ZodMiniType<
   z.transform((v) => {
     return remap$(v, {
       issueId: "issue_id",
+      idempotencyKey: "Idempotency-Key",
     });
   }),
 );
@@ -564,6 +622,10 @@ export function addIssueToCollectionRequestToJSON(
     ),
   );
 }
+
+/** @internal */
+export const ErrorT$inboundSchema: z.ZodMiniType<ErrorT, unknown> = openEnums
+  .inboundSchema(ErrorT);
 
 /** @internal */
 export const AddIssueToCollectionVariantId$inboundSchema: z.ZodMiniType<
@@ -580,6 +642,46 @@ export function addIssueToCollectionVariantIdFromJSON(
     `Failed to parse 'AddIssueToCollectionVariantId' from JSON`,
   );
 }
+
+/** @internal */
+export const AddIssueToCollectionVariant$inboundSchema: z.ZodMiniType<
+  AddIssueToCollectionVariant,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    type: types.nullable(types.string()),
+    cover_url: types.nullable(types.string()),
+    cover_url_lg: types.nullable(types.string()),
+    ratio: types.nullable(types.string()),
+    printing: types.nullable(types.number()),
+    is_nsfw: types.boolean(),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "cover_url": "coverUrl",
+      "cover_url_lg": "coverUrlLg",
+      "is_nsfw": "isNsfw",
+    });
+  }),
+);
+
+export function addIssueToCollectionVariantFromJSON(
+  jsonString: string,
+): SafeParseResult<AddIssueToCollectionVariant, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => AddIssueToCollectionVariant$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'AddIssueToCollectionVariant' from JSON`,
+  );
+}
+
+/** @internal */
+export const AddIssueToCollectionCoverKind$inboundSchema: z.ZodMiniType<
+  AddIssueToCollectionCoverKind,
+  unknown
+> = openEnums.inboundSchema(AddIssueToCollectionCoverKind);
 
 /** @internal */
 export const AddIssueToCollectionComicShopId$inboundSchema: z.ZodMiniType<
@@ -849,6 +951,10 @@ export const AddIssueToCollectionData$inboundSchema: z.ZodMiniType<
     collectable_type: types.string(),
     collectable_id: types.number(),
     variant_id: types.nullable(smartUnion([types.number(), types.string()])),
+    variant: types.nullable(
+      z.lazy(() => AddIssueToCollectionVariant$inboundSchema),
+    ),
+    cover_kind: AddIssueToCollectionCoverKind$inboundSchema,
     condition: types.nullable(types.string()),
     purchased_at: z.optional(z.nullable(types.string())),
     notes: z.optional(z.nullable(types.string())),
@@ -910,6 +1016,7 @@ export const AddIssueToCollectionData$inboundSchema: z.ZodMiniType<
       "collectable_type": "collectableType",
       "collectable_id": "collectableId",
       "variant_id": "variantId",
+      "cover_kind": "coverKind",
       "purchased_at": "purchasedAt",
       "storage_location": "storageLocation",
       "price_paid": "pricePaid",

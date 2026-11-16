@@ -19,6 +19,42 @@ export type GetPullListIssueCoversRequest = {
 };
 
 /**
+ * Where the shop's order for this issue stands: `open` while a cover choice also goes on the user's list at the shop, `set` once the shop has ordered the issue (the choice stays on the user's VerseDB list); null when the issue isn't on the shop's list.
+ */
+export const GetPullListIssueCoversOrder = {
+  Open: "open",
+  Set: "set",
+} as const;
+/**
+ * Where the shop's order for this issue stands: `open` while a cover choice also goes on the user's list at the shop, `set` once the shop has ordered the issue (the choice stays on the user's VerseDB list); null when the issue isn't on the shop's list.
+ */
+export type GetPullListIssueCoversOrder = OpenEnum<
+  typeof GetPullListIssueCoversOrder
+>;
+
+export type GetPullListIssueCoversLinkedShop = {
+  name: string;
+  /**
+   * Where the shop's order for this issue stands: `open` while a cover choice also goes on the user's list at the shop, `set` once the shop has ordered the issue (the choice stays on the user's VerseDB list); null when the issue isn't on the shop's list.
+   */
+  order: GetPullListIssueCoversOrder | null;
+};
+
+/**
+ * The first of `linked_shops`: its `order`; null without a linked shop.
+ */
+export const GetPullListIssueCoversShopOrder = {
+  Open: "open",
+  Set: "set",
+} as const;
+/**
+ * The first of `linked_shops`: its `order`; null without a linked shop.
+ */
+export type GetPullListIssueCoversShopOrder = OpenEnum<
+  typeof GetPullListIssueCoversShopOrder
+>;
+
+/**
  * `ratio` for an incentive or ratio variant, or any variant with a ratio; `exclusive` for a convention or retailer exclusive; `regular` for the rest and for the main cover.
  */
 export const GetPullListIssueCoversKind = {
@@ -82,6 +118,21 @@ export type GetPullListIssueCoversOption = {
   selected: boolean;
 };
 
+/**
+ * The series' standing cover choice (`updatePullListItem`'s `preferred_cover_type`).
+ */
+export const GetPullListIssueCoversStanding = {
+  Standard: "standard",
+  StandardAndRegular: "standard_and_regular",
+  Regular: "regular",
+} as const;
+/**
+ * The series' standing cover choice (`updatePullListItem`'s `preferred_cover_type`).
+ */
+export type GetPullListIssueCoversStanding = OpenEnum<
+  typeof GetPullListIssueCoversStanding
+>;
+
 export type GetPullListIssueCoversData = {
   issueId: number;
   seriesId: number | null;
@@ -90,13 +141,29 @@ export type GetPullListIssueCoversData = {
    */
   skipped: boolean;
   /**
-   * The linked Retail shop the series comes from, whose box follows the shop's own list; null without one.
+   * Every linked Retail shop the series comes from, in the user's order of pull sources; empty without one. A save that changes the covers reaches each shop whose order is `open`, and an unchanged one writes nothing there; a return to the usual covers clears the shop's own choice for the issue, so the shop's usual covers apply, and an unskip that follows the series lifts only the shop's skip.
+   */
+  linkedShops: Array<GetPullListIssueCoversLinkedShop>;
+  /**
+   * The first of `linked_shops`: its name; null without a linked shop.
    */
   linkedShop: string | null;
+  /**
+   * The first of `linked_shops`: its `order`; null without a linked shop.
+   */
+  shopOrder: GetPullListIssueCoversShopOrder | null;
   /**
    * The main cover first, then regular covers, ratio covers and exclusives.
    */
   options: Array<GetPullListIssueCoversOption>;
+  /**
+   * The issue has no covers chosen of its own, so `selected` follows the series' standing choice.
+   */
+  followsSeries: boolean;
+  /**
+   * The series' standing cover choice (`updatePullListItem`'s `preferred_cover_type`).
+   */
+  standing: GetPullListIssueCoversStanding;
 };
 
 /**
@@ -140,6 +207,37 @@ export function getPullListIssueCoversRequestToJSON(
     ),
   );
 }
+
+/** @internal */
+export const GetPullListIssueCoversOrder$inboundSchema: z.ZodMiniType<
+  GetPullListIssueCoversOrder,
+  unknown
+> = openEnums.inboundSchema(GetPullListIssueCoversOrder);
+
+/** @internal */
+export const GetPullListIssueCoversLinkedShop$inboundSchema: z.ZodMiniType<
+  GetPullListIssueCoversLinkedShop,
+  unknown
+> = z.object({
+  name: types.string(),
+  order: types.nullable(GetPullListIssueCoversOrder$inboundSchema),
+});
+
+export function getPullListIssueCoversLinkedShopFromJSON(
+  jsonString: string,
+): SafeParseResult<GetPullListIssueCoversLinkedShop, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetPullListIssueCoversLinkedShop$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetPullListIssueCoversLinkedShop' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetPullListIssueCoversShopOrder$inboundSchema: z.ZodMiniType<
+  GetPullListIssueCoversShopOrder,
+  unknown
+> = openEnums.inboundSchema(GetPullListIssueCoversShopOrder);
 
 /** @internal */
 export const GetPullListIssueCoversKind$inboundSchema: z.ZodMiniType<
@@ -218,6 +316,12 @@ export function getPullListIssueCoversOptionFromJSON(
 }
 
 /** @internal */
+export const GetPullListIssueCoversStanding$inboundSchema: z.ZodMiniType<
+  GetPullListIssueCoversStanding,
+  unknown
+> = openEnums.inboundSchema(GetPullListIssueCoversStanding);
+
+/** @internal */
 export const GetPullListIssueCoversData$inboundSchema: z.ZodMiniType<
   GetPullListIssueCoversData,
   unknown
@@ -226,14 +330,23 @@ export const GetPullListIssueCoversData$inboundSchema: z.ZodMiniType<
     issue_id: types.number(),
     series_id: types.nullable(types.number()),
     skipped: types.boolean(),
+    linked_shops: z.array(
+      z.lazy(() => GetPullListIssueCoversLinkedShop$inboundSchema),
+    ),
     linked_shop: types.nullable(types.string()),
+    shop_order: types.nullable(GetPullListIssueCoversShopOrder$inboundSchema),
     options: z.array(z.lazy(() => GetPullListIssueCoversOption$inboundSchema)),
+    follows_series: types.boolean(),
+    standing: GetPullListIssueCoversStanding$inboundSchema,
   }),
   z.transform((v) => {
     return remap$(v, {
       "issue_id": "issueId",
       "series_id": "seriesId",
+      "linked_shops": "linkedShops",
       "linked_shop": "linkedShop",
+      "shop_order": "shopOrder",
+      "follows_series": "followsSeries",
     });
   }),
 );

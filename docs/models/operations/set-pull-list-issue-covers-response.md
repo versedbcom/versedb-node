@@ -23,7 +23,14 @@ let value: SetPullListIssueCoversResponse = {
       issueId: 5432,
       seriesId: 456,
       skipped: false,
+      linkedShops: [
+        {
+          name: "Third Eye Comics",
+          order: "open",
+        },
+      ],
       linkedShop: "Third Eye Comics",
+      shopOrder: "open",
       options: [
         {
           variantId: 789,
@@ -41,10 +48,12 @@ let value: SetPullListIssueCoversResponse = {
           price: "4.99",
           priceFromIssue: true,
           currency: "USD",
-          coverNsfw: false,
-          selected: true,
+          coverNsfw: true,
+          selected: false,
         },
       ],
+      followsSeries: false,
+      standing: "standard",
     },
   },
 };

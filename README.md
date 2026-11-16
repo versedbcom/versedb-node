@@ -386,6 +386,7 @@ run();
 * [removeFromWishlist](docs/sdks/user/README.md#removefromwishlist) - Remove from wishlist.
 * [addToPullList](docs/sdks/user/README.md#addtopulllist) - Add to pull list.
 * [removeFromPullList](docs/sdks/user/README.md#removefrompulllist) - Remove from pull list.
+* [updatePullListItem](docs/sdks/user/README.md#updatepulllistitem) - Update a pull list entry.
 * [addIssueToCollection](docs/sdks/user/README.md#addissuetocollection) - Add issue to collection.
 * [removeIssueFromCollection](docs/sdks/user/README.md#removeissuefromcollection) - Remove issue from collection.
 * [updateCollectionItem](docs/sdks/user/README.md#updatecollectionitem) - Update collection item.
@@ -512,6 +513,7 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`userSetPullListIssueCovers`](docs/sdks/user/README.md#setpulllistissuecovers) - Set the covers of a pull list issue.
 - [`userUnfollowContent`](docs/sdks/user/README.md#unfollowcontent) - Unfollow content.
 - [`userUpdateCollectionItem`](docs/sdks/user/README.md#updatecollectionitem) - Update collection item.
+- [`userUpdatePullListItem`](docs/sdks/user/README.md#updatepulllistitem) - Update a pull list entry.
 - ~~[`userGetActivityFeed`](docs/sdks/user/README.md#getactivityfeed)~~ - Get activity feed. :warning: **Deprecated**
 
 </details>
@@ -669,7 +671,7 @@ run();
   * [`TooManyRequestsError`](./src/models/errors/too-many-requests-error.ts): Status code `429`.
   * [`UnauthorizedErrorError`](./src/models/errors/unauthorized-error-error.ts): Unauthenticated. The bearer token is missing, invalid, or revoked. Status code `401`. *
 
-<details><summary>Less common errors (208)</summary>
+<details><summary>Less common errors (213)</summary>
 
 <br />
 
@@ -682,208 +684,213 @@ run();
 
 
 **Inherit from [`VerseDbError`](./src/models/errors/verse-db-error.ts)**:
-* [`CheckFollowStatusBadRequestError`](./src/models/errors/check-follow-status-bad-request-error.ts): A type that is not followable. Status code `400`. Applicable to 1 of 101 methods.*
-* [`UnfollowContentBadRequestError`](./src/models/errors/unfollow-content-bad-request-error.ts): A type that is not followable. Status code `400`. Applicable to 1 of 101 methods.*
-* [`ExchangeAConnectCodeForATokenBadRequestError`](./src/models/errors/exchange-a-connect-code-for-a-token-bad-request-error.ts): The request could not be processed: an OAuth error and its description. Status code `400`. Applicable to 1 of 101 methods.*
-* [`ViewYourReadingGoalUnauthorizedError`](./src/models/errors/view-your-reading-goal-unauthorized-error.ts): The request could not be processed. Status code `401`. Applicable to 1 of 101 methods.*
-* [`ViewYearlyReadingStatisticsUnauthorizedError`](./src/models/errors/view-yearly-reading-statistics-unauthorized-error.ts): The request could not be processed. Status code `401`. Applicable to 1 of 101 methods.*
-* [`ViewYourMonthlyReadingCalendarUnauthorizedError`](./src/models/errors/view-your-monthly-reading-calendar-unauthorized-error.ts): The request could not be processed. Status code `401`. Applicable to 1 of 101 methods.*
-* [`GetTheAuthenticatedUserForbiddenError`](./src/models/errors/get-the-authenticated-user-forbidden-error.ts): The token holds neither read:user nor read:showcase. Status code `403`. Applicable to 1 of 101 methods.*
-* [`ListFollowsForbiddenError`](./src/models/errors/list-follows-forbidden-error.ts): The token lacks the read:user ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetActivityFeedForbiddenError`](./src/models/errors/get-activity-feed-forbidden-error.ts): The token lacks the read:user ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`CheckFollowStatusForbiddenError`](./src/models/errors/check-follow-status-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`ListReadStatusForbiddenError`](./src/models/errors/list-read-status-forbidden-error.ts): The token holds neither read:user nor read:showcase. Status code `403`. Applicable to 1 of 101 methods.*
-* [`ListWishlistForbiddenError`](./src/models/errors/list-wishlist-forbidden-error.ts): The token holds neither read:user nor read:showcase. Status code `403`. Applicable to 1 of 101 methods.*
-* [`ListCollectionForbiddenError`](./src/models/errors/list-collection-forbidden-error.ts): The token holds neither read:user nor read:showcase. Status code `403`. Applicable to 1 of 101 methods.*
-* [`CheckIssueInCollectionForbiddenError`](./src/models/errors/check-issue-in-collection-forbidden-error.ts): The token does not hold read:user. Status code `403`. Applicable to 1 of 101 methods.*
-* [`ListPullListForbiddenError`](./src/models/errors/list-pull-list-forbidden-error.ts): The token holds neither read:user nor read:showcase. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetPullListIssueCoversForbiddenError`](./src/models/errors/get-pull-list-issue-covers-forbidden-error.ts): The token does not hold read:user. Status code `403`. Applicable to 1 of 101 methods.*
-* [`SetPullListIssueCoversForbiddenError`](./src/models/errors/set-pull-list-issue-covers-forbidden-error.ts): The token holds neither write:pull-list nor write:lists. Status code `403`. Applicable to 1 of 101 methods.*
-* [`MarkAsReadForbiddenError`](./src/models/errors/mark-as-read-forbidden-error.ts): The token holds neither write:read-status nor write:lists. Status code `403`. Applicable to 1 of 101 methods.*
-* [`MarkAsUnreadForbiddenError`](./src/models/errors/mark-as-unread-forbidden-error.ts): The token holds neither write:read-status nor write:lists. Status code `403`. Applicable to 1 of 101 methods.*
-* [`EditReadingDateForbiddenError`](./src/models/errors/edit-reading-date-forbidden-error.ts): The token holds neither write:read-status nor write:lists. Status code `403`. Applicable to 1 of 101 methods.*
-* [`AddToWishlistForbiddenError`](./src/models/errors/add-to-wishlist-forbidden-error.ts): The token holds neither write:wishlist nor write:lists. Status code `403`. Applicable to 1 of 101 methods.*
-* [`RemoveFromWishlistForbiddenError`](./src/models/errors/remove-from-wishlist-forbidden-error.ts): The token holds neither write:wishlist nor write:lists. Status code `403`. Applicable to 1 of 101 methods.*
-* [`AddToPullListForbiddenError`](./src/models/errors/add-to-pull-list-forbidden-error.ts): The token holds neither write:pull-list nor write:lists. Status code `403`. Applicable to 1 of 101 methods.*
-* [`RemoveFromPullListForbiddenError`](./src/models/errors/remove-from-pull-list-forbidden-error.ts): The token holds neither write:pull-list nor write:lists. Status code `403`. Applicable to 1 of 101 methods.*
-* [`AddIssueToCollectionForbiddenError`](./src/models/errors/add-issue-to-collection-forbidden-error.ts): The token holds neither write:collection nor write:lists. Status code `403`. Applicable to 1 of 101 methods.*
-* [`RemoveIssueFromCollectionForbiddenError`](./src/models/errors/remove-issue-from-collection-forbidden-error.ts): The token holds neither write:collection nor write:lists. Status code `403`. Applicable to 1 of 101 methods.*
-* [`UpdateCollectionItemForbiddenError`](./src/models/errors/update-collection-item-forbidden-error.ts): The token holds neither write:collection nor write:lists. Status code `403`. Applicable to 1 of 101 methods.*
-* [`LendACopyOutForbiddenError`](./src/models/errors/lend-a-copy-out-forbidden-error.ts): The token holds neither write:collection nor write:lists. Status code `403`. Applicable to 1 of 101 methods.*
-* [`MarkTheCopysOpenLoanReturnedForbiddenError`](./src/models/errors/mark-the-copys-open-loan-returned-forbidden-error.ts): The token holds neither write:collection nor write:lists. Status code `403`. Applicable to 1 of 101 methods.*
-* [`FollowContentForbiddenError`](./src/models/errors/follow-content-forbidden-error.ts): The token holds neither write:follows nor write:lists, or the profile is private or a block stands between the two members (the body names `code`). Status code `403`. Applicable to 1 of 101 methods.*
-* [`UnfollowContentForbiddenError`](./src/models/errors/unfollow-content-forbidden-error.ts): The token holds neither write:follows nor write:lists. Status code `403`. Applicable to 1 of 101 methods.*
-* [`ViewYourReadingGoalForbiddenError`](./src/models/errors/view-your-reading-goal-forbidden-error.ts): The token holds neither read:user nor read:showcase. Status code `403`. Applicable to 1 of 101 methods.*
-* [`ViewYearlyReadingStatisticsForbiddenError`](./src/models/errors/view-yearly-reading-statistics-forbidden-error.ts): The token holds neither read:user nor read:showcase, or the member has no Pro. Status code `403`. Applicable to 1 of 101 methods.*
-* [`ViewYourMonthlyReadingCalendarForbiddenError`](./src/models/errors/view-your-monthly-reading-calendar-forbidden-error.ts): The token holds neither read:user nor read:showcase, or the member has no Pro. Status code `403`. Applicable to 1 of 101 methods.*
-* [`ViewYourUnfinishedComicsFromTheVerseDBReaderForbiddenError`](./src/models/errors/view-your-unfinished-comics-from-the-verse-db-reader-forbidden-error.ts): The token holds neither read:user nor read:showcase. Status code `403`. Applicable to 1 of 101 methods.*
-* [`BrowseListsForbiddenError`](./src/models/errors/browse-lists-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`CreateListForbiddenError`](./src/models/errors/create-list-forbidden-error.ts): The token holds neither write:list nor write:lists, or a free account already has its ten lists. Status code `403`. Applicable to 1 of 101 methods.*
-* [`BrowseSystemListsForbiddenError`](./src/models/errors/browse-system-lists-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetUsersListsForbiddenError`](./src/models/errors/get-users-lists-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetListForbiddenError`](./src/models/errors/get-list-forbidden-error.ts): The token lacks the read:public ability; the list is private or a draft and the token may not read its owner's private data (`read:user` on the owner's own token); the list is for Pro members; or the request sent `owned`, `read`, `reviewed`, `alert_filter`, `item_ids` or `alert_id`, which only the app's own API reads. Status code `403`. Applicable to 1 of 101 methods.*
-* [`UpdateListForbiddenError`](./src/models/errors/update-list-forbidden-error.ts): The list is not yours to update, or the token holds neither write:list nor write:lists. Status code `403`. Applicable to 1 of 101 methods.*
-* [`DeleteListForbiddenError`](./src/models/errors/delete-list-forbidden-error.ts): The token holds neither write:list nor write:lists, the list is not yours, or it is your wishlist. Status code `403`. Applicable to 1 of 101 methods.*
-* [`SaveListForbiddenError`](./src/models/errors/save-list-forbidden-error.ts): The token holds neither write:list nor write:lists, or the list is your own or private. Status code `403`. Applicable to 1 of 101 methods.*
-* [`UnsaveListForbiddenError`](./src/models/errors/unsave-list-forbidden-error.ts): The token holds neither write:list nor write:lists. Status code `403`. Applicable to 1 of 101 methods.*
-* [`LikeListOrReactToItForbiddenError`](./src/models/errors/like-list-or-react-to-it-forbidden-error.ts): The token holds neither write:list nor write:lists, or the list is your own or private. Status code `403`. Applicable to 1 of 101 methods.*
-* [`UnlikeListForbiddenError`](./src/models/errors/unlike-list-forbidden-error.ts): The token holds neither write:list nor write:lists. Status code `403`. Applicable to 1 of 101 methods.*
-* [`OpenAListToAnyTypeForbiddenError`](./src/models/errors/open-a-list-to-any-type-forbidden-error.ts): The token holds neither write:list nor write:lists, or the list is not yours. Status code `403`. Applicable to 1 of 101 methods.*
-* [`StopAListUpdatingItselfForbiddenError`](./src/models/errors/stop-a-list-updating-itself-forbidden-error.ts): The token holds neither write:list nor write:lists, or the list is not yours. Status code `403`. Applicable to 1 of 101 methods.*
-* [`MergeAListIntoThisOneForbiddenError`](./src/models/errors/merge-a-list-into-this-one-forbidden-error.ts): The token holds neither write:list nor write:lists, or either list is not yours to merge. Status code `403`. Applicable to 1 of 101 methods.*
-* [`AddItemToListForbiddenError`](./src/models/errors/add-item-to-list-forbidden-error.ts): The list is not yours to change or is built by a rule, the token holds neither write:list nor write:lists, or the list is at its item limit. Status code `403`. Applicable to 1 of 101 methods.*
-* [`RemoveItemFromListForbiddenError`](./src/models/errors/remove-item-from-list-forbidden-error.ts): The token holds neither write:list nor write:lists, or the list is not yours to change. Status code `403`. Applicable to 1 of 101 methods.*
-* [`ReorderItemsForbiddenError`](./src/models/errors/reorder-items-forbidden-error.ts): The list is not yours, is not ranked or is built by a rule, or the token holds neither write:list nor write:lists. Status code `403`. Applicable to 1 of 101 methods.*
-* [`ListKeyIssueReasonsForbiddenError`](./src/models/errors/list-key-issue-reasons-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`ListUniversesForbiddenError`](./src/models/errors/list-universes-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetASpecificUniverseForbiddenError`](./src/models/errors/get-a-specific-universe-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`ListCharactersForbiddenError`](./src/models/errors/list-characters-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetCharacterDetailsForbiddenError`](./src/models/errors/get-character-details-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetCharacterSeriesForbiddenError`](./src/models/errors/get-character-series-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetCharacterIssuesForbiddenError`](./src/models/errors/get-character-issues-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetCharacterTeamsForbiddenError`](./src/models/errors/get-character-teams-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`ListCreatorsForbiddenError`](./src/models/errors/list-creators-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetCreatorDetailsForbiddenError`](./src/models/errors/get-creator-details-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetCreatorsIssuesForbiddenError`](./src/models/errors/get-creators-issues-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetCreatorsSeriesForbiddenError`](./src/models/errors/get-creators-series-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetCreatorsBlogPostsForbiddenError`](./src/models/errors/get-creators-blog-posts-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`ListAllStoryArcsWithOptionalSearchForbiddenError`](./src/models/errors/list-all-story-arcs-with-optional-search-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetStoryArcsForASpecificIssueForbiddenError`](./src/models/errors/get-story-arcs-for-a-specific-issue-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetStoryArcDetailForbiddenError`](./src/models/errors/get-story-arc-detail-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetStoryArcsForASpecificCharacterForbiddenError`](./src/models/errors/get-story-arcs-for-a-specific-character-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetStoryArcsForASpecificUniverseForbiddenError`](./src/models/errors/get-story-arcs-for-a-specific-universe-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`ListAllTeamsWithOptionalSearchForbiddenError`](./src/models/errors/list-all-teams-with-optional-search-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetASpecificTeamForbiddenError`](./src/models/errors/get-a-specific-team-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetCharactersForASpecificTeammembersForbiddenError`](./src/models/errors/get-characters-for-a-specific-teammembers-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetSeriesForASpecificTeamForbiddenError`](./src/models/errors/get-series-for-a-specific-team-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetIssuesForASpecificTeamForbiddenError`](./src/models/errors/get-issues-for-a-specific-team-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`ListEventsForbiddenError`](./src/models/errors/list-events-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetAnEventForbiddenError`](./src/models/errors/get-an-event-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`ListAllPodcastsWithOptionalSearchForbiddenError`](./src/models/errors/list-all-podcasts-with-optional-search-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetASpecificPodcastForbiddenError`](./src/models/errors/get-a-specific-podcast-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetImprintDetailsForbiddenError`](./src/models/errors/get-imprint-details-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`ListImprintsForbiddenError`](./src/models/errors/list-imprints-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetASpecificTitleForbiddenError`](./src/models/errors/get-a-specific-title-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`ListTitlesForbiddenError`](./src/models/errors/list-titles-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetPublisherDetailsForbiddenError`](./src/models/errors/get-publisher-details-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`ListAllPublishersWithOptionalSearchForbiddenError`](./src/models/errors/list-all-publishers-with-optional-search-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`ListSeriesForbiddenError`](./src/models/errors/list-series-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetSeriesIssuesForbiddenError`](./src/models/errors/get-series-issues-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetSeriesDetailsForbiddenError`](./src/models/errors/get-series-details-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetSeriesCreatorsForbiddenError`](./src/models/errors/get-series-creators-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetSeriesCharactersForbiddenError`](./src/models/errors/get-series-characters-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetIssueVariantsForbiddenError`](./src/models/errors/get-issue-variants-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetIssueDetailsForbiddenError`](./src/models/errors/get-issue-details-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`ListIssuesForbiddenError`](./src/models/errors/list-issues-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetVariantDetailsForbiddenError`](./src/models/errors/get-variant-details-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetKeyIssueReasonsForbiddenError`](./src/models/errors/get-key-issue-reasons-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetIssueCreatorsForbiddenError`](./src/models/errors/get-issue-creators-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetIssueCharactersForbiddenError`](./src/models/errors/get-issue-characters-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`LookupByUPCForbiddenError`](./src/models/errors/lookup-by-upc-forbidden-error.ts): The token lacks the `lookup:barcode` ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`LookupByISBNForbiddenError`](./src/models/errors/lookup-by-isbn-forbidden-error.ts): The token lacks the `lookup:barcode` ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`LookupByDistributorCodeForbiddenError`](./src/models/errors/lookup-by-distributor-code-forbidden-error.ts): The token lacks the `lookup:barcode` ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`ListComicShopsForbiddenError`](./src/models/errors/list-comic-shops-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`GetAComicShopForbiddenError`](./src/models/errors/get-a-comic-shop-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`FOCDeadlinesForbiddenError`](./src/models/errors/foc-deadlines-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`FollowUpdatesForbiddenError`](./src/models/errors/follow-updates-forbidden-error.ts): A token without `read:user`. Status code `403`. Applicable to 1 of 101 methods.*
-* [`Upcoming1IssuesForbiddenError`](./src/models/errors/upcoming1-issues-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`LookUpAnIssueByCoverPhotoForbiddenError`](./src/models/errors/look-up-an-issue-by-cover-photo-forbidden-error.ts): The token lacks the `read:public` ability. Status code `403`. Applicable to 1 of 101 methods.*
-* [`CheckFollowStatusNotFoundError`](./src/models/errors/check-follow-status-not-found-error.ts): No live entity of this type has this ID. Status code `404`. Applicable to 1 of 101 methods.*
-* [`GetPullListIssueCoversNotFoundError`](./src/models/errors/get-pull-list-issue-covers-not-found-error.ts): The issue's series is not on the user's pull list. Status code `404`. Applicable to 1 of 101 methods.*
-* [`SetPullListIssueCoversNotFoundError`](./src/models/errors/set-pull-list-issue-covers-not-found-error.ts): No live issue has this ID, or its series is not on the user's pull list (`This series is not in your pull list`). Status code `404`. Applicable to 1 of 101 methods.*
-* [`MarkAsReadNotFoundError`](./src/models/errors/mark-as-read-not-found-error.ts): No live issue has this ID. Status code `404`. Applicable to 1 of 101 methods.*
-* [`MarkAsUnreadNotFoundError`](./src/models/errors/mark-as-unread-not-found-error.ts): No live issue has this ID. Status code `404`. Applicable to 1 of 101 methods.*
-* [`EditReadingDateNotFoundError`](./src/models/errors/edit-reading-date-not-found-error.ts): No live issue has this ID. Status code `404`. Applicable to 1 of 101 methods.*
-* [`AddToWishlistNotFoundError`](./src/models/errors/add-to-wishlist-not-found-error.ts): No live issue has this ID. Status code `404`. Applicable to 1 of 101 methods.*
-* [`RemoveFromWishlistNotFoundError`](./src/models/errors/remove-from-wishlist-not-found-error.ts): No live issue has this ID. Status code `404`. Applicable to 1 of 101 methods.*
-* [`AddToPullListNotFoundError`](./src/models/errors/add-to-pull-list-not-found-error.ts): The series is deleted. Status code `404`. Applicable to 1 of 101 methods.*
-* [`RemoveFromPullListNotFoundError`](./src/models/errors/remove-from-pull-list-not-found-error.ts): No live series has this ID. Status code `404`. Applicable to 1 of 101 methods.*
-* [`AddIssueToCollectionNotFoundError`](./src/models/errors/add-issue-to-collection-not-found-error.ts): No live issue has this ID. Status code `404`. Applicable to 1 of 101 methods.*
-* [`RemoveIssueFromCollectionResponseBodyError1`](./src/models/errors/remove-issue-from-collection-response-body-error1.ts): No live issue has this ID (`message`), or the user holds no such copy of it (`error`). Status code `404`. Applicable to 1 of 101 methods.*
-* [`RemoveIssueFromCollectionResponseBodyError2`](./src/models/errors/remove-issue-from-collection-response-body-error2.ts): No live issue has this ID (`message`), or the user holds no such copy of it (`error`). Status code `404`. Applicable to 1 of 101 methods.*
-* [`UpdateCollectionItemResponseBodyNotFoundError1`](./src/models/errors/update-collection-item-response-body-not-found-error1.ts): No live issue has this ID (`message`), or the user holds no such copy of it (`error`). Status code `404`. Applicable to 1 of 101 methods.*
-* [`UpdateCollectionItemResponseBodyNotFoundError2`](./src/models/errors/update-collection-item-response-body-not-found-error2.ts): No live issue has this ID (`message`), or the user holds no such copy of it (`error`). Status code `404`. Applicable to 1 of 101 methods.*
-* [`LendACopyOutNotFoundError`](./src/models/errors/lend-a-copy-out-not-found-error.ts): No collection item has this ID, or the user does not own it (`Collection item not found.`). Status code `404`. Applicable to 1 of 101 methods.*
-* [`MarkTheCopysOpenLoanReturnedNotFoundError`](./src/models/errors/mark-the-copys-open-loan-returned-not-found-error.ts): No collection item has this ID, the user does not own it, or it is not on loan. Status code `404`. Applicable to 1 of 101 methods.*
-* [`FollowContentNotFoundError`](./src/models/errors/follow-content-not-found-error.ts): No live entity of this type has this ID. Status code `404`. Applicable to 1 of 101 methods.*
-* [`UnfollowContentNotFoundError`](./src/models/errors/unfollow-content-not-found-error.ts): No live entity of this type has this ID. Status code `404`. Applicable to 1 of 101 methods.*
-* [`CreateListNotFoundError`](./src/models/errors/create-list-not-found-error.ts): No live issue has this ID. Status code `404`. Applicable to 1 of 101 methods.*
-* [`GetUsersListsNotFoundError`](./src/models/errors/get-users-lists-not-found-error.ts): You blocked this user, or they blocked you. Status code `404`. Applicable to 1 of 101 methods.*
-* [`GetListNotFoundError`](./src/models/errors/get-list-not-found-error.ts): No such list, or you blocked its owner, or they blocked you. Status code `404`. Applicable to 1 of 101 methods.*
-* [`UpdateListNotFoundError`](./src/models/errors/update-list-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 101 methods.*
-* [`DeleteListNotFoundError`](./src/models/errors/delete-list-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 101 methods.*
-* [`SaveListNotFoundError`](./src/models/errors/save-list-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 101 methods.*
-* [`UnsaveListNotFoundError`](./src/models/errors/unsave-list-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 101 methods.*
-* [`LikeListOrReactToItNotFoundError`](./src/models/errors/like-list-or-react-to-it-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 101 methods.*
-* [`UnlikeListNotFoundError`](./src/models/errors/unlike-list-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 101 methods.*
-* [`OpenAListToAnyTypeNotFoundError`](./src/models/errors/open-a-list-to-any-type-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 101 methods.*
-* [`StopAListUpdatingItselfNotFoundError`](./src/models/errors/stop-a-list-updating-itself-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 101 methods.*
-* [`MergeAListIntoThisOneNotFoundError`](./src/models/errors/merge-a-list-into-this-one-not-found-error.ts): No live list has this ID (`Source list not found.` when it is the source that is gone). Status code `404`. Applicable to 1 of 101 methods.*
-* [`AddItemToListNotFoundError`](./src/models/errors/add-item-to-list-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 101 methods.*
-* [`RemoveItemFromListNotFoundError`](./src/models/errors/remove-item-from-list-not-found-error.ts): No live list or no list item has this ID, or the item belongs to another list (`Item does not belong to this list.`). Status code `404`. Applicable to 1 of 101 methods.*
-* [`ReorderItemsNotFoundError`](./src/models/errors/reorder-items-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 101 methods.*
-* [`GetCharacterDetailsNotFoundError`](./src/models/errors/get-character-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 101 methods.*
-* [`GetCharacterSeriesNotFoundError`](./src/models/errors/get-character-series-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 101 methods.*
-* [`GetCharacterIssuesNotFoundError`](./src/models/errors/get-character-issues-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 101 methods.*
-* [`GetCharacterTeamsNotFoundError`](./src/models/errors/get-character-teams-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 101 methods.*
-* [`GetCreatorDetailsNotFoundError`](./src/models/errors/get-creator-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 101 methods.*
-* [`GetStoryArcsForASpecificCharacterNotFoundError`](./src/models/errors/get-story-arcs-for-a-specific-character-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 101 methods.*
-* [`GetASpecificTeamNotFoundError`](./src/models/errors/get-a-specific-team-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 101 methods.*
-* [`GetAnEventNotFoundError`](./src/models/errors/get-an-event-not-found-error.ts): An archived event. Status code `404`. Applicable to 1 of 101 methods.*
-* [`GetASpecificPodcastNotFoundError`](./src/models/errors/get-a-specific-podcast-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 101 methods.*
-* [`GetASpecificTitleNotFoundError`](./src/models/errors/get-a-specific-title-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 101 methods.*
-* [`GetPublisherDetailsNotFoundError`](./src/models/errors/get-publisher-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 101 methods.*
-* [`GetSeriesDetailsNotFoundError`](./src/models/errors/get-series-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 101 methods.*
-* [`GetIssueDetailsNotFoundError`](./src/models/errors/get-issue-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 101 methods.*
-* [`GetVariantDetailsNotFoundError`](./src/models/errors/get-variant-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 101 methods.*
-* [`LookupByUPCNotFoundError`](./src/models/errors/lookup-by-upc-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 101 methods.*
-* [`LookupByISBNNotFoundError`](./src/models/errors/lookup-by-isbn-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 101 methods.*
-* [`LookupByDistributorCodeNotFoundError`](./src/models/errors/lookup-by-distributor-code-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 101 methods.*
-* [`GetAComicShopNotFoundError`](./src/models/errors/get-a-comic-shop-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 101 methods.*
-* [`LendACopyOutConflictError`](./src/models/errors/lend-a-copy-out-conflict-error.ts): The copy is already on loan. Status code `409`. Applicable to 1 of 101 methods.*
-* [`AddItemToListConflictError`](./src/models/errors/add-item-to-list-conflict-error.ts): The entity (with the same cover) is already in the list. Status code `409`. Applicable to 1 of 101 methods.*
-* [`LookupByUPCConflictError`](./src/models/errors/lookup-by-upc-conflict-error.ts): Multiple Matches. Status code `409`. Applicable to 1 of 101 methods.*
-* [`LookupByDistributorCodeConflictError`](./src/models/errors/lookup-by-distributor-code-conflict-error.ts): Multiple Matches. Status code `409`. Applicable to 1 of 101 methods.*
-* [`ListFollowsUnprocessableEntityError`](./src/models/errors/list-follows-unprocessable-entity-error.ts): A type that is not followable, or a search past 100 characters. Status code `422`. Applicable to 1 of 101 methods.*
-* [`CheckIssueInCollectionUnprocessableEntityError`](./src/models/errors/check-issue-in-collection-unprocessable-entity-error.ts): A variant that does not exist. Status code `422`. Applicable to 1 of 101 methods.*
-* [`SetPullListIssueCoversUnprocessableEntityError`](./src/models/errors/set-pull-list-issue-covers-unprocessable-entity-error.ts): No cover chosen (`Choose at least one cover.`), or a body the rules refuse. Status code `422`. Applicable to 1 of 101 methods.*
-* [`MarkAsReadResponseBodyError1`](./src/models/errors/mark-as-read-response-body-error1.ts): Invalid Variant, a variant that does not exist, a `read_at` that is not a day up to today, or an issue not released yet. Status code `422`. Applicable to 1 of 101 methods.*
-* [`MarkAsReadResponseBodyError2`](./src/models/errors/mark-as-read-response-body-error2.ts): Invalid Variant, a variant that does not exist, a `read_at` that is not a day up to today, or an issue not released yet. Status code `422`. Applicable to 1 of 101 methods.*
-* [`MarkAsReadResponseBodyError3`](./src/models/errors/mark-as-read-response-body-error3.ts): Invalid Variant, a variant that does not exist, a `read_at` that is not a day up to today, or an issue not released yet. Status code `422`. Applicable to 1 of 101 methods.*
-* [`MarkAsUnreadUnprocessableEntityError`](./src/models/errors/mark-as-unread-unprocessable-entity-error.ts): A variant that does not exist. Status code `422`. Applicable to 1 of 101 methods.*
-* [`EditReadingDateResponseBodyError1`](./src/models/errors/edit-reading-date-response-body-error1.ts): Invalid Variant, a date after today, `undated` sent with `read_at`, or an issue not released yet. Status code `422`. Applicable to 1 of 101 methods.*
-* [`EditReadingDateResponseBodyError2`](./src/models/errors/edit-reading-date-response-body-error2.ts): Invalid Variant, a date after today, `undated` sent with `read_at`, or an issue not released yet. Status code `422`. Applicable to 1 of 101 methods.*
-* [`EditReadingDateResponseBodyError3`](./src/models/errors/edit-reading-date-response-body-error3.ts): Invalid Variant, a date after today, `undated` sent with `read_at`, or an issue not released yet. Status code `422`. Applicable to 1 of 101 methods.*
-* [`AddToWishlistResponseBodyError1`](./src/models/errors/add-to-wishlist-response-body-error1.ts): Wishlist Full, or a variant that is not one of the issue's. Status code `422`. Applicable to 1 of 101 methods.*
-* [`AddToWishlistResponseBodyError2`](./src/models/errors/add-to-wishlist-response-body-error2.ts): Wishlist Full, or a variant that is not one of the issue's. Status code `422`. Applicable to 1 of 101 methods.*
-* [`RemoveFromWishlistUnprocessableEntityError`](./src/models/errors/remove-from-wishlist-unprocessable-entity-error.ts): A variant that is not one of the issue's. Status code `422`. Applicable to 1 of 101 methods.*
-* [`AddToPullListUnprocessableEntityError`](./src/models/errors/add-to-pull-list-unprocessable-entity-error.ts): No series has this ID. Status code `422`. Applicable to 1 of 101 methods.*
-* [`AddIssueToCollectionResponseBodyError1`](./src/models/errors/add-issue-to-collection-response-body-error1.ts): A field the rules refuse, a variant of another issue, or an issue not released yet. Status code `422`. Applicable to 1 of 101 methods.*
-* [`AddIssueToCollectionResponseBodyError2`](./src/models/errors/add-issue-to-collection-response-body-error2.ts): A field the rules refuse, a variant of another issue, or an issue not released yet. Status code `422`. Applicable to 1 of 101 methods.*
-* [`AddIssueToCollectionResponseBodyError3`](./src/models/errors/add-issue-to-collection-response-body-error3.ts): A field the rules refuse, a variant of another issue, or an issue not released yet. Status code `422`. Applicable to 1 of 101 methods.*
-* [`RemoveIssueFromCollectionUnprocessableEntityError`](./src/models/errors/remove-issue-from-collection-unprocessable-entity-error.ts): A variant that does not exist, or a collection item ID that is not an integer. Status code `422`. Applicable to 1 of 101 methods.*
-* [`UpdateCollectionItemResponseBodyUnprocessableEntityError1`](./src/models/errors/update-collection-item-response-body-unprocessable-entity-error1.ts): A field the rules refuse, a variant of another issue, or `is_read` on an issue not released yet (the copy is still updated). Status code `422`. Applicable to 1 of 101 methods.*
-* [`UpdateCollectionItemResponseBodyUnprocessableEntityError2`](./src/models/errors/update-collection-item-response-body-unprocessable-entity-error2.ts): A field the rules refuse, a variant of another issue, or `is_read` on an issue not released yet (the copy is still updated). Status code `422`. Applicable to 1 of 101 methods.*
-* [`UpdateCollectionItemResponseBodyUnprocessableEntityError3`](./src/models/errors/update-collection-item-response-body-unprocessable-entity-error3.ts): A field the rules refuse, a variant of another issue, or `is_read` on an issue not released yet (the copy is still updated). Status code `422`. Applicable to 1 of 101 methods.*
-* [`LendACopyOutUnprocessableEntityError`](./src/models/errors/lend-a-copy-out-unprocessable-entity-error.ts): A field the rules refuse. Status code `422`. Applicable to 1 of 101 methods.*
-* [`MarkTheCopysOpenLoanReturnedUnprocessableEntityError`](./src/models/errors/mark-the-copys-open-loan-returned-unprocessable-entity-error.ts): A `returned_at` that is not a date. Status code `422`. Applicable to 1 of 101 methods.*
-* [`FollowContentUnprocessableEntityError`](./src/models/errors/follow-content-unprocessable-entity-error.ts): The body fails its rules, or the member is following themselves. Status code `422`. Applicable to 1 of 101 methods.*
-* [`CreateListUnprocessableEntityError`](./src/models/errors/create-list-unprocessable-entity-error.ts): The body failed validation. Status code `422`. Applicable to 1 of 101 methods.*
-* [`UpdateListUnprocessableEntityError`](./src/models/errors/update-list-unprocessable-entity-error.ts): The body failed validation. Status code `422`. Applicable to 1 of 101 methods.*
-* [`LikeListOrReactToItUnprocessableEntityError`](./src/models/errors/like-list-or-react-to-it-unprocessable-entity-error.ts): Unknown reaction. Status code `422`. Applicable to 1 of 101 methods.*
-* [`OpenAListToAnyTypeUnprocessableEntityError`](./src/models/errors/open-a-list-to-any-type-unprocessable-entity-error.ts): Not convertible. Status code `422`. Applicable to 1 of 101 methods.*
-* [`StopAListUpdatingItselfUnprocessableEntityError`](./src/models/errors/stop-a-list-updating-itself-unprocessable-entity-error.ts): Not rule-built. Status code `422`. Applicable to 1 of 101 methods.*
-* [`MergeAListIntoThisOneUnprocessableEntityError`](./src/models/errors/merge-a-list-into-this-one-unprocessable-entity-error.ts): The body failed validation, or the merge is refused (an empty source, the item cap). Status code `422`. Applicable to 1 of 101 methods.*
-* [`AddItemToListUnprocessableEntityError`](./src/models/errors/add-item-to-list-unprocessable-entity-error.ts): The body failed validation. Status code `422`. Applicable to 1 of 101 methods.*
-* [`ReorderItemsUnprocessableEntityError`](./src/models/errors/reorder-items-unprocessable-entity-error.ts): The body failed validation. Status code `422`. Applicable to 1 of 101 methods.*
-* [`LookupByUPCUnprocessableEntityError`](./src/models/errors/lookup-by-upc-unprocessable-entity-error.ts): Invalid UPC. Status code `422`. Applicable to 1 of 101 methods.*
-* [`LookupByISBNUnprocessableEntityError`](./src/models/errors/lookup-by-isbn-unprocessable-entity-error.ts): Invalid ISBN. Status code `422`. Applicable to 1 of 101 methods.*
-* [`LookupByDistributorCodeUnprocessableEntityError`](./src/models/errors/lookup-by-distributor-code-unprocessable-entity-error.ts): Not a Lunar or Universal Code. Status code `422`. Applicable to 1 of 101 methods.*
-* [`FOCDeadlinesUnprocessableEntityError`](./src/models/errors/foc-deadlines-unprocessable-entity-error.ts): A query parameter out of range. Status code `422`. Applicable to 1 of 101 methods.*
-* [`FollowUpdatesUnprocessableEntityError`](./src/models/errors/follow-updates-unprocessable-entity-error.ts): A query parameter out of range. Status code `422`. Applicable to 1 of 101 methods.*
-* [`Upcoming1IssuesUnprocessableEntityError`](./src/models/errors/upcoming1-issues-unprocessable-entity-error.ts): A query parameter out of range. Status code `422`. Applicable to 1 of 101 methods.*
-* [`LookUpAnIssueByCoverPhotoUnprocessableEntityError`](./src/models/errors/look-up-an-issue-by-cover-photo-unprocessable-entity-error.ts): No photo, not an image, not one of the listed types, over 5MB, or sent as a part with no file name, which is read as text. Status code `422`. Applicable to 1 of 101 methods.*
-* [`ServiceUnavailableError`](./src/models/errors/service-unavailable-error.ts): Cover matching is unavailable right now. Status code `503`. Applicable to 1 of 101 methods.*
+* [`CheckFollowStatusBadRequestError`](./src/models/errors/check-follow-status-bad-request-error.ts): A type that is not followable. Status code `400`. Applicable to 1 of 102 methods.*
+* [`AddIssueToCollectionBadRequestError`](./src/models/errors/add-issue-to-collection-bad-request-error.ts): An `Idempotency-Key` that is not a UUID. Status code `400`. Applicable to 1 of 102 methods.*
+* [`UnfollowContentBadRequestError`](./src/models/errors/unfollow-content-bad-request-error.ts): A type that is not followable. Status code `400`. Applicable to 1 of 102 methods.*
+* [`ExchangeAConnectCodeForATokenBadRequestError`](./src/models/errors/exchange-a-connect-code-for-a-token-bad-request-error.ts): The request could not be processed: an OAuth error and its description. Status code `400`. Applicable to 1 of 102 methods.*
+* [`ViewYourReadingGoalUnauthorizedError`](./src/models/errors/view-your-reading-goal-unauthorized-error.ts): The request could not be processed. Status code `401`. Applicable to 1 of 102 methods.*
+* [`ViewYearlyReadingStatisticsUnauthorizedError`](./src/models/errors/view-yearly-reading-statistics-unauthorized-error.ts): The request could not be processed. Status code `401`. Applicable to 1 of 102 methods.*
+* [`ViewYourMonthlyReadingCalendarUnauthorizedError`](./src/models/errors/view-your-monthly-reading-calendar-unauthorized-error.ts): The request could not be processed. Status code `401`. Applicable to 1 of 102 methods.*
+* [`GetTheAuthenticatedUserForbiddenError`](./src/models/errors/get-the-authenticated-user-forbidden-error.ts): The token holds neither read:user nor read:showcase. Status code `403`. Applicable to 1 of 102 methods.*
+* [`ListFollowsForbiddenError`](./src/models/errors/list-follows-forbidden-error.ts): The token lacks the read:user ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetActivityFeedForbiddenError`](./src/models/errors/get-activity-feed-forbidden-error.ts): The token lacks the read:user ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`CheckFollowStatusForbiddenError`](./src/models/errors/check-follow-status-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`ListReadStatusForbiddenError`](./src/models/errors/list-read-status-forbidden-error.ts): The token holds neither read:user nor read:showcase. Status code `403`. Applicable to 1 of 102 methods.*
+* [`ListWishlistForbiddenError`](./src/models/errors/list-wishlist-forbidden-error.ts): The token holds neither read:user nor read:showcase. Status code `403`. Applicable to 1 of 102 methods.*
+* [`ListCollectionForbiddenError`](./src/models/errors/list-collection-forbidden-error.ts): The token holds neither read:user nor read:showcase. Status code `403`. Applicable to 1 of 102 methods.*
+* [`CheckIssueInCollectionForbiddenError`](./src/models/errors/check-issue-in-collection-forbidden-error.ts): The token does not hold read:user. Status code `403`. Applicable to 1 of 102 methods.*
+* [`ListPullListForbiddenError`](./src/models/errors/list-pull-list-forbidden-error.ts): The token holds neither read:user nor read:showcase. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetPullListIssueCoversForbiddenError`](./src/models/errors/get-pull-list-issue-covers-forbidden-error.ts): The token does not hold read:user. Status code `403`. Applicable to 1 of 102 methods.*
+* [`SetPullListIssueCoversForbiddenError`](./src/models/errors/set-pull-list-issue-covers-forbidden-error.ts): The token holds neither write:pull-list nor write:lists. Status code `403`. Applicable to 1 of 102 methods.*
+* [`MarkAsReadForbiddenError`](./src/models/errors/mark-as-read-forbidden-error.ts): The token holds neither write:read-status nor write:lists. Status code `403`. Applicable to 1 of 102 methods.*
+* [`MarkAsUnreadForbiddenError`](./src/models/errors/mark-as-unread-forbidden-error.ts): The token holds neither write:read-status nor write:lists. Status code `403`. Applicable to 1 of 102 methods.*
+* [`EditReadingDateForbiddenError`](./src/models/errors/edit-reading-date-forbidden-error.ts): The token holds neither write:read-status nor write:lists. Status code `403`. Applicable to 1 of 102 methods.*
+* [`AddToWishlistForbiddenError`](./src/models/errors/add-to-wishlist-forbidden-error.ts): The token holds neither write:wishlist nor write:lists. Status code `403`. Applicable to 1 of 102 methods.*
+* [`RemoveFromWishlistForbiddenError`](./src/models/errors/remove-from-wishlist-forbidden-error.ts): The token holds neither write:wishlist nor write:lists. Status code `403`. Applicable to 1 of 102 methods.*
+* [`AddToPullListForbiddenError`](./src/models/errors/add-to-pull-list-forbidden-error.ts): The token holds neither write:pull-list nor write:lists. Status code `403`. Applicable to 1 of 102 methods.*
+* [`RemoveFromPullListForbiddenError`](./src/models/errors/remove-from-pull-list-forbidden-error.ts): The token holds neither write:pull-list nor write:lists. Status code `403`. Applicable to 1 of 102 methods.*
+* [`UpdatePullListItemForbiddenError`](./src/models/errors/update-pull-list-item-forbidden-error.ts): The token holds neither write:pull-list nor write:lists. Status code `403`. Applicable to 1 of 102 methods.*
+* [`AddIssueToCollectionForbiddenError`](./src/models/errors/add-issue-to-collection-forbidden-error.ts): The token holds neither write:collection nor write:lists. Status code `403`. Applicable to 1 of 102 methods.*
+* [`RemoveIssueFromCollectionForbiddenError`](./src/models/errors/remove-issue-from-collection-forbidden-error.ts): The token holds neither write:collection nor write:lists. Status code `403`. Applicable to 1 of 102 methods.*
+* [`UpdateCollectionItemForbiddenError`](./src/models/errors/update-collection-item-forbidden-error.ts): The token holds neither write:collection nor write:lists. Status code `403`. Applicable to 1 of 102 methods.*
+* [`LendACopyOutForbiddenError`](./src/models/errors/lend-a-copy-out-forbidden-error.ts): The token holds neither write:collection nor write:lists. Status code `403`. Applicable to 1 of 102 methods.*
+* [`MarkTheCopysOpenLoanReturnedForbiddenError`](./src/models/errors/mark-the-copys-open-loan-returned-forbidden-error.ts): The token holds neither write:collection nor write:lists. Status code `403`. Applicable to 1 of 102 methods.*
+* [`FollowContentForbiddenError`](./src/models/errors/follow-content-forbidden-error.ts): The token holds neither write:follows nor write:lists, or the profile is private or a block stands between the two members (the body names `code`). Status code `403`. Applicable to 1 of 102 methods.*
+* [`UnfollowContentForbiddenError`](./src/models/errors/unfollow-content-forbidden-error.ts): The token holds neither write:follows nor write:lists. Status code `403`. Applicable to 1 of 102 methods.*
+* [`ViewYourReadingGoalForbiddenError`](./src/models/errors/view-your-reading-goal-forbidden-error.ts): The token holds neither read:user nor read:showcase. Status code `403`. Applicable to 1 of 102 methods.*
+* [`ViewYearlyReadingStatisticsForbiddenError`](./src/models/errors/view-yearly-reading-statistics-forbidden-error.ts): The token holds neither read:user nor read:showcase, or the member has no Pro. Status code `403`. Applicable to 1 of 102 methods.*
+* [`ViewYourMonthlyReadingCalendarForbiddenError`](./src/models/errors/view-your-monthly-reading-calendar-forbidden-error.ts): The token holds neither read:user nor read:showcase, or the member has no Pro. Status code `403`. Applicable to 1 of 102 methods.*
+* [`ViewYourUnfinishedComicsFromTheVerseDBReaderForbiddenError`](./src/models/errors/view-your-unfinished-comics-from-the-verse-db-reader-forbidden-error.ts): The token holds neither read:user nor read:showcase. Status code `403`. Applicable to 1 of 102 methods.*
+* [`BrowseListsForbiddenError`](./src/models/errors/browse-lists-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`CreateListForbiddenError`](./src/models/errors/create-list-forbidden-error.ts): The token holds neither write:list nor write:lists, or a free account already has its ten lists. Status code `403`. Applicable to 1 of 102 methods.*
+* [`BrowseSystemListsForbiddenError`](./src/models/errors/browse-system-lists-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetUsersListsForbiddenError`](./src/models/errors/get-users-lists-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetListForbiddenError`](./src/models/errors/get-list-forbidden-error.ts): The token lacks the read:public ability; the list is private or a draft and the token may not read its owner's private data (`read:user` on the owner's own token); the list is for Pro members; or the request sent `owned`, `read`, `reviewed`, `alert_filter`, `item_ids` or `alert_id`, which only the app's own API reads. Status code `403`. Applicable to 1 of 102 methods.*
+* [`UpdateListForbiddenError`](./src/models/errors/update-list-forbidden-error.ts): The list is not yours to update, or the token holds neither write:list nor write:lists. Status code `403`. Applicable to 1 of 102 methods.*
+* [`DeleteListForbiddenError`](./src/models/errors/delete-list-forbidden-error.ts): The token holds neither write:list nor write:lists, the list is not yours, or it is your wishlist. Status code `403`. Applicable to 1 of 102 methods.*
+* [`SaveListForbiddenError`](./src/models/errors/save-list-forbidden-error.ts): The token holds neither write:list nor write:lists, or the list is your own or private. Status code `403`. Applicable to 1 of 102 methods.*
+* [`UnsaveListForbiddenError`](./src/models/errors/unsave-list-forbidden-error.ts): The token holds neither write:list nor write:lists. Status code `403`. Applicable to 1 of 102 methods.*
+* [`LikeListOrReactToItForbiddenError`](./src/models/errors/like-list-or-react-to-it-forbidden-error.ts): The token holds neither write:list nor write:lists, or the list is your own or private. Status code `403`. Applicable to 1 of 102 methods.*
+* [`UnlikeListForbiddenError`](./src/models/errors/unlike-list-forbidden-error.ts): The token holds neither write:list nor write:lists. Status code `403`. Applicable to 1 of 102 methods.*
+* [`OpenAListToAnyTypeForbiddenError`](./src/models/errors/open-a-list-to-any-type-forbidden-error.ts): The token holds neither write:list nor write:lists, or the list is not yours. Status code `403`. Applicable to 1 of 102 methods.*
+* [`StopAListUpdatingItselfForbiddenError`](./src/models/errors/stop-a-list-updating-itself-forbidden-error.ts): The token holds neither write:list nor write:lists, or the list is not yours. Status code `403`. Applicable to 1 of 102 methods.*
+* [`MergeAListIntoThisOneForbiddenError`](./src/models/errors/merge-a-list-into-this-one-forbidden-error.ts): The token holds neither write:list nor write:lists, or either list is not yours to merge. Status code `403`. Applicable to 1 of 102 methods.*
+* [`AddItemToListForbiddenError`](./src/models/errors/add-item-to-list-forbidden-error.ts): The list is not yours to change or is built by a rule, the token holds neither write:list nor write:lists, or the list is at its item limit. Status code `403`. Applicable to 1 of 102 methods.*
+* [`RemoveItemFromListForbiddenError`](./src/models/errors/remove-item-from-list-forbidden-error.ts): The token holds neither write:list nor write:lists, or the list is not yours to change. Status code `403`. Applicable to 1 of 102 methods.*
+* [`ReorderItemsForbiddenError`](./src/models/errors/reorder-items-forbidden-error.ts): The list is not yours, is not ranked or is built by a rule, or the token holds neither write:list nor write:lists. Status code `403`. Applicable to 1 of 102 methods.*
+* [`ListKeyIssueReasonsForbiddenError`](./src/models/errors/list-key-issue-reasons-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`ListUniversesForbiddenError`](./src/models/errors/list-universes-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetASpecificUniverseForbiddenError`](./src/models/errors/get-a-specific-universe-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`ListCharactersForbiddenError`](./src/models/errors/list-characters-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetCharacterDetailsForbiddenError`](./src/models/errors/get-character-details-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetCharacterSeriesForbiddenError`](./src/models/errors/get-character-series-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetCharacterIssuesForbiddenError`](./src/models/errors/get-character-issues-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetCharacterTeamsForbiddenError`](./src/models/errors/get-character-teams-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`ListCreatorsForbiddenError`](./src/models/errors/list-creators-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetCreatorDetailsForbiddenError`](./src/models/errors/get-creator-details-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetCreatorsIssuesForbiddenError`](./src/models/errors/get-creators-issues-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetCreatorsSeriesForbiddenError`](./src/models/errors/get-creators-series-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetCreatorsBlogPostsForbiddenError`](./src/models/errors/get-creators-blog-posts-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`ListAllStoryArcsWithOptionalSearchForbiddenError`](./src/models/errors/list-all-story-arcs-with-optional-search-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetStoryArcsForASpecificIssueForbiddenError`](./src/models/errors/get-story-arcs-for-a-specific-issue-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetStoryArcDetailForbiddenError`](./src/models/errors/get-story-arc-detail-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetStoryArcsForASpecificCharacterForbiddenError`](./src/models/errors/get-story-arcs-for-a-specific-character-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetStoryArcsForASpecificUniverseForbiddenError`](./src/models/errors/get-story-arcs-for-a-specific-universe-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`ListAllTeamsWithOptionalSearchForbiddenError`](./src/models/errors/list-all-teams-with-optional-search-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetASpecificTeamForbiddenError`](./src/models/errors/get-a-specific-team-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetCharactersForASpecificTeammembersForbiddenError`](./src/models/errors/get-characters-for-a-specific-teammembers-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetSeriesForASpecificTeamForbiddenError`](./src/models/errors/get-series-for-a-specific-team-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetIssuesForASpecificTeamForbiddenError`](./src/models/errors/get-issues-for-a-specific-team-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`ListEventsForbiddenError`](./src/models/errors/list-events-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetAnEventForbiddenError`](./src/models/errors/get-an-event-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`ListAllPodcastsWithOptionalSearchForbiddenError`](./src/models/errors/list-all-podcasts-with-optional-search-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetASpecificPodcastForbiddenError`](./src/models/errors/get-a-specific-podcast-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetImprintDetailsForbiddenError`](./src/models/errors/get-imprint-details-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`ListImprintsForbiddenError`](./src/models/errors/list-imprints-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetASpecificTitleForbiddenError`](./src/models/errors/get-a-specific-title-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`ListTitlesForbiddenError`](./src/models/errors/list-titles-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetPublisherDetailsForbiddenError`](./src/models/errors/get-publisher-details-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`ListAllPublishersWithOptionalSearchForbiddenError`](./src/models/errors/list-all-publishers-with-optional-search-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`ListSeriesForbiddenError`](./src/models/errors/list-series-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetSeriesIssuesForbiddenError`](./src/models/errors/get-series-issues-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetSeriesDetailsForbiddenError`](./src/models/errors/get-series-details-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetSeriesCreatorsForbiddenError`](./src/models/errors/get-series-creators-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetSeriesCharactersForbiddenError`](./src/models/errors/get-series-characters-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetIssueVariantsForbiddenError`](./src/models/errors/get-issue-variants-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetIssueDetailsForbiddenError`](./src/models/errors/get-issue-details-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`ListIssuesForbiddenError`](./src/models/errors/list-issues-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetVariantDetailsForbiddenError`](./src/models/errors/get-variant-details-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetKeyIssueReasonsForbiddenError`](./src/models/errors/get-key-issue-reasons-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetIssueCreatorsForbiddenError`](./src/models/errors/get-issue-creators-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetIssueCharactersForbiddenError`](./src/models/errors/get-issue-characters-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`LookupByUPCForbiddenError`](./src/models/errors/lookup-by-upc-forbidden-error.ts): The token lacks the `lookup:barcode` ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`LookupByISBNForbiddenError`](./src/models/errors/lookup-by-isbn-forbidden-error.ts): The token lacks the `lookup:barcode` ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`LookupByDistributorCodeForbiddenError`](./src/models/errors/lookup-by-distributor-code-forbidden-error.ts): The token lacks the `lookup:barcode` ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`ListComicShopsForbiddenError`](./src/models/errors/list-comic-shops-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`GetAComicShopForbiddenError`](./src/models/errors/get-a-comic-shop-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`FOCDeadlinesForbiddenError`](./src/models/errors/foc-deadlines-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`FollowUpdatesForbiddenError`](./src/models/errors/follow-updates-forbidden-error.ts): A token without `read:user`. Status code `403`. Applicable to 1 of 102 methods.*
+* [`Upcoming1IssuesForbiddenError`](./src/models/errors/upcoming1-issues-forbidden-error.ts): The token lacks the read:public ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`LookUpAnIssueByCoverPhotoForbiddenError`](./src/models/errors/look-up-an-issue-by-cover-photo-forbidden-error.ts): The token lacks the `read:public` ability. Status code `403`. Applicable to 1 of 102 methods.*
+* [`CheckFollowStatusNotFoundError`](./src/models/errors/check-follow-status-not-found-error.ts): No live entity of this type has this ID. Status code `404`. Applicable to 1 of 102 methods.*
+* [`GetPullListIssueCoversNotFoundError`](./src/models/errors/get-pull-list-issue-covers-not-found-error.ts): The issue's series is not on the user's pull list. Status code `404`. Applicable to 1 of 102 methods.*
+* [`SetPullListIssueCoversNotFoundError`](./src/models/errors/set-pull-list-issue-covers-not-found-error.ts): No live issue has this ID, or its series is not on the user's pull list (`This series is not in your pull list`). Status code `404`. Applicable to 1 of 102 methods.*
+* [`MarkAsReadNotFoundError`](./src/models/errors/mark-as-read-not-found-error.ts): No live issue has this ID. Status code `404`. Applicable to 1 of 102 methods.*
+* [`MarkAsUnreadNotFoundError`](./src/models/errors/mark-as-unread-not-found-error.ts): No live issue has this ID. Status code `404`. Applicable to 1 of 102 methods.*
+* [`EditReadingDateNotFoundError`](./src/models/errors/edit-reading-date-not-found-error.ts): No live issue has this ID. Status code `404`. Applicable to 1 of 102 methods.*
+* [`AddToWishlistNotFoundError`](./src/models/errors/add-to-wishlist-not-found-error.ts): No live issue has this ID. Status code `404`. Applicable to 1 of 102 methods.*
+* [`RemoveFromWishlistNotFoundError`](./src/models/errors/remove-from-wishlist-not-found-error.ts): No live issue has this ID. Status code `404`. Applicable to 1 of 102 methods.*
+* [`AddToPullListNotFoundError`](./src/models/errors/add-to-pull-list-not-found-error.ts): The series is deleted. Status code `404`. Applicable to 1 of 102 methods.*
+* [`RemoveFromPullListNotFoundError`](./src/models/errors/remove-from-pull-list-not-found-error.ts): No live series has this ID. Status code `404`. Applicable to 1 of 102 methods.*
+* [`UpdatePullListItemNotFoundError`](./src/models/errors/update-pull-list-item-not-found-error.ts): No live series has this ID, or it is not on the user's pull list (`Pull list entry not found.`). Status code `404`. Applicable to 1 of 102 methods.*
+* [`AddIssueToCollectionNotFoundError`](./src/models/errors/add-issue-to-collection-not-found-error.ts): No live issue has this ID. Status code `404`. Applicable to 1 of 102 methods.*
+* [`RemoveIssueFromCollectionResponseBodyError1`](./src/models/errors/remove-issue-from-collection-response-body-error1.ts): No live issue has this ID (`message`), or the user holds no such copy of it (`error`). Status code `404`. Applicable to 1 of 102 methods.*
+* [`RemoveIssueFromCollectionResponseBodyError2`](./src/models/errors/remove-issue-from-collection-response-body-error2.ts): No live issue has this ID (`message`), or the user holds no such copy of it (`error`). Status code `404`. Applicable to 1 of 102 methods.*
+* [`UpdateCollectionItemResponseBodyNotFoundError1`](./src/models/errors/update-collection-item-response-body-not-found-error1.ts): No live issue has this ID (`message`), or the user holds no such copy of it (`error`). Status code `404`. Applicable to 1 of 102 methods.*
+* [`UpdateCollectionItemResponseBodyNotFoundError2`](./src/models/errors/update-collection-item-response-body-not-found-error2.ts): No live issue has this ID (`message`), or the user holds no such copy of it (`error`). Status code `404`. Applicable to 1 of 102 methods.*
+* [`LendACopyOutNotFoundError`](./src/models/errors/lend-a-copy-out-not-found-error.ts): No collection item has this ID, or the user does not own it (`Collection item not found.`). Status code `404`. Applicable to 1 of 102 methods.*
+* [`MarkTheCopysOpenLoanReturnedNotFoundError`](./src/models/errors/mark-the-copys-open-loan-returned-not-found-error.ts): No collection item has this ID, the user does not own it, or it is not on loan. Status code `404`. Applicable to 1 of 102 methods.*
+* [`FollowContentNotFoundError`](./src/models/errors/follow-content-not-found-error.ts): No live entity of this type has this ID. Status code `404`. Applicable to 1 of 102 methods.*
+* [`UnfollowContentNotFoundError`](./src/models/errors/unfollow-content-not-found-error.ts): No live entity of this type has this ID. Status code `404`. Applicable to 1 of 102 methods.*
+* [`CreateListNotFoundError`](./src/models/errors/create-list-not-found-error.ts): No live issue has this ID. Status code `404`. Applicable to 1 of 102 methods.*
+* [`GetUsersListsNotFoundError`](./src/models/errors/get-users-lists-not-found-error.ts): You blocked this user, or they blocked you. Status code `404`. Applicable to 1 of 102 methods.*
+* [`GetListNotFoundError`](./src/models/errors/get-list-not-found-error.ts): No such list, or you blocked its owner, or they blocked you. Status code `404`. Applicable to 1 of 102 methods.*
+* [`UpdateListNotFoundError`](./src/models/errors/update-list-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 102 methods.*
+* [`DeleteListNotFoundError`](./src/models/errors/delete-list-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 102 methods.*
+* [`SaveListNotFoundError`](./src/models/errors/save-list-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 102 methods.*
+* [`UnsaveListNotFoundError`](./src/models/errors/unsave-list-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 102 methods.*
+* [`LikeListOrReactToItNotFoundError`](./src/models/errors/like-list-or-react-to-it-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 102 methods.*
+* [`UnlikeListNotFoundError`](./src/models/errors/unlike-list-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 102 methods.*
+* [`OpenAListToAnyTypeNotFoundError`](./src/models/errors/open-a-list-to-any-type-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 102 methods.*
+* [`StopAListUpdatingItselfNotFoundError`](./src/models/errors/stop-a-list-updating-itself-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 102 methods.*
+* [`MergeAListIntoThisOneNotFoundError`](./src/models/errors/merge-a-list-into-this-one-not-found-error.ts): No live list has this ID (`Source list not found.` when it is the source that is gone). Status code `404`. Applicable to 1 of 102 methods.*
+* [`AddItemToListNotFoundError`](./src/models/errors/add-item-to-list-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 102 methods.*
+* [`RemoveItemFromListNotFoundError`](./src/models/errors/remove-item-from-list-not-found-error.ts): No live list or no list item has this ID, or the item belongs to another list (`Item does not belong to this list.`). Status code `404`. Applicable to 1 of 102 methods.*
+* [`ReorderItemsNotFoundError`](./src/models/errors/reorder-items-not-found-error.ts): No live list has this ID. Status code `404`. Applicable to 1 of 102 methods.*
+* [`GetCharacterDetailsNotFoundError`](./src/models/errors/get-character-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 102 methods.*
+* [`GetCharacterSeriesNotFoundError`](./src/models/errors/get-character-series-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 102 methods.*
+* [`GetCharacterIssuesNotFoundError`](./src/models/errors/get-character-issues-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 102 methods.*
+* [`GetCharacterTeamsNotFoundError`](./src/models/errors/get-character-teams-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 102 methods.*
+* [`GetCreatorDetailsNotFoundError`](./src/models/errors/get-creator-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 102 methods.*
+* [`GetStoryArcsForASpecificCharacterNotFoundError`](./src/models/errors/get-story-arcs-for-a-specific-character-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 102 methods.*
+* [`GetASpecificTeamNotFoundError`](./src/models/errors/get-a-specific-team-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 102 methods.*
+* [`GetAnEventNotFoundError`](./src/models/errors/get-an-event-not-found-error.ts): An archived event. Status code `404`. Applicable to 1 of 102 methods.*
+* [`GetASpecificPodcastNotFoundError`](./src/models/errors/get-a-specific-podcast-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 102 methods.*
+* [`GetASpecificTitleNotFoundError`](./src/models/errors/get-a-specific-title-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 102 methods.*
+* [`GetPublisherDetailsNotFoundError`](./src/models/errors/get-publisher-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 102 methods.*
+* [`GetSeriesDetailsNotFoundError`](./src/models/errors/get-series-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 102 methods.*
+* [`GetIssueDetailsNotFoundError`](./src/models/errors/get-issue-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 102 methods.*
+* [`GetVariantDetailsNotFoundError`](./src/models/errors/get-variant-details-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 102 methods.*
+* [`LookupByUPCNotFoundError`](./src/models/errors/lookup-by-upc-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 102 methods.*
+* [`LookupByISBNNotFoundError`](./src/models/errors/lookup-by-isbn-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 102 methods.*
+* [`LookupByDistributorCodeNotFoundError`](./src/models/errors/lookup-by-distributor-code-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 102 methods.*
+* [`GetAComicShopNotFoundError`](./src/models/errors/get-a-comic-shop-not-found-error.ts): Not Found. Status code `404`. Applicable to 1 of 102 methods.*
+* [`AddIssueToCollectionConflictError`](./src/models/errors/add-issue-to-collection-conflict-error.ts): A request with the same `Idempotency-Key` is still adding the copy (`add_in_progress`; repeat it after a moment), or the copy that key added has since been removed (`copy_removed`). Status code `409`. Applicable to 1 of 102 methods.*
+* [`LendACopyOutConflictError`](./src/models/errors/lend-a-copy-out-conflict-error.ts): The copy is already on loan. Status code `409`. Applicable to 1 of 102 methods.*
+* [`AddItemToListConflictError`](./src/models/errors/add-item-to-list-conflict-error.ts): The entity (with the same cover) is already in the list. Status code `409`. Applicable to 1 of 102 methods.*
+* [`LookupByUPCConflictError`](./src/models/errors/lookup-by-upc-conflict-error.ts): Multiple Matches. Status code `409`. Applicable to 1 of 102 methods.*
+* [`LookupByDistributorCodeConflictError`](./src/models/errors/lookup-by-distributor-code-conflict-error.ts): Multiple Matches. Status code `409`. Applicable to 1 of 102 methods.*
+* [`ListFollowsUnprocessableEntityError`](./src/models/errors/list-follows-unprocessable-entity-error.ts): A type that is not followable, or a search past 100 characters. Status code `422`. Applicable to 1 of 102 methods.*
+* [`CheckIssueInCollectionUnprocessableEntityError`](./src/models/errors/check-issue-in-collection-unprocessable-entity-error.ts): A variant that does not exist. Status code `422`. Applicable to 1 of 102 methods.*
+* [`SetPullListIssueCoversUnprocessableEntityError`](./src/models/errors/set-pull-list-issue-covers-unprocessable-entity-error.ts): No cover chosen (`Choose at least one cover.`), or a body the rules refuse. Status code `422`. Applicable to 1 of 102 methods.*
+* [`MarkAsReadResponseBodyError1`](./src/models/errors/mark-as-read-response-body-error1.ts): Invalid Variant, a variant that does not exist, a `read_at` that is not a day up to today, or an issue not released yet. Status code `422`. Applicable to 1 of 102 methods.*
+* [`MarkAsReadResponseBodyError2`](./src/models/errors/mark-as-read-response-body-error2.ts): Invalid Variant, a variant that does not exist, a `read_at` that is not a day up to today, or an issue not released yet. Status code `422`. Applicable to 1 of 102 methods.*
+* [`MarkAsReadResponseBodyError3`](./src/models/errors/mark-as-read-response-body-error3.ts): Invalid Variant, a variant that does not exist, a `read_at` that is not a day up to today, or an issue not released yet. Status code `422`. Applicable to 1 of 102 methods.*
+* [`MarkAsUnreadUnprocessableEntityError`](./src/models/errors/mark-as-unread-unprocessable-entity-error.ts): A variant that does not exist. Status code `422`. Applicable to 1 of 102 methods.*
+* [`EditReadingDateResponseBodyError1`](./src/models/errors/edit-reading-date-response-body-error1.ts): Invalid Variant, a date after today, `undated` sent with `read_at`, or an issue not released yet. Status code `422`. Applicable to 1 of 102 methods.*
+* [`EditReadingDateResponseBodyError2`](./src/models/errors/edit-reading-date-response-body-error2.ts): Invalid Variant, a date after today, `undated` sent with `read_at`, or an issue not released yet. Status code `422`. Applicable to 1 of 102 methods.*
+* [`EditReadingDateResponseBodyError3`](./src/models/errors/edit-reading-date-response-body-error3.ts): Invalid Variant, a date after today, `undated` sent with `read_at`, or an issue not released yet. Status code `422`. Applicable to 1 of 102 methods.*
+* [`AddToWishlistResponseBodyError1`](./src/models/errors/add-to-wishlist-response-body-error1.ts): Wishlist Full, or a variant that is not one of the issue's. Status code `422`. Applicable to 1 of 102 methods.*
+* [`AddToWishlistResponseBodyError2`](./src/models/errors/add-to-wishlist-response-body-error2.ts): Wishlist Full, or a variant that is not one of the issue's. Status code `422`. Applicable to 1 of 102 methods.*
+* [`RemoveFromWishlistUnprocessableEntityError`](./src/models/errors/remove-from-wishlist-unprocessable-entity-error.ts): A variant that is not one of the issue's. Status code `422`. Applicable to 1 of 102 methods.*
+* [`AddToPullListUnprocessableEntityError`](./src/models/errors/add-to-pull-list-unprocessable-entity-error.ts): No series has this ID. Status code `422`. Applicable to 1 of 102 methods.*
+* [`UpdatePullListItemUnprocessableEntityError`](./src/models/errors/update-pull-list-item-unprocessable-entity-error.ts): No field sent (`No fields to update.`), or a body the rules refuse. Status code `422`. Applicable to 1 of 102 methods.*
+* [`AddIssueToCollectionResponseBodyError1`](./src/models/errors/add-issue-to-collection-response-body-error1.ts): A field the rules refuse, a variant of another issue, or an issue not released yet. Status code `422`. Applicable to 1 of 102 methods.*
+* [`AddIssueToCollectionResponseBodyError2`](./src/models/errors/add-issue-to-collection-response-body-error2.ts): A field the rules refuse, a variant of another issue, or an issue not released yet. Status code `422`. Applicable to 1 of 102 methods.*
+* [`AddIssueToCollectionResponseBodyError3`](./src/models/errors/add-issue-to-collection-response-body-error3.ts): A field the rules refuse, a variant of another issue, or an issue not released yet. Status code `422`. Applicable to 1 of 102 methods.*
+* [`RemoveIssueFromCollectionUnprocessableEntityError`](./src/models/errors/remove-issue-from-collection-unprocessable-entity-error.ts): A variant that does not exist, or a collection item ID that is not an integer. Status code `422`. Applicable to 1 of 102 methods.*
+* [`UpdateCollectionItemResponseBodyUnprocessableEntityError1`](./src/models/errors/update-collection-item-response-body-unprocessable-entity-error1.ts): A field the rules refuse, a variant of another issue, or `is_read` on an issue not released yet (the copy is still updated). Status code `422`. Applicable to 1 of 102 methods.*
+* [`UpdateCollectionItemResponseBodyUnprocessableEntityError2`](./src/models/errors/update-collection-item-response-body-unprocessable-entity-error2.ts): A field the rules refuse, a variant of another issue, or `is_read` on an issue not released yet (the copy is still updated). Status code `422`. Applicable to 1 of 102 methods.*
+* [`UpdateCollectionItemResponseBodyUnprocessableEntityError3`](./src/models/errors/update-collection-item-response-body-unprocessable-entity-error3.ts): A field the rules refuse, a variant of another issue, or `is_read` on an issue not released yet (the copy is still updated). Status code `422`. Applicable to 1 of 102 methods.*
+* [`LendACopyOutUnprocessableEntityError`](./src/models/errors/lend-a-copy-out-unprocessable-entity-error.ts): A field the rules refuse. Status code `422`. Applicable to 1 of 102 methods.*
+* [`MarkTheCopysOpenLoanReturnedUnprocessableEntityError`](./src/models/errors/mark-the-copys-open-loan-returned-unprocessable-entity-error.ts): A `returned_at` that is not a date. Status code `422`. Applicable to 1 of 102 methods.*
+* [`FollowContentUnprocessableEntityError`](./src/models/errors/follow-content-unprocessable-entity-error.ts): The body fails its rules, or the member is following themselves. Status code `422`. Applicable to 1 of 102 methods.*
+* [`CreateListUnprocessableEntityError`](./src/models/errors/create-list-unprocessable-entity-error.ts): The body failed validation. Status code `422`. Applicable to 1 of 102 methods.*
+* [`UpdateListUnprocessableEntityError`](./src/models/errors/update-list-unprocessable-entity-error.ts): The body failed validation. Status code `422`. Applicable to 1 of 102 methods.*
+* [`LikeListOrReactToItUnprocessableEntityError`](./src/models/errors/like-list-or-react-to-it-unprocessable-entity-error.ts): Unknown reaction. Status code `422`. Applicable to 1 of 102 methods.*
+* [`OpenAListToAnyTypeUnprocessableEntityError`](./src/models/errors/open-a-list-to-any-type-unprocessable-entity-error.ts): Not convertible. Status code `422`. Applicable to 1 of 102 methods.*
+* [`StopAListUpdatingItselfUnprocessableEntityError`](./src/models/errors/stop-a-list-updating-itself-unprocessable-entity-error.ts): Not rule-built. Status code `422`. Applicable to 1 of 102 methods.*
+* [`MergeAListIntoThisOneUnprocessableEntityError`](./src/models/errors/merge-a-list-into-this-one-unprocessable-entity-error.ts): The body failed validation, or the merge is refused (an empty source, the item cap). Status code `422`. Applicable to 1 of 102 methods.*
+* [`AddItemToListUnprocessableEntityError`](./src/models/errors/add-item-to-list-unprocessable-entity-error.ts): The body failed validation. Status code `422`. Applicable to 1 of 102 methods.*
+* [`ReorderItemsUnprocessableEntityError`](./src/models/errors/reorder-items-unprocessable-entity-error.ts): The body failed validation. Status code `422`. Applicable to 1 of 102 methods.*
+* [`LookupByUPCUnprocessableEntityError`](./src/models/errors/lookup-by-upc-unprocessable-entity-error.ts): Invalid UPC. Status code `422`. Applicable to 1 of 102 methods.*
+* [`LookupByISBNUnprocessableEntityError`](./src/models/errors/lookup-by-isbn-unprocessable-entity-error.ts): Invalid ISBN. Status code `422`. Applicable to 1 of 102 methods.*
+* [`LookupByDistributorCodeUnprocessableEntityError`](./src/models/errors/lookup-by-distributor-code-unprocessable-entity-error.ts): Not a Lunar or Universal Code. Status code `422`. Applicable to 1 of 102 methods.*
+* [`FOCDeadlinesUnprocessableEntityError`](./src/models/errors/foc-deadlines-unprocessable-entity-error.ts): A query parameter out of range. Status code `422`. Applicable to 1 of 102 methods.*
+* [`FollowUpdatesUnprocessableEntityError`](./src/models/errors/follow-updates-unprocessable-entity-error.ts): A query parameter out of range. Status code `422`. Applicable to 1 of 102 methods.*
+* [`Upcoming1IssuesUnprocessableEntityError`](./src/models/errors/upcoming1-issues-unprocessable-entity-error.ts): A query parameter out of range. Status code `422`. Applicable to 1 of 102 methods.*
+* [`LookUpAnIssueByCoverPhotoUnprocessableEntityError`](./src/models/errors/look-up-an-issue-by-cover-photo-unprocessable-entity-error.ts): No photo, not an image, not one of the listed types, over 5MB, or sent as a part with no file name, which is read as text. Status code `422`. Applicable to 1 of 102 methods.*
+* [`ServiceUnavailableError`](./src/models/errors/service-unavailable-error.ts): Cover matching is unavailable right now. Status code `503`. Applicable to 1 of 102 methods.*
 * [`ResponseValidationError`](./src/models/errors/response-validation-error.ts): Type mismatch between the data returned from the server and the structure expected by the SDK. See `error.rawValue` for the raw value and `error.pretty()` for a nicely formatted multi-line string.
 
 </details>

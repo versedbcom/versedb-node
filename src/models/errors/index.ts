@@ -104,6 +104,7 @@ export * from "./unsave-list.js";
 export * from "./upcoming1-issues.js";
 export * from "./update-collection-item.js";
 export * from "./update-list.js";
+export * from "./update-pull-list-item.js";
 export * from "./verse-db-default-error.js";
 export * from "./verse-db-error.js";
 export * from "./view-yearly-reading-statistics.js";

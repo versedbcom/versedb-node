@@ -5,6 +5,8 @@
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
 import { safeParse } from "../../lib/schemas.js";
+import * as openEnums from "../../types/enums.js";
+import { OpenEnum } from "../../types/enums.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { smartUnion } from "../../types/smart-union.js";
@@ -41,6 +43,39 @@ export type LendACopyOutRequest = {
  * As sent: a number, or digits as text.
  */
 export type LendACopyOutVariantId = number | string;
+
+/**
+ * The catalog variant `variant_id` names, while it is a live variant of the copy's issue; null for any other copy.
+ */
+export type LendACopyOutVariant = {
+  id: number;
+  name: string | null;
+  /**
+   * The variant's `variant_type`.
+   */
+  type: string | null;
+  coverUrl: string | null;
+  coverUrlLg: string | null;
+  ratio: string | null;
+  printing: number | null;
+  /**
+   * The variant cover's own flag, or the issue's when the variant has no cover.
+   */
+  isNsfw: boolean;
+};
+
+/**
+ * Which cover the copy is of: `catalog` when `variant_id` names a live variant of the copy's issue, `custom` when it names none and the copy is flagged a variant (`is_variant`), else `main`, the issue's own cover.
+ */
+export const LendACopyOutCoverKind = {
+  Main: "main",
+  Catalog: "catalog",
+  Custom: "custom",
+} as const;
+/**
+ * Which cover the copy is of: `catalog` when `variant_id` names a live variant of the copy's issue, `custom` when it names none and the copy is flagged a variant (`is_variant`), else `main`, the issue's own cover.
+ */
+export type LendACopyOutCoverKind = OpenEnum<typeof LendACopyOutCoverKind>;
 
 /**
  * As sent: a number, or digits as text.
@@ -139,6 +174,14 @@ export type LendACopyOutData = {
    * As sent: a number, or digits as text.
    */
   variantId: number | string | null;
+  /**
+   * The catalog variant `variant_id` names, while it is a live variant of the copy's issue; null for any other copy.
+   */
+  variant: LendACopyOutVariant | null;
+  /**
+   * Which cover the copy is of: `catalog` when `variant_id` names a live variant of the copy's issue, `custom` when it names none and the copy is flagged a variant (`is_variant`), else `main`, the issue's own cover.
+   */
+  coverKind: LendACopyOutCoverKind;
   condition: string | null;
   /**
    * Left out for a `read:showcase` token.
@@ -343,6 +386,46 @@ export function lendACopyOutVariantIdFromJSON(
     `Failed to parse 'LendACopyOutVariantId' from JSON`,
   );
 }
+
+/** @internal */
+export const LendACopyOutVariant$inboundSchema: z.ZodMiniType<
+  LendACopyOutVariant,
+  unknown
+> = z.pipe(
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    type: types.nullable(types.string()),
+    cover_url: types.nullable(types.string()),
+    cover_url_lg: types.nullable(types.string()),
+    ratio: types.nullable(types.string()),
+    printing: types.nullable(types.number()),
+    is_nsfw: types.boolean(),
+  }),
+  z.transform((v) => {
+    return remap$(v, {
+      "cover_url": "coverUrl",
+      "cover_url_lg": "coverUrlLg",
+      "is_nsfw": "isNsfw",
+    });
+  }),
+);
+
+export function lendACopyOutVariantFromJSON(
+  jsonString: string,
+): SafeParseResult<LendACopyOutVariant, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LendACopyOutVariant$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LendACopyOutVariant' from JSON`,
+  );
+}
+
+/** @internal */
+export const LendACopyOutCoverKind$inboundSchema: z.ZodMiniType<
+  LendACopyOutCoverKind,
+  unknown
+> = openEnums.inboundSchema(LendACopyOutCoverKind);
 
 /** @internal */
 export const LendACopyOutComicShopId$inboundSchema: z.ZodMiniType<
@@ -609,6 +692,8 @@ export const LendACopyOutData$inboundSchema: z.ZodMiniType<
     collectable_type: types.string(),
     collectable_id: types.number(),
     variant_id: types.nullable(smartUnion([types.number(), types.string()])),
+    variant: types.nullable(z.lazy(() => LendACopyOutVariant$inboundSchema)),
+    cover_kind: LendACopyOutCoverKind$inboundSchema,
     condition: types.nullable(types.string()),
     purchased_at: z.optional(z.nullable(types.string())),
     notes: z.optional(z.nullable(types.string())),
@@ -668,6 +753,7 @@ export const LendACopyOutData$inboundSchema: z.ZodMiniType<
       "collectable_type": "collectableType",
       "collectable_id": "collectableId",
       "variant_id": "variantId",
+      "cover_kind": "coverKind",
       "purchased_at": "purchasedAt",
       "storage_location": "storageLocation",
       "price_paid": "pricePaid",

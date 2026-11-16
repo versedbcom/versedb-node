@@ -96,6 +96,8 @@ let value: GetAnEventResponseBody = {
         currencyCode: "USD",
         formattedPrice: "$4.99",
         ean: "75960609999300111",
+        printRun: 3000,
+        coverLetter: "B",
         isNsfw: false,
         variantNameI18n: {
           "ja": {

@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: d54ae284-e171-41f5-99d0-d4027d6f02b4
 management:
-  docChecksum: 960949de58da704cd4102ea0780b3f55
+  docChecksum: 4a9ad6026f41aff53e039fbc8f97f458
   docVersion: 1.0.0
   speakeasyVersion: 1.809.0
   generationVersion: 2.961.1
-  releaseVersion: 3.0.10
-  configChecksum: a6ea0411f9d2b3fbe15877d7a46c2ca9
+  releaseVersion: 3.0.11
+  configChecksum: 9743fd48dfdb55c4642f462e41a2d361
   repoURL: https://github.com/versedbcom/versedb-node.git
   installationURL: https://github.com/versedbcom/versedb-node
   published: true
 persistentEdits:
-  generation_id: 451ba150-0bd9-4a12-a7c6-29ad5d82acbb
-  pristine_commit_hash: f22d4bd43f0a3623cf9747a046c2cb8986fdd461
-  pristine_tree_hash: d25aba9034da310ffa799e82f981261581b96889
+  generation_id: f9b9b4c8-fbac-43da-a030-85adad98ded4
+  pristine_commit_hash: eb3ad0bdd16a5e876db8eec749948e54b6db8e83
+  pristine_tree_hash: 2073f9f58e968eb66b51220027a90eb3a5a8188f
 features:
   typescript:
     additionalDependencies: 0.1.0
@@ -65,6 +65,14 @@ trackedFiles:
     id: 0ce9707cb848
     last_write_checksum: sha1:bc4454e196fcd219f5a78da690375a884f5ed07b
     pristine_git_object: 08f95f4552349360b2c0b01802aa71ec3a55d2c2
+  docs/models/errors/add-issue-to-collection-bad-request-error.md:
+    id: 83b8abeb83f9
+    last_write_checksum: sha1:bf12fd8e1eee567c23b874d3f803596d88fe50df
+    pristine_git_object: 94453887fd1d2425d194035922f4dc9f7c3b681f
+  docs/models/errors/add-issue-to-collection-conflict-error.md:
+    id: 022cc10bdbf7
+    last_write_checksum: sha1:c3a37fde5fe30ec75090b332bf90f19f50dff04f
+    pristine_git_object: 29ddf55f0f31c1849fa9450c82cf47ee2be4d962
   docs/models/errors/add-issue-to-collection-forbidden-error.md:
     id: b48329838abe
     last_write_checksum: sha1:f14cfce62468745d176b03205166ee22bbb75e3c
@@ -881,6 +889,18 @@ trackedFiles:
     id: 20fe762c71a4
     last_write_checksum: sha1:1a0041e8402664ea2f7dc01160860a6dd40bf89b
     pristine_git_object: 70d0384b335be41088b658d1bbfd436b19bf5c1c
+  docs/models/errors/update-pull-list-item-forbidden-error.md:
+    id: 305e58ee2c3b
+    last_write_checksum: sha1:18c650425e7d966f054130b9f94e27fc295f71fb
+    pristine_git_object: 29605d849a63fefc32228485049cae267c6f31aa
+  docs/models/errors/update-pull-list-item-not-found-error.md:
+    id: 89f3316828fa
+    last_write_checksum: sha1:d39d02ccfef0ee162ac9bd4bd7e92e3712c1645f
+    pristine_git_object: 57d012d4f1a1220fd956753cc7438668b86151cc
+  docs/models/errors/update-pull-list-item-unprocessable-entity-error.md:
+    id: 7610fbcea6aa
+    last_write_checksum: sha1:cc7de6918c1550573a1b8b3ebe18f6ff4ca54aa8
+    pristine_git_object: d7c682912e9d3cdd0a429787f675d0b859dbef19
   docs/models/errors/view-yearly-reading-statistics-forbidden-error.md:
     id: c62082d44ef3
     last_write_checksum: sha1:820dd3fc155267e7b81b991df298930bdf21dfc2
@@ -925,10 +945,14 @@ trackedFiles:
     id: c05cf6b7e95f
     last_write_checksum: sha1:e81ec80e416f33139bb47ea2a2624d1d728058a8
     pristine_git_object: 81cb9558c29d0aad6cff86543f61e7de44bdb14b
+  docs/models/operations/add-issue-to-collection-cover-kind.md:
+    id: 4e27dea55524
+    last_write_checksum: sha1:f0c339b40e500b7ce48c27a7af2e24aaabdb3c86
+    pristine_git_object: 7bcb50a8654671b8becf9983f148054553ac491f
   docs/models/operations/add-issue-to-collection-data.md:
     id: 9244629a132b
-    last_write_checksum: sha1:86cdcfe08ac99378ecf996b27e2a8fb9053866a1
-    pristine_git_object: c1e1250754070e7b8a0e3628c6b6c5aa1f1d316e
+    last_write_checksum: sha1:6f533c842cd662b25cae6ab20713a9b6b8efa463
+    pristine_git_object: a656d35fa6f748993603c635cc0dc30641c0db8e
   docs/models/operations/add-issue-to-collection-images.md:
     id: a09416112bff
     last_write_checksum: sha1:58a698b02c0fa440e8e370bae5c99d11fdb703a3
@@ -943,20 +967,20 @@ trackedFiles:
     pristine_git_object: 86062e1218956dc596ef3a43ed9c976fc95f4693
   docs/models/operations/add-issue-to-collection-request-body.md:
     id: cda87fdeb470
-    last_write_checksum: sha1:8a1f6a706bc163fb24f80118df65ee81617cff45
-    pristine_git_object: 2483c2ba2e67531a38cc0ae3424864bc59973e23
+    last_write_checksum: sha1:e78fb52bddb0b8eab9095e04171be1ab2df67549
+    pristine_git_object: 7582ca6573c9698d0150da0e2c9bd0f461337547
   docs/models/operations/add-issue-to-collection-request.md:
     id: f0e8a6aa88d5
-    last_write_checksum: sha1:2933b1b52e39cd03c25bd4b4c80dc2569ab807d5
-    pristine_git_object: b499c1220a4c3e0750f4b10c65e44db3c72535e0
+    last_write_checksum: sha1:a06ab47096a1f50403c886e700ebbb9a19d4ef0e
+    pristine_git_object: d522bc3c42a697b23021364e8aab4da36c243a16
   docs/models/operations/add-issue-to-collection-response-body.md:
     id: 14a25f50daf3
-    last_write_checksum: sha1:99c710716dac932b85aed13a3bb3ef00ee492386
-    pristine_git_object: 37d0d74df8c0c1e36e200fd91709126e83c9ad8f
+    last_write_checksum: sha1:d987668faaf70c5be38996b3e95d2594734def38
+    pristine_git_object: 346d4169dbb8910bab8ec16ddd4fc2e299ee1644
   docs/models/operations/add-issue-to-collection-response.md:
     id: c1fa1277be87
-    last_write_checksum: sha1:4df971d2d60f39edd80500fb8ecb60198c544993
-    pristine_git_object: 7f33fba4e7733d8bcb059cee518a92c2300bbe41
+    last_write_checksum: sha1:3bc24d6afa5ef0cfdc8c9d1525eb22e2785eb654
+    pristine_git_object: 2896206fe100624096aa9bb1dd25961b10705173
   docs/models/operations/add-issue-to-collection-series-images.md:
     id: af8a923272c6
     last_write_checksum: sha1:3db7d48ec78a0328092ce6b67aea3266c4c96cde
@@ -969,6 +993,10 @@ trackedFiles:
     id: d2c98945a72e
     last_write_checksum: sha1:841e243c14f66b9fd841d7db285c29d4cb5101aa
     pristine_git_object: 4920020b52e053a521e7ab0f9a5fce0e359d7243
+  docs/models/operations/add-issue-to-collection-variant.md:
+    id: 7937e37107fc
+    last_write_checksum: sha1:30b030899f659ee4b464a747cc7a8c409d982fdd
+    pristine_git_object: fb52ba9adbb112373cfd1d42c4a18fc6cf6d5db5
   docs/models/operations/add-item-to-list-conflict-variant.md:
     id: 6d43ab6be551
     last_write_checksum: sha1:916eddbb34e6cbb6a46f8198b4aa16970cdc6d54
@@ -1173,10 +1201,14 @@ trackedFiles:
     id: 628705f2ea8e
     last_write_checksum: sha1:d48e2c4f0f16bc0b3d81e0a376117dffa6d339fa
     pristine_git_object: 400202a468fde5301afcb5f8e3bda921b8ee4439
+  docs/models/operations/check-issue-in-collection-data-cover-kind.md:
+    id: 5843f3319b4c
+    last_write_checksum: sha1:2082e077be7ea5db8cd589b36755be21a22f0cbb
+    pristine_git_object: 1c62a4b4c723ac8c221bafa7c8bb1c565a009cb2
   docs/models/operations/check-issue-in-collection-data.md:
     id: ae8cd6695b07
-    last_write_checksum: sha1:e59fec39cd6995446dea2fa0b71e9b6a4419b8e8
-    pristine_git_object: 62213a63b3c41f85036b3756a5b1a76325f98908
+    last_write_checksum: sha1:d05093cdc18ddbac4946bf4441fa2447424897f1
+    pristine_git_object: 072b919c24a52d6e1a2f95f618c3929de36c3196
   docs/models/operations/check-issue-in-collection-images.md:
     id: 49ab9a7dac01
     last_write_checksum: sha1:17906c8b870303b17d91505cded6bdf41455a70c
@@ -1195,12 +1227,12 @@ trackedFiles:
     pristine_git_object: 831b68ed363f08018cfccd548b60e91fbff5f729
   docs/models/operations/check-issue-in-collection-response-body.md:
     id: b7d7bdd1bfd2
-    last_write_checksum: sha1:f03ddb2bb08955c47561a80451040fba6d61c7e7
-    pristine_git_object: 19142991bf694f85570c00c4e3534d24053969a6
+    last_write_checksum: sha1:41e7dc72089fba752fdc96f056b6e143e1356460
+    pristine_git_object: c869ea9ec023c58d31f2f81c22cc0c401bf26933
   docs/models/operations/check-issue-in-collection-response.md:
     id: ab1d6d8678bb
-    last_write_checksum: sha1:8d168f6bea4012066b4ed9e5ef82b541f7d3753a
-    pristine_git_object: c242dfd7bc67c4a80ed96bb30944818d5ae6cf06
+    last_write_checksum: sha1:6a6fbe3596fa727342fafe87bacb9a27c23b7eea
+    pristine_git_object: fcd2ae2fd6e823209a257efbe007070c598b27da
   docs/models/operations/check-issue-in-collection-series-images.md:
     id: c45923f46098
     last_write_checksum: sha1:0df881abe1ab8828af9c12879cffa01887b614cb
@@ -1209,6 +1241,10 @@ trackedFiles:
     id: 72fea672dfe7
     last_write_checksum: sha1:3ecc4b9f02773e7a128d902885747e4068ea8684
     pristine_git_object: 77b7354845b195c933d7eab6b37e0be433937aea
+  docs/models/operations/check-issue-in-collection-variant.md:
+    id: 8d6be21c85ee
+    last_write_checksum: sha1:751f59de1ff9bd635877c3eb9c390e5f1e72cf27
+    pristine_git_object: f6a2f34fec51ffc511bfd1ed457e61577974d1fc
   docs/models/operations/conflict-entity-union.md:
     id: 90d1600fd9db
     last_write_checksum: sha1:8e7bcf401fc2cb8c782af475bf8506e7ba68ea43
@@ -1217,10 +1253,14 @@ trackedFiles:
     id: c4e0a0ce5efd
     last_write_checksum: sha1:8670752788359dc78ef0a87af4fa6055b9ffb0d9
     pristine_git_object: d4e6736513101d71f551dec562bc8cbebc3a2cd7
+  docs/models/operations/copy-cover-kind.md:
+    id: 471ce7950fa5
+    last_write_checksum: sha1:4ea8515404bdf0dbed19a2e1847c4eefa958ab0c
+    pristine_git_object: 5cdf1f23023744f6571358d8d3a56c533378328d
   docs/models/operations/copy.md:
     id: 49e18e9dfb4c
-    last_write_checksum: sha1:6e2e524183cbfd8c209bf93d134b04eb3532bb8d
-    pristine_git_object: a8725f4b8c55125dbac68ac2e83410d787a479e5
+    last_write_checksum: sha1:bd067ed10d5b63cbef9fe915f9f02ae7ff7617d3
+    pristine_git_object: 78d5ee90b1904c3fac3e7b3f063f814e3a2cbe8c
   docs/models/operations/create-list-cloned-from-user.md:
     id: d6bf2510212a
     last_write_checksum: sha1:a77ba24b03d6b841b963071024e588f0bb32006d
@@ -1321,6 +1361,10 @@ trackedFiles:
     id: fc2db2d7a5a2
     last_write_checksum: sha1:7ddafa1029f93da0a20eb7b7b4cc1cef2992f657
     pristine_git_object: 96b20d256a86ec5fdc65d144d6be48c9b7580628
+  docs/models/operations/error-t.md:
+    id: b57640440a27
+    last_write_checksum: sha1:a920be4931335b015caa3e14e0f2d9f878313ec0
+    pristine_git_object: 4fb25feb1dfa08d1643ff4feccc3ea8d70a2f948
   docs/models/operations/event-images.md:
     id: 2868e5915eba
     last_write_checksum: sha1:f4603308bf8fdd812d60df157c188e126aad18ca
@@ -1663,12 +1707,12 @@ trackedFiles:
     pristine_git_object: 8e5229776394ba4f286e59bea9283f6cf5baa76f
   docs/models/operations/get-an-event-response-body.md:
     id: 167a264442e0
-    last_write_checksum: sha1:fe313c9ca7fc5b067367e1325fb10ecf605f26d1
-    pristine_git_object: 646219a9b5480bf98fa22f414f3761c672a95036
+    last_write_checksum: sha1:a4b7211c5372e429ad5b9afff79b24abc6e943a1
+    pristine_git_object: 96c046a197ed71d1434eed9024835d046e926e76
   docs/models/operations/get-an-event-response.md:
     id: 67b6cdcdacdb
-    last_write_checksum: sha1:c10a5eb57960b11dbc15e5e0f28acd51b2cf6d15
-    pristine_git_object: 58761d271bd2365daf5a3425519344966c098f5b
+    last_write_checksum: sha1:307ac14a90cf04457626d0d10683f31764d09109
+    pristine_git_object: 64d3d9333871d732d75bcd7c509c46fa2df30c6f
   docs/models/operations/get-an-event-series-images.md:
     id: c0659b0f62ff
     last_write_checksum: sha1:7c665be65153795cb10a11ffffe60ff5ffce181a
@@ -2239,8 +2283,8 @@ trackedFiles:
     pristine_git_object: 305879519f46bbc234915f1ea78f63bbc797d7c8
   docs/models/operations/get-issue-variants-data.md:
     id: 8dca110ee96f
-    last_write_checksum: sha1:f9a43f05b93c3bc3f3077484819c515650078106
-    pristine_git_object: 6723a7fe9c82ef499187a57234ce547646a30516
+    last_write_checksum: sha1:6993a41904371a59b6d4d11f30953c0f7ebbd34e
+    pristine_git_object: 79a15d6d22c8cada0731bc025f3f7583177a51c7
   docs/models/operations/get-issue-variants-images.md:
     id: 15abf8d8da71
     last_write_checksum: sha1:10258283a1a5203d035f71abd5d7d1c70241328f
@@ -2251,12 +2295,16 @@ trackedFiles:
     pristine_git_object: 30569ef05da94be9ef579956280ce9de3893a6d3
   docs/models/operations/get-issue-variants-response-body.md:
     id: e0ec6698f38b
-    last_write_checksum: sha1:ba2149ff187fc9c5f76d2bbf945f4d68975e43da
-    pristine_git_object: 599330ec60ef0e7377541624c1752008411a015a
+    last_write_checksum: sha1:9ac380aaf914ea45b39f283c4284f0219f32cb14
+    pristine_git_object: 93af0641626bdaf6b34d84af45ff4d7954afa44c
   docs/models/operations/get-issue-variants-response.md:
     id: a5301f494638
     last_write_checksum: sha1:500508ce68ef1ab0fc63d6a0f8ed40229d4db471
     pristine_git_object: 5d590df045fa6ebcd92a338d4c362a28f0399272
+  docs/models/operations/get-issue-variants-shop.md:
+    id: d15b67840fbd
+    last_write_checksum: sha1:43aa060ce3deecb3c8232641279e801b899166fd
+    pristine_git_object: 2ac622da8edfd221ce439ff607a15d5aed7c9889
   docs/models/operations/get-issue-variants-variant-name-i18n.md:
     id: 389831d97f5f
     last_write_checksum: sha1:f4f4b6f0d3b6198d4115a23ea43fb98e63b62ee6
@@ -2419,8 +2467,8 @@ trackedFiles:
     pristine_git_object: 274f8fe4386da1b57009d0664949f1d2d2cec3b1
   docs/models/operations/get-pull-list-issue-covers-data.md:
     id: 0eeb512a6230
-    last_write_checksum: sha1:f186084795fb1e8bb673bf64c8bdf2d289be6376
-    pristine_git_object: 8780313f897e2a25f9e90f7bd353872d463eff54
+    last_write_checksum: sha1:af250904c0316a1663c20f0aef1d967702481cbe
+    pristine_git_object: 38960d2ac62b89b84bd032c9edb638e89bfdb27d
   docs/models/operations/get-pull-list-issue-covers-images.md:
     id: 546ed4bf3635
     last_write_checksum: sha1:79a0bbdf1b23efb6415229a673f5d45867b68b3d
@@ -2429,22 +2477,38 @@ trackedFiles:
     id: 830241b6eb8d
     last_write_checksum: sha1:5d76154f28bd3253c555f4e94ce48baf6463c818
     pristine_git_object: cb7215c3660c32cff09003293d5a3a2cd6b47d6d
+  docs/models/operations/get-pull-list-issue-covers-linked-shop.md:
+    id: af37cf38c303
+    last_write_checksum: sha1:362885af78f7488e7bb6360e293db61092ede856
+    pristine_git_object: edd29b2e6f6be000d673fb52e059e8189d8eab6c
   docs/models/operations/get-pull-list-issue-covers-option.md:
     id: 384b857ce4c5
     last_write_checksum: sha1:2e9a4bdf69b0c9c0d36f6c9738cab011838ef8e1
     pristine_git_object: a6bea4b4f81d1b5a4b04493b0c8c8a9fddb422dd
+  docs/models/operations/get-pull-list-issue-covers-order.md:
+    id: 6831e71efdb2
+    last_write_checksum: sha1:e372e5cd3f03f1a5566c67deb38c2d5246798666
+    pristine_git_object: 7ca3cc3aabef5df7dc12f49f1241687df251b394
   docs/models/operations/get-pull-list-issue-covers-request.md:
     id: f3c88ddaaa84
     last_write_checksum: sha1:58cabaa4c2db69bef4557630de3184e376d0dc63
     pristine_git_object: eac67c7d125bb402b4680ccbbddace33689ded58
   docs/models/operations/get-pull-list-issue-covers-response-body.md:
     id: 531e4b69b0ca
-    last_write_checksum: sha1:ae73483913219a8de8d63e917c786508d83c8946
-    pristine_git_object: b034c0991ceb0983a9be287f11789e20cce20c4a
+    last_write_checksum: sha1:69109ed8b46c639eb94726acaa95f2b904892a95
+    pristine_git_object: 2bb77566a0378be1b7d1f85c56446ad2d24d2853
   docs/models/operations/get-pull-list-issue-covers-response.md:
     id: 01d458c85227
-    last_write_checksum: sha1:ce5671ce25c5b6c0bc6525e6251b2f1b29a20b90
-    pristine_git_object: dc10694a94b4670ff6993b223de6ed3a8e54b0b3
+    last_write_checksum: sha1:f6759c027e4ae6e4edf68a962f26655fb375386f
+    pristine_git_object: fc62a5f258206a35c95a6c3059c4374641b54b5a
+  docs/models/operations/get-pull-list-issue-covers-shop-order.md:
+    id: 4104efbb136e
+    last_write_checksum: sha1:7eb0310e800170c9e6280431a7d774f80e0cf7d3
+    pristine_git_object: 76fc4417652bcbd994c78e9e12dde8ef0139b6ff
+  docs/models/operations/get-pull-list-issue-covers-standing.md:
+    id: 008607f1c9ee
+    last_write_checksum: sha1:910f1943ae340603caa1426528260e9daf15d576
+    pristine_git_object: 80a92ebab75e29a2c922e7f41097ef8e7bdc21cc
   docs/models/operations/get-series-characters-alter-ego.md:
     id: 00a6e4f1061d
     last_write_checksum: sha1:ff46eac8da98af00ad75702450e6443972f1620e
@@ -2859,8 +2923,8 @@ trackedFiles:
     pristine_git_object: dc91ed08ac61707519993878465909706e63f9b8
   docs/models/operations/get-variant-details-data.md:
     id: "196657014351"
-    last_write_checksum: sha1:b062454436f77ad5e7618cc0b1b1db3f9c41a402
-    pristine_git_object: 514cae434d90b9b350ab90bf907d8eba3e9c6c32
+    last_write_checksum: sha1:1ff33fc9fc936a9401900aac5113225fdbb27f99
+    pristine_git_object: 994f483934a4267665e376666a8cf539b66e4593
   docs/models/operations/get-variant-details-images.md:
     id: aa624d217a00
     last_write_checksum: sha1:1980f7375ddeccb32fffa820641a7f78a44a585c
@@ -2871,12 +2935,16 @@ trackedFiles:
     pristine_git_object: 48f59bbc9b6a6e0985f08aa08a7f98adcf35b6a7
   docs/models/operations/get-variant-details-response-body.md:
     id: 06a545cb220c
-    last_write_checksum: sha1:90308a80b1ca16b71891694d4fce857e745bdad3
-    pristine_git_object: d31d7499430f1d2298c4a6c918c084ff3f44d49e
+    last_write_checksum: sha1:329212fc31594f8c2307175e551b3b7436d74daf
+    pristine_git_object: 0ff0536ef025bd63e1c826f1abecad28911dfc47
   docs/models/operations/get-variant-details-response.md:
     id: 3516e203da9f
-    last_write_checksum: sha1:dca825cbfd0dc9d3c335f66d1e796394b9d57cfa
-    pristine_git_object: 64b38e9a9d90ad8dbfd6fe6e7e247b60ae8618f9
+    last_write_checksum: sha1:8a9bf65e8c1507abd1d542fd113f847fa544cef8
+    pristine_git_object: eec3276407de76de0d331c249f08e0172490a58a
+  docs/models/operations/get-variant-details-shop.md:
+    id: d93c733daf40
+    last_write_checksum: sha1:7184b761e82cee8d74eb950df77b2adf7a272666
+    pristine_git_object: c04fc1ace865d075b86bc2a849ed46e7fec2dd3c
   docs/models/operations/get-variant-details-variant-name-i18n.md:
     id: 0e0f01955c31
     last_write_checksum: sha1:ca80b42308ea57f972f347e360f860335810fcae
@@ -2891,8 +2959,8 @@ trackedFiles:
     pristine_git_object: 5945716afa9a37f929a988f8d855154cf9eec50d
   docs/models/operations/issue-variant.md:
     id: 993642e4a3f1
-    last_write_checksum: sha1:5db8818f4ffb40216f74ea023c3306406cf765af
-    pristine_git_object: 7536fd4f86f19acf70ddb9dcabd16dca044a1df6
+    last_write_checksum: sha1:80f2adbc3a06aa79fe93875238a3c965fbcf9dda
+    pristine_git_object: f330ee48716fcc710b122f1499ee79d9c3861980
   docs/models/operations/lend-a-copy-out-collectable.md:
     id: ead01c0c52a3
     last_write_checksum: sha1:4c2c2d666c856729dd8d0bc251e60144871cb080
@@ -2905,10 +2973,14 @@ trackedFiles:
     id: d8c2f2726a83
     last_write_checksum: sha1:ff384d97f4146576ce86d10aecbefe458ffca3d4
     pristine_git_object: 034491b3aab4592823f5b64d31e53be883c4057d
+  docs/models/operations/lend-a-copy-out-cover-kind.md:
+    id: 64144cbc7f10
+    last_write_checksum: sha1:d9010b477aff280d0b8779388f0907be8d624dc5
+    pristine_git_object: 843134d30baaca5fb448c899d12d16f187296912
   docs/models/operations/lend-a-copy-out-data.md:
     id: 6f9836a69313
-    last_write_checksum: sha1:d6cedc09ec5a15559b7c2727f9f78b22851a565d
-    pristine_git_object: 4d5fa5730cf97ae07a4e9f6d50004d3056703fe2
+    last_write_checksum: sha1:da894787161aeef8f40ac431ec6a572102904e0d
+    pristine_git_object: ba7da292b538fe7a34b384538e0de9130180c17f
   docs/models/operations/lend-a-copy-out-images.md:
     id: 28a12136563b
     last_write_checksum: sha1:e0f0dc0e7a2c81455c3df240be2fd5629242bde9
@@ -2931,12 +3003,12 @@ trackedFiles:
     pristine_git_object: 4290ff4f896b72435ca8aa3eeecf21a25c6c370b
   docs/models/operations/lend-a-copy-out-response-body.md:
     id: ceac5f4b0e79
-    last_write_checksum: sha1:0c0d04542e0c8d7708b1ddf249a11be2eef4ec3c
-    pristine_git_object: 725542f55626bafe6851d108e97c16a6bd34729f
+    last_write_checksum: sha1:9edf1ec213ab876f3c23a1a4827e647b869fd876
+    pristine_git_object: 55b4d41e2791b6ac6dc55ecc2c14791b7af01e6c
   docs/models/operations/lend-a-copy-out-response.md:
     id: 12c99e2dce5b
-    last_write_checksum: sha1:4c1fa1935070eb46e8c53ff7a4f57f12a3b32783
-    pristine_git_object: c0c31f8785caf6490f80b85759daa996da077980
+    last_write_checksum: sha1:d585283cf73232e4be4905707c3cb8dfbb4d3ac5
+    pristine_git_object: c13db3cb7fe7dfbfef8e1794e51b0ee5c9e43307
   docs/models/operations/lend-a-copy-out-series-images.md:
     id: 52f4516ad1a4
     last_write_checksum: sha1:fabd9401348444dc20ce9f2cfe2db7bb963c8070
@@ -2949,6 +3021,10 @@ trackedFiles:
     id: d2aee52e0fe4
     last_write_checksum: sha1:d363f0ceff01de41a5c7f610e1c3c82777b72573
     pristine_git_object: 1413b36a58f3ba45239866e2df5b92bcebedbf17
+  docs/models/operations/lend-a-copy-out-variant.md:
+    id: 7add8dbc0507
+    last_write_checksum: sha1:0f505338f3fcf0a080b83de9738965aa4a0eb445
+    pristine_git_object: 9b3a1bb5882e74f080f16091ed86a24788e7cc82
   docs/models/operations/like-list-or-react-to-it-errors.md:
     id: d0a60c7d64c9
     last_write_checksum: sha1:9158092448978b1ec6ef08dc91618fe9b92329a6
@@ -3189,10 +3265,14 @@ trackedFiles:
     id: 3c0f1bf14fae
     last_write_checksum: sha1:dfd577889ccc091c4c64afd6994ef87b48c57957
     pristine_git_object: b84ca45627aa06c2851ef8b9253df21de3ec83a8
+  docs/models/operations/list-collection-cover-kind.md:
+    id: 28a709558692
+    last_write_checksum: sha1:fd37913b143e92d33ef70998792e93154df21f7e
+    pristine_git_object: 1bab0b8f29ed571c0b7ed9c0cded498acf3b9eb0
   docs/models/operations/list-collection-data.md:
     id: eb09bf3bd4a0
-    last_write_checksum: sha1:3176e9d40346c6d3819d1a1dfc67951e87513994
-    pristine_git_object: 35b517966672177a828f6494a0872c291483e164
+    last_write_checksum: sha1:ef6b5d3f6a1c4dfd4f532857146234fbfdfa8fef
+    pristine_git_object: 1ba559e43a430e096c7f8b5cbe477978b7eed5c9
   docs/models/operations/list-collection-images.md:
     id: 053d7784ff9c
     last_write_checksum: sha1:871e895b0622109377f5ead9a7e682edbe3646bb
@@ -3231,8 +3311,8 @@ trackedFiles:
     pristine_git_object: 599891605b7c324e43808c39f45006fdfa4fb587
   docs/models/operations/list-collection-response.md:
     id: b8e5621d02ad
-    last_write_checksum: sha1:48a9c65eb94bc4555a89f1ae009d5b5ba6c1f6c0
-    pristine_git_object: 73e09771dc0c1c85c1db75a54259023dba8ef6d7
+    last_write_checksum: sha1:19e2c66831210593792ba82bad208e983e3bade1
+    pristine_git_object: 0c47f25c74bb03c2aaffa199c06e71aaf6429170
   docs/models/operations/list-collection-series-images.md:
     id: d4290a8405fc
     last_write_checksum: sha1:600f767a8a846741317c2a74d2fc85e4a12ba7ff
@@ -3241,6 +3321,10 @@ trackedFiles:
     id: 43b035d38170
     last_write_checksum: sha1:d0d81e57952f898b8920e7a92f5f123b271ba479
     pristine_git_object: 40fce81d3065d0b2ab4e6967197803ed2f6c1f0a
+  docs/models/operations/list-collection-variant.md:
+    id: a92b45643eb6
+    last_write_checksum: sha1:40ce7b6eaa1818f1ab9c39106b5610686c51f6ea
+    pristine_git_object: b44d807deafb63c8c7f333d41e6cfd9cf37afe25
   docs/models/operations/list-comic-shops-data.md:
     id: aa6aac1c4499
     last_write_checksum: sha1:fc1bec6cbc9e9ad7ac4cda23d5a4b95694052b33
@@ -3483,8 +3567,8 @@ trackedFiles:
     pristine_git_object: 44737db4cd907dc9a786d03368f7e64cd868acc8
   docs/models/operations/list-pull-list-data.md:
     id: 1182b98b09e2
-    last_write_checksum: sha1:ba13772d9e3586b4271c1bbb0525420642f774af
-    pristine_git_object: cf6bf534048a0cd96c2afb376a7a26495719f9bc
+    last_write_checksum: sha1:ce89e6faa8769f1e5850202d3e7f1e4f1e6054ed
+    pristine_git_object: b5e758bfad8babd6a00082426c7ecc3d73e3f75d
   docs/models/operations/list-pull-list-kind.md:
     id: 25a5cc6b10fc
     last_write_checksum: sha1:3de1179ff3e15eb95fbbf9bf5715f34f12e95bf5
@@ -3501,6 +3585,10 @@ trackedFiles:
     id: 8a81fb04ce4a
     last_write_checksum: sha1:5d8be68d9446d90db95de7aca6e82e0424b2655f
     pristine_git_object: cf5fd06a3a61eb350b9baeaebb115733a3d7fe64
+  docs/models/operations/list-pull-list-preferred-cover-type.md:
+    id: ca395d48d969
+    last_write_checksum: sha1:943916cf9a6a84bcb6a4196b05afccf5d838e16b
+    pristine_git_object: cc7225e62f321b7423edeb0f82913ae784bd7d9c
   docs/models/operations/list-pull-list-request.md:
     id: ec8a8960dc39
     last_write_checksum: sha1:146997dddbf1abe6566d15b6daa360df1ab891be
@@ -4133,10 +4221,14 @@ trackedFiles:
     id: 4428b2d6d65b
     last_write_checksum: sha1:6a0e8991af697303c18825503a28fd2920a060ab
     pristine_git_object: fca655b0a887e2ce18d954c5b853e002c7a919e8
+  docs/models/operations/mark-the-copys-open-loan-returned-cover-kind.md:
+    id: 7490b1875ac6
+    last_write_checksum: sha1:644dbe049e2cff0c11b10839ae5cbbd79ef8945a
+    pristine_git_object: 521c9aabf9d51954354c0e20944545c07ba4b74f
   docs/models/operations/mark-the-copys-open-loan-returned-data.md:
     id: 2c3342fb5eff
-    last_write_checksum: sha1:45f384bbf9f22dbff8d37c54c56f396808413e79
-    pristine_git_object: d70ffa6a6d246bc4db1a57fa5c72e443b0fb714f
+    last_write_checksum: sha1:75f60da38bed8a49f15a620786696cb1ac868694
+    pristine_git_object: 058b6c0c64ff34477ad6a547bafa523a56960666
   docs/models/operations/mark-the-copys-open-loan-returned-images.md:
     id: d5c2de7bbc21
     last_write_checksum: sha1:44cd8f80b45f8bacd0b6a92877211a269e9c3304
@@ -4159,12 +4251,12 @@ trackedFiles:
     pristine_git_object: d9d9db3da96cfcf724aefa3d80aef3e8a4060d7b
   docs/models/operations/mark-the-copys-open-loan-returned-response-body.md:
     id: acf10e79657d
-    last_write_checksum: sha1:b9ceabe502e3e09aacb63281b65376406e85a497
-    pristine_git_object: 7ac35cffb61b177f6b4d86ada2e7e2d0d98d8ab8
+    last_write_checksum: sha1:e7f74166952c5981bb2e252de7ece3aace98b93d
+    pristine_git_object: b04b6c62333ac003e537f1fe3086959f13d1f4bf
   docs/models/operations/mark-the-copys-open-loan-returned-response.md:
     id: 289ea4ef6f5e
-    last_write_checksum: sha1:7211631c0165c7adfb88bf826c229388822809ad
-    pristine_git_object: 72e220ebf86f53a763c367d207c266ae8312de38
+    last_write_checksum: sha1:719c093c432daf71a5631708b1f7a960f2adebca
+    pristine_git_object: 5edcdf2c930499889c020cb951ef1af8834b8ff5
   docs/models/operations/mark-the-copys-open-loan-returned-series-images.md:
     id: dca4b4c93f53
     last_write_checksum: sha1:fd5cde0a91c43498f74c300f9e4969ad597c6ee2
@@ -4177,6 +4269,10 @@ trackedFiles:
     id: fa00cb1391d1
     last_write_checksum: sha1:9845868f251e97287d7268e6075d2721612b99be
     pristine_git_object: b56ecfa2f824e910359b33375870a626a271171a
+  docs/models/operations/mark-the-copys-open-loan-returned-variant.md:
+    id: c9034c944c21
+    last_write_checksum: sha1:f8d979b5926e2f2e72aa992fbaefe0444f523a72
+    pristine_git_object: 2dda0c9cd83e2584603eadd2d4b667c13fbf7d60
   docs/models/operations/merge-a-list-into-this-one-cloned-from-user.md:
     id: 51f00ce9c7f1
     last_write_checksum: sha1:e466b5f308a5b810b49e985b43b595460ce83509
@@ -4365,6 +4461,10 @@ trackedFiles:
     id: 62dc5d939b1b
     last_write_checksum: sha1:437cbad98537c2fe11cd962ec9e0660af7a5d507
     pristine_git_object: 4d899d9bcddc641935df67d43a64ffd300b92aac
+  docs/models/operations/preferred-cover-type-request.md:
+    id: abe59595d3c7
+    last_write_checksum: sha1:709f7888e7d9d93ca5331302dd0b89df304d7888
+    pristine_git_object: 41a7a92bf1b3c9b66ba2f7ba8798dc34cc88e791
   docs/models/operations/progress.md:
     id: 34fa99525333
     last_write_checksum: sha1:dfadb0dbf08800f7f373ba34903bcb3bc6c90703
@@ -4511,8 +4611,8 @@ trackedFiles:
     pristine_git_object: f4416288b6895e97ed1760cb717a67b2e57ff780
   docs/models/operations/set-pull-list-issue-covers-data.md:
     id: 6a41031c8ec2
-    last_write_checksum: sha1:46e2829c11edd8b01eb824e9a897d613c88ae286
-    pristine_git_object: 5f00458fc77b14b76bbbc8950b4638a8fb5b45f7
+    last_write_checksum: sha1:8923f97d5b3d87a8e246df67f2365cc7229e9669
+    pristine_git_object: 977a00b6a3212d40d81315fc90781c96c48ecdcb
   docs/models/operations/set-pull-list-issue-covers-images.md:
     id: 9fdc35932e77
     last_write_checksum: sha1:77a0e682e173e62d98826b8da75516b7832e4d94
@@ -4521,10 +4621,18 @@ trackedFiles:
     id: ecbae561e60f
     last_write_checksum: sha1:600224ad247c4dcc2ce72ecacba1e38a301a5668
     pristine_git_object: d1d012760213ca760864e8a697e77cbaec4bd721
+  docs/models/operations/set-pull-list-issue-covers-linked-shop.md:
+    id: 773a3dd29fde
+    last_write_checksum: sha1:fc7eed6247313a0c091d773f229646af758fe077
+    pristine_git_object: 3d5dcfdc096203fec9b4f7a70c0fc1761bb61c12
   docs/models/operations/set-pull-list-issue-covers-option.md:
     id: 5f13eb53e95b
     last_write_checksum: sha1:dcd917a8971194825c5e566f171a505a5ef7a21d
     pristine_git_object: 3d83703876fb49a3a4951988f4a50361793387b3
+  docs/models/operations/set-pull-list-issue-covers-order.md:
+    id: 7497887dbc27
+    last_write_checksum: sha1:dba0a812d6b4050fb8048db0d8c3ff977cb46b49
+    pristine_git_object: 94bb94bb8f54043170c5a27347c84ac9329b4bce
   docs/models/operations/set-pull-list-issue-covers-request-body.md:
     id: f63615d3d84a
     last_write_checksum: sha1:3b833b0ee09d9a20527a95a4e9ba2fd959af2093
@@ -4535,12 +4643,20 @@ trackedFiles:
     pristine_git_object: da91814354ba5e3ff41cc6ff8149f80937b9c200
   docs/models/operations/set-pull-list-issue-covers-response-body.md:
     id: a897bd9e9575
-    last_write_checksum: sha1:2efc2b84073653d9c4faf7de673b1dc39b3094ed
-    pristine_git_object: ea890eeae4a72c854698c65482fb052b8996be36
+    last_write_checksum: sha1:29c9a6622dbb8837662d8bb749f34310f7a59c77
+    pristine_git_object: 7580481176da2c68a3fbf0d94eb0308039a1a23f
   docs/models/operations/set-pull-list-issue-covers-response.md:
     id: ad3bf20d3a24
-    last_write_checksum: sha1:419c9beeef8fcae8f7e5ee3c6743943f6a3f4b70
-    pristine_git_object: 9c1ac850a2707862b4d452d01fe4d6eec24bcbc7
+    last_write_checksum: sha1:313a3b01604e0d5253b609a616741131cafdbabb
+    pristine_git_object: 4d7d67c2ec42543d30c52af61535d49cf2df7b4a
+  docs/models/operations/set-pull-list-issue-covers-shop-order.md:
+    id: 7179906dca9a
+    last_write_checksum: sha1:772263a7fc6e9d1a3915a4b8f4761fb1df6a564d
+    pristine_git_object: 63a62535c1ade5638bf592c938aa10c122834bb7
+  docs/models/operations/set-pull-list-issue-covers-standing.md:
+    id: 71218e1a96c6
+    last_write_checksum: sha1:cbf576fb21408d0d0b86759bde47937879c83e92
+    pristine_git_object: abc81bb213ddc310a04dcfb91363279f4ac6ebe4
   docs/models/operations/social-links-union.md:
     id: 7e2a9d47c214
     last_write_checksum: sha1:32c47b97bc5ceaf13595a4a6c6bd5fba2c8fc032
@@ -4565,10 +4681,10 @@ trackedFiles:
     id: 65ed968161ae
     last_write_checksum: sha1:0b0cad8c969140f6cdc3ad9ed086865ec941b1af
     pristine_git_object: 8b4d64ecfbad408c7a92afef58606e5c654cdb56
-  docs/models/operations/status.md:
-    id: a42267b6f2cb
-    last_write_checksum: sha1:9a1d24f85b268e433e5952a90258a54bfddc68eb
-    pristine_git_object: 57435f107cb9e2c7a6697a0ada952a67c08890d7
+  docs/models/operations/status-response.md:
+    id: aebe20940db2
+    last_write_checksum: sha1:5bf86af5e30246174e1bc0ae7b28f674af6a3746
+    pristine_git_object: a57c24c813cb44930c330657e40dbf0822877e50
   docs/models/operations/stop-a-list-updating-itself-cloned-from-user.md:
     id: b0fbe60cb75a
     last_write_checksum: sha1:05ed2502a631e104d01e03246302de937e29747c
@@ -4773,10 +4889,14 @@ trackedFiles:
     id: 77c2bd121171
     last_write_checksum: sha1:acb9be9354b1c4b1064d7467d27280af131537e1
     pristine_git_object: 484ec230a6fb5ad4c08e28b2a9b31a11223995ca
+  docs/models/operations/update-collection-item-cover-kind.md:
+    id: 7406c176603b
+    last_write_checksum: sha1:5b0197b4ba006a73f75d0b331bac4da0abd44bd8
+    pristine_git_object: f674399365e90eb2c5c81e2b665d465c887a8a05
   docs/models/operations/update-collection-item-data.md:
     id: 935db22e593b
-    last_write_checksum: sha1:5819dcccffc1a657074fe72661eb234ec528e97a
-    pristine_git_object: 9b9d4a0d09aa26c3bfc198aac60748fdc51d8c92
+    last_write_checksum: sha1:8349a689eeb0dd640e40e5e01fdaaf1d54d2b3e9
+    pristine_git_object: 8f5935b21dd05098432d7fab5a5808ecde9ca14d
   docs/models/operations/update-collection-item-images.md:
     id: dbc978a46b7a
     last_write_checksum: sha1:2c034fc4af4650d910c31aaca45501e76e0043d8
@@ -4791,20 +4911,20 @@ trackedFiles:
     pristine_git_object: a8228345bb63ee36254b0e5eb0792eebdcb89bee
   docs/models/operations/update-collection-item-request-body.md:
     id: 62d19fd2aeff
-    last_write_checksum: sha1:1de54f8b5d47838ca021b095073c69595cf91436
-    pristine_git_object: f55deeabdbfeba5f3d0fcfbf24257183473f3a14
+    last_write_checksum: sha1:8390ba54f33b2ecd6c718df0ed07bcd9f22094e3
+    pristine_git_object: 96e08f19194074850c6edc8ff303c065f4c4d568
   docs/models/operations/update-collection-item-request.md:
     id: a914844506b8
     last_write_checksum: sha1:1cd361f052f790da25ab7dc8e241e768eece08ab
     pristine_git_object: 33d7f64d8ae5c8fbe04d137ff7ed83310fce7d3c
   docs/models/operations/update-collection-item-response-body.md:
     id: fe26b1e13a40
-    last_write_checksum: sha1:12b2774dad703c28eaea5158383613077ece112b
-    pristine_git_object: cf5479cd6eb9814c909b853c233a88dc722fdb81
+    last_write_checksum: sha1:54da3d29830e51654412c195773a90616a7b47ec
+    pristine_git_object: 80ab5d1ec7fa985df53dd86e41b6b5bd2ff3c03a
   docs/models/operations/update-collection-item-response.md:
     id: a9bb52f58778
-    last_write_checksum: sha1:93964697915039848b916902db66b178ea112a08
-    pristine_git_object: 57ddc7dc3902d34d58b922d977106f5e5d284347
+    last_write_checksum: sha1:91f020d044a3493a591216c6bed1fcafec3c8062
+    pristine_git_object: ddb77f018b854f83aff9098e0df9e978d42fd9cd
   docs/models/operations/update-collection-item-series-images.md:
     id: 6f6ddade9319
     last_write_checksum: sha1:be7cf2d1fd4519e89b4c644dcb49fad31d3508f0
@@ -4817,6 +4937,10 @@ trackedFiles:
     id: 6bc97f8a42ef
     last_write_checksum: sha1:d91379fd2ec7a341199f1e44a68d26efcd784f40
     pristine_git_object: 3eb1f16a18b2550d571b02a8eda53a378bd46876
+  docs/models/operations/update-collection-item-variant.md:
+    id: 08ec88d962ab
+    last_write_checksum: sha1:cde56e6eaaa9393cb7f711590d89d1c9e884d374
+    pristine_git_object: e6e1720ca47baee6207666d9aa05573d1ed4d20f
   docs/models/operations/update-list-cloned-from-user.md:
     id: 05f5a7e3ac26
     last_write_checksum: sha1:c8061997bff2edeecb4a4ca3ec3471521f0aa80b
@@ -4863,8 +4987,8 @@ trackedFiles:
     pristine_git_object: 95a102370eb53dc75c97938e245824eaa0eda664
   docs/models/operations/update-list-request-body.md:
     id: f59ac3e1ddf1
-    last_write_checksum: sha1:109bea79e4461c833cba57d0752775940f3edbce
-    pristine_git_object: 42f4b801a0eed26ce6ab4d5af180e645e1894987
+    last_write_checksum: sha1:3f2afc8af34acb533c3a9411330dc350350b22cd
+    pristine_git_object: ddbb94d845e115597fa82e01ada86813645e8deb
   docs/models/operations/update-list-request.md:
     id: bcf2fe4a4a73
     last_write_checksum: sha1:703ccf37b410cc950bd3ea50dad96090d109d875
@@ -4881,6 +5005,10 @@ trackedFiles:
     id: d4e5d0e11f60
     last_write_checksum: sha1:f5d3d6596e534a7b5a7949005d32a7d368a2af33
     pristine_git_object: a2d2b7648756a1f9c95ace394327f2ad6deeba2c
+  docs/models/operations/update-list-status.md:
+    id: 15492192a376
+    last_write_checksum: sha1:72e66ba25191ccd000faa823d0508efb42bfe842
+    pristine_git_object: ea22ddbeb5618d54c999da06796b146233fbe1a7
   docs/models/operations/update-list-user.md:
     id: 20a5004528b1
     last_write_checksum: sha1:3954451c6693826252e65d5031f0cf784ad0fd80
@@ -4889,6 +5017,30 @@ trackedFiles:
     id: c20d66e587fb
     last_write_checksum: sha1:d611bcad3c76653b33de29ddd352a5b67b7bf6d2
     pristine_git_object: 01ccbd808a1b8f09f3cda483681cbd9d7679e45c
+  docs/models/operations/update-pull-list-item-preferred-cover-type-response.md:
+    id: c7ef2716cb60
+    last_write_checksum: sha1:7010719a0bc92b370f9f6bf05e67e50cddcc2ee9
+    pristine_git_object: 437881e4dffda51b3873e011838b89dfa164ff2e
+  docs/models/operations/update-pull-list-item-request-body.md:
+    id: f38c810f628b
+    last_write_checksum: sha1:1edbd444c5a44178ee0b4436ad37c51f42f8f8ad
+    pristine_git_object: 6ea343047e9120aa5358db254fbe5ab16a36be3c
+  docs/models/operations/update-pull-list-item-request.md:
+    id: 7076c1fd5c5a
+    last_write_checksum: sha1:6e1fbde984d0e03152fd6c52b874ee94eafa204c
+    pristine_git_object: ecacd5fb55ba9bedaa42aa7119a613454bc4f0ca
+  docs/models/operations/update-pull-list-item-response-body.md:
+    id: 6502afc158e8
+    last_write_checksum: sha1:dc70a656a9fd17d904900011ba1875649d02554a
+    pristine_git_object: 164831f1da3d6a19009716899c94c166c715c128
+  docs/models/operations/update-pull-list-item-response.md:
+    id: fd4b81d922e7
+    last_write_checksum: sha1:3fff2dbcff92f270752b044ed0a3f674c359721f
+    pristine_git_object: 904800c8850e338a542bb4858826d7cd359c2b40
+  docs/models/operations/update-pull-list-item-status-request.md:
+    id: 61a0d39d1069
+    last_write_checksum: sha1:bfd43fc21ca0d59ea8f86082c540af977d06fffa
+    pristine_git_object: bfc3b424d165ff2be06f99e7265e323b3d2a9376
   docs/models/operations/view-yearly-reading-statistics-character.md:
     id: 16bee9947ac2
     last_write_checksum: sha1:161db1fcd88c8cc53243680d792ccb6efb7f23ed
@@ -5075,8 +5227,8 @@ trackedFiles:
     pristine_git_object: 38c84955cf0753cae45d0997a36f2668804893d7
   docs/sdks/user/README.md:
     id: 437dd7dc6e30
-    last_write_checksum: sha1:3b29ef0b0d6aa61ef0e134581e4dab1996e6150d
-    pristine_git_object: d630709c6754d755c154b26a49f096fa1c31c2d8
+    last_write_checksum: sha1:b6613ff864e919c2da38283bc4d3259eec78bfbc
+    pristine_git_object: 7fa487188b797843b9c6e251a2bd5bde4f49d37d
   examples/.env.template:
     id: 52cbe5afed92
     last_write_checksum: sha1:3715b3a4166fddd0b45f707892f15189725085e4
@@ -5095,12 +5247,12 @@ trackedFiles:
     pristine_git_object: ecffeb89ec7a40b74d527168b2ecf23d81f8cc94
   jsr.json:
     id: 7f6ab7767282
-    last_write_checksum: sha1:3fd4e9a63149c5d1ab65bf2fe57bf538157ac63b
-    pristine_git_object: 54318ce57eb6a25586f68c64c34607ad8f183ec0
+    last_write_checksum: sha1:58adca12fabd382a1122a0f08ac6839e234f4189
+    pristine_git_object: 0b86dbb1b005a4ffc802d1e479650a9f2c1c2c4f
   package.json:
     id: 7030d0b2f71b
-    last_write_checksum: sha1:c409bf4ef9de604538f622b65ee99ba9027c5d9a
-    pristine_git_object: 0ef222db370a07f48ab085252b23b1935a353e96
+    last_write_checksum: sha1:3c14733f59ccc989f8f2a0d4b34bfc959d6dace5
+    pristine_git_object: a9ed95afcae61a4fd9f7297a328449a5b61a6fae
   src/core.ts:
     id: f431fdbcd144
     last_write_checksum: sha1:ad0063bee03825028052e52cef3fa240c6101bdf
@@ -5411,8 +5563,8 @@ trackedFiles:
     pristine_git_object: 8187ddcbbcd1708c075d66cbb2aa167ff2efcc35
   src/funcs/user-add-issue-to-collection.ts:
     id: 941c9028b844
-    last_write_checksum: sha1:89c082770f13ec61bf02543cc593bc5372771387
-    pristine_git_object: 5b753abf9882b5c59f0184a127a54853e2c60698
+    last_write_checksum: sha1:97c922a6f679bcc76ecbf07fb1c13b1c00374dfe
+    pristine_git_object: 8254fc590020a11945588a121cea1d35a85859a1
   src/funcs/user-add-to-pull-list.ts:
     id: 9b7d64579c35
     last_write_checksum: sha1:c9a159d95773a3c35847d4625321b09238688beb
@@ -5499,8 +5651,8 @@ trackedFiles:
     pristine_git_object: 9075c7a8308d232a6cfa0c5117dd103190774aed
   src/funcs/user-set-pull-list-issue-covers.ts:
     id: fe4e779539ac
-    last_write_checksum: sha1:de1b61a62266cb0fc79c936c97814d19db2c7cb2
-    pristine_git_object: c36d044512c04a68aa2aaa56f03339c7b7efd6ba
+    last_write_checksum: sha1:186e57195a0ddd9c9b6e8a6cb819fbc9e5caf660
+    pristine_git_object: 56d980b7c8065cc9309a3fee4402536228162600
   src/funcs/user-unfollow-content.ts:
     id: 8c91f37c9cc3
     last_write_checksum: sha1:194c918230b3d942677ff2f3428995712d51aa09
@@ -5509,6 +5661,10 @@ trackedFiles:
     id: 9d99a94eed4d
     last_write_checksum: sha1:32975efeb91bd321a467f176ec12d98b6b7e05f6
     pristine_git_object: 32ec143895a40cc1a826ce31df805315009c839d
+  src/funcs/user-update-pull-list-item.ts:
+    id: ff71bc8063dc
+    last_write_checksum: sha1:e023b3561a566cde2155dcb0f3f625801153c82b
+    pristine_git_object: 5d9094cc128c5fad8921af959abf96ae38fb9ed2
   src/hooks/hooks.ts:
     id: a2463fc6f69b
     last_write_checksum: sha1:3a90d88b4c6c07247db8e5f6441a79538232394e
@@ -5531,8 +5687,8 @@ trackedFiles:
     pristine_git_object: 44be0eae8246521b230e8e711a88eff738fc015d
   src/lib/config.ts:
     id: 320761608fb3
-    last_write_checksum: sha1:e35f05d35a1033dda63b116f9eb905c98af618b1
-    pristine_git_object: 5b6ea7bdb3633e94e066b2def5bf9ce7b04bd6b2
+    last_write_checksum: sha1:affced3b561eb8e95237e4c68324f9d9ee98947e
+    pristine_git_object: e9ed576a6d884017c20b2fda4c2e8aed66dddbdd
   src/lib/encodings.ts:
     id: 3bd8ead98afd
     last_write_checksum: sha1:4481b2a380f8a16856ef92c66fb370299f56d135
@@ -5579,8 +5735,8 @@ trackedFiles:
     pristine_git_object: 79e7ce660b3732053e3adcbb5a4cdeb51496e8aa
   src/models/errors/add-issue-to-collection.ts:
     id: f4ca5816734c
-    last_write_checksum: sha1:dde1043c634bd889e31ec43f2946518a0745b33b
-    pristine_git_object: b5e839634363d28fdc73ea6ce738e50b18c47a8b
+    last_write_checksum: sha1:c984c7293e11ed16ad9e237586835540efcab7a6
+    pristine_git_object: 781bd4840b4fcec14676bb6b0b63c3035d91eadf
   src/models/errors/add-item-to-list.ts:
     id: 9c40cd54c61e
     last_write_checksum: sha1:3f4533b45947d248bd628edae8c844e72d3bf3b9
@@ -5795,8 +5951,8 @@ trackedFiles:
     pristine_git_object: b34f612124c797c2a1106b9735708f679a90b74f
   src/models/errors/index.ts:
     id: c4e22507cb83
-    last_write_checksum: sha1:4f0f69b0d09a8331a042705aa773517aca3f62b0
-    pristine_git_object: c64f794c55e66384f07ecf4893327e58e8eeb7bb
+    last_write_checksum: sha1:0ba4161797e8b88268ada0ca22c4f0c609598dcc
+    pristine_git_object: c04526d409aca486dabb4624f4f5941341f49498
   src/models/errors/lend-a-copy-out.ts:
     id: 1855d6b53c6a
     last_write_checksum: sha1:21334e6231194edd87cd414cf86cd0ebd29d1235
@@ -5989,6 +6145,10 @@ trackedFiles:
     id: d56236a1c67e
     last_write_checksum: sha1:5901dc9c60df240290337c1738c8f7497c3d4e40
     pristine_git_object: 17b142b1bd72636819cd074dad6d243da1337911
+  src/models/errors/update-pull-list-item.ts:
+    id: a6a568c5850f
+    last_write_checksum: sha1:06608131d6fef44eff13e588268b009656a53af0
+    pristine_git_object: 01fe22de39187a3bd3f83da2090f39b7b6818165
   src/models/errors/verse-db-default-error.ts:
     id: d881aab070f8
     last_write_checksum: sha1:6fb83a5f18da7cde6ffec6f65e457cbea244972c
@@ -6019,8 +6179,8 @@ trackedFiles:
     pristine_git_object: 2edb51c4860cdd2d34f0e40b67aa4d2aed7af6af
   src/models/operations/add-issue-to-collection.ts:
     id: 74347025b887
-    last_write_checksum: sha1:1c76c483577b84e74c565a31c02f0f2db28a2d28
-    pristine_git_object: d67c6a67aa920e303a72d1b79bf6686eefe3f511
+    last_write_checksum: sha1:39e12b15d611b07812e46275fd7d35667d70d8c9
+    pristine_git_object: 1162719dfdf531f40bab0df6eee11ca634056cc0
   src/models/operations/add-item-to-list.ts:
     id: fbd5a14d7b7e
     last_write_checksum: sha1:1c7dbfe019525daf42df246a9e3dbe1c3ce2d884
@@ -6047,8 +6207,8 @@ trackedFiles:
     pristine_git_object: cac6f2bd93a830db0b666e7e62af6193f43f09b3
   src/models/operations/check-issue-in-collection.ts:
     id: 97e93505da80
-    last_write_checksum: sha1:8bb3b82f16ad2b536f016c5cf14010b5e2749cfa
-    pristine_git_object: 1d36aee258315ac732a45d78b5726a2d7eddddb3
+    last_write_checksum: sha1:f606aa6e22191ad8ecbed80fef1ca642ae5e60d7
+    pristine_git_object: 0d12d9595cc0bac08649eba7b826a71b2f1b0b4a
   src/models/operations/create-list.ts:
     id: d66b3381784b
     last_write_checksum: sha1:86a35f1d8876318ef1bf63c19d3dbd969d7dcffc
@@ -6103,8 +6263,8 @@ trackedFiles:
     pristine_git_object: 470875f864b23c631afff1541fe3127d2b3ee720
   src/models/operations/get-an-event.ts:
     id: d3385386f28b
-    last_write_checksum: sha1:cd65165a1b0fcbbb6cf9d77f766dfb4053c6648b
-    pristine_git_object: 828a26d3864f03fbdaa2792ffc0de859da7d9080
+    last_write_checksum: sha1:848bdf0b3d7a21739c7a0871e507b3cc55f85a84
+    pristine_git_object: 364661b196121fa7f2afddda6d198b24a4aa3bfc
   src/models/operations/get-character-details.ts:
     id: 9208f9e9388a
     last_write_checksum: sha1:f80d0083851498e71d938f3eeb823be57f201bc4
@@ -6159,8 +6319,8 @@ trackedFiles:
     pristine_git_object: 281b0cf4b6adcee5528dc1e310e4be8cacd8769c
   src/models/operations/get-issue-variants.ts:
     id: 55a386181505
-    last_write_checksum: sha1:55c0e97ac0138347c4dbb037538f7b795f847806
-    pristine_git_object: fb7f06849f966f6e59c35505fbeeba8faedefc37
+    last_write_checksum: sha1:1fb5d39c24764573ccee9d2ed2272ffb116d7ec3
+    pristine_git_object: 7fb9636f4573c002c26dce19337cf6a412b84dee
   src/models/operations/get-issues-for-a-specific-team.ts:
     id: febb0bf494cf
     last_write_checksum: sha1:45c1af57b0a52672c7f70dfd90d96f74b32e699c
@@ -6179,8 +6339,8 @@ trackedFiles:
     pristine_git_object: 1d3a6df8369f597b4c4992fc2bd21d2e77ef8409
   src/models/operations/get-pull-list-issue-covers.ts:
     id: 4a7d1918a296
-    last_write_checksum: sha1:e4a7ddb9881331adc4af7a8a022a30f3e17f3e01
-    pristine_git_object: a9f5748d887bb1a6ffc3147519a17d94b3ab89fa
+    last_write_checksum: sha1:f0233a182ee5452f2ad8f267dfaa845cfc479aa4
+    pristine_git_object: 6649d64be041c18c500285e52a95a12c63814567
   src/models/operations/get-series-characters.ts:
     id: 9347a6c676b1
     last_write_checksum: sha1:19c8f93ce6fec5ffeece820d3d515a3a3ae94541
@@ -6227,16 +6387,16 @@ trackedFiles:
     pristine_git_object: 4739052b5d8933bfdfc39efd81adf7ad53bca88d
   src/models/operations/get-variant-details.ts:
     id: c7b9992ed5f0
-    last_write_checksum: sha1:1f317a39e0a49dc465e59c87daa40e39b9386ed6
-    pristine_git_object: fdf48e75a898f33cad1ec360a4b4af3f36005328
+    last_write_checksum: sha1:5cd05be0b748d953d6e5bc89f777664d73d02f19
+    pristine_git_object: c75d5e32bac6456822562552acb12f342a938f04
   src/models/operations/index.ts:
     id: 0d9ffaf774d2
-    last_write_checksum: sha1:dcb6532d31c65c80a4a90c8924abc85a1196f325
-    pristine_git_object: 112245a44e7621c9f6868030cfa7cd39588ae194
+    last_write_checksum: sha1:44a3d2578aff48b5cded30ca863b2cc086435173
+    pristine_git_object: 186d12d587c4e44d036fce295b2f59585a7537c6
   src/models/operations/lend-a-copy-out.ts:
     id: 4d42e7c63948
-    last_write_checksum: sha1:8bbf4df63b9d5082d134ae39a91ab09024b2e1b5
-    pristine_git_object: ae9560c60650fa6a616fb07e1e9e3afea19b086f
+    last_write_checksum: sha1:f6d0b3f139d7d56778ef9d4d3fef661c87e989ff
+    pristine_git_object: 0e40d77bfed5e3079d764e6c8ff4bdf2327f6c87
   src/models/operations/like-list-or-react-to-it.ts:
     id: 14ea7cb47bce
     last_write_checksum: sha1:ed74178f4339607984bc5919fcdb4c1e85da01e1
@@ -6263,8 +6423,8 @@ trackedFiles:
     pristine_git_object: 268c0bcc2a1a624817cef7ba74d64063516d1543
   src/models/operations/list-collection.ts:
     id: 8508aa5d9b08
-    last_write_checksum: sha1:cbd57f5db2523d108387bb7c27eef5ffbe44a64c
-    pristine_git_object: 74618fbcddeabc507fc275cd30f8f2e0cc53e5fd
+    last_write_checksum: sha1:6c83c4d7ccd8dce059a8eb0729fb35f533f1cac6
+    pristine_git_object: a843d37d5360de274a9f957e98360d62f5e076f3
   src/models/operations/list-comic-shops.ts:
     id: 29b15e095c74
     last_write_checksum: sha1:0eb0a3dcf4cf88a0a69883c3b64b1fbccf997c9f
@@ -6295,8 +6455,8 @@ trackedFiles:
     pristine_git_object: a3e58074445536c561f6616354d1603dd6e611b0
   src/models/operations/list-pull-list.ts:
     id: 4ca691952b4c
-    last_write_checksum: sha1:5e64ff89038dfd33c08b3a7f9161c3b9b9dabe7c
-    pristine_git_object: 62e57a9e1c85e8ff9e7b70e1135eabcd3e8bf500
+    last_write_checksum: sha1:f538ff1764904dcc01de3dc5559877e3239a1f84
+    pristine_git_object: 3829666761d4f264f3b9ae4009d287ca4ed95e29
   src/models/operations/list-read-status.ts:
     id: 56180e5af0d3
     last_write_checksum: sha1:33db265303fb01bf2faeb172bf7cbb21eb34987e
@@ -6343,8 +6503,8 @@ trackedFiles:
     pristine_git_object: 33d637449035c8d3543e28f67cbb63feb59f5773
   src/models/operations/mark-the-copys-open-loan-returned.ts:
     id: c80683097444
-    last_write_checksum: sha1:f5a4ed47ee897b68a57e6029ff085602edfac304
-    pristine_git_object: f54d4179f80b2093c6e4df3068f570b26c1bdae5
+    last_write_checksum: sha1:b3c5f6bbb44d9f9815237bbda42ab14ab9a66280
+    pristine_git_object: 534e93e50bf922ce2b71d65166691ee2ea48d032
   src/models/operations/merge-a-list-into-this-one.ts:
     id: 0614f067d6c1
     last_write_checksum: sha1:e65639469f78e256b1c5fb98c6583f1f94a61cc4
@@ -6379,8 +6539,8 @@ trackedFiles:
     pristine_git_object: 92be9096abc75c31f21e202ac2d19c27275183b1
   src/models/operations/set-pull-list-issue-covers.ts:
     id: 7c13e5561a96
-    last_write_checksum: sha1:4130f1ff91f8cbb38b3efc20a7d6b83516c02a13
-    pristine_git_object: 860c239c67cc9032bb781755082e91df6b99528b
+    last_write_checksum: sha1:0cf9ed1cb4f76162aed0b1fd90f996559a6f810b
+    pristine_git_object: 4334fa55bd43cf653984f62aefbf7a5a7b06e124
   src/models/operations/stop-a-list-updating-itself.ts:
     id: 0ebf8db0e86c
     last_write_checksum: sha1:e66d52664af4361d5338e66eaa1a3ef6d2876681
@@ -6403,12 +6563,16 @@ trackedFiles:
     pristine_git_object: c8553943c6c3126db677ea5ec56c203f92e26a9a
   src/models/operations/update-collection-item.ts:
     id: be88b5bf513f
-    last_write_checksum: sha1:90ce25a3ad034fa0cb328fb028cd6ea73fac341d
-    pristine_git_object: f7d9cb17296e5eebe297af9aec39c0b37bcde9b5
+    last_write_checksum: sha1:c03b0bdd174dac44bc351b5308dde184017fec84
+    pristine_git_object: 96b2ea16282ecfec5a7997ca90d9da6fc1714ca4
   src/models/operations/update-list.ts:
     id: d75846d7249e
-    last_write_checksum: sha1:289594560f64958a8c3b523a3737c97d59fe78f0
-    pristine_git_object: d8adad242fa3ddbb5ad967a76f16d70118c3101d
+    last_write_checksum: sha1:6e2c788d3706dabfcb8ad9a192049f0917555cf3
+    pristine_git_object: cc9bafa97b50d4520a5b5bc26161ce5f2e232224
+  src/models/operations/update-pull-list-item.ts:
+    id: dcab342b1a5d
+    last_write_checksum: sha1:30f03cb746a4d89f4fdbc50ef7a982b15eed167a
+    pristine_git_object: 18056f91e7204fad2aed9151aaa76100bd5e3337
   src/models/operations/view-yearly-reading-statistics.ts:
     id: 12cde4220533
     last_write_checksum: sha1:0ba084d9993169f011bcc9c9989a9b1bd210a5bf
@@ -6519,8 +6683,8 @@ trackedFiles:
     pristine_git_object: 29b026a5695811ea8b80a7a72841ae5762e4636e
   src/sdk/user.ts:
     id: 363e2a871b31
-    last_write_checksum: sha1:192994ac385577ef2a63e08b79e5ac7042a5fbd3
-    pristine_git_object: a876c348864337bbe574ece4e652c192456957f6
+    last_write_checksum: sha1:8a62ed74a74d13a0b390f5cdf7f0d2a4327145b3
+    pristine_git_object: 7256d1f121cea14b5dc9157b803cb1bcbb2ddd36
   src/types/async.ts:
     id: fac8da972f86
     last_write_checksum: sha1:675d04bb4b4081dc3482f18de98674f9b446e7b4
@@ -7111,7 +7275,7 @@ examples:
           languages: "ja,ko"
       responses:
         "200":
-          application/json: {"data": [{"id": 9001, "issue_id": 5432, "variant_name": "J. Scott Campbell Variant", "cover_url": "https://...", "images": {"thumb": "https://...-thumb.webp", "cover_sm": "https://...-cover_sm.webp", "cover_md": "https://...-cover_md.webp", "cover_lg": "https://...-cover_lg.webp"}, "variant_type": "incentive", "ratio": "1:25", "price": "49.99", "currency_code": "USD", "formatted_price": "USD $49.99", "ean": "75960609999300111", "release_date": "2025-04-09", "is_nsfw": false, "creators": [{"id": 101, "name": "J. Scott Campbell", "role": "Cover Artist"}], "variant_name_i18n": {}}]}
+          application/json: {"data": [{"id": 9001, "issue_id": 5432, "variant_name": "J. Scott Campbell Variant", "cover_url": "https://...", "images": {"thumb": "https://...-thumb.webp", "cover_sm": "https://...-cover_sm.webp", "cover_md": "https://...-cover_md.webp", "cover_lg": "https://...-cover_lg.webp"}, "variant_type": "incentive", "ratio": "1:25", "price": "49.99", "currency_code": "USD", "formatted_price": "USD $49.99", "ean": "75960609999300111", "release_date": "2025-04-09", "print_run": 3000, "cover_letter": "B", "is_nsfw": false, "creators": [{"id": 101, "name": "J. Scott Campbell", "role": "Cover Artist"}], "variant_name_i18n": {}}]}
         "401":
           application/json: {"message": "Unauthenticated."}
         "402":
@@ -7130,7 +7294,7 @@ examples:
           languages: "ja,ko"
       responses:
         "200":
-          application/json: {"data": {"id": 9001, "issue_id": 5432, "variant_name": "J. Scott Campbell Variant", "cover_url": "https://...", "images": {"thumb": "https://...-thumb.webp", "cover_sm": "https://...-cover_sm.webp", "cover_md": "https://...-cover_md.webp", "cover_lg": "https://...-cover_lg.webp"}, "variant_type": "incentive", "ratio": "1:25", "price": "49.99", "currency_code": "USD", "formatted_price": "USD $49.99", "ean": "75960608936700121", "release_date": "2025-04-09", "creators": [{"id": 101, "name": "J. Scott Campbell", "slug": "j-scott-campbell", "photo_url": "https://...-profile_md.webp", "role": "Cover Artist", "is_uncredited": false}], "variant_name_i18n": {}}}
+          application/json: {"data": {"id": 9001, "issue_id": 5432, "variant_name": "J. Scott Campbell Variant", "cover_url": "https://...", "images": {"thumb": "https://...-thumb.webp", "cover_sm": "https://...-cover_sm.webp", "cover_md": "https://...-cover_md.webp", "cover_lg": "https://...-cover_lg.webp"}, "variant_type": "incentive", "ratio": "1:25", "price": "49.99", "currency_code": "USD", "formatted_price": "USD $49.99", "ean": "75960608936700121", "release_date": "2025-04-09", "print_run": 3000, "cover_letter": "B", "shops": [{"id": 12, "name": "Third Eye Comics", "slug": "third-eye-comics"}], "creators": [{"id": 101, "name": "J. Scott Campbell", "slug": "j-scott-campbell", "photo_url": "https://...-profile_md.webp", "role": "Cover Artist", "is_uncredited": false}], "variant_name_i18n": {}}}
         "401":
           application/json: {"message": "Unauthenticated."}
         "402":
@@ -8276,7 +8440,7 @@ examples:
           languages: "ja,ko"
       responses:
         "200":
-          application/json: {"data": [{"id": 1001, "user_id": 42, "collectable_type": "Issue", "collectable_id": 5432, "variant_id": null, "condition": "NM", "purchased_at": "2024-01-15", "notes": "First print", "format": "single", "storage_location": "Long box 3", "price_paid": "3.99", "is_variant": false, "variant_description": null, "variant_type": null, "graded": true, "grade_score": "9.8", "grading_company": "CGC", "grading_number": "1234567001", "label_type": "universal", "page_quality": "white", "grader_notes": null, "purchase_source": "lcs", "comic_shop_id": 17, "comic_shop": {"id": 17, "name": "Comic Corner", "slug": "comic-corner", "city": "Portland", "state_province": "OR"}, "acquisition_method": "purchased", "is_signed": false, "signed_by": null, "signature_witness": null, "signature_authenticated": false, "is_cgc_ss": false, "print_number": "1", "estimated_value": "25", "value_last_updated": "2024-06-01T00:00:00Z", "status": "owned", "for_sale": false, "for_trade": false, "is_public": true, "cover_scan_url": null, "cover_scan_url_lg": null, "cover_scan_uploaded_at": null, "created_at": "2024-01-15T10:30:00Z", "updated_at": "2024-01-15T10:30:00Z", "collectable": {"id": 5432, "slug": "example-series-1", "series_id": 123, "issue_number": "1", "name": "First Issue", "cover_date": "2023-11-01", "release_date": "2023-11-08", "foc_date": "2023-10-16", "is_unreleased": true, "cover_url": "https://versedb.com/storage/issues/5432/cover_lg.jpg", "images": {"thumb": "https://versedb.com/storage/issues/5432/thumb.jpg", "cover_sm": "https://versedb.com/storage/issues/5432/cover_sm.jpg", "cover_md": "https://versedb.com/storage/issues/5432/cover_md.jpg", "cover_lg": "https://versedb.com/storage/issues/5432/cover_lg.jpg"}, "is_reprint": false, "content_rating_label": null, "min_age": null, "is_nsfw": false, "average_rating": 4.5, "name_i18n": {"ja": {"value": "講談社", "source": "madb", "reading": "こうだんしゃ"}}, "series": {"id": 123, "name": "Example Series", "slug": "example-series", "start_year": 2023, "end_year": null, "volume_number": 1, "publication_type": "ongoing", "format": "single", "cached_issues_count": 12, "cover_url": "https://versedb.com/storage/series/123/cover_lg.jpg", "images": {"cover_sm": "https://versedb.com/storage/series/123/cover_sm.jpg", "cover_md": "https://versedb.com/storage/series/123/cover_md.jpg", "cover_lg": "https://versedb.com/storage/series/123/cover_lg.jpg"}, "publisher_name": "Example Publisher"}, "key_issue_reasons": [{"id": 7, "name": "First appearance", "category": "appearance", "slug": "first-appearance", "notes": null}]}}], "links": {"first": "...", "last": "...", "prev": null, "next": "..."}, "meta": {"current_page": 1, "from": 1, "last_page": 5, "links": [], "path": "...", "per_page": 20, "to": 20, "total": 100}}
+          application/json: {"data": [{"id": 1001, "user_id": 42, "collectable_type": "Issue", "collectable_id": 5432, "variant_id": null, "variant": {"id": 789, "name": "Cover B", "type": "cover_variant", "cover_url": "https://...-cover_md.webp", "cover_url_lg": "https://...-cover_lg.webp", "ratio": "1:25", "printing": 1, "is_nsfw": true}, "cover_kind": "catalog", "condition": "NM", "purchased_at": "2024-01-15", "notes": "First print", "format": "single", "storage_location": "Long box 3", "price_paid": "3.99", "is_variant": false, "variant_description": null, "variant_type": null, "graded": true, "grade_score": "9.8", "grading_company": "CGC", "grading_number": "1234567001", "label_type": "universal", "page_quality": "white", "grader_notes": null, "purchase_source": "lcs", "comic_shop_id": 17, "comic_shop": {"id": 17, "name": "Comic Corner", "slug": "comic-corner", "city": "Portland", "state_province": "OR"}, "acquisition_method": "purchased", "is_signed": false, "signed_by": null, "signature_witness": null, "signature_authenticated": false, "is_cgc_ss": false, "print_number": "1", "estimated_value": "25", "value_last_updated": "2024-06-01T00:00:00Z", "status": "owned", "for_sale": false, "for_trade": false, "is_public": true, "cover_scan_url": null, "cover_scan_url_lg": null, "cover_scan_uploaded_at": null, "created_at": "2024-01-15T10:30:00Z", "updated_at": "2024-01-15T10:30:00Z", "collectable": {"id": 5432, "slug": "example-series-1", "series_id": 123, "issue_number": "1", "name": "First Issue", "cover_date": "2023-11-01", "release_date": "2023-11-08", "foc_date": "2023-10-16", "is_unreleased": true, "cover_url": "https://versedb.com/storage/issues/5432/cover_lg.jpg", "images": {"thumb": "https://versedb.com/storage/issues/5432/thumb.jpg", "cover_sm": "https://versedb.com/storage/issues/5432/cover_sm.jpg", "cover_md": "https://versedb.com/storage/issues/5432/cover_md.jpg", "cover_lg": "https://versedb.com/storage/issues/5432/cover_lg.jpg"}, "is_reprint": false, "content_rating_label": null, "min_age": null, "is_nsfw": false, "average_rating": 4.5, "name_i18n": {"ja": {"value": "講談社", "source": "madb", "reading": "こうだんしゃ"}}, "series": {"id": 123, "name": "Example Series", "slug": "example-series", "start_year": 2023, "end_year": null, "volume_number": 1, "publication_type": "ongoing", "format": "single", "cached_issues_count": 12, "cover_url": "https://versedb.com/storage/series/123/cover_lg.jpg", "images": {"cover_sm": "https://versedb.com/storage/series/123/cover_sm.jpg", "cover_md": "https://versedb.com/storage/series/123/cover_md.jpg", "cover_lg": "https://versedb.com/storage/series/123/cover_lg.jpg"}, "publisher_name": "Example Publisher"}, "key_issue_reasons": [{"id": 7, "name": "First appearance", "category": "appearance", "slug": "first-appearance", "notes": null}]}}], "links": {"first": "...", "last": "...", "prev": null, "next": "..."}, "meta": {"current_page": 1, "from": 1, "last_page": 5, "links": [], "path": "...", "per_page": 20, "to": 20, "total": 100}}
         "401":
           application/json: {"message": "Unauthenticated."}
         "429":
@@ -8288,11 +8452,13 @@ examples:
       parameters:
         path:
           issue_id: 5432
+        header:
+          Idempotency-Key: "7c0e4c7e-3a55-4f0c-9a58-2f6f4a0d1b21"
       requestBody:
         application/json: {"variant_id": 789, "condition": "NM", "notes": "First print, signed", "price_paid": 4.99, "format": "standard", "purchase_source": "comic_shop", "purchase_store": "Third Eye Comics", "custom_label": "Longbox A / row 3", "bagged_at": "2024-07-01", "personal_rating": 4.5, "tags": ["b"], "comic_shop_id": 412, "acquisition_method": "purchase", "purchased_at": "2024-06-15", "storage_location": "Long box #3", "is_signed": false, "signed_by": "Stan Lee", "is_variant": false, "variant_description": "b", "variant_type": "ratio_variant", "graded": false, "grade_score": "9.8", "grading_company": "CGC", "grading_number": "1234567890", "label_type": "universal", "page_quality": "white", "grader_notes": "Marvel Value Stamp #16 intact", "print_number": "7th", "signature_witness": "CBCS", "estimated_value": 25, "for_sale": false, "status": "sold", "sold_at": "2026-08-14", "price_sold": 40, "for_trade": false, "is_public": true}
       responses:
         "201":
-          application/json: {"data": {"id": 1001, "user_id": 42, "collectable_type": "Issue", "collectable_id": 5432, "variant_id": null, "condition": "NM", "purchased_at": "2024-01-15T00:00:00.000000Z", "notes": "First print, signed", "format": "single", "storage_location": "Long box 3", "price_paid": "4.99", "is_variant": null, "variant_description": "Cover B", "variant_type": "cover", "graded": false, "grade_score": "9.8", "grading_company": "CGC", "grading_number": "1234567001", "label_type": "universal", "page_quality": "white", "grader_notes": "Light spine stress", "purchase_source": "lcs", "comic_shop_id": 17, "comic_shop": {"id": 17, "name": "Comic Corner", "slug": "comic-corner", "city": "Portland", "state_province": "OR"}, "acquisition_method": "purchased", "purchase_store": "Comic Corner", "custom_label": "Keys", "bagged_at": "2024-01-15T00:00:00.000000Z", "personal_rating": 4.5, "tags": ["keys"], "loan": null, "is_signed": true, "signed_by": "Stan Lee", "signature_witness": "CGC", "signature_authenticated": false, "is_cgc_ss": true, "print_number": "1", "estimated_value": "125.00", "value_last_updated": "2024-01-15T00:00:00.000000Z", "status": "owned", "for_sale": false, "for_trade": false, "sold_at": "2024-01-15T00:00:00.000000Z", "price_sold": "150.00", "is_public": false, "cover_scan_url": "https://...-cover_md.webp", "cover_scan_url_lg": "https://...-cover_lg.webp", "cover_scan_uploaded_at": "2024-01-15T10:30:00.000000Z", "created_at": "2024-01-15T10:30:00.000000Z", "updated_at": "2024-01-15T10:30:00.000000Z", "collectable": {"id": 5432, "slug": "amazing-spider-man-1", "series_id": 123, "issue_number": "1", "name": "The Chameleon Strikes!", "cover_date": "2018-09-01", "release_date": "2018-07-11", "foc_date": "2018-06-18", "is_unreleased": false, "cover_url": "https://...-cover_lg.webp", "images": {"thumb": "https://...-thumb.webp", "cover_sm": "https://...-cover_sm.webp", "cover_md": "https://...-cover_md.webp", "cover_lg": "https://...-cover_lg.webp"}, "is_reprint": true, "content_rating_label": "Teen", "min_age": 13, "is_nsfw": false, "average_rating": 4.5, "name_i18n": {"en": "Library One"}, "series": {"id": 123, "name": "The Amazing Spider-Man", "slug": "the-amazing-spider-man-2018", "start_year": 2018, "end_year": 2022, "volume_number": 5, "publication_type": "regular_series", "format": "Standard", "cached_issues_count": 93, "cover_url": "https://...-cover_lg.webp", "images": {"cover_sm": "https://...-cover_sm.webp", "cover_md": "https://...-cover_md.webp", "cover_lg": "https://...-cover_lg.webp"}, "publisher_name": "Marvel"}}}, "was_on_wishlist": true, "follow_up": {"prompt": true, "can_mark_read": true, "can_review": true, "has_review": false}}
+          application/json: {"data": {"id": 1001, "user_id": 42, "collectable_type": "Issue", "collectable_id": 5432, "variant_id": null, "variant": null, "cover_kind": "catalog", "condition": "NM", "purchased_at": "2024-01-15T00:00:00.000000Z", "notes": "First print, signed", "format": "single", "storage_location": "Long box 3", "price_paid": "4.99", "is_variant": null, "variant_description": "Cover B", "variant_type": "cover", "graded": false, "grade_score": "9.8", "grading_company": "CGC", "grading_number": "1234567001", "label_type": "universal", "page_quality": "white", "grader_notes": "Light spine stress", "purchase_source": "lcs", "comic_shop_id": 17, "comic_shop": {"id": 17, "name": "Comic Corner", "slug": "comic-corner", "city": "Portland", "state_province": "OR"}, "acquisition_method": "purchased", "purchase_store": "Comic Corner", "custom_label": "Keys", "bagged_at": "2024-01-15T00:00:00.000000Z", "personal_rating": 4.5, "tags": ["keys"], "loan": null, "is_signed": true, "signed_by": "Stan Lee", "signature_witness": "CGC", "signature_authenticated": false, "is_cgc_ss": true, "print_number": "1", "estimated_value": "125.00", "value_last_updated": "2024-01-15T00:00:00.000000Z", "status": "owned", "for_sale": false, "for_trade": false, "sold_at": "2024-01-15T00:00:00.000000Z", "price_sold": "150.00", "is_public": false, "cover_scan_url": "https://...-cover_md.webp", "cover_scan_url_lg": "https://...-cover_lg.webp", "cover_scan_uploaded_at": "2024-01-15T10:30:00.000000Z", "created_at": "2024-01-15T10:30:00.000000Z", "updated_at": "2024-01-15T10:30:00.000000Z", "collectable": {"id": 5432, "slug": "amazing-spider-man-1", "series_id": 123, "issue_number": "1", "name": "The Chameleon Strikes!", "cover_date": "2018-09-01", "release_date": "2018-07-11", "foc_date": "2018-06-18", "is_unreleased": false, "cover_url": "https://...-cover_lg.webp", "images": {"thumb": "https://...-thumb.webp", "cover_sm": "https://...-cover_sm.webp", "cover_md": "https://...-cover_md.webp", "cover_lg": "https://...-cover_lg.webp"}, "is_reprint": true, "content_rating_label": "Teen", "min_age": 13, "is_nsfw": false, "average_rating": 4.5, "name_i18n": {"en": "Library One"}, "series": {"id": 123, "name": "The Amazing Spider-Man", "slug": "the-amazing-spider-man-2018", "start_year": 2018, "end_year": 2022, "volume_number": 5, "publication_type": "regular_series", "format": "Standard", "cached_issues_count": 93, "cover_url": "https://...-cover_lg.webp", "images": {"cover_sm": "https://...-cover_sm.webp", "cover_md": "https://...-cover_md.webp", "cover_lg": "https://...-cover_lg.webp"}, "publisher_name": "Marvel"}}}, "was_on_wishlist": true, "follow_up": {"prompt": true, "can_mark_read": true, "can_review": true, "has_review": false}}
         "401":
           application/json: {"message": "Unauthenticated."}
         "403":
@@ -8303,6 +8469,10 @@ examples:
           application/json: {"message": "Too Many Attempts."}
         "404":
           application/json: {"message": "No query results for model [App\\Models\\Issue] 5432"}
+        "400":
+          application/json: {"message": "The Idempotency-Key header must be a UUID."}
+        "409":
+          application/json: {"message": "This copy is already being added. Try again in a moment.", "error": "add_in_progress"}
   updateCollectionItem:
     speakeasy-default-update-collection-item:
       parameters:
@@ -8315,7 +8485,7 @@ examples:
         application/json: {"variant_id": 42, "condition": "NM", "notes": "First print, great condition", "price_paid": 3.99, "format": "standard", "purchase_source": "comic_shop", "purchase_store": "Third Eye Comics", "custom_label": "Longbox A / row 3", "bagged_at": "2024-07-01", "personal_rating": 4.5, "tags": ["b"], "comic_shop_id": 412, "acquisition_method": "purchase", "purchased_at": "2024-06-15", "storage_location": "Long box #3", "is_signed": false, "signed_by": "Stan Lee", "is_variant": true, "variant_description": "b", "variant_type": "facsimile", "graded": false, "grade_score": "9.8", "grading_company": "CGC", "grading_number": "1234567890", "label_type": "universal", "page_quality": "white", "grader_notes": "Marvel Value Stamp #16 intact", "print_number": "10th", "signature_witness": "JSA", "estimated_value": 25, "for_sale": false, "status": "sold", "sold_at": "2026-08-14", "price_sold": 40, "for_trade": false, "is_public": true, "is_read": true, "read_at": "2024-06-15", "read_undated": true}
       responses:
         "200":
-          application/json: {"data": {"id": 1001, "user_id": 42, "collectable_type": "Issue", "collectable_id": 5432, "variant_id": 789, "condition": "NM", "purchased_at": "2024-01-15T00:00:00.000000Z", "notes": "First print", "format": "single", "storage_location": "Long box 3", "price_paid": "4.99", "is_variant": true, "variant_description": "Cover B", "variant_type": "cover", "graded": true, "grade_score": "9.8", "grading_company": "CGC", "grading_number": "1234567001", "label_type": "universal", "page_quality": "white", "grader_notes": "Light spine stress", "purchase_source": "lcs", "comic_shop_id": 17, "comic_shop": {"id": 17, "name": "Comic Corner", "slug": "comic-corner", "city": "Portland", "state_province": "OR"}, "acquisition_method": "purchased", "purchase_store": "Comic Corner", "custom_label": "Keys", "bagged_at": "2024-01-15T00:00:00.000000Z", "personal_rating": 4.5, "tags": ["keys"], "loan": {"id": 3, "loaned_to": "Sam", "loaned_at": "2024-01-15", "due_at": "2024-02-15", "is_overdue": true, "days_until_due": 12}, "is_signed": false, "signed_by": "Stan Lee", "signature_witness": "CGC", "signature_authenticated": true, "is_cgc_ss": true, "print_number": "1", "estimated_value": "125.00", "value_last_updated": "2024-01-15T00:00:00.000000Z", "status": "owned", "for_sale": null, "for_trade": false, "sold_at": "2024-01-15T00:00:00.000000Z", "price_sold": "150.00", "is_public": null, "cover_scan_url": "https://...-cover_md.webp", "cover_scan_url_lg": "https://...-cover_lg.webp", "cover_scan_uploaded_at": "2024-01-15T10:30:00.000000Z", "created_at": "2024-01-15T10:30:00.000000Z", "updated_at": "2024-01-15T10:30:00.000000Z", "collectable": {"id": 5432, "slug": "amazing-spider-man-1", "series_id": 123, "issue_number": "1", "name": "The Chameleon Strikes!", "cover_date": "2018-09-01", "release_date": "2018-07-11", "foc_date": "2018-06-18", "is_unreleased": true, "cover_url": "https://...-cover_lg.webp", "images": {"thumb": "https://...-thumb.webp", "cover_sm": "https://...-cover_sm.webp", "cover_md": "https://...-cover_md.webp", "cover_lg": "https://...-cover_lg.webp"}, "is_reprint": true, "content_rating_label": "Teen", "min_age": 13, "is_nsfw": false, "average_rating": 4.5, "name_i18n": {"en": "Library One"}, "series": {"id": 123, "name": "The Amazing Spider-Man", "slug": "the-amazing-spider-man-2018", "start_year": 2018, "end_year": 2022, "volume_number": 5, "publication_type": "regular_series", "format": "Standard", "cached_issues_count": 93, "cover_url": "https://...-cover_lg.webp", "images": null, "publisher_name": "Marvel"}}}}
+          application/json: {"data": {"id": 1001, "user_id": 42, "collectable_type": "Issue", "collectable_id": 5432, "variant_id": 789, "variant": {"id": 789, "name": "Cover B", "type": "cover_variant", "cover_url": "https://...-cover_md.webp", "cover_url_lg": "https://...-cover_lg.webp", "ratio": "1:25", "printing": 1, "is_nsfw": true}, "cover_kind": "catalog", "condition": "NM", "purchased_at": "2024-01-15T00:00:00.000000Z", "notes": "First print", "format": "single", "storage_location": "Long box 3", "price_paid": "4.99", "is_variant": true, "variant_description": "Cover B", "variant_type": "cover", "graded": true, "grade_score": "9.8", "grading_company": "CGC", "grading_number": "1234567001", "label_type": "universal", "page_quality": "white", "grader_notes": "Light spine stress", "purchase_source": "lcs", "comic_shop_id": 17, "comic_shop": {"id": 17, "name": "Comic Corner", "slug": "comic-corner", "city": "Portland", "state_province": "OR"}, "acquisition_method": "purchased", "purchase_store": "Comic Corner", "custom_label": "Keys", "bagged_at": "2024-01-15T00:00:00.000000Z", "personal_rating": 4.5, "tags": ["keys"], "loan": {"id": 3, "loaned_to": "Sam", "loaned_at": "2024-01-15", "due_at": "2024-02-15", "is_overdue": true, "days_until_due": 12}, "is_signed": false, "signed_by": "Stan Lee", "signature_witness": "CGC", "signature_authenticated": true, "is_cgc_ss": true, "print_number": "1", "estimated_value": "125.00", "value_last_updated": "2024-01-15T00:00:00.000000Z", "status": "owned", "for_sale": null, "for_trade": false, "sold_at": "2024-01-15T00:00:00.000000Z", "price_sold": "150.00", "is_public": null, "cover_scan_url": "https://...-cover_md.webp", "cover_scan_url_lg": "https://...-cover_lg.webp", "cover_scan_uploaded_at": "2024-01-15T10:30:00.000000Z", "created_at": "2024-01-15T10:30:00.000000Z", "updated_at": "2024-01-15T10:30:00.000000Z", "collectable": {"id": 5432, "slug": "amazing-spider-man-1", "series_id": 123, "issue_number": "1", "name": "The Chameleon Strikes!", "cover_date": "2018-09-01", "release_date": "2018-07-11", "foc_date": "2018-06-18", "is_unreleased": true, "cover_url": "https://...-cover_lg.webp", "images": {"thumb": "https://...-thumb.webp", "cover_sm": "https://...-cover_sm.webp", "cover_md": "https://...-cover_md.webp", "cover_lg": "https://...-cover_lg.webp"}, "is_reprint": true, "content_rating_label": "Teen", "min_age": 13, "is_nsfw": false, "average_rating": 4.5, "name_i18n": {"en": "Library One"}, "series": {"id": 123, "name": "The Amazing Spider-Man", "slug": "the-amazing-spider-man-2018", "start_year": 2018, "end_year": 2022, "volume_number": 5, "publication_type": "regular_series", "format": "Standard", "cached_issues_count": 93, "cover_url": "https://...-cover_lg.webp", "images": null, "publisher_name": "Marvel"}}}}
         "401":
           application/json: {"message": "Unauthenticated."}
         "404":
@@ -8454,7 +8624,7 @@ examples:
           languages: "ja,ko"
       responses:
         "200":
-          application/json: {"in_collection": true, "is_unreleased": false, "copies_count": 1, "copies": [{"id": 1001, "variant_id": 789, "condition": "NM", "graded": true, "grade_score": "9.8", "grading_company": "CGC", "is_signed": false, "signed_by": null, "is_cgc_ss": false, "format": "single", "storage_location": "Long box 3", "purchased_at": "2024-01-15T00:00:00Z", "notes": "First print", "created_at": "2024-01-15T10:30:00Z", "updated_at": "2024-01-15T10:30:00+00:00"}], "data": {"id": 1001, "user_id": 42, "collectable_type": "Issue", "collectable_id": 5432, "variant_id": null, "condition": "NM", "purchased_at": "2024-01-15T00:00:00.000000Z", "notes": "First print", "format": "single", "storage_location": "Long box 3", "price_paid": "4.99", "is_variant": false, "variant_description": "Cover B", "variant_type": "cover", "graded": false, "grade_score": "9.8", "grading_company": "CGC", "grading_number": "1234567001", "label_type": "universal", "page_quality": "white", "grader_notes": "Light spine stress", "purchase_source": "lcs", "comic_shop_id": 17, "acquisition_method": "purchased", "purchase_store": "Comic Corner", "custom_label": "Keys", "bagged_at": "2024-01-15T00:00:00.000000Z", "personal_rating": "4.5", "tags": ["keys"], "loan": {"id": 3, "loaned_to": "Sam", "loaned_at": "2024-01-15", "due_at": "2024-02-15", "is_overdue": false, "days_until_due": 12}, "is_signed": null, "signed_by": "Stan Lee", "signature_witness": "CGC", "signature_authenticated": false, "is_cgc_ss": true, "print_number": "1", "estimated_value": "125.00", "value_last_updated": "2024-01-15T00:00:00.000000Z", "status": "owned", "for_sale": true, "for_trade": false, "sold_at": "2024-01-15T00:00:00.000000Z", "price_sold": "150.00", "is_public": true, "cover_scan_url": "https://...-cover_md.webp", "cover_scan_url_lg": "https://...-cover_lg.webp", "cover_scan_uploaded_at": "2024-01-15T10:30:00.000000Z", "created_at": "2024-01-15T10:30:00.000000Z", "updated_at": "2024-01-15T10:30:00.000000Z", "collectable": {"id": 5432, "slug": "amazing-spider-man-1", "series_id": 123, "issue_number": "1", "name": "The Chameleon Strikes!", "cover_date": "2018-09-01", "release_date": "2018-07-11", "foc_date": "2018-06-18", "is_unreleased": false, "cover_url": "https://...-cover_lg.webp", "images": {"thumb": "https://...-thumb.webp", "cover_sm": "https://...-cover_sm.webp", "cover_md": "https://...-cover_md.webp", "cover_lg": "https://...-cover_lg.webp"}, "is_reprint": true, "content_rating_label": "Teen", "min_age": 13, "is_nsfw": true, "average_rating": 4.5, "name_i18n": {"ja": {"value": "講談社", "source": "madb", "reading": "こうだんしゃ"}}, "series": {"id": 123, "name": "The Amazing Spider-Man", "slug": "the-amazing-spider-man-2018", "start_year": 2018, "end_year": 2022, "volume_number": 5, "publication_type": "regular_series", "format": "Standard", "cached_issues_count": 93, "cover_url": "https://...-cover_lg.webp", "images": {"cover_sm": "https://...-cover_sm.webp", "cover_md": "https://...-cover_md.webp", "cover_lg": "https://...-cover_lg.webp"}, "publisher_name": "Marvel"}}}}
+          application/json: {"in_collection": true, "is_unreleased": false, "copies_count": 1, "copies": [{"id": 1001, "variant_id": 789, "cover_kind": "catalog", "variant_label": "Cover B", "condition": "NM", "graded": true, "grade_score": "9.8", "grading_company": "CGC", "is_signed": false, "signed_by": null, "is_cgc_ss": false, "format": "single", "storage_location": "Long box 3", "purchased_at": "2024-01-15T00:00:00Z", "notes": "First print", "created_at": "2024-01-15T10:30:00Z", "updated_at": "2024-01-15T10:30:00+00:00"}], "data": {"id": 1001, "user_id": 42, "collectable_type": "Issue", "collectable_id": 5432, "variant_id": null, "variant": {"id": 789, "name": "Cover B", "type": "cover_variant", "cover_url": "https://...-cover_md.webp", "cover_url_lg": "https://...-cover_lg.webp", "ratio": "1:25", "printing": 1, "is_nsfw": false}, "cover_kind": "catalog", "condition": "NM", "purchased_at": "2024-01-15T00:00:00.000000Z", "notes": "First print", "format": "single", "storage_location": "Long box 3", "price_paid": "4.99", "is_variant": false, "variant_description": "Cover B", "variant_type": "cover", "graded": false, "grade_score": "9.8", "grading_company": "CGC", "grading_number": "1234567001", "label_type": "universal", "page_quality": "white", "grader_notes": "Light spine stress", "purchase_source": "lcs", "comic_shop_id": 17, "acquisition_method": "purchased", "purchase_store": "Comic Corner", "custom_label": "Keys", "bagged_at": "2024-01-15T00:00:00.000000Z", "personal_rating": "4.5", "tags": ["keys"], "loan": {"id": 3, "loaned_to": "Sam", "loaned_at": "2024-01-15", "due_at": "2024-02-15", "is_overdue": false, "days_until_due": 12}, "is_signed": null, "signed_by": "Stan Lee", "signature_witness": "CGC", "signature_authenticated": false, "is_cgc_ss": true, "print_number": "1", "estimated_value": "125.00", "value_last_updated": "2024-01-15T00:00:00.000000Z", "status": "owned", "for_sale": true, "for_trade": false, "sold_at": "2024-01-15T00:00:00.000000Z", "price_sold": "150.00", "is_public": true, "cover_scan_url": "https://...-cover_md.webp", "cover_scan_url_lg": "https://...-cover_lg.webp", "cover_scan_uploaded_at": "2024-01-15T10:30:00.000000Z", "created_at": "2024-01-15T10:30:00.000000Z", "updated_at": "2024-01-15T10:30:00.000000Z", "collectable": {"id": 5432, "slug": "amazing-spider-man-1", "series_id": 123, "issue_number": "1", "name": "The Chameleon Strikes!", "cover_date": "2018-09-01", "release_date": "2018-07-11", "foc_date": "2018-06-18", "is_unreleased": false, "cover_url": "https://...-cover_lg.webp", "images": {"thumb": "https://...-thumb.webp", "cover_sm": "https://...-cover_sm.webp", "cover_md": "https://...-cover_md.webp", "cover_lg": "https://...-cover_lg.webp"}, "is_reprint": true, "content_rating_label": "Teen", "min_age": 13, "is_nsfw": true, "average_rating": 4.5, "name_i18n": {"ja": {"value": "講談社", "source": "madb", "reading": "こうだんしゃ"}}, "series": {"id": 123, "name": "The Amazing Spider-Man", "slug": "the-amazing-spider-man-2018", "start_year": 2018, "end_year": 2022, "volume_number": 5, "publication_type": "regular_series", "format": "Standard", "cached_issues_count": 93, "cover_url": "https://...-cover_lg.webp", "images": {"cover_sm": "https://...-cover_sm.webp", "cover_md": "https://...-cover_md.webp", "cover_lg": "https://...-cover_lg.webp"}, "publisher_name": "Marvel"}}}}
         "401":
           application/json: {"message": "Unauthenticated."}
         "429":
@@ -8513,7 +8683,7 @@ examples:
         "429":
           application/json: {"message": "Too Many Attempts."}
         "200":
-          application/json: {"data": {"id": 1001, "user_id": 42, "collectable_type": "Issue", "collectable_id": 5432, "variant_id": 789, "condition": "NM", "purchased_at": "2024-01-15T00:00:00.000000Z", "notes": "First print", "format": "single", "storage_location": "Long box 3", "price_paid": "3.99", "is_variant": false, "variant_description": "Cover B", "variant_type": "cover", "graded": false, "grade_score": "9.8", "grading_company": "CGC", "grading_number": "1234567001", "label_type": "universal", "page_quality": "white", "grader_notes": "Light spine stress", "purchase_source": "lcs", "comic_shop_id": 17, "comic_shop": {"id": 17, "name": "Comic Corner", "slug": "comic-corner", "city": "Portland", "state_province": "OR"}, "acquisition_method": "purchased", "purchase_store": "Comic Corner", "custom_label": "Keys", "bagged_at": "2024-01-15T00:00:00.000000Z", "personal_rating": 4.5, "tags": ["keys"], "loan": {"id": 42, "loaned_to": "Dan from the shop", "loaned_at": "2026-09-01", "due_at": "2026-10-01", "is_overdue": false, "days_until_due": 30}, "is_signed": false, "signed_by": "Stan Lee", "signature_witness": "CGC", "signature_authenticated": false, "is_cgc_ss": false, "print_number": "1", "estimated_value": "125.00", "value_last_updated": "2024-01-15T00:00:00.000000Z", "status": "owned", "for_sale": true, "for_trade": true, "sold_at": "2024-01-15T00:00:00.000000Z", "price_sold": "150.00", "is_public": false, "cover_scan_url": "https://...-cover_md.webp", "cover_scan_url_lg": "https://...-cover_lg.webp", "cover_scan_uploaded_at": "2024-01-15T10:30:00.000000Z", "created_at": "2024-01-15T10:30:00.000000Z", "updated_at": "2024-01-15T10:30:00.000000Z", "collectable": {"id": 5432, "slug": "amazing-spider-man-1", "series_id": 123, "issue_number": "1", "name": "The Chameleon Strikes!", "cover_date": "2018-09-01", "release_date": "2018-07-11", "foc_date": "2018-06-18", "is_unreleased": true, "cover_url": "https://...-cover_lg.webp", "images": {"thumb": "https://...-thumb.webp", "cover_sm": "https://...-cover_sm.webp", "cover_md": "https://...-cover_md.webp", "cover_lg": "https://...-cover_lg.webp"}, "is_reprint": false, "content_rating_label": "Teen", "min_age": 13, "is_nsfw": true, "average_rating": 4.5, "name_i18n": {"en": "Library One"}, "series": {"id": 123, "name": "The Amazing Spider-Man", "slug": "the-amazing-spider-man-2018", "start_year": 2018, "end_year": 2022, "volume_number": 5, "publication_type": "regular_series", "format": "Standard", "cached_issues_count": 93, "cover_url": "https://...-cover_lg.webp", "images": {"cover_sm": "https://...-cover_sm.webp", "cover_md": "https://...-cover_md.webp", "cover_lg": "https://...-cover_lg.webp"}, "publisher_name": "Marvel"}}}}
+          application/json: {"data": {"id": 1001, "user_id": 42, "collectable_type": "Issue", "collectable_id": 5432, "variant_id": 789, "variant": {"id": 789, "name": "Cover B", "type": "cover_variant", "cover_url": "https://...-cover_md.webp", "cover_url_lg": "https://...-cover_lg.webp", "ratio": "1:25", "printing": 1, "is_nsfw": false}, "cover_kind": "catalog", "condition": "NM", "purchased_at": "2024-01-15T00:00:00.000000Z", "notes": "First print", "format": "single", "storage_location": "Long box 3", "price_paid": "3.99", "is_variant": false, "variant_description": "Cover B", "variant_type": "cover", "graded": false, "grade_score": "9.8", "grading_company": "CGC", "grading_number": "1234567001", "label_type": "universal", "page_quality": "white", "grader_notes": "Light spine stress", "purchase_source": "lcs", "comic_shop_id": 17, "comic_shop": {"id": 17, "name": "Comic Corner", "slug": "comic-corner", "city": "Portland", "state_province": "OR"}, "acquisition_method": "purchased", "purchase_store": "Comic Corner", "custom_label": "Keys", "bagged_at": "2024-01-15T00:00:00.000000Z", "personal_rating": 4.5, "tags": ["keys"], "loan": {"id": 42, "loaned_to": "Dan from the shop", "loaned_at": "2026-09-01", "due_at": "2026-10-01", "is_overdue": false, "days_until_due": 30}, "is_signed": false, "signed_by": "Stan Lee", "signature_witness": "CGC", "signature_authenticated": false, "is_cgc_ss": false, "print_number": "1", "estimated_value": "125.00", "value_last_updated": "2024-01-15T00:00:00.000000Z", "status": "owned", "for_sale": true, "for_trade": true, "sold_at": "2024-01-15T00:00:00.000000Z", "price_sold": "150.00", "is_public": false, "cover_scan_url": "https://...-cover_md.webp", "cover_scan_url_lg": "https://...-cover_lg.webp", "cover_scan_uploaded_at": "2024-01-15T10:30:00.000000Z", "created_at": "2024-01-15T10:30:00.000000Z", "updated_at": "2024-01-15T10:30:00.000000Z", "collectable": {"id": 5432, "slug": "amazing-spider-man-1", "series_id": 123, "issue_number": "1", "name": "The Chameleon Strikes!", "cover_date": "2018-09-01", "release_date": "2018-07-11", "foc_date": "2018-06-18", "is_unreleased": true, "cover_url": "https://...-cover_lg.webp", "images": {"thumb": "https://...-thumb.webp", "cover_sm": "https://...-cover_sm.webp", "cover_md": "https://...-cover_md.webp", "cover_lg": "https://...-cover_lg.webp"}, "is_reprint": false, "content_rating_label": "Teen", "min_age": 13, "is_nsfw": true, "average_rating": 4.5, "name_i18n": {"en": "Library One"}, "series": {"id": 123, "name": "The Amazing Spider-Man", "slug": "the-amazing-spider-man-2018", "start_year": 2018, "end_year": 2022, "volume_number": 5, "publication_type": "regular_series", "format": "Standard", "cached_issues_count": 93, "cover_url": "https://...-cover_lg.webp", "images": {"cover_sm": "https://...-cover_sm.webp", "cover_md": "https://...-cover_md.webp", "cover_lg": "https://...-cover_lg.webp"}, "publisher_name": "Marvel"}}}}
         "404":
           application/json: {"message": "Collection item not found."}
         "409":
@@ -8536,7 +8706,7 @@ examples:
         "429":
           application/json: {"message": "Too Many Attempts."}
         "200":
-          application/json: {"data": {"id": 1001, "user_id": 42, "collectable_type": "Issue", "collectable_id": 5432, "variant_id": 789, "condition": "NM", "purchased_at": "2024-01-15T00:00:00.000000Z", "notes": "First print", "format": "single", "storage_location": "Long box 3", "price_paid": "3.99", "is_variant": null, "variant_description": "Cover B", "variant_type": "cover", "graded": true, "grade_score": "9.8", "grading_company": "CGC", "grading_number": "1234567001", "label_type": "universal", "page_quality": "white", "grader_notes": "Light spine stress", "purchase_source": "lcs", "comic_shop_id": 17, "comic_shop": {"id": 17, "name": "Comic Corner", "slug": "comic-corner", "city": "Portland", "state_province": "OR"}, "acquisition_method": "purchased", "purchase_store": "Comic Corner", "custom_label": "Keys", "bagged_at": "2024-01-15T00:00:00.000000Z", "personal_rating": 4.5, "tags": ["keys"], "loan": null, "is_signed": false, "signed_by": "Stan Lee", "signature_witness": "CGC", "signature_authenticated": true, "is_cgc_ss": true, "print_number": "1", "estimated_value": "125.00", "value_last_updated": "2024-01-15T00:00:00.000000Z", "status": "owned", "for_sale": false, "for_trade": true, "sold_at": "2024-01-15T00:00:00.000000Z", "price_sold": "150.00", "is_public": false, "cover_scan_url": "https://...-cover_md.webp", "cover_scan_url_lg": "https://...-cover_lg.webp", "cover_scan_uploaded_at": "2024-01-15T10:30:00.000000Z", "created_at": "2024-01-15T10:30:00.000000Z", "updated_at": "2024-01-15T10:30:00.000000Z", "collectable": {"id": 5432, "slug": "amazing-spider-man-1", "series_id": 123, "issue_number": "1", "name": "The Chameleon Strikes!", "cover_date": "2018-09-01", "release_date": "2018-07-11", "foc_date": "2018-06-18", "is_unreleased": true, "cover_url": "https://...-cover_lg.webp", "images": {"thumb": "https://...-thumb.webp", "cover_sm": "https://...-cover_sm.webp", "cover_md": "https://...-cover_md.webp", "cover_lg": "https://...-cover_lg.webp"}, "is_reprint": true, "content_rating_label": "Teen", "min_age": 13, "is_nsfw": false, "average_rating": 4.5, "name_i18n": {"en": "Library One"}, "series": {"id": 123, "name": "The Amazing Spider-Man", "slug": "the-amazing-spider-man-2018", "start_year": 2018, "end_year": 2022, "volume_number": 5, "publication_type": "regular_series", "format": "Standard", "cached_issues_count": 93, "cover_url": "https://...-cover_lg.webp", "images": {"cover_sm": "https://...-cover_sm.webp", "cover_md": "https://...-cover_md.webp", "cover_lg": "https://...-cover_lg.webp"}, "publisher_name": "Marvel"}}}}
+          application/json: {"data": {"id": 1001, "user_id": 42, "collectable_type": "Issue", "collectable_id": 5432, "variant_id": 789, "variant": null, "cover_kind": "catalog", "condition": "NM", "purchased_at": "2024-01-15T00:00:00.000000Z", "notes": "First print", "format": "single", "storage_location": "Long box 3", "price_paid": "3.99", "is_variant": null, "variant_description": "Cover B", "variant_type": "cover", "graded": true, "grade_score": "9.8", "grading_company": "CGC", "grading_number": "1234567001", "label_type": "universal", "page_quality": "white", "grader_notes": "Light spine stress", "purchase_source": "lcs", "comic_shop_id": 17, "comic_shop": {"id": 17, "name": "Comic Corner", "slug": "comic-corner", "city": "Portland", "state_province": "OR"}, "acquisition_method": "purchased", "purchase_store": "Comic Corner", "custom_label": "Keys", "bagged_at": "2024-01-15T00:00:00.000000Z", "personal_rating": 4.5, "tags": ["keys"], "loan": null, "is_signed": false, "signed_by": "Stan Lee", "signature_witness": "CGC", "signature_authenticated": true, "is_cgc_ss": true, "print_number": "1", "estimated_value": "125.00", "value_last_updated": "2024-01-15T00:00:00.000000Z", "status": "owned", "for_sale": false, "for_trade": true, "sold_at": "2024-01-15T00:00:00.000000Z", "price_sold": "150.00", "is_public": false, "cover_scan_url": "https://...-cover_md.webp", "cover_scan_url_lg": "https://...-cover_lg.webp", "cover_scan_uploaded_at": "2024-01-15T10:30:00.000000Z", "created_at": "2024-01-15T10:30:00.000000Z", "updated_at": "2024-01-15T10:30:00.000000Z", "collectable": {"id": 5432, "slug": "amazing-spider-man-1", "series_id": 123, "issue_number": "1", "name": "The Chameleon Strikes!", "cover_date": "2018-09-01", "release_date": "2018-07-11", "foc_date": "2018-06-18", "is_unreleased": true, "cover_url": "https://...-cover_lg.webp", "images": {"thumb": "https://...-thumb.webp", "cover_sm": "https://...-cover_sm.webp", "cover_md": "https://...-cover_md.webp", "cover_lg": "https://...-cover_lg.webp"}, "is_reprint": true, "content_rating_label": "Teen", "min_age": 13, "is_nsfw": false, "average_rating": 4.5, "name_i18n": {"en": "Library One"}, "series": {"id": 123, "name": "The Amazing Spider-Man", "slug": "the-amazing-spider-man-2018", "start_year": 2018, "end_year": 2022, "volume_number": 5, "publication_type": "regular_series", "format": "Standard", "cached_issues_count": 93, "cover_url": "https://...-cover_lg.webp", "images": {"cover_sm": "https://...-cover_sm.webp", "cover_md": "https://...-cover_md.webp", "cover_lg": "https://...-cover_lg.webp"}, "publisher_name": "Marvel"}}}}
         "404":
           application/json: {"message": "Collection item not found."}
         "403":
@@ -8681,7 +8851,7 @@ examples:
           issue_id: 5432
       responses:
         "200":
-          application/json: {"data": {"issue_id": 5432, "series_id": 456, "skipped": true, "linked_shop": "Third Eye Comics", "options": [{"variant_id": 789, "code": "B", "name": "Cover B Jock Variant", "type": "cover_variant", "ratio": "1:25", "kind": "regular", "images": {"thumb": "https://...-thumb.webp", "cover_sm": "https://...-cover_sm.webp", "cover_md": "https://...-cover_md.webp", "cover_lg": "https://...-cover_lg.webp"}, "price": "4.99", "price_from_issue": true, "currency": "USD", "cover_nsfw": true, "selected": true}]}}
+          application/json: {"data": {"issue_id": 5432, "series_id": 456, "skipped": true, "linked_shops": [], "linked_shop": "Third Eye Comics", "shop_order": "set", "options": [{"variant_id": 789, "code": "B", "name": "Cover B Jock Variant", "type": "cover_variant", "ratio": "1:25", "kind": "regular", "images": {"thumb": "https://...-thumb.webp", "cover_sm": "https://...-cover_sm.webp", "cover_md": "https://...-cover_md.webp", "cover_lg": "https://...-cover_lg.webp"}, "price": "4.99", "price_from_issue": true, "currency": "USD", "cover_nsfw": true, "selected": true}], "follows_series": true, "standing": "standard"}}
         "401":
           application/json: {"message": "Unauthenticated."}
         "403":
@@ -8699,7 +8869,7 @@ examples:
         application/json: {"standard": true, "variant_ids": [789]}
       responses:
         "200":
-          application/json: {"data": {"issue_id": 5432, "series_id": 456, "skipped": true, "linked_shop": "Third Eye Comics", "options": [{"variant_id": 789, "code": "B", "name": "Cover B Jock Variant", "type": "cover_variant", "ratio": "1:25", "kind": "regular", "images": {"thumb": "https://...-thumb.webp", "cover_sm": "https://...-cover_sm.webp", "cover_md": "https://...-cover_md.webp", "cover_lg": "https://...-cover_lg.webp"}, "price": "4.99", "price_from_issue": false, "currency": "USD", "cover_nsfw": false, "selected": false}]}}
+          application/json: {"data": {"issue_id": 5432, "series_id": 456, "skipped": true, "linked_shops": [], "linked_shop": "Third Eye Comics", "shop_order": "set", "options": [{"variant_id": 789, "code": "B", "name": "Cover B Jock Variant", "type": "cover_variant", "ratio": "1:25", "kind": "regular", "images": {"thumb": "https://...-thumb.webp", "cover_sm": "https://...-cover_sm.webp", "cover_md": "https://...-cover_md.webp", "cover_lg": "https://...-cover_lg.webp"}, "price": "4.99", "price_from_issue": false, "currency": "USD", "cover_nsfw": false, "selected": false}], "follows_series": false, "standing": "standard"}}
         "401":
           application/json: {"message": "Unauthenticated."}
         "403":
@@ -8710,10 +8880,25 @@ examples:
           application/json: {"message": "The specified variant does not exist or does not belong to this issue.", "errors": {"variant_id": ["The specified variant does not exist or does not belong to this issue."]}}
         "429":
           application/json: {"message": "Too Many Attempts."}
+  updatePullListItem:
+    speakeasy-default-update-pull-list-item:
+      parameters:
+        path:
+          item_id: 456
+      requestBody:
+        application/json: {"status": "active", "personal_notes": "Trade wait", "preferred_cover_type": "standard_and_regular", "pull_source_ids": [12]}
+      responses:
+        "200":
+          application/json: {"id": 826823, "series_id": 753504, "status": "active", "personal_notes": "<value>", "preferred_cover_type": "regular", "pull_source_id": 272739, "pull_source_ids": [974062], "updated_at": "1735633893690"}
+        "401":
+          application/json: {"message": "Unauthenticated."}
+        "403":
+          application/json: {"message": "Insufficient token scope."}
+        "404":
+          application/json: {"message": "No query results for model [App\\Models\\Series] 456"}
+        "422":
+          application/json: {"message": "The specified variant does not exist or does not belong to this issue.", "errors": {"variant_id": ["The specified variant does not exist or does not belong to this issue."]}}
+        "429":
+          application/json: {"message": "Too Many Attempts."}
 examplesVersion: 1.0.2
-releaseNotes: |
-  ## Typescript SDK Changes:
-  * `versedb.user.getPullListIssueCovers()`: **Added**
-  * `versedb.user.setPullListIssueCovers()`: **Added**
-  * `versedb.user.getActivityFeed()`:  `response.data[].data.union(class (1)).language` **Added**
-  * `versedb.user.listPullList()`:  `response.data[]` **Changed**
+releaseNotes: "## Typescript SDK Changes:\n* `versedb.user.listPullList()`:  `response.data[].preferredCoverType` **Changed** (Breaking ⚠️)\n* `versedb.user.addIssueToCollection()`: \n  *  `request.idempotencyKey` **Added**\n  *  `response.data` **Changed**\n  *  `error` **Changed**\n* `versedb.user.checkIssueInCollection()`:  `response` **Changed**\n* `versedb.user.listCollection()`:  `response.data[]` **Changed**\n* `versedb.user.getPullListIssueCovers()`:  `response.data` **Changed**\n* `versedb.user.setPullListIssueCovers()`:  `response.data` **Changed**\n* `versedb.user.updatePullListItem()`: **Added**\n* `versedb.user.updateCollectionItem()`:  `response.data` **Changed**\n* `versedb.user.lendACopyOut()`:  `response.data` **Changed**\n* `versedb.user.markTheCopysOpenLoanReturned()`:  `response.data` **Changed**\n* `versedb.events.getAnEvent()`:  `response.data.issueVariants[]` **Changed**\n* `versedb.issues.getIssueVariants()`:  `response.data[]` **Changed**\n* `versedb.issues.getVariantDetails()`:  `response.data` **Changed**\n"

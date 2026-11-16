@@ -31,6 +31,12 @@ export type GetVariantDetailsImages = {
   coverLg?: string | undefined;
 };
 
+export type GetVariantDetailsShop = {
+  id: number;
+  name: string | null;
+  slug: string | null;
+};
+
 export type GetVariantDetailsCreator = {
   id: number;
   name: string | null;
@@ -63,6 +69,18 @@ export type GetVariantDetailsData = {
    * This edition's own on-sale date (YYYY-MM-DD), for a later printing or an exclusive that ships apart from its issue. Null when it ships with the issue: use the issue's release_date.
    */
   releaseDate: string | null;
+  /**
+   * How many copies of this cover were printed. Null when no source states it.
+   */
+  printRun: number | null;
+  /**
+   * The letter the cover is listed under, one to three capitals (A, B, AA). Null where covers are not lettered.
+   */
+  coverLetter: string | null;
+  /**
+   * The comic shops a retailer exclusive was made for, in display order. On the variants list and the variant page.
+   */
+  shops?: Array<GetVariantDetailsShop> | undefined;
   creators: Array<GetVariantDetailsCreator>;
   /**
    * One name per language, keyed by BCP 47 tag.
@@ -146,6 +164,26 @@ export function getVariantDetailsImagesFromJSON(
 }
 
 /** @internal */
+export const GetVariantDetailsShop$inboundSchema: z.ZodMiniType<
+  GetVariantDetailsShop,
+  unknown
+> = z.object({
+  id: types.number(),
+  name: types.nullable(types.string()),
+  slug: types.nullable(types.string()),
+});
+
+export function getVariantDetailsShopFromJSON(
+  jsonString: string,
+): SafeParseResult<GetVariantDetailsShop, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetVariantDetailsShop$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetVariantDetailsShop' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetVariantDetailsCreator$inboundSchema: z.ZodMiniType<
   GetVariantDetailsCreator,
   unknown
@@ -215,6 +253,11 @@ export const GetVariantDetailsData$inboundSchema: z.ZodMiniType<
     formatted_price: types.nullable(types.string()),
     ean: types.nullable(types.string()),
     release_date: types.nullable(types.string()),
+    print_run: types.nullable(types.number()),
+    cover_letter: types.nullable(types.string()),
+    shops: types.optional(
+      z.array(z.lazy(() => GetVariantDetailsShop$inboundSchema)),
+    ),
     creators: z.array(z.lazy(() => GetVariantDetailsCreator$inboundSchema)),
     variant_name_i18n: z.record(
       z.string(),
@@ -230,6 +273,8 @@ export const GetVariantDetailsData$inboundSchema: z.ZodMiniType<
       "currency_code": "currencyCode",
       "formatted_price": "formattedPrice",
       "release_date": "releaseDate",
+      "print_run": "printRun",
+      "cover_letter": "coverLetter",
       "variant_name_i18n": "variantNameI18n",
     });
   }),

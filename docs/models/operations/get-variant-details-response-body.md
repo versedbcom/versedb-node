@@ -26,6 +26,15 @@ let value: GetVariantDetailsResponseBody = {
     formattedPrice: "$4.99",
     ean: "75960609999300111",
     releaseDate: "2025-04-09",
+    printRun: 3000,
+    coverLetter: "B",
+    shops: [
+      {
+        id: 12,
+        name: "Third Eye Comics",
+        slug: "third-eye-comics",
+      },
+    ],
     creators: [
       {
         id: 101,

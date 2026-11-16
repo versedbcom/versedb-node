@@ -30,6 +30,20 @@ export type ListPullListRequest = {
 /**
  * Left out for a `read:showcase` token.
  */
+export const ListPullListPreferredCoverType = {
+  StandardAndRegular: "standard_and_regular",
+  Regular: "regular",
+} as const;
+/**
+ * Left out for a `read:showcase` token.
+ */
+export type ListPullListPreferredCoverType = OpenEnum<
+  typeof ListPullListPreferredCoverType
+>;
+
+/**
+ * Left out for a `read:showcase` token.
+ */
 export type NotificationSettings = string | number | boolean | Array<any> | {
   [k: string]: any;
 };
@@ -237,7 +251,7 @@ export type ListPullListData = {
   /**
    * Left out for a `read:showcase` token.
    */
-  preferredCoverType?: string | null | undefined;
+  preferredCoverType?: ListPullListPreferredCoverType | null | undefined;
   /**
    * Left out for a `read:showcase` token.
    */
@@ -375,6 +389,12 @@ export function listPullListRequestToJSON(
     ListPullListRequest$outboundSchema.parse(listPullListRequest),
   );
 }
+
+/** @internal */
+export const ListPullListPreferredCoverType$inboundSchema: z.ZodMiniType<
+  ListPullListPreferredCoverType,
+  unknown
+> = openEnums.inboundSchema(ListPullListPreferredCoverType);
 
 /** @internal */
 export const NotificationSettings$inboundSchema: z.ZodMiniType<
@@ -786,7 +806,9 @@ export const ListPullListData$inboundSchema: z.ZodMiniType<
     status: types.string(),
     auto_pull: z.optional(z.nullable(types.boolean())),
     last_pulled_at: z.optional(z.nullable(types.string())),
-    preferred_cover_type: z.optional(z.nullable(types.string())),
+    preferred_cover_type: z.optional(
+      z.nullable(ListPullListPreferredCoverType$inboundSchema),
+    ),
     pull_priority: z.optional(z.nullable(types.number())),
     notify_on_release: z.optional(z.nullable(types.boolean())),
     notification_settings: z.optional(
