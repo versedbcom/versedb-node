@@ -14,7 +14,7 @@ targets:
         sourceRevisionDigest: sha256:4a351ff80d26d2ceee905efd44159864fc4477640e65d7dfa95e4e91820b63ff
         sourceBlobDigest: sha256:8f2a2e0f59e6332e82fc3633a607343b4290b62220480a282829ccaf205c5334
         codeSamplesNamespace: versedb-api-typescript-code-samples
-        codeSamplesRevisionDigest: sha256:0462ee999952aa864c6417192571274230ad0d3906f3b934e25856f0a73afc9e
+        codeSamplesRevisionDigest: sha256:ace0a12e6bfe272d97d109afe6698f12143263af70ad30015749479a6938972c
 workflow:
     workflowVersion: 1.0.0
     speakeasyVersion: latest

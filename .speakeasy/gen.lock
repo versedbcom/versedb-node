@@ -5,15 +5,15 @@ management:
   docVersion: 1.0.0
   speakeasyVersion: 1.809.0
   generationVersion: 2.961.1
-  releaseVersion: 3.0.11
-  configChecksum: 9743fd48dfdb55c4642f462e41a2d361
+  releaseVersion: 3.0.12
+  configChecksum: b94050c8ab82632efc30f1a255a1e25c
   repoURL: https://github.com/versedbcom/versedb-node.git
   installationURL: https://github.com/versedbcom/versedb-node
   published: true
 persistentEdits:
-  generation_id: f9b9b4c8-fbac-43da-a030-85adad98ded4
-  pristine_commit_hash: eb3ad0bdd16a5e876db8eec749948e54b6db8e83
-  pristine_tree_hash: 2073f9f58e968eb66b51220027a90eb3a5a8188f
+  generation_id: 4f9a67bf-30af-4076-a815-c238d0e326b7
+  pristine_commit_hash: 28e6f7719f448a937cd8bf703b2ee7052d9e8019
+  pristine_tree_hash: ad069c7006f6cef0167ab7053ff7df4168810291
 features:
   typescript:
     additionalDependencies: 0.1.0
@@ -5247,12 +5247,12 @@ trackedFiles:
     pristine_git_object: ecffeb89ec7a40b74d527168b2ecf23d81f8cc94
   jsr.json:
     id: 7f6ab7767282
-    last_write_checksum: sha1:58adca12fabd382a1122a0f08ac6839e234f4189
-    pristine_git_object: 0b86dbb1b005a4ffc802d1e479650a9f2c1c2c4f
+    last_write_checksum: sha1:723101519073831678c953c9734ef48e5984c6e8
+    pristine_git_object: 9562831287a6f51051c43becd25a60b2a79c9c39
   package.json:
     id: 7030d0b2f71b
-    last_write_checksum: sha1:3c14733f59ccc989f8f2a0d4b34bfc959d6dace5
-    pristine_git_object: a9ed95afcae61a4fd9f7297a328449a5b61a6fae
+    last_write_checksum: sha1:fb8884fe6e7b740f1929bcd423cad6026e81fb5a
+    pristine_git_object: e21343aa8e4f9d96f2257b15ad01e301d3636c1f
   src/core.ts:
     id: f431fdbcd144
     last_write_checksum: sha1:ad0063bee03825028052e52cef3fa240c6101bdf
@@ -5687,8 +5687,8 @@ trackedFiles:
     pristine_git_object: 44be0eae8246521b230e8e711a88eff738fc015d
   src/lib/config.ts:
     id: 320761608fb3
-    last_write_checksum: sha1:affced3b561eb8e95237e4c68324f9d9ee98947e
-    pristine_git_object: e9ed576a6d884017c20b2fda4c2e8aed66dddbdd
+    last_write_checksum: sha1:e2638043d1f1a0c5e73665de15966b657d549054
+    pristine_git_object: 7c04c9844d126dfcbf8200f5292254924a36eea9
   src/lib/encodings.ts:
     id: 3bd8ead98afd
     last_write_checksum: sha1:4481b2a380f8a16856ef92c66fb370299f56d135
@@ -8901,4 +8901,3 @@ examples:
         "429":
           application/json: {"message": "Too Many Attempts."}
 examplesVersion: 1.0.2
-releaseNotes: "## Typescript SDK Changes:\n* `versedb.user.listPullList()`:  `response.data[].preferredCoverType` **Changed** (Breaking ⚠️)\n* `versedb.user.addIssueToCollection()`: \n  *  `request.idempotencyKey` **Added**\n  *  `response.data` **Changed**\n  *  `error` **Changed**\n* `versedb.user.checkIssueInCollection()`:  `response` **Changed**\n* `versedb.user.listCollection()`:  `response.data[]` **Changed**\n* `versedb.user.getPullListIssueCovers()`:  `response.data` **Changed**\n* `versedb.user.setPullListIssueCovers()`:  `response.data` **Changed**\n* `versedb.user.updatePullListItem()`: **Added**\n* `versedb.user.updateCollectionItem()`:  `response.data` **Changed**\n* `versedb.user.lendACopyOut()`:  `response.data` **Changed**\n* `versedb.user.markTheCopysOpenLoanReturned()`:  `response.data` **Changed**\n* `versedb.events.getAnEvent()`:  `response.data.issueVariants[]` **Changed**\n* `versedb.issues.getIssueVariants()`:  `response.data[]` **Changed**\n* `versedb.issues.getVariantDetails()`:  `response.data` **Changed**\n"
