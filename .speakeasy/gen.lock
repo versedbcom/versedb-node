@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: d54ae284-e171-41f5-99d0-d4027d6f02b4
 management:
-  docChecksum: 4a9ad6026f41aff53e039fbc8f97f458
+  docChecksum: 37fbd3744be2e7ae13ef62998944b437
   docVersion: 1.0.0
-  speakeasyVersion: 1.809.0
+  speakeasyVersion: 1.810.0
   generationVersion: 2.961.1
-  releaseVersion: 3.0.12
-  configChecksum: b94050c8ab82632efc30f1a255a1e25c
+  releaseVersion: 3.0.13
+  configChecksum: 2f0066d1c3d54cf1cd49cff8d3e84ee5
   repoURL: https://github.com/versedbcom/versedb-node.git
   installationURL: https://github.com/versedbcom/versedb-node
   published: true
 persistentEdits:
-  generation_id: 4f9a67bf-30af-4076-a815-c238d0e326b7
-  pristine_commit_hash: 28e6f7719f448a937cd8bf703b2ee7052d9e8019
-  pristine_tree_hash: ad069c7006f6cef0167ab7053ff7df4168810291
+  generation_id: 049fc462-4724-41e5-958d-77f5e909ff7c
+  pristine_commit_hash: bc9cf84e0aadf536589ec0c29cb8c721280854cf
+  pristine_tree_hash: db281c3df394ba3d5f01c6e810e603b7a4feb79c
 features:
   typescript:
     additionalDependencies: 0.1.0
@@ -5163,8 +5163,8 @@ trackedFiles:
     pristine_git_object: 5e51d95a96d1cc506759f8c2387bd3fc37d2ff74
   docs/sdks/coverlookup/README.md:
     id: 146080bab6a5
-    last_write_checksum: sha1:029a3b9c091ee45c446bdf62472154b41315124c
-    pristine_git_object: dc549521ab75b443dcc814a1388488677572e6a0
+    last_write_checksum: sha1:59a379406b29add5e9b47bb37b11b4cdaa8af3aa
+    pristine_git_object: b77311627ce16f893709af1184f8b1a7417ad491
   docs/sdks/creators/README.md:
     id: 95be68eedece
     last_write_checksum: sha1:6ff23e64bf1717de70433f20196618c9a801c8f7
@@ -5247,12 +5247,12 @@ trackedFiles:
     pristine_git_object: ecffeb89ec7a40b74d527168b2ecf23d81f8cc94
   jsr.json:
     id: 7f6ab7767282
-    last_write_checksum: sha1:723101519073831678c953c9734ef48e5984c6e8
-    pristine_git_object: 9562831287a6f51051c43becd25a60b2a79c9c39
+    last_write_checksum: sha1:9d1bafe7b8e7613577d72ce70138ad0538cd31c6
+    pristine_git_object: f783280c28a14801bc672ef326d8d4902e41af82
   package.json:
     id: 7030d0b2f71b
-    last_write_checksum: sha1:fb8884fe6e7b740f1929bcd423cad6026e81fb5a
-    pristine_git_object: e21343aa8e4f9d96f2257b15ad01e301d3636c1f
+    last_write_checksum: sha1:94ea19aabd3976e87affe79212e106e6855c46be
+    pristine_git_object: d8aebd24dd522e8b12a1a33e92a0aec97d89a111
   src/core.ts:
     id: f431fdbcd144
     last_write_checksum: sha1:ad0063bee03825028052e52cef3fa240c6101bdf
@@ -5303,8 +5303,8 @@ trackedFiles:
     pristine_git_object: 5efd53e30696567d1eee644f26e8f9ff38d45095
   src/funcs/cover-lookup-look-up-an-issue-by-cover-photo.ts:
     id: b6e742276b6f
-    last_write_checksum: sha1:dcfc7329f1b51c3fdedba012be0013ff8b6c1372
-    pristine_git_object: 89451b5897a46bcc08fbdf96c8bc5cc1da71b8fc
+    last_write_checksum: sha1:a4db9df5541e48abd8b39c3fa0b4b15cb737f0b8
+    pristine_git_object: fa3e99f45eccfa7723bee35d33f51b435e6a2d63
   src/funcs/creators-get-creator-details.ts:
     id: 9d4136020d85
     last_write_checksum: sha1:51f4abf90ae5a612f1a9219bfc2bfb2612963fa2
@@ -5687,8 +5687,8 @@ trackedFiles:
     pristine_git_object: 44be0eae8246521b230e8e711a88eff738fc015d
   src/lib/config.ts:
     id: 320761608fb3
-    last_write_checksum: sha1:e2638043d1f1a0c5e73665de15966b657d549054
-    pristine_git_object: 7c04c9844d126dfcbf8200f5292254924a36eea9
+    last_write_checksum: sha1:a708e6df2703f69678ce78cf67615789d6b189e0
+    pristine_git_object: e3040c1bd755044c8238b43dc3bf42cabef147ed
   src/lib/encodings.ts:
     id: 3bd8ead98afd
     last_write_checksum: sha1:4481b2a380f8a16856ef92c66fb370299f56d135
@@ -6611,8 +6611,8 @@ trackedFiles:
     pristine_git_object: c50b312f20cc74d472c2d105ac97476a2c19d65d
   src/sdk/cover-lookup.ts:
     id: f4506cb9fde4
-    last_write_checksum: sha1:bff662379bbf7a9cf8237284df330528c6cf880e
-    pristine_git_object: 260327457056f764c3a58a50ce1a00dad3aa9a53
+    last_write_checksum: sha1:b6fa6ba77ec7f044378023106b9f78b62e9f6615
+    pristine_git_object: 741877d03cebdf817fb5eac04b656ca1aca3344a
   src/sdk/creators.ts:
     id: fb22b4147894
     last_write_checksum: sha1:a7c237739ad83d0aeffc19bf75b0408b6e0cc80c
