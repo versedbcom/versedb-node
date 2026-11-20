@@ -254,7 +254,7 @@ export class User extends ClientSDK {
    * Mark as read.
    *
    * @remarks
-   * Marks an issue (optionally a specific variant) as read. With no `read_at` the read has no date; with one it is dated that day. An issue already read is left as it is, its date included, and the answer gives that date.
+   * Marks an issue (optionally a specific variant) as read. With no `read_at` the read has no date; with one it is dated that day. An issue already read is left as it is, its date included, and the answer gives that date; with no `variant_id` that holds whichever variant it was read on.
    */
   async markAsRead(
     request: operations.MarkAsReadRequest,
@@ -271,7 +271,7 @@ export class User extends ClientSDK {
    * Mark as unread.
    *
    * @remarks
-   * Removes the read status for an issue (optionally a specific variant).
+   * Removes the read status for an issue. With no `variant_id`, the read is removed whichever variant it is on; with one, only a read of that variant.
    */
   async markAsUnread(
     request: operations.MarkAsUnreadRequest,
@@ -291,6 +291,7 @@ export class User extends ClientSDK {
    * Updates the `read_at` date on an existing read entry, or removes the entry when `read_at` is null.
    * If no entry exists yet and a date is provided, one is created (upsert).
    * `undated: true` clears the date, or creates a read with no date; sending it with `read_at` is a 422.
+   * With no `variant_id`, it edits or removes the read whichever variant it is on.
    */
   async editReadingDate(
     request: operations.EditReadingDateRequest,

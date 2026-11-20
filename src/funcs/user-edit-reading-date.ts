@@ -35,6 +35,7 @@ import * as types$ from "../types/primitives.js";
  * Updates the `read_at` date on an existing read entry, or removes the entry when `read_at` is null.
  * If no entry exists yet and a date is provided, one is created (upsert).
  * `undated: true` clears the date, or creates a read with no date; sending it with `read_at` is a 422.
+ * With no `variant_id`, it edits or removes the read whichever variant it is on.
  */
 export function userEditReadingDate(
   client: VerseDBCore,

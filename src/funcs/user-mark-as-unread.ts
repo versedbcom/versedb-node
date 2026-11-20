@@ -32,7 +32,7 @@ import * as types$ from "../types/primitives.js";
  * Mark as unread.
  *
  * @remarks
- * Removes the read status for an issue (optionally a specific variant).
+ * Removes the read status for an issue. With no `variant_id`, the read is removed whichever variant it is on; with one, only a read of that variant.
  */
 export function userMarkAsUnread(
   client: VerseDBCore,
