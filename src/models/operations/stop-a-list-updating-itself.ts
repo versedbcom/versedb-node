@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { smartUnion } from "../../types/smart-union.js";
@@ -259,15 +259,17 @@ export type StopAListUpdatingItselfRequest$Outbound = {
 export const StopAListUpdatingItselfRequest$outboundSchema: z.ZodMiniType<
   StopAListUpdatingItselfRequest$Outbound,
   StopAListUpdatingItselfRequest
-> = z.pipe(
-  z.object({
-    listId: z.int(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      listId: "list_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      listId: z.int(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        listId: "list_id",
+      });
+    }),
+  )
 );
 
 export function stopAListUpdatingItselfRequestToJSON(
@@ -284,10 +286,12 @@ export function stopAListUpdatingItselfRequestToJSON(
 export const StopAListUpdatingItselfClonedFromUser$inboundSchema: z.ZodMiniType<
   StopAListUpdatingItselfClonedFromUser,
   unknown
-> = z.object({
-  id: types.number(),
-  username: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    username: types.nullable(types.string()),
+  })
+);
 
 export function stopAListUpdatingItselfClonedFromUserFromJSON(
   jsonString: string,
@@ -304,14 +308,16 @@ export function stopAListUpdatingItselfClonedFromUserFromJSON(
 export const StopAListUpdatingItselfClonedFrom$inboundSchema: z.ZodMiniType<
   StopAListUpdatingItselfClonedFrom,
   unknown
-> = z.object({
-  id: types.number(),
-  title: types.nullable(types.string()),
-  slug: types.nullable(types.string()),
-  user: types.nullable(
-    z.lazy(() => StopAListUpdatingItselfClonedFromUser$inboundSchema),
-  ),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    title: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    user: types.nullable(
+      z.lazy(() => StopAListUpdatingItselfClonedFromUser$inboundSchema),
+    ),
+  })
+);
 
 export function stopAListUpdatingItselfClonedFromFromJSON(
   jsonString: string,
@@ -327,12 +333,14 @@ export function stopAListUpdatingItselfClonedFromFromJSON(
 export const StopAListUpdatingItselfUser$inboundSchema: z.ZodMiniType<
   StopAListUpdatingItselfUser,
   unknown
-> = z.object({
-  id: types.number(),
-  username: types.nullable(types.string()),
-  name: types.nullable(types.string()),
-  avatar: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    username: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    avatar: types.nullable(types.string()),
+  })
+);
 
 export function stopAListUpdatingItselfUserFromJSON(
   jsonString: string,
@@ -348,18 +356,20 @@ export function stopAListUpdatingItselfUserFromJSON(
 export const StopAListUpdatingItselfVariant$inboundSchema: z.ZodMiniType<
   StopAListUpdatingItselfVariant,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    ratio: types.nullable(types.string()),
-    cover_image_url: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_image_url": "coverImageUrl",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      ratio: types.nullable(types.string()),
+      cover_image_url: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_image_url": "coverImageUrl",
+      });
+    }),
+  )
 );
 
 export function stopAListUpdatingItselfVariantFromJSON(
@@ -376,18 +386,20 @@ export function stopAListUpdatingItselfVariantFromJSON(
 export const StopAListUpdatingItselfEntity5$inboundSchema: z.ZodMiniType<
   StopAListUpdatingItselfEntity5,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "image_url": "imageUrl",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "image_url": "imageUrl",
+      });
+    }),
+  )
 );
 
 export function stopAListUpdatingItselfEntity5FromJSON(
@@ -404,20 +416,22 @@ export function stopAListUpdatingItselfEntity5FromJSON(
 export const StopAListUpdatingItselfEntity4$inboundSchema: z.ZodMiniType<
   StopAListUpdatingItselfEntity4,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-    issues_count: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "image_url": "imageUrl",
-      "issues_count": "issuesCount",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+      issues_count: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "image_url": "imageUrl",
+        "issues_count": "issuesCount",
+      });
+    }),
+  )
 );
 
 export function stopAListUpdatingItselfEntity4FromJSON(
@@ -434,20 +448,22 @@ export function stopAListUpdatingItselfEntity4FromJSON(
 export const StopAListUpdatingItselfEntity3$inboundSchema: z.ZodMiniType<
   StopAListUpdatingItselfEntity3,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    real_name: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "real_name": "realName",
-      "image_url": "imageUrl",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      real_name: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "real_name": "realName",
+        "image_url": "imageUrl",
+      });
+    }),
+  )
 );
 
 export function stopAListUpdatingItselfEntity3FromJSON(
@@ -464,30 +480,32 @@ export function stopAListUpdatingItselfEntity3FromJSON(
 export const StopAListUpdatingItselfEntity2$inboundSchema: z.ZodMiniType<
   StopAListUpdatingItselfEntity2,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    start_year: types.nullable(types.number()),
-    end_year: types.nullable(types.number()),
-    status: types.nullable(types.string()),
-    publication_type: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-    is_nsfw: types.nullable(types.boolean()),
-    issues_count: types.nullable(types.number()),
-    publisher: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "start_year": "startYear",
-      "end_year": "endYear",
-      "publication_type": "publicationType",
-      "image_url": "imageUrl",
-      "is_nsfw": "isNsfw",
-      "issues_count": "issuesCount",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      start_year: types.nullable(types.number()),
+      end_year: types.nullable(types.number()),
+      status: types.nullable(types.string()),
+      publication_type: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+      is_nsfw: types.nullable(types.boolean()),
+      issues_count: types.nullable(types.number()),
+      publisher: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "start_year": "startYear",
+        "end_year": "endYear",
+        "publication_type": "publicationType",
+        "image_url": "imageUrl",
+        "is_nsfw": "isNsfw",
+        "issues_count": "issuesCount",
+      });
+    }),
+  )
 );
 
 export function stopAListUpdatingItselfEntity2FromJSON(
@@ -504,18 +522,20 @@ export function stopAListUpdatingItselfEntity2FromJSON(
 export const StopAListUpdatingItselfSeries$inboundSchema: z.ZodMiniType<
   StopAListUpdatingItselfSeries,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    start_year: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "start_year": "startYear",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      start_year: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "start_year": "startYear",
+      });
+    }),
+  )
 );
 
 export function stopAListUpdatingItselfSeriesFromJSON(
@@ -532,30 +552,32 @@ export function stopAListUpdatingItselfSeriesFromJSON(
 export const StopAListUpdatingItselfEntity1$inboundSchema: z.ZodMiniType<
   StopAListUpdatingItselfEntity1,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    issue_number: types.nullable(types.string()),
-    release_date: types.nullable(types.string()),
-    foc_date: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-    is_nsfw: types.nullable(types.boolean()),
-    publisher: types.nullable(types.string()),
-    series: types.nullable(
-      z.lazy(() => StopAListUpdatingItselfSeries$inboundSchema),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "issue_number": "issueNumber",
-      "release_date": "releaseDate",
-      "foc_date": "focDate",
-      "image_url": "imageUrl",
-      "is_nsfw": "isNsfw",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      issue_number: types.nullable(types.string()),
+      release_date: types.nullable(types.string()),
+      foc_date: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+      is_nsfw: types.nullable(types.boolean()),
+      publisher: types.nullable(types.string()),
+      series: types.nullable(
+        z.lazy(() => StopAListUpdatingItselfSeries$inboundSchema),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "issue_number": "issueNumber",
+        "release_date": "releaseDate",
+        "foc_date": "focDate",
+        "image_url": "imageUrl",
+        "is_nsfw": "isNsfw",
+      });
+    }),
+  )
 );
 
 export function stopAListUpdatingItselfEntity1FromJSON(
@@ -572,13 +594,15 @@ export function stopAListUpdatingItselfEntity1FromJSON(
 export const StopAListUpdatingItselfEntityUnion$inboundSchema: z.ZodMiniType<
   StopAListUpdatingItselfEntityUnion,
   unknown
-> = smartUnion([
-  z.lazy(() => StopAListUpdatingItselfEntity2$inboundSchema),
-  z.lazy(() => StopAListUpdatingItselfEntity1$inboundSchema),
-  z.lazy(() => StopAListUpdatingItselfEntity3$inboundSchema),
-  z.lazy(() => StopAListUpdatingItselfEntity4$inboundSchema),
-  z.lazy(() => StopAListUpdatingItselfEntity5$inboundSchema),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    z.lazy(() => StopAListUpdatingItselfEntity2$inboundSchema),
+    z.lazy(() => StopAListUpdatingItselfEntity1$inboundSchema),
+    z.lazy(() => StopAListUpdatingItselfEntity3$inboundSchema),
+    z.lazy(() => StopAListUpdatingItselfEntity4$inboundSchema),
+    z.lazy(() => StopAListUpdatingItselfEntity5$inboundSchema),
+  ])
+);
 
 export function stopAListUpdatingItselfEntityUnionFromJSON(
   jsonString: string,
@@ -595,34 +619,38 @@ export function stopAListUpdatingItselfEntityUnionFromJSON(
 export const StopAListUpdatingItselfItem$inboundSchema: z.ZodMiniType<
   StopAListUpdatingItselfItem,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    position: types.nullable(types.number()),
-    note: types.nullable(types.string()),
-    created_at: types.string(),
-    updated_at: types.string(),
-    variant_id: types.nullable(types.number()),
-    variant: types.optional(
-      z.lazy(() => StopAListUpdatingItselfVariant$inboundSchema),
-    ),
-    entity_type: types.string(),
-    entity: types.optional(smartUnion([
-      z.lazy(() => StopAListUpdatingItselfEntity2$inboundSchema),
-      z.lazy(() => StopAListUpdatingItselfEntity1$inboundSchema),
-      z.lazy(() => StopAListUpdatingItselfEntity3$inboundSchema),
-      z.lazy(() => StopAListUpdatingItselfEntity4$inboundSchema),
-      z.lazy(() => StopAListUpdatingItselfEntity5$inboundSchema),
-    ])),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-      "variant_id": "variantId",
-      "entity_type": "entityType",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      position: types.nullable(types.number()),
+      note: types.nullable(types.string()),
+      created_at: types.string(),
+      updated_at: types.string(),
+      variant_id: types.nullable(types.number()),
+      variant: types.optional(
+        z.lazy(() => StopAListUpdatingItselfVariant$inboundSchema),
+      ),
+      entity_type: types.string(),
+      entity: types.optional(
+        smartUnion([
+          z.lazy(() => StopAListUpdatingItselfEntity2$inboundSchema),
+          z.lazy(() => StopAListUpdatingItselfEntity1$inboundSchema),
+          z.lazy(() => StopAListUpdatingItselfEntity3$inboundSchema),
+          z.lazy(() => StopAListUpdatingItselfEntity4$inboundSchema),
+          z.lazy(() => StopAListUpdatingItselfEntity5$inboundSchema),
+        ]),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+        "variant_id": "variantId",
+        "entity_type": "entityType",
+      });
+    }),
+  )
 );
 
 export function stopAListUpdatingItselfItemFromJSON(
@@ -639,12 +667,14 @@ export function stopAListUpdatingItselfItemFromJSON(
 export const StopAListUpdatingItselfReaction$inboundSchema: z.ZodMiniType<
   StopAListUpdatingItselfReaction,
   unknown
-> = z.object({
-  reaction: types.string(),
-  emoji: types.string(),
-  label: types.string(),
-  count: types.number(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    reaction: types.string(),
+    emoji: types.string(),
+    label: types.string(),
+    count: types.number(),
+  })
+);
 
 export function stopAListUpdatingItselfReactionFromJSON(
   jsonString: string,
@@ -660,67 +690,69 @@ export function stopAListUpdatingItselfReactionFromJSON(
 export const StopAListUpdatingItselfData$inboundSchema: z.ZodMiniType<
   StopAListUpdatingItselfData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    title: types.string(),
-    slug: types.string(),
-    description: types.nullable(types.string()),
-    entity_type: types.string(),
-    entity_type_label: types.string(),
-    is_curated: types.boolean(),
-    item_types: z.array(types.string()),
-    is_ranked: types.boolean(),
-    sort_options: z.record(z.string(), types.string()),
-    is_private: types.boolean(),
-    status: types.string(),
-    list_type: types.string(),
-    items_count: types.number(),
-    saves_count: types.number(),
-    likes_count: types.number(),
-    clones_count: types.number(),
-    created_at: types.string(),
-    updated_at: types.string(),
-    is_smart: types.boolean(),
-    is_rule_based: types.boolean(),
-    last_refreshed_at: types.nullable(types.string()),
-    smart_paused: types.boolean(),
-    cloned_from_list_id: types.nullable(types.number()),
-    cloned_from: types.optional(
-      z.lazy(() => StopAListUpdatingItselfClonedFrom$inboundSchema),
-    ),
-    user: types.nullable(
-      z.lazy(() => StopAListUpdatingItselfUser$inboundSchema),
-    ),
-    items: z.array(z.lazy(() => StopAListUpdatingItselfItem$inboundSchema)),
-    reactions: z.array(
-      z.lazy(() => StopAListUpdatingItselfReaction$inboundSchema),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "entity_type": "entityType",
-      "entity_type_label": "entityTypeLabel",
-      "is_curated": "isCurated",
-      "item_types": "itemTypes",
-      "is_ranked": "isRanked",
-      "sort_options": "sortOptions",
-      "is_private": "isPrivate",
-      "list_type": "listType",
-      "items_count": "itemsCount",
-      "saves_count": "savesCount",
-      "likes_count": "likesCount",
-      "clones_count": "clonesCount",
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-      "is_smart": "isSmart",
-      "is_rule_based": "isRuleBased",
-      "last_refreshed_at": "lastRefreshedAt",
-      "smart_paused": "smartPaused",
-      "cloned_from_list_id": "clonedFromListId",
-      "cloned_from": "clonedFrom",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      title: types.string(),
+      slug: types.string(),
+      description: types.nullable(types.string()),
+      entity_type: types.string(),
+      entity_type_label: types.string(),
+      is_curated: types.boolean(),
+      item_types: z.array(types.string()),
+      is_ranked: types.boolean(),
+      sort_options: z.record(z.string(), types.string()),
+      is_private: types.boolean(),
+      status: types.string(),
+      list_type: types.string(),
+      items_count: types.number(),
+      saves_count: types.number(),
+      likes_count: types.number(),
+      clones_count: types.number(),
+      created_at: types.string(),
+      updated_at: types.string(),
+      is_smart: types.boolean(),
+      is_rule_based: types.boolean(),
+      last_refreshed_at: types.nullable(types.string()),
+      smart_paused: types.boolean(),
+      cloned_from_list_id: types.nullable(types.number()),
+      cloned_from: types.optional(
+        z.lazy(() => StopAListUpdatingItselfClonedFrom$inboundSchema),
+      ),
+      user: types.nullable(
+        z.lazy(() => StopAListUpdatingItselfUser$inboundSchema),
+      ),
+      items: z.array(z.lazy(() => StopAListUpdatingItselfItem$inboundSchema)),
+      reactions: z.array(
+        z.lazy(() => StopAListUpdatingItselfReaction$inboundSchema),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "entity_type": "entityType",
+        "entity_type_label": "entityTypeLabel",
+        "is_curated": "isCurated",
+        "item_types": "itemTypes",
+        "is_ranked": "isRanked",
+        "sort_options": "sortOptions",
+        "is_private": "isPrivate",
+        "list_type": "listType",
+        "items_count": "itemsCount",
+        "saves_count": "savesCount",
+        "likes_count": "likesCount",
+        "clones_count": "clonesCount",
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+        "is_smart": "isSmart",
+        "is_rule_based": "isRuleBased",
+        "last_refreshed_at": "lastRefreshedAt",
+        "smart_paused": "smartPaused",
+        "cloned_from_list_id": "clonedFromListId",
+        "cloned_from": "clonedFrom",
+      });
+    }),
+  )
 );
 
 export function stopAListUpdatingItselfDataFromJSON(
@@ -737,9 +769,11 @@ export function stopAListUpdatingItselfDataFromJSON(
 export const StopAListUpdatingItselfResponseBody$inboundSchema: z.ZodMiniType<
   StopAListUpdatingItselfResponseBody,
   unknown
-> = z.object({
-  data: z.lazy(() => StopAListUpdatingItselfData$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.lazy(() => StopAListUpdatingItselfData$inboundSchema),
+  })
+);
 
 export function stopAListUpdatingItselfResponseBodyFromJSON(
   jsonString: string,
@@ -756,17 +790,19 @@ export function stopAListUpdatingItselfResponseBodyFromJSON(
 export const StopAListUpdatingItselfResponse$inboundSchema: z.ZodMiniType<
   StopAListUpdatingItselfResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => StopAListUpdatingItselfResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => StopAListUpdatingItselfResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function stopAListUpdatingItselfResponseFromJSON(

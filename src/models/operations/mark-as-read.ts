@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -65,17 +65,19 @@ export type MarkAsReadRequestBody$Outbound = {
 export const MarkAsReadRequestBody$outboundSchema: z.ZodMiniType<
   MarkAsReadRequestBody$Outbound,
   MarkAsReadRequestBody
-> = z.pipe(
-  z.object({
-    readAt: z.optional(z.string()),
-    variantId: z.optional(z.nullable(z.int())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      readAt: "read_at",
-      variantId: "variant_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      readAt: z.optional(z.string()),
+      variantId: z.optional(z.nullable(z.int())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        readAt: "read_at",
+        variantId: "variant_id",
+      });
+    }),
+  )
 );
 
 export function markAsReadRequestBodyToJSON(
@@ -96,16 +98,18 @@ export type MarkAsReadRequest$Outbound = {
 export const MarkAsReadRequest$outboundSchema: z.ZodMiniType<
   MarkAsReadRequest$Outbound,
   MarkAsReadRequest
-> = z.pipe(
-  z.object({
-    issueId: z.int(),
-    body: z.optional(z.lazy(() => MarkAsReadRequestBody$outboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      issueId: "issue_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      issueId: z.int(),
+      body: z.optional(z.lazy(() => MarkAsReadRequestBody$outboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        issueId: "issue_id",
+      });
+    }),
+  )
 );
 
 export function markAsReadRequestToJSON(
@@ -120,17 +124,19 @@ export function markAsReadRequestToJSON(
 export const SeriesCompleted$inboundSchema: z.ZodMiniType<
   SeriesCompleted,
   unknown
-> = z.pipe(
-  z.object({
-    series_id: types.number(),
-    series_name: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "series_id": "seriesId",
-      "series_name": "seriesName",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      series_id: types.number(),
+      series_name: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "series_id": "seriesId",
+        "series_name": "seriesName",
+      });
+    }),
+  )
 );
 
 export function seriesCompletedFromJSON(
@@ -147,19 +153,21 @@ export function seriesCompletedFromJSON(
 export const MarkAsReadResponseBody$inboundSchema: z.ZodMiniType<
   MarkAsReadResponseBody,
   unknown
-> = z.pipe(
-  z.object({
-    read_at: types.nullable(types.string()),
-    series_completed: types.optional(
-      z.lazy(() => SeriesCompleted$inboundSchema),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "read_at": "readAt",
-      "series_completed": "seriesCompleted",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      read_at: types.nullable(types.string()),
+      series_completed: types.optional(
+        z.lazy(() => SeriesCompleted$inboundSchema),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "read_at": "readAt",
+        "series_completed": "seriesCompleted",
+      });
+    }),
+  )
 );
 
 export function markAsReadResponseBodyFromJSON(
@@ -176,17 +184,19 @@ export function markAsReadResponseBodyFromJSON(
 export const MarkAsReadResponse$inboundSchema: z.ZodMiniType<
   MarkAsReadResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => MarkAsReadResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => MarkAsReadResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function markAsReadResponseFromJSON(

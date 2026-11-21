@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -102,17 +102,19 @@ export type GetCreatorsBlogPostsRequest$Outbound = {
 export const GetCreatorsBlogPostsRequest$outboundSchema: z.ZodMiniType<
   GetCreatorsBlogPostsRequest$Outbound,
   GetCreatorsBlogPostsRequest
-> = z.pipe(
-  z.object({
-    creatorId: z.int(),
-    limit: z.optional(z.int()),
-    page: z.optional(z.int()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      creatorId: "creator_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      creatorId: z.int(),
+      limit: z.optional(z.int()),
+      page: z.optional(z.int()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        creatorId: "creator_id",
+      });
+    }),
+  )
 );
 
 export function getCreatorsBlogPostsRequestToJSON(
@@ -129,17 +131,19 @@ export function getCreatorsBlogPostsRequestToJSON(
 export const GetCreatorsBlogPostsImages$inboundSchema: z.ZodMiniType<
   GetCreatorsBlogPostsImages,
   unknown
-> = z.pipe(
-  z.object({
-    cover_sm: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_lg": "coverLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      cover_sm: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_lg": "coverLg",
+      });
+    }),
+  )
 );
 
 export function getCreatorsBlogPostsImagesFromJSON(
@@ -153,12 +157,14 @@ export function getCreatorsBlogPostsImagesFromJSON(
 }
 
 /** @internal */
-export const Category$inboundSchema: z.ZodMiniType<Category, unknown> = z
-  .object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-  });
+export const Category$inboundSchema: z.ZodMiniType<Category, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+    })
+  );
 
 export function categoryFromJSON(
   jsonString: string,
@@ -171,10 +177,13 @@ export function categoryFromJSON(
 }
 
 /** @internal */
-export const Author$inboundSchema: z.ZodMiniType<Author, unknown> = z.object({
-  id: types.number(),
-  name: types.nullable(types.string()),
-});
+export const Author$inboundSchema: z.ZodMiniType<Author, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+    })
+  );
 
 export function authorFromJSON(
   jsonString: string,
@@ -190,27 +199,29 @@ export function authorFromJSON(
 export const GetCreatorsBlogPostsData$inboundSchema: z.ZodMiniType<
   GetCreatorsBlogPostsData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    title: types.nullable(types.string()),
-    featured_image_url: types.nullable(types.string()),
-    images: types.nullable(
-      z.lazy(() => GetCreatorsBlogPostsImages$inboundSchema),
-    ),
-    category: types.optional(z.lazy(() => Category$inboundSchema)),
-    author: types.optional(z.lazy(() => Author$inboundSchema)),
-    published_at: types.nullable(types.string()),
-    reading_time: types.number(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "featured_image_url": "featuredImageUrl",
-      "published_at": "publishedAt",
-      "reading_time": "readingTime",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      title: types.nullable(types.string()),
+      featured_image_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => GetCreatorsBlogPostsImages$inboundSchema),
+      ),
+      category: types.optional(z.lazy(() => Category$inboundSchema)),
+      author: types.optional(z.lazy(() => Author$inboundSchema)),
+      published_at: types.nullable(types.string()),
+      reading_time: types.number(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "featured_image_url": "featuredImageUrl",
+        "published_at": "publishedAt",
+        "reading_time": "readingTime",
+      });
+    }),
+  )
 );
 
 export function getCreatorsBlogPostsDataFromJSON(
@@ -227,12 +238,14 @@ export function getCreatorsBlogPostsDataFromJSON(
 export const GetCreatorsBlogPostsLinks$inboundSchema: z.ZodMiniType<
   GetCreatorsBlogPostsLinks,
   unknown
-> = z.object({
-  first: types.string(),
-  last: types.string(),
-  prev: types.nullable(types.string()),
-  next: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    first: types.string(),
+    last: types.string(),
+    prev: types.nullable(types.string()),
+    next: types.nullable(types.string()),
+  })
+);
 
 export function getCreatorsBlogPostsLinksFromJSON(
   jsonString: string,
@@ -248,12 +261,14 @@ export function getCreatorsBlogPostsLinksFromJSON(
 export const GetCreatorsBlogPostsLink$inboundSchema: z.ZodMiniType<
   GetCreatorsBlogPostsLink,
   unknown
-> = z.object({
-  url: types.nullable(types.string()),
-  label: types.string(),
-  page: z.optional(z.nullable(types.number())),
-  active: types.boolean(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    url: types.nullable(types.string()),
+    label: types.string(),
+    page: z.optional(z.nullable(types.number())),
+    active: types.boolean(),
+  })
+);
 
 export function getCreatorsBlogPostsLinkFromJSON(
   jsonString: string,
@@ -269,24 +284,26 @@ export function getCreatorsBlogPostsLinkFromJSON(
 export const GetCreatorsBlogPostsMeta$inboundSchema: z.ZodMiniType<
   GetCreatorsBlogPostsMeta,
   unknown
-> = z.pipe(
-  z.object({
-    current_page: types.number(),
-    from: types.nullable(types.number()),
-    last_page: types.number(),
-    links: z.array(z.lazy(() => GetCreatorsBlogPostsLink$inboundSchema)),
-    path: types.string(),
-    per_page: types.number(),
-    to: types.nullable(types.number()),
-    total: types.number(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "current_page": "currentPage",
-      "last_page": "lastPage",
-      "per_page": "perPage",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      current_page: types.number(),
+      from: types.nullable(types.number()),
+      last_page: types.number(),
+      links: z.array(z.lazy(() => GetCreatorsBlogPostsLink$inboundSchema)),
+      path: types.string(),
+      per_page: types.number(),
+      to: types.nullable(types.number()),
+      total: types.number(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "current_page": "currentPage",
+        "last_page": "lastPage",
+        "per_page": "perPage",
+      });
+    }),
+  )
 );
 
 export function getCreatorsBlogPostsMetaFromJSON(
@@ -303,11 +320,13 @@ export function getCreatorsBlogPostsMetaFromJSON(
 export const GetCreatorsBlogPostsResponseBody$inboundSchema: z.ZodMiniType<
   GetCreatorsBlogPostsResponseBody,
   unknown
-> = z.object({
-  data: z.array(z.lazy(() => GetCreatorsBlogPostsData$inboundSchema)),
-  links: z.lazy(() => GetCreatorsBlogPostsLinks$inboundSchema),
-  meta: z.lazy(() => GetCreatorsBlogPostsMeta$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.array(z.lazy(() => GetCreatorsBlogPostsData$inboundSchema)),
+    links: z.lazy(() => GetCreatorsBlogPostsLinks$inboundSchema),
+    meta: z.lazy(() => GetCreatorsBlogPostsMeta$inboundSchema),
+  })
+);
 
 export function getCreatorsBlogPostsResponseBodyFromJSON(
   jsonString: string,
@@ -323,17 +342,19 @@ export function getCreatorsBlogPostsResponseBodyFromJSON(
 export const GetCreatorsBlogPostsResponse$inboundSchema: z.ZodMiniType<
   GetCreatorsBlogPostsResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => GetCreatorsBlogPostsResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => GetCreatorsBlogPostsResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function getCreatorsBlogPostsResponseFromJSON(

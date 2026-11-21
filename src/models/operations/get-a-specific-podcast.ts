@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { smartUnion } from "../../types/smart-union.js";
@@ -115,15 +115,17 @@ export type GetASpecificPodcastRequest$Outbound = {
 export const GetASpecificPodcastRequest$outboundSchema: z.ZodMiniType<
   GetASpecificPodcastRequest$Outbound,
   GetASpecificPodcastRequest
-> = z.pipe(
-  z.object({
-    podcastId: z.int(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      podcastId: "podcast_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      podcastId: z.int(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        podcastId: "podcast_id",
+      });
+    }),
+  )
 );
 
 export function getASpecificPodcastRequestToJSON(
@@ -138,17 +140,19 @@ export function getASpecificPodcastRequestToJSON(
 export const GetASpecificPodcastImages$inboundSchema: z.ZodMiniType<
   GetASpecificPodcastImages,
   unknown
-> = z.pipe(
-  z.object({
-    tile_sm: types.optional(types.string()),
-    full_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "tile_sm": "tileSm",
-      "full_lg": "fullLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      tile_sm: types.optional(types.string()),
+      full_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "tile_sm": "tileSm",
+        "full_lg": "fullLg",
+      });
+    }),
+  )
 );
 
 export function getASpecificPodcastImagesFromJSON(
@@ -163,13 +167,15 @@ export function getASpecificPodcastImagesFromJSON(
 
 /** @internal */
 export const WebsiteUrl$inboundSchema: z.ZodMiniType<WebsiteUrl, unknown> =
-  smartUnion([
-    types.string(),
-    types.number(),
-    types.boolean(),
-    z.array(z.any()),
-    z.record(z.string(), z.any()),
-  ]);
+  /* @__PURE__ */ lazySchema$(() =>
+    smartUnion([
+      types.string(),
+      types.number(),
+      types.boolean(),
+      z.array(z.any()),
+      z.record(z.string(), z.any()),
+    ])
+  );
 
 export function websiteUrlFromJSON(
   jsonString: string,
@@ -182,13 +188,15 @@ export function websiteUrlFromJSON(
 }
 
 /** @internal */
-export const SocialLinks$inboundSchema: z.ZodMiniType<SocialLinks, unknown> = z
-  .catchall(
-    z.object({
-      website: types.optional(z.any()),
-      twitter: types.optional(z.any()),
-    }),
-    z.any(),
+export const SocialLinks$inboundSchema: z.ZodMiniType<SocialLinks, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.catchall(
+      z.object({
+        website: types.optional(z.any()),
+        twitter: types.optional(z.any()),
+      }),
+      z.any(),
+    )
   );
 
 export function socialLinksFromJSON(
@@ -205,7 +213,9 @@ export function socialLinksFromJSON(
 export const SocialLinksUnion$inboundSchema: z.ZodMiniType<
   SocialLinksUnion,
   unknown
-> = smartUnion([z.lazy(() => SocialLinks$inboundSchema), z.array(z.any())]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([z.lazy(() => SocialLinks$inboundSchema), z.array(z.any())])
+);
 
 export function socialLinksUnionFromJSON(
   jsonString: string,
@@ -221,11 +231,13 @@ export function socialLinksUnionFromJSON(
 export const PlatformLinks$inboundSchema: z.ZodMiniType<
   PlatformLinks,
   unknown
-> = z.catchall(
-  z.object({
-    spotify: types.optional(z.any()),
-  }),
-  z.any(),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.catchall(
+    z.object({
+      spotify: types.optional(z.any()),
+    }),
+    z.any(),
+  )
 );
 
 export function platformLinksFromJSON(
@@ -242,14 +254,16 @@ export function platformLinksFromJSON(
 export const PlatformLinksUnion$inboundSchema: z.ZodMiniType<
   PlatformLinksUnion,
   unknown
-> = smartUnion([
-  z.lazy(() => PlatformLinks$inboundSchema),
-  types.string(),
-  types.number(),
-  types.boolean(),
-  z.array(z.any()),
-  z.record(z.string(), z.any()),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    z.lazy(() => PlatformLinks$inboundSchema),
+    types.string(),
+    types.number(),
+    types.boolean(),
+    z.array(z.any()),
+    z.record(z.string(), z.any()),
+  ])
+);
 
 export function platformLinksUnionFromJSON(
   jsonString: string,
@@ -265,57 +279,57 @@ export function platformLinksUnionFromJSON(
 export const GetASpecificPodcastData$inboundSchema: z.ZodMiniType<
   GetASpecificPodcastData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    type: types.string(),
-    language: types.nullable(types.string()),
-    logo_url: types.nullable(types.string()),
-    images: types.nullable(
-      z.lazy(() => GetASpecificPodcastImages$inboundSchema),
-    ),
-    website_url: types.nullable(
-      smartUnion([
-        types.string(),
-        types.number(),
-        types.boolean(),
-        z.array(z.any()),
-        z.record(z.string(), z.any()),
-      ]),
-    ),
-    rss_feed_url: types.nullable(types.string()),
-    youtube_channel_id: types.nullable(types.string()),
-    social_links: types.nullable(
-      smartUnion([z.lazy(() => SocialLinks$inboundSchema), z.array(z.any())]),
-    ),
-    platform_links: types.nullable(
-      smartUnion([
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      type: types.string(),
+      language: types.nullable(types.string()),
+      logo_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => GetASpecificPodcastImages$inboundSchema),
+      ),
+      website_url: types.nullable(
+        smartUnion([
+          types.string(),
+          types.number(),
+          types.boolean(),
+          z.array(z.any()),
+          z.record(z.string(), z.any()),
+        ]),
+      ),
+      rss_feed_url: types.nullable(types.string()),
+      youtube_channel_id: types.nullable(types.string()),
+      social_links: types.nullable(
+        smartUnion([z.lazy(() => SocialLinks$inboundSchema), z.array(z.any())]),
+      ),
+      platform_links: types.nullable(smartUnion([
         z.lazy(() => PlatformLinks$inboundSchema),
         types.string(),
         types.number(),
         types.boolean(),
         z.array(z.any()),
         z.record(z.string(), z.any()),
-      ]),
-    ),
-    follower_count: types.number(),
-    subscriber_count: types.nullable(types.number()),
-    categories: z.array(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "logo_url": "logoUrl",
-      "website_url": "websiteUrl",
-      "rss_feed_url": "rssFeedUrl",
-      "youtube_channel_id": "youtubeChannelId",
-      "social_links": "socialLinks",
-      "platform_links": "platformLinks",
-      "follower_count": "followerCount",
-      "subscriber_count": "subscriberCount",
-    });
-  }),
+      ])),
+      follower_count: types.number(),
+      subscriber_count: types.nullable(types.number()),
+      categories: z.array(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "logo_url": "logoUrl",
+        "website_url": "websiteUrl",
+        "rss_feed_url": "rssFeedUrl",
+        "youtube_channel_id": "youtubeChannelId",
+        "social_links": "socialLinks",
+        "platform_links": "platformLinks",
+        "follower_count": "followerCount",
+        "subscriber_count": "subscriberCount",
+      });
+    }),
+  )
 );
 
 export function getASpecificPodcastDataFromJSON(
@@ -332,9 +346,11 @@ export function getASpecificPodcastDataFromJSON(
 export const GetASpecificPodcastResponseBody$inboundSchema: z.ZodMiniType<
   GetASpecificPodcastResponseBody,
   unknown
-> = z.object({
-  data: z.lazy(() => GetASpecificPodcastData$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.lazy(() => GetASpecificPodcastData$inboundSchema),
+  })
+);
 
 export function getASpecificPodcastResponseBodyFromJSON(
   jsonString: string,
@@ -350,17 +366,19 @@ export function getASpecificPodcastResponseBodyFromJSON(
 export const GetASpecificPodcastResponse$inboundSchema: z.ZodMiniType<
   GetASpecificPodcastResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => GetASpecificPodcastResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => GetASpecificPodcastResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function getASpecificPodcastResponseFromJSON(

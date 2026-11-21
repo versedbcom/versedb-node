@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -150,16 +150,18 @@ export type GetStoryArcDetailRequest$Outbound = {
 export const GetStoryArcDetailRequest$outboundSchema: z.ZodMiniType<
   GetStoryArcDetailRequest$Outbound,
   GetStoryArcDetailRequest
-> = z.pipe(
-  z.object({
-    storyArcId: z.int(),
-    languages: z.optional(z.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      storyArcId: "storyArc_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      storyArcId: z.int(),
+      languages: z.optional(z.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        storyArcId: "storyArc_id",
+      });
+    }),
+  )
 );
 
 export function getStoryArcDetailRequestToJSON(
@@ -174,19 +176,21 @@ export function getStoryArcDetailRequestToJSON(
 export const GetStoryArcDetailImages$inboundSchema: z.ZodMiniType<
   GetStoryArcDetailImages,
   unknown
-> = z.pipe(
-  z.object({
-    cover_sm: types.optional(types.string()),
-    cover_md: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_md": "coverMd",
-      "cover_lg": "coverLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  )
 );
 
 export function getStoryArcDetailImagesFromJSON(
@@ -203,10 +207,12 @@ export function getStoryArcDetailImagesFromJSON(
 export const GetStoryArcDetailPrimaryUniverse$inboundSchema: z.ZodMiniType<
   GetStoryArcDetailPrimaryUniverse,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+  })
+);
 
 export function getStoryArcDetailPrimaryUniverseFromJSON(
   jsonString: string,
@@ -222,10 +228,12 @@ export function getStoryArcDetailPrimaryUniverseFromJSON(
 export const GetStoryArcDetailUniverse$inboundSchema: z.ZodMiniType<
   GetStoryArcDetailUniverse,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+  })
+);
 
 export function getStoryArcDetailUniverseFromJSON(
   jsonString: string,
@@ -241,20 +249,22 @@ export function getStoryArcDetailUniverseFromJSON(
 export const StartIssueImages$inboundSchema: z.ZodMiniType<
   StartIssueImages,
   unknown
-> = z.pipe(
-  z.object({
-    thumb: types.optional(types.string()),
-    cover_sm: types.optional(types.string()),
-    cover_md: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_md": "coverMd",
-      "cover_lg": "coverLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      thumb: types.optional(types.string()),
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  )
 );
 
 export function startIssueImagesFromJSON(
@@ -271,18 +281,20 @@ export function startIssueImagesFromJSON(
 export const StartIssueSeries$inboundSchema: z.ZodMiniType<
   StartIssueSeries,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    start_year: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "start_year": "startYear",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      start_year: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "start_year": "startYear",
+      });
+    }),
+  )
 );
 
 export function startIssueSeriesFromJSON(
@@ -296,25 +308,27 @@ export function startIssueSeriesFromJSON(
 }
 
 /** @internal */
-export const StartIssue$inboundSchema: z.ZodMiniType<StartIssue, unknown> = z
-  .pipe(
-    z.object({
-      id: types.number(),
-      name: types.string(),
-      slug: types.nullable(types.string()),
-      issue_number: types.nullable(types.string()),
-      series_id: types.nullable(types.number()),
-      cover_url: types.nullable(types.string()),
-      images: types.nullable(z.lazy(() => StartIssueImages$inboundSchema)),
-      series: types.nullable(z.lazy(() => StartIssueSeries$inboundSchema)),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "issue_number": "issueNumber",
-        "series_id": "seriesId",
-        "cover_url": "coverUrl",
-      });
-    }),
+export const StartIssue$inboundSchema: z.ZodMiniType<StartIssue, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        id: types.number(),
+        name: types.string(),
+        slug: types.nullable(types.string()),
+        issue_number: types.nullable(types.string()),
+        series_id: types.nullable(types.number()),
+        cover_url: types.nullable(types.string()),
+        images: types.nullable(z.lazy(() => StartIssueImages$inboundSchema)),
+        series: types.nullable(z.lazy(() => StartIssueSeries$inboundSchema)),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "issue_number": "issueNumber",
+          "series_id": "seriesId",
+          "cover_url": "coverUrl",
+        });
+      }),
+    )
   );
 
 export function startIssueFromJSON(
@@ -331,20 +345,22 @@ export function startIssueFromJSON(
 export const EndIssueImages$inboundSchema: z.ZodMiniType<
   EndIssueImages,
   unknown
-> = z.pipe(
-  z.object({
-    thumb: types.optional(types.string()),
-    cover_sm: types.optional(types.string()),
-    cover_md: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_md": "coverMd",
-      "cover_lg": "coverLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      thumb: types.optional(types.string()),
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  )
 );
 
 export function endIssueImagesFromJSON(
@@ -361,18 +377,20 @@ export function endIssueImagesFromJSON(
 export const EndIssueSeries$inboundSchema: z.ZodMiniType<
   EndIssueSeries,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    start_year: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "start_year": "startYear",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      start_year: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "start_year": "startYear",
+      });
+    }),
+  )
 );
 
 export function endIssueSeriesFromJSON(
@@ -386,25 +404,28 @@ export function endIssueSeriesFromJSON(
 }
 
 /** @internal */
-export const EndIssue$inboundSchema: z.ZodMiniType<EndIssue, unknown> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.string(),
-    slug: types.nullable(types.string()),
-    issue_number: types.nullable(types.string()),
-    series_id: types.nullable(types.number()),
-    cover_url: types.nullable(types.string()),
-    images: types.nullable(z.lazy(() => EndIssueImages$inboundSchema)),
-    series: types.nullable(z.lazy(() => EndIssueSeries$inboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "issue_number": "issueNumber",
-      "series_id": "seriesId",
-      "cover_url": "coverUrl",
-    });
-  }),
-);
+export const EndIssue$inboundSchema: z.ZodMiniType<EndIssue, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        id: types.number(),
+        name: types.string(),
+        slug: types.nullable(types.string()),
+        issue_number: types.nullable(types.string()),
+        series_id: types.nullable(types.number()),
+        cover_url: types.nullable(types.string()),
+        images: types.nullable(z.lazy(() => EndIssueImages$inboundSchema)),
+        series: types.nullable(z.lazy(() => EndIssueSeries$inboundSchema)),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "issue_number": "issueNumber",
+          "series_id": "seriesId",
+          "cover_url": "coverUrl",
+        });
+      }),
+    )
+  );
 
 export function endIssueFromJSON(
   jsonString: string,
@@ -420,12 +441,14 @@ export function endIssueFromJSON(
 export const GetStoryArcDetailNameI18n$inboundSchema: z.ZodMiniType<
   GetStoryArcDetailNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function getStoryArcDetailNameI18nFromJSON(
   jsonString: string,
@@ -441,45 +464,49 @@ export function getStoryArcDetailNameI18nFromJSON(
 export const GetStoryArcDetailData$inboundSchema: z.ZodMiniType<
   GetStoryArcDetailData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    type: types.nullable(types.string()),
-    status: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-    images: types.nullable(z.lazy(() => GetStoryArcDetailImages$inboundSchema)),
-    primary_universe_id: types.nullable(types.number()),
-    issues_count: types.nullable(types.number()),
-    characters_count: types.number(),
-    primary_universe: types.nullable(
-      z.lazy(() => GetStoryArcDetailPrimaryUniverse$inboundSchema),
-    ),
-    universes: z.array(z.lazy(() => GetStoryArcDetailUniverse$inboundSchema)),
-    start_issue: types.nullable(z.lazy(() => StartIssue$inboundSchema)),
-    end_issue: types.nullable(z.lazy(() => EndIssue$inboundSchema)),
-    name_i18n: z.record(
-      z.string(),
-      z.lazy(() => GetStoryArcDetailNameI18n$inboundSchema),
-    ),
-    aliases_i18n: z.record(z.string(), z.array(types.string())),
-    original_locale: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "image_url": "imageUrl",
-      "primary_universe_id": "primaryUniverseId",
-      "issues_count": "issuesCount",
-      "characters_count": "charactersCount",
-      "primary_universe": "primaryUniverse",
-      "start_issue": "startIssue",
-      "end_issue": "endIssue",
-      "name_i18n": "nameI18n",
-      "aliases_i18n": "aliasesI18n",
-      "original_locale": "originalLocale",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      type: types.nullable(types.string()),
+      status: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => GetStoryArcDetailImages$inboundSchema),
+      ),
+      primary_universe_id: types.nullable(types.number()),
+      issues_count: types.nullable(types.number()),
+      characters_count: types.number(),
+      primary_universe: types.nullable(
+        z.lazy(() => GetStoryArcDetailPrimaryUniverse$inboundSchema),
+      ),
+      universes: z.array(z.lazy(() => GetStoryArcDetailUniverse$inboundSchema)),
+      start_issue: types.nullable(z.lazy(() => StartIssue$inboundSchema)),
+      end_issue: types.nullable(z.lazy(() => EndIssue$inboundSchema)),
+      name_i18n: z.record(
+        z.string(),
+        z.lazy(() => GetStoryArcDetailNameI18n$inboundSchema),
+      ),
+      aliases_i18n: z.record(z.string(), z.array(types.string())),
+      original_locale: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "image_url": "imageUrl",
+        "primary_universe_id": "primaryUniverseId",
+        "issues_count": "issuesCount",
+        "characters_count": "charactersCount",
+        "primary_universe": "primaryUniverse",
+        "start_issue": "startIssue",
+        "end_issue": "endIssue",
+        "name_i18n": "nameI18n",
+        "aliases_i18n": "aliasesI18n",
+        "original_locale": "originalLocale",
+      });
+    }),
+  )
 );
 
 export function getStoryArcDetailDataFromJSON(
@@ -496,9 +523,11 @@ export function getStoryArcDetailDataFromJSON(
 export const GetStoryArcDetailResponseBody$inboundSchema: z.ZodMiniType<
   GetStoryArcDetailResponseBody,
   unknown
-> = z.object({
-  data: z.lazy(() => GetStoryArcDetailData$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.lazy(() => GetStoryArcDetailData$inboundSchema),
+  })
+);
 
 export function getStoryArcDetailResponseBodyFromJSON(
   jsonString: string,
@@ -514,17 +543,19 @@ export function getStoryArcDetailResponseBodyFromJSON(
 export const GetStoryArcDetailResponse$inboundSchema: z.ZodMiniType<
   GetStoryArcDetailResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => GetStoryArcDetailResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => GetStoryArcDetailResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function getStoryArcDetailResponseFromJSON(

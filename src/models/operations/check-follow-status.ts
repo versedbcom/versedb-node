@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -42,10 +42,12 @@ export type CheckFollowStatusRequest$Outbound = {
 export const CheckFollowStatusRequest$outboundSchema: z.ZodMiniType<
   CheckFollowStatusRequest$Outbound,
   CheckFollowStatusRequest
-> = z.object({
-  type: z.string(),
-  id: z.int(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    type: z.string(),
+    id: z.int(),
+  })
+);
 
 export function checkFollowStatusRequestToJSON(
   checkFollowStatusRequest: CheckFollowStatusRequest,
@@ -59,15 +61,17 @@ export function checkFollowStatusRequestToJSON(
 export const CheckFollowStatusResponseBody$inboundSchema: z.ZodMiniType<
   CheckFollowStatusResponseBody,
   unknown
-> = z.pipe(
-  z.object({
-    is_following: types.boolean(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "is_following": "isFollowing",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      is_following: types.boolean(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "is_following": "isFollowing",
+      });
+    }),
+  )
 );
 
 export function checkFollowStatusResponseBodyFromJSON(
@@ -84,17 +88,19 @@ export function checkFollowStatusResponseBodyFromJSON(
 export const CheckFollowStatusResponse$inboundSchema: z.ZodMiniType<
   CheckFollowStatusResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => CheckFollowStatusResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => CheckFollowStatusResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function checkFollowStatusResponseFromJSON(

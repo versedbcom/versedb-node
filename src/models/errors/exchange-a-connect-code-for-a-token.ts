@@ -4,6 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../../lib/schemas.js";
 import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
@@ -49,23 +50,26 @@ export class ExchangeAConnectCodeForATokenBadRequestError extends VerseDbError {
 
 /** @internal */
 export const ExchangeAConnectCodeForATokenBadRequestError$inboundSchema:
-  z.ZodMiniType<ExchangeAConnectCodeForATokenBadRequestError, unknown> = z.pipe(
-    z.object({
-      error: types.string(),
-      error_description: types.string(),
-      request$: z.custom<Request>(x => x instanceof Request),
-      response$: z.custom<Response>(x => x instanceof Response),
-      body$: z.string(),
-    }),
-    z.transform((v) => {
-      const remapped = remap$(v, {
-        "error_description": "errorDescription",
-      });
+  z.ZodMiniType<ExchangeAConnectCodeForATokenBadRequestError, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          error: types.string(),
+          error_description: types.string(),
+          request$: z.custom<Request>(x => x instanceof Request),
+          response$: z.custom<Response>(x => x instanceof Response),
+          body$: z.string(),
+        }),
+        z.transform((v) => {
+          const remapped = remap$(v, {
+            "error_description": "errorDescription",
+          });
 
-      return new ExchangeAConnectCodeForATokenBadRequestError(remapped, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
-      });
-    }),
-  );
+          return new ExchangeAConnectCodeForATokenBadRequestError(remapped, {
+            request: v.request$,
+            response: v.response$,
+            body: v.body$,
+          });
+        }),
+      )
+    );

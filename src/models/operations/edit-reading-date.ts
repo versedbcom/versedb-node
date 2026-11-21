@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -58,18 +58,20 @@ export type EditReadingDateRequestBody$Outbound = {
 export const EditReadingDateRequestBody$outboundSchema: z.ZodMiniType<
   EditReadingDateRequestBody$Outbound,
   EditReadingDateRequestBody
-> = z.pipe(
-  z.object({
-    readAt: z.optional(z.nullable(z.string())),
-    undated: z.optional(z.boolean()),
-    variantId: z.optional(z.nullable(z.int())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      readAt: "read_at",
-      variantId: "variant_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      readAt: z.optional(z.nullable(z.string())),
+      undated: z.optional(z.boolean()),
+      variantId: z.optional(z.nullable(z.int())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        readAt: "read_at",
+        variantId: "variant_id",
+      });
+    }),
+  )
 );
 
 export function editReadingDateRequestBodyToJSON(
@@ -90,16 +92,18 @@ export type EditReadingDateRequest$Outbound = {
 export const EditReadingDateRequest$outboundSchema: z.ZodMiniType<
   EditReadingDateRequest$Outbound,
   EditReadingDateRequest
-> = z.pipe(
-  z.object({
-    issueId: z.int(),
-    body: z.optional(z.lazy(() => EditReadingDateRequestBody$outboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      issueId: "issue_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      issueId: z.int(),
+      body: z.optional(z.lazy(() => EditReadingDateRequestBody$outboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        issueId: "issue_id",
+      });
+    }),
+  )
 );
 
 export function editReadingDateRequestToJSON(
@@ -114,15 +118,17 @@ export function editReadingDateRequestToJSON(
 export const EditReadingDateResponseBody$inboundSchema: z.ZodMiniType<
   EditReadingDateResponseBody,
   unknown
-> = z.pipe(
-  z.object({
-    read_at: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "read_at": "readAt",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      read_at: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "read_at": "readAt",
+      });
+    }),
+  )
 );
 
 export function editReadingDateResponseBodyFromJSON(
@@ -139,19 +145,21 @@ export function editReadingDateResponseBodyFromJSON(
 export const EditReadingDateResponse$inboundSchema: z.ZodMiniType<
   EditReadingDateResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: types.optional(
-      z.lazy(() => EditReadingDateResponseBody$inboundSchema),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: types.optional(
+        z.lazy(() => EditReadingDateResponseBody$inboundSchema),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function editReadingDateResponseFromJSON(

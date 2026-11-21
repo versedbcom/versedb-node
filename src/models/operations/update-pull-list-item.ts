@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import * as openEnums from "../../types/enums.js";
 import { ClosedEnum, OpenEnum } from "../../types/enums.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
@@ -114,12 +114,12 @@ export type UpdatePullListItemResponse = {
 /** @internal */
 export const UpdatePullListItemStatusRequest$outboundSchema: z.ZodMiniEnum<
   typeof UpdatePullListItemStatusRequest
-> = z.enum(UpdatePullListItemStatusRequest);
+> = /* @__PURE__ */ lazySchema$(() => z.enum(UpdatePullListItemStatusRequest));
 
 /** @internal */
 export const PreferredCoverTypeRequest$outboundSchema: z.ZodMiniEnum<
   typeof PreferredCoverTypeRequest
-> = z.enum(PreferredCoverTypeRequest);
+> = /* @__PURE__ */ lazySchema$(() => z.enum(PreferredCoverTypeRequest));
 
 /** @internal */
 export type UpdatePullListItemRequestBody$Outbound = {
@@ -133,22 +133,24 @@ export type UpdatePullListItemRequestBody$Outbound = {
 export const UpdatePullListItemRequestBody$outboundSchema: z.ZodMiniType<
   UpdatePullListItemRequestBody$Outbound,
   UpdatePullListItemRequestBody
-> = z.pipe(
-  z.object({
-    status: z.optional(UpdatePullListItemStatusRequest$outboundSchema),
-    personalNotes: z.optional(z.nullable(z.string())),
-    preferredCoverType: z.optional(
-      z.nullable(PreferredCoverTypeRequest$outboundSchema),
-    ),
-    pullSourceIds: z.optional(z.array(z.int())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      personalNotes: "personal_notes",
-      preferredCoverType: "preferred_cover_type",
-      pullSourceIds: "pull_source_ids",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      status: z.optional(UpdatePullListItemStatusRequest$outboundSchema),
+      personalNotes: z.optional(z.nullable(z.string())),
+      preferredCoverType: z.optional(
+        z.nullable(PreferredCoverTypeRequest$outboundSchema),
+      ),
+      pullSourceIds: z.optional(z.array(z.int())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        personalNotes: "personal_notes",
+        preferredCoverType: "preferred_cover_type",
+        pullSourceIds: "pull_source_ids",
+      });
+    }),
+  )
 );
 
 export function updatePullListItemRequestBodyToJSON(
@@ -171,18 +173,20 @@ export type UpdatePullListItemRequest$Outbound = {
 export const UpdatePullListItemRequest$outboundSchema: z.ZodMiniType<
   UpdatePullListItemRequest$Outbound,
   UpdatePullListItemRequest
-> = z.pipe(
-  z.object({
-    itemId: z.int(),
-    body: z.optional(
-      z.lazy(() => UpdatePullListItemRequestBody$outboundSchema),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      itemId: "item_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      itemId: z.int(),
+      body: z.optional(
+        z.lazy(() => UpdatePullListItemRequestBody$outboundSchema),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        itemId: "item_id",
+      });
+    }),
+  )
 );
 
 export function updatePullListItemRequestToJSON(
@@ -197,40 +201,44 @@ export function updatePullListItemRequestToJSON(
 export const StatusResponse$inboundSchema: z.ZodMiniType<
   StatusResponse,
   unknown
-> = openEnums.inboundSchema(StatusResponse);
+> = /* @__PURE__ */ lazySchema$(() => openEnums.inboundSchema(StatusResponse));
 
 /** @internal */
 export const UpdatePullListItemPreferredCoverTypeResponse$inboundSchema:
   z.ZodMiniType<UpdatePullListItemPreferredCoverTypeResponse, unknown> =
-    openEnums.inboundSchema(UpdatePullListItemPreferredCoverTypeResponse);
+    /* @__PURE__ */ lazySchema$(() =>
+      openEnums.inboundSchema(UpdatePullListItemPreferredCoverTypeResponse)
+    );
 
 /** @internal */
 export const UpdatePullListItemResponseBody$inboundSchema: z.ZodMiniType<
   UpdatePullListItemResponseBody,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    series_id: types.nullable(types.number()),
-    status: StatusResponse$inboundSchema,
-    personal_notes: types.nullable(types.string()),
-    preferred_cover_type: types.nullable(
-      UpdatePullListItemPreferredCoverTypeResponse$inboundSchema,
-    ),
-    pull_source_id: types.nullable(types.number()),
-    pull_source_ids: z.array(types.number()),
-    updated_at: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "series_id": "seriesId",
-      "personal_notes": "personalNotes",
-      "preferred_cover_type": "preferredCoverType",
-      "pull_source_id": "pullSourceId",
-      "pull_source_ids": "pullSourceIds",
-      "updated_at": "updatedAt",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      series_id: types.nullable(types.number()),
+      status: StatusResponse$inboundSchema,
+      personal_notes: types.nullable(types.string()),
+      preferred_cover_type: types.nullable(
+        UpdatePullListItemPreferredCoverTypeResponse$inboundSchema,
+      ),
+      pull_source_id: types.nullable(types.number()),
+      pull_source_ids: z.array(types.number()),
+      updated_at: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "series_id": "seriesId",
+        "personal_notes": "personalNotes",
+        "preferred_cover_type": "preferredCoverType",
+        "pull_source_id": "pullSourceId",
+        "pull_source_ids": "pullSourceIds",
+        "updated_at": "updatedAt",
+      });
+    }),
+  )
 );
 
 export function updatePullListItemResponseBodyFromJSON(
@@ -247,17 +255,19 @@ export function updatePullListItemResponseBodyFromJSON(
 export const UpdatePullListItemResponse$inboundSchema: z.ZodMiniType<
   UpdatePullListItemResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => UpdatePullListItemResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => UpdatePullListItemResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function updatePullListItemResponseFromJSON(

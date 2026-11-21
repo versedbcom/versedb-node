@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import * as openEnums from "../../types/enums.js";
 import { OpenEnum } from "../../types/enums.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
@@ -502,85 +502,87 @@ export type UpdateCollectionItemRequestBody$Outbound = {
 export const UpdateCollectionItemRequestBody$outboundSchema: z.ZodMiniType<
   UpdateCollectionItemRequestBody$Outbound,
   UpdateCollectionItemRequestBody
-> = z.pipe(
-  z.object({
-    variantId: z.optional(z.nullable(z.int())),
-    condition: z.optional(z.nullable(z.string())),
-    notes: z.optional(z.nullable(z.string())),
-    pricePaid: z.optional(z.nullable(z.number())),
-    format: z.optional(z.nullable(z.string())),
-    purchaseSource: z.optional(z.nullable(z.string())),
-    purchaseStore: z.optional(z.nullable(z.string())),
-    customLabel: z.optional(z.nullable(z.string())),
-    baggedAt: z.optional(z.nullable(z.string())),
-    personalRating: z.optional(z.nullable(z.number())),
-    tags: z.optional(z.array(z.string())),
-    comicShopId: z.optional(z.nullable(z.int())),
-    acquisitionMethod: z.optional(z.nullable(z.string())),
-    purchasedAt: z.optional(z.nullable(z.string())),
-    storageLocation: z.optional(z.nullable(z.string())),
-    isSigned: z.optional(z.boolean()),
-    signedBy: z.optional(z.nullable(z.string())),
-    isVariant: z.optional(z.boolean()),
-    variantDescription: z.optional(z.nullable(z.string())),
-    variantType: z.optional(z.nullable(z.string())),
-    graded: z.optional(z.boolean()),
-    gradeScore: z.optional(z.nullable(z.string())),
-    gradingCompany: z.optional(z.nullable(z.string())),
-    gradingNumber: z.optional(z.nullable(z.string())),
-    labelType: z.optional(z.nullable(z.string())),
-    pageQuality: z.optional(z.nullable(z.string())),
-    graderNotes: z.optional(z.nullable(z.string())),
-    printNumber: z.optional(z.nullable(z.string())),
-    signatureWitness: z.optional(z.nullable(z.string())),
-    estimatedValue: z.optional(z.nullable(z.number())),
-    forSale: z.optional(z.boolean()),
-    status: z.optional(z.string()),
-    soldAt: z.optional(z.nullable(z.string())),
-    priceSold: z.optional(z.nullable(z.number())),
-    forTrade: z.optional(z.boolean()),
-    isPublic: z.optional(z.boolean()),
-    isRead: z.optional(z.boolean()),
-    readAt: z.optional(z.nullable(z.string())),
-    readUndated: z.optional(z.boolean()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      variantId: "variant_id",
-      pricePaid: "price_paid",
-      purchaseSource: "purchase_source",
-      purchaseStore: "purchase_store",
-      customLabel: "custom_label",
-      baggedAt: "bagged_at",
-      personalRating: "personal_rating",
-      comicShopId: "comic_shop_id",
-      acquisitionMethod: "acquisition_method",
-      purchasedAt: "purchased_at",
-      storageLocation: "storage_location",
-      isSigned: "is_signed",
-      signedBy: "signed_by",
-      isVariant: "is_variant",
-      variantDescription: "variant_description",
-      variantType: "variant_type",
-      gradeScore: "grade_score",
-      gradingCompany: "grading_company",
-      gradingNumber: "grading_number",
-      labelType: "label_type",
-      pageQuality: "page_quality",
-      graderNotes: "grader_notes",
-      printNumber: "print_number",
-      signatureWitness: "signature_witness",
-      estimatedValue: "estimated_value",
-      forSale: "for_sale",
-      soldAt: "sold_at",
-      priceSold: "price_sold",
-      forTrade: "for_trade",
-      isPublic: "is_public",
-      isRead: "is_read",
-      readAt: "read_at",
-      readUndated: "read_undated",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      variantId: z.optional(z.nullable(z.int())),
+      condition: z.optional(z.nullable(z.string())),
+      notes: z.optional(z.nullable(z.string())),
+      pricePaid: z.optional(z.nullable(z.number())),
+      format: z.optional(z.nullable(z.string())),
+      purchaseSource: z.optional(z.nullable(z.string())),
+      purchaseStore: z.optional(z.nullable(z.string())),
+      customLabel: z.optional(z.nullable(z.string())),
+      baggedAt: z.optional(z.nullable(z.string())),
+      personalRating: z.optional(z.nullable(z.number())),
+      tags: z.optional(z.array(z.string())),
+      comicShopId: z.optional(z.nullable(z.int())),
+      acquisitionMethod: z.optional(z.nullable(z.string())),
+      purchasedAt: z.optional(z.nullable(z.string())),
+      storageLocation: z.optional(z.nullable(z.string())),
+      isSigned: z.optional(z.boolean()),
+      signedBy: z.optional(z.nullable(z.string())),
+      isVariant: z.optional(z.boolean()),
+      variantDescription: z.optional(z.nullable(z.string())),
+      variantType: z.optional(z.nullable(z.string())),
+      graded: z.optional(z.boolean()),
+      gradeScore: z.optional(z.nullable(z.string())),
+      gradingCompany: z.optional(z.nullable(z.string())),
+      gradingNumber: z.optional(z.nullable(z.string())),
+      labelType: z.optional(z.nullable(z.string())),
+      pageQuality: z.optional(z.nullable(z.string())),
+      graderNotes: z.optional(z.nullable(z.string())),
+      printNumber: z.optional(z.nullable(z.string())),
+      signatureWitness: z.optional(z.nullable(z.string())),
+      estimatedValue: z.optional(z.nullable(z.number())),
+      forSale: z.optional(z.boolean()),
+      status: z.optional(z.string()),
+      soldAt: z.optional(z.nullable(z.string())),
+      priceSold: z.optional(z.nullable(z.number())),
+      forTrade: z.optional(z.boolean()),
+      isPublic: z.optional(z.boolean()),
+      isRead: z.optional(z.boolean()),
+      readAt: z.optional(z.nullable(z.string())),
+      readUndated: z.optional(z.boolean()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        variantId: "variant_id",
+        pricePaid: "price_paid",
+        purchaseSource: "purchase_source",
+        purchaseStore: "purchase_store",
+        customLabel: "custom_label",
+        baggedAt: "bagged_at",
+        personalRating: "personal_rating",
+        comicShopId: "comic_shop_id",
+        acquisitionMethod: "acquisition_method",
+        purchasedAt: "purchased_at",
+        storageLocation: "storage_location",
+        isSigned: "is_signed",
+        signedBy: "signed_by",
+        isVariant: "is_variant",
+        variantDescription: "variant_description",
+        variantType: "variant_type",
+        gradeScore: "grade_score",
+        gradingCompany: "grading_company",
+        gradingNumber: "grading_number",
+        labelType: "label_type",
+        pageQuality: "page_quality",
+        graderNotes: "grader_notes",
+        printNumber: "print_number",
+        signatureWitness: "signature_witness",
+        estimatedValue: "estimated_value",
+        forSale: "for_sale",
+        soldAt: "sold_at",
+        priceSold: "price_sold",
+        forTrade: "for_trade",
+        isPublic: "is_public",
+        isRead: "is_read",
+        readAt: "read_at",
+        readUndated: "read_undated",
+      });
+    }),
+  )
 );
 
 export function updateCollectionItemRequestBodyToJSON(
@@ -605,22 +607,24 @@ export type UpdateCollectionItemRequest$Outbound = {
 export const UpdateCollectionItemRequest$outboundSchema: z.ZodMiniType<
   UpdateCollectionItemRequest$Outbound,
   UpdateCollectionItemRequest
-> = z.pipe(
-  z.object({
-    issueId: z.int(),
-    variantId: z.optional(z.int()),
-    collectionItemId: z.optional(z.int()),
-    body: z.optional(
-      z.lazy(() => UpdateCollectionItemRequestBody$outboundSchema),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      issueId: "issue_id",
-      variantId: "variant_id",
-      collectionItemId: "collection_item_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      issueId: z.int(),
+      variantId: z.optional(z.int()),
+      collectionItemId: z.optional(z.int()),
+      body: z.optional(
+        z.lazy(() => UpdateCollectionItemRequestBody$outboundSchema),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        issueId: "issue_id",
+        variantId: "variant_id",
+        collectionItemId: "collection_item_id",
+      });
+    }),
+  )
 );
 
 export function updateCollectionItemRequestToJSON(
@@ -637,7 +641,9 @@ export function updateCollectionItemRequestToJSON(
 export const UpdateCollectionItemVariantId$inboundSchema: z.ZodMiniType<
   UpdateCollectionItemVariantId,
   unknown
-> = smartUnion([types.number(), types.string()]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([types.number(), types.string()])
+);
 
 export function updateCollectionItemVariantIdFromJSON(
   jsonString: string,
@@ -653,24 +659,26 @@ export function updateCollectionItemVariantIdFromJSON(
 export const UpdateCollectionItemVariant$inboundSchema: z.ZodMiniType<
   UpdateCollectionItemVariant,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    type: types.nullable(types.string()),
-    cover_url: types.nullable(types.string()),
-    cover_url_lg: types.nullable(types.string()),
-    ratio: types.nullable(types.string()),
-    printing: types.nullable(types.number()),
-    is_nsfw: types.boolean(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_url": "coverUrl",
-      "cover_url_lg": "coverUrlLg",
-      "is_nsfw": "isNsfw",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      type: types.nullable(types.string()),
+      cover_url: types.nullable(types.string()),
+      cover_url_lg: types.nullable(types.string()),
+      ratio: types.nullable(types.string()),
+      printing: types.nullable(types.number()),
+      is_nsfw: types.boolean(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_url": "coverUrl",
+        "cover_url_lg": "coverUrlLg",
+        "is_nsfw": "isNsfw",
+      });
+    }),
+  )
 );
 
 export function updateCollectionItemVariantFromJSON(
@@ -687,13 +695,17 @@ export function updateCollectionItemVariantFromJSON(
 export const UpdateCollectionItemCoverKind$inboundSchema: z.ZodMiniType<
   UpdateCollectionItemCoverKind,
   unknown
-> = openEnums.inboundSchema(UpdateCollectionItemCoverKind);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(UpdateCollectionItemCoverKind)
+);
 
 /** @internal */
 export const UpdateCollectionItemComicShopId$inboundSchema: z.ZodMiniType<
   UpdateCollectionItemComicShopId,
   unknown
-> = smartUnion([types.number(), types.string()]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([types.number(), types.string()])
+);
 
 export function updateCollectionItemComicShopIdFromJSON(
   jsonString: string,
@@ -709,19 +721,21 @@ export function updateCollectionItemComicShopIdFromJSON(
 export const UpdateCollectionItemComicShop$inboundSchema: z.ZodMiniType<
   UpdateCollectionItemComicShop,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    city: types.nullable(types.string()),
-    state_province: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "state_province": "stateProvince",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      city: types.nullable(types.string()),
+      state_province: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "state_province": "stateProvince",
+      });
+    }),
+  )
 );
 
 export function updateCollectionItemComicShopFromJSON(
@@ -738,7 +752,9 @@ export function updateCollectionItemComicShopFromJSON(
 export const UpdateCollectionItemPersonalRating$inboundSchema: z.ZodMiniType<
   UpdateCollectionItemPersonalRating,
   unknown
-> = smartUnion([types.number(), types.string()]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([types.number(), types.string()])
+);
 
 export function updateCollectionItemPersonalRatingFromJSON(
   jsonString: string,
@@ -755,24 +771,26 @@ export function updateCollectionItemPersonalRatingFromJSON(
 export const UpdateCollectionItemLoan$inboundSchema: z.ZodMiniType<
   UpdateCollectionItemLoan,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    loaned_to: types.nullable(types.string()),
-    loaned_at: types.nullable(types.string()),
-    due_at: types.nullable(types.string()),
-    is_overdue: types.boolean(),
-    days_until_due: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "loaned_to": "loanedTo",
-      "loaned_at": "loanedAt",
-      "due_at": "dueAt",
-      "is_overdue": "isOverdue",
-      "days_until_due": "daysUntilDue",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      loaned_to: types.nullable(types.string()),
+      loaned_at: types.nullable(types.string()),
+      due_at: types.nullable(types.string()),
+      is_overdue: types.boolean(),
+      days_until_due: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "loaned_to": "loanedTo",
+        "loaned_at": "loanedAt",
+        "due_at": "dueAt",
+        "is_overdue": "isOverdue",
+        "days_until_due": "daysUntilDue",
+      });
+    }),
+  )
 );
 
 export function updateCollectionItemLoanFromJSON(
@@ -789,20 +807,22 @@ export function updateCollectionItemLoanFromJSON(
 export const UpdateCollectionItemImages$inboundSchema: z.ZodMiniType<
   UpdateCollectionItemImages,
   unknown
-> = z.pipe(
-  z.object({
-    thumb: types.optional(types.string()),
-    cover_sm: types.optional(types.string()),
-    cover_md: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_md": "coverMd",
-      "cover_lg": "coverLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      thumb: types.optional(types.string()),
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  )
 );
 
 export function updateCollectionItemImagesFromJSON(
@@ -819,19 +839,21 @@ export function updateCollectionItemImagesFromJSON(
 export const UpdateCollectionItemSeriesImages$inboundSchema: z.ZodMiniType<
   UpdateCollectionItemSeriesImages,
   unknown
-> = z.pipe(
-  z.object({
-    cover_sm: types.optional(types.string()),
-    cover_md: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_md": "coverMd",
-      "cover_lg": "coverLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  )
 );
 
 export function updateCollectionItemSeriesImagesFromJSON(
@@ -848,34 +870,36 @@ export function updateCollectionItemSeriesImagesFromJSON(
 export const UpdateCollectionItemSeries$inboundSchema: z.ZodMiniType<
   UpdateCollectionItemSeries,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    start_year: types.nullable(types.number()),
-    end_year: types.nullable(types.number()),
-    volume_number: types.nullable(types.number()),
-    publication_type: types.nullable(types.string()),
-    format: types.nullable(types.string()),
-    cached_issues_count: types.nullable(types.number()),
-    cover_url: types.nullable(types.string()),
-    images: types.nullable(
-      z.lazy(() => UpdateCollectionItemSeriesImages$inboundSchema),
-    ),
-    publisher_name: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "start_year": "startYear",
-      "end_year": "endYear",
-      "volume_number": "volumeNumber",
-      "publication_type": "publicationType",
-      "cached_issues_count": "cachedIssuesCount",
-      "cover_url": "coverUrl",
-      "publisher_name": "publisherName",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      start_year: types.nullable(types.number()),
+      end_year: types.nullable(types.number()),
+      volume_number: types.nullable(types.number()),
+      publication_type: types.nullable(types.string()),
+      format: types.nullable(types.string()),
+      cached_issues_count: types.nullable(types.number()),
+      cover_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => UpdateCollectionItemSeriesImages$inboundSchema),
+      ),
+      publisher_name: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "start_year": "startYear",
+        "end_year": "endYear",
+        "volume_number": "volumeNumber",
+        "publication_type": "publicationType",
+        "cached_issues_count": "cachedIssuesCount",
+        "cover_url": "coverUrl",
+        "publisher_name": "publisherName",
+      });
+    }),
+  )
 );
 
 export function updateCollectionItemSeriesFromJSON(
@@ -892,48 +916,50 @@ export function updateCollectionItemSeriesFromJSON(
 export const UpdateCollectionItemCollectable$inboundSchema: z.ZodMiniType<
   UpdateCollectionItemCollectable,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    series_id: types.nullable(types.number()),
-    issue_number: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    cover_date: types.nullable(types.string()),
-    release_date: types.nullable(types.string()),
-    foc_date: types.nullable(types.string()),
-    is_unreleased: types.boolean(),
-    cover_url: types.nullable(types.string()),
-    images: types.nullable(
-      z.lazy(() => UpdateCollectionItemImages$inboundSchema),
-    ),
-    is_reprint: types.boolean(),
-    content_rating_label: types.nullable(types.string()),
-    min_age: types.nullable(types.number()),
-    is_nsfw: types.boolean(),
-    average_rating: types.nullable(types.number()),
-    name_i18n: z.record(z.string(), types.string()),
-    series: z.optional(
-      z.nullable(z.lazy(() => UpdateCollectionItemSeries$inboundSchema)),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "series_id": "seriesId",
-      "issue_number": "issueNumber",
-      "cover_date": "coverDate",
-      "release_date": "releaseDate",
-      "foc_date": "focDate",
-      "is_unreleased": "isUnreleased",
-      "cover_url": "coverUrl",
-      "is_reprint": "isReprint",
-      "content_rating_label": "contentRatingLabel",
-      "min_age": "minAge",
-      "is_nsfw": "isNsfw",
-      "average_rating": "averageRating",
-      "name_i18n": "nameI18n",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      series_id: types.nullable(types.number()),
+      issue_number: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      cover_date: types.nullable(types.string()),
+      release_date: types.nullable(types.string()),
+      foc_date: types.nullable(types.string()),
+      is_unreleased: types.boolean(),
+      cover_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => UpdateCollectionItemImages$inboundSchema),
+      ),
+      is_reprint: types.boolean(),
+      content_rating_label: types.nullable(types.string()),
+      min_age: types.nullable(types.number()),
+      is_nsfw: types.boolean(),
+      average_rating: types.nullable(types.number()),
+      name_i18n: z.record(z.string(), types.string()),
+      series: z.optional(
+        z.nullable(z.lazy(() => UpdateCollectionItemSeries$inboundSchema)),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "series_id": "seriesId",
+        "issue_number": "issueNumber",
+        "cover_date": "coverDate",
+        "release_date": "releaseDate",
+        "foc_date": "focDate",
+        "is_unreleased": "isUnreleased",
+        "cover_url": "coverUrl",
+        "is_reprint": "isReprint",
+        "content_rating_label": "contentRatingLabel",
+        "min_age": "minAge",
+        "is_nsfw": "isNsfw",
+        "average_rating": "averageRating",
+        "name_i18n": "nameI18n",
+      });
+    }),
+  )
 );
 
 export function updateCollectionItemCollectableFromJSON(
@@ -950,119 +976,123 @@ export function updateCollectionItemCollectableFromJSON(
 export const UpdateCollectionItemData$inboundSchema: z.ZodMiniType<
   UpdateCollectionItemData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    user_id: types.number(),
-    collectable_type: types.string(),
-    collectable_id: types.number(),
-    variant_id: types.nullable(smartUnion([types.number(), types.string()])),
-    variant: types.nullable(
-      z.lazy(() => UpdateCollectionItemVariant$inboundSchema),
-    ),
-    cover_kind: UpdateCollectionItemCoverKind$inboundSchema,
-    condition: types.nullable(types.string()),
-    purchased_at: z.optional(z.nullable(types.string())),
-    notes: z.optional(z.nullable(types.string())),
-    format: types.nullable(types.string()),
-    storage_location: z.optional(z.nullable(types.string())),
-    price_paid: z.optional(z.nullable(types.string())),
-    is_variant: types.nullable(types.boolean()),
-    variant_description: types.nullable(types.string()),
-    variant_type: types.nullable(types.string()),
-    graded: types.nullable(types.boolean()),
-    grade_score: types.nullable(types.string()),
-    grading_company: types.nullable(types.string()),
-    grading_number: types.nullable(types.string()),
-    label_type: types.nullable(types.string()),
-    page_quality: types.nullable(types.string()),
-    grader_notes: z.optional(z.nullable(types.string())),
-    purchase_source: z.optional(z.nullable(types.string())),
-    comic_shop_id: types.nullable(smartUnion([types.number(), types.string()])),
-    comic_shop: types.optional(
-      z.lazy(() => UpdateCollectionItemComicShop$inboundSchema),
-    ),
-    acquisition_method: z.optional(z.nullable(types.string())),
-    purchase_store: z.optional(z.nullable(types.string())),
-    custom_label: z.optional(z.nullable(types.string())),
-    bagged_at: z.optional(z.nullable(types.string())),
-    personal_rating: types.nullable(
-      smartUnion([types.number(), types.string()]),
-    ),
-    tags: types.optional(z.array(types.string())),
-    loan: z.optional(
-      z.nullable(z.lazy(() => UpdateCollectionItemLoan$inboundSchema)),
-    ),
-    is_signed: types.nullable(types.boolean()),
-    signed_by: types.nullable(types.string()),
-    signature_witness: types.nullable(types.string()),
-    signature_authenticated: types.boolean(),
-    is_cgc_ss: types.boolean(),
-    print_number: types.nullable(types.string()),
-    estimated_value: z.optional(z.nullable(types.string())),
-    value_last_updated: z.optional(z.nullable(types.string())),
-    status: types.nullable(types.string()),
-    for_sale: types.nullable(types.boolean()),
-    for_trade: types.nullable(types.boolean()),
-    sold_at: z.optional(z.nullable(types.string())),
-    price_sold: z.optional(z.nullable(types.string())),
-    is_public: types.nullable(types.boolean()),
-    cover_scan_url: types.nullable(types.string()),
-    cover_scan_url_lg: types.nullable(types.string()),
-    cover_scan_uploaded_at: types.nullable(types.string()),
-    created_at: types.nullable(types.string()),
-    updated_at: types.nullable(types.string()),
-    collectable: types.nullable(
-      z.lazy(() => UpdateCollectionItemCollectable$inboundSchema),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "user_id": "userId",
-      "collectable_type": "collectableType",
-      "collectable_id": "collectableId",
-      "variant_id": "variantId",
-      "cover_kind": "coverKind",
-      "purchased_at": "purchasedAt",
-      "storage_location": "storageLocation",
-      "price_paid": "pricePaid",
-      "is_variant": "isVariant",
-      "variant_description": "variantDescription",
-      "variant_type": "variantType",
-      "grade_score": "gradeScore",
-      "grading_company": "gradingCompany",
-      "grading_number": "gradingNumber",
-      "label_type": "labelType",
-      "page_quality": "pageQuality",
-      "grader_notes": "graderNotes",
-      "purchase_source": "purchaseSource",
-      "comic_shop_id": "comicShopId",
-      "comic_shop": "comicShop",
-      "acquisition_method": "acquisitionMethod",
-      "purchase_store": "purchaseStore",
-      "custom_label": "customLabel",
-      "bagged_at": "baggedAt",
-      "personal_rating": "personalRating",
-      "is_signed": "isSigned",
-      "signed_by": "signedBy",
-      "signature_witness": "signatureWitness",
-      "signature_authenticated": "signatureAuthenticated",
-      "is_cgc_ss": "isCgcSs",
-      "print_number": "printNumber",
-      "estimated_value": "estimatedValue",
-      "value_last_updated": "valueLastUpdated",
-      "for_sale": "forSale",
-      "for_trade": "forTrade",
-      "sold_at": "soldAt",
-      "price_sold": "priceSold",
-      "is_public": "isPublic",
-      "cover_scan_url": "coverScanUrl",
-      "cover_scan_url_lg": "coverScanUrlLg",
-      "cover_scan_uploaded_at": "coverScanUploadedAt",
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      user_id: types.number(),
+      collectable_type: types.string(),
+      collectable_id: types.number(),
+      variant_id: types.nullable(smartUnion([types.number(), types.string()])),
+      variant: types.nullable(
+        z.lazy(() => UpdateCollectionItemVariant$inboundSchema),
+      ),
+      cover_kind: UpdateCollectionItemCoverKind$inboundSchema,
+      condition: types.nullable(types.string()),
+      purchased_at: z.optional(z.nullable(types.string())),
+      notes: z.optional(z.nullable(types.string())),
+      format: types.nullable(types.string()),
+      storage_location: z.optional(z.nullable(types.string())),
+      price_paid: z.optional(z.nullable(types.string())),
+      is_variant: types.nullable(types.boolean()),
+      variant_description: types.nullable(types.string()),
+      variant_type: types.nullable(types.string()),
+      graded: types.nullable(types.boolean()),
+      grade_score: types.nullable(types.string()),
+      grading_company: types.nullable(types.string()),
+      grading_number: types.nullable(types.string()),
+      label_type: types.nullable(types.string()),
+      page_quality: types.nullable(types.string()),
+      grader_notes: z.optional(z.nullable(types.string())),
+      purchase_source: z.optional(z.nullable(types.string())),
+      comic_shop_id: types.nullable(
+        smartUnion([types.number(), types.string()]),
+      ),
+      comic_shop: types.optional(
+        z.lazy(() => UpdateCollectionItemComicShop$inboundSchema),
+      ),
+      acquisition_method: z.optional(z.nullable(types.string())),
+      purchase_store: z.optional(z.nullable(types.string())),
+      custom_label: z.optional(z.nullable(types.string())),
+      bagged_at: z.optional(z.nullable(types.string())),
+      personal_rating: types.nullable(
+        smartUnion([types.number(), types.string()]),
+      ),
+      tags: types.optional(z.array(types.string())),
+      loan: z.optional(
+        z.nullable(z.lazy(() => UpdateCollectionItemLoan$inboundSchema)),
+      ),
+      is_signed: types.nullable(types.boolean()),
+      signed_by: types.nullable(types.string()),
+      signature_witness: types.nullable(types.string()),
+      signature_authenticated: types.boolean(),
+      is_cgc_ss: types.boolean(),
+      print_number: types.nullable(types.string()),
+      estimated_value: z.optional(z.nullable(types.string())),
+      value_last_updated: z.optional(z.nullable(types.string())),
+      status: types.nullable(types.string()),
+      for_sale: types.nullable(types.boolean()),
+      for_trade: types.nullable(types.boolean()),
+      sold_at: z.optional(z.nullable(types.string())),
+      price_sold: z.optional(z.nullable(types.string())),
+      is_public: types.nullable(types.boolean()),
+      cover_scan_url: types.nullable(types.string()),
+      cover_scan_url_lg: types.nullable(types.string()),
+      cover_scan_uploaded_at: types.nullable(types.string()),
+      created_at: types.nullable(types.string()),
+      updated_at: types.nullable(types.string()),
+      collectable: types.nullable(
+        z.lazy(() => UpdateCollectionItemCollectable$inboundSchema),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "user_id": "userId",
+        "collectable_type": "collectableType",
+        "collectable_id": "collectableId",
+        "variant_id": "variantId",
+        "cover_kind": "coverKind",
+        "purchased_at": "purchasedAt",
+        "storage_location": "storageLocation",
+        "price_paid": "pricePaid",
+        "is_variant": "isVariant",
+        "variant_description": "variantDescription",
+        "variant_type": "variantType",
+        "grade_score": "gradeScore",
+        "grading_company": "gradingCompany",
+        "grading_number": "gradingNumber",
+        "label_type": "labelType",
+        "page_quality": "pageQuality",
+        "grader_notes": "graderNotes",
+        "purchase_source": "purchaseSource",
+        "comic_shop_id": "comicShopId",
+        "comic_shop": "comicShop",
+        "acquisition_method": "acquisitionMethod",
+        "purchase_store": "purchaseStore",
+        "custom_label": "customLabel",
+        "bagged_at": "baggedAt",
+        "personal_rating": "personalRating",
+        "is_signed": "isSigned",
+        "signed_by": "signedBy",
+        "signature_witness": "signatureWitness",
+        "signature_authenticated": "signatureAuthenticated",
+        "is_cgc_ss": "isCgcSs",
+        "print_number": "printNumber",
+        "estimated_value": "estimatedValue",
+        "value_last_updated": "valueLastUpdated",
+        "for_sale": "forSale",
+        "for_trade": "forTrade",
+        "sold_at": "soldAt",
+        "price_sold": "priceSold",
+        "is_public": "isPublic",
+        "cover_scan_url": "coverScanUrl",
+        "cover_scan_url_lg": "coverScanUrlLg",
+        "cover_scan_uploaded_at": "coverScanUploadedAt",
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+      });
+    }),
+  )
 );
 
 export function updateCollectionItemDataFromJSON(
@@ -1079,9 +1109,11 @@ export function updateCollectionItemDataFromJSON(
 export const UpdateCollectionItemResponseBody$inboundSchema: z.ZodMiniType<
   UpdateCollectionItemResponseBody,
   unknown
-> = z.object({
-  data: z.lazy(() => UpdateCollectionItemData$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.lazy(() => UpdateCollectionItemData$inboundSchema),
+  })
+);
 
 export function updateCollectionItemResponseBodyFromJSON(
   jsonString: string,
@@ -1097,17 +1129,19 @@ export function updateCollectionItemResponseBodyFromJSON(
 export const UpdateCollectionItemResponse$inboundSchema: z.ZodMiniType<
   UpdateCollectionItemResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => UpdateCollectionItemResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => UpdateCollectionItemResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function updateCollectionItemResponseFromJSON(

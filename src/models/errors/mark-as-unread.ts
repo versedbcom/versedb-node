@@ -3,6 +3,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../../lib/schemas.js";
 import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
@@ -92,59 +93,65 @@ export class MarkAsUnreadForbiddenError extends VerseDbError {
 export const MarkAsUnreadUnprocessableEntityError$inboundSchema: z.ZodMiniType<
   MarkAsUnreadUnprocessableEntityError,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    errors: z.record(z.string(), z.array(types.string())),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new MarkAsUnreadUnprocessableEntityError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      errors: z.record(z.string(), z.array(types.string())),
+      request$: z.custom<Request>(x => x instanceof Request),
+      response$: z.custom<Response>(x => x instanceof Response),
+      body$: z.string(),
+    }),
+    z.transform((v) => {
+      return new MarkAsUnreadUnprocessableEntityError(v, {
+        request: v.request$,
+        response: v.response$,
+        body: v.body$,
+      });
+    }),
+  )
 );
 
 /** @internal */
 export const MarkAsUnreadNotFoundError$inboundSchema: z.ZodMiniType<
   MarkAsUnreadNotFoundError,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new MarkAsUnreadNotFoundError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      request$: z.custom<Request>(x => x instanceof Request),
+      response$: z.custom<Response>(x => x instanceof Response),
+      body$: z.string(),
+    }),
+    z.transform((v) => {
+      return new MarkAsUnreadNotFoundError(v, {
+        request: v.request$,
+        response: v.response$,
+        body: v.body$,
+      });
+    }),
+  )
 );
 
 /** @internal */
 export const MarkAsUnreadForbiddenError$inboundSchema: z.ZodMiniType<
   MarkAsUnreadForbiddenError,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new MarkAsUnreadForbiddenError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      request$: z.custom<Request>(x => x instanceof Request),
+      response$: z.custom<Response>(x => x instanceof Response),
+      body$: z.string(),
+    }),
+    z.transform((v) => {
+      return new MarkAsUnreadForbiddenError(v, {
+        request: v.request$,
+        response: v.response$,
+        body: v.body$,
+      });
+    }),
+  )
 );

@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import * as openEnums from "../../types/enums.js";
 import { OpenEnum } from "../../types/enums.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
@@ -317,20 +317,22 @@ export type LendACopyOutRequestBody$Outbound = {
 export const LendACopyOutRequestBody$outboundSchema: z.ZodMiniType<
   LendACopyOutRequestBody$Outbound,
   LendACopyOutRequestBody
-> = z.pipe(
-  z.object({
-    loanedTo: z.string(),
-    loanedAt: z.optional(z.nullable(z.string())),
-    dueAt: z.optional(z.nullable(z.string())),
-    notes: z.optional(z.nullable(z.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      loanedTo: "loaned_to",
-      loanedAt: "loaned_at",
-      dueAt: "due_at",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      loanedTo: z.string(),
+      loanedAt: z.optional(z.nullable(z.string())),
+      dueAt: z.optional(z.nullable(z.string())),
+      notes: z.optional(z.nullable(z.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        loanedTo: "loaned_to",
+        loanedAt: "loaned_at",
+        dueAt: "due_at",
+      });
+    }),
+  )
 );
 
 export function lendACopyOutRequestBodyToJSON(
@@ -351,16 +353,18 @@ export type LendACopyOutRequest$Outbound = {
 export const LendACopyOutRequest$outboundSchema: z.ZodMiniType<
   LendACopyOutRequest$Outbound,
   LendACopyOutRequest
-> = z.pipe(
-  z.object({
-    collectionItemId: z.int(),
-    body: z.lazy(() => LendACopyOutRequestBody$outboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      collectionItemId: "collection_item_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      collectionItemId: z.int(),
+      body: z.lazy(() => LendACopyOutRequestBody$outboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        collectionItemId: "collection_item_id",
+      });
+    }),
+  )
 );
 
 export function lendACopyOutRequestToJSON(
@@ -375,7 +379,9 @@ export function lendACopyOutRequestToJSON(
 export const LendACopyOutVariantId$inboundSchema: z.ZodMiniType<
   LendACopyOutVariantId,
   unknown
-> = smartUnion([types.number(), types.string()]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([types.number(), types.string()])
+);
 
 export function lendACopyOutVariantIdFromJSON(
   jsonString: string,
@@ -391,24 +397,26 @@ export function lendACopyOutVariantIdFromJSON(
 export const LendACopyOutVariant$inboundSchema: z.ZodMiniType<
   LendACopyOutVariant,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    type: types.nullable(types.string()),
-    cover_url: types.nullable(types.string()),
-    cover_url_lg: types.nullable(types.string()),
-    ratio: types.nullable(types.string()),
-    printing: types.nullable(types.number()),
-    is_nsfw: types.boolean(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_url": "coverUrl",
-      "cover_url_lg": "coverUrlLg",
-      "is_nsfw": "isNsfw",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      type: types.nullable(types.string()),
+      cover_url: types.nullable(types.string()),
+      cover_url_lg: types.nullable(types.string()),
+      ratio: types.nullable(types.string()),
+      printing: types.nullable(types.number()),
+      is_nsfw: types.boolean(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_url": "coverUrl",
+        "cover_url_lg": "coverUrlLg",
+        "is_nsfw": "isNsfw",
+      });
+    }),
+  )
 );
 
 export function lendACopyOutVariantFromJSON(
@@ -425,13 +433,17 @@ export function lendACopyOutVariantFromJSON(
 export const LendACopyOutCoverKind$inboundSchema: z.ZodMiniType<
   LendACopyOutCoverKind,
   unknown
-> = openEnums.inboundSchema(LendACopyOutCoverKind);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(LendACopyOutCoverKind)
+);
 
 /** @internal */
 export const LendACopyOutComicShopId$inboundSchema: z.ZodMiniType<
   LendACopyOutComicShopId,
   unknown
-> = smartUnion([types.number(), types.string()]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([types.number(), types.string()])
+);
 
 export function lendACopyOutComicShopIdFromJSON(
   jsonString: string,
@@ -447,19 +459,21 @@ export function lendACopyOutComicShopIdFromJSON(
 export const LendACopyOutComicShop$inboundSchema: z.ZodMiniType<
   LendACopyOutComicShop,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    city: types.nullable(types.string()),
-    state_province: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "state_province": "stateProvince",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      city: types.nullable(types.string()),
+      state_province: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "state_province": "stateProvince",
+      });
+    }),
+  )
 );
 
 export function lendACopyOutComicShopFromJSON(
@@ -476,7 +490,9 @@ export function lendACopyOutComicShopFromJSON(
 export const LendACopyOutPersonalRating$inboundSchema: z.ZodMiniType<
   LendACopyOutPersonalRating,
   unknown
-> = smartUnion([types.number(), types.string()]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([types.number(), types.string()])
+);
 
 export function lendACopyOutPersonalRatingFromJSON(
   jsonString: string,
@@ -492,24 +508,26 @@ export function lendACopyOutPersonalRatingFromJSON(
 export const LendACopyOutLoan$inboundSchema: z.ZodMiniType<
   LendACopyOutLoan,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    loaned_to: types.nullable(types.string()),
-    loaned_at: types.nullable(types.string()),
-    due_at: types.nullable(types.string()),
-    is_overdue: types.boolean(),
-    days_until_due: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "loaned_to": "loanedTo",
-      "loaned_at": "loanedAt",
-      "due_at": "dueAt",
-      "is_overdue": "isOverdue",
-      "days_until_due": "daysUntilDue",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      loaned_to: types.nullable(types.string()),
+      loaned_at: types.nullable(types.string()),
+      due_at: types.nullable(types.string()),
+      is_overdue: types.boolean(),
+      days_until_due: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "loaned_to": "loanedTo",
+        "loaned_at": "loanedAt",
+        "due_at": "dueAt",
+        "is_overdue": "isOverdue",
+        "days_until_due": "daysUntilDue",
+      });
+    }),
+  )
 );
 
 export function lendACopyOutLoanFromJSON(
@@ -526,20 +544,22 @@ export function lendACopyOutLoanFromJSON(
 export const LendACopyOutImages$inboundSchema: z.ZodMiniType<
   LendACopyOutImages,
   unknown
-> = z.pipe(
-  z.object({
-    thumb: types.optional(types.string()),
-    cover_sm: types.optional(types.string()),
-    cover_md: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_md": "coverMd",
-      "cover_lg": "coverLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      thumb: types.optional(types.string()),
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  )
 );
 
 export function lendACopyOutImagesFromJSON(
@@ -556,19 +576,21 @@ export function lendACopyOutImagesFromJSON(
 export const LendACopyOutSeriesImages$inboundSchema: z.ZodMiniType<
   LendACopyOutSeriesImages,
   unknown
-> = z.pipe(
-  z.object({
-    cover_sm: types.optional(types.string()),
-    cover_md: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_md": "coverMd",
-      "cover_lg": "coverLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  )
 );
 
 export function lendACopyOutSeriesImagesFromJSON(
@@ -585,34 +607,36 @@ export function lendACopyOutSeriesImagesFromJSON(
 export const LendACopyOutSeries$inboundSchema: z.ZodMiniType<
   LendACopyOutSeries,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    start_year: types.nullable(types.number()),
-    end_year: types.nullable(types.number()),
-    volume_number: types.nullable(types.number()),
-    publication_type: types.nullable(types.string()),
-    format: types.nullable(types.string()),
-    cached_issues_count: types.nullable(types.number()),
-    cover_url: types.nullable(types.string()),
-    images: types.nullable(
-      z.lazy(() => LendACopyOutSeriesImages$inboundSchema),
-    ),
-    publisher_name: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "start_year": "startYear",
-      "end_year": "endYear",
-      "volume_number": "volumeNumber",
-      "publication_type": "publicationType",
-      "cached_issues_count": "cachedIssuesCount",
-      "cover_url": "coverUrl",
-      "publisher_name": "publisherName",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      start_year: types.nullable(types.number()),
+      end_year: types.nullable(types.number()),
+      volume_number: types.nullable(types.number()),
+      publication_type: types.nullable(types.string()),
+      format: types.nullable(types.string()),
+      cached_issues_count: types.nullable(types.number()),
+      cover_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => LendACopyOutSeriesImages$inboundSchema),
+      ),
+      publisher_name: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "start_year": "startYear",
+        "end_year": "endYear",
+        "volume_number": "volumeNumber",
+        "publication_type": "publicationType",
+        "cached_issues_count": "cachedIssuesCount",
+        "cover_url": "coverUrl",
+        "publisher_name": "publisherName",
+      });
+    }),
+  )
 );
 
 export function lendACopyOutSeriesFromJSON(
@@ -629,46 +653,48 @@ export function lendACopyOutSeriesFromJSON(
 export const LendACopyOutCollectable$inboundSchema: z.ZodMiniType<
   LendACopyOutCollectable,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    series_id: types.nullable(types.number()),
-    issue_number: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    cover_date: types.nullable(types.string()),
-    release_date: types.nullable(types.string()),
-    foc_date: types.nullable(types.string()),
-    is_unreleased: types.boolean(),
-    cover_url: types.nullable(types.string()),
-    images: types.nullable(z.lazy(() => LendACopyOutImages$inboundSchema)),
-    is_reprint: types.boolean(),
-    content_rating_label: types.nullable(types.string()),
-    min_age: types.nullable(types.number()),
-    is_nsfw: types.boolean(),
-    average_rating: types.nullable(types.number()),
-    name_i18n: z.record(z.string(), types.string()),
-    series: z.optional(
-      z.nullable(z.lazy(() => LendACopyOutSeries$inboundSchema)),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "series_id": "seriesId",
-      "issue_number": "issueNumber",
-      "cover_date": "coverDate",
-      "release_date": "releaseDate",
-      "foc_date": "focDate",
-      "is_unreleased": "isUnreleased",
-      "cover_url": "coverUrl",
-      "is_reprint": "isReprint",
-      "content_rating_label": "contentRatingLabel",
-      "min_age": "minAge",
-      "is_nsfw": "isNsfw",
-      "average_rating": "averageRating",
-      "name_i18n": "nameI18n",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      series_id: types.nullable(types.number()),
+      issue_number: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      cover_date: types.nullable(types.string()),
+      release_date: types.nullable(types.string()),
+      foc_date: types.nullable(types.string()),
+      is_unreleased: types.boolean(),
+      cover_url: types.nullable(types.string()),
+      images: types.nullable(z.lazy(() => LendACopyOutImages$inboundSchema)),
+      is_reprint: types.boolean(),
+      content_rating_label: types.nullable(types.string()),
+      min_age: types.nullable(types.number()),
+      is_nsfw: types.boolean(),
+      average_rating: types.nullable(types.number()),
+      name_i18n: z.record(z.string(), types.string()),
+      series: z.optional(
+        z.nullable(z.lazy(() => LendACopyOutSeries$inboundSchema)),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "series_id": "seriesId",
+        "issue_number": "issueNumber",
+        "cover_date": "coverDate",
+        "release_date": "releaseDate",
+        "foc_date": "focDate",
+        "is_unreleased": "isUnreleased",
+        "cover_url": "coverUrl",
+        "is_reprint": "isReprint",
+        "content_rating_label": "contentRatingLabel",
+        "min_age": "minAge",
+        "is_nsfw": "isNsfw",
+        "average_rating": "averageRating",
+        "name_i18n": "nameI18n",
+      });
+    }),
+  )
 );
 
 export function lendACopyOutCollectableFromJSON(
@@ -685,115 +711,121 @@ export function lendACopyOutCollectableFromJSON(
 export const LendACopyOutData$inboundSchema: z.ZodMiniType<
   LendACopyOutData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    user_id: types.number(),
-    collectable_type: types.string(),
-    collectable_id: types.number(),
-    variant_id: types.nullable(smartUnion([types.number(), types.string()])),
-    variant: types.nullable(z.lazy(() => LendACopyOutVariant$inboundSchema)),
-    cover_kind: LendACopyOutCoverKind$inboundSchema,
-    condition: types.nullable(types.string()),
-    purchased_at: z.optional(z.nullable(types.string())),
-    notes: z.optional(z.nullable(types.string())),
-    format: types.nullable(types.string()),
-    storage_location: z.optional(z.nullable(types.string())),
-    price_paid: z.optional(z.nullable(types.string())),
-    is_variant: types.nullable(types.boolean()),
-    variant_description: types.nullable(types.string()),
-    variant_type: types.nullable(types.string()),
-    graded: types.nullable(types.boolean()),
-    grade_score: types.nullable(types.string()),
-    grading_company: types.nullable(types.string()),
-    grading_number: types.nullable(types.string()),
-    label_type: types.nullable(types.string()),
-    page_quality: types.nullable(types.string()),
-    grader_notes: z.optional(z.nullable(types.string())),
-    purchase_source: z.optional(z.nullable(types.string())),
-    comic_shop_id: types.nullable(smartUnion([types.number(), types.string()])),
-    comic_shop: types.optional(
-      z.lazy(() => LendACopyOutComicShop$inboundSchema),
-    ),
-    acquisition_method: z.optional(z.nullable(types.string())),
-    purchase_store: z.optional(z.nullable(types.string())),
-    custom_label: z.optional(z.nullable(types.string())),
-    bagged_at: z.optional(z.nullable(types.string())),
-    personal_rating: types.nullable(
-      smartUnion([types.number(), types.string()]),
-    ),
-    tags: types.optional(z.array(types.string())),
-    loan: z.optional(z.nullable(z.lazy(() => LendACopyOutLoan$inboundSchema))),
-    is_signed: types.nullable(types.boolean()),
-    signed_by: types.nullable(types.string()),
-    signature_witness: types.nullable(types.string()),
-    signature_authenticated: types.boolean(),
-    is_cgc_ss: types.boolean(),
-    print_number: types.nullable(types.string()),
-    estimated_value: z.optional(z.nullable(types.string())),
-    value_last_updated: z.optional(z.nullable(types.string())),
-    status: types.nullable(types.string()),
-    for_sale: types.nullable(types.boolean()),
-    for_trade: types.nullable(types.boolean()),
-    sold_at: z.optional(z.nullable(types.string())),
-    price_sold: z.optional(z.nullable(types.string())),
-    is_public: types.nullable(types.boolean()),
-    cover_scan_url: types.nullable(types.string()),
-    cover_scan_url_lg: types.nullable(types.string()),
-    cover_scan_uploaded_at: types.nullable(types.string()),
-    created_at: types.nullable(types.string()),
-    updated_at: types.nullable(types.string()),
-    collectable: types.nullable(
-      z.lazy(() => LendACopyOutCollectable$inboundSchema),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "user_id": "userId",
-      "collectable_type": "collectableType",
-      "collectable_id": "collectableId",
-      "variant_id": "variantId",
-      "cover_kind": "coverKind",
-      "purchased_at": "purchasedAt",
-      "storage_location": "storageLocation",
-      "price_paid": "pricePaid",
-      "is_variant": "isVariant",
-      "variant_description": "variantDescription",
-      "variant_type": "variantType",
-      "grade_score": "gradeScore",
-      "grading_company": "gradingCompany",
-      "grading_number": "gradingNumber",
-      "label_type": "labelType",
-      "page_quality": "pageQuality",
-      "grader_notes": "graderNotes",
-      "purchase_source": "purchaseSource",
-      "comic_shop_id": "comicShopId",
-      "comic_shop": "comicShop",
-      "acquisition_method": "acquisitionMethod",
-      "purchase_store": "purchaseStore",
-      "custom_label": "customLabel",
-      "bagged_at": "baggedAt",
-      "personal_rating": "personalRating",
-      "is_signed": "isSigned",
-      "signed_by": "signedBy",
-      "signature_witness": "signatureWitness",
-      "signature_authenticated": "signatureAuthenticated",
-      "is_cgc_ss": "isCgcSs",
-      "print_number": "printNumber",
-      "estimated_value": "estimatedValue",
-      "value_last_updated": "valueLastUpdated",
-      "for_sale": "forSale",
-      "for_trade": "forTrade",
-      "sold_at": "soldAt",
-      "price_sold": "priceSold",
-      "is_public": "isPublic",
-      "cover_scan_url": "coverScanUrl",
-      "cover_scan_url_lg": "coverScanUrlLg",
-      "cover_scan_uploaded_at": "coverScanUploadedAt",
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      user_id: types.number(),
+      collectable_type: types.string(),
+      collectable_id: types.number(),
+      variant_id: types.nullable(smartUnion([types.number(), types.string()])),
+      variant: types.nullable(z.lazy(() => LendACopyOutVariant$inboundSchema)),
+      cover_kind: LendACopyOutCoverKind$inboundSchema,
+      condition: types.nullable(types.string()),
+      purchased_at: z.optional(z.nullable(types.string())),
+      notes: z.optional(z.nullable(types.string())),
+      format: types.nullable(types.string()),
+      storage_location: z.optional(z.nullable(types.string())),
+      price_paid: z.optional(z.nullable(types.string())),
+      is_variant: types.nullable(types.boolean()),
+      variant_description: types.nullable(types.string()),
+      variant_type: types.nullable(types.string()),
+      graded: types.nullable(types.boolean()),
+      grade_score: types.nullable(types.string()),
+      grading_company: types.nullable(types.string()),
+      grading_number: types.nullable(types.string()),
+      label_type: types.nullable(types.string()),
+      page_quality: types.nullable(types.string()),
+      grader_notes: z.optional(z.nullable(types.string())),
+      purchase_source: z.optional(z.nullable(types.string())),
+      comic_shop_id: types.nullable(
+        smartUnion([types.number(), types.string()]),
+      ),
+      comic_shop: types.optional(
+        z.lazy(() => LendACopyOutComicShop$inboundSchema),
+      ),
+      acquisition_method: z.optional(z.nullable(types.string())),
+      purchase_store: z.optional(z.nullable(types.string())),
+      custom_label: z.optional(z.nullable(types.string())),
+      bagged_at: z.optional(z.nullable(types.string())),
+      personal_rating: types.nullable(
+        smartUnion([types.number(), types.string()]),
+      ),
+      tags: types.optional(z.array(types.string())),
+      loan: z.optional(
+        z.nullable(z.lazy(() => LendACopyOutLoan$inboundSchema)),
+      ),
+      is_signed: types.nullable(types.boolean()),
+      signed_by: types.nullable(types.string()),
+      signature_witness: types.nullable(types.string()),
+      signature_authenticated: types.boolean(),
+      is_cgc_ss: types.boolean(),
+      print_number: types.nullable(types.string()),
+      estimated_value: z.optional(z.nullable(types.string())),
+      value_last_updated: z.optional(z.nullable(types.string())),
+      status: types.nullable(types.string()),
+      for_sale: types.nullable(types.boolean()),
+      for_trade: types.nullable(types.boolean()),
+      sold_at: z.optional(z.nullable(types.string())),
+      price_sold: z.optional(z.nullable(types.string())),
+      is_public: types.nullable(types.boolean()),
+      cover_scan_url: types.nullable(types.string()),
+      cover_scan_url_lg: types.nullable(types.string()),
+      cover_scan_uploaded_at: types.nullable(types.string()),
+      created_at: types.nullable(types.string()),
+      updated_at: types.nullable(types.string()),
+      collectable: types.nullable(
+        z.lazy(() => LendACopyOutCollectable$inboundSchema),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "user_id": "userId",
+        "collectable_type": "collectableType",
+        "collectable_id": "collectableId",
+        "variant_id": "variantId",
+        "cover_kind": "coverKind",
+        "purchased_at": "purchasedAt",
+        "storage_location": "storageLocation",
+        "price_paid": "pricePaid",
+        "is_variant": "isVariant",
+        "variant_description": "variantDescription",
+        "variant_type": "variantType",
+        "grade_score": "gradeScore",
+        "grading_company": "gradingCompany",
+        "grading_number": "gradingNumber",
+        "label_type": "labelType",
+        "page_quality": "pageQuality",
+        "grader_notes": "graderNotes",
+        "purchase_source": "purchaseSource",
+        "comic_shop_id": "comicShopId",
+        "comic_shop": "comicShop",
+        "acquisition_method": "acquisitionMethod",
+        "purchase_store": "purchaseStore",
+        "custom_label": "customLabel",
+        "bagged_at": "baggedAt",
+        "personal_rating": "personalRating",
+        "is_signed": "isSigned",
+        "signed_by": "signedBy",
+        "signature_witness": "signatureWitness",
+        "signature_authenticated": "signatureAuthenticated",
+        "is_cgc_ss": "isCgcSs",
+        "print_number": "printNumber",
+        "estimated_value": "estimatedValue",
+        "value_last_updated": "valueLastUpdated",
+        "for_sale": "forSale",
+        "for_trade": "forTrade",
+        "sold_at": "soldAt",
+        "price_sold": "priceSold",
+        "is_public": "isPublic",
+        "cover_scan_url": "coverScanUrl",
+        "cover_scan_url_lg": "coverScanUrlLg",
+        "cover_scan_uploaded_at": "coverScanUploadedAt",
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+      });
+    }),
+  )
 );
 
 export function lendACopyOutDataFromJSON(
@@ -810,9 +842,11 @@ export function lendACopyOutDataFromJSON(
 export const LendACopyOutResponseBody$inboundSchema: z.ZodMiniType<
   LendACopyOutResponseBody,
   unknown
-> = z.object({
-  data: z.lazy(() => LendACopyOutData$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.lazy(() => LendACopyOutData$inboundSchema),
+  })
+);
 
 export function lendACopyOutResponseBodyFromJSON(
   jsonString: string,
@@ -828,17 +862,19 @@ export function lendACopyOutResponseBodyFromJSON(
 export const LendACopyOutResponse$inboundSchema: z.ZodMiniType<
   LendACopyOutResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => LendACopyOutResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => LendACopyOutResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function lendACopyOutResponseFromJSON(

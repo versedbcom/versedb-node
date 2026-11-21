@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -111,18 +111,20 @@ export type GetVariantDetailsRequest$Outbound = {
 export const GetVariantDetailsRequest$outboundSchema: z.ZodMiniType<
   GetVariantDetailsRequest$Outbound,
   GetVariantDetailsRequest
-> = z.pipe(
-  z.object({
-    issueId: z.int(),
-    variantId: z.int(),
-    languages: z.optional(z.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      issueId: "issue_id",
-      variantId: "variant_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      issueId: z.int(),
+      variantId: z.int(),
+      languages: z.optional(z.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        issueId: "issue_id",
+        variantId: "variant_id",
+      });
+    }),
+  )
 );
 
 export function getVariantDetailsRequestToJSON(
@@ -137,20 +139,22 @@ export function getVariantDetailsRequestToJSON(
 export const GetVariantDetailsImages$inboundSchema: z.ZodMiniType<
   GetVariantDetailsImages,
   unknown
-> = z.pipe(
-  z.object({
-    thumb: types.optional(types.string()),
-    cover_sm: types.optional(types.string()),
-    cover_md: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_md": "coverMd",
-      "cover_lg": "coverLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      thumb: types.optional(types.string()),
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  )
 );
 
 export function getVariantDetailsImagesFromJSON(
@@ -167,11 +171,13 @@ export function getVariantDetailsImagesFromJSON(
 export const GetVariantDetailsShop$inboundSchema: z.ZodMiniType<
   GetVariantDetailsShop,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.nullable(types.string()),
-  slug: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+  })
+);
 
 export function getVariantDetailsShopFromJSON(
   jsonString: string,
@@ -187,21 +193,23 @@ export function getVariantDetailsShopFromJSON(
 export const GetVariantDetailsCreator$inboundSchema: z.ZodMiniType<
   GetVariantDetailsCreator,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    photo_url: types.nullable(types.string()),
-    role: types.string(),
-    is_uncredited: types.boolean(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "photo_url": "photoUrl",
-      "is_uncredited": "isUncredited",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      photo_url: types.nullable(types.string()),
+      role: types.string(),
+      is_uncredited: types.boolean(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "photo_url": "photoUrl",
+        "is_uncredited": "isUncredited",
+      });
+    }),
+  )
 );
 
 export function getVariantDetailsCreatorFromJSON(
@@ -218,12 +226,14 @@ export function getVariantDetailsCreatorFromJSON(
 export const GetVariantDetailsVariantNameI18n$inboundSchema: z.ZodMiniType<
   GetVariantDetailsVariantNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function getVariantDetailsVariantNameI18nFromJSON(
   jsonString: string,
@@ -239,45 +249,49 @@ export function getVariantDetailsVariantNameI18nFromJSON(
 export const GetVariantDetailsData$inboundSchema: z.ZodMiniType<
   GetVariantDetailsData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    issue_id: types.nullable(types.number()),
-    variant_name: types.nullable(types.string()),
-    cover_url: types.nullable(types.string()),
-    images: types.nullable(z.lazy(() => GetVariantDetailsImages$inboundSchema)),
-    variant_type: types.nullable(types.string()),
-    ratio: types.nullable(types.string()),
-    price: types.nullable(types.string()),
-    currency_code: types.nullable(types.string()),
-    formatted_price: types.nullable(types.string()),
-    ean: types.nullable(types.string()),
-    release_date: types.nullable(types.string()),
-    print_run: types.nullable(types.number()),
-    cover_letter: types.nullable(types.string()),
-    shops: types.optional(
-      z.array(z.lazy(() => GetVariantDetailsShop$inboundSchema)),
-    ),
-    creators: z.array(z.lazy(() => GetVariantDetailsCreator$inboundSchema)),
-    variant_name_i18n: z.record(
-      z.string(),
-      z.lazy(() => GetVariantDetailsVariantNameI18n$inboundSchema),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "issue_id": "issueId",
-      "variant_name": "variantName",
-      "cover_url": "coverUrl",
-      "variant_type": "variantType",
-      "currency_code": "currencyCode",
-      "formatted_price": "formattedPrice",
-      "release_date": "releaseDate",
-      "print_run": "printRun",
-      "cover_letter": "coverLetter",
-      "variant_name_i18n": "variantNameI18n",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      issue_id: types.nullable(types.number()),
+      variant_name: types.nullable(types.string()),
+      cover_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => GetVariantDetailsImages$inboundSchema),
+      ),
+      variant_type: types.nullable(types.string()),
+      ratio: types.nullable(types.string()),
+      price: types.nullable(types.string()),
+      currency_code: types.nullable(types.string()),
+      formatted_price: types.nullable(types.string()),
+      ean: types.nullable(types.string()),
+      release_date: types.nullable(types.string()),
+      print_run: types.nullable(types.number()),
+      cover_letter: types.nullable(types.string()),
+      shops: types.optional(
+        z.array(z.lazy(() => GetVariantDetailsShop$inboundSchema)),
+      ),
+      creators: z.array(z.lazy(() => GetVariantDetailsCreator$inboundSchema)),
+      variant_name_i18n: z.record(
+        z.string(),
+        z.lazy(() => GetVariantDetailsVariantNameI18n$inboundSchema),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "issue_id": "issueId",
+        "variant_name": "variantName",
+        "cover_url": "coverUrl",
+        "variant_type": "variantType",
+        "currency_code": "currencyCode",
+        "formatted_price": "formattedPrice",
+        "release_date": "releaseDate",
+        "print_run": "printRun",
+        "cover_letter": "coverLetter",
+        "variant_name_i18n": "variantNameI18n",
+      });
+    }),
+  )
 );
 
 export function getVariantDetailsDataFromJSON(
@@ -294,9 +308,11 @@ export function getVariantDetailsDataFromJSON(
 export const GetVariantDetailsResponseBody$inboundSchema: z.ZodMiniType<
   GetVariantDetailsResponseBody,
   unknown
-> = z.object({
-  data: z.lazy(() => GetVariantDetailsData$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.lazy(() => GetVariantDetailsData$inboundSchema),
+  })
+);
 
 export function getVariantDetailsResponseBodyFromJSON(
   jsonString: string,
@@ -312,17 +328,19 @@ export function getVariantDetailsResponseBodyFromJSON(
 export const GetVariantDetailsResponse$inboundSchema: z.ZodMiniType<
   GetVariantDetailsResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => GetVariantDetailsResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => GetVariantDetailsResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function getVariantDetailsResponseFromJSON(

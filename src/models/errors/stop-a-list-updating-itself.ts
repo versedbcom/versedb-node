@@ -3,6 +3,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../../lib/schemas.js";
 import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
@@ -88,59 +89,65 @@ export class StopAListUpdatingItselfForbiddenError extends VerseDbError {
 
 /** @internal */
 export const StopAListUpdatingItselfUnprocessableEntityError$inboundSchema:
-  z.ZodMiniType<StopAListUpdatingItselfUnprocessableEntityError, unknown> = z
-    .pipe(
-      z.object({
-        message: types.string(),
-        request$: z.custom<Request>(x => x instanceof Request),
-        response$: z.custom<Response>(x => x instanceof Response),
-        body$: z.string(),
-      }),
-      z.transform((v) => {
-        return new StopAListUpdatingItselfUnprocessableEntityError(v, {
-          request: v.request$,
-          response: v.response$,
-          body: v.body$,
-        });
-      }),
+  z.ZodMiniType<StopAListUpdatingItselfUnprocessableEntityError, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          message: types.string(),
+          request$: z.custom<Request>(x => x instanceof Request),
+          response$: z.custom<Response>(x => x instanceof Response),
+          body$: z.string(),
+        }),
+        z.transform((v) => {
+          return new StopAListUpdatingItselfUnprocessableEntityError(v, {
+            request: v.request$,
+            response: v.response$,
+            body: v.body$,
+          });
+        }),
+      )
     );
 
 /** @internal */
 export const StopAListUpdatingItselfNotFoundError$inboundSchema: z.ZodMiniType<
   StopAListUpdatingItselfNotFoundError,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new StopAListUpdatingItselfNotFoundError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      request$: z.custom<Request>(x => x instanceof Request),
+      response$: z.custom<Response>(x => x instanceof Response),
+      body$: z.string(),
+    }),
+    z.transform((v) => {
+      return new StopAListUpdatingItselfNotFoundError(v, {
+        request: v.request$,
+        response: v.response$,
+        body: v.body$,
+      });
+    }),
+  )
 );
 
 /** @internal */
 export const StopAListUpdatingItselfForbiddenError$inboundSchema: z.ZodMiniType<
   StopAListUpdatingItselfForbiddenError,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new StopAListUpdatingItselfForbiddenError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      request$: z.custom<Request>(x => x instanceof Request),
+      response$: z.custom<Response>(x => x instanceof Response),
+      body$: z.string(),
+    }),
+    z.transform((v) => {
+      return new StopAListUpdatingItselfForbiddenError(v, {
+        request: v.request$,
+        response: v.response$,
+        body: v.body$,
+      });
+    }),
+  )
 );

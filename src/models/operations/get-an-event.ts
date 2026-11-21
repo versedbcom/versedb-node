@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -322,16 +322,18 @@ export type GetAnEventRequest$Outbound = {
 export const GetAnEventRequest$outboundSchema: z.ZodMiniType<
   GetAnEventRequest$Outbound,
   GetAnEventRequest
-> = z.pipe(
-  z.object({
-    eventId: z.int(),
-    languages: z.optional(z.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      eventId: "event_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      eventId: z.int(),
+      languages: z.optional(z.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        eventId: "event_id",
+      });
+    }),
+  )
 );
 
 export function getAnEventRequestToJSON(
@@ -346,12 +348,14 @@ export function getAnEventRequestToJSON(
 export const GetAnEventNameI18n$inboundSchema: z.ZodMiniType<
   GetAnEventNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function getAnEventNameI18nFromJSON(
   jsonString: string,
@@ -367,19 +371,21 @@ export function getAnEventNameI18nFromJSON(
 export const GetAnEventImages$inboundSchema: z.ZodMiniType<
   GetAnEventImages,
   unknown
-> = z.pipe(
-  z.object({
-    tile_sm: types.optional(types.string()),
-    full_md: types.optional(types.string()),
-    full_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "tile_sm": "tileSm",
-      "full_md": "fullMd",
-      "full_lg": "fullLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      tile_sm: types.optional(types.string()),
+      full_md: types.optional(types.string()),
+      full_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "tile_sm": "tileSm",
+        "full_md": "fullMd",
+        "full_lg": "fullLg",
+      });
+    }),
+  )
 );
 
 export function getAnEventImagesFromJSON(
@@ -393,10 +399,13 @@ export function getAnEventImagesFromJSON(
 }
 
 /** @internal */
-export const Store$inboundSchema: z.ZodMiniType<Store, unknown> = z.object({
-  id: types.nullable(types.number()),
-  name: types.nullable(types.string()),
-});
+export const Store$inboundSchema: z.ZodMiniType<Store, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      id: types.nullable(types.number()),
+      name: types.nullable(types.string()),
+    })
+  );
 
 export function storeFromJSON(
   jsonString: string,
@@ -412,19 +421,21 @@ export function storeFromJSON(
 export const GetAnEventCreatorImages$inboundSchema: z.ZodMiniType<
   GetAnEventCreatorImages,
   unknown
-> = z.pipe(
-  z.object({
-    tile_sm: types.optional(types.string()),
-    profile_md: types.optional(types.string()),
-    full_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "tile_sm": "tileSm",
-      "profile_md": "profileMd",
-      "full_lg": "fullLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      tile_sm: types.optional(types.string()),
+      profile_md: types.optional(types.string()),
+      full_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "tile_sm": "tileSm",
+        "profile_md": "profileMd",
+        "full_lg": "fullLg",
+      });
+    }),
+  )
 );
 
 export function getAnEventCreatorImagesFromJSON(
@@ -441,22 +452,26 @@ export function getAnEventCreatorImagesFromJSON(
 export const GetAnEventCreator$inboundSchema: z.ZodMiniType<
   GetAnEventCreator,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    photo_url: types.nullable(types.string()),
-    images: types.nullable(z.lazy(() => GetAnEventCreatorImages$inboundSchema)),
-    country: types.nullable(types.string()),
-    appearance_types: z.array(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "photo_url": "photoUrl",
-      "appearance_types": "appearanceTypes",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      photo_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => GetAnEventCreatorImages$inboundSchema),
+      ),
+      country: types.nullable(types.string()),
+      appearance_types: z.array(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "photo_url": "photoUrl",
+        "appearance_types": "appearanceTypes",
+      });
+    }),
+  )
 );
 
 export function getAnEventCreatorFromJSON(
@@ -473,20 +488,22 @@ export function getAnEventCreatorFromJSON(
 export const GetAnEventIssueImages$inboundSchema: z.ZodMiniType<
   GetAnEventIssueImages,
   unknown
-> = z.pipe(
-  z.object({
-    thumb: types.optional(types.string()),
-    cover_sm: types.optional(types.string()),
-    cover_md: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_md": "coverMd",
-      "cover_lg": "coverLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      thumb: types.optional(types.string()),
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  )
 );
 
 export function getAnEventIssueImagesFromJSON(
@@ -503,12 +520,14 @@ export function getAnEventIssueImagesFromJSON(
 export const GetAnEventIssueNameI18n$inboundSchema: z.ZodMiniType<
   GetAnEventIssueNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function getAnEventIssueNameI18nFromJSON(
   jsonString: string,
@@ -524,19 +543,21 @@ export function getAnEventIssueNameI18nFromJSON(
 export const GetAnEventSeriesImages$inboundSchema: z.ZodMiniType<
   GetAnEventSeriesImages,
   unknown
-> = z.pipe(
-  z.object({
-    cover_sm: types.optional(types.string()),
-    cover_md: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_md": "coverMd",
-      "cover_lg": "coverLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  )
 );
 
 export function getAnEventSeriesImagesFromJSON(
@@ -553,32 +574,36 @@ export function getAnEventSeriesImagesFromJSON(
 export const GetAnEventSeries$inboundSchema: z.ZodMiniType<
   GetAnEventSeries,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    start_year: types.nullable(types.number()),
-    end_year: types.nullable(types.number()),
-    volume_number: types.nullable(types.number()),
-    publication_type: types.nullable(types.string()),
-    format: types.nullable(types.string()),
-    cached_issues_count: types.nullable(types.number()),
-    cover_url: types.nullable(types.string()),
-    images: types.nullable(z.lazy(() => GetAnEventSeriesImages$inboundSchema)),
-    publisher_name: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "start_year": "startYear",
-      "end_year": "endYear",
-      "volume_number": "volumeNumber",
-      "publication_type": "publicationType",
-      "cached_issues_count": "cachedIssuesCount",
-      "cover_url": "coverUrl",
-      "publisher_name": "publisherName",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      start_year: types.nullable(types.number()),
+      end_year: types.nullable(types.number()),
+      volume_number: types.nullable(types.number()),
+      publication_type: types.nullable(types.string()),
+      format: types.nullable(types.string()),
+      cached_issues_count: types.nullable(types.number()),
+      cover_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => GetAnEventSeriesImages$inboundSchema),
+      ),
+      publisher_name: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "start_year": "startYear",
+        "end_year": "endYear",
+        "volume_number": "volumeNumber",
+        "publication_type": "publicationType",
+        "cached_issues_count": "cachedIssuesCount",
+        "cover_url": "coverUrl",
+        "publisher_name": "publisherName",
+      });
+    }),
+  )
 );
 
 export function getAnEventSeriesFromJSON(
@@ -595,57 +620,59 @@ export function getAnEventSeriesFromJSON(
 export const GetAnEventIssue$inboundSchema: z.ZodMiniType<
   GetAnEventIssue,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    series_id: types.nullable(types.number()),
-    issue_number: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    cover_date: types.nullable(types.string()),
-    release_date: types.nullable(types.string()),
-    foc_date: types.nullable(types.string()),
-    is_unreleased: types.boolean(),
-    cover_url: types.nullable(types.string()),
-    images: types.nullable(z.lazy(() => GetAnEventIssueImages$inboundSchema)),
-    is_reprint: types.boolean(),
-    content_rating_label: types.nullable(types.string()),
-    min_age: types.nullable(types.number()),
-    is_nsfw: types.boolean(),
-    average_rating: types.nullable(types.number()),
-    name_i18n: z.record(
-      z.string(),
-      z.lazy(() => GetAnEventIssueNameI18n$inboundSchema),
-    ),
-    series: z.optional(
-      z.nullable(z.lazy(() => GetAnEventSeries$inboundSchema)),
-    ),
-    pivot_issue_order: types.nullable(z.any()),
-    pivot_is_prologue: types.boolean(),
-    pivot_is_epilogue: types.boolean(),
-    pivot_is_tie_in: types.boolean(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "series_id": "seriesId",
-      "issue_number": "issueNumber",
-      "cover_date": "coverDate",
-      "release_date": "releaseDate",
-      "foc_date": "focDate",
-      "is_unreleased": "isUnreleased",
-      "cover_url": "coverUrl",
-      "is_reprint": "isReprint",
-      "content_rating_label": "contentRatingLabel",
-      "min_age": "minAge",
-      "is_nsfw": "isNsfw",
-      "average_rating": "averageRating",
-      "name_i18n": "nameI18n",
-      "pivot_issue_order": "pivotIssueOrder",
-      "pivot_is_prologue": "pivotIsPrologue",
-      "pivot_is_epilogue": "pivotIsEpilogue",
-      "pivot_is_tie_in": "pivotIsTieIn",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      series_id: types.nullable(types.number()),
+      issue_number: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      cover_date: types.nullable(types.string()),
+      release_date: types.nullable(types.string()),
+      foc_date: types.nullable(types.string()),
+      is_unreleased: types.boolean(),
+      cover_url: types.nullable(types.string()),
+      images: types.nullable(z.lazy(() => GetAnEventIssueImages$inboundSchema)),
+      is_reprint: types.boolean(),
+      content_rating_label: types.nullable(types.string()),
+      min_age: types.nullable(types.number()),
+      is_nsfw: types.boolean(),
+      average_rating: types.nullable(types.number()),
+      name_i18n: z.record(
+        z.string(),
+        z.lazy(() => GetAnEventIssueNameI18n$inboundSchema),
+      ),
+      series: z.optional(
+        z.nullable(z.lazy(() => GetAnEventSeries$inboundSchema)),
+      ),
+      pivot_issue_order: types.nullable(z.any()),
+      pivot_is_prologue: types.boolean(),
+      pivot_is_epilogue: types.boolean(),
+      pivot_is_tie_in: types.boolean(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "series_id": "seriesId",
+        "issue_number": "issueNumber",
+        "cover_date": "coverDate",
+        "release_date": "releaseDate",
+        "foc_date": "focDate",
+        "is_unreleased": "isUnreleased",
+        "cover_url": "coverUrl",
+        "is_reprint": "isReprint",
+        "content_rating_label": "contentRatingLabel",
+        "min_age": "minAge",
+        "is_nsfw": "isNsfw",
+        "average_rating": "averageRating",
+        "name_i18n": "nameI18n",
+        "pivot_issue_order": "pivotIssueOrder",
+        "pivot_is_prologue": "pivotIsPrologue",
+        "pivot_is_epilogue": "pivotIsEpilogue",
+        "pivot_is_tie_in": "pivotIsTieIn",
+      });
+    }),
+  )
 );
 
 export function getAnEventIssueFromJSON(
@@ -662,20 +689,22 @@ export function getAnEventIssueFromJSON(
 export const IssueVariantImages$inboundSchema: z.ZodMiniType<
   IssueVariantImages,
   unknown
-> = z.pipe(
-  z.object({
-    thumb: types.optional(types.string()),
-    cover_sm: types.optional(types.string()),
-    cover_md: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_md": "coverMd",
-      "cover_lg": "coverLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      thumb: types.optional(types.string()),
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  )
 );
 
 export function issueVariantImagesFromJSON(
@@ -692,12 +721,14 @@ export function issueVariantImagesFromJSON(
 export const GetAnEventVariantNameI18n$inboundSchema: z.ZodMiniType<
   GetAnEventVariantNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function getAnEventVariantNameI18nFromJSON(
   jsonString: string,
@@ -711,41 +742,43 @@ export function getAnEventVariantNameI18nFromJSON(
 
 /** @internal */
 export const IssueVariant$inboundSchema: z.ZodMiniType<IssueVariant, unknown> =
-  z.pipe(
-    z.object({
-      id: types.number(),
-      issue_id: types.nullable(types.number()),
-      variant_name: types.nullable(types.string()),
-      cover_url: types.nullable(types.string()),
-      images: types.nullable(z.lazy(() => IssueVariantImages$inboundSchema)),
-      variant_type: types.nullable(types.string()),
-      ratio: types.nullable(types.string()),
-      price: types.nullable(types.string()),
-      currency_code: types.nullable(types.string()),
-      formatted_price: types.nullable(types.string()),
-      ean: types.nullable(types.string()),
-      print_run: types.nullable(types.number()),
-      cover_letter: types.nullable(types.string()),
-      is_nsfw: types.nullable(types.boolean()),
-      variant_name_i18n: z.record(
-        z.string(),
-        z.lazy(() => GetAnEventVariantNameI18n$inboundSchema),
-      ),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "issue_id": "issueId",
-        "variant_name": "variantName",
-        "cover_url": "coverUrl",
-        "variant_type": "variantType",
-        "currency_code": "currencyCode",
-        "formatted_price": "formattedPrice",
-        "print_run": "printRun",
-        "cover_letter": "coverLetter",
-        "is_nsfw": "isNsfw",
-        "variant_name_i18n": "variantNameI18n",
-      });
-    }),
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        id: types.number(),
+        issue_id: types.nullable(types.number()),
+        variant_name: types.nullable(types.string()),
+        cover_url: types.nullable(types.string()),
+        images: types.nullable(z.lazy(() => IssueVariantImages$inboundSchema)),
+        variant_type: types.nullable(types.string()),
+        ratio: types.nullable(types.string()),
+        price: types.nullable(types.string()),
+        currency_code: types.nullable(types.string()),
+        formatted_price: types.nullable(types.string()),
+        ean: types.nullable(types.string()),
+        print_run: types.nullable(types.number()),
+        cover_letter: types.nullable(types.string()),
+        is_nsfw: types.nullable(types.boolean()),
+        variant_name_i18n: z.record(
+          z.string(),
+          z.lazy(() => GetAnEventVariantNameI18n$inboundSchema),
+        ),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "issue_id": "issueId",
+          "variant_name": "variantName",
+          "cover_url": "coverUrl",
+          "variant_type": "variantType",
+          "currency_code": "currencyCode",
+          "formatted_price": "formattedPrice",
+          "print_run": "printRun",
+          "cover_letter": "coverLetter",
+          "is_nsfw": "isNsfw",
+          "variant_name_i18n": "variantNameI18n",
+        });
+      }),
+    )
   );
 
 export function issueVariantFromJSON(
@@ -762,20 +795,22 @@ export function issueVariantFromJSON(
 export const GetAnEventUser$inboundSchema: z.ZodMiniType<
   GetAnEventUser,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    username: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    profile_image_url: types.nullable(types.string()),
-    is_private: types.boolean(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "profile_image_url": "profileImageUrl",
-      "is_private": "isPrivate",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      username: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      profile_image_url: types.nullable(types.string()),
+      is_private: types.boolean(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "profile_image_url": "profileImageUrl",
+        "is_private": "isPrivate",
+      });
+    }),
+  )
 );
 
 export function getAnEventUserFromJSON(
@@ -792,10 +827,12 @@ export function getAnEventUserFromJSON(
 export const AttendeesPreview$inboundSchema: z.ZodMiniType<
   AttendeesPreview,
   unknown
-> = z.object({
-  total: types.number(),
-  users: z.array(z.lazy(() => GetAnEventUser$inboundSchema)),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    total: types.number(),
+    users: z.array(z.lazy(() => GetAnEventUser$inboundSchema)),
+  })
+);
 
 export function attendeesPreviewFromJSON(
   jsonString: string,
@@ -811,12 +848,14 @@ export function attendeesPreviewFromJSON(
 export const RelatedEventNameI18n$inboundSchema: z.ZodMiniType<
   RelatedEventNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function relatedEventNameI18nFromJSON(
   jsonString: string,
@@ -832,19 +871,21 @@ export function relatedEventNameI18nFromJSON(
 export const RelatedEventImages$inboundSchema: z.ZodMiniType<
   RelatedEventImages,
   unknown
-> = z.pipe(
-  z.object({
-    tile_sm: types.optional(types.string()),
-    full_md: types.optional(types.string()),
-    full_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "tile_sm": "tileSm",
-      "full_md": "fullMd",
-      "full_lg": "fullLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      tile_sm: types.optional(types.string()),
+      full_md: types.optional(types.string()),
+      full_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "tile_sm": "tileSm",
+        "full_md": "fullMd",
+        "full_lg": "fullLg",
+      });
+    }),
+  )
 );
 
 export function relatedEventImagesFromJSON(
@@ -859,55 +900,57 @@ export function relatedEventImagesFromJSON(
 
 /** @internal */
 export const RelatedEvent$inboundSchema: z.ZodMiniType<RelatedEvent, unknown> =
-  z.pipe(
-    z.object({
-      id: types.number(),
-      slug: types.nullable(types.string()),
-      name: types.nullable(types.string()),
-      name_i18n: z.record(
-        z.string(),
-        z.lazy(() => RelatedEventNameI18n$inboundSchema),
-      ),
-      aliases_i18n: z.record(z.string(), z.array(types.string())),
-      original_locale: types.nullable(types.string()),
-      type: types.nullable(types.string()),
-      start_date: types.nullable(types.string()),
-      end_date: types.nullable(types.string()),
-      start_time: types.nullable(types.string()),
-      end_time: types.nullable(types.string()),
-      timezone: types.nullable(types.string()),
-      is_online: types.boolean(),
-      is_fcbd: types.boolean(),
-      status: types.string(),
-      venue_name: types.nullable(types.string()),
-      city: types.nullable(types.string()),
-      region: types.nullable(types.string()),
-      country_code: types.nullable(types.string()),
-      full_location: types.string(),
-      logo_url: types.nullable(types.string()),
-      images: types.nullable(z.lazy(() => RelatedEventImages$inboundSchema)),
-      ticket_price: types.nullable(types.string()),
-      follower_count: types.number(),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "name_i18n": "nameI18n",
-        "aliases_i18n": "aliasesI18n",
-        "original_locale": "originalLocale",
-        "start_date": "startDate",
-        "end_date": "endDate",
-        "start_time": "startTime",
-        "end_time": "endTime",
-        "is_online": "isOnline",
-        "is_fcbd": "isFcbd",
-        "venue_name": "venueName",
-        "country_code": "countryCode",
-        "full_location": "fullLocation",
-        "logo_url": "logoUrl",
-        "ticket_price": "ticketPrice",
-        "follower_count": "followerCount",
-      });
-    }),
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        id: types.number(),
+        slug: types.nullable(types.string()),
+        name: types.nullable(types.string()),
+        name_i18n: z.record(
+          z.string(),
+          z.lazy(() => RelatedEventNameI18n$inboundSchema),
+        ),
+        aliases_i18n: z.record(z.string(), z.array(types.string())),
+        original_locale: types.nullable(types.string()),
+        type: types.nullable(types.string()),
+        start_date: types.nullable(types.string()),
+        end_date: types.nullable(types.string()),
+        start_time: types.nullable(types.string()),
+        end_time: types.nullable(types.string()),
+        timezone: types.nullable(types.string()),
+        is_online: types.boolean(),
+        is_fcbd: types.boolean(),
+        status: types.string(),
+        venue_name: types.nullable(types.string()),
+        city: types.nullable(types.string()),
+        region: types.nullable(types.string()),
+        country_code: types.nullable(types.string()),
+        full_location: types.string(),
+        logo_url: types.nullable(types.string()),
+        images: types.nullable(z.lazy(() => RelatedEventImages$inboundSchema)),
+        ticket_price: types.nullable(types.string()),
+        follower_count: types.number(),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "name_i18n": "nameI18n",
+          "aliases_i18n": "aliasesI18n",
+          "original_locale": "originalLocale",
+          "start_date": "startDate",
+          "end_date": "endDate",
+          "start_time": "startTime",
+          "end_time": "endTime",
+          "is_online": "isOnline",
+          "is_fcbd": "isFcbd",
+          "venue_name": "venueName",
+          "country_code": "countryCode",
+          "full_location": "fullLocation",
+          "logo_url": "logoUrl",
+          "ticket_price": "ticketPrice",
+          "follower_count": "followerCount",
+        });
+      }),
+    )
   );
 
 export function relatedEventFromJSON(
@@ -924,84 +967,86 @@ export function relatedEventFromJSON(
 export const GetAnEventData$inboundSchema: z.ZodMiniType<
   GetAnEventData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    name_i18n: z.record(
-      z.string(),
-      z.lazy(() => GetAnEventNameI18n$inboundSchema),
-    ),
-    aliases_i18n: z.record(z.string(), z.array(types.string())),
-    original_locale: types.nullable(types.string()),
-    type: types.nullable(types.string()),
-    start_date: types.nullable(types.string()),
-    end_date: types.nullable(types.string()),
-    start_time: types.nullable(types.string()),
-    end_time: types.nullable(types.string()),
-    timezone: types.nullable(types.string()),
-    is_online: types.boolean(),
-    is_fcbd: types.boolean(),
-    status: types.string(),
-    venue_name: types.nullable(types.string()),
-    street_address: types.nullable(types.string()),
-    city: types.nullable(types.string()),
-    region: types.nullable(types.string()),
-    postal_code: types.nullable(types.string()),
-    country_code: types.nullable(types.string()),
-    latitude: types.nullable(types.string()),
-    longitude: types.nullable(types.string()),
-    full_location: types.string(),
-    google_maps_url: types.nullable(types.string()),
-    logo_url: types.nullable(types.string()),
-    images: types.nullable(z.lazy(() => GetAnEventImages$inboundSchema)),
-    static_map_url: z.optional(z.nullable(types.string())),
-    event_url: types.nullable(types.string()),
-    ticket_price_min: types.nullable(types.number()),
-    ticket_price_max: types.nullable(types.number()),
-    ticket_currency: types.nullable(types.string()),
-    ticket_price: types.nullable(types.string()),
-    follower_count: types.number(),
-    event_franchise_id: types.nullable(types.number()),
-    store: types.optional(z.lazy(() => Store$inboundSchema)),
-    creators: z.array(z.lazy(() => GetAnEventCreator$inboundSchema)),
-    issues: z.array(z.lazy(() => GetAnEventIssue$inboundSchema)),
-    issue_variants: z.array(z.lazy(() => IssueVariant$inboundSchema)),
-    attendees_preview: z.lazy(() => AttendeesPreview$inboundSchema),
-    related_events: z.array(z.lazy(() => RelatedEvent$inboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "name_i18n": "nameI18n",
-      "aliases_i18n": "aliasesI18n",
-      "original_locale": "originalLocale",
-      "start_date": "startDate",
-      "end_date": "endDate",
-      "start_time": "startTime",
-      "end_time": "endTime",
-      "is_online": "isOnline",
-      "is_fcbd": "isFcbd",
-      "venue_name": "venueName",
-      "street_address": "streetAddress",
-      "postal_code": "postalCode",
-      "country_code": "countryCode",
-      "full_location": "fullLocation",
-      "google_maps_url": "googleMapsUrl",
-      "logo_url": "logoUrl",
-      "static_map_url": "staticMapUrl",
-      "event_url": "eventUrl",
-      "ticket_price_min": "ticketPriceMin",
-      "ticket_price_max": "ticketPriceMax",
-      "ticket_currency": "ticketCurrency",
-      "ticket_price": "ticketPrice",
-      "follower_count": "followerCount",
-      "event_franchise_id": "eventFranchiseId",
-      "issue_variants": "issueVariants",
-      "attendees_preview": "attendeesPreview",
-      "related_events": "relatedEvents",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      name_i18n: z.record(
+        z.string(),
+        z.lazy(() => GetAnEventNameI18n$inboundSchema),
+      ),
+      aliases_i18n: z.record(z.string(), z.array(types.string())),
+      original_locale: types.nullable(types.string()),
+      type: types.nullable(types.string()),
+      start_date: types.nullable(types.string()),
+      end_date: types.nullable(types.string()),
+      start_time: types.nullable(types.string()),
+      end_time: types.nullable(types.string()),
+      timezone: types.nullable(types.string()),
+      is_online: types.boolean(),
+      is_fcbd: types.boolean(),
+      status: types.string(),
+      venue_name: types.nullable(types.string()),
+      street_address: types.nullable(types.string()),
+      city: types.nullable(types.string()),
+      region: types.nullable(types.string()),
+      postal_code: types.nullable(types.string()),
+      country_code: types.nullable(types.string()),
+      latitude: types.nullable(types.string()),
+      longitude: types.nullable(types.string()),
+      full_location: types.string(),
+      google_maps_url: types.nullable(types.string()),
+      logo_url: types.nullable(types.string()),
+      images: types.nullable(z.lazy(() => GetAnEventImages$inboundSchema)),
+      static_map_url: z.optional(z.nullable(types.string())),
+      event_url: types.nullable(types.string()),
+      ticket_price_min: types.nullable(types.number()),
+      ticket_price_max: types.nullable(types.number()),
+      ticket_currency: types.nullable(types.string()),
+      ticket_price: types.nullable(types.string()),
+      follower_count: types.number(),
+      event_franchise_id: types.nullable(types.number()),
+      store: types.optional(z.lazy(() => Store$inboundSchema)),
+      creators: z.array(z.lazy(() => GetAnEventCreator$inboundSchema)),
+      issues: z.array(z.lazy(() => GetAnEventIssue$inboundSchema)),
+      issue_variants: z.array(z.lazy(() => IssueVariant$inboundSchema)),
+      attendees_preview: z.lazy(() => AttendeesPreview$inboundSchema),
+      related_events: z.array(z.lazy(() => RelatedEvent$inboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "name_i18n": "nameI18n",
+        "aliases_i18n": "aliasesI18n",
+        "original_locale": "originalLocale",
+        "start_date": "startDate",
+        "end_date": "endDate",
+        "start_time": "startTime",
+        "end_time": "endTime",
+        "is_online": "isOnline",
+        "is_fcbd": "isFcbd",
+        "venue_name": "venueName",
+        "street_address": "streetAddress",
+        "postal_code": "postalCode",
+        "country_code": "countryCode",
+        "full_location": "fullLocation",
+        "google_maps_url": "googleMapsUrl",
+        "logo_url": "logoUrl",
+        "static_map_url": "staticMapUrl",
+        "event_url": "eventUrl",
+        "ticket_price_min": "ticketPriceMin",
+        "ticket_price_max": "ticketPriceMax",
+        "ticket_currency": "ticketCurrency",
+        "ticket_price": "ticketPrice",
+        "follower_count": "followerCount",
+        "event_franchise_id": "eventFranchiseId",
+        "issue_variants": "issueVariants",
+        "attendees_preview": "attendeesPreview",
+        "related_events": "relatedEvents",
+      });
+    }),
+  )
 );
 
 export function getAnEventDataFromJSON(
@@ -1018,9 +1063,11 @@ export function getAnEventDataFromJSON(
 export const GetAnEventResponseBody$inboundSchema: z.ZodMiniType<
   GetAnEventResponseBody,
   unknown
-> = z.object({
-  data: z.lazy(() => GetAnEventData$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.lazy(() => GetAnEventData$inboundSchema),
+  })
+);
 
 export function getAnEventResponseBodyFromJSON(
   jsonString: string,
@@ -1036,17 +1083,19 @@ export function getAnEventResponseBodyFromJSON(
 export const GetAnEventResponse$inboundSchema: z.ZodMiniType<
   GetAnEventResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => GetAnEventResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => GetAnEventResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function getAnEventResponseFromJSON(

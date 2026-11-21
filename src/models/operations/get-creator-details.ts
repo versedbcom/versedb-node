@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { smartUnion } from "../../types/smart-union.js";
@@ -129,16 +129,18 @@ export type GetCreatorDetailsRequest$Outbound = {
 export const GetCreatorDetailsRequest$outboundSchema: z.ZodMiniType<
   GetCreatorDetailsRequest$Outbound,
   GetCreatorDetailsRequest
-> = z.pipe(
-  z.object({
-    creatorId: z.int(),
-    languages: z.optional(z.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      creatorId: "creator_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      creatorId: z.int(),
+      languages: z.optional(z.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        creatorId: "creator_id",
+      });
+    }),
+  )
 );
 
 export function getCreatorDetailsRequestToJSON(
@@ -153,10 +155,12 @@ export function getCreatorDetailsRequestToJSON(
 export const GetCreatorDetailsRole$inboundSchema: z.ZodMiniType<
   GetCreatorDetailsRole,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+  })
+);
 
 export function getCreatorDetailsRoleFromJSON(
   jsonString: string,
@@ -172,19 +176,21 @@ export function getCreatorDetailsRoleFromJSON(
 export const GetCreatorDetailsImages$inboundSchema: z.ZodMiniType<
   GetCreatorDetailsImages,
   unknown
-> = z.pipe(
-  z.object({
-    tile_sm: types.optional(types.string()),
-    profile_md: types.optional(types.string()),
-    full_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "tile_sm": "tileSm",
-      "profile_md": "profileMd",
-      "full_lg": "fullLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      tile_sm: types.optional(types.string()),
+      profile_md: types.optional(types.string()),
+      full_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "tile_sm": "tileSm",
+        "profile_md": "profileMd",
+        "full_lg": "fullLg",
+      });
+    }),
+  )
 );
 
 export function getCreatorDetailsImagesFromJSON(
@@ -201,11 +207,13 @@ export function getCreatorDetailsImagesFromJSON(
 export const GetCreatorDetailsLinks$inboundSchema: z.ZodMiniType<
   GetCreatorDetailsLinks,
   unknown
-> = z.object({
-  url: types.string(),
-  type: types.optional(types.string()),
-  label: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    url: types.string(),
+    type: types.optional(types.string()),
+    label: types.optional(types.string()),
+  })
+);
 
 export function getCreatorDetailsLinksFromJSON(
   jsonString: string,
@@ -218,10 +226,13 @@ export function getCreatorDetailsLinksFromJSON(
 }
 
 /** @internal */
-export const Links$inboundSchema: z.ZodMiniType<Links, unknown> = smartUnion([
-  z.array(z.lazy(() => GetCreatorDetailsLinks$inboundSchema)),
-  z.record(z.string(), types.string()),
-]);
+export const Links$inboundSchema: z.ZodMiniType<Links, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    smartUnion([
+      z.array(z.lazy(() => GetCreatorDetailsLinks$inboundSchema)),
+      z.record(z.string(), types.string()),
+    ])
+  );
 
 export function linksFromJSON(
   jsonString: string,
@@ -237,12 +248,14 @@ export function linksFromJSON(
 export const AwardNameI18n$inboundSchema: z.ZodMiniType<
   AwardNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function awardNameI18nFromJSON(
   jsonString: string,
@@ -258,21 +271,26 @@ export function awardNameI18nFromJSON(
 export const GetCreatorDetailsAward$inboundSchema: z.ZodMiniType<
   GetCreatorDetailsAward,
   unknown
-> = z.pipe(
-  z.object({
-    name: types.nullable(types.string()),
-    name_i18n: z.record(z.string(), z.lazy(() => AwardNameI18n$inboundSchema)),
-    aliases_i18n: z.record(z.string(), z.array(types.string())),
-    original_locale: types.nullable(types.string()),
-    year: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "name_i18n": "nameI18n",
-      "aliases_i18n": "aliasesI18n",
-      "original_locale": "originalLocale",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      name: types.nullable(types.string()),
+      name_i18n: z.record(
+        z.string(),
+        z.lazy(() => AwardNameI18n$inboundSchema),
+      ),
+      aliases_i18n: z.record(z.string(), z.array(types.string())),
+      original_locale: types.nullable(types.string()),
+      year: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "name_i18n": "nameI18n",
+        "aliases_i18n": "aliasesI18n",
+        "original_locale": "originalLocale",
+      });
+    }),
+  )
 );
 
 export function getCreatorDetailsAwardFromJSON(
@@ -289,12 +307,14 @@ export function getCreatorDetailsAwardFromJSON(
 export const GetCreatorDetailsNameI18n$inboundSchema: z.ZodMiniType<
   GetCreatorDetailsNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function getCreatorDetailsNameI18nFromJSON(
   jsonString: string,
@@ -310,44 +330,48 @@ export function getCreatorDetailsNameI18nFromJSON(
 export const GetCreatorDetailsData$inboundSchema: z.ZodMiniType<
   GetCreatorDetailsData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    role: types.nullable(z.lazy(() => GetCreatorDetailsRole$inboundSchema)),
-    roles: z.array(z.lazy(() => GetCreatorDetailsRole$inboundSchema)),
-    photo_url: types.nullable(types.string()),
-    images: types.nullable(z.lazy(() => GetCreatorDetailsImages$inboundSchema)),
-    gender: types.nullable(types.string()),
-    birth: types.nullable(types.string()),
-    death: types.nullable(types.string()),
-    birth_place: types.nullable(types.string()),
-    country: types.nullable(types.string()),
-    aliases: types.nullable(z.array(types.string())),
-    links: types.nullable(smartUnion([
-      z.array(z.lazy(() => GetCreatorDetailsLinks$inboundSchema)),
-      z.record(z.string(), types.string()),
-    ])),
-    awards: z.array(z.lazy(() =>
-      GetCreatorDetailsAward$inboundSchema
-    )),
-    name_i18n: z.record(
-      z.string(),
-      z.lazy(() => GetCreatorDetailsNameI18n$inboundSchema),
-    ),
-    aliases_i18n: z.record(z.string(), z.array(types.string())),
-    original_locale: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "photo_url": "photoUrl",
-      "birth_place": "birthPlace",
-      "name_i18n": "nameI18n",
-      "aliases_i18n": "aliasesI18n",
-      "original_locale": "originalLocale",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      role: types.nullable(z.lazy(() => GetCreatorDetailsRole$inboundSchema)),
+      roles: z.array(z.lazy(() => GetCreatorDetailsRole$inboundSchema)),
+      photo_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => GetCreatorDetailsImages$inboundSchema),
+      ),
+      gender: types.nullable(types.string()),
+      birth: types.nullable(types.string()),
+      death: types.nullable(types.string()),
+      birth_place: types.nullable(types.string()),
+      country: types.nullable(types.string()),
+      aliases: types.nullable(z.array(types.string())),
+      links: types.nullable(
+        smartUnion([
+          z.array(z.lazy(() => GetCreatorDetailsLinks$inboundSchema)),
+          z.record(z.string(), types.string()),
+        ]),
+      ),
+      awards: z.array(z.lazy(() => GetCreatorDetailsAward$inboundSchema)),
+      name_i18n: z.record(
+        z.string(),
+        z.lazy(() => GetCreatorDetailsNameI18n$inboundSchema),
+      ),
+      aliases_i18n: z.record(z.string(), z.array(types.string())),
+      original_locale: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "photo_url": "photoUrl",
+        "birth_place": "birthPlace",
+        "name_i18n": "nameI18n",
+        "aliases_i18n": "aliasesI18n",
+        "original_locale": "originalLocale",
+      });
+    }),
+  )
 );
 
 export function getCreatorDetailsDataFromJSON(
@@ -364,9 +388,11 @@ export function getCreatorDetailsDataFromJSON(
 export const GetCreatorDetailsResponseBody$inboundSchema: z.ZodMiniType<
   GetCreatorDetailsResponseBody,
   unknown
-> = z.object({
-  data: z.lazy(() => GetCreatorDetailsData$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.lazy(() => GetCreatorDetailsData$inboundSchema),
+  })
+);
 
 export function getCreatorDetailsResponseBodyFromJSON(
   jsonString: string,
@@ -382,17 +408,19 @@ export function getCreatorDetailsResponseBodyFromJSON(
 export const GetCreatorDetailsResponse$inboundSchema: z.ZodMiniType<
   GetCreatorDetailsResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => GetCreatorDetailsResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => GetCreatorDetailsResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function getCreatorDetailsResponseFromJSON(

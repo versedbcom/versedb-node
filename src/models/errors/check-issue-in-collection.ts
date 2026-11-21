@@ -3,6 +3,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../../lib/schemas.js";
 import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
@@ -66,40 +67,44 @@ export class CheckIssueInCollectionForbiddenError extends VerseDbError {
 
 /** @internal */
 export const CheckIssueInCollectionUnprocessableEntityError$inboundSchema:
-  z.ZodMiniType<CheckIssueInCollectionUnprocessableEntityError, unknown> = z
-    .pipe(
-      z.object({
-        message: types.string(),
-        errors: z.record(z.string(), z.array(types.string())),
-        request$: z.custom<Request>(x => x instanceof Request),
-        response$: z.custom<Response>(x => x instanceof Response),
-        body$: z.string(),
-      }),
-      z.transform((v) => {
-        return new CheckIssueInCollectionUnprocessableEntityError(v, {
-          request: v.request$,
-          response: v.response$,
-          body: v.body$,
-        });
-      }),
+  z.ZodMiniType<CheckIssueInCollectionUnprocessableEntityError, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          message: types.string(),
+          errors: z.record(z.string(), z.array(types.string())),
+          request$: z.custom<Request>(x => x instanceof Request),
+          response$: z.custom<Response>(x => x instanceof Response),
+          body$: z.string(),
+        }),
+        z.transform((v) => {
+          return new CheckIssueInCollectionUnprocessableEntityError(v, {
+            request: v.request$,
+            response: v.response$,
+            body: v.body$,
+          });
+        }),
+      )
     );
 
 /** @internal */
 export const CheckIssueInCollectionForbiddenError$inboundSchema: z.ZodMiniType<
   CheckIssueInCollectionForbiddenError,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new CheckIssueInCollectionForbiddenError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      request$: z.custom<Request>(x => x instanceof Request),
+      response$: z.custom<Response>(x => x instanceof Response),
+      body$: z.string(),
+    }),
+    z.transform((v) => {
+      return new CheckIssueInCollectionForbiddenError(v, {
+        request: v.request$,
+        response: v.response$,
+        body: v.body$,
+      });
+    }),
+  )
 );

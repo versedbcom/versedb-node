@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { smartUnion } from "../../types/smart-union.js";
@@ -169,15 +169,17 @@ export type ReorderItemsRequestBody$Outbound = {
 export const ReorderItemsRequestBody$outboundSchema: z.ZodMiniType<
   ReorderItemsRequestBody$Outbound,
   ReorderItemsRequestBody
-> = z.pipe(
-  z.object({
-    itemIds: z.array(z.int()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      itemIds: "item_ids",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      itemIds: z.array(z.int()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        itemIds: "item_ids",
+      });
+    }),
+  )
 );
 
 export function reorderItemsRequestBodyToJSON(
@@ -198,16 +200,18 @@ export type ReorderItemsRequest$Outbound = {
 export const ReorderItemsRequest$outboundSchema: z.ZodMiniType<
   ReorderItemsRequest$Outbound,
   ReorderItemsRequest
-> = z.pipe(
-  z.object({
-    listId: z.int(),
-    body: z.lazy(() => ReorderItemsRequestBody$outboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      listId: "list_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      listId: z.int(),
+      body: z.lazy(() => ReorderItemsRequestBody$outboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        listId: "list_id",
+      });
+    }),
+  )
 );
 
 export function reorderItemsRequestToJSON(
@@ -222,18 +226,20 @@ export function reorderItemsRequestToJSON(
 export const ReorderItemsVariant$inboundSchema: z.ZodMiniType<
   ReorderItemsVariant,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    ratio: types.nullable(types.string()),
-    cover_image_url: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_image_url": "coverImageUrl",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      ratio: types.nullable(types.string()),
+      cover_image_url: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_image_url": "coverImageUrl",
+      });
+    }),
+  )
 );
 
 export function reorderItemsVariantFromJSON(
@@ -250,18 +256,20 @@ export function reorderItemsVariantFromJSON(
 export const ReorderItemsEntity5$inboundSchema: z.ZodMiniType<
   ReorderItemsEntity5,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "image_url": "imageUrl",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "image_url": "imageUrl",
+      });
+    }),
+  )
 );
 
 export function reorderItemsEntity5FromJSON(
@@ -278,20 +286,22 @@ export function reorderItemsEntity5FromJSON(
 export const ReorderItemsEntity4$inboundSchema: z.ZodMiniType<
   ReorderItemsEntity4,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-    issues_count: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "image_url": "imageUrl",
-      "issues_count": "issuesCount",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+      issues_count: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "image_url": "imageUrl",
+        "issues_count": "issuesCount",
+      });
+    }),
+  )
 );
 
 export function reorderItemsEntity4FromJSON(
@@ -308,20 +318,22 @@ export function reorderItemsEntity4FromJSON(
 export const ReorderItemsEntity3$inboundSchema: z.ZodMiniType<
   ReorderItemsEntity3,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    real_name: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "real_name": "realName",
-      "image_url": "imageUrl",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      real_name: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "real_name": "realName",
+        "image_url": "imageUrl",
+      });
+    }),
+  )
 );
 
 export function reorderItemsEntity3FromJSON(
@@ -338,30 +350,32 @@ export function reorderItemsEntity3FromJSON(
 export const ReorderItemsEntity2$inboundSchema: z.ZodMiniType<
   ReorderItemsEntity2,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    start_year: types.nullable(types.number()),
-    end_year: types.nullable(types.number()),
-    status: types.nullable(types.string()),
-    publication_type: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-    is_nsfw: types.nullable(types.boolean()),
-    issues_count: types.nullable(types.number()),
-    publisher: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "start_year": "startYear",
-      "end_year": "endYear",
-      "publication_type": "publicationType",
-      "image_url": "imageUrl",
-      "is_nsfw": "isNsfw",
-      "issues_count": "issuesCount",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      start_year: types.nullable(types.number()),
+      end_year: types.nullable(types.number()),
+      status: types.nullable(types.string()),
+      publication_type: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+      is_nsfw: types.nullable(types.boolean()),
+      issues_count: types.nullable(types.number()),
+      publisher: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "start_year": "startYear",
+        "end_year": "endYear",
+        "publication_type": "publicationType",
+        "image_url": "imageUrl",
+        "is_nsfw": "isNsfw",
+        "issues_count": "issuesCount",
+      });
+    }),
+  )
 );
 
 export function reorderItemsEntity2FromJSON(
@@ -378,18 +392,20 @@ export function reorderItemsEntity2FromJSON(
 export const ReorderItemsSeries$inboundSchema: z.ZodMiniType<
   ReorderItemsSeries,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    start_year: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "start_year": "startYear",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      start_year: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "start_year": "startYear",
+      });
+    }),
+  )
 );
 
 export function reorderItemsSeriesFromJSON(
@@ -406,28 +422,30 @@ export function reorderItemsSeriesFromJSON(
 export const ReorderItemsEntity1$inboundSchema: z.ZodMiniType<
   ReorderItemsEntity1,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    issue_number: types.nullable(types.string()),
-    release_date: types.nullable(types.string()),
-    foc_date: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-    is_nsfw: types.nullable(types.boolean()),
-    publisher: types.nullable(types.string()),
-    series: types.nullable(z.lazy(() => ReorderItemsSeries$inboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "issue_number": "issueNumber",
-      "release_date": "releaseDate",
-      "foc_date": "focDate",
-      "image_url": "imageUrl",
-      "is_nsfw": "isNsfw",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      issue_number: types.nullable(types.string()),
+      release_date: types.nullable(types.string()),
+      foc_date: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+      is_nsfw: types.nullable(types.boolean()),
+      publisher: types.nullable(types.string()),
+      series: types.nullable(z.lazy(() => ReorderItemsSeries$inboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "issue_number": "issueNumber",
+        "release_date": "releaseDate",
+        "foc_date": "focDate",
+        "image_url": "imageUrl",
+        "is_nsfw": "isNsfw",
+      });
+    }),
+  )
 );
 
 export function reorderItemsEntity1FromJSON(
@@ -444,13 +462,15 @@ export function reorderItemsEntity1FromJSON(
 export const ReorderItemsEntityUnion$inboundSchema: z.ZodMiniType<
   ReorderItemsEntityUnion,
   unknown
-> = smartUnion([
-  z.lazy(() => ReorderItemsEntity2$inboundSchema),
-  z.lazy(() => ReorderItemsEntity1$inboundSchema),
-  z.lazy(() => ReorderItemsEntity3$inboundSchema),
-  z.lazy(() => ReorderItemsEntity4$inboundSchema),
-  z.lazy(() => ReorderItemsEntity5$inboundSchema),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    z.lazy(() => ReorderItemsEntity2$inboundSchema),
+    z.lazy(() => ReorderItemsEntity1$inboundSchema),
+    z.lazy(() => ReorderItemsEntity3$inboundSchema),
+    z.lazy(() => ReorderItemsEntity4$inboundSchema),
+    z.lazy(() => ReorderItemsEntity5$inboundSchema),
+  ])
+);
 
 export function reorderItemsEntityUnionFromJSON(
   jsonString: string,
@@ -466,32 +486,36 @@ export function reorderItemsEntityUnionFromJSON(
 export const ReorderItemsItem$inboundSchema: z.ZodMiniType<
   ReorderItemsItem,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    position: types.nullable(types.number()),
-    note: types.nullable(types.string()),
-    created_at: types.string(),
-    updated_at: types.string(),
-    variant_id: types.nullable(types.number()),
-    variant: types.optional(z.lazy(() => ReorderItemsVariant$inboundSchema)),
-    entity_type: types.string(),
-    entity: types.optional(smartUnion([
-      z.lazy(() => ReorderItemsEntity2$inboundSchema),
-      z.lazy(() => ReorderItemsEntity1$inboundSchema),
-      z.lazy(() => ReorderItemsEntity3$inboundSchema),
-      z.lazy(() => ReorderItemsEntity4$inboundSchema),
-      z.lazy(() => ReorderItemsEntity5$inboundSchema),
-    ])),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-      "variant_id": "variantId",
-      "entity_type": "entityType",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      position: types.nullable(types.number()),
+      note: types.nullable(types.string()),
+      created_at: types.string(),
+      updated_at: types.string(),
+      variant_id: types.nullable(types.number()),
+      variant: types.optional(z.lazy(() => ReorderItemsVariant$inboundSchema)),
+      entity_type: types.string(),
+      entity: types.optional(
+        smartUnion([
+          z.lazy(() => ReorderItemsEntity2$inboundSchema),
+          z.lazy(() => ReorderItemsEntity1$inboundSchema),
+          z.lazy(() => ReorderItemsEntity3$inboundSchema),
+          z.lazy(() => ReorderItemsEntity4$inboundSchema),
+          z.lazy(() => ReorderItemsEntity5$inboundSchema),
+        ]),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+        "variant_id": "variantId",
+        "entity_type": "entityType",
+      });
+    }),
+  )
 );
 
 export function reorderItemsItemFromJSON(
@@ -508,10 +532,12 @@ export function reorderItemsItemFromJSON(
 export const ReorderItemsResponseBody$inboundSchema: z.ZodMiniType<
   ReorderItemsResponseBody,
   unknown
-> = z.object({
-  message: types.string(),
-  items: z.array(z.lazy(() => ReorderItemsItem$inboundSchema)),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    message: types.string(),
+    items: z.array(z.lazy(() => ReorderItemsItem$inboundSchema)),
+  })
+);
 
 export function reorderItemsResponseBodyFromJSON(
   jsonString: string,
@@ -527,17 +553,19 @@ export function reorderItemsResponseBodyFromJSON(
 export const ReorderItemsResponse$inboundSchema: z.ZodMiniType<
   ReorderItemsResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => ReorderItemsResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => ReorderItemsResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function reorderItemsResponseFromJSON(

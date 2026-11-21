@@ -3,6 +3,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../../lib/schemas.js";
 import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
@@ -86,7 +87,31 @@ export class OpenAListToAnyTypeForbiddenError extends VerseDbError {
 
 /** @internal */
 export const OpenAListToAnyTypeUnprocessableEntityError$inboundSchema:
-  z.ZodMiniType<OpenAListToAnyTypeUnprocessableEntityError, unknown> = z.pipe(
+  z.ZodMiniType<OpenAListToAnyTypeUnprocessableEntityError, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          message: types.string(),
+          request$: z.custom<Request>(x => x instanceof Request),
+          response$: z.custom<Response>(x => x instanceof Response),
+          body$: z.string(),
+        }),
+        z.transform((v) => {
+          return new OpenAListToAnyTypeUnprocessableEntityError(v, {
+            request: v.request$,
+            response: v.response$,
+            body: v.body$,
+          });
+        }),
+      )
+    );
+
+/** @internal */
+export const OpenAListToAnyTypeNotFoundError$inboundSchema: z.ZodMiniType<
+  OpenAListToAnyTypeNotFoundError,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
     z.object({
       message: types.string(),
       request$: z.custom<Request>(x => x instanceof Request),
@@ -94,50 +119,33 @@ export const OpenAListToAnyTypeUnprocessableEntityError$inboundSchema:
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new OpenAListToAnyTypeUnprocessableEntityError(v, {
+      return new OpenAListToAnyTypeNotFoundError(v, {
         request: v.request$,
         response: v.response$,
         body: v.body$,
       });
     }),
-  );
-
-/** @internal */
-export const OpenAListToAnyTypeNotFoundError$inboundSchema: z.ZodMiniType<
-  OpenAListToAnyTypeNotFoundError,
-  unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new OpenAListToAnyTypeNotFoundError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
+  )
 );
 
 /** @internal */
 export const OpenAListToAnyTypeForbiddenError$inboundSchema: z.ZodMiniType<
   OpenAListToAnyTypeForbiddenError,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new OpenAListToAnyTypeForbiddenError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      request$: z.custom<Request>(x => x instanceof Request),
+      response$: z.custom<Response>(x => x instanceof Response),
+      body$: z.string(),
+    }),
+    z.transform((v) => {
+      return new OpenAListToAnyTypeForbiddenError(v, {
+        request: v.request$,
+        response: v.response$,
+        body: v.body$,
+      });
+    }),
+  )
 );

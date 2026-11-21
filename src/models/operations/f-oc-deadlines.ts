@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -139,22 +139,24 @@ export type FOCDeadlinesRequest$Outbound = {
 export const FOCDeadlinesRequest$outboundSchema: z.ZodMiniType<
   FOCDeadlinesRequest$Outbound,
   FOCDeadlinesRequest
-> = z.pipe(
-  z.object({
-    limit: z.optional(z.int()),
-    page: z.optional(z.int()),
-    days: z.optional(z.int()),
-    startDate: z.optional(z.string()),
-    publisherIds: z.optional(z.string()),
-    sort: z.optional(z.string()),
-    languages: z.optional(z.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      startDate: "start_date",
-      publisherIds: "publisher_ids",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      limit: z.optional(z.int()),
+      page: z.optional(z.int()),
+      days: z.optional(z.int()),
+      startDate: z.optional(z.string()),
+      publisherIds: z.optional(z.string()),
+      sort: z.optional(z.string()),
+      languages: z.optional(z.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        startDate: "start_date",
+        publisherIds: "publisher_ids",
+      });
+    }),
+  )
 );
 
 export function fOCDeadlinesRequestToJSON(
@@ -169,20 +171,22 @@ export function fOCDeadlinesRequestToJSON(
 export const FOCDeadlinesImages$inboundSchema: z.ZodMiniType<
   FOCDeadlinesImages,
   unknown
-> = z.pipe(
-  z.object({
-    thumb: types.optional(types.string()),
-    cover_sm: types.optional(types.string()),
-    cover_md: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_md": "coverMd",
-      "cover_lg": "coverLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      thumb: types.optional(types.string()),
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  )
 );
 
 export function fOCDeadlinesImagesFromJSON(
@@ -199,12 +203,14 @@ export function fOCDeadlinesImagesFromJSON(
 export const FOCDeadlinesNameI18n$inboundSchema: z.ZodMiniType<
   FOCDeadlinesNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function fOCDeadlinesNameI18nFromJSON(
   jsonString: string,
@@ -220,19 +226,21 @@ export function fOCDeadlinesNameI18nFromJSON(
 export const FOCDeadlinesSeriesImages$inboundSchema: z.ZodMiniType<
   FOCDeadlinesSeriesImages,
   unknown
-> = z.pipe(
-  z.object({
-    cover_sm: types.optional(types.string()),
-    cover_md: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_md": "coverMd",
-      "cover_lg": "coverLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  )
 );
 
 export function fOCDeadlinesSeriesImagesFromJSON(
@@ -249,34 +257,36 @@ export function fOCDeadlinesSeriesImagesFromJSON(
 export const FOCDeadlinesSeries$inboundSchema: z.ZodMiniType<
   FOCDeadlinesSeries,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    start_year: types.nullable(types.number()),
-    end_year: types.nullable(types.number()),
-    volume_number: types.nullable(types.number()),
-    publication_type: types.nullable(types.string()),
-    format: types.nullable(types.string()),
-    cached_issues_count: types.nullable(types.number()),
-    cover_url: types.nullable(types.string()),
-    images: types.nullable(
-      z.lazy(() => FOCDeadlinesSeriesImages$inboundSchema),
-    ),
-    publisher_name: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "start_year": "startYear",
-      "end_year": "endYear",
-      "volume_number": "volumeNumber",
-      "publication_type": "publicationType",
-      "cached_issues_count": "cachedIssuesCount",
-      "cover_url": "coverUrl",
-      "publisher_name": "publisherName",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      start_year: types.nullable(types.number()),
+      end_year: types.nullable(types.number()),
+      volume_number: types.nullable(types.number()),
+      publication_type: types.nullable(types.string()),
+      format: types.nullable(types.string()),
+      cached_issues_count: types.nullable(types.number()),
+      cover_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => FOCDeadlinesSeriesImages$inboundSchema),
+      ),
+      publisher_name: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "start_year": "startYear",
+        "end_year": "endYear",
+        "volume_number": "volumeNumber",
+        "publication_type": "publicationType",
+        "cached_issues_count": "cachedIssuesCount",
+        "cover_url": "coverUrl",
+        "publisher_name": "publisherName",
+      });
+    }),
+  )
 );
 
 export function fOCDeadlinesSeriesFromJSON(
@@ -293,49 +303,51 @@ export function fOCDeadlinesSeriesFromJSON(
 export const FOCDeadlinesData$inboundSchema: z.ZodMiniType<
   FOCDeadlinesData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    series_id: types.nullable(types.number()),
-    issue_number: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    cover_date: types.nullable(types.string()),
-    release_date: types.nullable(types.string()),
-    foc_date: types.nullable(types.string()),
-    is_unreleased: types.boolean(),
-    cover_url: types.nullable(types.string()),
-    images: types.nullable(z.lazy(() => FOCDeadlinesImages$inboundSchema)),
-    is_reprint: types.boolean(),
-    content_rating_label: types.nullable(types.string()),
-    min_age: types.nullable(types.number()),
-    is_nsfw: types.boolean(),
-    average_rating: types.nullable(types.number()),
-    name_i18n: z.record(
-      z.string(),
-      z.lazy(() => FOCDeadlinesNameI18n$inboundSchema),
-    ),
-    series: z.optional(
-      z.nullable(z.lazy(() => FOCDeadlinesSeries$inboundSchema)),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "series_id": "seriesId",
-      "issue_number": "issueNumber",
-      "cover_date": "coverDate",
-      "release_date": "releaseDate",
-      "foc_date": "focDate",
-      "is_unreleased": "isUnreleased",
-      "cover_url": "coverUrl",
-      "is_reprint": "isReprint",
-      "content_rating_label": "contentRatingLabel",
-      "min_age": "minAge",
-      "is_nsfw": "isNsfw",
-      "average_rating": "averageRating",
-      "name_i18n": "nameI18n",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      series_id: types.nullable(types.number()),
+      issue_number: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      cover_date: types.nullable(types.string()),
+      release_date: types.nullable(types.string()),
+      foc_date: types.nullable(types.string()),
+      is_unreleased: types.boolean(),
+      cover_url: types.nullable(types.string()),
+      images: types.nullable(z.lazy(() => FOCDeadlinesImages$inboundSchema)),
+      is_reprint: types.boolean(),
+      content_rating_label: types.nullable(types.string()),
+      min_age: types.nullable(types.number()),
+      is_nsfw: types.boolean(),
+      average_rating: types.nullable(types.number()),
+      name_i18n: z.record(
+        z.string(),
+        z.lazy(() => FOCDeadlinesNameI18n$inboundSchema),
+      ),
+      series: z.optional(
+        z.nullable(z.lazy(() => FOCDeadlinesSeries$inboundSchema)),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "series_id": "seriesId",
+        "issue_number": "issueNumber",
+        "cover_date": "coverDate",
+        "release_date": "releaseDate",
+        "foc_date": "focDate",
+        "is_unreleased": "isUnreleased",
+        "cover_url": "coverUrl",
+        "is_reprint": "isReprint",
+        "content_rating_label": "contentRatingLabel",
+        "min_age": "minAge",
+        "is_nsfw": "isNsfw",
+        "average_rating": "averageRating",
+        "name_i18n": "nameI18n",
+      });
+    }),
+  )
 );
 
 export function fOCDeadlinesDataFromJSON(
@@ -352,28 +364,30 @@ export function fOCDeadlinesDataFromJSON(
 export const FOCDeadlinesMeta$inboundSchema: z.ZodMiniType<
   FOCDeadlinesMeta,
   unknown
-> = z.pipe(
-  z.object({
-    current_page: types.number(),
-    per_page: types.number(),
-    total: types.number(),
-    last_page: types.number(),
-    foc_window_days: types.number(),
-    foc_start: types.string(),
-    foc_end: types.string(),
-    sort: types.string(),
-    note: types.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "current_page": "currentPage",
-      "per_page": "perPage",
-      "last_page": "lastPage",
-      "foc_window_days": "focWindowDays",
-      "foc_start": "focStart",
-      "foc_end": "focEnd",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      current_page: types.number(),
+      per_page: types.number(),
+      total: types.number(),
+      last_page: types.number(),
+      foc_window_days: types.number(),
+      foc_start: types.string(),
+      foc_end: types.string(),
+      sort: types.string(),
+      note: types.string(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "current_page": "currentPage",
+        "per_page": "perPage",
+        "last_page": "lastPage",
+        "foc_window_days": "focWindowDays",
+        "foc_start": "focStart",
+        "foc_end": "focEnd",
+      });
+    }),
+  )
 );
 
 export function fOCDeadlinesMetaFromJSON(
@@ -390,10 +404,12 @@ export function fOCDeadlinesMetaFromJSON(
 export const FOCDeadlinesResponseBody$inboundSchema: z.ZodMiniType<
   FOCDeadlinesResponseBody,
   unknown
-> = z.object({
-  data: z.array(z.lazy(() => FOCDeadlinesData$inboundSchema)),
-  meta: z.lazy(() => FOCDeadlinesMeta$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.array(z.lazy(() => FOCDeadlinesData$inboundSchema)),
+    meta: z.lazy(() => FOCDeadlinesMeta$inboundSchema),
+  })
+);
 
 export function fOCDeadlinesResponseBodyFromJSON(
   jsonString: string,
@@ -409,17 +425,19 @@ export function fOCDeadlinesResponseBodyFromJSON(
 export const FOCDeadlinesResponse$inboundSchema: z.ZodMiniType<
   FOCDeadlinesResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => FOCDeadlinesResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => FOCDeadlinesResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function fOCDeadlinesResponseFromJSON(

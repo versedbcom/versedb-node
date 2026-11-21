@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { smartUnion } from "../../types/smart-union.js";
@@ -280,17 +280,19 @@ export type MergeAListIntoThisOneRequestBody$Outbound = {
 export const MergeAListIntoThisOneRequestBody$outboundSchema: z.ZodMiniType<
   MergeAListIntoThisOneRequestBody$Outbound,
   MergeAListIntoThisOneRequestBody
-> = z.pipe(
-  z.object({
-    sourceListId: z.int(),
-    deleteSource: z.optional(z.boolean()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      sourceListId: "source_list_id",
-      deleteSource: "delete_source",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      sourceListId: z.int(),
+      deleteSource: z.optional(z.boolean()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        sourceListId: "source_list_id",
+        deleteSource: "delete_source",
+      });
+    }),
+  )
 );
 
 export function mergeAListIntoThisOneRequestBodyToJSON(
@@ -313,16 +315,18 @@ export type MergeAListIntoThisOneRequest$Outbound = {
 export const MergeAListIntoThisOneRequest$outboundSchema: z.ZodMiniType<
   MergeAListIntoThisOneRequest$Outbound,
   MergeAListIntoThisOneRequest
-> = z.pipe(
-  z.object({
-    listId: z.int(),
-    body: z.lazy(() => MergeAListIntoThisOneRequestBody$outboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      listId: "list_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      listId: z.int(),
+      body: z.lazy(() => MergeAListIntoThisOneRequestBody$outboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        listId: "list_id",
+      });
+    }),
+  )
 );
 
 export function mergeAListIntoThisOneRequestToJSON(
@@ -339,10 +343,12 @@ export function mergeAListIntoThisOneRequestToJSON(
 export const MergeAListIntoThisOneClonedFromUser$inboundSchema: z.ZodMiniType<
   MergeAListIntoThisOneClonedFromUser,
   unknown
-> = z.object({
-  id: types.number(),
-  username: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    username: types.nullable(types.string()),
+  })
+);
 
 export function mergeAListIntoThisOneClonedFromUserFromJSON(
   jsonString: string,
@@ -359,14 +365,16 @@ export function mergeAListIntoThisOneClonedFromUserFromJSON(
 export const MergeAListIntoThisOneClonedFrom$inboundSchema: z.ZodMiniType<
   MergeAListIntoThisOneClonedFrom,
   unknown
-> = z.object({
-  id: types.number(),
-  title: types.nullable(types.string()),
-  slug: types.nullable(types.string()),
-  user: types.nullable(
-    z.lazy(() => MergeAListIntoThisOneClonedFromUser$inboundSchema),
-  ),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    title: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    user: types.nullable(
+      z.lazy(() => MergeAListIntoThisOneClonedFromUser$inboundSchema),
+    ),
+  })
+);
 
 export function mergeAListIntoThisOneClonedFromFromJSON(
   jsonString: string,
@@ -382,12 +390,14 @@ export function mergeAListIntoThisOneClonedFromFromJSON(
 export const MergeAListIntoThisOneUser$inboundSchema: z.ZodMiniType<
   MergeAListIntoThisOneUser,
   unknown
-> = z.object({
-  id: types.number(),
-  username: types.nullable(types.string()),
-  name: types.nullable(types.string()),
-  avatar: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    username: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    avatar: types.nullable(types.string()),
+  })
+);
 
 export function mergeAListIntoThisOneUserFromJSON(
   jsonString: string,
@@ -403,18 +413,20 @@ export function mergeAListIntoThisOneUserFromJSON(
 export const MergeAListIntoThisOneVariant$inboundSchema: z.ZodMiniType<
   MergeAListIntoThisOneVariant,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    ratio: types.nullable(types.string()),
-    cover_image_url: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_image_url": "coverImageUrl",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      ratio: types.nullable(types.string()),
+      cover_image_url: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_image_url": "coverImageUrl",
+      });
+    }),
+  )
 );
 
 export function mergeAListIntoThisOneVariantFromJSON(
@@ -431,18 +443,20 @@ export function mergeAListIntoThisOneVariantFromJSON(
 export const MergeAListIntoThisOneEntity5$inboundSchema: z.ZodMiniType<
   MergeAListIntoThisOneEntity5,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "image_url": "imageUrl",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "image_url": "imageUrl",
+      });
+    }),
+  )
 );
 
 export function mergeAListIntoThisOneEntity5FromJSON(
@@ -459,20 +473,22 @@ export function mergeAListIntoThisOneEntity5FromJSON(
 export const MergeAListIntoThisOneEntity4$inboundSchema: z.ZodMiniType<
   MergeAListIntoThisOneEntity4,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-    issues_count: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "image_url": "imageUrl",
-      "issues_count": "issuesCount",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+      issues_count: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "image_url": "imageUrl",
+        "issues_count": "issuesCount",
+      });
+    }),
+  )
 );
 
 export function mergeAListIntoThisOneEntity4FromJSON(
@@ -489,20 +505,22 @@ export function mergeAListIntoThisOneEntity4FromJSON(
 export const MergeAListIntoThisOneEntity3$inboundSchema: z.ZodMiniType<
   MergeAListIntoThisOneEntity3,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    real_name: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "real_name": "realName",
-      "image_url": "imageUrl",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      real_name: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "real_name": "realName",
+        "image_url": "imageUrl",
+      });
+    }),
+  )
 );
 
 export function mergeAListIntoThisOneEntity3FromJSON(
@@ -519,30 +537,32 @@ export function mergeAListIntoThisOneEntity3FromJSON(
 export const MergeAListIntoThisOneEntity2$inboundSchema: z.ZodMiniType<
   MergeAListIntoThisOneEntity2,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    start_year: types.nullable(types.number()),
-    end_year: types.nullable(types.number()),
-    status: types.nullable(types.string()),
-    publication_type: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-    is_nsfw: types.nullable(types.boolean()),
-    issues_count: types.nullable(types.number()),
-    publisher: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "start_year": "startYear",
-      "end_year": "endYear",
-      "publication_type": "publicationType",
-      "image_url": "imageUrl",
-      "is_nsfw": "isNsfw",
-      "issues_count": "issuesCount",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      start_year: types.nullable(types.number()),
+      end_year: types.nullable(types.number()),
+      status: types.nullable(types.string()),
+      publication_type: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+      is_nsfw: types.nullable(types.boolean()),
+      issues_count: types.nullable(types.number()),
+      publisher: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "start_year": "startYear",
+        "end_year": "endYear",
+        "publication_type": "publicationType",
+        "image_url": "imageUrl",
+        "is_nsfw": "isNsfw",
+        "issues_count": "issuesCount",
+      });
+    }),
+  )
 );
 
 export function mergeAListIntoThisOneEntity2FromJSON(
@@ -559,18 +579,20 @@ export function mergeAListIntoThisOneEntity2FromJSON(
 export const MergeAListIntoThisOneSeries$inboundSchema: z.ZodMiniType<
   MergeAListIntoThisOneSeries,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    start_year: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "start_year": "startYear",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      start_year: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "start_year": "startYear",
+      });
+    }),
+  )
 );
 
 export function mergeAListIntoThisOneSeriesFromJSON(
@@ -587,30 +609,32 @@ export function mergeAListIntoThisOneSeriesFromJSON(
 export const MergeAListIntoThisOneEntity1$inboundSchema: z.ZodMiniType<
   MergeAListIntoThisOneEntity1,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    issue_number: types.nullable(types.string()),
-    release_date: types.nullable(types.string()),
-    foc_date: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-    is_nsfw: types.nullable(types.boolean()),
-    publisher: types.nullable(types.string()),
-    series: types.nullable(
-      z.lazy(() => MergeAListIntoThisOneSeries$inboundSchema),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "issue_number": "issueNumber",
-      "release_date": "releaseDate",
-      "foc_date": "focDate",
-      "image_url": "imageUrl",
-      "is_nsfw": "isNsfw",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      issue_number: types.nullable(types.string()),
+      release_date: types.nullable(types.string()),
+      foc_date: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+      is_nsfw: types.nullable(types.boolean()),
+      publisher: types.nullable(types.string()),
+      series: types.nullable(
+        z.lazy(() => MergeAListIntoThisOneSeries$inboundSchema),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "issue_number": "issueNumber",
+        "release_date": "releaseDate",
+        "foc_date": "focDate",
+        "image_url": "imageUrl",
+        "is_nsfw": "isNsfw",
+      });
+    }),
+  )
 );
 
 export function mergeAListIntoThisOneEntity1FromJSON(
@@ -627,13 +651,15 @@ export function mergeAListIntoThisOneEntity1FromJSON(
 export const MergeAListIntoThisOneEntityUnion$inboundSchema: z.ZodMiniType<
   MergeAListIntoThisOneEntityUnion,
   unknown
-> = smartUnion([
-  z.lazy(() => MergeAListIntoThisOneEntity2$inboundSchema),
-  z.lazy(() => MergeAListIntoThisOneEntity1$inboundSchema),
-  z.lazy(() => MergeAListIntoThisOneEntity3$inboundSchema),
-  z.lazy(() => MergeAListIntoThisOneEntity4$inboundSchema),
-  z.lazy(() => MergeAListIntoThisOneEntity5$inboundSchema),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    z.lazy(() => MergeAListIntoThisOneEntity2$inboundSchema),
+    z.lazy(() => MergeAListIntoThisOneEntity1$inboundSchema),
+    z.lazy(() => MergeAListIntoThisOneEntity3$inboundSchema),
+    z.lazy(() => MergeAListIntoThisOneEntity4$inboundSchema),
+    z.lazy(() => MergeAListIntoThisOneEntity5$inboundSchema),
+  ])
+);
 
 export function mergeAListIntoThisOneEntityUnionFromJSON(
   jsonString: string,
@@ -649,34 +675,38 @@ export function mergeAListIntoThisOneEntityUnionFromJSON(
 export const MergeAListIntoThisOneItem$inboundSchema: z.ZodMiniType<
   MergeAListIntoThisOneItem,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    position: types.nullable(types.number()),
-    note: types.nullable(types.string()),
-    created_at: types.string(),
-    updated_at: types.string(),
-    variant_id: types.nullable(types.number()),
-    variant: types.optional(
-      z.lazy(() => MergeAListIntoThisOneVariant$inboundSchema),
-    ),
-    entity_type: types.string(),
-    entity: types.optional(smartUnion([
-      z.lazy(() => MergeAListIntoThisOneEntity2$inboundSchema),
-      z.lazy(() => MergeAListIntoThisOneEntity1$inboundSchema),
-      z.lazy(() => MergeAListIntoThisOneEntity3$inboundSchema),
-      z.lazy(() => MergeAListIntoThisOneEntity4$inboundSchema),
-      z.lazy(() => MergeAListIntoThisOneEntity5$inboundSchema),
-    ])),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-      "variant_id": "variantId",
-      "entity_type": "entityType",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      position: types.nullable(types.number()),
+      note: types.nullable(types.string()),
+      created_at: types.string(),
+      updated_at: types.string(),
+      variant_id: types.nullable(types.number()),
+      variant: types.optional(
+        z.lazy(() => MergeAListIntoThisOneVariant$inboundSchema),
+      ),
+      entity_type: types.string(),
+      entity: types.optional(
+        smartUnion([
+          z.lazy(() => MergeAListIntoThisOneEntity2$inboundSchema),
+          z.lazy(() => MergeAListIntoThisOneEntity1$inboundSchema),
+          z.lazy(() => MergeAListIntoThisOneEntity3$inboundSchema),
+          z.lazy(() => MergeAListIntoThisOneEntity4$inboundSchema),
+          z.lazy(() => MergeAListIntoThisOneEntity5$inboundSchema),
+        ]),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+        "variant_id": "variantId",
+        "entity_type": "entityType",
+      });
+    }),
+  )
 );
 
 export function mergeAListIntoThisOneItemFromJSON(
@@ -693,12 +723,14 @@ export function mergeAListIntoThisOneItemFromJSON(
 export const MergeAListIntoThisOneReaction$inboundSchema: z.ZodMiniType<
   MergeAListIntoThisOneReaction,
   unknown
-> = z.object({
-  reaction: types.string(),
-  emoji: types.string(),
-  label: types.string(),
-  count: types.number(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    reaction: types.string(),
+    emoji: types.string(),
+    label: types.string(),
+    count: types.number(),
+  })
+);
 
 export function mergeAListIntoThisOneReactionFromJSON(
   jsonString: string,
@@ -714,65 +746,69 @@ export function mergeAListIntoThisOneReactionFromJSON(
 export const MergeAListIntoThisOneData$inboundSchema: z.ZodMiniType<
   MergeAListIntoThisOneData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    title: types.string(),
-    slug: types.string(),
-    description: types.nullable(types.string()),
-    entity_type: types.string(),
-    entity_type_label: types.string(),
-    is_curated: types.boolean(),
-    item_types: z.array(types.string()),
-    is_ranked: types.boolean(),
-    sort_options: z.record(z.string(), types.string()),
-    is_private: types.boolean(),
-    status: types.string(),
-    list_type: types.string(),
-    items_count: types.number(),
-    saves_count: types.number(),
-    likes_count: types.number(),
-    clones_count: types.number(),
-    created_at: types.string(),
-    updated_at: types.string(),
-    is_smart: types.boolean(),
-    is_rule_based: types.boolean(),
-    last_refreshed_at: types.nullable(types.string()),
-    smart_paused: types.boolean(),
-    cloned_from_list_id: types.nullable(types.number()),
-    cloned_from: types.optional(
-      z.lazy(() => MergeAListIntoThisOneClonedFrom$inboundSchema),
-    ),
-    user: types.nullable(z.lazy(() => MergeAListIntoThisOneUser$inboundSchema)),
-    items: z.array(z.lazy(() => MergeAListIntoThisOneItem$inboundSchema)),
-    reactions: z.array(
-      z.lazy(() => MergeAListIntoThisOneReaction$inboundSchema),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "entity_type": "entityType",
-      "entity_type_label": "entityTypeLabel",
-      "is_curated": "isCurated",
-      "item_types": "itemTypes",
-      "is_ranked": "isRanked",
-      "sort_options": "sortOptions",
-      "is_private": "isPrivate",
-      "list_type": "listType",
-      "items_count": "itemsCount",
-      "saves_count": "savesCount",
-      "likes_count": "likesCount",
-      "clones_count": "clonesCount",
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-      "is_smart": "isSmart",
-      "is_rule_based": "isRuleBased",
-      "last_refreshed_at": "lastRefreshedAt",
-      "smart_paused": "smartPaused",
-      "cloned_from_list_id": "clonedFromListId",
-      "cloned_from": "clonedFrom",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      title: types.string(),
+      slug: types.string(),
+      description: types.nullable(types.string()),
+      entity_type: types.string(),
+      entity_type_label: types.string(),
+      is_curated: types.boolean(),
+      item_types: z.array(types.string()),
+      is_ranked: types.boolean(),
+      sort_options: z.record(z.string(), types.string()),
+      is_private: types.boolean(),
+      status: types.string(),
+      list_type: types.string(),
+      items_count: types.number(),
+      saves_count: types.number(),
+      likes_count: types.number(),
+      clones_count: types.number(),
+      created_at: types.string(),
+      updated_at: types.string(),
+      is_smart: types.boolean(),
+      is_rule_based: types.boolean(),
+      last_refreshed_at: types.nullable(types.string()),
+      smart_paused: types.boolean(),
+      cloned_from_list_id: types.nullable(types.number()),
+      cloned_from: types.optional(
+        z.lazy(() => MergeAListIntoThisOneClonedFrom$inboundSchema),
+      ),
+      user: types.nullable(
+        z.lazy(() => MergeAListIntoThisOneUser$inboundSchema),
+      ),
+      items: z.array(z.lazy(() => MergeAListIntoThisOneItem$inboundSchema)),
+      reactions: z.array(
+        z.lazy(() => MergeAListIntoThisOneReaction$inboundSchema),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "entity_type": "entityType",
+        "entity_type_label": "entityTypeLabel",
+        "is_curated": "isCurated",
+        "item_types": "itemTypes",
+        "is_ranked": "isRanked",
+        "sort_options": "sortOptions",
+        "is_private": "isPrivate",
+        "list_type": "listType",
+        "items_count": "itemsCount",
+        "saves_count": "savesCount",
+        "likes_count": "likesCount",
+        "clones_count": "clonesCount",
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+        "is_smart": "isSmart",
+        "is_rule_based": "isRuleBased",
+        "last_refreshed_at": "lastRefreshedAt",
+        "smart_paused": "smartPaused",
+        "cloned_from_list_id": "clonedFromListId",
+        "cloned_from": "clonedFrom",
+      });
+    }),
+  )
 );
 
 export function mergeAListIntoThisOneDataFromJSON(
@@ -786,21 +822,24 @@ export function mergeAListIntoThisOneDataFromJSON(
 }
 
 /** @internal */
-export const Merge$inboundSchema: z.ZodMiniType<Merge, unknown> = z.pipe(
-  z.object({
-    moved: types.number(),
-    skipped_duplicates: types.number(),
-    converted_to_mixed: types.boolean(),
-    source_deleted: types.boolean(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "skipped_duplicates": "skippedDuplicates",
-      "converted_to_mixed": "convertedToMixed",
-      "source_deleted": "sourceDeleted",
-    });
-  }),
-);
+export const Merge$inboundSchema: z.ZodMiniType<Merge, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        moved: types.number(),
+        skipped_duplicates: types.number(),
+        converted_to_mixed: types.boolean(),
+        source_deleted: types.boolean(),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "skipped_duplicates": "skippedDuplicates",
+          "converted_to_mixed": "convertedToMixed",
+          "source_deleted": "sourceDeleted",
+        });
+      }),
+    )
+  );
 
 export function mergeFromJSON(
   jsonString: string,
@@ -816,10 +855,12 @@ export function mergeFromJSON(
 export const MergeAListIntoThisOneResponseBody$inboundSchema: z.ZodMiniType<
   MergeAListIntoThisOneResponseBody,
   unknown
-> = z.object({
-  data: z.lazy(() => MergeAListIntoThisOneData$inboundSchema),
-  merge: z.lazy(() => Merge$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.lazy(() => MergeAListIntoThisOneData$inboundSchema),
+    merge: z.lazy(() => Merge$inboundSchema),
+  })
+);
 
 export function mergeAListIntoThisOneResponseBodyFromJSON(
   jsonString: string,
@@ -835,17 +876,19 @@ export function mergeAListIntoThisOneResponseBodyFromJSON(
 export const MergeAListIntoThisOneResponse$inboundSchema: z.ZodMiniType<
   MergeAListIntoThisOneResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => MergeAListIntoThisOneResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => MergeAListIntoThisOneResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function mergeAListIntoThisOneResponseFromJSON(

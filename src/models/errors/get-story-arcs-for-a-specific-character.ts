@@ -3,6 +3,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../../lib/schemas.js";
 import * as types from "../../types/primitives.js";
 import { VerseDbError } from "./verse-db-error.js";
 
@@ -64,38 +65,42 @@ export class GetStoryArcsForASpecificCharacterForbiddenError
 
 /** @internal */
 export const GetStoryArcsForASpecificCharacterNotFoundError$inboundSchema:
-  z.ZodMiniType<GetStoryArcsForASpecificCharacterNotFoundError, unknown> = z
-    .pipe(
-      z.object({
-        message: types.string(),
-        request$: z.custom<Request>(x => x instanceof Request),
-        response$: z.custom<Response>(x => x instanceof Response),
-        body$: z.string(),
-      }),
-      z.transform((v) => {
-        return new GetStoryArcsForASpecificCharacterNotFoundError(v, {
-          request: v.request$,
-          response: v.response$,
-          body: v.body$,
-        });
-      }),
+  z.ZodMiniType<GetStoryArcsForASpecificCharacterNotFoundError, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          message: types.string(),
+          request$: z.custom<Request>(x => x instanceof Request),
+          response$: z.custom<Response>(x => x instanceof Response),
+          body$: z.string(),
+        }),
+        z.transform((v) => {
+          return new GetStoryArcsForASpecificCharacterNotFoundError(v, {
+            request: v.request$,
+            response: v.response$,
+            body: v.body$,
+          });
+        }),
+      )
     );
 
 /** @internal */
 export const GetStoryArcsForASpecificCharacterForbiddenError$inboundSchema:
-  z.ZodMiniType<GetStoryArcsForASpecificCharacterForbiddenError, unknown> = z
-    .pipe(
-      z.object({
-        message: types.string(),
-        request$: z.custom<Request>(x => x instanceof Request),
-        response$: z.custom<Response>(x => x instanceof Response),
-        body$: z.string(),
-      }),
-      z.transform((v) => {
-        return new GetStoryArcsForASpecificCharacterForbiddenError(v, {
-          request: v.request$,
-          response: v.response$,
-          body: v.body$,
-        });
-      }),
+  z.ZodMiniType<GetStoryArcsForASpecificCharacterForbiddenError, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          message: types.string(),
+          request$: z.custom<Request>(x => x instanceof Request),
+          response$: z.custom<Response>(x => x instanceof Response),
+          body$: z.string(),
+        }),
+        z.transform((v) => {
+          return new GetStoryArcsForASpecificCharacterForbiddenError(v, {
+            request: v.request$,
+            response: v.response$,
+            body: v.body$,
+          });
+        }),
+      )
     );

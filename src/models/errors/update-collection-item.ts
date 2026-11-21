@@ -3,7 +3,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { smartUnion } from "../../types/smart-union.js";
@@ -184,20 +184,21 @@ export const UpdateCollectionItemResponseBodyUnprocessableEntityError3$inboundSc
   z.ZodMiniType<
     UpdateCollectionItemResponseBodyUnprocessableEntityError3,
     unknown
-  > = z.pipe(
-    z.object({
-      error: types.string(),
-      request$: z.custom<Request>(x => x instanceof Request),
-      response$: z.custom<Response>(x => x instanceof Response),
-      body$: z.string(),
-    }),
-    z.transform((v) => {
-      return new UpdateCollectionItemResponseBodyUnprocessableEntityError3(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        error: types.string(),
+        request$: z.custom<Request>(x => x instanceof Request),
+        response$: z.custom<Response>(x => x instanceof Response),
+        body$: z.string(),
+      }),
+      z.transform((v) => {
+        return new UpdateCollectionItemResponseBodyUnprocessableEntityError3(
+          v,
+          { request: v.request$, response: v.response$, body: v.body$ },
+        );
+      }),
+    )
   );
 
 /** @internal */
@@ -205,21 +206,22 @@ export const UpdateCollectionItemResponseBodyUnprocessableEntityError2$inboundSc
   z.ZodMiniType<
     UpdateCollectionItemResponseBodyUnprocessableEntityError2,
     unknown
-  > = z.pipe(
-    z.object({
-      message: types.string(),
-      error: types.string(),
-      request$: z.custom<Request>(x => x instanceof Request),
-      response$: z.custom<Response>(x => x instanceof Response),
-      body$: z.string(),
-    }),
-    z.transform((v) => {
-      return new UpdateCollectionItemResponseBodyUnprocessableEntityError2(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        message: types.string(),
+        error: types.string(),
+        request$: z.custom<Request>(x => x instanceof Request),
+        response$: z.custom<Response>(x => x instanceof Response),
+        body$: z.string(),
+      }),
+      z.transform((v) => {
+        return new UpdateCollectionItemResponseBodyUnprocessableEntityError2(
+          v,
+          { request: v.request$, response: v.response$, body: v.body$ },
+        );
+      }),
+    )
   );
 
 /** @internal */
@@ -227,36 +229,40 @@ export const UpdateCollectionItemResponseBodyUnprocessableEntityError1$inboundSc
   z.ZodMiniType<
     UpdateCollectionItemResponseBodyUnprocessableEntityError1,
     unknown
-  > = z.pipe(
-    z.object({
-      message: types.string(),
-      errors: z.record(z.string(), z.array(types.string())),
-      request$: z.custom<Request>(x => x instanceof Request),
-      response$: z.custom<Response>(x => x instanceof Response),
-      body$: z.string(),
-    }),
-    z.transform((v) => {
-      return new UpdateCollectionItemResponseBodyUnprocessableEntityError1(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        message: types.string(),
+        errors: z.record(z.string(), z.array(types.string())),
+        request$: z.custom<Request>(x => x instanceof Request),
+        response$: z.custom<Response>(x => x instanceof Response),
+        body$: z.string(),
+      }),
+      z.transform((v) => {
+        return new UpdateCollectionItemResponseBodyUnprocessableEntityError1(
+          v,
+          { request: v.request$, response: v.response$, body: v.body$ },
+        );
+      }),
+    )
   );
 
 /** @internal */
 export const UpdateCollectionItemUnprocessableEntity$inboundSchema:
-  z.ZodMiniType<UpdateCollectionItemUnprocessableEntity, unknown> = smartUnion([
-    z.lazy(() =>
-      UpdateCollectionItemResponseBodyUnprocessableEntityError1$inboundSchema
-    ),
-    z.lazy(() =>
-      UpdateCollectionItemResponseBodyUnprocessableEntityError2$inboundSchema
-    ),
-    z.lazy(() =>
-      UpdateCollectionItemResponseBodyUnprocessableEntityError3$inboundSchema
-    ),
-  ]);
+  z.ZodMiniType<UpdateCollectionItemUnprocessableEntity, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      smartUnion([
+        z.lazy(() =>
+          UpdateCollectionItemResponseBodyUnprocessableEntityError1$inboundSchema
+        ),
+        z.lazy(() =>
+          UpdateCollectionItemResponseBodyUnprocessableEntityError2$inboundSchema
+        ),
+        z.lazy(() =>
+          UpdateCollectionItemResponseBodyUnprocessableEntityError3$inboundSchema
+        ),
+      ])
+    );
 
 export function updateCollectionItemUnprocessableEntityFromJSON(
   jsonString: string,
@@ -276,50 +282,56 @@ export function updateCollectionItemUnprocessableEntityFromJSON(
 
 /** @internal */
 export const UpdateCollectionItemResponseBodyNotFoundError2$inboundSchema:
-  z.ZodMiniType<UpdateCollectionItemResponseBodyNotFoundError2, unknown> = z
-    .pipe(
-      z.object({
-        error: types.string(),
-        request$: z.custom<Request>(x => x instanceof Request),
-        response$: z.custom<Response>(x => x instanceof Response),
-        body$: z.string(),
-      }),
-      z.transform((v) => {
-        return new UpdateCollectionItemResponseBodyNotFoundError2(v, {
-          request: v.request$,
-          response: v.response$,
-          body: v.body$,
-        });
-      }),
+  z.ZodMiniType<UpdateCollectionItemResponseBodyNotFoundError2, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          error: types.string(),
+          request$: z.custom<Request>(x => x instanceof Request),
+          response$: z.custom<Response>(x => x instanceof Response),
+          body$: z.string(),
+        }),
+        z.transform((v) => {
+          return new UpdateCollectionItemResponseBodyNotFoundError2(v, {
+            request: v.request$,
+            response: v.response$,
+            body: v.body$,
+          });
+        }),
+      )
     );
 
 /** @internal */
 export const UpdateCollectionItemResponseBodyNotFoundError1$inboundSchema:
-  z.ZodMiniType<UpdateCollectionItemResponseBodyNotFoundError1, unknown> = z
-    .pipe(
-      z.object({
-        message: types.string(),
-        request$: z.custom<Request>(x => x instanceof Request),
-        response$: z.custom<Response>(x => x instanceof Response),
-        body$: z.string(),
-      }),
-      z.transform((v) => {
-        return new UpdateCollectionItemResponseBodyNotFoundError1(v, {
-          request: v.request$,
-          response: v.response$,
-          body: v.body$,
-        });
-      }),
+  z.ZodMiniType<UpdateCollectionItemResponseBodyNotFoundError1, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          message: types.string(),
+          request$: z.custom<Request>(x => x instanceof Request),
+          response$: z.custom<Response>(x => x instanceof Response),
+          body$: z.string(),
+        }),
+        z.transform((v) => {
+          return new UpdateCollectionItemResponseBodyNotFoundError1(v, {
+            request: v.request$,
+            response: v.response$,
+            body: v.body$,
+          });
+        }),
+      )
     );
 
 /** @internal */
 export const UpdateCollectionItemNotFound$inboundSchema: z.ZodMiniType<
   UpdateCollectionItemNotFound,
   unknown
-> = smartUnion([
-  z.lazy(() => UpdateCollectionItemResponseBodyNotFoundError1$inboundSchema),
-  z.lazy(() => UpdateCollectionItemResponseBodyNotFoundError2$inboundSchema),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    z.lazy(() => UpdateCollectionItemResponseBodyNotFoundError1$inboundSchema),
+    z.lazy(() => UpdateCollectionItemResponseBodyNotFoundError2$inboundSchema),
+  ])
+);
 
 export function updateCollectionItemNotFoundFromJSON(
   jsonString: string,
@@ -335,18 +347,20 @@ export function updateCollectionItemNotFoundFromJSON(
 export const UpdateCollectionItemForbiddenError$inboundSchema: z.ZodMiniType<
   UpdateCollectionItemForbiddenError,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new UpdateCollectionItemForbiddenError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      request$: z.custom<Request>(x => x instanceof Request),
+      response$: z.custom<Response>(x => x instanceof Response),
+      body$: z.string(),
+    }),
+    z.transform((v) => {
+      return new UpdateCollectionItemForbiddenError(v, {
+        request: v.request$,
+        response: v.response$,
+        body: v.body$,
+      });
+    }),
+  )
 );

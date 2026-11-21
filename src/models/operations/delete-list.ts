@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
@@ -28,15 +28,17 @@ export type DeleteListRequest$Outbound = {
 export const DeleteListRequest$outboundSchema: z.ZodMiniType<
   DeleteListRequest$Outbound,
   DeleteListRequest
-> = z.pipe(
-  z.object({
-    listId: z.int(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      listId: "list_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      listId: z.int(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        listId: "list_id",
+      });
+    }),
+  )
 );
 
 export function deleteListRequestToJSON(
@@ -51,15 +53,17 @@ export function deleteListRequestToJSON(
 export const DeleteListResponse$inboundSchema: z.ZodMiniType<
   DeleteListResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+      });
+    }),
+  )
 );
 
 export function deleteListResponseFromJSON(

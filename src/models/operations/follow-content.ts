@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { smartUnion } from "../../types/smart-union.js";
@@ -77,17 +77,19 @@ export type FollowContentPreferences$Outbound = {
 export const FollowContentPreferences$outboundSchema: z.ZodMiniType<
   FollowContentPreferences$Outbound,
   FollowContentPreferences
-> = z.pipe(
-  z.object({
-    emailNotifications: z.optional(z.boolean()),
-    pushNotifications: z.optional(z.boolean()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      emailNotifications: "email_notifications",
-      pushNotifications: "push_notifications",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      emailNotifications: z.optional(z.boolean()),
+      pushNotifications: z.optional(z.boolean()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        emailNotifications: "email_notifications",
+        pushNotifications: "push_notifications",
+      });
+    }),
+  )
 );
 
 export function followContentPreferencesToJSON(
@@ -109,13 +111,15 @@ export type FollowContentRequest$Outbound = {
 export const FollowContentRequest$outboundSchema: z.ZodMiniType<
   FollowContentRequest$Outbound,
   FollowContentRequest
-> = z.object({
-  type: z.string(),
-  id: z.int(),
-  preferences: z.optional(
-    z.nullable(z.lazy(() => FollowContentPreferences$outboundSchema)),
-  ),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    type: z.string(),
+    id: z.int(),
+    preferences: z.optional(
+      z.nullable(z.lazy(() => FollowContentPreferences$outboundSchema)),
+    ),
+  })
+);
 
 export function followContentRequestToJSON(
   followContentRequest: FollowContentRequest,
@@ -129,16 +133,18 @@ export function followContentRequestToJSON(
 export const FollowContentResponseBody2$inboundSchema: z.ZodMiniType<
   FollowContentResponseBody2,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    is_following: types.boolean(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "is_following": "isFollowing",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      is_following: types.boolean(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "is_following": "isFollowing",
+      });
+    }),
+  )
 );
 
 export function followContentResponseBody2FromJSON(
@@ -155,16 +161,18 @@ export function followContentResponseBody2FromJSON(
 export const FollowContentResponseBody1$inboundSchema: z.ZodMiniType<
   FollowContentResponseBody1,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    is_following: types.boolean(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "is_following": "isFollowing",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      is_following: types.boolean(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "is_following": "isFollowing",
+      });
+    }),
+  )
 );
 
 export function followContentResponseBody1FromJSON(
@@ -181,10 +189,12 @@ export function followContentResponseBody1FromJSON(
 export const FollowContentResponseBody$inboundSchema: z.ZodMiniType<
   FollowContentResponseBody,
   unknown
-> = smartUnion([
-  z.lazy(() => FollowContentResponseBody1$inboundSchema),
-  z.lazy(() => FollowContentResponseBody2$inboundSchema),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    z.lazy(() => FollowContentResponseBody1$inboundSchema),
+    z.lazy(() => FollowContentResponseBody2$inboundSchema),
+  ])
+);
 
 export function followContentResponseBodyFromJSON(
   jsonString: string,
@@ -200,20 +210,22 @@ export function followContentResponseBodyFromJSON(
 export const FollowContentResponse$inboundSchema: z.ZodMiniType<
   FollowContentResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: smartUnion([
-      z.lazy(() => FollowContentResponseBody1$inboundSchema),
-      z.lazy(() => FollowContentResponseBody2$inboundSchema),
-    ]),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: smartUnion([
+        z.lazy(() => FollowContentResponseBody1$inboundSchema),
+        z.lazy(() => FollowContentResponseBody2$inboundSchema),
+      ]),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function followContentResponseFromJSON(

@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
@@ -33,17 +33,19 @@ export type RemoveItemFromListRequest$Outbound = {
 export const RemoveItemFromListRequest$outboundSchema: z.ZodMiniType<
   RemoveItemFromListRequest$Outbound,
   RemoveItemFromListRequest
-> = z.pipe(
-  z.object({
-    listId: z.int(),
-    itemId: z.int(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      listId: "list_id",
-      itemId: "item_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      listId: z.int(),
+      itemId: z.int(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        listId: "list_id",
+        itemId: "item_id",
+      });
+    }),
+  )
 );
 
 export function removeItemFromListRequestToJSON(
@@ -58,15 +60,17 @@ export function removeItemFromListRequestToJSON(
 export const RemoveItemFromListResponse$inboundSchema: z.ZodMiniType<
   RemoveItemFromListResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+      });
+    }),
+  )
 );
 
 export function removeItemFromListResponseFromJSON(

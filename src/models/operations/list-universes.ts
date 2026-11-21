@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -103,12 +103,14 @@ export type ListUniversesRequest$Outbound = {
 export const ListUniversesRequest$outboundSchema: z.ZodMiniType<
   ListUniversesRequest$Outbound,
   ListUniversesRequest
-> = z.object({
-  q: z.optional(z.string()),
-  limit: z.optional(z.int()),
-  page: z.optional(z.int()),
-  languages: z.optional(z.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    q: z.optional(z.string()),
+    limit: z.optional(z.int()),
+    page: z.optional(z.int()),
+    languages: z.optional(z.string()),
+  })
+);
 
 export function listUniversesRequestToJSON(
   listUniversesRequest: ListUniversesRequest,
@@ -122,12 +124,14 @@ export function listUniversesRequestToJSON(
 export const ListUniversesNameI18n$inboundSchema: z.ZodMiniType<
   ListUniversesNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function listUniversesNameI18nFromJSON(
   jsonString: string,
@@ -143,24 +147,26 @@ export function listUniversesNameI18nFromJSON(
 export const ListUniversesData$inboundSchema: z.ZodMiniType<
   ListUniversesData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    name_i18n: z.record(
-      z.string(),
-      z.lazy(() => ListUniversesNameI18n$inboundSchema),
-    ),
-    aliases_i18n: z.record(z.string(), z.array(types.string())),
-    original_locale: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "name_i18n": "nameI18n",
-      "aliases_i18n": "aliasesI18n",
-      "original_locale": "originalLocale",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      name_i18n: z.record(
+        z.string(),
+        z.lazy(() => ListUniversesNameI18n$inboundSchema),
+      ),
+      aliases_i18n: z.record(z.string(), z.array(types.string())),
+      original_locale: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "name_i18n": "nameI18n",
+        "aliases_i18n": "aliasesI18n",
+        "original_locale": "originalLocale",
+      });
+    }),
+  )
 );
 
 export function listUniversesDataFromJSON(
@@ -177,12 +183,14 @@ export function listUniversesDataFromJSON(
 export const ListUniversesLinks$inboundSchema: z.ZodMiniType<
   ListUniversesLinks,
   unknown
-> = z.object({
-  first: types.string(),
-  last: types.string(),
-  prev: types.nullable(types.string()),
-  next: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    first: types.string(),
+    last: types.string(),
+    prev: types.nullable(types.string()),
+    next: types.nullable(types.string()),
+  })
+);
 
 export function listUniversesLinksFromJSON(
   jsonString: string,
@@ -198,12 +206,14 @@ export function listUniversesLinksFromJSON(
 export const ListUniversesLink$inboundSchema: z.ZodMiniType<
   ListUniversesLink,
   unknown
-> = z.object({
-  url: types.nullable(types.string()),
-  label: types.string(),
-  page: z.optional(z.nullable(types.number())),
-  active: types.boolean(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    url: types.nullable(types.string()),
+    label: types.string(),
+    page: z.optional(z.nullable(types.number())),
+    active: types.boolean(),
+  })
+);
 
 export function listUniversesLinkFromJSON(
   jsonString: string,
@@ -219,24 +229,26 @@ export function listUniversesLinkFromJSON(
 export const ListUniversesMeta$inboundSchema: z.ZodMiniType<
   ListUniversesMeta,
   unknown
-> = z.pipe(
-  z.object({
-    current_page: types.number(),
-    from: types.nullable(types.number()),
-    last_page: types.number(),
-    links: z.array(z.lazy(() => ListUniversesLink$inboundSchema)),
-    path: types.string(),
-    per_page: types.number(),
-    to: types.nullable(types.number()),
-    total: types.number(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "current_page": "currentPage",
-      "last_page": "lastPage",
-      "per_page": "perPage",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      current_page: types.number(),
+      from: types.nullable(types.number()),
+      last_page: types.number(),
+      links: z.array(z.lazy(() => ListUniversesLink$inboundSchema)),
+      path: types.string(),
+      per_page: types.number(),
+      to: types.nullable(types.number()),
+      total: types.number(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "current_page": "currentPage",
+        "last_page": "lastPage",
+        "per_page": "perPage",
+      });
+    }),
+  )
 );
 
 export function listUniversesMetaFromJSON(
@@ -253,11 +265,13 @@ export function listUniversesMetaFromJSON(
 export const ListUniversesResponseBody$inboundSchema: z.ZodMiniType<
   ListUniversesResponseBody,
   unknown
-> = z.object({
-  data: z.array(z.lazy(() => ListUniversesData$inboundSchema)),
-  links: z.lazy(() => ListUniversesLinks$inboundSchema),
-  meta: z.lazy(() => ListUniversesMeta$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.array(z.lazy(() => ListUniversesData$inboundSchema)),
+    links: z.lazy(() => ListUniversesLinks$inboundSchema),
+    meta: z.lazy(() => ListUniversesMeta$inboundSchema),
+  })
+);
 
 export function listUniversesResponseBodyFromJSON(
   jsonString: string,
@@ -273,17 +287,19 @@ export function listUniversesResponseBodyFromJSON(
 export const ListUniversesResponse$inboundSchema: z.ZodMiniType<
   ListUniversesResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => ListUniversesResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => ListUniversesResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function listUniversesResponseFromJSON(

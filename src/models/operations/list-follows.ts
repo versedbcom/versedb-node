@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { smartUnion } from "../../types/smart-union.js";
@@ -122,17 +122,19 @@ export type ListFollowsRequest$Outbound = {
 export const ListFollowsRequest$outboundSchema: z.ZodMiniType<
   ListFollowsRequest$Outbound,
   ListFollowsRequest
-> = z.pipe(
-  z.object({
-    perPage: z.optional(z.int()),
-    type: z.optional(z.string()),
-    q: z.optional(z.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      perPage: "per_page",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      perPage: z.optional(z.int()),
+      type: z.optional(z.string()),
+      q: z.optional(z.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        perPage: "per_page",
+      });
+    }),
+  )
 );
 
 export function listFollowsRequestToJSON(
@@ -147,13 +149,15 @@ export function listFollowsRequestToJSON(
 export const ListFollowsPreferences$inboundSchema: z.ZodMiniType<
   ListFollowsPreferences,
   unknown
-> = smartUnion([
-  types.string(),
-  types.number(),
-  types.boolean(),
-  z.array(z.any()),
-  z.record(z.string(), z.any()),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    types.string(),
+    types.number(),
+    types.boolean(),
+    z.array(z.any()),
+    z.record(z.string(), z.any()),
+  ])
+);
 
 export function listFollowsPreferencesFromJSON(
   jsonString: string,
@@ -166,20 +170,22 @@ export function listFollowsPreferencesFromJSON(
 }
 
 /** @internal */
-export const Followable$inboundSchema: z.ZodMiniType<Followable, unknown> = z
-  .pipe(
-    z.object({
-      id: types.number(),
-      name: types.string(),
-      slug: types.nullable(types.string()),
-      username: types.nullable(types.string()),
-      image_url: types.nullable(types.string()),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "image_url": "imageUrl",
-      });
-    }),
+export const Followable$inboundSchema: z.ZodMiniType<Followable, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        id: types.number(),
+        name: types.string(),
+        slug: types.nullable(types.string()),
+        username: types.nullable(types.string()),
+        image_url: types.nullable(types.string()),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "image_url": "imageUrl",
+        });
+      }),
+    )
   );
 
 export function followableFromJSON(
@@ -196,34 +202,36 @@ export function followableFromJSON(
 export const ListFollowsData$inboundSchema: z.ZodMiniType<
   ListFollowsData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    user_id: types.number(),
-    followable_type: types.string(),
-    followable_id: types.number(),
-    preferences: types.nullable(
-      smartUnion([
-        types.string(),
-        types.number(),
-        types.boolean(),
-        z.array(z.any()),
-        z.record(z.string(), z.any()),
-      ]),
-    ),
-    created_at: types.nullable(types.string()),
-    updated_at: types.nullable(types.string()),
-    followable: types.nullable(z.lazy(() => Followable$inboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "user_id": "userId",
-      "followable_type": "followableType",
-      "followable_id": "followableId",
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      user_id: types.number(),
+      followable_type: types.string(),
+      followable_id: types.number(),
+      preferences: types.nullable(
+        smartUnion([
+          types.string(),
+          types.number(),
+          types.boolean(),
+          z.array(z.any()),
+          z.record(z.string(), z.any()),
+        ]),
+      ),
+      created_at: types.nullable(types.string()),
+      updated_at: types.nullable(types.string()),
+      followable: types.nullable(z.lazy(() => Followable$inboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "user_id": "userId",
+        "followable_type": "followableType",
+        "followable_id": "followableId",
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+      });
+    }),
+  )
 );
 
 export function listFollowsDataFromJSON(
@@ -240,12 +248,14 @@ export function listFollowsDataFromJSON(
 export const ListFollowsLinks$inboundSchema: z.ZodMiniType<
   ListFollowsLinks,
   unknown
-> = z.object({
-  first: types.string(),
-  last: types.string(),
-  prev: types.nullable(types.string()),
-  next: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    first: types.string(),
+    last: types.string(),
+    prev: types.nullable(types.string()),
+    next: types.nullable(types.string()),
+  })
+);
 
 export function listFollowsLinksFromJSON(
   jsonString: string,
@@ -261,12 +271,14 @@ export function listFollowsLinksFromJSON(
 export const ListFollowsLink$inboundSchema: z.ZodMiniType<
   ListFollowsLink,
   unknown
-> = z.object({
-  url: types.nullable(types.string()),
-  label: types.string(),
-  page: z.optional(z.nullable(types.number())),
-  active: types.boolean(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    url: types.nullable(types.string()),
+    label: types.string(),
+    page: z.optional(z.nullable(types.number())),
+    active: types.boolean(),
+  })
+);
 
 export function listFollowsLinkFromJSON(
   jsonString: string,
@@ -282,24 +294,26 @@ export function listFollowsLinkFromJSON(
 export const ListFollowsMeta$inboundSchema: z.ZodMiniType<
   ListFollowsMeta,
   unknown
-> = z.pipe(
-  z.object({
-    current_page: types.number(),
-    from: types.nullable(types.number()),
-    last_page: types.number(),
-    links: z.array(z.lazy(() => ListFollowsLink$inboundSchema)),
-    path: types.string(),
-    per_page: types.number(),
-    to: types.nullable(types.number()),
-    total: types.number(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "current_page": "currentPage",
-      "last_page": "lastPage",
-      "per_page": "perPage",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      current_page: types.number(),
+      from: types.nullable(types.number()),
+      last_page: types.number(),
+      links: z.array(z.lazy(() => ListFollowsLink$inboundSchema)),
+      path: types.string(),
+      per_page: types.number(),
+      to: types.nullable(types.number()),
+      total: types.number(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "current_page": "currentPage",
+        "last_page": "lastPage",
+        "per_page": "perPage",
+      });
+    }),
+  )
 );
 
 export function listFollowsMetaFromJSON(
@@ -316,11 +330,13 @@ export function listFollowsMetaFromJSON(
 export const ListFollowsResponseBody$inboundSchema: z.ZodMiniType<
   ListFollowsResponseBody,
   unknown
-> = z.object({
-  data: z.array(z.lazy(() => ListFollowsData$inboundSchema)),
-  links: z.lazy(() => ListFollowsLinks$inboundSchema),
-  meta: z.lazy(() => ListFollowsMeta$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.array(z.lazy(() => ListFollowsData$inboundSchema)),
+    links: z.lazy(() => ListFollowsLinks$inboundSchema),
+    meta: z.lazy(() => ListFollowsMeta$inboundSchema),
+  })
+);
 
 export function listFollowsResponseBodyFromJSON(
   jsonString: string,
@@ -336,17 +352,19 @@ export function listFollowsResponseBodyFromJSON(
 export const ListFollowsResponse$inboundSchema: z.ZodMiniType<
   ListFollowsResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => ListFollowsResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => ListFollowsResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function listFollowsResponseFromJSON(

@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
@@ -29,15 +29,17 @@ export type AddToPullListRequest$Outbound = {
 export const AddToPullListRequest$outboundSchema: z.ZodMiniType<
   AddToPullListRequest$Outbound,
   AddToPullListRequest
-> = z.pipe(
-  z.object({
-    seriesId: z.int(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      seriesId: "series_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      seriesId: z.int(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        seriesId: "series_id",
+      });
+    }),
+  )
 );
 
 export function addToPullListRequestToJSON(
@@ -52,17 +54,19 @@ export function addToPullListRequestToJSON(
 export const AddToPullListResponse$inboundSchema: z.ZodMiniType<
   AddToPullListResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.array(z.any()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.array(z.any()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function addToPullListResponseFromJSON(

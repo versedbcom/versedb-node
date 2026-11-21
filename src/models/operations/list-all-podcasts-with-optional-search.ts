@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -118,15 +118,17 @@ export const ListAllPodcastsWithOptionalSearchRequest$outboundSchema:
   z.ZodMiniType<
     ListAllPodcastsWithOptionalSearchRequest$Outbound,
     ListAllPodcastsWithOptionalSearchRequest
-  > = z.object({
-    q: z.optional(z.string()),
-    type: z.optional(z.string()),
-    language: z.optional(z.string()),
-    category: z.optional(z.array(z.string())),
-    sort: z.optional(z.string()),
-    limit: z.optional(z.int()),
-    page: z.optional(z.int()),
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      q: z.optional(z.string()),
+      type: z.optional(z.string()),
+      language: z.optional(z.string()),
+      category: z.optional(z.array(z.string())),
+      sort: z.optional(z.string()),
+      limit: z.optional(z.int()),
+      page: z.optional(z.int()),
+    })
+  );
 
 export function listAllPodcastsWithOptionalSearchRequestToJSON(
   listAllPodcastsWithOptionalSearchRequest:
@@ -141,18 +143,21 @@ export function listAllPodcastsWithOptionalSearchRequestToJSON(
 
 /** @internal */
 export const ListAllPodcastsWithOptionalSearchImages$inboundSchema:
-  z.ZodMiniType<ListAllPodcastsWithOptionalSearchImages, unknown> = z.pipe(
-    z.object({
-      tile_sm: types.optional(types.string()),
-      full_lg: types.optional(types.string()),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "tile_sm": "tileSm",
-        "full_lg": "fullLg",
-      });
-    }),
-  );
+  z.ZodMiniType<ListAllPodcastsWithOptionalSearchImages, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          tile_sm: types.optional(types.string()),
+          full_lg: types.optional(types.string()),
+        }),
+        z.transform((v) => {
+          return remap$(v, {
+            "tile_sm": "tileSm",
+            "full_lg": "fullLg",
+          });
+        }),
+      )
+    );
 
 export function listAllPodcastsWithOptionalSearchImagesFromJSON(
   jsonString: string,
@@ -174,28 +179,30 @@ export function listAllPodcastsWithOptionalSearchImagesFromJSON(
 export const ListAllPodcastsWithOptionalSearchData$inboundSchema: z.ZodMiniType<
   ListAllPodcastsWithOptionalSearchData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    type: types.string(),
-    language: types.nullable(types.string()),
-    logo_url: types.nullable(types.string()),
-    images: types.nullable(
-      z.lazy(() => ListAllPodcastsWithOptionalSearchImages$inboundSchema),
-    ),
-    follower_count: types.number(),
-    subscriber_count: types.nullable(types.number()),
-    categories: z.array(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "logo_url": "logoUrl",
-      "follower_count": "followerCount",
-      "subscriber_count": "subscriberCount",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      type: types.string(),
+      language: types.nullable(types.string()),
+      logo_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => ListAllPodcastsWithOptionalSearchImages$inboundSchema),
+      ),
+      follower_count: types.number(),
+      subscriber_count: types.nullable(types.number()),
+      categories: z.array(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "logo_url": "logoUrl",
+        "follower_count": "followerCount",
+        "subscriber_count": "subscriberCount",
+      });
+    }),
+  )
 );
 
 export function listAllPodcastsWithOptionalSearchDataFromJSON(
@@ -211,12 +218,15 @@ export function listAllPodcastsWithOptionalSearchDataFromJSON(
 
 /** @internal */
 export const ListAllPodcastsWithOptionalSearchLinks$inboundSchema:
-  z.ZodMiniType<ListAllPodcastsWithOptionalSearchLinks, unknown> = z.object({
-    first: types.string(),
-    last: types.string(),
-    prev: types.nullable(types.string()),
-    next: types.nullable(types.string()),
-  });
+  z.ZodMiniType<ListAllPodcastsWithOptionalSearchLinks, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.object({
+        first: types.string(),
+        last: types.string(),
+        prev: types.nullable(types.string()),
+        next: types.nullable(types.string()),
+      })
+    );
 
 export function listAllPodcastsWithOptionalSearchLinksFromJSON(
   jsonString: string,
@@ -233,12 +243,14 @@ export function listAllPodcastsWithOptionalSearchLinksFromJSON(
 export const ListAllPodcastsWithOptionalSearchLink$inboundSchema: z.ZodMiniType<
   ListAllPodcastsWithOptionalSearchLink,
   unknown
-> = z.object({
-  url: types.nullable(types.string()),
-  label: types.string(),
-  page: z.optional(z.nullable(types.number())),
-  active: types.boolean(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    url: types.nullable(types.string()),
+    label: types.string(),
+    page: z.optional(z.nullable(types.number())),
+    active: types.boolean(),
+  })
+);
 
 export function listAllPodcastsWithOptionalSearchLinkFromJSON(
   jsonString: string,
@@ -255,26 +267,28 @@ export function listAllPodcastsWithOptionalSearchLinkFromJSON(
 export const ListAllPodcastsWithOptionalSearchMeta$inboundSchema: z.ZodMiniType<
   ListAllPodcastsWithOptionalSearchMeta,
   unknown
-> = z.pipe(
-  z.object({
-    current_page: types.number(),
-    from: types.nullable(types.number()),
-    last_page: types.number(),
-    links: z.array(
-      z.lazy(() => ListAllPodcastsWithOptionalSearchLink$inboundSchema),
-    ),
-    path: types.string(),
-    per_page: types.number(),
-    to: types.nullable(types.number()),
-    total: types.number(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "current_page": "currentPage",
-      "last_page": "lastPage",
-      "per_page": "perPage",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      current_page: types.number(),
+      from: types.nullable(types.number()),
+      last_page: types.number(),
+      links: z.array(
+        z.lazy(() => ListAllPodcastsWithOptionalSearchLink$inboundSchema),
+      ),
+      path: types.string(),
+      per_page: types.number(),
+      to: types.nullable(types.number()),
+      total: types.number(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "current_page": "currentPage",
+        "last_page": "lastPage",
+        "per_page": "perPage",
+      });
+    }),
+  )
 );
 
 export function listAllPodcastsWithOptionalSearchMetaFromJSON(
@@ -290,16 +304,20 @@ export function listAllPodcastsWithOptionalSearchMetaFromJSON(
 
 /** @internal */
 export const ListAllPodcastsWithOptionalSearchResponseBody$inboundSchema:
-  z.ZodMiniType<ListAllPodcastsWithOptionalSearchResponseBody, unknown> = z
-    .object({
-      data: z.array(
-        z.lazy(() => ListAllPodcastsWithOptionalSearchData$inboundSchema),
-      ),
-      links: z.lazy(() => ListAllPodcastsWithOptionalSearchLinks$inboundSchema),
-      meta: z.lazy(() => ListAllPodcastsWithOptionalSearchMeta$inboundSchema),
-      languages: z.array(types.string()),
-      categories: z.array(types.string()),
-    });
+  z.ZodMiniType<ListAllPodcastsWithOptionalSearchResponseBody, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.object({
+        data: z.array(
+          z.lazy(() => ListAllPodcastsWithOptionalSearchData$inboundSchema),
+        ),
+        links: z.lazy(() =>
+          ListAllPodcastsWithOptionalSearchLinks$inboundSchema
+        ),
+        meta: z.lazy(() => ListAllPodcastsWithOptionalSearchMeta$inboundSchema),
+        languages: z.array(types.string()),
+        categories: z.array(types.string()),
+      })
+    );
 
 export function listAllPodcastsWithOptionalSearchResponseBodyFromJSON(
   jsonString: string,
@@ -319,20 +337,23 @@ export function listAllPodcastsWithOptionalSearchResponseBodyFromJSON(
 
 /** @internal */
 export const ListAllPodcastsWithOptionalSearchResponse$inboundSchema:
-  z.ZodMiniType<ListAllPodcastsWithOptionalSearchResponse, unknown> = z.pipe(
-    z.object({
-      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-      Result: z.lazy(() =>
-        ListAllPodcastsWithOptionalSearchResponseBody$inboundSchema
-      ),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "Headers": "headers",
-        "Result": "result",
-      });
-    }),
-  );
+  z.ZodMiniType<ListAllPodcastsWithOptionalSearchResponse, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+          Result: z.lazy(() =>
+            ListAllPodcastsWithOptionalSearchResponseBody$inboundSchema
+          ),
+        }),
+        z.transform((v) => {
+          return remap$(v, {
+            "Headers": "headers",
+            "Result": "result",
+          });
+        }),
+      )
+    );
 
 export function listAllPodcastsWithOptionalSearchResponseFromJSON(
   jsonString: string,

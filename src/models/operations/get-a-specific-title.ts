@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { smartUnion } from "../../types/smart-union.js";
@@ -101,16 +101,18 @@ export type GetASpecificTitleRequest$Outbound = {
 export const GetASpecificTitleRequest$outboundSchema: z.ZodMiniType<
   GetASpecificTitleRequest$Outbound,
   GetASpecificTitleRequest
-> = z.pipe(
-  z.object({
-    titleId: z.int(),
-    languages: z.optional(z.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      titleId: "title_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      titleId: z.int(),
+      languages: z.optional(z.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        titleId: "title_id",
+      });
+    }),
+  )
 );
 
 export function getASpecificTitleRequestToJSON(
@@ -125,19 +127,21 @@ export function getASpecificTitleRequestToJSON(
 export const GetASpecificTitleImages$inboundSchema: z.ZodMiniType<
   GetASpecificTitleImages,
   unknown
-> = z.pipe(
-  z.object({
-    cover_sm: types.optional(types.string()),
-    cover_md: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_md": "coverMd",
-      "cover_lg": "coverLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  )
 );
 
 export function getASpecificTitleImagesFromJSON(
@@ -154,13 +158,15 @@ export function getASpecificTitleImagesFromJSON(
 export const GetASpecificTitleAliases$inboundSchema: z.ZodMiniType<
   GetASpecificTitleAliases,
   unknown
-> = smartUnion([
-  types.string(),
-  types.number(),
-  types.boolean(),
-  z.array(z.any()),
-  z.record(z.string(), z.any()),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    types.string(),
+    types.number(),
+    types.boolean(),
+    z.array(z.any()),
+    z.record(z.string(), z.any()),
+  ])
+);
 
 export function getASpecificTitleAliasesFromJSON(
   jsonString: string,
@@ -176,12 +182,14 @@ export function getASpecificTitleAliasesFromJSON(
 export const GetASpecificTitleNameI18n$inboundSchema: z.ZodMiniType<
   GetASpecificTitleNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function getASpecificTitleNameI18nFromJSON(
   jsonString: string,
@@ -197,57 +205,61 @@ export function getASpecificTitleNameI18nFromJSON(
 export const GetASpecificTitleData$inboundSchema: z.ZodMiniType<
   GetASpecificTitleData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    start_year: types.nullable(types.number()),
-    end_year: types.nullable(types.number()),
-    status: types.nullable(types.string()),
-    type: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-    images: types.nullable(z.lazy(() => GetASpecificTitleImages$inboundSchema)),
-    content_rating_label: types.nullable(types.string()),
-    min_age: types.nullable(types.number()),
-    is_nsfw: types.nullable(types.boolean()),
-    imprint_id: types.nullable(types.number()),
-    series_count: types.nullable(types.number()),
-    issues_count: types.nullable(types.number()),
-    average_rating: types.nullable(types.string()),
-    aliases: types.nullable(
-      smartUnion([
-        types.string(),
-        types.number(),
-        types.boolean(),
-        z.array(z.any()),
-        z.record(z.string(), z.any()),
-      ]),
-    ),
-    name_i18n: z.record(
-      z.string(),
-      z.lazy(() => GetASpecificTitleNameI18n$inboundSchema),
-    ),
-    aliases_i18n: z.record(z.string(), z.array(types.string())),
-    original_locale: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "start_year": "startYear",
-      "end_year": "endYear",
-      "image_url": "imageUrl",
-      "content_rating_label": "contentRatingLabel",
-      "min_age": "minAge",
-      "is_nsfw": "isNsfw",
-      "imprint_id": "imprintId",
-      "series_count": "seriesCount",
-      "issues_count": "issuesCount",
-      "average_rating": "averageRating",
-      "name_i18n": "nameI18n",
-      "aliases_i18n": "aliasesI18n",
-      "original_locale": "originalLocale",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      start_year: types.nullable(types.number()),
+      end_year: types.nullable(types.number()),
+      status: types.nullable(types.string()),
+      type: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => GetASpecificTitleImages$inboundSchema),
+      ),
+      content_rating_label: types.nullable(types.string()),
+      min_age: types.nullable(types.number()),
+      is_nsfw: types.nullable(types.boolean()),
+      imprint_id: types.nullable(types.number()),
+      series_count: types.nullable(types.number()),
+      issues_count: types.nullable(types.number()),
+      average_rating: types.nullable(types.string()),
+      aliases: types.nullable(
+        smartUnion([
+          types.string(),
+          types.number(),
+          types.boolean(),
+          z.array(z.any()),
+          z.record(z.string(), z.any()),
+        ]),
+      ),
+      name_i18n: z.record(
+        z.string(),
+        z.lazy(() => GetASpecificTitleNameI18n$inboundSchema),
+      ),
+      aliases_i18n: z.record(z.string(), z.array(types.string())),
+      original_locale: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "start_year": "startYear",
+        "end_year": "endYear",
+        "image_url": "imageUrl",
+        "content_rating_label": "contentRatingLabel",
+        "min_age": "minAge",
+        "is_nsfw": "isNsfw",
+        "imprint_id": "imprintId",
+        "series_count": "seriesCount",
+        "issues_count": "issuesCount",
+        "average_rating": "averageRating",
+        "name_i18n": "nameI18n",
+        "aliases_i18n": "aliasesI18n",
+        "original_locale": "originalLocale",
+      });
+    }),
+  )
 );
 
 export function getASpecificTitleDataFromJSON(
@@ -264,9 +276,11 @@ export function getASpecificTitleDataFromJSON(
 export const GetASpecificTitleResponseBody$inboundSchema: z.ZodMiniType<
   GetASpecificTitleResponseBody,
   unknown
-> = z.object({
-  data: z.lazy(() => GetASpecificTitleData$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.lazy(() => GetASpecificTitleData$inboundSchema),
+  })
+);
 
 export function getASpecificTitleResponseBodyFromJSON(
   jsonString: string,
@@ -282,17 +296,19 @@ export function getASpecificTitleResponseBodyFromJSON(
 export const GetASpecificTitleResponse$inboundSchema: z.ZodMiniType<
   GetASpecificTitleResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => GetASpecificTitleResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => GetASpecificTitleResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function getASpecificTitleResponseFromJSON(

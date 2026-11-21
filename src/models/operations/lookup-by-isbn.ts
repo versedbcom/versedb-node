@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -293,10 +293,12 @@ export type LookupByISBNRequest$Outbound = {
 export const LookupByISBNRequest$outboundSchema: z.ZodMiniType<
   LookupByISBNRequest$Outbound,
   LookupByISBNRequest
-> = z.object({
-  isbn: z.string(),
-  languages: z.optional(z.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    isbn: z.string(),
+    languages: z.optional(z.string()),
+  })
+);
 
 export function lookupByISBNRequestToJSON(
   lookupByISBNRequest: LookupByISBNRequest,
@@ -310,20 +312,22 @@ export function lookupByISBNRequestToJSON(
 export const LookupByISBNImages$inboundSchema: z.ZodMiniType<
   LookupByISBNImages,
   unknown
-> = z.pipe(
-  z.object({
-    thumb: types.optional(types.string()),
-    cover_sm: types.optional(types.string()),
-    cover_md: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_md": "coverMd",
-      "cover_lg": "coverLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      thumb: types.optional(types.string()),
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  )
 );
 
 export function lookupByISBNImagesFromJSON(
@@ -340,11 +344,13 @@ export function lookupByISBNImagesFromJSON(
 export const LookupByISBNTitle$inboundSchema: z.ZodMiniType<
   LookupByISBNTitle,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.nullable(types.string()),
-  slug: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+  })
+);
 
 export function lookupByISBNTitleFromJSON(
   jsonString: string,
@@ -360,11 +366,13 @@ export function lookupByISBNTitleFromJSON(
 export const LookupByISBNGenre$inboundSchema: z.ZodMiniType<
   LookupByISBNGenre,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.nullable(types.string()),
-  slug: types.nullable(z.any()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(z.any()),
+  })
+);
 
 export function lookupByISBNGenreFromJSON(
   jsonString: string,
@@ -380,10 +388,12 @@ export function lookupByISBNGenreFromJSON(
 export const LookupByISBNSeriesImprint$inboundSchema: z.ZodMiniType<
   LookupByISBNSeriesImprint,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+  })
+);
 
 export function lookupByISBNSeriesImprintFromJSON(
   jsonString: string,
@@ -399,12 +409,14 @@ export function lookupByISBNSeriesImprintFromJSON(
 export const LookupByISBNForeignEditionOf$inboundSchema: z.ZodMiniType<
   LookupByISBNForeignEditionOf,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.string(),
-  slug: types.nullable(types.string()),
-  language: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.string(),
+    slug: types.nullable(types.string()),
+    language: types.nullable(types.string()),
+  })
+);
 
 export function lookupByISBNForeignEditionOfFromJSON(
   jsonString: string,
@@ -420,12 +432,14 @@ export function lookupByISBNForeignEditionOfFromJSON(
 export const LookupByISBNForeignEdition$inboundSchema: z.ZodMiniType<
   LookupByISBNForeignEdition,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.string(),
-  slug: types.nullable(types.string()),
-  language: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.string(),
+    slug: types.nullable(types.string()),
+    language: types.nullable(types.string()),
+  })
+);
 
 export function lookupByISBNForeignEditionFromJSON(
   jsonString: string,
@@ -441,51 +455,53 @@ export function lookupByISBNForeignEditionFromJSON(
 export const LookupByISBNSeries$inboundSchema: z.ZodMiniType<
   LookupByISBNSeries,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    start_year: types.nullable(types.number()),
-    end_year: types.nullable(types.number()),
-    volume_number: types.nullable(types.number()),
-    status: types.nullable(types.string()),
-    publication_type: types.nullable(types.string()),
-    cached_issues_count: types.nullable(types.number()),
-    medium: types.string(),
-    format: types.nullable(types.string()),
-    content_rating_label: types.nullable(types.string()),
-    min_age: types.nullable(types.number()),
-    is_nsfw: types.boolean(),
-    original_language: types.nullable(types.string()),
-    language: types.nullable(types.string()),
-    genres: z.array(z.lazy(() => LookupByISBNGenre$inboundSchema)),
-    aliases: z.array(types.string()),
-    imprint: types.nullable(
-      z.lazy(() => LookupByISBNSeriesImprint$inboundSchema),
-    ),
-    foreign_edition_of: z.array(
-      z.lazy(() => LookupByISBNForeignEditionOf$inboundSchema),
-    ),
-    foreign_editions: z.array(
-      z.lazy(() => LookupByISBNForeignEdition$inboundSchema),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "start_year": "startYear",
-      "end_year": "endYear",
-      "volume_number": "volumeNumber",
-      "publication_type": "publicationType",
-      "cached_issues_count": "cachedIssuesCount",
-      "content_rating_label": "contentRatingLabel",
-      "min_age": "minAge",
-      "is_nsfw": "isNsfw",
-      "original_language": "originalLanguage",
-      "foreign_edition_of": "foreignEditionOf",
-      "foreign_editions": "foreignEditions",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      start_year: types.nullable(types.number()),
+      end_year: types.nullable(types.number()),
+      volume_number: types.nullable(types.number()),
+      status: types.nullable(types.string()),
+      publication_type: types.nullable(types.string()),
+      cached_issues_count: types.nullable(types.number()),
+      medium: types.string(),
+      format: types.nullable(types.string()),
+      content_rating_label: types.nullable(types.string()),
+      min_age: types.nullable(types.number()),
+      is_nsfw: types.boolean(),
+      original_language: types.nullable(types.string()),
+      language: types.nullable(types.string()),
+      genres: z.array(z.lazy(() => LookupByISBNGenre$inboundSchema)),
+      aliases: z.array(types.string()),
+      imprint: types.nullable(
+        z.lazy(() => LookupByISBNSeriesImprint$inboundSchema),
+      ),
+      foreign_edition_of: z.array(
+        z.lazy(() => LookupByISBNForeignEditionOf$inboundSchema),
+      ),
+      foreign_editions: z.array(
+        z.lazy(() => LookupByISBNForeignEdition$inboundSchema),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "start_year": "startYear",
+        "end_year": "endYear",
+        "volume_number": "volumeNumber",
+        "publication_type": "publicationType",
+        "cached_issues_count": "cachedIssuesCount",
+        "content_rating_label": "contentRatingLabel",
+        "min_age": "minAge",
+        "is_nsfw": "isNsfw",
+        "original_language": "originalLanguage",
+        "foreign_edition_of": "foreignEditionOf",
+        "foreign_editions": "foreignEditions",
+      });
+    }),
+  )
 );
 
 export function lookupByISBNSeriesFromJSON(
@@ -502,11 +518,13 @@ export function lookupByISBNSeriesFromJSON(
 export const LookupByISBNPublisher$inboundSchema: z.ZodMiniType<
   LookupByISBNPublisher,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.nullable(types.string()),
-  slug: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+  })
+);
 
 export function lookupByISBNPublisherFromJSON(
   jsonString: string,
@@ -522,10 +540,12 @@ export function lookupByISBNPublisherFromJSON(
 export const LookupByISBNImprint$inboundSchema: z.ZodMiniType<
   LookupByISBNImprint,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+  })
+);
 
 export function lookupByISBNImprintFromJSON(
   jsonString: string,
@@ -541,12 +561,14 @@ export function lookupByISBNImprintFromJSON(
 export const LookupByISBNAward$inboundSchema: z.ZodMiniType<
   LookupByISBNAward,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.nullable(types.string()),
-  category: types.nullable(types.string()),
-  year: types.nullable(types.number()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    category: types.nullable(types.string()),
+    year: types.nullable(types.number()),
+  })
+);
 
 export function lookupByISBNAwardFromJSON(
   jsonString: string,
@@ -562,19 +584,21 @@ export function lookupByISBNAwardFromJSON(
 export const LookupByISBNCreatorImages$inboundSchema: z.ZodMiniType<
   LookupByISBNCreatorImages,
   unknown
-> = z.pipe(
-  z.object({
-    tile_sm: types.optional(types.string()),
-    profile_md: types.optional(types.string()),
-    full_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "tile_sm": "tileSm",
-      "profile_md": "profileMd",
-      "full_lg": "fullLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      tile_sm: types.optional(types.string()),
+      profile_md: types.optional(types.string()),
+      full_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "tile_sm": "tileSm",
+        "profile_md": "profileMd",
+        "full_lg": "fullLg",
+      });
+    }),
+  )
 );
 
 export function lookupByISBNCreatorImagesFromJSON(
@@ -591,24 +615,26 @@ export function lookupByISBNCreatorImagesFromJSON(
 export const LookupByISBNCreator$inboundSchema: z.ZodMiniType<
   LookupByISBNCreator,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    photo_url: types.nullable(types.string()),
-    images: types.nullable(
-      z.lazy(() => LookupByISBNCreatorImages$inboundSchema),
-    ),
-    role: types.string(),
-    sort_order: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "photo_url": "photoUrl",
-      "sort_order": "sortOrder",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      photo_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => LookupByISBNCreatorImages$inboundSchema),
+      ),
+      role: types.string(),
+      sort_order: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "photo_url": "photoUrl",
+        "sort_order": "sortOrder",
+      });
+    }),
+  )
 );
 
 export function lookupByISBNCreatorFromJSON(
@@ -625,19 +651,21 @@ export function lookupByISBNCreatorFromJSON(
 export const LookupByISBNCharacterImages$inboundSchema: z.ZodMiniType<
   LookupByISBNCharacterImages,
   unknown
-> = z.pipe(
-  z.object({
-    tile_sm: types.optional(types.string()),
-    profile_md: types.optional(types.string()),
-    full_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "tile_sm": "tileSm",
-      "profile_md": "profileMd",
-      "full_lg": "fullLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      tile_sm: types.optional(types.string()),
+      profile_md: types.optional(types.string()),
+      full_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "tile_sm": "tileSm",
+        "profile_md": "profileMd",
+        "full_lg": "fullLg",
+      });
+    }),
+  )
 );
 
 export function lookupByISBNCharacterImagesFromJSON(
@@ -654,25 +682,27 @@ export function lookupByISBNCharacterImagesFromJSON(
 export const LookupByISBNCharacter$inboundSchema: z.ZodMiniType<
   LookupByISBNCharacter,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    real_name: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-    images: types.nullable(
-      z.lazy(() => LookupByISBNCharacterImages$inboundSchema),
-    ),
-    sort_order: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "real_name": "realName",
-      "image_url": "imageUrl",
-      "sort_order": "sortOrder",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      real_name: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => LookupByISBNCharacterImages$inboundSchema),
+      ),
+      sort_order: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "real_name": "realName",
+        "image_url": "imageUrl",
+        "sort_order": "sortOrder",
+      });
+    }),
+  )
 );
 
 export function lookupByISBNCharacterFromJSON(
@@ -689,19 +719,21 @@ export function lookupByISBNCharacterFromJSON(
 export const LookupByISBNTeamImages$inboundSchema: z.ZodMiniType<
   LookupByISBNTeamImages,
   unknown
-> = z.pipe(
-  z.object({
-    tile_sm: types.optional(types.string()),
-    profile_md: types.optional(types.string()),
-    full_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "tile_sm": "tileSm",
-      "profile_md": "profileMd",
-      "full_lg": "fullLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      tile_sm: types.optional(types.string()),
+      profile_md: types.optional(types.string()),
+      full_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "tile_sm": "tileSm",
+        "profile_md": "profileMd",
+        "full_lg": "fullLg",
+      });
+    }),
+  )
 );
 
 export function lookupByISBNTeamImagesFromJSON(
@@ -718,22 +750,26 @@ export function lookupByISBNTeamImagesFromJSON(
 export const LookupByISBNTeam$inboundSchema: z.ZodMiniType<
   LookupByISBNTeam,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    headquarters: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-    images: types.nullable(z.lazy(() => LookupByISBNTeamImages$inboundSchema)),
-    sort_order: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "image_url": "imageUrl",
-      "sort_order": "sortOrder",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      headquarters: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => LookupByISBNTeamImages$inboundSchema),
+      ),
+      sort_order: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "image_url": "imageUrl",
+        "sort_order": "sortOrder",
+      });
+    }),
+  )
 );
 
 export function lookupByISBNTeamFromJSON(
@@ -750,19 +786,21 @@ export function lookupByISBNTeamFromJSON(
 export const LookupByISBNStoryArcImages$inboundSchema: z.ZodMiniType<
   LookupByISBNStoryArcImages,
   unknown
-> = z.pipe(
-  z.object({
-    cover_sm: types.optional(types.string()),
-    cover_md: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_md": "coverMd",
-      "cover_lg": "coverLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  )
 );
 
 export function lookupByISBNStoryArcImagesFromJSON(
@@ -779,23 +817,25 @@ export function lookupByISBNStoryArcImagesFromJSON(
 export const LookupByISBNStoryArc$inboundSchema: z.ZodMiniType<
   LookupByISBNStoryArc,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-    images: types.nullable(
-      z.lazy(() => LookupByISBNStoryArcImages$inboundSchema),
-    ),
-    sort_order: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "image_url": "imageUrl",
-      "sort_order": "sortOrder",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => LookupByISBNStoryArcImages$inboundSchema),
+      ),
+      sort_order: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "image_url": "imageUrl",
+        "sort_order": "sortOrder",
+      });
+    }),
+  )
 );
 
 export function lookupByISBNStoryArcFromJSON(
@@ -812,10 +852,12 @@ export function lookupByISBNStoryArcFromJSON(
 export const LookupByISBNUniverse$inboundSchema: z.ZodMiniType<
   LookupByISBNUniverse,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+  })
+);
 
 export function lookupByISBNUniverseFromJSON(
   jsonString: string,
@@ -831,20 +873,22 @@ export function lookupByISBNUniverseFromJSON(
 export const LookupByISBNComicEvent$inboundSchema: z.ZodMiniType<
   LookupByISBNComicEvent,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    type: types.nullable(types.string()),
-    notes: types.nullable(types.string()),
-    display_order: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "display_order": "displayOrder",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      type: types.nullable(types.string()),
+      notes: types.nullable(types.string()),
+      display_order: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "display_order": "displayOrder",
+      });
+    }),
+  )
 );
 
 export function lookupByISBNComicEventFromJSON(
@@ -861,12 +905,14 @@ export function lookupByISBNComicEventFromJSON(
 export const LookupByISBNKeyIssueReason$inboundSchema: z.ZodMiniType<
   LookupByISBNKeyIssueReason,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.nullable(types.string()),
-  category: types.string(),
-  notes: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    category: types.string(),
+    notes: types.nullable(types.string()),
+  })
+);
 
 export function lookupByISBNKeyIssueReasonFromJSON(
   jsonString: string,
@@ -882,41 +928,43 @@ export function lookupByISBNKeyIssueReasonFromJSON(
 export const LookupByISBNAvailability$inboundSchema: z.ZodMiniType<
   LookupByISBNAvailability,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.nullable(types.number()),
-    provider: types.string(),
-    provider_label: types.string(),
-    kind: types.string(),
-    store_name: types.nullable(types.string()),
-    custom_name: types.nullable(types.string()),
-    display_name: types.string(),
-    store_logo: types.nullable(types.string()),
-    url: types.string(),
-    external_id: types.nullable(types.string()),
-    price: types.nullable(types.number()),
-    formatted_price: types.nullable(types.string()),
-    currency: types.nullable(types.string()),
-    is_digital: types.nullable(types.boolean()),
-    is_affiliate: types.boolean(),
-    is_synthesized: types.boolean(),
-    verified_at: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "provider_label": "providerLabel",
-      "store_name": "storeName",
-      "custom_name": "customName",
-      "display_name": "displayName",
-      "store_logo": "storeLogo",
-      "external_id": "externalId",
-      "formatted_price": "formattedPrice",
-      "is_digital": "isDigital",
-      "is_affiliate": "isAffiliate",
-      "is_synthesized": "isSynthesized",
-      "verified_at": "verifiedAt",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.nullable(types.number()),
+      provider: types.string(),
+      provider_label: types.string(),
+      kind: types.string(),
+      store_name: types.nullable(types.string()),
+      custom_name: types.nullable(types.string()),
+      display_name: types.string(),
+      store_logo: types.nullable(types.string()),
+      url: types.string(),
+      external_id: types.nullable(types.string()),
+      price: types.nullable(types.number()),
+      formatted_price: types.nullable(types.string()),
+      currency: types.nullable(types.string()),
+      is_digital: types.nullable(types.boolean()),
+      is_affiliate: types.boolean(),
+      is_synthesized: types.boolean(),
+      verified_at: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "provider_label": "providerLabel",
+        "store_name": "storeName",
+        "custom_name": "customName",
+        "display_name": "displayName",
+        "store_logo": "storeLogo",
+        "external_id": "externalId",
+        "formatted_price": "formattedPrice",
+        "is_digital": "isDigital",
+        "is_affiliate": "isAffiliate",
+        "is_synthesized": "isSynthesized",
+        "verified_at": "verifiedAt",
+      });
+    }),
+  )
 );
 
 export function lookupByISBNAvailabilityFromJSON(
@@ -933,12 +981,14 @@ export function lookupByISBNAvailabilityFromJSON(
 export const LookupByISBNNameI18n$inboundSchema: z.ZodMiniType<
   LookupByISBNNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function lookupByISBNNameI18nFromJSON(
   jsonString: string,
@@ -954,116 +1004,118 @@ export function lookupByISBNNameI18nFromJSON(
 export const LookupByISBNData$inboundSchema: z.ZodMiniType<
   LookupByISBNData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    series_id: types.nullable(types.number()),
-    issue_number: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    solicitation: types.nullable(types.string()),
-    release_date: types.nullable(types.string()),
-    foc_date: types.nullable(types.string()),
-    cover_date: types.nullable(types.string()),
-    is_unreleased: types.boolean(),
-    cover_url: types.nullable(types.string()),
-    images: types.nullable(z.lazy(() => LookupByISBNImages$inboundSchema)),
-    is_reprint: types.nullable(types.boolean()),
-    content_rating_label: types.nullable(types.string()),
-    min_age: types.nullable(types.number()),
-    is_nsfw: types.nullable(types.boolean()),
-    page_count: types.nullable(types.number()),
-    price: types.nullable(types.string()),
-    currency_code: types.nullable(types.string()),
-    formatted_price: types.nullable(types.string()),
-    isbn: types.nullable(types.string()),
-    upc: types.nullable(types.string()),
-    lunar_code: types.nullable(types.string()),
-    universal_code: types.nullable(types.string()),
-    diamond_code: types.nullable(types.string()),
-    ean: types.nullable(types.string()),
-    issn: types.nullable(types.string()),
-    is_anthology: types.nullable(types.boolean()),
-    is_tie_in: types.boolean(),
-    adapted_from: types.nullable(types.string()),
-    print_run: types.nullable(types.number()),
-    locations: types.nullable(types.string()),
-    sku: types.nullable(types.string()),
-    variant_count: types.number(),
-    reads_count: types.number(),
-    average_rating: types.optional(types.number()),
-    review_count: types.optional(types.number()),
-    title: types.optional(z.lazy(() => LookupByISBNTitle$inboundSchema)),
-    series: types.nullable(z.lazy(() => LookupByISBNSeries$inboundSchema)),
-    publisher: z.optional(
-      z.nullable(z.lazy(() => LookupByISBNPublisher$inboundSchema)),
-    ),
-    imprint: types.optional(z.lazy(() => LookupByISBNImprint$inboundSchema)),
-    awards: types.optional(
-      z.array(z.lazy(() => LookupByISBNAward$inboundSchema)),
-    ),
-    creators: types.optional(
-      z.array(z.lazy(() => LookupByISBNCreator$inboundSchema)),
-    ),
-    characters: types.optional(
-      z.array(z.lazy(() => LookupByISBNCharacter$inboundSchema)),
-    ),
-    teams: types.optional(
-      z.array(z.lazy(() => LookupByISBNTeam$inboundSchema)),
-    ),
-    story_arcs: types.optional(
-      z.array(z.lazy(() => LookupByISBNStoryArc$inboundSchema)),
-    ),
-    universes: types.optional(
-      z.array(z.lazy(() => LookupByISBNUniverse$inboundSchema)),
-    ),
-    comic_events: types.optional(
-      z.array(z.lazy(() => LookupByISBNComicEvent$inboundSchema)),
-    ),
-    key_issue_reasons: types.optional(
-      z.array(z.lazy(() => LookupByISBNKeyIssueReason$inboundSchema)),
-    ),
-    availabilities: z.array(
-      z.lazy(() => LookupByISBNAvailability$inboundSchema),
-    ),
-    name_i18n: z.record(
-      z.string(),
-      z.lazy(() => LookupByISBNNameI18n$inboundSchema),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "series_id": "seriesId",
-      "issue_number": "issueNumber",
-      "release_date": "releaseDate",
-      "foc_date": "focDate",
-      "cover_date": "coverDate",
-      "is_unreleased": "isUnreleased",
-      "cover_url": "coverUrl",
-      "is_reprint": "isReprint",
-      "content_rating_label": "contentRatingLabel",
-      "min_age": "minAge",
-      "is_nsfw": "isNsfw",
-      "page_count": "pageCount",
-      "currency_code": "currencyCode",
-      "formatted_price": "formattedPrice",
-      "lunar_code": "lunarCode",
-      "universal_code": "universalCode",
-      "diamond_code": "diamondCode",
-      "is_anthology": "isAnthology",
-      "is_tie_in": "isTieIn",
-      "adapted_from": "adaptedFrom",
-      "print_run": "printRun",
-      "variant_count": "variantCount",
-      "reads_count": "readsCount",
-      "average_rating": "averageRating",
-      "review_count": "reviewCount",
-      "story_arcs": "storyArcs",
-      "comic_events": "comicEvents",
-      "key_issue_reasons": "keyIssueReasons",
-      "name_i18n": "nameI18n",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      series_id: types.nullable(types.number()),
+      issue_number: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      solicitation: types.nullable(types.string()),
+      release_date: types.nullable(types.string()),
+      foc_date: types.nullable(types.string()),
+      cover_date: types.nullable(types.string()),
+      is_unreleased: types.boolean(),
+      cover_url: types.nullable(types.string()),
+      images: types.nullable(z.lazy(() => LookupByISBNImages$inboundSchema)),
+      is_reprint: types.nullable(types.boolean()),
+      content_rating_label: types.nullable(types.string()),
+      min_age: types.nullable(types.number()),
+      is_nsfw: types.nullable(types.boolean()),
+      page_count: types.nullable(types.number()),
+      price: types.nullable(types.string()),
+      currency_code: types.nullable(types.string()),
+      formatted_price: types.nullable(types.string()),
+      isbn: types.nullable(types.string()),
+      upc: types.nullable(types.string()),
+      lunar_code: types.nullable(types.string()),
+      universal_code: types.nullable(types.string()),
+      diamond_code: types.nullable(types.string()),
+      ean: types.nullable(types.string()),
+      issn: types.nullable(types.string()),
+      is_anthology: types.nullable(types.boolean()),
+      is_tie_in: types.boolean(),
+      adapted_from: types.nullable(types.string()),
+      print_run: types.nullable(types.number()),
+      locations: types.nullable(types.string()),
+      sku: types.nullable(types.string()),
+      variant_count: types.number(),
+      reads_count: types.number(),
+      average_rating: types.optional(types.number()),
+      review_count: types.optional(types.number()),
+      title: types.optional(z.lazy(() => LookupByISBNTitle$inboundSchema)),
+      series: types.nullable(z.lazy(() => LookupByISBNSeries$inboundSchema)),
+      publisher: z.optional(
+        z.nullable(z.lazy(() => LookupByISBNPublisher$inboundSchema)),
+      ),
+      imprint: types.optional(z.lazy(() => LookupByISBNImprint$inboundSchema)),
+      awards: types.optional(
+        z.array(z.lazy(() => LookupByISBNAward$inboundSchema)),
+      ),
+      creators: types.optional(
+        z.array(z.lazy(() => LookupByISBNCreator$inboundSchema)),
+      ),
+      characters: types.optional(
+        z.array(z.lazy(() => LookupByISBNCharacter$inboundSchema)),
+      ),
+      teams: types.optional(
+        z.array(z.lazy(() => LookupByISBNTeam$inboundSchema)),
+      ),
+      story_arcs: types.optional(
+        z.array(z.lazy(() => LookupByISBNStoryArc$inboundSchema)),
+      ),
+      universes: types.optional(
+        z.array(z.lazy(() => LookupByISBNUniverse$inboundSchema)),
+      ),
+      comic_events: types.optional(
+        z.array(z.lazy(() => LookupByISBNComicEvent$inboundSchema)),
+      ),
+      key_issue_reasons: types.optional(
+        z.array(z.lazy(() => LookupByISBNKeyIssueReason$inboundSchema)),
+      ),
+      availabilities: z.array(
+        z.lazy(() => LookupByISBNAvailability$inboundSchema),
+      ),
+      name_i18n: z.record(
+        z.string(),
+        z.lazy(() => LookupByISBNNameI18n$inboundSchema),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "series_id": "seriesId",
+        "issue_number": "issueNumber",
+        "release_date": "releaseDate",
+        "foc_date": "focDate",
+        "cover_date": "coverDate",
+        "is_unreleased": "isUnreleased",
+        "cover_url": "coverUrl",
+        "is_reprint": "isReprint",
+        "content_rating_label": "contentRatingLabel",
+        "min_age": "minAge",
+        "is_nsfw": "isNsfw",
+        "page_count": "pageCount",
+        "currency_code": "currencyCode",
+        "formatted_price": "formattedPrice",
+        "lunar_code": "lunarCode",
+        "universal_code": "universalCode",
+        "diamond_code": "diamondCode",
+        "is_anthology": "isAnthology",
+        "is_tie_in": "isTieIn",
+        "adapted_from": "adaptedFrom",
+        "print_run": "printRun",
+        "variant_count": "variantCount",
+        "reads_count": "readsCount",
+        "average_rating": "averageRating",
+        "review_count": "reviewCount",
+        "story_arcs": "storyArcs",
+        "comic_events": "comicEvents",
+        "key_issue_reasons": "keyIssueReasons",
+        "name_i18n": "nameI18n",
+      });
+    }),
+  )
 );
 
 export function lookupByISBNDataFromJSON(
@@ -1080,9 +1132,11 @@ export function lookupByISBNDataFromJSON(
 export const LookupByISBNResponseBody$inboundSchema: z.ZodMiniType<
   LookupByISBNResponseBody,
   unknown
-> = z.object({
-  data: z.lazy(() => LookupByISBNData$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.lazy(() => LookupByISBNData$inboundSchema),
+  })
+);
 
 export function lookupByISBNResponseBodyFromJSON(
   jsonString: string,
@@ -1098,17 +1152,19 @@ export function lookupByISBNResponseBodyFromJSON(
 export const LookupByISBNResponse$inboundSchema: z.ZodMiniType<
   LookupByISBNResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => LookupByISBNResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => LookupByISBNResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function lookupByISBNResponseFromJSON(

@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -80,106 +80,108 @@ export type GetTheAuthenticatedUserResponse = {
 export const GetTheAuthenticatedUserData$inboundSchema: z.ZodMiniType<
   GetTheAuthenticatedUserData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    username: types.nullable(types.string()),
-    email: z.optional(z.nullable(types.string())),
-    bio: types.nullable(types.string()),
-    avatar: types.nullable(types.string()),
-    profile_image: types.nullable(types.string()),
-    profile_image_url: types.nullable(types.string()),
-    banner_path: types.nullable(types.string()),
-    banner_url: types.nullable(types.string()),
-    country_code: z.optional(z.nullable(types.string())),
-    city: z.optional(z.nullable(types.string())),
-    region: z.optional(z.nullable(types.string())),
-    postal_code: z.optional(z.nullable(types.string())),
-    formatted_location: z.optional(z.nullable(types.string())),
-    is_private: z.optional(z.nullable(types.boolean())),
-    is_wishlist_public: z.optional(z.nullable(types.boolean())),
-    public_wishlist_id: z.optional(z.nullable(types.string())),
-    email_notifications: z.optional(z.nullable(types.boolean())),
-    content_edit_notifications: z.optional(z.nullable(types.boolean())),
-    comment_reply_notifications: z.optional(z.nullable(types.boolean())),
-    show_nsfw_warnings: z.optional(z.nullable(types.boolean())),
-    birth_date: z.optional(z.nullable(types.string())),
-    can_view_nsfw: types.optional(types.boolean()),
-    show_reading_list: z.optional(z.nullable(types.boolean())),
-    show_collection: z.optional(z.nullable(types.boolean())),
-    show_activity: z.optional(z.nullable(types.boolean())),
-    show_followers: z.optional(z.nullable(types.boolean())),
-    show_following: z.optional(z.nullable(types.boolean())),
-    show_spoilers: z.optional(z.nullable(types.boolean())),
-    prompt_review_on_collect: types.optional(types.boolean()),
-    preferred_mediums: types.optional(z.array(types.string())),
-    preferred_genres: types.optional(z.array(z.any())),
-    preferred_languages: types.optional(z.array(types.string())),
-    locale: z.optional(z.nullable(types.string())),
-    onboarding_completed_at: z.optional(z.nullable(types.string())),
-    onboarding_step: types.optional(types.number()),
-    ai_discovery_enabled: z.optional(z.nullable(types.boolean())),
-    is_pro: types.nullable(types.boolean()),
-    can_change_username: types.optional(types.boolean()),
-    level: types.number(),
-    xp: types.number(),
-    xp_for_next_level: types.nullable(types.number()),
-    xp_progress_percent: types.number(),
-    contributions_count: types.number(),
-    level_name: types.nullable(types.string()),
-    created_at: types.nullable(types.string()),
-    updated_at: types.nullable(types.string()),
-    has_password: types.optional(types.boolean()),
-    deletion_requested_at: z.optional(z.nullable(types.string())),
-    deletion_confirmed_at: z.optional(z.nullable(types.string())),
-    deletion_scheduled_for: z.optional(z.nullable(types.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "profile_image": "profileImage",
-      "profile_image_url": "profileImageUrl",
-      "banner_path": "bannerPath",
-      "banner_url": "bannerUrl",
-      "country_code": "countryCode",
-      "postal_code": "postalCode",
-      "formatted_location": "formattedLocation",
-      "is_private": "isPrivate",
-      "is_wishlist_public": "isWishlistPublic",
-      "public_wishlist_id": "publicWishlistId",
-      "email_notifications": "emailNotifications",
-      "content_edit_notifications": "contentEditNotifications",
-      "comment_reply_notifications": "commentReplyNotifications",
-      "show_nsfw_warnings": "showNsfwWarnings",
-      "birth_date": "birthDate",
-      "can_view_nsfw": "canViewNsfw",
-      "show_reading_list": "showReadingList",
-      "show_collection": "showCollection",
-      "show_activity": "showActivity",
-      "show_followers": "showFollowers",
-      "show_following": "showFollowing",
-      "show_spoilers": "showSpoilers",
-      "prompt_review_on_collect": "promptReviewOnCollect",
-      "preferred_mediums": "preferredMediums",
-      "preferred_genres": "preferredGenres",
-      "preferred_languages": "preferredLanguages",
-      "onboarding_completed_at": "onboardingCompletedAt",
-      "onboarding_step": "onboardingStep",
-      "ai_discovery_enabled": "aiDiscoveryEnabled",
-      "is_pro": "isPro",
-      "can_change_username": "canChangeUsername",
-      "xp_for_next_level": "xpForNextLevel",
-      "xp_progress_percent": "xpProgressPercent",
-      "contributions_count": "contributionsCount",
-      "level_name": "levelName",
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-      "has_password": "hasPassword",
-      "deletion_requested_at": "deletionRequestedAt",
-      "deletion_confirmed_at": "deletionConfirmedAt",
-      "deletion_scheduled_for": "deletionScheduledFor",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      username: types.nullable(types.string()),
+      email: z.optional(z.nullable(types.string())),
+      bio: types.nullable(types.string()),
+      avatar: types.nullable(types.string()),
+      profile_image: types.nullable(types.string()),
+      profile_image_url: types.nullable(types.string()),
+      banner_path: types.nullable(types.string()),
+      banner_url: types.nullable(types.string()),
+      country_code: z.optional(z.nullable(types.string())),
+      city: z.optional(z.nullable(types.string())),
+      region: z.optional(z.nullable(types.string())),
+      postal_code: z.optional(z.nullable(types.string())),
+      formatted_location: z.optional(z.nullable(types.string())),
+      is_private: z.optional(z.nullable(types.boolean())),
+      is_wishlist_public: z.optional(z.nullable(types.boolean())),
+      public_wishlist_id: z.optional(z.nullable(types.string())),
+      email_notifications: z.optional(z.nullable(types.boolean())),
+      content_edit_notifications: z.optional(z.nullable(types.boolean())),
+      comment_reply_notifications: z.optional(z.nullable(types.boolean())),
+      show_nsfw_warnings: z.optional(z.nullable(types.boolean())),
+      birth_date: z.optional(z.nullable(types.string())),
+      can_view_nsfw: types.optional(types.boolean()),
+      show_reading_list: z.optional(z.nullable(types.boolean())),
+      show_collection: z.optional(z.nullable(types.boolean())),
+      show_activity: z.optional(z.nullable(types.boolean())),
+      show_followers: z.optional(z.nullable(types.boolean())),
+      show_following: z.optional(z.nullable(types.boolean())),
+      show_spoilers: z.optional(z.nullable(types.boolean())),
+      prompt_review_on_collect: types.optional(types.boolean()),
+      preferred_mediums: types.optional(z.array(types.string())),
+      preferred_genres: types.optional(z.array(z.any())),
+      preferred_languages: types.optional(z.array(types.string())),
+      locale: z.optional(z.nullable(types.string())),
+      onboarding_completed_at: z.optional(z.nullable(types.string())),
+      onboarding_step: types.optional(types.number()),
+      ai_discovery_enabled: z.optional(z.nullable(types.boolean())),
+      is_pro: types.nullable(types.boolean()),
+      can_change_username: types.optional(types.boolean()),
+      level: types.number(),
+      xp: types.number(),
+      xp_for_next_level: types.nullable(types.number()),
+      xp_progress_percent: types.number(),
+      contributions_count: types.number(),
+      level_name: types.nullable(types.string()),
+      created_at: types.nullable(types.string()),
+      updated_at: types.nullable(types.string()),
+      has_password: types.optional(types.boolean()),
+      deletion_requested_at: z.optional(z.nullable(types.string())),
+      deletion_confirmed_at: z.optional(z.nullable(types.string())),
+      deletion_scheduled_for: z.optional(z.nullable(types.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "profile_image": "profileImage",
+        "profile_image_url": "profileImageUrl",
+        "banner_path": "bannerPath",
+        "banner_url": "bannerUrl",
+        "country_code": "countryCode",
+        "postal_code": "postalCode",
+        "formatted_location": "formattedLocation",
+        "is_private": "isPrivate",
+        "is_wishlist_public": "isWishlistPublic",
+        "public_wishlist_id": "publicWishlistId",
+        "email_notifications": "emailNotifications",
+        "content_edit_notifications": "contentEditNotifications",
+        "comment_reply_notifications": "commentReplyNotifications",
+        "show_nsfw_warnings": "showNsfwWarnings",
+        "birth_date": "birthDate",
+        "can_view_nsfw": "canViewNsfw",
+        "show_reading_list": "showReadingList",
+        "show_collection": "showCollection",
+        "show_activity": "showActivity",
+        "show_followers": "showFollowers",
+        "show_following": "showFollowing",
+        "show_spoilers": "showSpoilers",
+        "prompt_review_on_collect": "promptReviewOnCollect",
+        "preferred_mediums": "preferredMediums",
+        "preferred_genres": "preferredGenres",
+        "preferred_languages": "preferredLanguages",
+        "onboarding_completed_at": "onboardingCompletedAt",
+        "onboarding_step": "onboardingStep",
+        "ai_discovery_enabled": "aiDiscoveryEnabled",
+        "is_pro": "isPro",
+        "can_change_username": "canChangeUsername",
+        "xp_for_next_level": "xpForNextLevel",
+        "xp_progress_percent": "xpProgressPercent",
+        "contributions_count": "contributionsCount",
+        "level_name": "levelName",
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+        "has_password": "hasPassword",
+        "deletion_requested_at": "deletionRequestedAt",
+        "deletion_confirmed_at": "deletionConfirmedAt",
+        "deletion_scheduled_for": "deletionScheduledFor",
+      });
+    }),
+  )
 );
 
 export function getTheAuthenticatedUserDataFromJSON(
@@ -196,9 +198,11 @@ export function getTheAuthenticatedUserDataFromJSON(
 export const GetTheAuthenticatedUserResponseBody$inboundSchema: z.ZodMiniType<
   GetTheAuthenticatedUserResponseBody,
   unknown
-> = z.object({
-  data: z.lazy(() => GetTheAuthenticatedUserData$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.lazy(() => GetTheAuthenticatedUserData$inboundSchema),
+  })
+);
 
 export function getTheAuthenticatedUserResponseBodyFromJSON(
   jsonString: string,
@@ -215,17 +219,19 @@ export function getTheAuthenticatedUserResponseBodyFromJSON(
 export const GetTheAuthenticatedUserResponse$inboundSchema: z.ZodMiniType<
   GetTheAuthenticatedUserResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => GetTheAuthenticatedUserResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => GetTheAuthenticatedUserResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function getTheAuthenticatedUserResponseFromJSON(

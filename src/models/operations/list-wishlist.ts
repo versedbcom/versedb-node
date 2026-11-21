@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -118,15 +118,17 @@ export type ListWishlistRequest$Outbound = {
 export const ListWishlistRequest$outboundSchema: z.ZodMiniType<
   ListWishlistRequest$Outbound,
   ListWishlistRequest
-> = z.pipe(
-  z.object({
-    perPage: z.optional(z.int()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      perPage: "per_page",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      perPage: z.optional(z.int()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        perPage: "per_page",
+      });
+    }),
+  )
 );
 
 export function listWishlistRequestToJSON(
@@ -141,18 +143,20 @@ export function listWishlistRequestToJSON(
 export const ListWishlistVariant$inboundSchema: z.ZodMiniType<
   ListWishlistVariant,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    ratio: types.nullable(types.string()),
-    cover_image_url: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_image_url": "coverImageUrl",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      ratio: types.nullable(types.string()),
+      cover_image_url: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_image_url": "coverImageUrl",
+      });
+    }),
+  )
 );
 
 export function listWishlistVariantFromJSON(
@@ -169,18 +173,20 @@ export function listWishlistVariantFromJSON(
 export const ListWishlistSeries$inboundSchema: z.ZodMiniType<
   ListWishlistSeries,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    start_year: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "start_year": "startYear",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      start_year: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "start_year": "startYear",
+      });
+    }),
+  )
 );
 
 export function listWishlistSeriesFromJSON(
@@ -197,28 +203,30 @@ export function listWishlistSeriesFromJSON(
 export const ListWishlistEntity$inboundSchema: z.ZodMiniType<
   ListWishlistEntity,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    issue_number: types.nullable(types.string()),
-    release_date: types.nullable(types.string()),
-    foc_date: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-    is_nsfw: types.nullable(types.boolean()),
-    publisher: types.nullable(types.string()),
-    series: types.nullable(z.lazy(() => ListWishlistSeries$inboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "issue_number": "issueNumber",
-      "release_date": "releaseDate",
-      "foc_date": "focDate",
-      "image_url": "imageUrl",
-      "is_nsfw": "isNsfw",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      issue_number: types.nullable(types.string()),
+      release_date: types.nullable(types.string()),
+      foc_date: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+      is_nsfw: types.nullable(types.boolean()),
+      publisher: types.nullable(types.string()),
+      series: types.nullable(z.lazy(() => ListWishlistSeries$inboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "issue_number": "issueNumber",
+        "release_date": "releaseDate",
+        "foc_date": "focDate",
+        "image_url": "imageUrl",
+        "is_nsfw": "isNsfw",
+      });
+    }),
+  )
 );
 
 export function listWishlistEntityFromJSON(
@@ -235,26 +243,28 @@ export function listWishlistEntityFromJSON(
 export const ListWishlistData$inboundSchema: z.ZodMiniType<
   ListWishlistData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    position: types.nullable(types.number()),
-    note: z.optional(z.nullable(types.string())),
-    created_at: types.string(),
-    updated_at: types.string(),
-    variant_id: types.nullable(types.number()),
-    variant: types.optional(z.lazy(() => ListWishlistVariant$inboundSchema)),
-    entity_type: types.string(),
-    entity: types.optional(z.lazy(() => ListWishlistEntity$inboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-      "variant_id": "variantId",
-      "entity_type": "entityType",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      position: types.nullable(types.number()),
+      note: z.optional(z.nullable(types.string())),
+      created_at: types.string(),
+      updated_at: types.string(),
+      variant_id: types.nullable(types.number()),
+      variant: types.optional(z.lazy(() => ListWishlistVariant$inboundSchema)),
+      entity_type: types.string(),
+      entity: types.optional(z.lazy(() => ListWishlistEntity$inboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+        "variant_id": "variantId",
+        "entity_type": "entityType",
+      });
+    }),
+  )
 );
 
 export function listWishlistDataFromJSON(
@@ -271,12 +281,14 @@ export function listWishlistDataFromJSON(
 export const ListWishlistLinks$inboundSchema: z.ZodMiniType<
   ListWishlistLinks,
   unknown
-> = z.object({
-  first: types.string(),
-  last: types.string(),
-  prev: types.nullable(types.string()),
-  next: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    first: types.string(),
+    last: types.string(),
+    prev: types.nullable(types.string()),
+    next: types.nullable(types.string()),
+  })
+);
 
 export function listWishlistLinksFromJSON(
   jsonString: string,
@@ -292,12 +304,14 @@ export function listWishlistLinksFromJSON(
 export const ListWishlistLink$inboundSchema: z.ZodMiniType<
   ListWishlistLink,
   unknown
-> = z.object({
-  url: types.nullable(types.string()),
-  label: types.string(),
-  page: z.optional(z.nullable(types.number())),
-  active: types.boolean(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    url: types.nullable(types.string()),
+    label: types.string(),
+    page: z.optional(z.nullable(types.number())),
+    active: types.boolean(),
+  })
+);
 
 export function listWishlistLinkFromJSON(
   jsonString: string,
@@ -313,24 +327,26 @@ export function listWishlistLinkFromJSON(
 export const ListWishlistMeta$inboundSchema: z.ZodMiniType<
   ListWishlistMeta,
   unknown
-> = z.pipe(
-  z.object({
-    current_page: types.number(),
-    from: types.nullable(types.number()),
-    last_page: types.number(),
-    links: z.array(z.lazy(() => ListWishlistLink$inboundSchema)),
-    path: types.string(),
-    per_page: types.number(),
-    to: types.nullable(types.number()),
-    total: types.number(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "current_page": "currentPage",
-      "last_page": "lastPage",
-      "per_page": "perPage",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      current_page: types.number(),
+      from: types.nullable(types.number()),
+      last_page: types.number(),
+      links: z.array(z.lazy(() => ListWishlistLink$inboundSchema)),
+      path: types.string(),
+      per_page: types.number(),
+      to: types.nullable(types.number()),
+      total: types.number(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "current_page": "currentPage",
+        "last_page": "lastPage",
+        "per_page": "perPage",
+      });
+    }),
+  )
 );
 
 export function listWishlistMetaFromJSON(
@@ -347,11 +363,13 @@ export function listWishlistMetaFromJSON(
 export const ListWishlistResponseBody$inboundSchema: z.ZodMiniType<
   ListWishlistResponseBody,
   unknown
-> = z.object({
-  data: z.array(z.lazy(() => ListWishlistData$inboundSchema)),
-  links: z.lazy(() => ListWishlistLinks$inboundSchema),
-  meta: z.lazy(() => ListWishlistMeta$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.array(z.lazy(() => ListWishlistData$inboundSchema)),
+    links: z.lazy(() => ListWishlistLinks$inboundSchema),
+    meta: z.lazy(() => ListWishlistMeta$inboundSchema),
+  })
+);
 
 export function listWishlistResponseBodyFromJSON(
   jsonString: string,
@@ -367,17 +385,19 @@ export function listWishlistResponseBodyFromJSON(
 export const ListWishlistResponse$inboundSchema: z.ZodMiniType<
   ListWishlistResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => ListWishlistResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => ListWishlistResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function listWishlistResponseFromJSON(

@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { smartUnion } from "../../types/smart-union.js";
@@ -184,16 +184,18 @@ export type GetAComicShopRequest$Outbound = {
 export const GetAComicShopRequest$outboundSchema: z.ZodMiniType<
   GetAComicShopRequest$Outbound,
   GetAComicShopRequest
-> = z.pipe(
-  z.object({
-    shopId: z.int(),
-    languages: z.optional(z.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      shopId: "shop_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      shopId: z.int(),
+      languages: z.optional(z.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        shopId: "shop_id",
+      });
+    }),
+  )
 );
 
 export function getAComicShopRequestToJSON(
@@ -208,12 +210,14 @@ export function getAComicShopRequestToJSON(
 export const GetAComicShopNameI18n$inboundSchema: z.ZodMiniType<
   GetAComicShopNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function getAComicShopNameI18nFromJSON(
   jsonString: string,
@@ -229,17 +233,19 @@ export function getAComicShopNameI18nFromJSON(
 export const GetAComicShopImages$inboundSchema: z.ZodMiniType<
   GetAComicShopImages,
   unknown
-> = z.pipe(
-  z.object({
-    tile_sm: types.optional(types.string()),
-    full_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "tile_sm": "tileSm",
-      "full_lg": "fullLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      tile_sm: types.optional(types.string()),
+      full_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "tile_sm": "tileSm",
+        "full_lg": "fullLg",
+      });
+    }),
+  )
 );
 
 export function getAComicShopImagesFromJSON(
@@ -256,15 +262,17 @@ export function getAComicShopImagesFromJSON(
 export const OperatingHours$inboundSchema: z.ZodMiniType<
   OperatingHours,
   unknown
-> = z.object({
-  monday: types.optional(types.string()),
-  tuesday: types.optional(types.string()),
-  wednesday: types.optional(types.string()),
-  thursday: types.optional(types.string()),
-  friday: types.optional(types.string()),
-  saturday: types.optional(types.string()),
-  sunday: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    monday: types.optional(types.string()),
+    tuesday: types.optional(types.string()),
+    wednesday: types.optional(types.string()),
+    thursday: types.optional(types.string()),
+    friday: types.optional(types.string()),
+    saturday: types.optional(types.string()),
+    sunday: types.optional(types.string()),
+  })
+);
 
 export function operatingHoursFromJSON(
   jsonString: string,
@@ -280,7 +288,9 @@ export function operatingHoursFromJSON(
 export const OperatingHoursUnion$inboundSchema: z.ZodMiniType<
   OperatingHoursUnion,
   unknown
-> = smartUnion([z.lazy(() => OperatingHours$inboundSchema), z.array(z.any())]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([z.lazy(() => OperatingHours$inboundSchema), z.array(z.any())])
+);
 
 export function operatingHoursUnionFromJSON(
   jsonString: string,
@@ -293,13 +303,15 @@ export function operatingHoursUnionFromJSON(
 }
 
 /** @internal */
-export const SpecialHour$inboundSchema: z.ZodMiniType<SpecialHour, unknown> = z
-  .object({
-    from: types.string(),
-    to: types.string(),
-    hours: types.string(),
-    note: types.nullable(types.string()),
-  });
+export const SpecialHour$inboundSchema: z.ZodMiniType<SpecialHour, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      from: types.string(),
+      to: types.string(),
+      hours: types.string(),
+      note: types.nullable(types.string()),
+    })
+  );
 
 export function specialHourFromJSON(
   jsonString: string,
@@ -312,24 +324,26 @@ export function specialHourFromJSON(
 }
 
 /** @internal */
-export const RelatedShop$inboundSchema: z.ZodMiniType<RelatedShop, unknown> = z
-  .pipe(
-    z.object({
-      id: types.number(),
-      name: types.nullable(types.string()),
-      slug: types.nullable(types.string()),
-      city: types.nullable(types.string()),
-      state_province: types.nullable(types.string()),
-      country: types.nullable(types.string()),
-      logo_url: types.nullable(types.string()),
-      url: types.string(),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "state_province": "stateProvince",
-        "logo_url": "logoUrl",
-      });
-    }),
+export const RelatedShop$inboundSchema: z.ZodMiniType<RelatedShop, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        id: types.number(),
+        name: types.nullable(types.string()),
+        slug: types.nullable(types.string()),
+        city: types.nullable(types.string()),
+        state_province: types.nullable(types.string()),
+        country: types.nullable(types.string()),
+        logo_url: types.nullable(types.string()),
+        url: types.string(),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "state_province": "stateProvince",
+          "logo_url": "logoUrl",
+        });
+      }),
+    )
   );
 
 export function relatedShopFromJSON(
@@ -346,12 +360,14 @@ export function relatedShopFromJSON(
 export const EventNameI18n$inboundSchema: z.ZodMiniType<
   EventNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function eventNameI18nFromJSON(
   jsonString: string,
@@ -364,20 +380,22 @@ export function eventNameI18nFromJSON(
 }
 
 /** @internal */
-export const EventImages$inboundSchema: z.ZodMiniType<EventImages, unknown> = z
-  .pipe(
-    z.object({
-      tile_sm: types.optional(types.string()),
-      full_md: types.optional(types.string()),
-      full_lg: types.optional(types.string()),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "tile_sm": "tileSm",
-        "full_md": "fullMd",
-        "full_lg": "fullLg",
-      });
-    }),
+export const EventImages$inboundSchema: z.ZodMiniType<EventImages, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        tile_sm: types.optional(types.string()),
+        full_md: types.optional(types.string()),
+        full_lg: types.optional(types.string()),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "tile_sm": "tileSm",
+          "full_md": "fullMd",
+          "full_lg": "fullLg",
+        });
+      }),
+    )
   );
 
 export function eventImagesFromJSON(
@@ -391,53 +409,59 @@ export function eventImagesFromJSON(
 }
 
 /** @internal */
-export const Event$inboundSchema: z.ZodMiniType<Event, unknown> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    name_i18n: z.record(z.string(), z.lazy(() => EventNameI18n$inboundSchema)),
-    aliases_i18n: z.record(z.string(), z.array(types.string())),
-    original_locale: types.nullable(types.string()),
-    type: types.nullable(types.string()),
-    start_date: types.nullable(types.string()),
-    end_date: types.nullable(types.string()),
-    start_time: types.nullable(types.string()),
-    end_time: types.nullable(types.string()),
-    timezone: types.nullable(types.string()),
-    is_online: types.nullable(types.boolean()),
-    is_fcbd: types.nullable(types.boolean()),
-    status: types.string(),
-    venue_name: types.nullable(types.string()),
-    city: types.nullable(types.string()),
-    region: types.nullable(types.string()),
-    country_code: types.nullable(types.string()),
-    full_location: types.string(),
-    logo_url: types.nullable(types.string()),
-    images: types.nullable(z.lazy(() => EventImages$inboundSchema)),
-    ticket_price: types.nullable(types.string()),
-    follower_count: types.number(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "name_i18n": "nameI18n",
-      "aliases_i18n": "aliasesI18n",
-      "original_locale": "originalLocale",
-      "start_date": "startDate",
-      "end_date": "endDate",
-      "start_time": "startTime",
-      "end_time": "endTime",
-      "is_online": "isOnline",
-      "is_fcbd": "isFcbd",
-      "venue_name": "venueName",
-      "country_code": "countryCode",
-      "full_location": "fullLocation",
-      "logo_url": "logoUrl",
-      "ticket_price": "ticketPrice",
-      "follower_count": "followerCount",
-    });
-  }),
-);
+export const Event$inboundSchema: z.ZodMiniType<Event, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        id: types.number(),
+        slug: types.nullable(types.string()),
+        name: types.nullable(types.string()),
+        name_i18n: z.record(
+          z.string(),
+          z.lazy(() => EventNameI18n$inboundSchema),
+        ),
+        aliases_i18n: z.record(z.string(), z.array(types.string())),
+        original_locale: types.nullable(types.string()),
+        type: types.nullable(types.string()),
+        start_date: types.nullable(types.string()),
+        end_date: types.nullable(types.string()),
+        start_time: types.nullable(types.string()),
+        end_time: types.nullable(types.string()),
+        timezone: types.nullable(types.string()),
+        is_online: types.nullable(types.boolean()),
+        is_fcbd: types.nullable(types.boolean()),
+        status: types.string(),
+        venue_name: types.nullable(types.string()),
+        city: types.nullable(types.string()),
+        region: types.nullable(types.string()),
+        country_code: types.nullable(types.string()),
+        full_location: types.string(),
+        logo_url: types.nullable(types.string()),
+        images: types.nullable(z.lazy(() => EventImages$inboundSchema)),
+        ticket_price: types.nullable(types.string()),
+        follower_count: types.number(),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "name_i18n": "nameI18n",
+          "aliases_i18n": "aliasesI18n",
+          "original_locale": "originalLocale",
+          "start_date": "startDate",
+          "end_date": "endDate",
+          "start_time": "startTime",
+          "end_time": "endTime",
+          "is_online": "isOnline",
+          "is_fcbd": "isFcbd",
+          "venue_name": "venueName",
+          "country_code": "countryCode",
+          "full_location": "fullLocation",
+          "logo_url": "logoUrl",
+          "ticket_price": "ticketPrice",
+          "follower_count": "followerCount",
+        });
+      }),
+    )
+  );
 
 export function eventFromJSON(
   jsonString: string,
@@ -453,52 +477,54 @@ export function eventFromJSON(
 export const GetAComicShopData$inboundSchema: z.ZodMiniType<
   GetAComicShopData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    name_i18n: z.record(
-      z.string(),
-      z.lazy(() => GetAComicShopNameI18n$inboundSchema),
-    ),
-    aliases_i18n: z.record(z.string(), z.array(types.string())),
-    original_locale: types.nullable(types.string()),
-    address: types.nullable(types.string()),
-    city: types.nullable(types.string()),
-    state_province: types.nullable(types.string()),
-    postal_code: types.nullable(types.string()),
-    country: types.nullable(types.string()),
-    country_code: types.nullable(types.string()),
-    website: types.nullable(types.string()),
-    full_address: types.string(),
-    logo_url: types.nullable(types.string()),
-    images: types.nullable(z.lazy(() => GetAComicShopImages$inboundSchema)),
-    operating_hours: types.nullable(
-      smartUnion([
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      name_i18n: z.record(
+        z.string(),
+        z.lazy(() => GetAComicShopNameI18n$inboundSchema),
+      ),
+      aliases_i18n: z.record(z.string(), z.array(types.string())),
+      original_locale: types.nullable(types.string()),
+      address: types.nullable(types.string()),
+      city: types.nullable(types.string()),
+      state_province: types.nullable(types.string()),
+      postal_code: types.nullable(types.string()),
+      country: types.nullable(types.string()),
+      country_code: types.nullable(types.string()),
+      website: types.nullable(types.string()),
+      full_address: types.string(),
+      logo_url: types.nullable(types.string()),
+      images: types.nullable(z.lazy(() => GetAComicShopImages$inboundSchema)),
+      operating_hours: types.nullable(smartUnion([
         z.lazy(() => OperatingHours$inboundSchema),
         z.array(z.any()),
-      ]),
-    ),
-    special_hours: z.array(z.lazy(() => SpecialHour$inboundSchema)),
-    related_shops: z.array(z.lazy(() => RelatedShop$inboundSchema)),
-    services: z.array(types.string()),
-    events: z.array(z.lazy(() => Event$inboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "name_i18n": "nameI18n",
-      "aliases_i18n": "aliasesI18n",
-      "original_locale": "originalLocale",
-      "state_province": "stateProvince",
-      "postal_code": "postalCode",
-      "country_code": "countryCode",
-      "full_address": "fullAddress",
-      "logo_url": "logoUrl",
-      "operating_hours": "operatingHours",
-      "special_hours": "specialHours",
-      "related_shops": "relatedShops",
-    });
-  }),
+      ])),
+      special_hours: z.array(z.lazy(() =>
+        SpecialHour$inboundSchema
+      )),
+      related_shops: z.array(z.lazy(() => RelatedShop$inboundSchema)),
+      services: z.array(types.string()),
+      events: z.array(z.lazy(() => Event$inboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "name_i18n": "nameI18n",
+        "aliases_i18n": "aliasesI18n",
+        "original_locale": "originalLocale",
+        "state_province": "stateProvince",
+        "postal_code": "postalCode",
+        "country_code": "countryCode",
+        "full_address": "fullAddress",
+        "logo_url": "logoUrl",
+        "operating_hours": "operatingHours",
+        "special_hours": "specialHours",
+        "related_shops": "relatedShops",
+      });
+    }),
+  )
 );
 
 export function getAComicShopDataFromJSON(
@@ -515,9 +541,11 @@ export function getAComicShopDataFromJSON(
 export const GetAComicShopResponseBody$inboundSchema: z.ZodMiniType<
   GetAComicShopResponseBody,
   unknown
-> = z.object({
-  data: z.lazy(() => GetAComicShopData$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.lazy(() => GetAComicShopData$inboundSchema),
+  })
+);
 
 export function getAComicShopResponseBodyFromJSON(
   jsonString: string,
@@ -533,17 +561,19 @@ export function getAComicShopResponseBodyFromJSON(
 export const GetAComicShopResponse$inboundSchema: z.ZodMiniType<
   GetAComicShopResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => GetAComicShopResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => GetAComicShopResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function getAComicShopResponseFromJSON(

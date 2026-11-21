@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { smartUnion } from "../../types/smart-union.js";
@@ -86,15 +86,17 @@ export type UnlikeListRequest$Outbound = {
 export const UnlikeListRequest$outboundSchema: z.ZodMiniType<
   UnlikeListRequest$Outbound,
   UnlikeListRequest
-> = z.pipe(
-  z.object({
-    listId: z.int(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      listId: "list_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      listId: z.int(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        listId: "list_id",
+      });
+    }),
+  )
 );
 
 export function unlikeListRequestToJSON(
@@ -109,12 +111,14 @@ export function unlikeListRequestToJSON(
 export const UnlikeListReaction2$inboundSchema: z.ZodMiniType<
   UnlikeListReaction2,
   unknown
-> = z.object({
-  reaction: types.string(),
-  emoji: types.string(),
-  label: types.string(),
-  count: types.number(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    reaction: types.string(),
+    emoji: types.string(),
+    label: types.string(),
+    count: types.number(),
+  })
+);
 
 export function unlikeListReaction2FromJSON(
   jsonString: string,
@@ -130,20 +134,22 @@ export function unlikeListReaction2FromJSON(
 export const UnlikeListResponseBody2$inboundSchema: z.ZodMiniType<
   UnlikeListResponseBody2,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    liked: types.boolean(),
-    likes_count: types.number(),
-    my_reaction: types.nullable(types.string()),
-    reactions: z.array(z.lazy(() => UnlikeListReaction2$inboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "likes_count": "likesCount",
-      "my_reaction": "myReaction",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      liked: types.boolean(),
+      likes_count: types.number(),
+      my_reaction: types.nullable(types.string()),
+      reactions: z.array(z.lazy(() => UnlikeListReaction2$inboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "likes_count": "likesCount",
+        "my_reaction": "myReaction",
+      });
+    }),
+  )
 );
 
 export function unlikeListResponseBody2FromJSON(
@@ -160,12 +166,14 @@ export function unlikeListResponseBody2FromJSON(
 export const UnlikeListReaction1$inboundSchema: z.ZodMiniType<
   UnlikeListReaction1,
   unknown
-> = z.object({
-  reaction: types.string(),
-  emoji: types.string(),
-  label: types.string(),
-  count: types.number(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    reaction: types.string(),
+    emoji: types.string(),
+    label: types.string(),
+    count: types.number(),
+  })
+);
 
 export function unlikeListReaction1FromJSON(
   jsonString: string,
@@ -181,20 +189,22 @@ export function unlikeListReaction1FromJSON(
 export const UnlikeListResponseBody1$inboundSchema: z.ZodMiniType<
   UnlikeListResponseBody1,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    liked: types.boolean(),
-    likes_count: types.number(),
-    my_reaction: types.nullable(types.string()),
-    reactions: z.array(z.lazy(() => UnlikeListReaction1$inboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "likes_count": "likesCount",
-      "my_reaction": "myReaction",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      liked: types.boolean(),
+      likes_count: types.number(),
+      my_reaction: types.nullable(types.string()),
+      reactions: z.array(z.lazy(() => UnlikeListReaction1$inboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "likes_count": "likesCount",
+        "my_reaction": "myReaction",
+      });
+    }),
+  )
 );
 
 export function unlikeListResponseBody1FromJSON(
@@ -211,10 +221,12 @@ export function unlikeListResponseBody1FromJSON(
 export const UnlikeListResponseBody$inboundSchema: z.ZodMiniType<
   UnlikeListResponseBody,
   unknown
-> = smartUnion([
-  z.lazy(() => UnlikeListResponseBody1$inboundSchema),
-  z.lazy(() => UnlikeListResponseBody2$inboundSchema),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    z.lazy(() => UnlikeListResponseBody1$inboundSchema),
+    z.lazy(() => UnlikeListResponseBody2$inboundSchema),
+  ])
+);
 
 export function unlikeListResponseBodyFromJSON(
   jsonString: string,
@@ -230,20 +242,22 @@ export function unlikeListResponseBodyFromJSON(
 export const UnlikeListResponse$inboundSchema: z.ZodMiniType<
   UnlikeListResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: smartUnion([
-      z.lazy(() => UnlikeListResponseBody1$inboundSchema),
-      z.lazy(() => UnlikeListResponseBody2$inboundSchema),
-    ]),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: smartUnion([
+        z.lazy(() => UnlikeListResponseBody1$inboundSchema),
+        z.lazy(() => UnlikeListResponseBody2$inboundSchema),
+      ]),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function unlikeListResponseFromJSON(

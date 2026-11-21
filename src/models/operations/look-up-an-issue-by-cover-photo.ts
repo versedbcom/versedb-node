@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { blobLikeSchema } from "../../types/blobs.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
@@ -141,16 +141,18 @@ export type Image$Outbound = {
 };
 
 /** @internal */
-export const Image$outboundSchema: z.ZodMiniType<Image$Outbound, Image> = z
-  .object({
-    fileName: z.string(),
-    content: z.union([
-      z.custom<ReadableStream<Uint8Array>>(x => x instanceof ReadableStream),
-      z.custom<Blob>(x => x instanceof Blob),
-      z.custom<ArrayBuffer>(x => x instanceof ArrayBuffer),
-      z.custom<Uint8Array>(x => x instanceof Uint8Array),
-    ]),
-  });
+export const Image$outboundSchema: z.ZodMiniType<Image$Outbound, Image> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      fileName: z.string(),
+      content: z.union([
+        z.custom<ReadableStream<Uint8Array>>(x => x instanceof ReadableStream),
+        z.custom<Blob>(x => x instanceof Blob),
+        z.custom<ArrayBuffer>(x => x instanceof ArrayBuffer),
+        z.custom<Uint8Array>(x => x instanceof Uint8Array),
+      ]),
+    })
+  );
 
 export function imageToJSON(image: Image): string {
   return JSON.stringify(Image$outboundSchema.parse(image));
@@ -165,9 +167,11 @@ export type LookUpAnIssueByCoverPhotoRequest$Outbound = {
 export const LookUpAnIssueByCoverPhotoRequest$outboundSchema: z.ZodMiniType<
   LookUpAnIssueByCoverPhotoRequest$Outbound,
   LookUpAnIssueByCoverPhotoRequest
-> = z.object({
-  image: z.union([z.lazy(() => Image$outboundSchema), blobLikeSchema]),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    image: z.union([z.lazy(() => Image$outboundSchema), blobLikeSchema]),
+  })
+);
 
 export function lookUpAnIssueByCoverPhotoRequestToJSON(
   lookUpAnIssueByCoverPhotoRequest: LookUpAnIssueByCoverPhotoRequest,
@@ -183,9 +187,11 @@ export function lookUpAnIssueByCoverPhotoRequestToJSON(
 export const LookUpAnIssueByCoverPhotoErrors$inboundSchema: z.ZodMiniType<
   LookUpAnIssueByCoverPhotoErrors,
   unknown
-> = z.object({
-  image: z.array(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    image: z.array(types.string()),
+  })
+);
 
 export function lookUpAnIssueByCoverPhotoErrorsFromJSON(
   jsonString: string,
@@ -201,20 +207,22 @@ export function lookUpAnIssueByCoverPhotoErrorsFromJSON(
 export const LookUpAnIssueByCoverPhotoImages$inboundSchema: z.ZodMiniType<
   LookUpAnIssueByCoverPhotoImages,
   unknown
-> = z.pipe(
-  z.object({
-    thumb: types.optional(types.string()),
-    cover_sm: types.optional(types.string()),
-    cover_md: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_md": "coverMd",
-      "cover_lg": "coverLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      thumb: types.optional(types.string()),
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  )
 );
 
 export function lookUpAnIssueByCoverPhotoImagesFromJSON(
@@ -231,12 +239,14 @@ export function lookUpAnIssueByCoverPhotoImagesFromJSON(
 export const LookUpAnIssueByCoverPhotoNameI18n$inboundSchema: z.ZodMiniType<
   LookUpAnIssueByCoverPhotoNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function lookUpAnIssueByCoverPhotoNameI18nFromJSON(
   jsonString: string,
@@ -252,19 +262,21 @@ export function lookUpAnIssueByCoverPhotoNameI18nFromJSON(
 export const LookUpAnIssueByCoverPhotoSeriesImages$inboundSchema: z.ZodMiniType<
   LookUpAnIssueByCoverPhotoSeriesImages,
   unknown
-> = z.pipe(
-  z.object({
-    cover_sm: types.optional(types.string()),
-    cover_md: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_md": "coverMd",
-      "cover_lg": "coverLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  )
 );
 
 export function lookUpAnIssueByCoverPhotoSeriesImagesFromJSON(
@@ -282,34 +294,36 @@ export function lookUpAnIssueByCoverPhotoSeriesImagesFromJSON(
 export const LookUpAnIssueByCoverPhotoSeries$inboundSchema: z.ZodMiniType<
   LookUpAnIssueByCoverPhotoSeries,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    start_year: types.nullable(types.number()),
-    end_year: types.nullable(types.number()),
-    volume_number: types.nullable(types.number()),
-    publication_type: types.nullable(types.string()),
-    format: types.nullable(types.string()),
-    cached_issues_count: types.nullable(types.number()),
-    cover_url: types.nullable(types.string()),
-    images: types.nullable(
-      z.lazy(() => LookUpAnIssueByCoverPhotoSeriesImages$inboundSchema),
-    ),
-    publisher_name: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "start_year": "startYear",
-      "end_year": "endYear",
-      "volume_number": "volumeNumber",
-      "publication_type": "publicationType",
-      "cached_issues_count": "cachedIssuesCount",
-      "cover_url": "coverUrl",
-      "publisher_name": "publisherName",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      start_year: types.nullable(types.number()),
+      end_year: types.nullable(types.number()),
+      volume_number: types.nullable(types.number()),
+      publication_type: types.nullable(types.string()),
+      format: types.nullable(types.string()),
+      cached_issues_count: types.nullable(types.number()),
+      cover_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => LookUpAnIssueByCoverPhotoSeriesImages$inboundSchema),
+      ),
+      publisher_name: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "start_year": "startYear",
+        "end_year": "endYear",
+        "volume_number": "volumeNumber",
+        "publication_type": "publicationType",
+        "cached_issues_count": "cachedIssuesCount",
+        "cover_url": "coverUrl",
+        "publisher_name": "publisherName",
+      });
+    }),
+  )
 );
 
 export function lookUpAnIssueByCoverPhotoSeriesFromJSON(
@@ -326,51 +340,53 @@ export function lookUpAnIssueByCoverPhotoSeriesFromJSON(
 export const LookUpAnIssueByCoverPhotoIssue$inboundSchema: z.ZodMiniType<
   LookUpAnIssueByCoverPhotoIssue,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    series_id: types.nullable(types.number()),
-    issue_number: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    cover_date: types.nullable(types.string()),
-    release_date: types.nullable(types.string()),
-    foc_date: types.nullable(types.string()),
-    is_unreleased: types.boolean(),
-    cover_url: types.nullable(types.string()),
-    images: types.nullable(
-      z.lazy(() => LookUpAnIssueByCoverPhotoImages$inboundSchema),
-    ),
-    is_reprint: types.boolean(),
-    content_rating_label: types.nullable(types.string()),
-    min_age: types.nullable(types.number()),
-    is_nsfw: types.boolean(),
-    average_rating: types.nullable(types.number()),
-    name_i18n: z.record(
-      z.string(),
-      z.lazy(() => LookUpAnIssueByCoverPhotoNameI18n$inboundSchema),
-    ),
-    series: z.optional(
-      z.nullable(z.lazy(() => LookUpAnIssueByCoverPhotoSeries$inboundSchema)),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "series_id": "seriesId",
-      "issue_number": "issueNumber",
-      "cover_date": "coverDate",
-      "release_date": "releaseDate",
-      "foc_date": "focDate",
-      "is_unreleased": "isUnreleased",
-      "cover_url": "coverUrl",
-      "is_reprint": "isReprint",
-      "content_rating_label": "contentRatingLabel",
-      "min_age": "minAge",
-      "is_nsfw": "isNsfw",
-      "average_rating": "averageRating",
-      "name_i18n": "nameI18n",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      series_id: types.nullable(types.number()),
+      issue_number: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      cover_date: types.nullable(types.string()),
+      release_date: types.nullable(types.string()),
+      foc_date: types.nullable(types.string()),
+      is_unreleased: types.boolean(),
+      cover_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => LookUpAnIssueByCoverPhotoImages$inboundSchema),
+      ),
+      is_reprint: types.boolean(),
+      content_rating_label: types.nullable(types.string()),
+      min_age: types.nullable(types.number()),
+      is_nsfw: types.boolean(),
+      average_rating: types.nullable(types.number()),
+      name_i18n: z.record(
+        z.string(),
+        z.lazy(() => LookUpAnIssueByCoverPhotoNameI18n$inboundSchema),
+      ),
+      series: z.optional(
+        z.nullable(z.lazy(() => LookUpAnIssueByCoverPhotoSeries$inboundSchema)),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "series_id": "seriesId",
+        "issue_number": "issueNumber",
+        "cover_date": "coverDate",
+        "release_date": "releaseDate",
+        "foc_date": "focDate",
+        "is_unreleased": "isUnreleased",
+        "cover_url": "coverUrl",
+        "is_reprint": "isReprint",
+        "content_rating_label": "contentRatingLabel",
+        "min_age": "minAge",
+        "is_nsfw": "isNsfw",
+        "average_rating": "averageRating",
+        "name_i18n": "nameI18n",
+      });
+    }),
+  )
 );
 
 export function lookUpAnIssueByCoverPhotoIssueFromJSON(
@@ -384,19 +400,21 @@ export function lookUpAnIssueByCoverPhotoIssueFromJSON(
 }
 
 /** @internal */
-export const Candidate$inboundSchema: z.ZodMiniType<Candidate, unknown> = z
-  .pipe(
-    z.object({
-      issue_id: types.number(),
-      variant_id: types.nullable(types.number()),
-      issue: z.lazy(() => LookUpAnIssueByCoverPhotoIssue$inboundSchema),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "issue_id": "issueId",
-        "variant_id": "variantId",
-      });
-    }),
+export const Candidate$inboundSchema: z.ZodMiniType<Candidate, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        issue_id: types.number(),
+        variant_id: types.nullable(types.number()),
+        issue: z.lazy(() => LookUpAnIssueByCoverPhotoIssue$inboundSchema),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "issue_id": "issueId",
+          "variant_id": "variantId",
+        });
+      }),
+    )
   );
 
 export function candidateFromJSON(
@@ -413,22 +431,24 @@ export function candidateFromJSON(
 export const LookUpAnIssueByCoverPhotoResponseBody$inboundSchema: z.ZodMiniType<
   LookUpAnIssueByCoverPhotoResponseBody,
   unknown
-> = z.pipe(
-  z.object({
-    matched_by: types.string(),
-    clear_match: types.boolean(),
-    issue_id: types.nullable(types.number()),
-    variant_id: types.nullable(types.number()),
-    candidates: z.array(z.lazy(() => Candidate$inboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "matched_by": "matchedBy",
-      "clear_match": "clearMatch",
-      "issue_id": "issueId",
-      "variant_id": "variantId",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      matched_by: types.string(),
+      clear_match: types.boolean(),
+      issue_id: types.nullable(types.number()),
+      variant_id: types.nullable(types.number()),
+      candidates: z.array(z.lazy(() => Candidate$inboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "matched_by": "matchedBy",
+        "clear_match": "clearMatch",
+        "issue_id": "issueId",
+        "variant_id": "variantId",
+      });
+    }),
+  )
 );
 
 export function lookUpAnIssueByCoverPhotoResponseBodyFromJSON(
@@ -446,17 +466,19 @@ export function lookUpAnIssueByCoverPhotoResponseBodyFromJSON(
 export const LookUpAnIssueByCoverPhotoResponse$inboundSchema: z.ZodMiniType<
   LookUpAnIssueByCoverPhotoResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => LookUpAnIssueByCoverPhotoResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => LookUpAnIssueByCoverPhotoResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function lookUpAnIssueByCoverPhotoResponseFromJSON(

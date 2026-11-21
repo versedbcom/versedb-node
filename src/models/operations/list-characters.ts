@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -151,22 +151,24 @@ export type ListCharactersRequest$Outbound = {
 export const ListCharactersRequest$outboundSchema: z.ZodMiniType<
   ListCharactersRequest$Outbound,
   ListCharactersRequest
-> = z.pipe(
-  z.object({
-    q: z.optional(z.string()),
-    publisherIds: z.optional(z.string()),
-    roles: z.optional(z.string()),
-    powers: z.optional(z.string()),
-    sort: z.optional(z.string()),
-    limit: z.optional(z.int()),
-    page: z.optional(z.int()),
-    languages: z.optional(z.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      publisherIds: "publisher_ids",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      q: z.optional(z.string()),
+      publisherIds: z.optional(z.string()),
+      roles: z.optional(z.string()),
+      powers: z.optional(z.string()),
+      sort: z.optional(z.string()),
+      limit: z.optional(z.int()),
+      page: z.optional(z.int()),
+      languages: z.optional(z.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        publisherIds: "publisher_ids",
+      });
+    }),
+  )
 );
 
 export function listCharactersRequestToJSON(
@@ -181,19 +183,21 @@ export function listCharactersRequestToJSON(
 export const ListCharactersImages$inboundSchema: z.ZodMiniType<
   ListCharactersImages,
   unknown
-> = z.pipe(
-  z.object({
-    tile_sm: types.optional(types.string()),
-    profile_md: types.optional(types.string()),
-    full_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "tile_sm": "tileSm",
-      "profile_md": "profileMd",
-      "full_lg": "fullLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      tile_sm: types.optional(types.string()),
+      profile_md: types.optional(types.string()),
+      full_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "tile_sm": "tileSm",
+        "profile_md": "profileMd",
+        "full_lg": "fullLg",
+      });
+    }),
+  )
 );
 
 export function listCharactersImagesFromJSON(
@@ -210,12 +214,14 @@ export function listCharactersImagesFromJSON(
 export const ListCharactersNameI18n$inboundSchema: z.ZodMiniType<
   ListCharactersNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function listCharactersNameI18nFromJSON(
   jsonString: string,
@@ -231,12 +237,14 @@ export function listCharactersNameI18nFromJSON(
 export const ListCharactersRealNameI18n$inboundSchema: z.ZodMiniType<
   ListCharactersRealNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function listCharactersRealNameI18nFromJSON(
   jsonString: string,
@@ -252,41 +260,43 @@ export function listCharactersRealNameI18nFromJSON(
 export const ListCharactersData$inboundSchema: z.ZodMiniType<
   ListCharactersData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    real_name: types.nullable(types.string()),
-    aliases: z.array(types.string()),
-    race: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-    images: types.nullable(z.lazy(() => ListCharactersImages$inboundSchema)),
-    appearances_count: types.number(),
-    publisher_name: z.optional(z.nullable(types.string())),
-    name_i18n: z.record(
-      z.string(),
-      z.lazy(() => ListCharactersNameI18n$inboundSchema),
-    ),
-    aliases_i18n: z.record(z.string(), z.array(types.string())),
-    original_locale: types.nullable(types.string()),
-    real_name_i18n: z.record(
-      z.string(),
-      z.lazy(() => ListCharactersRealNameI18n$inboundSchema),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "real_name": "realName",
-      "image_url": "imageUrl",
-      "appearances_count": "appearancesCount",
-      "publisher_name": "publisherName",
-      "name_i18n": "nameI18n",
-      "aliases_i18n": "aliasesI18n",
-      "original_locale": "originalLocale",
-      "real_name_i18n": "realNameI18n",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      real_name: types.nullable(types.string()),
+      aliases: z.array(types.string()),
+      race: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+      images: types.nullable(z.lazy(() => ListCharactersImages$inboundSchema)),
+      appearances_count: types.number(),
+      publisher_name: z.optional(z.nullable(types.string())),
+      name_i18n: z.record(
+        z.string(),
+        z.lazy(() => ListCharactersNameI18n$inboundSchema),
+      ),
+      aliases_i18n: z.record(z.string(), z.array(types.string())),
+      original_locale: types.nullable(types.string()),
+      real_name_i18n: z.record(
+        z.string(),
+        z.lazy(() => ListCharactersRealNameI18n$inboundSchema),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "real_name": "realName",
+        "image_url": "imageUrl",
+        "appearances_count": "appearancesCount",
+        "publisher_name": "publisherName",
+        "name_i18n": "nameI18n",
+        "aliases_i18n": "aliasesI18n",
+        "original_locale": "originalLocale",
+        "real_name_i18n": "realNameI18n",
+      });
+    }),
+  )
 );
 
 export function listCharactersDataFromJSON(
@@ -303,12 +313,14 @@ export function listCharactersDataFromJSON(
 export const ListCharactersLinks$inboundSchema: z.ZodMiniType<
   ListCharactersLinks,
   unknown
-> = z.object({
-  first: types.string(),
-  last: types.string(),
-  prev: types.nullable(types.string()),
-  next: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    first: types.string(),
+    last: types.string(),
+    prev: types.nullable(types.string()),
+    next: types.nullable(types.string()),
+  })
+);
 
 export function listCharactersLinksFromJSON(
   jsonString: string,
@@ -324,12 +336,14 @@ export function listCharactersLinksFromJSON(
 export const ListCharactersLink$inboundSchema: z.ZodMiniType<
   ListCharactersLink,
   unknown
-> = z.object({
-  url: types.nullable(types.string()),
-  label: types.string(),
-  page: z.optional(z.nullable(types.number())),
-  active: types.boolean(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    url: types.nullable(types.string()),
+    label: types.string(),
+    page: z.optional(z.nullable(types.number())),
+    active: types.boolean(),
+  })
+);
 
 export function listCharactersLinkFromJSON(
   jsonString: string,
@@ -345,24 +359,26 @@ export function listCharactersLinkFromJSON(
 export const ListCharactersMeta$inboundSchema: z.ZodMiniType<
   ListCharactersMeta,
   unknown
-> = z.pipe(
-  z.object({
-    current_page: types.number(),
-    from: types.nullable(types.number()),
-    last_page: types.number(),
-    links: z.array(z.lazy(() => ListCharactersLink$inboundSchema)),
-    path: types.string(),
-    per_page: types.number(),
-    to: types.nullable(types.number()),
-    total: types.number(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "current_page": "currentPage",
-      "last_page": "lastPage",
-      "per_page": "perPage",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      current_page: types.number(),
+      from: types.nullable(types.number()),
+      last_page: types.number(),
+      links: z.array(z.lazy(() => ListCharactersLink$inboundSchema)),
+      path: types.string(),
+      per_page: types.number(),
+      to: types.nullable(types.number()),
+      total: types.number(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "current_page": "currentPage",
+        "last_page": "lastPage",
+        "per_page": "perPage",
+      });
+    }),
+  )
 );
 
 export function listCharactersMetaFromJSON(
@@ -379,11 +395,13 @@ export function listCharactersMetaFromJSON(
 export const ListCharactersResponseBody$inboundSchema: z.ZodMiniType<
   ListCharactersResponseBody,
   unknown
-> = z.object({
-  data: z.array(z.lazy(() => ListCharactersData$inboundSchema)),
-  links: z.lazy(() => ListCharactersLinks$inboundSchema),
-  meta: z.lazy(() => ListCharactersMeta$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.array(z.lazy(() => ListCharactersData$inboundSchema)),
+    links: z.lazy(() => ListCharactersLinks$inboundSchema),
+    meta: z.lazy(() => ListCharactersMeta$inboundSchema),
+  })
+);
 
 export function listCharactersResponseBodyFromJSON(
   jsonString: string,
@@ -399,17 +417,19 @@ export function listCharactersResponseBodyFromJSON(
 export const ListCharactersResponse$inboundSchema: z.ZodMiniType<
   ListCharactersResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => ListCharactersResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => ListCharactersResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function listCharactersResponseFromJSON(

@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -68,9 +68,11 @@ export type ViewYourReadingGoalRequest$Outbound = {
 export const ViewYourReadingGoalRequest$outboundSchema: z.ZodMiniType<
   ViewYourReadingGoalRequest$Outbound,
   ViewYourReadingGoalRequest
-> = z.object({
-  year: z.optional(z.int()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    year: z.optional(z.int()),
+  })
+);
 
 export function viewYourReadingGoalRequestToJSON(
   viewYourReadingGoalRequest: ViewYourReadingGoalRequest,
@@ -84,42 +86,44 @@ export function viewYourReadingGoalRequestToJSON(
 export const ViewYourReadingGoalData$inboundSchema: z.ZodMiniType<
   ViewYourReadingGoalData,
   unknown
-> = z.pipe(
-  z.object({
-    year: types.number(),
-    target: types.nullable(types.number()),
-    read_count: types.number(),
-    percent: types.nullable(types.number()),
-    completed: types.boolean(),
-    expected_reads: types.nullable(types.number()),
-    pace_difference: types.nullable(types.number()),
-    remaining: types.nullable(types.number()),
-    reads_per_week: types.nullable(types.number()),
-    editable: types.boolean(),
-    last_year_reads: types.nullable(types.number()),
-    suggested_target: types.nullable(types.number()),
-    timezone: types.string(),
-    is_public: types.boolean(),
-    notify_milestones: types.optional(types.boolean()),
-    notify_lapses: types.optional(types.boolean()),
-    email_updates: types.optional(types.boolean()),
-    share_url: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "read_count": "readCount",
-      "expected_reads": "expectedReads",
-      "pace_difference": "paceDifference",
-      "reads_per_week": "readsPerWeek",
-      "last_year_reads": "lastYearReads",
-      "suggested_target": "suggestedTarget",
-      "is_public": "isPublic",
-      "notify_milestones": "notifyMilestones",
-      "notify_lapses": "notifyLapses",
-      "email_updates": "emailUpdates",
-      "share_url": "shareUrl",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      year: types.number(),
+      target: types.nullable(types.number()),
+      read_count: types.number(),
+      percent: types.nullable(types.number()),
+      completed: types.boolean(),
+      expected_reads: types.nullable(types.number()),
+      pace_difference: types.nullable(types.number()),
+      remaining: types.nullable(types.number()),
+      reads_per_week: types.nullable(types.number()),
+      editable: types.boolean(),
+      last_year_reads: types.nullable(types.number()),
+      suggested_target: types.nullable(types.number()),
+      timezone: types.string(),
+      is_public: types.boolean(),
+      notify_milestones: types.optional(types.boolean()),
+      notify_lapses: types.optional(types.boolean()),
+      email_updates: types.optional(types.boolean()),
+      share_url: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "read_count": "readCount",
+        "expected_reads": "expectedReads",
+        "pace_difference": "paceDifference",
+        "reads_per_week": "readsPerWeek",
+        "last_year_reads": "lastYearReads",
+        "suggested_target": "suggestedTarget",
+        "is_public": "isPublic",
+        "notify_milestones": "notifyMilestones",
+        "notify_lapses": "notifyLapses",
+        "email_updates": "emailUpdates",
+        "share_url": "shareUrl",
+      });
+    }),
+  )
 );
 
 export function viewYourReadingGoalDataFromJSON(
@@ -136,10 +140,12 @@ export function viewYourReadingGoalDataFromJSON(
 export const ViewYourReadingGoalResponseBody$inboundSchema: z.ZodMiniType<
   ViewYourReadingGoalResponseBody,
   unknown
-> = z.object({
-  data: z.lazy(() => ViewYourReadingGoalData$inboundSchema),
-  years: z.array(types.number()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.lazy(() => ViewYourReadingGoalData$inboundSchema),
+    years: z.array(types.number()),
+  })
+);
 
 export function viewYourReadingGoalResponseBodyFromJSON(
   jsonString: string,
@@ -155,17 +161,19 @@ export function viewYourReadingGoalResponseBodyFromJSON(
 export const ViewYourReadingGoalResponse$inboundSchema: z.ZodMiniType<
   ViewYourReadingGoalResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => ViewYourReadingGoalResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => ViewYourReadingGoalResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function viewYourReadingGoalResponseFromJSON(

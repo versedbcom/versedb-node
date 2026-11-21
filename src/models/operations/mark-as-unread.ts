@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
@@ -36,15 +36,17 @@ export type MarkAsUnreadRequestBody$Outbound = {
 export const MarkAsUnreadRequestBody$outboundSchema: z.ZodMiniType<
   MarkAsUnreadRequestBody$Outbound,
   MarkAsUnreadRequestBody
-> = z.pipe(
-  z.object({
-    variantId: z.optional(z.nullable(z.int())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      variantId: "variant_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      variantId: z.optional(z.nullable(z.int())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        variantId: "variant_id",
+      });
+    }),
+  )
 );
 
 export function markAsUnreadRequestBodyToJSON(
@@ -65,16 +67,18 @@ export type MarkAsUnreadRequest$Outbound = {
 export const MarkAsUnreadRequest$outboundSchema: z.ZodMiniType<
   MarkAsUnreadRequest$Outbound,
   MarkAsUnreadRequest
-> = z.pipe(
-  z.object({
-    issueId: z.int(),
-    body: z.optional(z.lazy(() => MarkAsUnreadRequestBody$outboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      issueId: "issue_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      issueId: z.int(),
+      body: z.optional(z.lazy(() => MarkAsUnreadRequestBody$outboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        issueId: "issue_id",
+      });
+    }),
+  )
 );
 
 export function markAsUnreadRequestToJSON(
@@ -89,15 +93,17 @@ export function markAsUnreadRequestToJSON(
 export const MarkAsUnreadResponse$inboundSchema: z.ZodMiniType<
   MarkAsUnreadResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+      });
+    }),
+  )
 );
 
 export function markAsUnreadResponseFromJSON(

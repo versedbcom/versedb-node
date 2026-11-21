@@ -3,7 +3,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { smartUnion } from "../../types/smart-union.js";
@@ -202,67 +202,79 @@ export class AddIssueToCollectionBadRequestError extends VerseDbError {
 
 /** @internal */
 export const AddIssueToCollectionResponseBodyError3$inboundSchema:
-  z.ZodMiniType<AddIssueToCollectionResponseBodyError3, unknown> = z.pipe(
-    z.object({
-      error: types.string(),
-      request$: z.custom<Request>(x => x instanceof Request),
-      response$: z.custom<Response>(x => x instanceof Response),
-      body$: z.string(),
-    }),
-    z.transform((v) => {
-      return new AddIssueToCollectionResponseBodyError3(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
-      });
-    }),
-  );
+  z.ZodMiniType<AddIssueToCollectionResponseBodyError3, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          error: types.string(),
+          request$: z.custom<Request>(x => x instanceof Request),
+          response$: z.custom<Response>(x => x instanceof Response),
+          body$: z.string(),
+        }),
+        z.transform((v) => {
+          return new AddIssueToCollectionResponseBodyError3(v, {
+            request: v.request$,
+            response: v.response$,
+            body: v.body$,
+          });
+        }),
+      )
+    );
 
 /** @internal */
 export const AddIssueToCollectionResponseBodyError2$inboundSchema:
-  z.ZodMiniType<AddIssueToCollectionResponseBodyError2, unknown> = z.pipe(
-    z.object({
-      message: types.string(),
-      error: types.string(),
-      request$: z.custom<Request>(x => x instanceof Request),
-      response$: z.custom<Response>(x => x instanceof Response),
-      body$: z.string(),
-    }),
-    z.transform((v) => {
-      return new AddIssueToCollectionResponseBodyError2(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
-      });
-    }),
-  );
+  z.ZodMiniType<AddIssueToCollectionResponseBodyError2, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          message: types.string(),
+          error: types.string(),
+          request$: z.custom<Request>(x => x instanceof Request),
+          response$: z.custom<Response>(x => x instanceof Response),
+          body$: z.string(),
+        }),
+        z.transform((v) => {
+          return new AddIssueToCollectionResponseBodyError2(v, {
+            request: v.request$,
+            response: v.response$,
+            body: v.body$,
+          });
+        }),
+      )
+    );
 
 /** @internal */
 export const AddIssueToCollectionResponseBodyError1$inboundSchema:
-  z.ZodMiniType<AddIssueToCollectionResponseBodyError1, unknown> = z.pipe(
-    z.object({
-      message: types.string(),
-      errors: z.record(z.string(), z.array(types.string())),
-      request$: z.custom<Request>(x => x instanceof Request),
-      response$: z.custom<Response>(x => x instanceof Response),
-      body$: z.string(),
-    }),
-    z.transform((v) => {
-      return new AddIssueToCollectionResponseBodyError1(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
-      });
-    }),
-  );
+  z.ZodMiniType<AddIssueToCollectionResponseBodyError1, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          message: types.string(),
+          errors: z.record(z.string(), z.array(types.string())),
+          request$: z.custom<Request>(x => x instanceof Request),
+          response$: z.custom<Response>(x => x instanceof Response),
+          body$: z.string(),
+        }),
+        z.transform((v) => {
+          return new AddIssueToCollectionResponseBodyError1(v, {
+            request: v.request$,
+            response: v.response$,
+            body: v.body$,
+          });
+        }),
+      )
+    );
 
 /** @internal */
 export const AddIssueToCollectionUnprocessableEntity$inboundSchema:
-  z.ZodMiniType<AddIssueToCollectionUnprocessableEntity, unknown> = smartUnion([
-    z.lazy(() => AddIssueToCollectionResponseBodyError1$inboundSchema),
-    z.lazy(() => AddIssueToCollectionResponseBodyError2$inboundSchema),
-    z.lazy(() => AddIssueToCollectionResponseBodyError3$inboundSchema),
-  ]);
+  z.ZodMiniType<AddIssueToCollectionUnprocessableEntity, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      smartUnion([
+        z.lazy(() => AddIssueToCollectionResponseBodyError1$inboundSchema),
+        z.lazy(() => AddIssueToCollectionResponseBodyError2$inboundSchema),
+        z.lazy(() => AddIssueToCollectionResponseBodyError3$inboundSchema),
+      ])
+    );
 
 export function addIssueToCollectionUnprocessableEntityFromJSON(
   jsonString: string,
@@ -284,79 +296,87 @@ export function addIssueToCollectionUnprocessableEntityFromJSON(
 export const AddIssueToCollectionConflictError$inboundSchema: z.ZodMiniType<
   AddIssueToCollectionConflictError,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    error: operations.ErrorT$inboundSchema,
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new AddIssueToCollectionConflictError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      error: operations.ErrorT$inboundSchema,
+      request$: z.custom<Request>(x => x instanceof Request),
+      response$: z.custom<Response>(x => x instanceof Response),
+      body$: z.string(),
+    }),
+    z.transform((v) => {
+      return new AddIssueToCollectionConflictError(v, {
+        request: v.request$,
+        response: v.response$,
+        body: v.body$,
+      });
+    }),
+  )
 );
 
 /** @internal */
 export const AddIssueToCollectionNotFoundError$inboundSchema: z.ZodMiniType<
   AddIssueToCollectionNotFoundError,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new AddIssueToCollectionNotFoundError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      request$: z.custom<Request>(x => x instanceof Request),
+      response$: z.custom<Response>(x => x instanceof Response),
+      body$: z.string(),
+    }),
+    z.transform((v) => {
+      return new AddIssueToCollectionNotFoundError(v, {
+        request: v.request$,
+        response: v.response$,
+        body: v.body$,
+      });
+    }),
+  )
 );
 
 /** @internal */
 export const AddIssueToCollectionForbiddenError$inboundSchema: z.ZodMiniType<
   AddIssueToCollectionForbiddenError,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new AddIssueToCollectionForbiddenError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      request$: z.custom<Request>(x => x instanceof Request),
+      response$: z.custom<Response>(x => x instanceof Response),
+      body$: z.string(),
+    }),
+    z.transform((v) => {
+      return new AddIssueToCollectionForbiddenError(v, {
+        request: v.request$,
+        response: v.response$,
+        body: v.body$,
+      });
+    }),
+  )
 );
 
 /** @internal */
 export const AddIssueToCollectionBadRequestError$inboundSchema: z.ZodMiniType<
   AddIssueToCollectionBadRequestError,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new AddIssueToCollectionBadRequestError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      request$: z.custom<Request>(x => x instanceof Request),
+      response$: z.custom<Response>(x => x instanceof Response),
+      body$: z.string(),
+    }),
+    z.transform((v) => {
+      return new AddIssueToCollectionBadRequestError(v, {
+        request: v.request$,
+        response: v.response$,
+        body: v.body$,
+      });
+    }),
+  )
 );

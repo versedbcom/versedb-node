@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -48,15 +48,17 @@ export type GetKeyIssueReasonsRequest$Outbound = {
 export const GetKeyIssueReasonsRequest$outboundSchema: z.ZodMiniType<
   GetKeyIssueReasonsRequest$Outbound,
   GetKeyIssueReasonsRequest
-> = z.pipe(
-  z.object({
-    issueId: z.int(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      issueId: "issue_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      issueId: z.int(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        issueId: "issue_id",
+      });
+    }),
+  )
 );
 
 export function getKeyIssueReasonsRequestToJSON(
@@ -71,13 +73,15 @@ export function getKeyIssueReasonsRequestToJSON(
 export const GetKeyIssueReasonsData$inboundSchema: z.ZodMiniType<
   GetKeyIssueReasonsData,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.nullable(types.string()),
-  category: types.nullable(types.string()),
-  description: types.nullable(types.string()),
-  notes: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    category: types.nullable(types.string()),
+    description: types.nullable(types.string()),
+    notes: types.nullable(types.string()),
+  })
+);
 
 export function getKeyIssueReasonsDataFromJSON(
   jsonString: string,
@@ -93,9 +97,11 @@ export function getKeyIssueReasonsDataFromJSON(
 export const GetKeyIssueReasonsResponseBody$inboundSchema: z.ZodMiniType<
   GetKeyIssueReasonsResponseBody,
   unknown
-> = z.object({
-  data: z.array(z.lazy(() => GetKeyIssueReasonsData$inboundSchema)),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.array(z.lazy(() => GetKeyIssueReasonsData$inboundSchema)),
+  })
+);
 
 export function getKeyIssueReasonsResponseBodyFromJSON(
   jsonString: string,
@@ -111,17 +117,19 @@ export function getKeyIssueReasonsResponseBodyFromJSON(
 export const GetKeyIssueReasonsResponse$inboundSchema: z.ZodMiniType<
   GetKeyIssueReasonsResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => GetKeyIssueReasonsResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => GetKeyIssueReasonsResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function getKeyIssueReasonsResponseFromJSON(

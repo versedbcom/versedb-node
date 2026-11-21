@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -59,11 +59,13 @@ export const ViewYourMonthlyReadingCalendarRequest$outboundSchema:
   z.ZodMiniType<
     ViewYourMonthlyReadingCalendarRequest$Outbound,
     ViewYourMonthlyReadingCalendarRequest
-  > = z.object({
-    year: z.optional(z.int()),
-    month: z.optional(z.int()),
-    page: z.optional(z.int()),
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      year: z.optional(z.int()),
+      month: z.optional(z.int()),
+      page: z.optional(z.int()),
+    })
+  );
 
 export function viewYourMonthlyReadingCalendarRequestToJSON(
   viewYourMonthlyReadingCalendarRequest: ViewYourMonthlyReadingCalendarRequest,
@@ -79,13 +81,15 @@ export function viewYourMonthlyReadingCalendarRequestToJSON(
 export const ViewYourMonthlyReadingCalendarData$inboundSchema: z.ZodMiniType<
   ViewYourMonthlyReadingCalendarData,
   unknown
-> = z.object({
-  id: types.number(),
-  date: types.nullable(types.string()),
-  name: types.nullable(types.string()),
-  url: types.nullable(types.string()),
-  cover: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    date: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    url: types.nullable(types.string()),
+    cover: types.nullable(types.string()),
+  })
+);
 
 export function viewYourMonthlyReadingCalendarDataFromJSON(
   jsonString: string,
@@ -100,22 +104,25 @@ export function viewYourMonthlyReadingCalendarDataFromJSON(
 
 /** @internal */
 export const ViewYourMonthlyReadingCalendarResponseBody$inboundSchema:
-  z.ZodMiniType<ViewYourMonthlyReadingCalendarResponseBody, unknown> = z.pipe(
-    z.object({
-      data: z.array(z.lazy(() =>
-        ViewYourMonthlyReadingCalendarData$inboundSchema
-      )),
-      current_page: types.number(),
-      last_page: types.number(),
-      total: types.number(),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "current_page": "currentPage",
-        "last_page": "lastPage",
-      });
-    }),
-  );
+  z.ZodMiniType<ViewYourMonthlyReadingCalendarResponseBody, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          data: z.array(
+            z.lazy(() => ViewYourMonthlyReadingCalendarData$inboundSchema),
+          ),
+          current_page: types.number(),
+          last_page: types.number(),
+          total: types.number(),
+        }),
+        z.transform((v) => {
+          return remap$(v, {
+            "current_page": "currentPage",
+            "last_page": "lastPage",
+          });
+        }),
+      )
+    );
 
 export function viewYourMonthlyReadingCalendarResponseBodyFromJSON(
   jsonString: string,
@@ -135,20 +142,23 @@ export function viewYourMonthlyReadingCalendarResponseBodyFromJSON(
 
 /** @internal */
 export const ViewYourMonthlyReadingCalendarResponse$inboundSchema:
-  z.ZodMiniType<ViewYourMonthlyReadingCalendarResponse, unknown> = z.pipe(
-    z.object({
-      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-      Result: z.lazy(() =>
-        ViewYourMonthlyReadingCalendarResponseBody$inboundSchema
-      ),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "Headers": "headers",
-        "Result": "result",
-      });
-    }),
-  );
+  z.ZodMiniType<ViewYourMonthlyReadingCalendarResponse, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+          Result: z.lazy(() =>
+            ViewYourMonthlyReadingCalendarResponseBody$inboundSchema
+          ),
+        }),
+        z.transform((v) => {
+          return remap$(v, {
+            "Headers": "headers",
+            "Result": "result",
+          });
+        }),
+      )
+    );
 
 export function viewYourMonthlyReadingCalendarResponseFromJSON(
   jsonString: string,

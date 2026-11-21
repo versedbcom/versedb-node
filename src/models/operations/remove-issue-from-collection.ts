@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
@@ -38,19 +38,21 @@ export type RemoveIssueFromCollectionRequest$Outbound = {
 export const RemoveIssueFromCollectionRequest$outboundSchema: z.ZodMiniType<
   RemoveIssueFromCollectionRequest$Outbound,
   RemoveIssueFromCollectionRequest
-> = z.pipe(
-  z.object({
-    issueId: z.int(),
-    variantId: z.optional(z.int()),
-    collectionItemId: z.optional(z.int()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      issueId: "issue_id",
-      variantId: "variant_id",
-      collectionItemId: "collection_item_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      issueId: z.int(),
+      variantId: z.optional(z.int()),
+      collectionItemId: z.optional(z.int()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        issueId: "issue_id",
+        variantId: "variant_id",
+        collectionItemId: "collection_item_id",
+      });
+    }),
+  )
 );
 
 export function removeIssueFromCollectionRequestToJSON(
@@ -67,15 +69,17 @@ export function removeIssueFromCollectionRequestToJSON(
 export const RemoveIssueFromCollectionResponse$inboundSchema: z.ZodMiniType<
   RemoveIssueFromCollectionResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+      });
+    }),
+  )
 );
 
 export function removeIssueFromCollectionResponseFromJSON(

@@ -3,7 +3,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { smartUnion } from "../../types/smart-union.js";
@@ -147,73 +147,81 @@ export class EditReadingDateForbiddenError extends VerseDbError {
 export const EditReadingDateResponseBodyError3$inboundSchema: z.ZodMiniType<
   EditReadingDateResponseBodyError3,
   unknown
-> = z.pipe(
-  z.object({
-    error: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new EditReadingDateResponseBodyError3(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      error: types.string(),
+      request$: z.custom<Request>(x => x instanceof Request),
+      response$: z.custom<Response>(x => x instanceof Response),
+      body$: z.string(),
+    }),
+    z.transform((v) => {
+      return new EditReadingDateResponseBodyError3(v, {
+        request: v.request$,
+        response: v.response$,
+        body: v.body$,
+      });
+    }),
+  )
 );
 
 /** @internal */
 export const EditReadingDateResponseBodyError2$inboundSchema: z.ZodMiniType<
   EditReadingDateResponseBodyError2,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    error: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new EditReadingDateResponseBodyError2(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      error: types.string(),
+      request$: z.custom<Request>(x => x instanceof Request),
+      response$: z.custom<Response>(x => x instanceof Response),
+      body$: z.string(),
+    }),
+    z.transform((v) => {
+      return new EditReadingDateResponseBodyError2(v, {
+        request: v.request$,
+        response: v.response$,
+        body: v.body$,
+      });
+    }),
+  )
 );
 
 /** @internal */
 export const EditReadingDateResponseBodyError1$inboundSchema: z.ZodMiniType<
   EditReadingDateResponseBodyError1,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    errors: z.record(z.string(), z.array(types.string())),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new EditReadingDateResponseBodyError1(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      errors: z.record(z.string(), z.array(types.string())),
+      request$: z.custom<Request>(x => x instanceof Request),
+      response$: z.custom<Response>(x => x instanceof Response),
+      body$: z.string(),
+    }),
+    z.transform((v) => {
+      return new EditReadingDateResponseBodyError1(v, {
+        request: v.request$,
+        response: v.response$,
+        body: v.body$,
+      });
+    }),
+  )
 );
 
 /** @internal */
 export const EditReadingDateUnprocessableEntity$inboundSchema: z.ZodMiniType<
   EditReadingDateUnprocessableEntity,
   unknown
-> = smartUnion([
-  z.lazy(() => EditReadingDateResponseBodyError1$inboundSchema),
-  z.lazy(() => EditReadingDateResponseBodyError2$inboundSchema),
-  z.lazy(() => EditReadingDateResponseBodyError3$inboundSchema),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    z.lazy(() => EditReadingDateResponseBodyError1$inboundSchema),
+    z.lazy(() => EditReadingDateResponseBodyError2$inboundSchema),
+    z.lazy(() => EditReadingDateResponseBodyError3$inboundSchema),
+  ])
+);
 
 export function editReadingDateUnprocessableEntityFromJSON(
   jsonString: string,
@@ -230,38 +238,42 @@ export function editReadingDateUnprocessableEntityFromJSON(
 export const EditReadingDateNotFoundError$inboundSchema: z.ZodMiniType<
   EditReadingDateNotFoundError,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new EditReadingDateNotFoundError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      request$: z.custom<Request>(x => x instanceof Request),
+      response$: z.custom<Response>(x => x instanceof Response),
+      body$: z.string(),
+    }),
+    z.transform((v) => {
+      return new EditReadingDateNotFoundError(v, {
+        request: v.request$,
+        response: v.response$,
+        body: v.body$,
+      });
+    }),
+  )
 );
 
 /** @internal */
 export const EditReadingDateForbiddenError$inboundSchema: z.ZodMiniType<
   EditReadingDateForbiddenError,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new EditReadingDateForbiddenError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      request$: z.custom<Request>(x => x instanceof Request),
+      response$: z.custom<Response>(x => x instanceof Response),
+      body$: z.string(),
+    }),
+    z.transform((v) => {
+      return new EditReadingDateForbiddenError(v, {
+        request: v.request$,
+        response: v.response$,
+        body: v.body$,
+      });
+    }),
+  )
 );

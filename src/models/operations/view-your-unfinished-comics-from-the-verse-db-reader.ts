@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -72,10 +72,12 @@ export const ViewYourUnfinishedComicsFromTheVerseDBReaderRequest$outboundSchema:
   z.ZodMiniType<
     ViewYourUnfinishedComicsFromTheVerseDBReaderRequest$Outbound,
     ViewYourUnfinishedComicsFromTheVerseDBReaderRequest
-  > = z.object({
-    limit: z.optional(z.int()),
-    page: z.optional(z.int()),
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      limit: z.optional(z.int()),
+      page: z.optional(z.int()),
+    })
+  );
 
 export function viewYourUnfinishedComicsFromTheVerseDBReaderRequestToJSON(
   viewYourUnfinishedComicsFromTheVerseDBReaderRequest:
@@ -90,17 +92,19 @@ export function viewYourUnfinishedComicsFromTheVerseDBReaderRequestToJSON(
 
 /** @internal */
 export const ViewYourUnfinishedComicsFromTheVerseDBReaderSeries$inboundSchema:
-  z.ZodMiniType<ViewYourUnfinishedComicsFromTheVerseDBReaderSeries, unknown> = z
-    .pipe(
-      z.object({
-        name: types.nullable(types.string()),
-        publisher_name: types.nullable(types.string()),
-      }),
-      z.transform((v) => {
-        return remap$(v, {
-          "publisher_name": "publisherName",
-        });
-      }),
+  z.ZodMiniType<ViewYourUnfinishedComicsFromTheVerseDBReaderSeries, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          name: types.nullable(types.string()),
+          publisher_name: types.nullable(types.string()),
+        }),
+        z.transform((v) => {
+          return remap$(v, {
+            "publisher_name": "publisherName",
+          });
+        }),
+      )
     );
 
 export function viewYourUnfinishedComicsFromTheVerseDBReaderSeriesFromJSON(
@@ -121,28 +125,30 @@ export function viewYourUnfinishedComicsFromTheVerseDBReaderSeriesFromJSON(
 
 /** @internal */
 export const ViewYourUnfinishedComicsFromTheVerseDBReaderIssue$inboundSchema:
-  z.ZodMiniType<ViewYourUnfinishedComicsFromTheVerseDBReaderIssue, unknown> = z
-    .pipe(
-      z.object({
-        id: types.number(),
-        name: types.nullable(types.string()),
-        slug: types.string(),
-        issue_number: types.nullable(types.string()),
-        cover_url: types.nullable(types.string()),
-        is_nsfw: types.boolean(),
-        release_date: types.nullable(types.string()),
-        series: z.lazy(() =>
-          ViewYourUnfinishedComicsFromTheVerseDBReaderSeries$inboundSchema
-        ),
-      }),
-      z.transform((v) => {
-        return remap$(v, {
-          "issue_number": "issueNumber",
-          "cover_url": "coverUrl",
-          "is_nsfw": "isNsfw",
-          "release_date": "releaseDate",
-        });
-      }),
+  z.ZodMiniType<ViewYourUnfinishedComicsFromTheVerseDBReaderIssue, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          id: types.number(),
+          name: types.nullable(types.string()),
+          slug: types.string(),
+          issue_number: types.nullable(types.string()),
+          cover_url: types.nullable(types.string()),
+          is_nsfw: types.boolean(),
+          release_date: types.nullable(types.string()),
+          series: z.lazy(() =>
+            ViewYourUnfinishedComicsFromTheVerseDBReaderSeries$inboundSchema
+          ),
+        }),
+        z.transform((v) => {
+          return remap$(v, {
+            "issue_number": "issueNumber",
+            "cover_url": "coverUrl",
+            "is_nsfw": "isNsfw",
+            "release_date": "releaseDate",
+          });
+        }),
+      )
     );
 
 export function viewYourUnfinishedComicsFromTheVerseDBReaderIssueFromJSON(
@@ -163,13 +169,15 @@ export function viewYourUnfinishedComicsFromTheVerseDBReaderIssueFromJSON(
 
 /** @internal */
 export const ViewYourUnfinishedComicsFromTheVerseDBReaderData$inboundSchema:
-  z.ZodMiniType<ViewYourUnfinishedComicsFromTheVerseDBReaderData, unknown> = z
-    .object({
-      issue: z.lazy(() =>
-        ViewYourUnfinishedComicsFromTheVerseDBReaderIssue$inboundSchema
-      ),
-      percent: types.number(),
-    });
+  z.ZodMiniType<ViewYourUnfinishedComicsFromTheVerseDBReaderData, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.object({
+        issue: z.lazy(() =>
+          ViewYourUnfinishedComicsFromTheVerseDBReaderIssue$inboundSchema
+        ),
+        percent: types.number(),
+      })
+    );
 
 export function viewYourUnfinishedComicsFromTheVerseDBReaderDataFromJSON(
   jsonString: string,
@@ -189,21 +197,23 @@ export function viewYourUnfinishedComicsFromTheVerseDBReaderDataFromJSON(
 
 /** @internal */
 export const ViewYourUnfinishedComicsFromTheVerseDBReaderMeta$inboundSchema:
-  z.ZodMiniType<ViewYourUnfinishedComicsFromTheVerseDBReaderMeta, unknown> = z
-    .pipe(
-      z.object({
-        current_page: types.number(),
-        last_page: types.number(),
-        per_page: types.number(),
-        total: types.number(),
-      }),
-      z.transform((v) => {
-        return remap$(v, {
-          "current_page": "currentPage",
-          "last_page": "lastPage",
-          "per_page": "perPage",
-        });
-      }),
+  z.ZodMiniType<ViewYourUnfinishedComicsFromTheVerseDBReaderMeta, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          current_page: types.number(),
+          last_page: types.number(),
+          per_page: types.number(),
+          total: types.number(),
+        }),
+        z.transform((v) => {
+          return remap$(v, {
+            "current_page": "currentPage",
+            "last_page": "lastPage",
+            "per_page": "perPage",
+          });
+        }),
+      )
     );
 
 export function viewYourUnfinishedComicsFromTheVerseDBReaderMetaFromJSON(
@@ -227,16 +237,16 @@ export const ViewYourUnfinishedComicsFromTheVerseDBReaderResponseBody$inboundSch
   z.ZodMiniType<
     ViewYourUnfinishedComicsFromTheVerseDBReaderResponseBody,
     unknown
-  > = z.object({
-    data: z.array(
-      z.lazy(() =>
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      data: z.array(z.lazy(() =>
         ViewYourUnfinishedComicsFromTheVerseDBReaderData$inboundSchema
+      )),
+      meta: z.lazy(() =>
+        ViewYourUnfinishedComicsFromTheVerseDBReaderMeta$inboundSchema
       ),
-    ),
-    meta: z.lazy(() =>
-      ViewYourUnfinishedComicsFromTheVerseDBReaderMeta$inboundSchema
-    ),
-  });
+    })
+  );
 
 export function viewYourUnfinishedComicsFromTheVerseDBReaderResponseBodyFromJSON(
   jsonString: string,
@@ -256,19 +266,21 @@ export function viewYourUnfinishedComicsFromTheVerseDBReaderResponseBodyFromJSON
 /** @internal */
 export const ViewYourUnfinishedComicsFromTheVerseDBReaderResponse$inboundSchema:
   z.ZodMiniType<ViewYourUnfinishedComicsFromTheVerseDBReaderResponse, unknown> =
-    z.pipe(
-      z.object({
-        Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-        Result: z.lazy(() =>
-          ViewYourUnfinishedComicsFromTheVerseDBReaderResponseBody$inboundSchema
-        ),
-      }),
-      z.transform((v) => {
-        return remap$(v, {
-          "Headers": "headers",
-          "Result": "result",
-        });
-      }),
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+          Result: z.lazy(() =>
+            ViewYourUnfinishedComicsFromTheVerseDBReaderResponseBody$inboundSchema
+          ),
+        }),
+        z.transform((v) => {
+          return remap$(v, {
+            "Headers": "headers",
+            "Result": "result",
+          });
+        }),
+      )
     );
 
 export function viewYourUnfinishedComicsFromTheVerseDBReaderResponseFromJSON(

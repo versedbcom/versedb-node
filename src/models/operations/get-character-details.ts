@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { smartUnion } from "../../types/smart-union.js";
@@ -157,16 +157,18 @@ export type GetCharacterDetailsRequest$Outbound = {
 export const GetCharacterDetailsRequest$outboundSchema: z.ZodMiniType<
   GetCharacterDetailsRequest$Outbound,
   GetCharacterDetailsRequest
-> = z.pipe(
-  z.object({
-    characterId: z.int(),
-    languages: z.optional(z.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      characterId: "character_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      characterId: z.int(),
+      languages: z.optional(z.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        characterId: "character_id",
+      });
+    }),
+  )
 );
 
 export function getCharacterDetailsRequestToJSON(
@@ -181,19 +183,21 @@ export function getCharacterDetailsRequestToJSON(
 export const GetCharacterDetailsImages$inboundSchema: z.ZodMiniType<
   GetCharacterDetailsImages,
   unknown
-> = z.pipe(
-  z.object({
-    tile_sm: types.optional(types.string()),
-    profile_md: types.optional(types.string()),
-    full_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "tile_sm": "tileSm",
-      "profile_md": "profileMd",
-      "full_lg": "fullLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      tile_sm: types.optional(types.string()),
+      profile_md: types.optional(types.string()),
+      full_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "tile_sm": "tileSm",
+        "profile_md": "profileMd",
+        "full_lg": "fullLg",
+      });
+    }),
+  )
 );
 
 export function getCharacterDetailsImagesFromJSON(
@@ -210,13 +214,15 @@ export function getCharacterDetailsImagesFromJSON(
 export const GetCharacterDetailsAlterEgo$inboundSchema: z.ZodMiniType<
   GetCharacterDetailsAlterEgo,
   unknown
-> = smartUnion([
-  types.string(),
-  types.number(),
-  types.boolean(),
-  z.array(z.any()),
-  z.record(z.string(), z.any()),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    types.string(),
+    types.number(),
+    types.boolean(),
+    z.array(z.any()),
+    z.record(z.string(), z.any()),
+  ])
+);
 
 export function getCharacterDetailsAlterEgoFromJSON(
   jsonString: string,
@@ -232,11 +238,13 @@ export function getCharacterDetailsAlterEgoFromJSON(
 export const GetCharacterDetailsPublisher$inboundSchema: z.ZodMiniType<
   GetCharacterDetailsPublisher,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.nullable(types.string()),
-  slug: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+  })
+);
 
 export function getCharacterDetailsPublisherFromJSON(
   jsonString: string,
@@ -252,12 +260,14 @@ export function getCharacterDetailsPublisherFromJSON(
 export const GetCharacterDetailsNameI18n$inboundSchema: z.ZodMiniType<
   GetCharacterDetailsNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function getCharacterDetailsNameI18nFromJSON(
   jsonString: string,
@@ -273,12 +283,14 @@ export function getCharacterDetailsNameI18nFromJSON(
 export const GetCharacterDetailsRealNameI18n$inboundSchema: z.ZodMiniType<
   GetCharacterDetailsRealNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function getCharacterDetailsRealNameI18nFromJSON(
   jsonString: string,
@@ -294,78 +306,80 @@ export function getCharacterDetailsRealNameI18nFromJSON(
 export const GetCharacterDetailsData$inboundSchema: z.ZodMiniType<
   GetCharacterDetailsData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    real_name: types.nullable(types.string()),
-    aliases: types.nullable(z.array(types.string())),
-    image_url: types.nullable(types.string()),
-    images: types.nullable(
-      z.lazy(() => GetCharacterDetailsImages$inboundSchema),
-    ),
-    alter_ego: types.nullable(
-      smartUnion([
-        types.string(),
-        types.number(),
-        types.boolean(),
-        z.array(z.any()),
-        z.record(z.string(), z.any()),
-      ]),
-    ),
-    gender: types.nullable(types.string()),
-    birthday: types.nullable(types.string()),
-    race: types.nullable(types.string()),
-    birth_place: types.nullable(types.string()),
-    occupation: types.nullable(types.string()),
-    height: types.nullable(types.string()),
-    weight: types.nullable(types.string()),
-    citizenship: types.nullable(types.string()),
-    education: types.nullable(types.string()),
-    appearances_count: types.number(),
-    series_count: types.number(),
-    teams_count: types.number(),
-    story_arcs_count: types.number(),
-    eye_color: types.optional(types.string()),
-    hair_color: types.optional(types.string()),
-    powers: types.optional(z.array(types.string())),
-    weaknesses: types.optional(z.array(types.string())),
-    equipment: types.optional(z.array(types.string())),
-    abilities: types.optional(z.array(types.string())),
-    roles: types.optional(z.array(types.string())),
-    publisher: types.optional(
-      z.lazy(() => GetCharacterDetailsPublisher$inboundSchema),
-    ),
-    name_i18n: z.record(
-      z.string(),
-      z.lazy(() => GetCharacterDetailsNameI18n$inboundSchema),
-    ),
-    aliases_i18n: z.record(z.string(), z.array(types.string())),
-    original_locale: types.nullable(types.string()),
-    real_name_i18n: z.record(
-      z.string(),
-      z.lazy(() => GetCharacterDetailsRealNameI18n$inboundSchema),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "real_name": "realName",
-      "image_url": "imageUrl",
-      "alter_ego": "alterEgo",
-      "birth_place": "birthPlace",
-      "appearances_count": "appearancesCount",
-      "series_count": "seriesCount",
-      "teams_count": "teamsCount",
-      "story_arcs_count": "storyArcsCount",
-      "eye_color": "eyeColor",
-      "hair_color": "hairColor",
-      "name_i18n": "nameI18n",
-      "aliases_i18n": "aliasesI18n",
-      "original_locale": "originalLocale",
-      "real_name_i18n": "realNameI18n",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      real_name: types.nullable(types.string()),
+      aliases: types.nullable(z.array(types.string())),
+      image_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => GetCharacterDetailsImages$inboundSchema),
+      ),
+      alter_ego: types.nullable(
+        smartUnion([
+          types.string(),
+          types.number(),
+          types.boolean(),
+          z.array(z.any()),
+          z.record(z.string(), z.any()),
+        ]),
+      ),
+      gender: types.nullable(types.string()),
+      birthday: types.nullable(types.string()),
+      race: types.nullable(types.string()),
+      birth_place: types.nullable(types.string()),
+      occupation: types.nullable(types.string()),
+      height: types.nullable(types.string()),
+      weight: types.nullable(types.string()),
+      citizenship: types.nullable(types.string()),
+      education: types.nullable(types.string()),
+      appearances_count: types.number(),
+      series_count: types.number(),
+      teams_count: types.number(),
+      story_arcs_count: types.number(),
+      eye_color: types.optional(types.string()),
+      hair_color: types.optional(types.string()),
+      powers: types.optional(z.array(types.string())),
+      weaknesses: types.optional(z.array(types.string())),
+      equipment: types.optional(z.array(types.string())),
+      abilities: types.optional(z.array(types.string())),
+      roles: types.optional(z.array(types.string())),
+      publisher: types.optional(
+        z.lazy(() => GetCharacterDetailsPublisher$inboundSchema),
+      ),
+      name_i18n: z.record(
+        z.string(),
+        z.lazy(() => GetCharacterDetailsNameI18n$inboundSchema),
+      ),
+      aliases_i18n: z.record(z.string(), z.array(types.string())),
+      original_locale: types.nullable(types.string()),
+      real_name_i18n: z.record(
+        z.string(),
+        z.lazy(() => GetCharacterDetailsRealNameI18n$inboundSchema),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "real_name": "realName",
+        "image_url": "imageUrl",
+        "alter_ego": "alterEgo",
+        "birth_place": "birthPlace",
+        "appearances_count": "appearancesCount",
+        "series_count": "seriesCount",
+        "teams_count": "teamsCount",
+        "story_arcs_count": "storyArcsCount",
+        "eye_color": "eyeColor",
+        "hair_color": "hairColor",
+        "name_i18n": "nameI18n",
+        "aliases_i18n": "aliasesI18n",
+        "original_locale": "originalLocale",
+        "real_name_i18n": "realNameI18n",
+      });
+    }),
+  )
 );
 
 export function getCharacterDetailsDataFromJSON(
@@ -382,9 +396,11 @@ export function getCharacterDetailsDataFromJSON(
 export const GetCharacterDetailsResponseBody$inboundSchema: z.ZodMiniType<
   GetCharacterDetailsResponseBody,
   unknown
-> = z.object({
-  data: z.lazy(() => GetCharacterDetailsData$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.lazy(() => GetCharacterDetailsData$inboundSchema),
+  })
+);
 
 export function getCharacterDetailsResponseBodyFromJSON(
   jsonString: string,
@@ -400,17 +416,19 @@ export function getCharacterDetailsResponseBodyFromJSON(
 export const GetCharacterDetailsResponse$inboundSchema: z.ZodMiniType<
   GetCharacterDetailsResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => GetCharacterDetailsResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => GetCharacterDetailsResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function getCharacterDetailsResponseFromJSON(

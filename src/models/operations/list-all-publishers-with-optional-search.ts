@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -134,15 +134,17 @@ export const ListAllPublishersWithOptionalSearchRequest$outboundSchema:
   z.ZodMiniType<
     ListAllPublishersWithOptionalSearchRequest$Outbound,
     ListAllPublishersWithOptionalSearchRequest
-  > = z.object({
-    q: z.optional(z.string()),
-    medium: z.optional(z.string()),
-    sort: z.optional(z.string()),
-    direction: z.optional(z.string()),
-    limit: z.optional(z.int()),
-    page: z.optional(z.int()),
-    languages: z.optional(z.string()),
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      q: z.optional(z.string()),
+      medium: z.optional(z.string()),
+      sort: z.optional(z.string()),
+      direction: z.optional(z.string()),
+      limit: z.optional(z.int()),
+      page: z.optional(z.int()),
+      languages: z.optional(z.string()),
+    })
+  );
 
 export function listAllPublishersWithOptionalSearchRequestToJSON(
   listAllPublishersWithOptionalSearchRequest:
@@ -157,20 +159,23 @@ export function listAllPublishersWithOptionalSearchRequestToJSON(
 
 /** @internal */
 export const ListAllPublishersWithOptionalSearchImages$inboundSchema:
-  z.ZodMiniType<ListAllPublishersWithOptionalSearchImages, unknown> = z.pipe(
-    z.object({
-      tile_sm: types.optional(types.string()),
-      profile_md: types.optional(types.string()),
-      full_lg: types.optional(types.string()),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "tile_sm": "tileSm",
-        "profile_md": "profileMd",
-        "full_lg": "fullLg",
-      });
-    }),
-  );
+  z.ZodMiniType<ListAllPublishersWithOptionalSearchImages, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          tile_sm: types.optional(types.string()),
+          profile_md: types.optional(types.string()),
+          full_lg: types.optional(types.string()),
+        }),
+        z.transform((v) => {
+          return remap$(v, {
+            "tile_sm": "tileSm",
+            "profile_md": "profileMd",
+            "full_lg": "fullLg",
+          });
+        }),
+      )
+    );
 
 export function listAllPublishersWithOptionalSearchImagesFromJSON(
   jsonString: string,
@@ -190,13 +195,15 @@ export function listAllPublishersWithOptionalSearchImagesFromJSON(
 
 /** @internal */
 export const ListAllPublishersWithOptionalSearchNameI18n$inboundSchema:
-  z.ZodMiniType<ListAllPublishersWithOptionalSearchNameI18n, unknown> = z
-    .object({
-      value: types.string(),
-      source: types.string(),
-      reading: types.optional(types.string()),
-      sort: types.optional(types.string()),
-    });
+  z.ZodMiniType<ListAllPublishersWithOptionalSearchNameI18n, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.object({
+        value: types.string(),
+        source: types.string(),
+        reading: types.optional(types.string()),
+        sort: types.optional(types.string()),
+      })
+    );
 
 export function listAllPublishersWithOptionalSearchNameI18nFromJSON(
   jsonString: string,
@@ -216,36 +223,43 @@ export function listAllPublishersWithOptionalSearchNameI18nFromJSON(
 
 /** @internal */
 export const ListAllPublishersWithOptionalSearchData$inboundSchema:
-  z.ZodMiniType<ListAllPublishersWithOptionalSearchData, unknown> = z.pipe(
-    z.object({
-      id: types.number(),
-      name: types.nullable(types.string()),
-      founded_year: types.nullable(types.number()),
-      headquarters: types.nullable(types.string()),
-      status: types.nullable(types.string()),
-      series_count: types.number(),
-      logo_url: types.nullable(types.string()),
-      images: types.nullable(z.lazy(() =>
-        ListAllPublishersWithOptionalSearchImages$inboundSchema
-      )),
-      name_i18n: z.record(
-        z.string(),
-        z.lazy(() => ListAllPublishersWithOptionalSearchNameI18n$inboundSchema),
-      ),
-      aliases_i18n: z.record(z.string(), z.array(types.string())),
-      original_locale: types.nullable(types.string()),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "founded_year": "foundedYear",
-        "series_count": "seriesCount",
-        "logo_url": "logoUrl",
-        "name_i18n": "nameI18n",
-        "aliases_i18n": "aliasesI18n",
-        "original_locale": "originalLocale",
-      });
-    }),
-  );
+  z.ZodMiniType<ListAllPublishersWithOptionalSearchData, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          id: types.number(),
+          name: types.nullable(types.string()),
+          founded_year: types.nullable(types.number()),
+          headquarters: types.nullable(types.string()),
+          status: types.nullable(types.string()),
+          series_count: types.number(),
+          logo_url: types.nullable(types.string()),
+          images: types.nullable(
+            z.lazy(() =>
+              ListAllPublishersWithOptionalSearchImages$inboundSchema
+            ),
+          ),
+          name_i18n: z.record(
+            z.string(),
+            z.lazy(() =>
+              ListAllPublishersWithOptionalSearchNameI18n$inboundSchema
+            ),
+          ),
+          aliases_i18n: z.record(z.string(), z.array(types.string())),
+          original_locale: types.nullable(types.string()),
+        }),
+        z.transform((v) => {
+          return remap$(v, {
+            "founded_year": "foundedYear",
+            "series_count": "seriesCount",
+            "logo_url": "logoUrl",
+            "name_i18n": "nameI18n",
+            "aliases_i18n": "aliasesI18n",
+            "original_locale": "originalLocale",
+          });
+        }),
+      )
+    );
 
 export function listAllPublishersWithOptionalSearchDataFromJSON(
   jsonString: string,
@@ -265,12 +279,15 @@ export function listAllPublishersWithOptionalSearchDataFromJSON(
 
 /** @internal */
 export const ListAllPublishersWithOptionalSearchLinks$inboundSchema:
-  z.ZodMiniType<ListAllPublishersWithOptionalSearchLinks, unknown> = z.object({
-    first: types.string(),
-    last: types.string(),
-    prev: types.nullable(types.string()),
-    next: types.nullable(types.string()),
-  });
+  z.ZodMiniType<ListAllPublishersWithOptionalSearchLinks, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.object({
+        first: types.string(),
+        last: types.string(),
+        prev: types.nullable(types.string()),
+        next: types.nullable(types.string()),
+      })
+    );
 
 export function listAllPublishersWithOptionalSearchLinksFromJSON(
   jsonString: string,
@@ -290,12 +307,15 @@ export function listAllPublishersWithOptionalSearchLinksFromJSON(
 
 /** @internal */
 export const ListAllPublishersWithOptionalSearchLink$inboundSchema:
-  z.ZodMiniType<ListAllPublishersWithOptionalSearchLink, unknown> = z.object({
-    url: types.nullable(types.string()),
-    label: types.string(),
-    page: z.optional(z.nullable(types.number())),
-    active: types.boolean(),
-  });
+  z.ZodMiniType<ListAllPublishersWithOptionalSearchLink, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.object({
+        url: types.nullable(types.string()),
+        label: types.string(),
+        page: z.optional(z.nullable(types.number())),
+        active: types.boolean(),
+      })
+    );
 
 export function listAllPublishersWithOptionalSearchLinkFromJSON(
   jsonString: string,
@@ -315,27 +335,30 @@ export function listAllPublishersWithOptionalSearchLinkFromJSON(
 
 /** @internal */
 export const ListAllPublishersWithOptionalSearchMeta$inboundSchema:
-  z.ZodMiniType<ListAllPublishersWithOptionalSearchMeta, unknown> = z.pipe(
-    z.object({
-      current_page: types.number(),
-      from: types.nullable(types.number()),
-      last_page: types.number(),
-      links: z.array(z.lazy(() =>
-        ListAllPublishersWithOptionalSearchLink$inboundSchema
-      )),
-      path: types.string(),
-      per_page: types.number(),
-      to: types.nullable(types.number()),
-      total: types.number(),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "current_page": "currentPage",
-        "last_page": "lastPage",
-        "per_page": "perPage",
-      });
-    }),
-  );
+  z.ZodMiniType<ListAllPublishersWithOptionalSearchMeta, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          current_page: types.number(),
+          from: types.nullable(types.number()),
+          last_page: types.number(),
+          links: z.array(
+            z.lazy(() => ListAllPublishersWithOptionalSearchLink$inboundSchema),
+          ),
+          path: types.string(),
+          per_page: types.number(),
+          to: types.nullable(types.number()),
+          total: types.number(),
+        }),
+        z.transform((v) => {
+          return remap$(v, {
+            "current_page": "currentPage",
+            "last_page": "lastPage",
+            "per_page": "perPage",
+          });
+        }),
+      )
+    );
 
 export function listAllPublishersWithOptionalSearchMetaFromJSON(
   jsonString: string,
@@ -355,16 +378,20 @@ export function listAllPublishersWithOptionalSearchMetaFromJSON(
 
 /** @internal */
 export const ListAllPublishersWithOptionalSearchResponseBody$inboundSchema:
-  z.ZodMiniType<ListAllPublishersWithOptionalSearchResponseBody, unknown> = z
-    .object({
-      data: z.array(
-        z.lazy(() => ListAllPublishersWithOptionalSearchData$inboundSchema),
-      ),
-      links: z.lazy(() =>
-        ListAllPublishersWithOptionalSearchLinks$inboundSchema
-      ),
-      meta: z.lazy(() => ListAllPublishersWithOptionalSearchMeta$inboundSchema),
-    });
+  z.ZodMiniType<ListAllPublishersWithOptionalSearchResponseBody, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.object({
+        data: z.array(
+          z.lazy(() => ListAllPublishersWithOptionalSearchData$inboundSchema),
+        ),
+        links: z.lazy(() =>
+          ListAllPublishersWithOptionalSearchLinks$inboundSchema
+        ),
+        meta: z.lazy(() =>
+          ListAllPublishersWithOptionalSearchMeta$inboundSchema
+        ),
+      })
+    );
 
 export function listAllPublishersWithOptionalSearchResponseBodyFromJSON(
   jsonString: string,
@@ -384,20 +411,23 @@ export function listAllPublishersWithOptionalSearchResponseBodyFromJSON(
 
 /** @internal */
 export const ListAllPublishersWithOptionalSearchResponse$inboundSchema:
-  z.ZodMiniType<ListAllPublishersWithOptionalSearchResponse, unknown> = z.pipe(
-    z.object({
-      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-      Result: z.lazy(() =>
-        ListAllPublishersWithOptionalSearchResponseBody$inboundSchema
-      ),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "Headers": "headers",
-        "Result": "result",
-      });
-    }),
-  );
+  z.ZodMiniType<ListAllPublishersWithOptionalSearchResponse, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+          Result: z.lazy(() =>
+            ListAllPublishersWithOptionalSearchResponseBody$inboundSchema
+          ),
+        }),
+        z.transform((v) => {
+          return remap$(v, {
+            "Headers": "headers",
+            "Result": "result",
+          });
+        }),
+      )
+    );
 
 export function listAllPublishersWithOptionalSearchResponseFromJSON(
   jsonString: string,

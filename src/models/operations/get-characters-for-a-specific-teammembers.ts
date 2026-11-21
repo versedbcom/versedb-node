@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -161,21 +161,23 @@ export const GetCharactersForASpecificTeammembersRequest$outboundSchema:
   z.ZodMiniType<
     GetCharactersForASpecificTeammembersRequest$Outbound,
     GetCharactersForASpecificTeammembersRequest
-  > = z.pipe(
-    z.object({
-      teamId: z.int(),
-      q: z.optional(z.string()),
-      sort: z.optional(z.string()),
-      direction: z.optional(z.string()),
-      limit: z.optional(z.int()),
-      page: z.optional(z.int()),
-      languages: z.optional(z.string()),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        teamId: "team_id",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        teamId: z.int(),
+        q: z.optional(z.string()),
+        sort: z.optional(z.string()),
+        direction: z.optional(z.string()),
+        limit: z.optional(z.int()),
+        page: z.optional(z.int()),
+        languages: z.optional(z.string()),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          teamId: "team_id",
+        });
+      }),
+    )
   );
 
 export function getCharactersForASpecificTeammembersRequestToJSON(
@@ -191,20 +193,23 @@ export function getCharactersForASpecificTeammembersRequestToJSON(
 
 /** @internal */
 export const GetCharactersForASpecificTeammembersImages$inboundSchema:
-  z.ZodMiniType<GetCharactersForASpecificTeammembersImages, unknown> = z.pipe(
-    z.object({
-      tile_sm: types.optional(types.string()),
-      profile_md: types.optional(types.string()),
-      full_lg: types.optional(types.string()),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "tile_sm": "tileSm",
-        "profile_md": "profileMd",
-        "full_lg": "fullLg",
-      });
-    }),
-  );
+  z.ZodMiniType<GetCharactersForASpecificTeammembersImages, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          tile_sm: types.optional(types.string()),
+          profile_md: types.optional(types.string()),
+          full_lg: types.optional(types.string()),
+        }),
+        z.transform((v) => {
+          return remap$(v, {
+            "tile_sm": "tileSm",
+            "profile_md": "profileMd",
+            "full_lg": "fullLg",
+          });
+        }),
+      )
+    );
 
 export function getCharactersForASpecificTeammembersImagesFromJSON(
   jsonString: string,
@@ -224,13 +229,15 @@ export function getCharactersForASpecificTeammembersImagesFromJSON(
 
 /** @internal */
 export const GetCharactersForASpecificTeammembersNameI18n$inboundSchema:
-  z.ZodMiniType<GetCharactersForASpecificTeammembersNameI18n, unknown> = z
-    .object({
-      value: types.string(),
-      source: types.string(),
-      reading: types.optional(types.string()),
-      sort: types.optional(types.string()),
-    });
+  z.ZodMiniType<GetCharactersForASpecificTeammembersNameI18n, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.object({
+        value: types.string(),
+        source: types.string(),
+        reading: types.optional(types.string()),
+        sort: types.optional(types.string()),
+      })
+    );
 
 export function getCharactersForASpecificTeammembersNameI18nFromJSON(
   jsonString: string,
@@ -250,13 +257,15 @@ export function getCharactersForASpecificTeammembersNameI18nFromJSON(
 
 /** @internal */
 export const GetCharactersForASpecificTeammembersRealNameI18n$inboundSchema:
-  z.ZodMiniType<GetCharactersForASpecificTeammembersRealNameI18n, unknown> = z
-    .object({
-      value: types.string(),
-      source: types.string(),
-      reading: types.optional(types.string()),
-      sort: types.optional(types.string()),
-    });
+  z.ZodMiniType<GetCharactersForASpecificTeammembersRealNameI18n, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.object({
+        value: types.string(),
+        source: types.string(),
+        reading: types.optional(types.string()),
+        sort: types.optional(types.string()),
+      })
+    );
 
 export function getCharactersForASpecificTeammembersRealNameI18nFromJSON(
   jsonString: string,
@@ -276,54 +285,57 @@ export function getCharactersForASpecificTeammembersRealNameI18nFromJSON(
 
 /** @internal */
 export const GetCharactersForASpecificTeammembersData$inboundSchema:
-  z.ZodMiniType<GetCharactersForASpecificTeammembersData, unknown> = z.pipe(
-    z.object({
-      id: types.number(),
-      name: types.nullable(types.string()),
-      slug: types.nullable(types.string()),
-      real_name: types.nullable(types.string()),
-      aliases: z.array(types.string()),
-      race: types.nullable(types.string()),
-      image_url: types.nullable(types.string()),
-      images: types.nullable(z.lazy(() =>
-        GetCharactersForASpecificTeammembersImages$inboundSchema
-      )),
-      appearances_count: types.number(),
-      publisher_name: z.optional(z.nullable(types.string())),
-      name_i18n: z.record(
-        z.string(),
-        z.lazy(() =>
-          GetCharactersForASpecificTeammembersNameI18n$inboundSchema
-        ),
-      ),
-      aliases_i18n: z.record(z.string(), z.array(types.string())),
-      original_locale: types.nullable(types.string()),
-      real_name_i18n: z.record(
-        z.string(),
-        z.lazy(() =>
-          GetCharactersForASpecificTeammembersRealNameI18n$inboundSchema
-        ),
-      ),
-      pivot_role: types.optional(types.string()),
-      pivot_joined_date: types.optional(types.string()),
-      pivot_left_date: types.optional(types.string()),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "real_name": "realName",
-        "image_url": "imageUrl",
-        "appearances_count": "appearancesCount",
-        "publisher_name": "publisherName",
-        "name_i18n": "nameI18n",
-        "aliases_i18n": "aliasesI18n",
-        "original_locale": "originalLocale",
-        "real_name_i18n": "realNameI18n",
-        "pivot_role": "pivotRole",
-        "pivot_joined_date": "pivotJoinedDate",
-        "pivot_left_date": "pivotLeftDate",
-      });
-    }),
-  );
+  z.ZodMiniType<GetCharactersForASpecificTeammembersData, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          id: types.number(),
+          name: types.nullable(types.string()),
+          slug: types.nullable(types.string()),
+          real_name: types.nullable(types.string()),
+          aliases: z.array(types.string()),
+          race: types.nullable(types.string()),
+          image_url: types.nullable(types.string()),
+          images: types.nullable(z.lazy(() =>
+            GetCharactersForASpecificTeammembersImages$inboundSchema
+          )),
+          appearances_count: types.number(),
+          publisher_name: z.optional(z.nullable(types.string())),
+          name_i18n: z.record(
+            z.string(),
+            z.lazy(() =>
+              GetCharactersForASpecificTeammembersNameI18n$inboundSchema
+            ),
+          ),
+          aliases_i18n: z.record(z.string(), z.array(types.string())),
+          original_locale: types.nullable(types.string()),
+          real_name_i18n: z.record(
+            z.string(),
+            z.lazy(() =>
+              GetCharactersForASpecificTeammembersRealNameI18n$inboundSchema
+            ),
+          ),
+          pivot_role: types.optional(types.string()),
+          pivot_joined_date: types.optional(types.string()),
+          pivot_left_date: types.optional(types.string()),
+        }),
+        z.transform((v) => {
+          return remap$(v, {
+            "real_name": "realName",
+            "image_url": "imageUrl",
+            "appearances_count": "appearancesCount",
+            "publisher_name": "publisherName",
+            "name_i18n": "nameI18n",
+            "aliases_i18n": "aliasesI18n",
+            "original_locale": "originalLocale",
+            "real_name_i18n": "realNameI18n",
+            "pivot_role": "pivotRole",
+            "pivot_joined_date": "pivotJoinedDate",
+            "pivot_left_date": "pivotLeftDate",
+          });
+        }),
+      )
+    );
 
 export function getCharactersForASpecificTeammembersDataFromJSON(
   jsonString: string,
@@ -343,12 +355,15 @@ export function getCharactersForASpecificTeammembersDataFromJSON(
 
 /** @internal */
 export const GetCharactersForASpecificTeammembersLinks$inboundSchema:
-  z.ZodMiniType<GetCharactersForASpecificTeammembersLinks, unknown> = z.object({
-    first: types.string(),
-    last: types.string(),
-    prev: types.nullable(types.string()),
-    next: types.nullable(types.string()),
-  });
+  z.ZodMiniType<GetCharactersForASpecificTeammembersLinks, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.object({
+        first: types.string(),
+        last: types.string(),
+        prev: types.nullable(types.string()),
+        next: types.nullable(types.string()),
+      })
+    );
 
 export function getCharactersForASpecificTeammembersLinksFromJSON(
   jsonString: string,
@@ -368,12 +383,15 @@ export function getCharactersForASpecificTeammembersLinksFromJSON(
 
 /** @internal */
 export const GetCharactersForASpecificTeammembersLink$inboundSchema:
-  z.ZodMiniType<GetCharactersForASpecificTeammembersLink, unknown> = z.object({
-    url: types.nullable(types.string()),
-    label: types.string(),
-    page: z.optional(z.nullable(types.number())),
-    active: types.boolean(),
-  });
+  z.ZodMiniType<GetCharactersForASpecificTeammembersLink, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.object({
+        url: types.nullable(types.string()),
+        label: types.string(),
+        page: z.optional(z.nullable(types.number())),
+        active: types.boolean(),
+      })
+    );
 
 export function getCharactersForASpecificTeammembersLinkFromJSON(
   jsonString: string,
@@ -393,27 +411,32 @@ export function getCharactersForASpecificTeammembersLinkFromJSON(
 
 /** @internal */
 export const GetCharactersForASpecificTeammembersMeta$inboundSchema:
-  z.ZodMiniType<GetCharactersForASpecificTeammembersMeta, unknown> = z.pipe(
-    z.object({
-      current_page: types.number(),
-      from: types.nullable(types.number()),
-      last_page: types.number(),
-      links: z.array(z.lazy(() =>
-        GetCharactersForASpecificTeammembersLink$inboundSchema
-      )),
-      path: types.string(),
-      per_page: types.number(),
-      to: types.nullable(types.number()),
-      total: types.number(),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "current_page": "currentPage",
-        "last_page": "lastPage",
-        "per_page": "perPage",
-      });
-    }),
-  );
+  z.ZodMiniType<GetCharactersForASpecificTeammembersMeta, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          current_page: types.number(),
+          from: types.nullable(types.number()),
+          last_page: types.number(),
+          links: z.array(
+            z.lazy(() =>
+              GetCharactersForASpecificTeammembersLink$inboundSchema
+            ),
+          ),
+          path: types.string(),
+          per_page: types.number(),
+          to: types.nullable(types.number()),
+          total: types.number(),
+        }),
+        z.transform((v) => {
+          return remap$(v, {
+            "current_page": "currentPage",
+            "last_page": "lastPage",
+            "per_page": "perPage",
+          });
+        }),
+      )
+    );
 
 export function getCharactersForASpecificTeammembersMetaFromJSON(
   jsonString: string,
@@ -433,18 +456,20 @@ export function getCharactersForASpecificTeammembersMetaFromJSON(
 
 /** @internal */
 export const GetCharactersForASpecificTeammembersResponseBody$inboundSchema:
-  z.ZodMiniType<GetCharactersForASpecificTeammembersResponseBody, unknown> = z
-    .object({
-      data: z.array(
-        z.lazy(() => GetCharactersForASpecificTeammembersData$inboundSchema),
-      ),
-      links: z.lazy(() =>
-        GetCharactersForASpecificTeammembersLinks$inboundSchema
-      ),
-      meta: z.lazy(() =>
-        GetCharactersForASpecificTeammembersMeta$inboundSchema
-      ),
-    });
+  z.ZodMiniType<GetCharactersForASpecificTeammembersResponseBody, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.object({
+        data: z.array(
+          z.lazy(() => GetCharactersForASpecificTeammembersData$inboundSchema),
+        ),
+        links: z.lazy(() =>
+          GetCharactersForASpecificTeammembersLinks$inboundSchema
+        ),
+        meta: z.lazy(() =>
+          GetCharactersForASpecificTeammembersMeta$inboundSchema
+        ),
+      })
+    );
 
 export function getCharactersForASpecificTeammembersResponseBodyFromJSON(
   jsonString: string,
@@ -464,20 +489,23 @@ export function getCharactersForASpecificTeammembersResponseBodyFromJSON(
 
 /** @internal */
 export const GetCharactersForASpecificTeammembersResponse$inboundSchema:
-  z.ZodMiniType<GetCharactersForASpecificTeammembersResponse, unknown> = z.pipe(
-    z.object({
-      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-      Result: z.lazy(() =>
-        GetCharactersForASpecificTeammembersResponseBody$inboundSchema
-      ),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "Headers": "headers",
-        "Result": "result",
-      });
-    }),
-  );
+  z.ZodMiniType<GetCharactersForASpecificTeammembersResponse, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+          Result: z.lazy(() =>
+            GetCharactersForASpecificTeammembersResponseBody$inboundSchema
+          ),
+        }),
+        z.transform((v) => {
+          return remap$(v, {
+            "Headers": "headers",
+            "Result": "result",
+          });
+        }),
+      )
+    );
 
 export function getCharactersForASpecificTeammembersResponseFromJSON(
   jsonString: string,

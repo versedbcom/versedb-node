@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -158,9 +158,11 @@ export type ViewYearlyReadingStatisticsRequest$Outbound = {
 export const ViewYearlyReadingStatisticsRequest$outboundSchema: z.ZodMiniType<
   ViewYearlyReadingStatisticsRequest$Outbound,
   ViewYearlyReadingStatisticsRequest
-> = z.object({
-  year: z.optional(z.int()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    year: z.optional(z.int()),
+  })
+);
 
 export function viewYearlyReadingStatisticsRequestToJSON(
   viewYearlyReadingStatisticsRequest: ViewYearlyReadingStatisticsRequest,
@@ -173,43 +175,46 @@ export function viewYearlyReadingStatisticsRequestToJSON(
 }
 
 /** @internal */
-export const Progress$inboundSchema: z.ZodMiniType<Progress, unknown> = z.pipe(
-  z.object({
-    year: types.number(),
-    target: types.nullable(types.number()),
-    read_count: types.number(),
-    percent: types.nullable(types.number()),
-    completed: types.boolean(),
-    expected_reads: types.nullable(types.number()),
-    pace_difference: types.nullable(types.number()),
-    remaining: types.nullable(types.number()),
-    reads_per_week: types.nullable(types.number()),
-    editable: types.boolean(),
-    last_year_reads: types.nullable(types.number()),
-    suggested_target: types.nullable(types.number()),
-    timezone: types.string(),
-    is_public: types.boolean(),
-    notify_milestones: types.optional(types.boolean()),
-    notify_lapses: types.optional(types.boolean()),
-    email_updates: types.optional(types.boolean()),
-    share_url: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "read_count": "readCount",
-      "expected_reads": "expectedReads",
-      "pace_difference": "paceDifference",
-      "reads_per_week": "readsPerWeek",
-      "last_year_reads": "lastYearReads",
-      "suggested_target": "suggestedTarget",
-      "is_public": "isPublic",
-      "notify_milestones": "notifyMilestones",
-      "notify_lapses": "notifyLapses",
-      "email_updates": "emailUpdates",
-      "share_url": "shareUrl",
-    });
-  }),
-);
+export const Progress$inboundSchema: z.ZodMiniType<Progress, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        year: types.number(),
+        target: types.nullable(types.number()),
+        read_count: types.number(),
+        percent: types.nullable(types.number()),
+        completed: types.boolean(),
+        expected_reads: types.nullable(types.number()),
+        pace_difference: types.nullable(types.number()),
+        remaining: types.nullable(types.number()),
+        reads_per_week: types.nullable(types.number()),
+        editable: types.boolean(),
+        last_year_reads: types.nullable(types.number()),
+        suggested_target: types.nullable(types.number()),
+        timezone: types.string(),
+        is_public: types.boolean(),
+        notify_milestones: types.optional(types.boolean()),
+        notify_lapses: types.optional(types.boolean()),
+        email_updates: types.optional(types.boolean()),
+        share_url: types.nullable(types.string()),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "read_count": "readCount",
+          "expected_reads": "expectedReads",
+          "pace_difference": "paceDifference",
+          "reads_per_week": "readsPerWeek",
+          "last_year_reads": "lastYearReads",
+          "suggested_target": "suggestedTarget",
+          "is_public": "isPublic",
+          "notify_milestones": "notifyMilestones",
+          "notify_lapses": "notifyLapses",
+          "email_updates": "emailUpdates",
+          "share_url": "shareUrl",
+        });
+      }),
+    )
+  );
 
 export function progressFromJSON(
   jsonString: string,
@@ -222,12 +227,15 @@ export function progressFromJSON(
 }
 
 /** @internal */
-export const Day$inboundSchema: z.ZodMiniType<Day, unknown> = z.object({
-  date: types.nullable(types.string()),
-  count: types.number(),
-  total: types.number(),
-  expected: types.number(),
-});
+export const Day$inboundSchema: z.ZodMiniType<Day, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      date: types.nullable(types.string()),
+      count: types.number(),
+      total: types.number(),
+      expected: types.number(),
+    })
+  );
 
 export function dayFromJSON(
   jsonString: string,
@@ -240,38 +248,41 @@ export function dayFromJSON(
 }
 
 /** @internal */
-export const Months$inboundSchema: z.ZodMiniType<Months, unknown> = z.pipe(
-  z.object({
-    "1": types.number(),
-    "2": types.number(),
-    "3": types.number(),
-    "4": types.number(),
-    "5": types.number(),
-    "6": types.number(),
-    "7": types.number(),
-    "8": types.number(),
-    "9": types.number(),
-    "10": types.number(),
-    "11": types.number(),
-    "12": types.number(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "1": "one",
-      "2": "two",
-      "3": "three",
-      "4": "four",
-      "5": "five",
-      "6": "six",
-      "7": "seven",
-      "8": "eight",
-      "9": "nine",
-      "10": "ten",
-      "11": "eleven",
-      "12": "twelve",
-    });
-  }),
-);
+export const Months$inboundSchema: z.ZodMiniType<Months, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        "1": types.number(),
+        "2": types.number(),
+        "3": types.number(),
+        "4": types.number(),
+        "5": types.number(),
+        "6": types.number(),
+        "7": types.number(),
+        "8": types.number(),
+        "9": types.number(),
+        "10": types.number(),
+        "11": types.number(),
+        "12": types.number(),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "1": "one",
+          "2": "two",
+          "3": "three",
+          "4": "four",
+          "5": "five",
+          "6": "six",
+          "7": "seven",
+          "8": "eight",
+          "9": "nine",
+          "10": "ten",
+          "11": "eleven",
+          "12": "twelve",
+        });
+      }),
+    )
+  );
 
 export function monthsFromJSON(
   jsonString: string,
@@ -287,11 +298,13 @@ export function monthsFromJSON(
 export const ViewYearlyReadingStatisticsSeries$inboundSchema: z.ZodMiniType<
   ViewYearlyReadingStatisticsSeries,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.nullable(types.string()),
-  total: types.number(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    total: types.number(),
+  })
+);
 
 export function viewYearlyReadingStatisticsSeriesFromJSON(
   jsonString: string,
@@ -307,11 +320,13 @@ export function viewYearlyReadingStatisticsSeriesFromJSON(
 export const ViewYearlyReadingStatisticsPublisher$inboundSchema: z.ZodMiniType<
   ViewYearlyReadingStatisticsPublisher,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.nullable(types.string()),
-  total: types.number(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    total: types.number(),
+  })
+);
 
 export function viewYearlyReadingStatisticsPublisherFromJSON(
   jsonString: string,
@@ -328,11 +343,13 @@ export function viewYearlyReadingStatisticsPublisherFromJSON(
 export const ViewYearlyReadingStatisticsCreator$inboundSchema: z.ZodMiniType<
   ViewYearlyReadingStatisticsCreator,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.nullable(types.string()),
-  total: types.number(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    total: types.number(),
+  })
+);
 
 export function viewYearlyReadingStatisticsCreatorFromJSON(
   jsonString: string,
@@ -349,11 +366,13 @@ export function viewYearlyReadingStatisticsCreatorFromJSON(
 export const ViewYearlyReadingStatisticsGenre$inboundSchema: z.ZodMiniType<
   ViewYearlyReadingStatisticsGenre,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.nullable(types.string()),
-  total: types.number(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    total: types.number(),
+  })
+);
 
 export function viewYearlyReadingStatisticsGenreFromJSON(
   jsonString: string,
@@ -369,11 +388,13 @@ export function viewYearlyReadingStatisticsGenreFromJSON(
 export const ViewYearlyReadingStatisticsCharacter$inboundSchema: z.ZodMiniType<
   ViewYearlyReadingStatisticsCharacter,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.nullable(types.string()),
-  total: types.number(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    total: types.number(),
+  })
+);
 
 export function viewYearlyReadingStatisticsCharacterFromJSON(
   jsonString: string,
@@ -387,24 +408,26 @@ export function viewYearlyReadingStatisticsCharacterFromJSON(
 }
 
 /** @internal */
-export const Breakdowns$inboundSchema: z.ZodMiniType<Breakdowns, unknown> = z
-  .object({
-    series: z.array(
-      z.lazy(() => ViewYearlyReadingStatisticsSeries$inboundSchema),
-    ),
-    publishers: z.array(
-      z.lazy(() => ViewYearlyReadingStatisticsPublisher$inboundSchema),
-    ),
-    creators: z.array(
-      z.lazy(() => ViewYearlyReadingStatisticsCreator$inboundSchema),
-    ),
-    genres: z.array(
-      z.lazy(() => ViewYearlyReadingStatisticsGenre$inboundSchema),
-    ),
-    characters: z.array(
-      z.lazy(() => ViewYearlyReadingStatisticsCharacter$inboundSchema),
-    ),
-  });
+export const Breakdowns$inboundSchema: z.ZodMiniType<Breakdowns, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      series: z.array(
+        z.lazy(() => ViewYearlyReadingStatisticsSeries$inboundSchema),
+      ),
+      publishers: z.array(
+        z.lazy(() => ViewYearlyReadingStatisticsPublisher$inboundSchema),
+      ),
+      creators: z.array(
+        z.lazy(() => ViewYearlyReadingStatisticsCreator$inboundSchema),
+      ),
+      genres: z.array(
+        z.lazy(() => ViewYearlyReadingStatisticsGenre$inboundSchema),
+      ),
+      characters: z.array(
+        z.lazy(() => ViewYearlyReadingStatisticsCharacter$inboundSchema),
+      ),
+    })
+  );
 
 export function breakdownsFromJSON(
   jsonString: string,
@@ -418,18 +441,20 @@ export function breakdownsFromJSON(
 
 /** @internal */
 export const FinishedSery$inboundSchema: z.ZodMiniType<FinishedSery, unknown> =
-  z.pipe(
-    z.object({
-      id: types.number(),
-      name: types.nullable(types.string()),
-      total: types.number(),
-      finished_at: types.nullable(types.string()),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "finished_at": "finishedAt",
-      });
-    }),
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        id: types.number(),
+        name: types.nullable(types.string()),
+        total: types.number(),
+        finished_at: types.nullable(types.string()),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "finished_at": "finishedAt",
+        });
+      }),
+    )
   );
 
 export function finishedSeryFromJSON(
@@ -446,37 +471,39 @@ export function finishedSeryFromJSON(
 export const ViewYearlyReadingStatisticsData$inboundSchema: z.ZodMiniType<
   ViewYearlyReadingStatisticsData,
   unknown
-> = z.pipe(
-  z.object({
-    progress: z.lazy(() => Progress$inboundSchema),
-    days: z.array(z.lazy(() => Day$inboundSchema)),
-    months: z.lazy(() => Months$inboundSchema),
-    breakdowns: z.lazy(() => Breakdowns$inboundSchema),
-    active_days: types.number(),
-    longest_streak: types.number(),
-    current_streak: types.number(),
-    projected_reads: types.number(),
-    projected_finish: types.nullable(types.string()),
-    this_week: types.number(),
-    this_month: types.number(),
-    monthly_target: types.nullable(types.number()),
-    busiest_month: types.nullable(types.number()),
-    finished_series: z.array(z.lazy(() => FinishedSery$inboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "active_days": "activeDays",
-      "longest_streak": "longestStreak",
-      "current_streak": "currentStreak",
-      "projected_reads": "projectedReads",
-      "projected_finish": "projectedFinish",
-      "this_week": "thisWeek",
-      "this_month": "thisMonth",
-      "monthly_target": "monthlyTarget",
-      "busiest_month": "busiestMonth",
-      "finished_series": "finishedSeries",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      progress: z.lazy(() => Progress$inboundSchema),
+      days: z.array(z.lazy(() => Day$inboundSchema)),
+      months: z.lazy(() => Months$inboundSchema),
+      breakdowns: z.lazy(() => Breakdowns$inboundSchema),
+      active_days: types.number(),
+      longest_streak: types.number(),
+      current_streak: types.number(),
+      projected_reads: types.number(),
+      projected_finish: types.nullable(types.string()),
+      this_week: types.number(),
+      this_month: types.number(),
+      monthly_target: types.nullable(types.number()),
+      busiest_month: types.nullable(types.number()),
+      finished_series: z.array(z.lazy(() => FinishedSery$inboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "active_days": "activeDays",
+        "longest_streak": "longestStreak",
+        "current_streak": "currentStreak",
+        "projected_reads": "projectedReads",
+        "projected_finish": "projectedFinish",
+        "this_week": "thisWeek",
+        "this_month": "thisMonth",
+        "monthly_target": "monthlyTarget",
+        "busiest_month": "busiestMonth",
+        "finished_series": "finishedSeries",
+      });
+    }),
+  )
 );
 
 export function viewYearlyReadingStatisticsDataFromJSON(
@@ -491,10 +518,13 @@ export function viewYearlyReadingStatisticsDataFromJSON(
 
 /** @internal */
 export const ViewYearlyReadingStatisticsResponseBody$inboundSchema:
-  z.ZodMiniType<ViewYearlyReadingStatisticsResponseBody, unknown> = z.object({
-    data: z.lazy(() => ViewYearlyReadingStatisticsData$inboundSchema),
-    years: z.array(types.number()),
-  });
+  z.ZodMiniType<ViewYearlyReadingStatisticsResponseBody, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.object({
+        data: z.lazy(() => ViewYearlyReadingStatisticsData$inboundSchema),
+        years: z.array(types.number()),
+      })
+    );
 
 export function viewYearlyReadingStatisticsResponseBodyFromJSON(
   jsonString: string,
@@ -516,17 +546,21 @@ export function viewYearlyReadingStatisticsResponseBodyFromJSON(
 export const ViewYearlyReadingStatisticsResponse$inboundSchema: z.ZodMiniType<
   ViewYearlyReadingStatisticsResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => ViewYearlyReadingStatisticsResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() =>
+        ViewYearlyReadingStatisticsResponseBody$inboundSchema
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function viewYearlyReadingStatisticsResponseFromJSON(

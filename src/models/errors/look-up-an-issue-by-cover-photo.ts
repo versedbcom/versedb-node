@@ -3,6 +3,7 @@
  */
 
 import * as z from "zod/v4-mini";
+import { lazySchema as lazySchema$ } from "../../lib/schemas.js";
 import * as types from "../../types/primitives.js";
 import * as operations from "../operations/index.js";
 import { VerseDbError } from "./verse-db-error.js";
@@ -95,47 +96,8 @@ export class LookUpAnIssueByCoverPhotoForbiddenError extends VerseDbError {
 export const ServiceUnavailableError$inboundSchema: z.ZodMiniType<
   ServiceUnavailableError,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new ServiceUnavailableError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
-
-/** @internal */
-export const LookUpAnIssueByCoverPhotoUnprocessableEntityError$inboundSchema:
-  z.ZodMiniType<LookUpAnIssueByCoverPhotoUnprocessableEntityError, unknown> = z
-    .pipe(
-      z.object({
-        message: types.string(),
-        errors: z.lazy(() =>
-          operations.LookUpAnIssueByCoverPhotoErrors$inboundSchema
-        ),
-        request$: z.custom<Request>(x => x instanceof Request),
-        response$: z.custom<Response>(x => x instanceof Response),
-        body$: z.string(),
-      }),
-      z.transform((v) => {
-        return new LookUpAnIssueByCoverPhotoUnprocessableEntityError(v, {
-          request: v.request$,
-          response: v.response$,
-          body: v.body$,
-        });
-      }),
-    );
-
-/** @internal */
-export const LookUpAnIssueByCoverPhotoForbiddenError$inboundSchema:
-  z.ZodMiniType<LookUpAnIssueByCoverPhotoForbiddenError, unknown> = z.pipe(
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
     z.object({
       message: types.string(),
       request$: z.custom<Request>(x => x instanceof Request),
@@ -143,10 +105,56 @@ export const LookUpAnIssueByCoverPhotoForbiddenError$inboundSchema:
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new LookUpAnIssueByCoverPhotoForbiddenError(v, {
+      return new ServiceUnavailableError(v, {
         request: v.request$,
         response: v.response$,
         body: v.body$,
       });
     }),
-  );
+  )
+);
+
+/** @internal */
+export const LookUpAnIssueByCoverPhotoUnprocessableEntityError$inboundSchema:
+  z.ZodMiniType<LookUpAnIssueByCoverPhotoUnprocessableEntityError, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          message: types.string(),
+          errors: z.lazy(() =>
+            operations.LookUpAnIssueByCoverPhotoErrors$inboundSchema
+          ),
+          request$: z.custom<Request>(x => x instanceof Request),
+          response$: z.custom<Response>(x => x instanceof Response),
+          body$: z.string(),
+        }),
+        z.transform((v) => {
+          return new LookUpAnIssueByCoverPhotoUnprocessableEntityError(v, {
+            request: v.request$,
+            response: v.response$,
+            body: v.body$,
+          });
+        }),
+      )
+    );
+
+/** @internal */
+export const LookUpAnIssueByCoverPhotoForbiddenError$inboundSchema:
+  z.ZodMiniType<LookUpAnIssueByCoverPhotoForbiddenError, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          message: types.string(),
+          request$: z.custom<Request>(x => x instanceof Request),
+          response$: z.custom<Response>(x => x instanceof Response),
+          body$: z.string(),
+        }),
+        z.transform((v) => {
+          return new LookUpAnIssueByCoverPhotoForbiddenError(v, {
+            request: v.request$,
+            response: v.response$,
+            body: v.body$,
+          });
+        }),
+      )
+    );

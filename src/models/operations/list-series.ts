@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -213,43 +213,45 @@ export type ListSeriesRequest$Outbound = {
 export const ListSeriesRequest$outboundSchema: z.ZodMiniType<
   ListSeriesRequest$Outbound,
   ListSeriesRequest
-> = z.pipe(
-  z.object({
-    q: z.optional(z.string()),
-    titleId: z.optional(z.int()),
-    publisherId: z.optional(z.int()),
-    status: z.optional(z.string()),
-    genreIds: z.optional(z.string()),
-    publisherIds: z.optional(z.string()),
-    creatorIds: z.optional(z.string()),
-    characterIds: z.optional(z.string()),
-    languages: z.optional(z.string()),
-    medium: z.optional(z.string()),
-    publicationType: z.optional(z.string()),
-    format: z.optional(z.string()),
-    startYear: z.optional(z.int()),
-    endYear: z.optional(z.int()),
-    decade: z.optional(z.string()),
-    hideUnreleased: z.optional(z.boolean()),
-    sort: z.optional(z.string()),
-    direction: z.optional(z.string()),
-    limit: z.optional(z.int()),
-    page: z.optional(z.int()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      titleId: "title_id",
-      publisherId: "publisher_id",
-      genreIds: "genre_ids",
-      publisherIds: "publisher_ids",
-      creatorIds: "creator_ids",
-      characterIds: "character_ids",
-      publicationType: "publication_type",
-      startYear: "start_year",
-      endYear: "end_year",
-      hideUnreleased: "hide_unreleased",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      q: z.optional(z.string()),
+      titleId: z.optional(z.int()),
+      publisherId: z.optional(z.int()),
+      status: z.optional(z.string()),
+      genreIds: z.optional(z.string()),
+      publisherIds: z.optional(z.string()),
+      creatorIds: z.optional(z.string()),
+      characterIds: z.optional(z.string()),
+      languages: z.optional(z.string()),
+      medium: z.optional(z.string()),
+      publicationType: z.optional(z.string()),
+      format: z.optional(z.string()),
+      startYear: z.optional(z.int()),
+      endYear: z.optional(z.int()),
+      decade: z.optional(z.string()),
+      hideUnreleased: z.optional(z.boolean()),
+      sort: z.optional(z.string()),
+      direction: z.optional(z.string()),
+      limit: z.optional(z.int()),
+      page: z.optional(z.int()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        titleId: "title_id",
+        publisherId: "publisher_id",
+        genreIds: "genre_ids",
+        publisherIds: "publisher_ids",
+        creatorIds: "creator_ids",
+        characterIds: "character_ids",
+        publicationType: "publication_type",
+        startYear: "start_year",
+        endYear: "end_year",
+        hideUnreleased: "hide_unreleased",
+      });
+    }),
+  )
 );
 
 export function listSeriesRequestToJSON(
@@ -264,19 +266,21 @@ export function listSeriesRequestToJSON(
 export const ListSeriesImages$inboundSchema: z.ZodMiniType<
   ListSeriesImages,
   unknown
-> = z.pipe(
-  z.object({
-    cover_sm: types.optional(types.string()),
-    cover_md: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_md": "coverMd",
-      "cover_lg": "coverLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  )
 );
 
 export function listSeriesImagesFromJSON(
@@ -293,12 +297,14 @@ export function listSeriesImagesFromJSON(
 export const ListSeriesNameI18n$inboundSchema: z.ZodMiniType<
   ListSeriesNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function listSeriesNameI18nFromJSON(
   jsonString: string,
@@ -314,65 +320,67 @@ export function listSeriesNameI18nFromJSON(
 export const ListSeriesData$inboundSchema: z.ZodMiniType<
   ListSeriesData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    title_id: types.nullable(types.number()),
-    name: types.nullable(types.string()),
-    display_name: types.string(),
-    slug: types.nullable(types.string()),
-    number: types.nullable(types.number()),
-    start_year: types.nullable(types.number()),
-    end_year: types.nullable(types.number()),
-    cover_url: types.nullable(types.string()),
-    images: types.nullable(z.lazy(() => ListSeriesImages$inboundSchema)),
-    medium: types.nullable(types.string()),
-    publication_type: types.nullable(types.string()),
-    format: types.nullable(types.string()),
-    status: types.nullable(types.string()),
-    original_name: types.nullable(types.string()),
-    original_language: types.nullable(types.string()),
-    language: types.nullable(types.string()),
-    cached_issues_count: types.nullable(types.number()),
-    average_rating: types.nullable(types.string()),
-    total_reviews: types.nullable(types.number()),
-    issues_average_rating: types.nullable(types.string()),
-    issues_rated_count: types.nullable(types.number()),
-    content_rating_label: types.nullable(types.string()),
-    min_age: types.nullable(types.number()),
-    is_nsfw: types.nullable(types.boolean()),
-    publisher_name: types.nullable(types.string()),
-    name_i18n: z.record(
-      z.string(),
-      z.lazy(() => ListSeriesNameI18n$inboundSchema),
-    ),
-    aliases_i18n: z.record(z.string(), z.array(types.string())),
-    original_locale: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "title_id": "titleId",
-      "display_name": "displayName",
-      "start_year": "startYear",
-      "end_year": "endYear",
-      "cover_url": "coverUrl",
-      "publication_type": "publicationType",
-      "original_name": "originalName",
-      "original_language": "originalLanguage",
-      "cached_issues_count": "cachedIssuesCount",
-      "average_rating": "averageRating",
-      "total_reviews": "totalReviews",
-      "issues_average_rating": "issuesAverageRating",
-      "issues_rated_count": "issuesRatedCount",
-      "content_rating_label": "contentRatingLabel",
-      "min_age": "minAge",
-      "is_nsfw": "isNsfw",
-      "publisher_name": "publisherName",
-      "name_i18n": "nameI18n",
-      "aliases_i18n": "aliasesI18n",
-      "original_locale": "originalLocale",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      title_id: types.nullable(types.number()),
+      name: types.nullable(types.string()),
+      display_name: types.string(),
+      slug: types.nullable(types.string()),
+      number: types.nullable(types.number()),
+      start_year: types.nullable(types.number()),
+      end_year: types.nullable(types.number()),
+      cover_url: types.nullable(types.string()),
+      images: types.nullable(z.lazy(() => ListSeriesImages$inboundSchema)),
+      medium: types.nullable(types.string()),
+      publication_type: types.nullable(types.string()),
+      format: types.nullable(types.string()),
+      status: types.nullable(types.string()),
+      original_name: types.nullable(types.string()),
+      original_language: types.nullable(types.string()),
+      language: types.nullable(types.string()),
+      cached_issues_count: types.nullable(types.number()),
+      average_rating: types.nullable(types.string()),
+      total_reviews: types.nullable(types.number()),
+      issues_average_rating: types.nullable(types.string()),
+      issues_rated_count: types.nullable(types.number()),
+      content_rating_label: types.nullable(types.string()),
+      min_age: types.nullable(types.number()),
+      is_nsfw: types.nullable(types.boolean()),
+      publisher_name: types.nullable(types.string()),
+      name_i18n: z.record(
+        z.string(),
+        z.lazy(() => ListSeriesNameI18n$inboundSchema),
+      ),
+      aliases_i18n: z.record(z.string(), z.array(types.string())),
+      original_locale: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "title_id": "titleId",
+        "display_name": "displayName",
+        "start_year": "startYear",
+        "end_year": "endYear",
+        "cover_url": "coverUrl",
+        "publication_type": "publicationType",
+        "original_name": "originalName",
+        "original_language": "originalLanguage",
+        "cached_issues_count": "cachedIssuesCount",
+        "average_rating": "averageRating",
+        "total_reviews": "totalReviews",
+        "issues_average_rating": "issuesAverageRating",
+        "issues_rated_count": "issuesRatedCount",
+        "content_rating_label": "contentRatingLabel",
+        "min_age": "minAge",
+        "is_nsfw": "isNsfw",
+        "publisher_name": "publisherName",
+        "name_i18n": "nameI18n",
+        "aliases_i18n": "aliasesI18n",
+        "original_locale": "originalLocale",
+      });
+    }),
+  )
 );
 
 export function listSeriesDataFromJSON(
@@ -389,12 +397,14 @@ export function listSeriesDataFromJSON(
 export const ListSeriesLinks$inboundSchema: z.ZodMiniType<
   ListSeriesLinks,
   unknown
-> = z.object({
-  first: types.string(),
-  last: types.string(),
-  prev: types.nullable(types.string()),
-  next: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    first: types.string(),
+    last: types.string(),
+    prev: types.nullable(types.string()),
+    next: types.nullable(types.string()),
+  })
+);
 
 export function listSeriesLinksFromJSON(
   jsonString: string,
@@ -410,12 +420,14 @@ export function listSeriesLinksFromJSON(
 export const ListSeriesLink$inboundSchema: z.ZodMiniType<
   ListSeriesLink,
   unknown
-> = z.object({
-  url: types.nullable(types.string()),
-  label: types.string(),
-  page: z.optional(z.nullable(types.number())),
-  active: types.boolean(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    url: types.nullable(types.string()),
+    label: types.string(),
+    page: z.optional(z.nullable(types.number())),
+    active: types.boolean(),
+  })
+);
 
 export function listSeriesLinkFromJSON(
   jsonString: string,
@@ -431,24 +443,26 @@ export function listSeriesLinkFromJSON(
 export const ListSeriesMeta$inboundSchema: z.ZodMiniType<
   ListSeriesMeta,
   unknown
-> = z.pipe(
-  z.object({
-    current_page: types.number(),
-    from: types.nullable(types.number()),
-    last_page: types.number(),
-    links: z.array(z.lazy(() => ListSeriesLink$inboundSchema)),
-    path: types.string(),
-    per_page: types.number(),
-    to: types.nullable(types.number()),
-    total: types.number(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "current_page": "currentPage",
-      "last_page": "lastPage",
-      "per_page": "perPage",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      current_page: types.number(),
+      from: types.nullable(types.number()),
+      last_page: types.number(),
+      links: z.array(z.lazy(() => ListSeriesLink$inboundSchema)),
+      path: types.string(),
+      per_page: types.number(),
+      to: types.nullable(types.number()),
+      total: types.number(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "current_page": "currentPage",
+        "last_page": "lastPage",
+        "per_page": "perPage",
+      });
+    }),
+  )
 );
 
 export function listSeriesMetaFromJSON(
@@ -465,11 +479,13 @@ export function listSeriesMetaFromJSON(
 export const ListSeriesResponseBody$inboundSchema: z.ZodMiniType<
   ListSeriesResponseBody,
   unknown
-> = z.object({
-  data: z.array(z.lazy(() => ListSeriesData$inboundSchema)),
-  links: z.lazy(() => ListSeriesLinks$inboundSchema),
-  meta: z.lazy(() => ListSeriesMeta$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.array(z.lazy(() => ListSeriesData$inboundSchema)),
+    links: z.lazy(() => ListSeriesLinks$inboundSchema),
+    meta: z.lazy(() => ListSeriesMeta$inboundSchema),
+  })
+);
 
 export function listSeriesResponseBodyFromJSON(
   jsonString: string,
@@ -485,17 +501,19 @@ export function listSeriesResponseBodyFromJSON(
 export const ListSeriesResponse$inboundSchema: z.ZodMiniType<
   ListSeriesResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => ListSeriesResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => ListSeriesResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function listSeriesResponseFromJSON(

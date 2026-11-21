@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -116,19 +116,21 @@ export type ListImprintsRequest$Outbound = {
 export const ListImprintsRequest$outboundSchema: z.ZodMiniType<
   ListImprintsRequest$Outbound,
   ListImprintsRequest
-> = z.pipe(
-  z.object({
-    q: z.optional(z.string()),
-    publisherId: z.optional(z.int()),
-    limit: z.optional(z.int()),
-    page: z.optional(z.int()),
-    languages: z.optional(z.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      publisherId: "publisher_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      q: z.optional(z.string()),
+      publisherId: z.optional(z.int()),
+      limit: z.optional(z.int()),
+      page: z.optional(z.int()),
+      languages: z.optional(z.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        publisherId: "publisher_id",
+      });
+    }),
+  )
 );
 
 export function listImprintsRequestToJSON(
@@ -143,11 +145,13 @@ export function listImprintsRequestToJSON(
 export const ListImprintsPublisher$inboundSchema: z.ZodMiniType<
   ListImprintsPublisher,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.nullable(types.string()),
-  slug: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+  })
+);
 
 export function listImprintsPublisherFromJSON(
   jsonString: string,
@@ -163,12 +167,14 @@ export function listImprintsPublisherFromJSON(
 export const ListImprintsNameI18n$inboundSchema: z.ZodMiniType<
   ListImprintsNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function listImprintsNameI18nFromJSON(
   jsonString: string,
@@ -184,28 +190,30 @@ export function listImprintsNameI18nFromJSON(
 export const ListImprintsData$inboundSchema: z.ZodMiniType<
   ListImprintsData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    publisher: types.nullable(
-      z.lazy(() => ListImprintsPublisher$inboundSchema),
-    ),
-    name_i18n: z.record(
-      z.string(),
-      z.lazy(() => ListImprintsNameI18n$inboundSchema),
-    ),
-    aliases_i18n: z.record(z.string(), z.array(types.string())),
-    original_locale: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "name_i18n": "nameI18n",
-      "aliases_i18n": "aliasesI18n",
-      "original_locale": "originalLocale",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      publisher: types.nullable(
+        z.lazy(() => ListImprintsPublisher$inboundSchema),
+      ),
+      name_i18n: z.record(
+        z.string(),
+        z.lazy(() => ListImprintsNameI18n$inboundSchema),
+      ),
+      aliases_i18n: z.record(z.string(), z.array(types.string())),
+      original_locale: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "name_i18n": "nameI18n",
+        "aliases_i18n": "aliasesI18n",
+        "original_locale": "originalLocale",
+      });
+    }),
+  )
 );
 
 export function listImprintsDataFromJSON(
@@ -222,12 +230,14 @@ export function listImprintsDataFromJSON(
 export const ListImprintsLinks$inboundSchema: z.ZodMiniType<
   ListImprintsLinks,
   unknown
-> = z.object({
-  first: types.string(),
-  last: types.string(),
-  prev: types.nullable(types.string()),
-  next: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    first: types.string(),
+    last: types.string(),
+    prev: types.nullable(types.string()),
+    next: types.nullable(types.string()),
+  })
+);
 
 export function listImprintsLinksFromJSON(
   jsonString: string,
@@ -243,12 +253,14 @@ export function listImprintsLinksFromJSON(
 export const ListImprintsLink$inboundSchema: z.ZodMiniType<
   ListImprintsLink,
   unknown
-> = z.object({
-  url: types.nullable(types.string()),
-  label: types.string(),
-  page: z.optional(z.nullable(types.number())),
-  active: types.boolean(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    url: types.nullable(types.string()),
+    label: types.string(),
+    page: z.optional(z.nullable(types.number())),
+    active: types.boolean(),
+  })
+);
 
 export function listImprintsLinkFromJSON(
   jsonString: string,
@@ -264,24 +276,26 @@ export function listImprintsLinkFromJSON(
 export const ListImprintsMeta$inboundSchema: z.ZodMiniType<
   ListImprintsMeta,
   unknown
-> = z.pipe(
-  z.object({
-    current_page: types.number(),
-    from: types.nullable(types.number()),
-    last_page: types.number(),
-    links: z.array(z.lazy(() => ListImprintsLink$inboundSchema)),
-    path: types.string(),
-    per_page: types.number(),
-    to: types.nullable(types.number()),
-    total: types.number(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "current_page": "currentPage",
-      "last_page": "lastPage",
-      "per_page": "perPage",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      current_page: types.number(),
+      from: types.nullable(types.number()),
+      last_page: types.number(),
+      links: z.array(z.lazy(() => ListImprintsLink$inboundSchema)),
+      path: types.string(),
+      per_page: types.number(),
+      to: types.nullable(types.number()),
+      total: types.number(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "current_page": "currentPage",
+        "last_page": "lastPage",
+        "per_page": "perPage",
+      });
+    }),
+  )
 );
 
 export function listImprintsMetaFromJSON(
@@ -298,11 +312,13 @@ export function listImprintsMetaFromJSON(
 export const ListImprintsResponseBody$inboundSchema: z.ZodMiniType<
   ListImprintsResponseBody,
   unknown
-> = z.object({
-  data: z.array(z.lazy(() => ListImprintsData$inboundSchema)),
-  links: z.lazy(() => ListImprintsLinks$inboundSchema),
-  meta: z.lazy(() => ListImprintsMeta$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.array(z.lazy(() => ListImprintsData$inboundSchema)),
+    links: z.lazy(() => ListImprintsLinks$inboundSchema),
+    meta: z.lazy(() => ListImprintsMeta$inboundSchema),
+  })
+);
 
 export function listImprintsResponseBodyFromJSON(
   jsonString: string,
@@ -318,17 +334,19 @@ export function listImprintsResponseBodyFromJSON(
 export const ListImprintsResponse$inboundSchema: z.ZodMiniType<
   ListImprintsResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => ListImprintsResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => ListImprintsResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function listImprintsResponseFromJSON(

@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import * as openEnums from "../../types/enums.js";
 import { OpenEnum } from "../../types/enums.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
@@ -142,16 +142,18 @@ export type GetActivityFeedRequest$Outbound = {
 export const GetActivityFeedRequest$outboundSchema: z.ZodMiniType<
   GetActivityFeedRequest$Outbound,
   GetActivityFeedRequest
-> = z.pipe(
-  z.object({
-    perPage: z.optional(z.int()),
-    page: z.optional(z.int()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      perPage: "per_page",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      perPage: z.optional(z.int()),
+      page: z.optional(z.int()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        perPage: "per_page",
+      });
+    }),
+  )
 );
 
 export function getActivityFeedRequestToJSON(
@@ -163,31 +165,33 @@ export function getActivityFeedRequestToJSON(
 }
 
 /** @internal */
-export const Type$inboundSchema: z.ZodMiniType<Type, unknown> = openEnums
-  .inboundSchema(Type);
+export const Type$inboundSchema: z.ZodMiniType<Type, unknown> =
+  /* @__PURE__ */ lazySchema$(() => openEnums.inboundSchema(Type));
 
 /** @internal */
-export const Action$inboundSchema: z.ZodMiniType<Action, unknown> = openEnums
-  .inboundSchema(Action);
+export const Action$inboundSchema: z.ZodMiniType<Action, unknown> =
+  /* @__PURE__ */ lazySchema$(() => openEnums.inboundSchema(Action));
 
 /** @internal */
 export const GetActivityFeedData3$inboundSchema: z.ZodMiniType<
   GetActivityFeedData3,
   unknown
-> = z.pipe(
-  z.object({
-    followable_type: types.string(),
-    followable_id: types.number(),
-    name: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "followable_type": "followableType",
-      "followable_id": "followableId",
-      "image_url": "imageUrl",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      followable_type: types.string(),
+      followable_id: types.number(),
+      name: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "followable_type": "followableType",
+        "followable_id": "followableId",
+        "image_url": "imageUrl",
+      });
+    }),
+  )
 );
 
 export function getActivityFeedData3FromJSON(
@@ -204,29 +208,31 @@ export function getActivityFeedData3FromJSON(
 export const GetActivityFeedData2$inboundSchema: z.ZodMiniType<
   GetActivityFeedData2,
   unknown
-> = z.pipe(
-  z.object({
-    review_id: types.number(),
-    issue_id: types.number(),
-    issue_name: types.nullable(types.string()),
-    series_name: types.nullable(types.string()),
-    series_start_year: types.nullable(types.number()),
-    rating: types.nullable(types.string()),
-    content_preview: types.nullable(types.string()),
-    language: types.nullable(types.string()),
-    cover_url: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "review_id": "reviewId",
-      "issue_id": "issueId",
-      "issue_name": "issueName",
-      "series_name": "seriesName",
-      "series_start_year": "seriesStartYear",
-      "content_preview": "contentPreview",
-      "cover_url": "coverUrl",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      review_id: types.number(),
+      issue_id: types.number(),
+      issue_name: types.nullable(types.string()),
+      series_name: types.nullable(types.string()),
+      series_start_year: types.nullable(types.number()),
+      rating: types.nullable(types.string()),
+      content_preview: types.nullable(types.string()),
+      language: types.nullable(types.string()),
+      cover_url: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "review_id": "reviewId",
+        "issue_id": "issueId",
+        "issue_name": "issueName",
+        "series_name": "seriesName",
+        "series_start_year": "seriesStartYear",
+        "content_preview": "contentPreview",
+        "cover_url": "coverUrl",
+      });
+    }),
+  )
 );
 
 export function getActivityFeedData2FromJSON(
@@ -243,23 +249,25 @@ export function getActivityFeedData2FromJSON(
 export const GetActivityFeedData1$inboundSchema: z.ZodMiniType<
   GetActivityFeedData1,
   unknown
-> = z.pipe(
-  z.object({
-    issue_id: types.number(),
-    issue_name: types.nullable(types.string()),
-    series_name: types.nullable(types.string()),
-    series_start_year: types.nullable(types.number()),
-    cover_url: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "issue_id": "issueId",
-      "issue_name": "issueName",
-      "series_name": "seriesName",
-      "series_start_year": "seriesStartYear",
-      "cover_url": "coverUrl",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      issue_id: types.number(),
+      issue_name: types.nullable(types.string()),
+      series_name: types.nullable(types.string()),
+      series_start_year: types.nullable(types.number()),
+      cover_url: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "issue_id": "issueId",
+        "issue_name": "issueName",
+        "series_name": "seriesName",
+        "series_start_year": "seriesStartYear",
+        "cover_url": "coverUrl",
+      });
+    }),
+  )
 );
 
 export function getActivityFeedData1FromJSON(
@@ -273,11 +281,14 @@ export function getActivityFeedData1FromJSON(
 }
 
 /** @internal */
-export const Data$inboundSchema: z.ZodMiniType<Data, unknown> = smartUnion([
-  z.lazy(() => GetActivityFeedData2$inboundSchema),
-  z.lazy(() => GetActivityFeedData1$inboundSchema),
-  z.lazy(() => GetActivityFeedData3$inboundSchema),
-]);
+export const Data$inboundSchema: z.ZodMiniType<Data, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    smartUnion([
+      z.lazy(() => GetActivityFeedData2$inboundSchema),
+      z.lazy(() => GetActivityFeedData1$inboundSchema),
+      z.lazy(() => GetActivityFeedData3$inboundSchema),
+    ])
+  );
 
 export function dataFromJSON(
   jsonString: string,
@@ -293,23 +304,25 @@ export function dataFromJSON(
 export const GetActivityFeedData4$inboundSchema: z.ZodMiniType<
   GetActivityFeedData4,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.string(),
-    type: Type$inboundSchema,
-    action: Action$inboundSchema,
-    created_at: types.nullable(types.string()),
-    data: smartUnion([
-      z.lazy(() => GetActivityFeedData2$inboundSchema),
-      z.lazy(() => GetActivityFeedData1$inboundSchema),
-      z.lazy(() => GetActivityFeedData3$inboundSchema),
-    ]),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "created_at": "createdAt",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.string(),
+      type: Type$inboundSchema,
+      action: Action$inboundSchema,
+      created_at: types.nullable(types.string()),
+      data: smartUnion([
+        z.lazy(() => GetActivityFeedData2$inboundSchema),
+        z.lazy(() => GetActivityFeedData1$inboundSchema),
+        z.lazy(() => GetActivityFeedData3$inboundSchema),
+      ]),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "created_at": "createdAt",
+      });
+    }),
+  )
 );
 
 export function getActivityFeedData4FromJSON(
@@ -326,20 +339,22 @@ export function getActivityFeedData4FromJSON(
 export const GetActivityFeedMeta$inboundSchema: z.ZodMiniType<
   GetActivityFeedMeta,
   unknown
-> = z.pipe(
-  z.object({
-    current_page: types.number(),
-    per_page: types.number(),
-    total: types.number(),
-    last_page: types.number(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "current_page": "currentPage",
-      "per_page": "perPage",
-      "last_page": "lastPage",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      current_page: types.number(),
+      per_page: types.number(),
+      total: types.number(),
+      last_page: types.number(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "current_page": "currentPage",
+        "per_page": "perPage",
+        "last_page": "lastPage",
+      });
+    }),
+  )
 );
 
 export function getActivityFeedMetaFromJSON(
@@ -356,10 +371,12 @@ export function getActivityFeedMetaFromJSON(
 export const GetActivityFeedResponseBody$inboundSchema: z.ZodMiniType<
   GetActivityFeedResponseBody,
   unknown
-> = z.object({
-  data: z.array(z.lazy(() => GetActivityFeedData4$inboundSchema)),
-  meta: z.lazy(() => GetActivityFeedMeta$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.array(z.lazy(() => GetActivityFeedData4$inboundSchema)),
+    meta: z.lazy(() => GetActivityFeedMeta$inboundSchema),
+  })
+);
 
 export function getActivityFeedResponseBodyFromJSON(
   jsonString: string,
@@ -375,17 +392,19 @@ export function getActivityFeedResponseBodyFromJSON(
 export const GetActivityFeedResponse$inboundSchema: z.ZodMiniType<
   GetActivityFeedResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => GetActivityFeedResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => GetActivityFeedResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function getActivityFeedResponseFromJSON(

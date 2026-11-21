@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { smartUnion } from "../../types/smart-union.js";
@@ -59,10 +59,12 @@ export type UnfollowContentRequest$Outbound = {
 export const UnfollowContentRequest$outboundSchema: z.ZodMiniType<
   UnfollowContentRequest$Outbound,
   UnfollowContentRequest
-> = z.object({
-  type: z.string(),
-  id: z.int(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    type: z.string(),
+    id: z.int(),
+  })
+);
 
 export function unfollowContentRequestToJSON(
   unfollowContentRequest: UnfollowContentRequest,
@@ -76,16 +78,18 @@ export function unfollowContentRequestToJSON(
 export const UnfollowContentResponseBody2$inboundSchema: z.ZodMiniType<
   UnfollowContentResponseBody2,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    is_following: types.boolean(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "is_following": "isFollowing",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      is_following: types.boolean(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "is_following": "isFollowing",
+      });
+    }),
+  )
 );
 
 export function unfollowContentResponseBody2FromJSON(
@@ -102,16 +106,18 @@ export function unfollowContentResponseBody2FromJSON(
 export const UnfollowContentResponseBody1$inboundSchema: z.ZodMiniType<
   UnfollowContentResponseBody1,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    is_following: types.boolean(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "is_following": "isFollowing",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      is_following: types.boolean(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "is_following": "isFollowing",
+      });
+    }),
+  )
 );
 
 export function unfollowContentResponseBody1FromJSON(
@@ -128,10 +134,12 @@ export function unfollowContentResponseBody1FromJSON(
 export const UnfollowContentResponseBody$inboundSchema: z.ZodMiniType<
   UnfollowContentResponseBody,
   unknown
-> = smartUnion([
-  z.lazy(() => UnfollowContentResponseBody1$inboundSchema),
-  z.lazy(() => UnfollowContentResponseBody2$inboundSchema),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    z.lazy(() => UnfollowContentResponseBody1$inboundSchema),
+    z.lazy(() => UnfollowContentResponseBody2$inboundSchema),
+  ])
+);
 
 export function unfollowContentResponseBodyFromJSON(
   jsonString: string,
@@ -147,20 +155,22 @@ export function unfollowContentResponseBodyFromJSON(
 export const UnfollowContentResponse$inboundSchema: z.ZodMiniType<
   UnfollowContentResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: smartUnion([
-      z.lazy(() => UnfollowContentResponseBody1$inboundSchema),
-      z.lazy(() => UnfollowContentResponseBody2$inboundSchema),
-    ]),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: smartUnion([
+        z.lazy(() => UnfollowContentResponseBody1$inboundSchema),
+        z.lazy(() => UnfollowContentResponseBody2$inboundSchema),
+      ]),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function unfollowContentResponseFromJSON(

@@ -3,7 +3,7 @@
  */
 
 import * as z from "zod/v4-mini";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { smartUnion } from "../../types/smart-union.js";
@@ -147,73 +147,81 @@ export class MarkAsReadForbiddenError extends VerseDbError {
 export const MarkAsReadResponseBodyError3$inboundSchema: z.ZodMiniType<
   MarkAsReadResponseBodyError3,
   unknown
-> = z.pipe(
-  z.object({
-    error: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new MarkAsReadResponseBodyError3(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      error: types.string(),
+      request$: z.custom<Request>(x => x instanceof Request),
+      response$: z.custom<Response>(x => x instanceof Response),
+      body$: z.string(),
+    }),
+    z.transform((v) => {
+      return new MarkAsReadResponseBodyError3(v, {
+        request: v.request$,
+        response: v.response$,
+        body: v.body$,
+      });
+    }),
+  )
 );
 
 /** @internal */
 export const MarkAsReadResponseBodyError2$inboundSchema: z.ZodMiniType<
   MarkAsReadResponseBodyError2,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    error: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new MarkAsReadResponseBodyError2(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      error: types.string(),
+      request$: z.custom<Request>(x => x instanceof Request),
+      response$: z.custom<Response>(x => x instanceof Response),
+      body$: z.string(),
+    }),
+    z.transform((v) => {
+      return new MarkAsReadResponseBodyError2(v, {
+        request: v.request$,
+        response: v.response$,
+        body: v.body$,
+      });
+    }),
+  )
 );
 
 /** @internal */
 export const MarkAsReadResponseBodyError1$inboundSchema: z.ZodMiniType<
   MarkAsReadResponseBodyError1,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    errors: z.record(z.string(), z.array(types.string())),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new MarkAsReadResponseBodyError1(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      errors: z.record(z.string(), z.array(types.string())),
+      request$: z.custom<Request>(x => x instanceof Request),
+      response$: z.custom<Response>(x => x instanceof Response),
+      body$: z.string(),
+    }),
+    z.transform((v) => {
+      return new MarkAsReadResponseBodyError1(v, {
+        request: v.request$,
+        response: v.response$,
+        body: v.body$,
+      });
+    }),
+  )
 );
 
 /** @internal */
 export const MarkAsReadUnprocessableEntity$inboundSchema: z.ZodMiniType<
   MarkAsReadUnprocessableEntity,
   unknown
-> = smartUnion([
-  z.lazy(() => MarkAsReadResponseBodyError1$inboundSchema),
-  z.lazy(() => MarkAsReadResponseBodyError2$inboundSchema),
-  z.lazy(() => MarkAsReadResponseBodyError3$inboundSchema),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    z.lazy(() => MarkAsReadResponseBodyError1$inboundSchema),
+    z.lazy(() => MarkAsReadResponseBodyError2$inboundSchema),
+    z.lazy(() => MarkAsReadResponseBodyError3$inboundSchema),
+  ])
+);
 
 export function markAsReadUnprocessableEntityFromJSON(
   jsonString: string,
@@ -229,38 +237,42 @@ export function markAsReadUnprocessableEntityFromJSON(
 export const MarkAsReadNotFoundError$inboundSchema: z.ZodMiniType<
   MarkAsReadNotFoundError,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new MarkAsReadNotFoundError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      request$: z.custom<Request>(x => x instanceof Request),
+      response$: z.custom<Response>(x => x instanceof Response),
+      body$: z.string(),
+    }),
+    z.transform((v) => {
+      return new MarkAsReadNotFoundError(v, {
+        request: v.request$,
+        response: v.response$,
+        body: v.body$,
+      });
+    }),
+  )
 );
 
 /** @internal */
 export const MarkAsReadForbiddenError$inboundSchema: z.ZodMiniType<
   MarkAsReadForbiddenError,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new MarkAsReadForbiddenError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      request$: z.custom<Request>(x => x instanceof Request),
+      response$: z.custom<Response>(x => x instanceof Response),
+      body$: z.string(),
+    }),
+    z.transform((v) => {
+      return new MarkAsReadForbiddenError(v, {
+        request: v.request$,
+        response: v.response$,
+        body: v.body$,
+      });
+    }),
+  )
 );

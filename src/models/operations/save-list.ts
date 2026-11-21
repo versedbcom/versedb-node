@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { smartUnion } from "../../types/smart-union.js";
@@ -52,15 +52,17 @@ export type SaveListRequest$Outbound = {
 export const SaveListRequest$outboundSchema: z.ZodMiniType<
   SaveListRequest$Outbound,
   SaveListRequest
-> = z.pipe(
-  z.object({
-    listId: z.int(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      listId: "list_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      listId: z.int(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        listId: "list_id",
+      });
+    }),
+  )
 );
 
 export function saveListRequestToJSON(
@@ -73,17 +75,19 @@ export function saveListRequestToJSON(
 export const SaveListResponseBody2$inboundSchema: z.ZodMiniType<
   SaveListResponseBody2,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    saved: types.boolean(),
-    saves_count: types.number(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "saves_count": "savesCount",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      saved: types.boolean(),
+      saves_count: types.number(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "saves_count": "savesCount",
+      });
+    }),
+  )
 );
 
 export function saveListResponseBody2FromJSON(
@@ -100,10 +104,12 @@ export function saveListResponseBody2FromJSON(
 export const SaveListResponseBody1$inboundSchema: z.ZodMiniType<
   SaveListResponseBody1,
   unknown
-> = z.object({
-  message: types.string(),
-  saved: types.boolean(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    message: types.string(),
+    saved: types.boolean(),
+  })
+);
 
 export function saveListResponseBody1FromJSON(
   jsonString: string,
@@ -119,10 +125,12 @@ export function saveListResponseBody1FromJSON(
 export const SaveListResponseResult$inboundSchema: z.ZodMiniType<
   SaveListResponseResult,
   unknown
-> = smartUnion([
-  z.lazy(() => SaveListResponseBody2$inboundSchema),
-  z.lazy(() => SaveListResponseBody1$inboundSchema),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    z.lazy(() => SaveListResponseBody2$inboundSchema),
+    z.lazy(() => SaveListResponseBody1$inboundSchema),
+  ])
+);
 
 export function saveListResponseResultFromJSON(
   jsonString: string,
@@ -138,20 +146,22 @@ export function saveListResponseResultFromJSON(
 export const SaveListResponse$inboundSchema: z.ZodMiniType<
   SaveListResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: smartUnion([
-      z.lazy(() => SaveListResponseBody2$inboundSchema),
-      z.lazy(() => SaveListResponseBody1$inboundSchema),
-    ]),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: smartUnion([
+        z.lazy(() => SaveListResponseBody2$inboundSchema),
+        z.lazy(() => SaveListResponseBody1$inboundSchema),
+      ]),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function saveListResponseFromJSON(

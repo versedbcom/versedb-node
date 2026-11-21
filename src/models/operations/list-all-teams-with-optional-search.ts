@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -140,22 +140,24 @@ export const ListAllTeamsWithOptionalSearchRequest$outboundSchema:
   z.ZodMiniType<
     ListAllTeamsWithOptionalSearchRequest$Outbound,
     ListAllTeamsWithOptionalSearchRequest
-  > = z.pipe(
-    z.object({
-      q: z.optional(z.string()),
-      characterIds: z.optional(z.string()),
-      status: z.optional(z.string()),
-      sort: z.optional(z.string()),
-      direction: z.optional(z.string()),
-      limit: z.optional(z.int()),
-      page: z.optional(z.int()),
-      languages: z.optional(z.string()),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        characterIds: "character_ids",
-      });
-    }),
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        q: z.optional(z.string()),
+        characterIds: z.optional(z.string()),
+        status: z.optional(z.string()),
+        sort: z.optional(z.string()),
+        direction: z.optional(z.string()),
+        limit: z.optional(z.int()),
+        page: z.optional(z.int()),
+        languages: z.optional(z.string()),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          characterIds: "character_ids",
+        });
+      }),
+    )
   );
 
 export function listAllTeamsWithOptionalSearchRequestToJSON(
@@ -172,19 +174,21 @@ export function listAllTeamsWithOptionalSearchRequestToJSON(
 export const ListAllTeamsWithOptionalSearchImages$inboundSchema: z.ZodMiniType<
   ListAllTeamsWithOptionalSearchImages,
   unknown
-> = z.pipe(
-  z.object({
-    tile_sm: types.optional(types.string()),
-    profile_md: types.optional(types.string()),
-    full_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "tile_sm": "tileSm",
-      "profile_md": "profileMd",
-      "full_lg": "fullLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      tile_sm: types.optional(types.string()),
+      profile_md: types.optional(types.string()),
+      full_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "tile_sm": "tileSm",
+        "profile_md": "profileMd",
+        "full_lg": "fullLg",
+      });
+    }),
+  )
 );
 
 export function listAllTeamsWithOptionalSearchImagesFromJSON(
@@ -200,12 +204,15 @@ export function listAllTeamsWithOptionalSearchImagesFromJSON(
 
 /** @internal */
 export const ListAllTeamsWithOptionalSearchNameI18n$inboundSchema:
-  z.ZodMiniType<ListAllTeamsWithOptionalSearchNameI18n, unknown> = z.object({
-    value: types.string(),
-    source: types.string(),
-    reading: types.optional(types.string()),
-    sort: types.optional(types.string()),
-  });
+  z.ZodMiniType<ListAllTeamsWithOptionalSearchNameI18n, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.object({
+        value: types.string(),
+        source: types.string(),
+        reading: types.optional(types.string()),
+        sort: types.optional(types.string()),
+      })
+    );
 
 export function listAllTeamsWithOptionalSearchNameI18nFromJSON(
   jsonString: string,
@@ -222,36 +229,38 @@ export function listAllTeamsWithOptionalSearchNameI18nFromJSON(
 export const ListAllTeamsWithOptionalSearchData$inboundSchema: z.ZodMiniType<
   ListAllTeamsWithOptionalSearchData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    aliases: z.array(types.string()),
-    headquarters: types.nullable(types.string()),
-    members_count: types.number(),
-    appearances_count: types.optional(types.number()),
-    image_url: types.nullable(types.string()),
-    images: types.nullable(
-      z.lazy(() => ListAllTeamsWithOptionalSearchImages$inboundSchema),
-    ),
-    name_i18n: z.record(
-      z.string(),
-      z.lazy(() => ListAllTeamsWithOptionalSearchNameI18n$inboundSchema),
-    ),
-    aliases_i18n: z.record(z.string(), z.array(types.string())),
-    original_locale: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "members_count": "membersCount",
-      "appearances_count": "appearancesCount",
-      "image_url": "imageUrl",
-      "name_i18n": "nameI18n",
-      "aliases_i18n": "aliasesI18n",
-      "original_locale": "originalLocale",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      aliases: z.array(types.string()),
+      headquarters: types.nullable(types.string()),
+      members_count: types.number(),
+      appearances_count: types.optional(types.number()),
+      image_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => ListAllTeamsWithOptionalSearchImages$inboundSchema),
+      ),
+      name_i18n: z.record(
+        z.string(),
+        z.lazy(() => ListAllTeamsWithOptionalSearchNameI18n$inboundSchema),
+      ),
+      aliases_i18n: z.record(z.string(), z.array(types.string())),
+      original_locale: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "members_count": "membersCount",
+        "appearances_count": "appearancesCount",
+        "image_url": "imageUrl",
+        "name_i18n": "nameI18n",
+        "aliases_i18n": "aliasesI18n",
+        "original_locale": "originalLocale",
+      });
+    }),
+  )
 );
 
 export function listAllTeamsWithOptionalSearchDataFromJSON(
@@ -269,12 +278,14 @@ export function listAllTeamsWithOptionalSearchDataFromJSON(
 export const ListAllTeamsWithOptionalSearchLinks$inboundSchema: z.ZodMiniType<
   ListAllTeamsWithOptionalSearchLinks,
   unknown
-> = z.object({
-  first: types.string(),
-  last: types.string(),
-  prev: types.nullable(types.string()),
-  next: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    first: types.string(),
+    last: types.string(),
+    prev: types.nullable(types.string()),
+    next: types.nullable(types.string()),
+  })
+);
 
 export function listAllTeamsWithOptionalSearchLinksFromJSON(
   jsonString: string,
@@ -291,12 +302,14 @@ export function listAllTeamsWithOptionalSearchLinksFromJSON(
 export const ListAllTeamsWithOptionalSearchLink$inboundSchema: z.ZodMiniType<
   ListAllTeamsWithOptionalSearchLink,
   unknown
-> = z.object({
-  url: types.nullable(types.string()),
-  label: types.string(),
-  page: z.optional(z.nullable(types.number())),
-  active: types.boolean(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    url: types.nullable(types.string()),
+    label: types.string(),
+    page: z.optional(z.nullable(types.number())),
+    active: types.boolean(),
+  })
+);
 
 export function listAllTeamsWithOptionalSearchLinkFromJSON(
   jsonString: string,
@@ -313,26 +326,28 @@ export function listAllTeamsWithOptionalSearchLinkFromJSON(
 export const ListAllTeamsWithOptionalSearchMeta$inboundSchema: z.ZodMiniType<
   ListAllTeamsWithOptionalSearchMeta,
   unknown
-> = z.pipe(
-  z.object({
-    current_page: types.number(),
-    from: types.nullable(types.number()),
-    last_page: types.number(),
-    links: z.array(
-      z.lazy(() => ListAllTeamsWithOptionalSearchLink$inboundSchema),
-    ),
-    path: types.string(),
-    per_page: types.number(),
-    to: types.nullable(types.number()),
-    total: types.number(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "current_page": "currentPage",
-      "last_page": "lastPage",
-      "per_page": "perPage",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      current_page: types.number(),
+      from: types.nullable(types.number()),
+      last_page: types.number(),
+      links: z.array(
+        z.lazy(() => ListAllTeamsWithOptionalSearchLink$inboundSchema),
+      ),
+      path: types.string(),
+      per_page: types.number(),
+      to: types.nullable(types.number()),
+      total: types.number(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "current_page": "currentPage",
+        "last_page": "lastPage",
+        "per_page": "perPage",
+      });
+    }),
+  )
 );
 
 export function listAllTeamsWithOptionalSearchMetaFromJSON(
@@ -348,15 +363,16 @@ export function listAllTeamsWithOptionalSearchMetaFromJSON(
 
 /** @internal */
 export const ListAllTeamsWithOptionalSearchResponseBody$inboundSchema:
-  z.ZodMiniType<ListAllTeamsWithOptionalSearchResponseBody, unknown> = z.object(
-    {
-      data: z.array(z.lazy(() =>
-        ListAllTeamsWithOptionalSearchData$inboundSchema
-      )),
-      links: z.lazy(() => ListAllTeamsWithOptionalSearchLinks$inboundSchema),
-      meta: z.lazy(() => ListAllTeamsWithOptionalSearchMeta$inboundSchema),
-    },
-  );
+  z.ZodMiniType<ListAllTeamsWithOptionalSearchResponseBody, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.object({
+        data: z.array(
+          z.lazy(() => ListAllTeamsWithOptionalSearchData$inboundSchema),
+        ),
+        links: z.lazy(() => ListAllTeamsWithOptionalSearchLinks$inboundSchema),
+        meta: z.lazy(() => ListAllTeamsWithOptionalSearchMeta$inboundSchema),
+      })
+    );
 
 export function listAllTeamsWithOptionalSearchResponseBodyFromJSON(
   jsonString: string,
@@ -376,20 +392,23 @@ export function listAllTeamsWithOptionalSearchResponseBodyFromJSON(
 
 /** @internal */
 export const ListAllTeamsWithOptionalSearchResponse$inboundSchema:
-  z.ZodMiniType<ListAllTeamsWithOptionalSearchResponse, unknown> = z.pipe(
-    z.object({
-      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-      Result: z.lazy(() =>
-        ListAllTeamsWithOptionalSearchResponseBody$inboundSchema
-      ),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "Headers": "headers",
-        "Result": "result",
-      });
-    }),
-  );
+  z.ZodMiniType<ListAllTeamsWithOptionalSearchResponse, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+          Result: z.lazy(() =>
+            ListAllTeamsWithOptionalSearchResponseBody$inboundSchema
+          ),
+        }),
+        z.transform((v) => {
+          return remap$(v, {
+            "Headers": "headers",
+            "Result": "result",
+          });
+        }),
+      )
+    );
 
 export function listAllTeamsWithOptionalSearchResponseFromJSON(
   jsonString: string,

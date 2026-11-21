@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { smartUnion } from "../../types/smart-union.js";
@@ -59,15 +59,17 @@ export type AddToWishlistRequestBody$Outbound = {
 export const AddToWishlistRequestBody$outboundSchema: z.ZodMiniType<
   AddToWishlistRequestBody$Outbound,
   AddToWishlistRequestBody
-> = z.pipe(
-  z.object({
-    variantId: z.optional(z.nullable(z.int())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      variantId: "variant_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      variantId: z.optional(z.nullable(z.int())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        variantId: "variant_id",
+      });
+    }),
+  )
 );
 
 export function addToWishlistRequestBodyToJSON(
@@ -88,16 +90,18 @@ export type AddToWishlistRequest$Outbound = {
 export const AddToWishlistRequest$outboundSchema: z.ZodMiniType<
   AddToWishlistRequest$Outbound,
   AddToWishlistRequest
-> = z.pipe(
-  z.object({
-    issueId: z.int(),
-    body: z.optional(z.lazy(() => AddToWishlistRequestBody$outboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      issueId: "issue_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      issueId: z.int(),
+      body: z.optional(z.lazy(() => AddToWishlistRequestBody$outboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        issueId: "issue_id",
+      });
+    }),
+  )
 );
 
 export function addToWishlistRequestToJSON(
@@ -112,17 +116,19 @@ export function addToWishlistRequestToJSON(
 export const AddToWishlistResponseBody2$inboundSchema: z.ZodMiniType<
   AddToWishlistResponseBody2,
   unknown
-> = z.pipe(
-  z.object({
-    in_wishlist: types.boolean(),
-    variant_id: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "in_wishlist": "inWishlist",
-      "variant_id": "variantId",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      in_wishlist: types.boolean(),
+      variant_id: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "in_wishlist": "inWishlist",
+        "variant_id": "variantId",
+      });
+    }),
+  )
 );
 
 export function addToWishlistResponseBody2FromJSON(
@@ -139,17 +145,19 @@ export function addToWishlistResponseBody2FromJSON(
 export const AddToWishlistResponseBody1$inboundSchema: z.ZodMiniType<
   AddToWishlistResponseBody1,
   unknown
-> = z.pipe(
-  z.object({
-    in_wishlist: types.boolean(),
-    variant_id: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "in_wishlist": "inWishlist",
-      "variant_id": "variantId",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      in_wishlist: types.boolean(),
+      variant_id: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "in_wishlist": "inWishlist",
+        "variant_id": "variantId",
+      });
+    }),
+  )
 );
 
 export function addToWishlistResponseBody1FromJSON(
@@ -166,10 +174,12 @@ export function addToWishlistResponseBody1FromJSON(
 export const AddToWishlistResponseResult$inboundSchema: z.ZodMiniType<
   AddToWishlistResponseResult,
   unknown
-> = smartUnion([
-  z.lazy(() => AddToWishlistResponseBody1$inboundSchema),
-  z.lazy(() => AddToWishlistResponseBody2$inboundSchema),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    z.lazy(() => AddToWishlistResponseBody1$inboundSchema),
+    z.lazy(() => AddToWishlistResponseBody2$inboundSchema),
+  ])
+);
 
 export function addToWishlistResponseResultFromJSON(
   jsonString: string,
@@ -185,20 +195,22 @@ export function addToWishlistResponseResultFromJSON(
 export const AddToWishlistResponse$inboundSchema: z.ZodMiniType<
   AddToWishlistResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: smartUnion([
-      z.lazy(() => AddToWishlistResponseBody1$inboundSchema),
-      z.lazy(() => AddToWishlistResponseBody2$inboundSchema),
-    ]),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: smartUnion([
+        z.lazy(() => AddToWishlistResponseBody1$inboundSchema),
+        z.lazy(() => AddToWishlistResponseBody2$inboundSchema),
+      ]),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function addToWishlistResponseFromJSON(

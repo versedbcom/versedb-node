@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { smartUnion } from "../../types/smart-union.js";
@@ -98,16 +98,18 @@ export type GetPublisherDetailsRequest$Outbound = {
 export const GetPublisherDetailsRequest$outboundSchema: z.ZodMiniType<
   GetPublisherDetailsRequest$Outbound,
   GetPublisherDetailsRequest
-> = z.pipe(
-  z.object({
-    publisherId: z.int(),
-    languages: z.optional(z.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      publisherId: "publisher_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      publisherId: z.int(),
+      languages: z.optional(z.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        publisherId: "publisher_id",
+      });
+    }),
+  )
 );
 
 export function getPublisherDetailsRequestToJSON(
@@ -122,19 +124,21 @@ export function getPublisherDetailsRequestToJSON(
 export const GetPublisherDetailsImages$inboundSchema: z.ZodMiniType<
   GetPublisherDetailsImages,
   unknown
-> = z.pipe(
-  z.object({
-    tile_sm: types.optional(types.string()),
-    profile_md: types.optional(types.string()),
-    full_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "tile_sm": "tileSm",
-      "profile_md": "profileMd",
-      "full_lg": "fullLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      tile_sm: types.optional(types.string()),
+      profile_md: types.optional(types.string()),
+      full_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "tile_sm": "tileSm",
+        "profile_md": "profileMd",
+        "full_lg": "fullLg",
+      });
+    }),
+  )
 );
 
 export function getPublisherDetailsImagesFromJSON(
@@ -151,13 +155,15 @@ export function getPublisherDetailsImagesFromJSON(
 export const GetPublisherDetailsAliases$inboundSchema: z.ZodMiniType<
   GetPublisherDetailsAliases,
   unknown
-> = smartUnion([
-  types.string(),
-  types.number(),
-  types.boolean(),
-  z.array(z.any()),
-  z.record(z.string(), z.any()),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    types.string(),
+    types.number(),
+    types.boolean(),
+    z.array(z.any()),
+    z.record(z.string(), z.any()),
+  ])
+);
 
 export function getPublisherDetailsAliasesFromJSON(
   jsonString: string,
@@ -173,12 +179,14 @@ export function getPublisherDetailsAliasesFromJSON(
 export const GetPublisherDetailsNameI18n$inboundSchema: z.ZodMiniType<
   GetPublisherDetailsNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function getPublisherDetailsNameI18nFromJSON(
   jsonString: string,
@@ -194,47 +202,49 @@ export function getPublisherDetailsNameI18nFromJSON(
 export const GetPublisherDetailsData$inboundSchema: z.ZodMiniType<
   GetPublisherDetailsData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    founded_year: types.nullable(types.number()),
-    website: types.nullable(types.string()),
-    headquarters: types.nullable(types.string()),
-    parent_company: types.nullable(types.string()),
-    status: types.nullable(types.string()),
-    logo_url: types.nullable(types.string()),
-    images: types.nullable(
-      z.lazy(() => GetPublisherDetailsImages$inboundSchema),
-    ),
-    first_published_year: types.nullable(types.number()),
-    aliases: types.nullable(
-      smartUnion([
-        types.string(),
-        types.number(),
-        types.boolean(),
-        z.array(z.any()),
-        z.record(z.string(), z.any()),
-      ]),
-    ),
-    name_i18n: z.record(
-      z.string(),
-      z.lazy(() => GetPublisherDetailsNameI18n$inboundSchema),
-    ),
-    aliases_i18n: z.record(z.string(), z.array(types.string())),
-    original_locale: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "founded_year": "foundedYear",
-      "parent_company": "parentCompany",
-      "logo_url": "logoUrl",
-      "first_published_year": "firstPublishedYear",
-      "name_i18n": "nameI18n",
-      "aliases_i18n": "aliasesI18n",
-      "original_locale": "originalLocale",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      founded_year: types.nullable(types.number()),
+      website: types.nullable(types.string()),
+      headquarters: types.nullable(types.string()),
+      parent_company: types.nullable(types.string()),
+      status: types.nullable(types.string()),
+      logo_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => GetPublisherDetailsImages$inboundSchema),
+      ),
+      first_published_year: types.nullable(types.number()),
+      aliases: types.nullable(
+        smartUnion([
+          types.string(),
+          types.number(),
+          types.boolean(),
+          z.array(z.any()),
+          z.record(z.string(), z.any()),
+        ]),
+      ),
+      name_i18n: z.record(
+        z.string(),
+        z.lazy(() => GetPublisherDetailsNameI18n$inboundSchema),
+      ),
+      aliases_i18n: z.record(z.string(), z.array(types.string())),
+      original_locale: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "founded_year": "foundedYear",
+        "parent_company": "parentCompany",
+        "logo_url": "logoUrl",
+        "first_published_year": "firstPublishedYear",
+        "name_i18n": "nameI18n",
+        "aliases_i18n": "aliasesI18n",
+        "original_locale": "originalLocale",
+      });
+    }),
+  )
 );
 
 export function getPublisherDetailsDataFromJSON(
@@ -251,9 +261,11 @@ export function getPublisherDetailsDataFromJSON(
 export const GetPublisherDetailsResponseBody$inboundSchema: z.ZodMiniType<
   GetPublisherDetailsResponseBody,
   unknown
-> = z.object({
-  data: z.lazy(() => GetPublisherDetailsData$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.lazy(() => GetPublisherDetailsData$inboundSchema),
+  })
+);
 
 export function getPublisherDetailsResponseBodyFromJSON(
   jsonString: string,
@@ -269,17 +281,19 @@ export function getPublisherDetailsResponseBodyFromJSON(
 export const GetPublisherDetailsResponse$inboundSchema: z.ZodMiniType<
   GetPublisherDetailsResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => GetPublisherDetailsResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => GetPublisherDetailsResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function getPublisherDetailsResponseFromJSON(

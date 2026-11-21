@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -55,20 +55,22 @@ export type ExchangeAConnectCodeForATokenRequest$Outbound = {
 export const ExchangeAConnectCodeForATokenRequest$outboundSchema: z.ZodMiniType<
   ExchangeAConnectCodeForATokenRequest$Outbound,
   ExchangeAConnectCodeForATokenRequest
-> = z.pipe(
-  z.object({
-    grantType: z.string(),
-    code: z.string(),
-    redirectUri: z.string(),
-    codeVerifier: z.string(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      grantType: "grant_type",
-      redirectUri: "redirect_uri",
-      codeVerifier: "code_verifier",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      grantType: z.string(),
+      code: z.string(),
+      redirectUri: z.string(),
+      codeVerifier: z.string(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        grantType: "grant_type",
+        redirectUri: "redirect_uri",
+        codeVerifier: "code_verifier",
+      });
+    }),
+  )
 );
 
 export function exchangeAConnectCodeForATokenRequestToJSON(
@@ -83,21 +85,24 @@ export function exchangeAConnectCodeForATokenRequestToJSON(
 
 /** @internal */
 export const ExchangeAConnectCodeForATokenResponseBody$inboundSchema:
-  z.ZodMiniType<ExchangeAConnectCodeForATokenResponseBody, unknown> = z.pipe(
-    z.object({
-      access_token: types.string(),
-      token_type: types.string(),
-      expires_at: types.string(),
-      abilities: z.array(types.string()),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "access_token": "accessToken",
-        "token_type": "tokenType",
-        "expires_at": "expiresAt",
-      });
-    }),
-  );
+  z.ZodMiniType<ExchangeAConnectCodeForATokenResponseBody, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          access_token: types.string(),
+          token_type: types.string(),
+          expires_at: types.string(),
+          abilities: z.array(types.string()),
+        }),
+        z.transform((v) => {
+          return remap$(v, {
+            "access_token": "accessToken",
+            "token_type": "tokenType",
+            "expires_at": "expiresAt",
+          });
+        }),
+      )
+    );
 
 export function exchangeAConnectCodeForATokenResponseBodyFromJSON(
   jsonString: string,
@@ -119,19 +124,21 @@ export function exchangeAConnectCodeForATokenResponseBodyFromJSON(
 export const ExchangeAConnectCodeForATokenResponse$inboundSchema: z.ZodMiniType<
   ExchangeAConnectCodeForATokenResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() =>
-      ExchangeAConnectCodeForATokenResponseBody$inboundSchema
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() =>
+        ExchangeAConnectCodeForATokenResponseBody$inboundSchema
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function exchangeAConnectCodeForATokenResponseFromJSON(

@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import * as openEnums from "../../types/enums.js";
 import { OpenEnum } from "../../types/enums.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
@@ -369,17 +369,19 @@ export type ListPullListRequest$Outbound = {
 export const ListPullListRequest$outboundSchema: z.ZodMiniType<
   ListPullListRequest$Outbound,
   ListPullListRequest
-> = z.pipe(
-  z.object({
-    perPage: z.optional(z.int()),
-    page: z.optional(z.int()),
-    languages: z.optional(z.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      perPage: "per_page",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      perPage: z.optional(z.int()),
+      page: z.optional(z.int()),
+      languages: z.optional(z.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        perPage: "per_page",
+      });
+    }),
+  )
 );
 
 export function listPullListRequestToJSON(
@@ -394,19 +396,23 @@ export function listPullListRequestToJSON(
 export const ListPullListPreferredCoverType$inboundSchema: z.ZodMiniType<
   ListPullListPreferredCoverType,
   unknown
-> = openEnums.inboundSchema(ListPullListPreferredCoverType);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(ListPullListPreferredCoverType)
+);
 
 /** @internal */
 export const NotificationSettings$inboundSchema: z.ZodMiniType<
   NotificationSettings,
   unknown
-> = smartUnion([
-  types.string(),
-  types.number(),
-  types.boolean(),
-  z.array(z.any()),
-  z.record(z.string(), z.any()),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    types.string(),
+    types.number(),
+    types.boolean(),
+    z.array(z.any()),
+    z.record(z.string(), z.any()),
+  ])
+);
 
 export function notificationSettingsFromJSON(
   jsonString: string,
@@ -419,37 +425,39 @@ export function notificationSettingsFromJSON(
 }
 
 /** @internal */
-export const PullSource$inboundSchema: z.ZodMiniType<PullSource, unknown> = z
-  .pipe(
-    z.object({
-      id: types.number(),
-      name: types.string(),
-      kind: types.string(),
-      kind_label: types.string(),
-      has_pickup: types.boolean(),
-      comic_shop_id: types.nullable(types.number()),
-      location: types.nullable(types.string()),
-      pickup_note: types.nullable(types.string()),
-      is_default: types.boolean(),
-      is_linked: types.boolean(),
-      shop_link_id: types.nullable(types.number()),
-      sort: types.number(),
-      created_at: types.nullable(types.string()),
-      updated_at: types.nullable(types.string()),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "kind_label": "kindLabel",
-        "has_pickup": "hasPickup",
-        "comic_shop_id": "comicShopId",
-        "pickup_note": "pickupNote",
-        "is_default": "isDefault",
-        "is_linked": "isLinked",
-        "shop_link_id": "shopLinkId",
-        "created_at": "createdAt",
-        "updated_at": "updatedAt",
-      });
-    }),
+export const PullSource$inboundSchema: z.ZodMiniType<PullSource, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        id: types.number(),
+        name: types.string(),
+        kind: types.string(),
+        kind_label: types.string(),
+        has_pickup: types.boolean(),
+        comic_shop_id: types.nullable(types.number()),
+        location: types.nullable(types.string()),
+        pickup_note: types.nullable(types.string()),
+        is_default: types.boolean(),
+        is_linked: types.boolean(),
+        shop_link_id: types.nullable(types.number()),
+        sort: types.number(),
+        created_at: types.nullable(types.string()),
+        updated_at: types.nullable(types.string()),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "kind_label": "kindLabel",
+          "has_pickup": "hasPickup",
+          "comic_shop_id": "comicShopId",
+          "pickup_note": "pickupNote",
+          "is_default": "isDefault",
+          "is_linked": "isLinked",
+          "shop_link_id": "shopLinkId",
+          "created_at": "createdAt",
+          "updated_at": "updatedAt",
+        });
+      }),
+    )
   );
 
 export function pullSourceFromJSON(
@@ -464,19 +472,21 @@ export function pullSourceFromJSON(
 
 /** @internal */
 export const SeriesImages$inboundSchema: z.ZodMiniType<SeriesImages, unknown> =
-  z.pipe(
-    z.object({
-      cover_sm: types.optional(types.string()),
-      cover_md: types.optional(types.string()),
-      cover_lg: types.optional(types.string()),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "cover_sm": "coverSm",
-        "cover_md": "coverMd",
-        "cover_lg": "coverLg",
-      });
-    }),
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        cover_sm: types.optional(types.string()),
+        cover_md: types.optional(types.string()),
+        cover_lg: types.optional(types.string()),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "cover_sm": "coverSm",
+          "cover_md": "coverMd",
+          "cover_lg": "coverLg",
+        });
+      }),
+    )
   );
 
 export function seriesImagesFromJSON(
@@ -493,20 +503,22 @@ export function seriesImagesFromJSON(
 export const NextIssueImages$inboundSchema: z.ZodMiniType<
   NextIssueImages,
   unknown
-> = z.pipe(
-  z.object({
-    thumb: types.optional(types.string()),
-    cover_sm: types.optional(types.string()),
-    cover_md: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_md": "coverMd",
-      "cover_lg": "coverLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      thumb: types.optional(types.string()),
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  )
 );
 
 export function nextIssueImagesFromJSON(
@@ -523,12 +535,14 @@ export function nextIssueImagesFromJSON(
 export const NextIssueNameI18n$inboundSchema: z.ZodMiniType<
   NextIssueNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function nextIssueNameI18nFromJSON(
   jsonString: string,
@@ -541,47 +555,49 @@ export function nextIssueNameI18nFromJSON(
 }
 
 /** @internal */
-export const NextIssue$inboundSchema: z.ZodMiniType<NextIssue, unknown> = z
-  .pipe(
-    z.object({
-      id: types.number(),
-      slug: types.nullable(types.string()),
-      series_id: types.nullable(types.number()),
-      issue_number: types.nullable(types.string()),
-      name: types.nullable(types.string()),
-      cover_date: types.nullable(types.string()),
-      release_date: types.nullable(types.string()),
-      foc_date: types.nullable(types.string()),
-      is_unreleased: types.boolean(),
-      cover_url: types.nullable(types.string()),
-      images: types.nullable(z.lazy(() => NextIssueImages$inboundSchema)),
-      is_reprint: types.boolean(),
-      content_rating_label: types.nullable(types.string()),
-      min_age: types.nullable(types.number()),
-      is_nsfw: types.boolean(),
-      average_rating: types.nullable(types.number()),
-      name_i18n: z.record(
-        z.string(),
-        z.lazy(() => NextIssueNameI18n$inboundSchema),
-      ),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "series_id": "seriesId",
-        "issue_number": "issueNumber",
-        "cover_date": "coverDate",
-        "release_date": "releaseDate",
-        "foc_date": "focDate",
-        "is_unreleased": "isUnreleased",
-        "cover_url": "coverUrl",
-        "is_reprint": "isReprint",
-        "content_rating_label": "contentRatingLabel",
-        "min_age": "minAge",
-        "is_nsfw": "isNsfw",
-        "average_rating": "averageRating",
-        "name_i18n": "nameI18n",
-      });
-    }),
+export const NextIssue$inboundSchema: z.ZodMiniType<NextIssue, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.pipe(
+      z.object({
+        id: types.number(),
+        slug: types.nullable(types.string()),
+        series_id: types.nullable(types.number()),
+        issue_number: types.nullable(types.string()),
+        name: types.nullable(types.string()),
+        cover_date: types.nullable(types.string()),
+        release_date: types.nullable(types.string()),
+        foc_date: types.nullable(types.string()),
+        is_unreleased: types.boolean(),
+        cover_url: types.nullable(types.string()),
+        images: types.nullable(z.lazy(() => NextIssueImages$inboundSchema)),
+        is_reprint: types.boolean(),
+        content_rating_label: types.nullable(types.string()),
+        min_age: types.nullable(types.number()),
+        is_nsfw: types.boolean(),
+        average_rating: types.nullable(types.number()),
+        name_i18n: z.record(
+          z.string(),
+          z.lazy(() => NextIssueNameI18n$inboundSchema),
+        ),
+      }),
+      z.transform((v) => {
+        return remap$(v, {
+          "series_id": "seriesId",
+          "issue_number": "issueNumber",
+          "cover_date": "coverDate",
+          "release_date": "releaseDate",
+          "foc_date": "focDate",
+          "is_unreleased": "isUnreleased",
+          "cover_url": "coverUrl",
+          "is_reprint": "isReprint",
+          "content_rating_label": "contentRatingLabel",
+          "min_age": "minAge",
+          "is_nsfw": "isNsfw",
+          "average_rating": "averageRating",
+          "name_i18n": "nameI18n",
+        });
+      }),
+    )
   );
 
 export function nextIssueFromJSON(
@@ -598,26 +614,30 @@ export function nextIssueFromJSON(
 export const ListPullListKind$inboundSchema: z.ZodMiniType<
   ListPullListKind,
   unknown
-> = openEnums.inboundSchema(ListPullListKind);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(ListPullListKind)
+);
 
 /** @internal */
 export const NextIssueCoverImages$inboundSchema: z.ZodMiniType<
   NextIssueCoverImages,
   unknown
-> = z.pipe(
-  z.object({
-    thumb: types.optional(types.string()),
-    cover_sm: types.optional(types.string()),
-    cover_md: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_md": "coverMd",
-      "cover_lg": "coverLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      thumb: types.optional(types.string()),
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  )
 );
 
 export function nextIssueCoverImagesFromJSON(
@@ -634,27 +654,29 @@ export function nextIssueCoverImagesFromJSON(
 export const NextIssueCover$inboundSchema: z.ZodMiniType<
   NextIssueCover,
   unknown
-> = z.pipe(
-  z.object({
-    variant_id: types.nullable(types.number()),
-    code: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    type: types.nullable(types.string()),
-    ratio: types.nullable(types.string()),
-    kind: ListPullListKind$inboundSchema,
-    images: types.nullable(z.lazy(() => NextIssueCoverImages$inboundSchema)),
-    price: types.nullable(types.string()),
-    price_from_issue: types.boolean(),
-    currency: types.nullable(types.string()),
-    cover_nsfw: types.boolean(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "variant_id": "variantId",
-      "price_from_issue": "priceFromIssue",
-      "cover_nsfw": "coverNsfw",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      variant_id: types.nullable(types.number()),
+      code: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      type: types.nullable(types.string()),
+      ratio: types.nullable(types.string()),
+      kind: ListPullListKind$inboundSchema,
+      images: types.nullable(z.lazy(() => NextIssueCoverImages$inboundSchema)),
+      price: types.nullable(types.string()),
+      price_from_issue: types.boolean(),
+      currency: types.nullable(types.string()),
+      cover_nsfw: types.boolean(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "variant_id": "variantId",
+        "price_from_issue": "priceFromIssue",
+        "cover_nsfw": "coverNsfw",
+      });
+    }),
+  )
 );
 
 export function nextIssueCoverFromJSON(
@@ -671,19 +693,21 @@ export function nextIssueCoverFromJSON(
 export const ListPullListSeriesImages$inboundSchema: z.ZodMiniType<
   ListPullListSeriesImages,
   unknown
-> = z.pipe(
-  z.object({
-    cover_sm: types.optional(types.string()),
-    cover_md: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_md": "coverMd",
-      "cover_lg": "coverLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  )
 );
 
 export function listPullListSeriesImagesFromJSON(
@@ -700,12 +724,14 @@ export function listPullListSeriesImagesFromJSON(
 export const SeriesNameI18n$inboundSchema: z.ZodMiniType<
   SeriesNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function seriesNameI18nFromJSON(
   jsonString: string,
@@ -721,64 +747,69 @@ export function seriesNameI18nFromJSON(
 export const ListPullListSeries$inboundSchema: z.ZodMiniType<
   ListPullListSeries,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    title_id: types.nullable(types.number()),
-    name: types.nullable(types.string()),
-    display_name: types.string(),
-    slug: types.nullable(types.string()),
-    number: types.nullable(types.number()),
-    start_year: types.nullable(types.number()),
-    end_year: types.nullable(types.number()),
-    cover_url: types.nullable(types.string()),
-    images: types.nullable(
-      z.lazy(() => ListPullListSeriesImages$inboundSchema),
-    ),
-    medium: types.nullable(types.string()),
-    publication_type: types.nullable(types.string()),
-    format: types.nullable(types.string()),
-    status: types.nullable(types.string()),
-    original_name: types.nullable(types.string()),
-    original_language: types.nullable(types.string()),
-    language: types.nullable(types.string()),
-    cached_issues_count: types.nullable(types.number()),
-    average_rating: types.nullable(types.string()),
-    total_reviews: types.nullable(types.number()),
-    issues_average_rating: types.nullable(types.string()),
-    issues_rated_count: types.nullable(types.number()),
-    content_rating_label: types.nullable(types.string()),
-    min_age: types.nullable(types.number()),
-    is_nsfw: types.nullable(types.boolean()),
-    publisher_name: types.nullable(types.string()),
-    name_i18n: z.record(z.string(), z.lazy(() => SeriesNameI18n$inboundSchema)),
-    aliases_i18n: z.record(z.string(), z.array(types.string())),
-    original_locale: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "title_id": "titleId",
-      "display_name": "displayName",
-      "start_year": "startYear",
-      "end_year": "endYear",
-      "cover_url": "coverUrl",
-      "publication_type": "publicationType",
-      "original_name": "originalName",
-      "original_language": "originalLanguage",
-      "cached_issues_count": "cachedIssuesCount",
-      "average_rating": "averageRating",
-      "total_reviews": "totalReviews",
-      "issues_average_rating": "issuesAverageRating",
-      "issues_rated_count": "issuesRatedCount",
-      "content_rating_label": "contentRatingLabel",
-      "min_age": "minAge",
-      "is_nsfw": "isNsfw",
-      "publisher_name": "publisherName",
-      "name_i18n": "nameI18n",
-      "aliases_i18n": "aliasesI18n",
-      "original_locale": "originalLocale",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      title_id: types.nullable(types.number()),
+      name: types.nullable(types.string()),
+      display_name: types.string(),
+      slug: types.nullable(types.string()),
+      number: types.nullable(types.number()),
+      start_year: types.nullable(types.number()),
+      end_year: types.nullable(types.number()),
+      cover_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => ListPullListSeriesImages$inboundSchema),
+      ),
+      medium: types.nullable(types.string()),
+      publication_type: types.nullable(types.string()),
+      format: types.nullable(types.string()),
+      status: types.nullable(types.string()),
+      original_name: types.nullable(types.string()),
+      original_language: types.nullable(types.string()),
+      language: types.nullable(types.string()),
+      cached_issues_count: types.nullable(types.number()),
+      average_rating: types.nullable(types.string()),
+      total_reviews: types.nullable(types.number()),
+      issues_average_rating: types.nullable(types.string()),
+      issues_rated_count: types.nullable(types.number()),
+      content_rating_label: types.nullable(types.string()),
+      min_age: types.nullable(types.number()),
+      is_nsfw: types.nullable(types.boolean()),
+      publisher_name: types.nullable(types.string()),
+      name_i18n: z.record(
+        z.string(),
+        z.lazy(() => SeriesNameI18n$inboundSchema),
+      ),
+      aliases_i18n: z.record(z.string(), z.array(types.string())),
+      original_locale: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "title_id": "titleId",
+        "display_name": "displayName",
+        "start_year": "startYear",
+        "end_year": "endYear",
+        "cover_url": "coverUrl",
+        "publication_type": "publicationType",
+        "original_name": "originalName",
+        "original_language": "originalLanguage",
+        "cached_issues_count": "cachedIssuesCount",
+        "average_rating": "averageRating",
+        "total_reviews": "totalReviews",
+        "issues_average_rating": "issuesAverageRating",
+        "issues_rated_count": "issuesRatedCount",
+        "content_rating_label": "contentRatingLabel",
+        "min_age": "minAge",
+        "is_nsfw": "isNsfw",
+        "publisher_name": "publisherName",
+        "name_i18n": "nameI18n",
+        "aliases_i18n": "aliasesI18n",
+        "original_locale": "originalLocale",
+      });
+    }),
+  )
 );
 
 export function listPullListSeriesFromJSON(
@@ -795,84 +826,88 @@ export function listPullListSeriesFromJSON(
 export const ListPullListData$inboundSchema: z.ZodMiniType<
   ListPullListData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    user_id: types.number(),
-    pullable_type: types.nullable(types.string()),
-    pullable_id: types.nullable(types.number()),
-    series_id: types.nullable(types.number()),
-    variant_id: types.nullable(types.number()),
-    status: types.string(),
-    auto_pull: z.optional(z.nullable(types.boolean())),
-    last_pulled_at: z.optional(z.nullable(types.string())),
-    preferred_cover_type: z.optional(
-      z.nullable(ListPullListPreferredCoverType$inboundSchema),
-    ),
-    pull_priority: z.optional(z.nullable(types.number())),
-    notify_on_release: z.optional(z.nullable(types.boolean())),
-    notification_settings: z.optional(
-      z.nullable(
-        smartUnion([
-          types.string(),
-          types.number(),
-          types.boolean(),
-          z.array(z.any()),
-          z.record(z.string(), z.any()),
-        ]),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      user_id: types.number(),
+      pullable_type: types.nullable(types.string()),
+      pullable_id: types.nullable(types.number()),
+      series_id: types.nullable(types.number()),
+      variant_id: types.nullable(types.number()),
+      status: types.string(),
+      auto_pull: z.optional(z.nullable(types.boolean())),
+      last_pulled_at: z.optional(z.nullable(types.string())),
+      preferred_cover_type: z.optional(
+        z.nullable(ListPullListPreferredCoverType$inboundSchema),
       ),
-    ),
-    personal_notes: z.optional(z.nullable(types.string())),
-    pull_source_ids: types.optional(z.array(types.number())),
-    pull_sources: types.optional(
-      z.array(z.lazy(() => PullSource$inboundSchema)),
-    ),
-    pull_source_id: z.optional(z.nullable(types.number())),
-    pull_source: z.optional(z.nullable(z.lazy(() => PullSource$inboundSchema))),
-    created_at: types.nullable(types.string()),
-    updated_at: types.nullable(types.string()),
-    series_name: types.nullable(types.string()),
-    series_cover_url: types.nullable(types.string()),
-    series_images: types.nullable(z.lazy(() => SeriesImages$inboundSchema)),
-    publisher_name: types.nullable(types.string()),
-    is_nsfw: types.boolean(),
-    next_issue: types.nullable(z.lazy(() => NextIssue$inboundSchema)),
-    next_issue_covers: types.optional(
-      z.array(z.lazy(() => NextIssueCover$inboundSchema)),
-    ),
-    next_issue_variant_count: types.optional(types.number()),
-    series: types.nullable(z.lazy(() => ListPullListSeries$inboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "user_id": "userId",
-      "pullable_type": "pullableType",
-      "pullable_id": "pullableId",
-      "series_id": "seriesId",
-      "variant_id": "variantId",
-      "auto_pull": "autoPull",
-      "last_pulled_at": "lastPulledAt",
-      "preferred_cover_type": "preferredCoverType",
-      "pull_priority": "pullPriority",
-      "notify_on_release": "notifyOnRelease",
-      "notification_settings": "notificationSettings",
-      "personal_notes": "personalNotes",
-      "pull_source_ids": "pullSourceIds",
-      "pull_sources": "pullSources",
-      "pull_source_id": "pullSourceId",
-      "pull_source": "pullSource",
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-      "series_name": "seriesName",
-      "series_cover_url": "seriesCoverUrl",
-      "series_images": "seriesImages",
-      "publisher_name": "publisherName",
-      "is_nsfw": "isNsfw",
-      "next_issue": "nextIssue",
-      "next_issue_covers": "nextIssueCovers",
-      "next_issue_variant_count": "nextIssueVariantCount",
-    });
-  }),
+      pull_priority: z.optional(z.nullable(types.number())),
+      notify_on_release: z.optional(z.nullable(types.boolean())),
+      notification_settings: z.optional(
+        z.nullable(
+          smartUnion([
+            types.string(),
+            types.number(),
+            types.boolean(),
+            z.array(z.any()),
+            z.record(z.string(), z.any()),
+          ]),
+        ),
+      ),
+      personal_notes: z.optional(z.nullable(types.string())),
+      pull_source_ids: types.optional(z.array(types.number())),
+      pull_sources: types.optional(
+        z.array(z.lazy(() => PullSource$inboundSchema)),
+      ),
+      pull_source_id: z.optional(z.nullable(types.number())),
+      pull_source: z.optional(
+        z.nullable(z.lazy(() => PullSource$inboundSchema)),
+      ),
+      created_at: types.nullable(types.string()),
+      updated_at: types.nullable(types.string()),
+      series_name: types.nullable(types.string()),
+      series_cover_url: types.nullable(types.string()),
+      series_images: types.nullable(z.lazy(() => SeriesImages$inboundSchema)),
+      publisher_name: types.nullable(types.string()),
+      is_nsfw: types.boolean(),
+      next_issue: types.nullable(z.lazy(() => NextIssue$inboundSchema)),
+      next_issue_covers: types.optional(
+        z.array(z.lazy(() => NextIssueCover$inboundSchema)),
+      ),
+      next_issue_variant_count: types.optional(types.number()),
+      series: types.nullable(z.lazy(() => ListPullListSeries$inboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "user_id": "userId",
+        "pullable_type": "pullableType",
+        "pullable_id": "pullableId",
+        "series_id": "seriesId",
+        "variant_id": "variantId",
+        "auto_pull": "autoPull",
+        "last_pulled_at": "lastPulledAt",
+        "preferred_cover_type": "preferredCoverType",
+        "pull_priority": "pullPriority",
+        "notify_on_release": "notifyOnRelease",
+        "notification_settings": "notificationSettings",
+        "personal_notes": "personalNotes",
+        "pull_source_ids": "pullSourceIds",
+        "pull_sources": "pullSources",
+        "pull_source_id": "pullSourceId",
+        "pull_source": "pullSource",
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+        "series_name": "seriesName",
+        "series_cover_url": "seriesCoverUrl",
+        "series_images": "seriesImages",
+        "publisher_name": "publisherName",
+        "is_nsfw": "isNsfw",
+        "next_issue": "nextIssue",
+        "next_issue_covers": "nextIssueCovers",
+        "next_issue_variant_count": "nextIssueVariantCount",
+      });
+    }),
+  )
 );
 
 export function listPullListDataFromJSON(
@@ -889,12 +924,14 @@ export function listPullListDataFromJSON(
 export const ListPullListLinks$inboundSchema: z.ZodMiniType<
   ListPullListLinks,
   unknown
-> = z.object({
-  first: types.string(),
-  last: types.string(),
-  prev: types.nullable(types.string()),
-  next: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    first: types.string(),
+    last: types.string(),
+    prev: types.nullable(types.string()),
+    next: types.nullable(types.string()),
+  })
+);
 
 export function listPullListLinksFromJSON(
   jsonString: string,
@@ -910,12 +947,14 @@ export function listPullListLinksFromJSON(
 export const ListPullListLink$inboundSchema: z.ZodMiniType<
   ListPullListLink,
   unknown
-> = z.object({
-  url: types.nullable(types.string()),
-  label: types.string(),
-  page: z.optional(z.nullable(types.number())),
-  active: types.boolean(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    url: types.nullable(types.string()),
+    label: types.string(),
+    page: z.optional(z.nullable(types.number())),
+    active: types.boolean(),
+  })
+);
 
 export function listPullListLinkFromJSON(
   jsonString: string,
@@ -931,24 +970,26 @@ export function listPullListLinkFromJSON(
 export const ListPullListMeta$inboundSchema: z.ZodMiniType<
   ListPullListMeta,
   unknown
-> = z.pipe(
-  z.object({
-    current_page: types.number(),
-    from: types.nullable(types.number()),
-    last_page: types.number(),
-    links: z.array(z.lazy(() => ListPullListLink$inboundSchema)),
-    path: types.string(),
-    per_page: types.number(),
-    to: types.nullable(types.number()),
-    total: types.number(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "current_page": "currentPage",
-      "last_page": "lastPage",
-      "per_page": "perPage",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      current_page: types.number(),
+      from: types.nullable(types.number()),
+      last_page: types.number(),
+      links: z.array(z.lazy(() => ListPullListLink$inboundSchema)),
+      path: types.string(),
+      per_page: types.number(),
+      to: types.nullable(types.number()),
+      total: types.number(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "current_page": "currentPage",
+        "last_page": "lastPage",
+        "per_page": "perPage",
+      });
+    }),
+  )
 );
 
 export function listPullListMetaFromJSON(
@@ -965,11 +1006,13 @@ export function listPullListMetaFromJSON(
 export const ListPullListResponseBody$inboundSchema: z.ZodMiniType<
   ListPullListResponseBody,
   unknown
-> = z.object({
-  data: z.array(z.lazy(() => ListPullListData$inboundSchema)),
-  links: z.lazy(() => ListPullListLinks$inboundSchema),
-  meta: z.lazy(() => ListPullListMeta$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.array(z.lazy(() => ListPullListData$inboundSchema)),
+    links: z.lazy(() => ListPullListLinks$inboundSchema),
+    meta: z.lazy(() => ListPullListMeta$inboundSchema),
+  })
+);
 
 export function listPullListResponseBodyFromJSON(
   jsonString: string,
@@ -985,17 +1028,19 @@ export function listPullListResponseBodyFromJSON(
 export const ListPullListResponse$inboundSchema: z.ZodMiniType<
   ListPullListResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => ListPullListResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => ListPullListResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function listPullListResponseFromJSON(

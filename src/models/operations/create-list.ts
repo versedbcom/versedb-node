@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -157,22 +157,24 @@ export type CreateListRequest$Outbound = {
 export const CreateListRequest$outboundSchema: z.ZodMiniType<
   CreateListRequest$Outbound,
   CreateListRequest
-> = z.pipe(
-  z.object({
-    title: z.string(),
-    description: z.optional(z.nullable(z.string())),
-    entityType: z.optional(z.nullable(z.string())),
-    isRanked: z.optional(z.boolean()),
-    isPrivate: z.optional(z.boolean()),
-    rules: z.optional(z.nullable(z.record(z.string(), z.any()))),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      entityType: "entity_type",
-      isRanked: "is_ranked",
-      isPrivate: "is_private",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      title: z.string(),
+      description: z.optional(z.nullable(z.string())),
+      entityType: z.optional(z.nullable(z.string())),
+      isRanked: z.optional(z.boolean()),
+      isPrivate: z.optional(z.boolean()),
+      rules: z.optional(z.nullable(z.record(z.string(), z.any()))),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        entityType: "entity_type",
+        isRanked: "is_ranked",
+        isPrivate: "is_private",
+      });
+    }),
+  )
 );
 
 export function createListRequestToJSON(
@@ -187,10 +189,12 @@ export function createListRequestToJSON(
 export const CreateListClonedFromUser$inboundSchema: z.ZodMiniType<
   CreateListClonedFromUser,
   unknown
-> = z.object({
-  id: types.number(),
-  username: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    username: types.nullable(types.string()),
+  })
+);
 
 export function createListClonedFromUserFromJSON(
   jsonString: string,
@@ -206,12 +210,14 @@ export function createListClonedFromUserFromJSON(
 export const CreateListClonedFrom$inboundSchema: z.ZodMiniType<
   CreateListClonedFrom,
   unknown
-> = z.object({
-  id: types.number(),
-  title: types.nullable(types.string()),
-  slug: types.nullable(types.string()),
-  user: types.nullable(z.lazy(() => CreateListClonedFromUser$inboundSchema)),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    title: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    user: types.nullable(z.lazy(() => CreateListClonedFromUser$inboundSchema)),
+  })
+);
 
 export function createListClonedFromFromJSON(
   jsonString: string,
@@ -227,12 +233,14 @@ export function createListClonedFromFromJSON(
 export const CreateListUser$inboundSchema: z.ZodMiniType<
   CreateListUser,
   unknown
-> = z.object({
-  id: types.number(),
-  username: types.nullable(types.string()),
-  name: types.nullable(types.string()),
-  avatar: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    username: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    avatar: types.nullable(types.string()),
+  })
+);
 
 export function createListUserFromJSON(
   jsonString: string,
@@ -248,12 +256,14 @@ export function createListUserFromJSON(
 export const CreateListReaction$inboundSchema: z.ZodMiniType<
   CreateListReaction,
   unknown
-> = z.object({
-  reaction: types.string(),
-  emoji: types.string(),
-  label: types.string(),
-  count: types.number(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    reaction: types.string(),
+    emoji: types.string(),
+    label: types.string(),
+    count: types.number(),
+  })
+);
 
 export function createListReactionFromJSON(
   jsonString: string,
@@ -269,62 +279,64 @@ export function createListReactionFromJSON(
 export const CreateListData$inboundSchema: z.ZodMiniType<
   CreateListData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    title: types.string(),
-    slug: types.string(),
-    description: types.nullable(types.string()),
-    entity_type: types.string(),
-    entity_type_label: types.string(),
-    is_curated: types.boolean(),
-    item_types: z.array(types.string()),
-    is_ranked: types.boolean(),
-    sort_options: z.record(z.string(), types.string()),
-    is_private: types.boolean(),
-    status: types.string(),
-    list_type: types.string(),
-    items_count: types.number(),
-    saves_count: types.number(),
-    likes_count: types.number(),
-    clones_count: types.number(),
-    created_at: types.string(),
-    updated_at: types.string(),
-    is_smart: types.boolean(),
-    is_rule_based: types.boolean(),
-    last_refreshed_at: types.nullable(types.string()),
-    smart_paused: types.boolean(),
-    cloned_from_list_id: types.nullable(types.number()),
-    cloned_from: types.optional(
-      z.lazy(() => CreateListClonedFrom$inboundSchema),
-    ),
-    user: types.nullable(z.lazy(() => CreateListUser$inboundSchema)),
-    reactions: z.array(z.lazy(() => CreateListReaction$inboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "entity_type": "entityType",
-      "entity_type_label": "entityTypeLabel",
-      "is_curated": "isCurated",
-      "item_types": "itemTypes",
-      "is_ranked": "isRanked",
-      "sort_options": "sortOptions",
-      "is_private": "isPrivate",
-      "list_type": "listType",
-      "items_count": "itemsCount",
-      "saves_count": "savesCount",
-      "likes_count": "likesCount",
-      "clones_count": "clonesCount",
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-      "is_smart": "isSmart",
-      "is_rule_based": "isRuleBased",
-      "last_refreshed_at": "lastRefreshedAt",
-      "smart_paused": "smartPaused",
-      "cloned_from_list_id": "clonedFromListId",
-      "cloned_from": "clonedFrom",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      title: types.string(),
+      slug: types.string(),
+      description: types.nullable(types.string()),
+      entity_type: types.string(),
+      entity_type_label: types.string(),
+      is_curated: types.boolean(),
+      item_types: z.array(types.string()),
+      is_ranked: types.boolean(),
+      sort_options: z.record(z.string(), types.string()),
+      is_private: types.boolean(),
+      status: types.string(),
+      list_type: types.string(),
+      items_count: types.number(),
+      saves_count: types.number(),
+      likes_count: types.number(),
+      clones_count: types.number(),
+      created_at: types.string(),
+      updated_at: types.string(),
+      is_smart: types.boolean(),
+      is_rule_based: types.boolean(),
+      last_refreshed_at: types.nullable(types.string()),
+      smart_paused: types.boolean(),
+      cloned_from_list_id: types.nullable(types.number()),
+      cloned_from: types.optional(
+        z.lazy(() => CreateListClonedFrom$inboundSchema),
+      ),
+      user: types.nullable(z.lazy(() => CreateListUser$inboundSchema)),
+      reactions: z.array(z.lazy(() => CreateListReaction$inboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "entity_type": "entityType",
+        "entity_type_label": "entityTypeLabel",
+        "is_curated": "isCurated",
+        "item_types": "itemTypes",
+        "is_ranked": "isRanked",
+        "sort_options": "sortOptions",
+        "is_private": "isPrivate",
+        "list_type": "listType",
+        "items_count": "itemsCount",
+        "saves_count": "savesCount",
+        "likes_count": "likesCount",
+        "clones_count": "clonesCount",
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+        "is_smart": "isSmart",
+        "is_rule_based": "isRuleBased",
+        "last_refreshed_at": "lastRefreshedAt",
+        "smart_paused": "smartPaused",
+        "cloned_from_list_id": "clonedFromListId",
+        "cloned_from": "clonedFrom",
+      });
+    }),
+  )
 );
 
 export function createListDataFromJSON(
@@ -341,9 +353,11 @@ export function createListDataFromJSON(
 export const CreateListResponseBody$inboundSchema: z.ZodMiniType<
   CreateListResponseBody,
   unknown
-> = z.object({
-  data: z.lazy(() => CreateListData$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.lazy(() => CreateListData$inboundSchema),
+  })
+);
 
 export function createListResponseBodyFromJSON(
   jsonString: string,
@@ -359,17 +373,19 @@ export function createListResponseBodyFromJSON(
 export const CreateListResponse$inboundSchema: z.ZodMiniType<
   CreateListResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => CreateListResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => CreateListResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function createListResponseFromJSON(

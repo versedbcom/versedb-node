@@ -4,6 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../../lib/schemas.js";
 import * as types from "../../types/primitives.js";
 import * as operations from "../operations/index.js";
 import { VerseDbError } from "./verse-db-error.js";
@@ -95,64 +96,73 @@ export class LikeListOrReactToItForbiddenError extends VerseDbError {
 
 /** @internal */
 export const LikeListOrReactToItUnprocessableEntityError$inboundSchema:
-  z.ZodMiniType<LikeListOrReactToItUnprocessableEntityError, unknown> = z.pipe(
-    z.object({
-      message: types.string(),
-      errors: z.lazy(() => operations.LikeListOrReactToItErrors$inboundSchema),
-      available_reactions: z.array(types.string()),
-      request$: z.custom<Request>(x => x instanceof Request),
-      response$: z.custom<Response>(x => x instanceof Response),
-      body$: z.string(),
-    }),
-    z.transform((v) => {
-      const remapped = remap$(v, {
-        "available_reactions": "availableReactions",
-      });
+  z.ZodMiniType<LikeListOrReactToItUnprocessableEntityError, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          message: types.string(),
+          errors: z.lazy(() =>
+            operations.LikeListOrReactToItErrors$inboundSchema
+          ),
+          available_reactions: z.array(types.string()),
+          request$: z.custom<Request>(x => x instanceof Request),
+          response$: z.custom<Response>(x => x instanceof Response),
+          body$: z.string(),
+        }),
+        z.transform((v) => {
+          const remapped = remap$(v, {
+            "available_reactions": "availableReactions",
+          });
 
-      return new LikeListOrReactToItUnprocessableEntityError(remapped, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
-      });
-    }),
-  );
+          return new LikeListOrReactToItUnprocessableEntityError(remapped, {
+            request: v.request$,
+            response: v.response$,
+            body: v.body$,
+          });
+        }),
+      )
+    );
 
 /** @internal */
 export const LikeListOrReactToItNotFoundError$inboundSchema: z.ZodMiniType<
   LikeListOrReactToItNotFoundError,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new LikeListOrReactToItNotFoundError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      request$: z.custom<Request>(x => x instanceof Request),
+      response$: z.custom<Response>(x => x instanceof Response),
+      body$: z.string(),
+    }),
+    z.transform((v) => {
+      return new LikeListOrReactToItNotFoundError(v, {
+        request: v.request$,
+        response: v.response$,
+        body: v.body$,
+      });
+    }),
+  )
 );
 
 /** @internal */
 export const LikeListOrReactToItForbiddenError$inboundSchema: z.ZodMiniType<
   LikeListOrReactToItForbiddenError,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new LikeListOrReactToItForbiddenError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      request$: z.custom<Request>(x => x instanceof Request),
+      response$: z.custom<Response>(x => x instanceof Response),
+      body$: z.string(),
+    }),
+    z.transform((v) => {
+      return new LikeListOrReactToItForbiddenError(v, {
+        request: v.request$,
+        response: v.response$,
+        body: v.body$,
+      });
+    }),
+  )
 );

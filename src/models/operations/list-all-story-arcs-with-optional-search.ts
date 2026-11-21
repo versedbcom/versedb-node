@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -148,16 +148,18 @@ export const ListAllStoryArcsWithOptionalSearchRequest$outboundSchema:
   z.ZodMiniType<
     ListAllStoryArcsWithOptionalSearchRequest$Outbound,
     ListAllStoryArcsWithOptionalSearchRequest
-  > = z.object({
-    q: z.optional(z.string()),
-    status: z.optional(z.string()),
-    type: z.optional(z.string()),
-    sort: z.optional(z.string()),
-    direction: z.optional(z.string()),
-    limit: z.optional(z.int()),
-    page: z.optional(z.int()),
-    languages: z.optional(z.string()),
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      q: z.optional(z.string()),
+      status: z.optional(z.string()),
+      type: z.optional(z.string()),
+      sort: z.optional(z.string()),
+      direction: z.optional(z.string()),
+      limit: z.optional(z.int()),
+      page: z.optional(z.int()),
+      languages: z.optional(z.string()),
+    })
+  );
 
 export function listAllStoryArcsWithOptionalSearchRequestToJSON(
   listAllStoryArcsWithOptionalSearchRequest:
@@ -172,20 +174,23 @@ export function listAllStoryArcsWithOptionalSearchRequestToJSON(
 
 /** @internal */
 export const ListAllStoryArcsWithOptionalSearchImages$inboundSchema:
-  z.ZodMiniType<ListAllStoryArcsWithOptionalSearchImages, unknown> = z.pipe(
-    z.object({
-      cover_sm: types.optional(types.string()),
-      cover_md: types.optional(types.string()),
-      cover_lg: types.optional(types.string()),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "cover_sm": "coverSm",
-        "cover_md": "coverMd",
-        "cover_lg": "coverLg",
-      });
-    }),
-  );
+  z.ZodMiniType<ListAllStoryArcsWithOptionalSearchImages, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          cover_sm: types.optional(types.string()),
+          cover_md: types.optional(types.string()),
+          cover_lg: types.optional(types.string()),
+        }),
+        z.transform((v) => {
+          return remap$(v, {
+            "cover_sm": "coverSm",
+            "cover_md": "coverMd",
+            "cover_lg": "coverLg",
+          });
+        }),
+      )
+    );
 
 export function listAllStoryArcsWithOptionalSearchImagesFromJSON(
   jsonString: string,
@@ -205,14 +210,15 @@ export function listAllStoryArcsWithOptionalSearchImagesFromJSON(
 
 /** @internal */
 export const ListAllStoryArcsWithOptionalSearchNameI18n$inboundSchema:
-  z.ZodMiniType<ListAllStoryArcsWithOptionalSearchNameI18n, unknown> = z.object(
-    {
-      value: types.string(),
-      source: types.string(),
-      reading: types.optional(types.string()),
-      sort: types.optional(types.string()),
-    },
-  );
+  z.ZodMiniType<ListAllStoryArcsWithOptionalSearchNameI18n, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.object({
+        value: types.string(),
+        source: types.string(),
+        reading: types.optional(types.string()),
+        sort: types.optional(types.string()),
+      })
+    );
 
 export function listAllStoryArcsWithOptionalSearchNameI18nFromJSON(
   jsonString: string,
@@ -232,11 +238,13 @@ export function listAllStoryArcsWithOptionalSearchNameI18nFromJSON(
 
 /** @internal */
 export const ListAllStoryArcsWithOptionalSearchPrimaryUniverse$inboundSchema:
-  z.ZodMiniType<ListAllStoryArcsWithOptionalSearchPrimaryUniverse, unknown> = z
-    .object({
-      id: types.number(),
-      name: types.nullable(types.string()),
-    });
+  z.ZodMiniType<ListAllStoryArcsWithOptionalSearchPrimaryUniverse, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.object({
+        id: types.number(),
+        name: types.nullable(types.string()),
+      })
+    );
 
 export function listAllStoryArcsWithOptionalSearchPrimaryUniverseFromJSON(
   jsonString: string,
@@ -256,39 +264,48 @@ export function listAllStoryArcsWithOptionalSearchPrimaryUniverseFromJSON(
 
 /** @internal */
 export const ListAllStoryArcsWithOptionalSearchData$inboundSchema:
-  z.ZodMiniType<ListAllStoryArcsWithOptionalSearchData, unknown> = z.pipe(
-    z.object({
-      id: types.number(),
-      name: types.nullable(types.string()),
-      slug: types.nullable(types.string()),
-      type: types.nullable(types.string()),
-      status: types.nullable(types.string()),
-      image_url: types.nullable(types.string()),
-      images: types.nullable(z.lazy(() =>
-        ListAllStoryArcsWithOptionalSearchImages$inboundSchema
-      )),
-      issues_count: types.nullable(types.number()),
-      name_i18n: z.record(
-        z.string(),
-        z.lazy(() => ListAllStoryArcsWithOptionalSearchNameI18n$inboundSchema),
-      ),
-      aliases_i18n: z.record(z.string(), z.array(types.string())),
-      original_locale: types.nullable(types.string()),
-      primary_universe: types.nullable(z.lazy(() =>
-        ListAllStoryArcsWithOptionalSearchPrimaryUniverse$inboundSchema
-      )),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "image_url": "imageUrl",
-        "issues_count": "issuesCount",
-        "name_i18n": "nameI18n",
-        "aliases_i18n": "aliasesI18n",
-        "original_locale": "originalLocale",
-        "primary_universe": "primaryUniverse",
-      });
-    }),
-  );
+  z.ZodMiniType<ListAllStoryArcsWithOptionalSearchData, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          id: types.number(),
+          name: types.nullable(types.string()),
+          slug: types.nullable(types.string()),
+          type: types.nullable(types.string()),
+          status: types.nullable(types.string()),
+          image_url: types.nullable(types.string()),
+          images: types.nullable(
+            z.lazy(() =>
+              ListAllStoryArcsWithOptionalSearchImages$inboundSchema
+            ),
+          ),
+          issues_count: types.nullable(types.number()),
+          name_i18n: z.record(
+            z.string(),
+            z.lazy(() =>
+              ListAllStoryArcsWithOptionalSearchNameI18n$inboundSchema
+            ),
+          ),
+          aliases_i18n: z.record(z.string(), z.array(types.string())),
+          original_locale: types.nullable(types.string()),
+          primary_universe: types.nullable(
+            z.lazy(() =>
+              ListAllStoryArcsWithOptionalSearchPrimaryUniverse$inboundSchema
+            ),
+          ),
+        }),
+        z.transform((v) => {
+          return remap$(v, {
+            "image_url": "imageUrl",
+            "issues_count": "issuesCount",
+            "name_i18n": "nameI18n",
+            "aliases_i18n": "aliasesI18n",
+            "original_locale": "originalLocale",
+            "primary_universe": "primaryUniverse",
+          });
+        }),
+      )
+    );
 
 export function listAllStoryArcsWithOptionalSearchDataFromJSON(
   jsonString: string,
@@ -303,12 +320,15 @@ export function listAllStoryArcsWithOptionalSearchDataFromJSON(
 
 /** @internal */
 export const ListAllStoryArcsWithOptionalSearchLinks$inboundSchema:
-  z.ZodMiniType<ListAllStoryArcsWithOptionalSearchLinks, unknown> = z.object({
-    first: types.string(),
-    last: types.string(),
-    prev: types.nullable(types.string()),
-    next: types.nullable(types.string()),
-  });
+  z.ZodMiniType<ListAllStoryArcsWithOptionalSearchLinks, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.object({
+        first: types.string(),
+        last: types.string(),
+        prev: types.nullable(types.string()),
+        next: types.nullable(types.string()),
+      })
+    );
 
 export function listAllStoryArcsWithOptionalSearchLinksFromJSON(
   jsonString: string,
@@ -328,12 +348,15 @@ export function listAllStoryArcsWithOptionalSearchLinksFromJSON(
 
 /** @internal */
 export const ListAllStoryArcsWithOptionalSearchLink$inboundSchema:
-  z.ZodMiniType<ListAllStoryArcsWithOptionalSearchLink, unknown> = z.object({
-    url: types.nullable(types.string()),
-    label: types.string(),
-    page: z.optional(z.nullable(types.number())),
-    active: types.boolean(),
-  });
+  z.ZodMiniType<ListAllStoryArcsWithOptionalSearchLink, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.object({
+        url: types.nullable(types.string()),
+        label: types.string(),
+        page: z.optional(z.nullable(types.number())),
+        active: types.boolean(),
+      })
+    );
 
 export function listAllStoryArcsWithOptionalSearchLinkFromJSON(
   jsonString: string,
@@ -348,27 +371,30 @@ export function listAllStoryArcsWithOptionalSearchLinkFromJSON(
 
 /** @internal */
 export const ListAllStoryArcsWithOptionalSearchMeta$inboundSchema:
-  z.ZodMiniType<ListAllStoryArcsWithOptionalSearchMeta, unknown> = z.pipe(
-    z.object({
-      current_page: types.number(),
-      from: types.nullable(types.number()),
-      last_page: types.number(),
-      links: z.array(z.lazy(() =>
-        ListAllStoryArcsWithOptionalSearchLink$inboundSchema
-      )),
-      path: types.string(),
-      per_page: types.number(),
-      to: types.nullable(types.number()),
-      total: types.number(),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "current_page": "currentPage",
-        "last_page": "lastPage",
-        "per_page": "perPage",
-      });
-    }),
-  );
+  z.ZodMiniType<ListAllStoryArcsWithOptionalSearchMeta, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          current_page: types.number(),
+          from: types.nullable(types.number()),
+          last_page: types.number(),
+          links: z.array(
+            z.lazy(() => ListAllStoryArcsWithOptionalSearchLink$inboundSchema),
+          ),
+          path: types.string(),
+          per_page: types.number(),
+          to: types.nullable(types.number()),
+          total: types.number(),
+        }),
+        z.transform((v) => {
+          return remap$(v, {
+            "current_page": "currentPage",
+            "last_page": "lastPage",
+            "per_page": "perPage",
+          });
+        }),
+      )
+    );
 
 export function listAllStoryArcsWithOptionalSearchMetaFromJSON(
   jsonString: string,
@@ -383,16 +409,20 @@ export function listAllStoryArcsWithOptionalSearchMetaFromJSON(
 
 /** @internal */
 export const ListAllStoryArcsWithOptionalSearchResponseBody$inboundSchema:
-  z.ZodMiniType<ListAllStoryArcsWithOptionalSearchResponseBody, unknown> = z
-    .object({
-      data: z.array(
-        z.lazy(() => ListAllStoryArcsWithOptionalSearchData$inboundSchema),
-      ),
-      links: z.lazy(() =>
-        ListAllStoryArcsWithOptionalSearchLinks$inboundSchema
-      ),
-      meta: z.lazy(() => ListAllStoryArcsWithOptionalSearchMeta$inboundSchema),
-    });
+  z.ZodMiniType<ListAllStoryArcsWithOptionalSearchResponseBody, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.object({
+        data: z.array(
+          z.lazy(() => ListAllStoryArcsWithOptionalSearchData$inboundSchema),
+        ),
+        links: z.lazy(() =>
+          ListAllStoryArcsWithOptionalSearchLinks$inboundSchema
+        ),
+        meta: z.lazy(() =>
+          ListAllStoryArcsWithOptionalSearchMeta$inboundSchema
+        ),
+      })
+    );
 
 export function listAllStoryArcsWithOptionalSearchResponseBodyFromJSON(
   jsonString: string,
@@ -412,20 +442,23 @@ export function listAllStoryArcsWithOptionalSearchResponseBodyFromJSON(
 
 /** @internal */
 export const ListAllStoryArcsWithOptionalSearchResponse$inboundSchema:
-  z.ZodMiniType<ListAllStoryArcsWithOptionalSearchResponse, unknown> = z.pipe(
-    z.object({
-      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-      Result: z.lazy(() =>
-        ListAllStoryArcsWithOptionalSearchResponseBody$inboundSchema
-      ),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "Headers": "headers",
-        "Result": "result",
-      });
-    }),
-  );
+  z.ZodMiniType<ListAllStoryArcsWithOptionalSearchResponse, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+          Result: z.lazy(() =>
+            ListAllStoryArcsWithOptionalSearchResponseBody$inboundSchema
+          ),
+        }),
+        z.transform((v) => {
+          return remap$(v, {
+            "Headers": "headers",
+            "Result": "result",
+          });
+        }),
+      )
+    );
 
 export function listAllStoryArcsWithOptionalSearchResponseFromJSON(
   jsonString: string,

@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -66,16 +66,18 @@ export type GetASpecificUniverseRequest$Outbound = {
 export const GetASpecificUniverseRequest$outboundSchema: z.ZodMiniType<
   GetASpecificUniverseRequest$Outbound,
   GetASpecificUniverseRequest
-> = z.pipe(
-  z.object({
-    universeId: z.int(),
-    languages: z.optional(z.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      universeId: "universe_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      universeId: z.int(),
+      languages: z.optional(z.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        universeId: "universe_id",
+      });
+    }),
+  )
 );
 
 export function getASpecificUniverseRequestToJSON(
@@ -92,12 +94,14 @@ export function getASpecificUniverseRequestToJSON(
 export const GetASpecificUniverseNameI18n$inboundSchema: z.ZodMiniType<
   GetASpecificUniverseNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function getASpecificUniverseNameI18nFromJSON(
   jsonString: string,
@@ -113,24 +117,26 @@ export function getASpecificUniverseNameI18nFromJSON(
 export const GetASpecificUniverseData$inboundSchema: z.ZodMiniType<
   GetASpecificUniverseData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    name_i18n: z.record(
-      z.string(),
-      z.lazy(() => GetASpecificUniverseNameI18n$inboundSchema),
-    ),
-    aliases_i18n: z.record(z.string(), z.array(types.string())),
-    original_locale: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "name_i18n": "nameI18n",
-      "aliases_i18n": "aliasesI18n",
-      "original_locale": "originalLocale",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      name_i18n: z.record(
+        z.string(),
+        z.lazy(() => GetASpecificUniverseNameI18n$inboundSchema),
+      ),
+      aliases_i18n: z.record(z.string(), z.array(types.string())),
+      original_locale: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "name_i18n": "nameI18n",
+        "aliases_i18n": "aliasesI18n",
+        "original_locale": "originalLocale",
+      });
+    }),
+  )
 );
 
 export function getASpecificUniverseDataFromJSON(
@@ -147,9 +153,11 @@ export function getASpecificUniverseDataFromJSON(
 export const GetASpecificUniverseResponseBody$inboundSchema: z.ZodMiniType<
   GetASpecificUniverseResponseBody,
   unknown
-> = z.object({
-  data: z.lazy(() => GetASpecificUniverseData$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.lazy(() => GetASpecificUniverseData$inboundSchema),
+  })
+);
 
 export function getASpecificUniverseResponseBodyFromJSON(
   jsonString: string,
@@ -165,17 +173,19 @@ export function getASpecificUniverseResponseBodyFromJSON(
 export const GetASpecificUniverseResponse$inboundSchema: z.ZodMiniType<
   GetASpecificUniverseResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => GetASpecificUniverseResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => GetASpecificUniverseResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function getASpecificUniverseResponseFromJSON(

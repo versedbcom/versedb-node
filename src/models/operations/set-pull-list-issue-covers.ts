@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import * as openEnums from "../../types/enums.js";
 import { OpenEnum } from "../../types/enums.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
@@ -200,16 +200,18 @@ export type SetPullListIssueCoversRequestBody$Outbound = {
 export const SetPullListIssueCoversRequestBody$outboundSchema: z.ZodMiniType<
   SetPullListIssueCoversRequestBody$Outbound,
   SetPullListIssueCoversRequestBody
-> = z.pipe(
-  z.object({
-    standard: z.boolean(),
-    variantIds: z.array(z.int()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      variantIds: "variant_ids",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      standard: z.boolean(),
+      variantIds: z.array(z.int()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        variantIds: "variant_ids",
+      });
+    }),
+  )
 );
 
 export function setPullListIssueCoversRequestBodyToJSON(
@@ -232,16 +234,18 @@ export type SetPullListIssueCoversRequest$Outbound = {
 export const SetPullListIssueCoversRequest$outboundSchema: z.ZodMiniType<
   SetPullListIssueCoversRequest$Outbound,
   SetPullListIssueCoversRequest
-> = z.pipe(
-  z.object({
-    issueId: z.int(),
-    body: z.lazy(() => SetPullListIssueCoversRequestBody$outboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      issueId: "issue_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      issueId: z.int(),
+      body: z.lazy(() => SetPullListIssueCoversRequestBody$outboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        issueId: "issue_id",
+      });
+    }),
+  )
 );
 
 export function setPullListIssueCoversRequestToJSON(
@@ -258,16 +262,20 @@ export function setPullListIssueCoversRequestToJSON(
 export const SetPullListIssueCoversOrder$inboundSchema: z.ZodMiniType<
   SetPullListIssueCoversOrder,
   unknown
-> = openEnums.inboundSchema(SetPullListIssueCoversOrder);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(SetPullListIssueCoversOrder)
+);
 
 /** @internal */
 export const SetPullListIssueCoversLinkedShop$inboundSchema: z.ZodMiniType<
   SetPullListIssueCoversLinkedShop,
   unknown
-> = z.object({
-  name: types.string(),
-  order: types.nullable(SetPullListIssueCoversOrder$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    name: types.string(),
+    order: types.nullable(SetPullListIssueCoversOrder$inboundSchema),
+  })
+);
 
 export function setPullListIssueCoversLinkedShopFromJSON(
   jsonString: string,
@@ -283,32 +291,38 @@ export function setPullListIssueCoversLinkedShopFromJSON(
 export const SetPullListIssueCoversShopOrder$inboundSchema: z.ZodMiniType<
   SetPullListIssueCoversShopOrder,
   unknown
-> = openEnums.inboundSchema(SetPullListIssueCoversShopOrder);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(SetPullListIssueCoversShopOrder)
+);
 
 /** @internal */
 export const SetPullListIssueCoversKind$inboundSchema: z.ZodMiniType<
   SetPullListIssueCoversKind,
   unknown
-> = openEnums.inboundSchema(SetPullListIssueCoversKind);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(SetPullListIssueCoversKind)
+);
 
 /** @internal */
 export const SetPullListIssueCoversImages$inboundSchema: z.ZodMiniType<
   SetPullListIssueCoversImages,
   unknown
-> = z.pipe(
-  z.object({
-    thumb: types.optional(types.string()),
-    cover_sm: types.optional(types.string()),
-    cover_md: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_md": "coverMd",
-      "cover_lg": "coverLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      thumb: types.optional(types.string()),
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  )
 );
 
 export function setPullListIssueCoversImagesFromJSON(
@@ -325,30 +339,32 @@ export function setPullListIssueCoversImagesFromJSON(
 export const SetPullListIssueCoversOption$inboundSchema: z.ZodMiniType<
   SetPullListIssueCoversOption,
   unknown
-> = z.pipe(
-  z.object({
-    variant_id: types.nullable(types.number()),
-    code: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    type: types.nullable(types.string()),
-    ratio: types.nullable(types.string()),
-    kind: SetPullListIssueCoversKind$inboundSchema,
-    images: types.nullable(
-      z.lazy(() => SetPullListIssueCoversImages$inboundSchema),
-    ),
-    price: types.nullable(types.string()),
-    price_from_issue: types.boolean(),
-    currency: types.nullable(types.string()),
-    cover_nsfw: types.boolean(),
-    selected: types.boolean(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "variant_id": "variantId",
-      "price_from_issue": "priceFromIssue",
-      "cover_nsfw": "coverNsfw",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      variant_id: types.nullable(types.number()),
+      code: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      type: types.nullable(types.string()),
+      ratio: types.nullable(types.string()),
+      kind: SetPullListIssueCoversKind$inboundSchema,
+      images: types.nullable(
+        z.lazy(() => SetPullListIssueCoversImages$inboundSchema),
+      ),
+      price: types.nullable(types.string()),
+      price_from_issue: types.boolean(),
+      currency: types.nullable(types.string()),
+      cover_nsfw: types.boolean(),
+      selected: types.boolean(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "variant_id": "variantId",
+        "price_from_issue": "priceFromIssue",
+        "cover_nsfw": "coverNsfw",
+      });
+    }),
+  )
 );
 
 export function setPullListIssueCoversOptionFromJSON(
@@ -365,36 +381,42 @@ export function setPullListIssueCoversOptionFromJSON(
 export const SetPullListIssueCoversStanding$inboundSchema: z.ZodMiniType<
   SetPullListIssueCoversStanding,
   unknown
-> = openEnums.inboundSchema(SetPullListIssueCoversStanding);
+> = /* @__PURE__ */ lazySchema$(() =>
+  openEnums.inboundSchema(SetPullListIssueCoversStanding)
+);
 
 /** @internal */
 export const SetPullListIssueCoversData$inboundSchema: z.ZodMiniType<
   SetPullListIssueCoversData,
   unknown
-> = z.pipe(
-  z.object({
-    issue_id: types.number(),
-    series_id: types.nullable(types.number()),
-    skipped: types.boolean(),
-    linked_shops: z.array(
-      z.lazy(() => SetPullListIssueCoversLinkedShop$inboundSchema),
-    ),
-    linked_shop: types.nullable(types.string()),
-    shop_order: types.nullable(SetPullListIssueCoversShopOrder$inboundSchema),
-    options: z.array(z.lazy(() => SetPullListIssueCoversOption$inboundSchema)),
-    follows_series: types.boolean(),
-    standing: SetPullListIssueCoversStanding$inboundSchema,
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "issue_id": "issueId",
-      "series_id": "seriesId",
-      "linked_shops": "linkedShops",
-      "linked_shop": "linkedShop",
-      "shop_order": "shopOrder",
-      "follows_series": "followsSeries",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      issue_id: types.number(),
+      series_id: types.nullable(types.number()),
+      skipped: types.boolean(),
+      linked_shops: z.array(
+        z.lazy(() => SetPullListIssueCoversLinkedShop$inboundSchema),
+      ),
+      linked_shop: types.nullable(types.string()),
+      shop_order: types.nullable(SetPullListIssueCoversShopOrder$inboundSchema),
+      options: z.array(
+        z.lazy(() => SetPullListIssueCoversOption$inboundSchema),
+      ),
+      follows_series: types.boolean(),
+      standing: SetPullListIssueCoversStanding$inboundSchema,
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "issue_id": "issueId",
+        "series_id": "seriesId",
+        "linked_shops": "linkedShops",
+        "linked_shop": "linkedShop",
+        "shop_order": "shopOrder",
+        "follows_series": "followsSeries",
+      });
+    }),
+  )
 );
 
 export function setPullListIssueCoversDataFromJSON(
@@ -411,9 +433,11 @@ export function setPullListIssueCoversDataFromJSON(
 export const SetPullListIssueCoversResponseBody$inboundSchema: z.ZodMiniType<
   SetPullListIssueCoversResponseBody,
   unknown
-> = z.object({
-  data: z.lazy(() => SetPullListIssueCoversData$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.lazy(() => SetPullListIssueCoversData$inboundSchema),
+  })
+);
 
 export function setPullListIssueCoversResponseBodyFromJSON(
   jsonString: string,
@@ -430,17 +454,19 @@ export function setPullListIssueCoversResponseBodyFromJSON(
 export const SetPullListIssueCoversResponse$inboundSchema: z.ZodMiniType<
   SetPullListIssueCoversResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => SetPullListIssueCoversResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => SetPullListIssueCoversResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function setPullListIssueCoversResponseFromJSON(

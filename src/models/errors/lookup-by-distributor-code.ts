@@ -4,6 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
+import { lazySchema as lazySchema$ } from "../../lib/schemas.js";
 import * as types from "../../types/primitives.js";
 import * as operations from "../operations/index.js";
 import { VerseDbError } from "./verse-db-error.js";
@@ -126,88 +127,96 @@ export class LookupByDistributorCodeForbiddenError extends VerseDbError {
 
 /** @internal */
 export const LookupByDistributorCodeUnprocessableEntityError$inboundSchema:
-  z.ZodMiniType<LookupByDistributorCodeUnprocessableEntityError, unknown> = z
-    .pipe(
-      z.object({
-        message: types.string(),
-        request$: z.custom<Request>(x => x instanceof Request),
-        response$: z.custom<Response>(x => x instanceof Response),
-        body$: z.string(),
-      }),
-      z.transform((v) => {
-        return new LookupByDistributorCodeUnprocessableEntityError(v, {
-          request: v.request$,
-          response: v.response$,
-          body: v.body$,
-        });
-      }),
+  z.ZodMiniType<LookupByDistributorCodeUnprocessableEntityError, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          message: types.string(),
+          request$: z.custom<Request>(x => x instanceof Request),
+          response$: z.custom<Response>(x => x instanceof Response),
+          body$: z.string(),
+        }),
+        z.transform((v) => {
+          return new LookupByDistributorCodeUnprocessableEntityError(v, {
+            request: v.request$,
+            response: v.response$,
+            body: v.body$,
+          });
+        }),
+      )
     );
 
 /** @internal */
 export const LookupByDistributorCodeConflictError$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeConflictError,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    count: types.number(),
-    total_count: types.number(),
-    matches: z.array(
-      z.lazy(() => operations.LookupByDistributorCodeMatch$inboundSchema),
-    ),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    const remapped = remap$(v, {
-      "total_count": "totalCount",
-    });
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      count: types.number(),
+      total_count: types.number(),
+      matches: z.array(
+        z.lazy(() => operations.LookupByDistributorCodeMatch$inboundSchema),
+      ),
+      request$: z.custom<Request>(x => x instanceof Request),
+      response$: z.custom<Response>(x => x instanceof Response),
+      body$: z.string(),
+    }),
+    z.transform((v) => {
+      const remapped = remap$(v, {
+        "total_count": "totalCount",
+      });
 
-    return new LookupByDistributorCodeConflictError(remapped, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
+      return new LookupByDistributorCodeConflictError(remapped, {
+        request: v.request$,
+        response: v.response$,
+        body: v.body$,
+      });
+    }),
+  )
 );
 
 /** @internal */
 export const LookupByDistributorCodeNotFoundError$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeNotFoundError,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new LookupByDistributorCodeNotFoundError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      request$: z.custom<Request>(x => x instanceof Request),
+      response$: z.custom<Response>(x => x instanceof Response),
+      body$: z.string(),
+    }),
+    z.transform((v) => {
+      return new LookupByDistributorCodeNotFoundError(v, {
+        request: v.request$,
+        response: v.response$,
+        body: v.body$,
+      });
+    }),
+  )
 );
 
 /** @internal */
 export const LookupByDistributorCodeForbiddenError$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeForbiddenError,
   unknown
-> = z.pipe(
-  z.object({
-    message: types.string(),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new LookupByDistributorCodeForbiddenError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      message: types.string(),
+      request$: z.custom<Request>(x => x instanceof Request),
+      response$: z.custom<Response>(x => x instanceof Response),
+      body$: z.string(),
+    }),
+    z.transform((v) => {
+      return new LookupByDistributorCodeForbiddenError(v, {
+        request: v.request$,
+        response: v.response$,
+        body: v.body$,
+      });
+    }),
+  )
 );

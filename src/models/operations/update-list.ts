@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { ClosedEnum } from "../../types/enums.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
@@ -294,7 +294,7 @@ export type UpdateListResponse = {
 /** @internal */
 export const UpdateListStatus$outboundSchema: z.ZodMiniEnum<
   typeof UpdateListStatus
-> = z.enum(UpdateListStatus);
+> = /* @__PURE__ */ lazySchema$(() => z.enum(UpdateListStatus));
 
 /** @internal */
 export type UpdateListRequestBody$Outbound = {
@@ -310,21 +310,23 @@ export type UpdateListRequestBody$Outbound = {
 export const UpdateListRequestBody$outboundSchema: z.ZodMiniType<
   UpdateListRequestBody$Outbound,
   UpdateListRequestBody
-> = z.pipe(
-  z.object({
-    title: z.optional(z.string()),
-    description: z.optional(z.nullable(z.string())),
-    isRanked: z.optional(z.boolean()),
-    isPrivate: z.optional(z.boolean()),
-    status: z.optional(UpdateListStatus$outboundSchema),
-    rules: z.optional(z.record(z.string(), z.any())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      isRanked: "is_ranked",
-      isPrivate: "is_private",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      title: z.optional(z.string()),
+      description: z.optional(z.nullable(z.string())),
+      isRanked: z.optional(z.boolean()),
+      isPrivate: z.optional(z.boolean()),
+      status: z.optional(UpdateListStatus$outboundSchema),
+      rules: z.optional(z.record(z.string(), z.any())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        isRanked: "is_ranked",
+        isPrivate: "is_private",
+      });
+    }),
+  )
 );
 
 export function updateListRequestBodyToJSON(
@@ -345,16 +347,18 @@ export type UpdateListRequest$Outbound = {
 export const UpdateListRequest$outboundSchema: z.ZodMiniType<
   UpdateListRequest$Outbound,
   UpdateListRequest
-> = z.pipe(
-  z.object({
-    listId: z.int(),
-    body: z.optional(z.lazy(() => UpdateListRequestBody$outboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      listId: "list_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      listId: z.int(),
+      body: z.optional(z.lazy(() => UpdateListRequestBody$outboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        listId: "list_id",
+      });
+    }),
+  )
 );
 
 export function updateListRequestToJSON(
@@ -369,10 +373,12 @@ export function updateListRequestToJSON(
 export const UpdateListClonedFromUser$inboundSchema: z.ZodMiniType<
   UpdateListClonedFromUser,
   unknown
-> = z.object({
-  id: types.number(),
-  username: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    username: types.nullable(types.string()),
+  })
+);
 
 export function updateListClonedFromUserFromJSON(
   jsonString: string,
@@ -388,12 +394,14 @@ export function updateListClonedFromUserFromJSON(
 export const UpdateListClonedFrom$inboundSchema: z.ZodMiniType<
   UpdateListClonedFrom,
   unknown
-> = z.object({
-  id: types.number(),
-  title: types.nullable(types.string()),
-  slug: types.nullable(types.string()),
-  user: types.nullable(z.lazy(() => UpdateListClonedFromUser$inboundSchema)),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    title: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+    user: types.nullable(z.lazy(() => UpdateListClonedFromUser$inboundSchema)),
+  })
+);
 
 export function updateListClonedFromFromJSON(
   jsonString: string,
@@ -409,12 +417,14 @@ export function updateListClonedFromFromJSON(
 export const UpdateListUser$inboundSchema: z.ZodMiniType<
   UpdateListUser,
   unknown
-> = z.object({
-  id: types.number(),
-  username: types.nullable(types.string()),
-  name: types.nullable(types.string()),
-  avatar: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    username: types.nullable(types.string()),
+    name: types.nullable(types.string()),
+    avatar: types.nullable(types.string()),
+  })
+);
 
 export function updateListUserFromJSON(
   jsonString: string,
@@ -430,18 +440,20 @@ export function updateListUserFromJSON(
 export const UpdateListVariant$inboundSchema: z.ZodMiniType<
   UpdateListVariant,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    ratio: types.nullable(types.string()),
-    cover_image_url: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_image_url": "coverImageUrl",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      ratio: types.nullable(types.string()),
+      cover_image_url: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_image_url": "coverImageUrl",
+      });
+    }),
+  )
 );
 
 export function updateListVariantFromJSON(
@@ -458,18 +470,20 @@ export function updateListVariantFromJSON(
 export const UpdateListEntity5$inboundSchema: z.ZodMiniType<
   UpdateListEntity5,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "image_url": "imageUrl",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "image_url": "imageUrl",
+      });
+    }),
+  )
 );
 
 export function updateListEntity5FromJSON(
@@ -486,20 +500,22 @@ export function updateListEntity5FromJSON(
 export const UpdateListEntity4$inboundSchema: z.ZodMiniType<
   UpdateListEntity4,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-    issues_count: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "image_url": "imageUrl",
-      "issues_count": "issuesCount",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+      issues_count: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "image_url": "imageUrl",
+        "issues_count": "issuesCount",
+      });
+    }),
+  )
 );
 
 export function updateListEntity4FromJSON(
@@ -516,20 +532,22 @@ export function updateListEntity4FromJSON(
 export const UpdateListEntity3$inboundSchema: z.ZodMiniType<
   UpdateListEntity3,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    real_name: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "real_name": "realName",
-      "image_url": "imageUrl",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      real_name: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "real_name": "realName",
+        "image_url": "imageUrl",
+      });
+    }),
+  )
 );
 
 export function updateListEntity3FromJSON(
@@ -546,30 +564,32 @@ export function updateListEntity3FromJSON(
 export const UpdateListEntity2$inboundSchema: z.ZodMiniType<
   UpdateListEntity2,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    start_year: types.nullable(types.number()),
-    end_year: types.nullable(types.number()),
-    status: types.nullable(types.string()),
-    publication_type: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-    is_nsfw: types.nullable(types.boolean()),
-    issues_count: types.nullable(types.number()),
-    publisher: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "start_year": "startYear",
-      "end_year": "endYear",
-      "publication_type": "publicationType",
-      "image_url": "imageUrl",
-      "is_nsfw": "isNsfw",
-      "issues_count": "issuesCount",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      start_year: types.nullable(types.number()),
+      end_year: types.nullable(types.number()),
+      status: types.nullable(types.string()),
+      publication_type: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+      is_nsfw: types.nullable(types.boolean()),
+      issues_count: types.nullable(types.number()),
+      publisher: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "start_year": "startYear",
+        "end_year": "endYear",
+        "publication_type": "publicationType",
+        "image_url": "imageUrl",
+        "is_nsfw": "isNsfw",
+        "issues_count": "issuesCount",
+      });
+    }),
+  )
 );
 
 export function updateListEntity2FromJSON(
@@ -586,18 +606,20 @@ export function updateListEntity2FromJSON(
 export const UpdateListSeries$inboundSchema: z.ZodMiniType<
   UpdateListSeries,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    start_year: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "start_year": "startYear",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      start_year: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "start_year": "startYear",
+      });
+    }),
+  )
 );
 
 export function updateListSeriesFromJSON(
@@ -614,28 +636,30 @@ export function updateListSeriesFromJSON(
 export const UpdateListEntity1$inboundSchema: z.ZodMiniType<
   UpdateListEntity1,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    issue_number: types.nullable(types.string()),
-    release_date: types.nullable(types.string()),
-    foc_date: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-    is_nsfw: types.nullable(types.boolean()),
-    publisher: types.nullable(types.string()),
-    series: types.nullable(z.lazy(() => UpdateListSeries$inboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "issue_number": "issueNumber",
-      "release_date": "releaseDate",
-      "foc_date": "focDate",
-      "image_url": "imageUrl",
-      "is_nsfw": "isNsfw",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      issue_number: types.nullable(types.string()),
+      release_date: types.nullable(types.string()),
+      foc_date: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+      is_nsfw: types.nullable(types.boolean()),
+      publisher: types.nullable(types.string()),
+      series: types.nullable(z.lazy(() => UpdateListSeries$inboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "issue_number": "issueNumber",
+        "release_date": "releaseDate",
+        "foc_date": "focDate",
+        "image_url": "imageUrl",
+        "is_nsfw": "isNsfw",
+      });
+    }),
+  )
 );
 
 export function updateListEntity1FromJSON(
@@ -652,13 +676,15 @@ export function updateListEntity1FromJSON(
 export const UpdateListEntityUnion$inboundSchema: z.ZodMiniType<
   UpdateListEntityUnion,
   unknown
-> = smartUnion([
-  z.lazy(() => UpdateListEntity2$inboundSchema),
-  z.lazy(() => UpdateListEntity1$inboundSchema),
-  z.lazy(() => UpdateListEntity3$inboundSchema),
-  z.lazy(() => UpdateListEntity4$inboundSchema),
-  z.lazy(() => UpdateListEntity5$inboundSchema),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    z.lazy(() => UpdateListEntity2$inboundSchema),
+    z.lazy(() => UpdateListEntity1$inboundSchema),
+    z.lazy(() => UpdateListEntity3$inboundSchema),
+    z.lazy(() => UpdateListEntity4$inboundSchema),
+    z.lazy(() => UpdateListEntity5$inboundSchema),
+  ])
+);
 
 export function updateListEntityUnionFromJSON(
   jsonString: string,
@@ -674,32 +700,36 @@ export function updateListEntityUnionFromJSON(
 export const UpdateListItem$inboundSchema: z.ZodMiniType<
   UpdateListItem,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    position: types.nullable(types.number()),
-    note: types.nullable(types.string()),
-    created_at: types.string(),
-    updated_at: types.string(),
-    variant_id: types.nullable(types.number()),
-    variant: types.optional(z.lazy(() => UpdateListVariant$inboundSchema)),
-    entity_type: types.string(),
-    entity: types.optional(smartUnion([
-      z.lazy(() => UpdateListEntity2$inboundSchema),
-      z.lazy(() => UpdateListEntity1$inboundSchema),
-      z.lazy(() => UpdateListEntity3$inboundSchema),
-      z.lazy(() => UpdateListEntity4$inboundSchema),
-      z.lazy(() => UpdateListEntity5$inboundSchema),
-    ])),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-      "variant_id": "variantId",
-      "entity_type": "entityType",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      position: types.nullable(types.number()),
+      note: types.nullable(types.string()),
+      created_at: types.string(),
+      updated_at: types.string(),
+      variant_id: types.nullable(types.number()),
+      variant: types.optional(z.lazy(() => UpdateListVariant$inboundSchema)),
+      entity_type: types.string(),
+      entity: types.optional(
+        smartUnion([
+          z.lazy(() => UpdateListEntity2$inboundSchema),
+          z.lazy(() => UpdateListEntity1$inboundSchema),
+          z.lazy(() => UpdateListEntity3$inboundSchema),
+          z.lazy(() => UpdateListEntity4$inboundSchema),
+          z.lazy(() => UpdateListEntity5$inboundSchema),
+        ]),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+        "variant_id": "variantId",
+        "entity_type": "entityType",
+      });
+    }),
+  )
 );
 
 export function updateListItemFromJSON(
@@ -716,12 +746,14 @@ export function updateListItemFromJSON(
 export const UpdateListReaction$inboundSchema: z.ZodMiniType<
   UpdateListReaction,
   unknown
-> = z.object({
-  reaction: types.string(),
-  emoji: types.string(),
-  label: types.string(),
-  count: types.number(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    reaction: types.string(),
+    emoji: types.string(),
+    label: types.string(),
+    count: types.number(),
+  })
+);
 
 export function updateListReactionFromJSON(
   jsonString: string,
@@ -737,63 +769,65 @@ export function updateListReactionFromJSON(
 export const UpdateListData$inboundSchema: z.ZodMiniType<
   UpdateListData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    title: types.string(),
-    slug: types.string(),
-    description: types.nullable(types.string()),
-    entity_type: types.string(),
-    entity_type_label: types.string(),
-    is_curated: types.boolean(),
-    item_types: z.array(types.string()),
-    is_ranked: types.boolean(),
-    sort_options: z.record(z.string(), types.string()),
-    is_private: types.boolean(),
-    status: types.string(),
-    list_type: types.string(),
-    items_count: types.number(),
-    saves_count: types.number(),
-    likes_count: types.number(),
-    clones_count: types.number(),
-    created_at: types.string(),
-    updated_at: types.string(),
-    is_smart: types.boolean(),
-    is_rule_based: types.boolean(),
-    last_refreshed_at: types.nullable(types.string()),
-    smart_paused: types.boolean(),
-    cloned_from_list_id: types.nullable(types.number()),
-    cloned_from: types.optional(
-      z.lazy(() => UpdateListClonedFrom$inboundSchema),
-    ),
-    user: types.nullable(z.lazy(() => UpdateListUser$inboundSchema)),
-    items: z.array(z.lazy(() => UpdateListItem$inboundSchema)),
-    reactions: z.array(z.lazy(() => UpdateListReaction$inboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "entity_type": "entityType",
-      "entity_type_label": "entityTypeLabel",
-      "is_curated": "isCurated",
-      "item_types": "itemTypes",
-      "is_ranked": "isRanked",
-      "sort_options": "sortOptions",
-      "is_private": "isPrivate",
-      "list_type": "listType",
-      "items_count": "itemsCount",
-      "saves_count": "savesCount",
-      "likes_count": "likesCount",
-      "clones_count": "clonesCount",
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-      "is_smart": "isSmart",
-      "is_rule_based": "isRuleBased",
-      "last_refreshed_at": "lastRefreshedAt",
-      "smart_paused": "smartPaused",
-      "cloned_from_list_id": "clonedFromListId",
-      "cloned_from": "clonedFrom",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      title: types.string(),
+      slug: types.string(),
+      description: types.nullable(types.string()),
+      entity_type: types.string(),
+      entity_type_label: types.string(),
+      is_curated: types.boolean(),
+      item_types: z.array(types.string()),
+      is_ranked: types.boolean(),
+      sort_options: z.record(z.string(), types.string()),
+      is_private: types.boolean(),
+      status: types.string(),
+      list_type: types.string(),
+      items_count: types.number(),
+      saves_count: types.number(),
+      likes_count: types.number(),
+      clones_count: types.number(),
+      created_at: types.string(),
+      updated_at: types.string(),
+      is_smart: types.boolean(),
+      is_rule_based: types.boolean(),
+      last_refreshed_at: types.nullable(types.string()),
+      smart_paused: types.boolean(),
+      cloned_from_list_id: types.nullable(types.number()),
+      cloned_from: types.optional(
+        z.lazy(() => UpdateListClonedFrom$inboundSchema),
+      ),
+      user: types.nullable(z.lazy(() => UpdateListUser$inboundSchema)),
+      items: z.array(z.lazy(() => UpdateListItem$inboundSchema)),
+      reactions: z.array(z.lazy(() => UpdateListReaction$inboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "entity_type": "entityType",
+        "entity_type_label": "entityTypeLabel",
+        "is_curated": "isCurated",
+        "item_types": "itemTypes",
+        "is_ranked": "isRanked",
+        "sort_options": "sortOptions",
+        "is_private": "isPrivate",
+        "list_type": "listType",
+        "items_count": "itemsCount",
+        "saves_count": "savesCount",
+        "likes_count": "likesCount",
+        "clones_count": "clonesCount",
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+        "is_smart": "isSmart",
+        "is_rule_based": "isRuleBased",
+        "last_refreshed_at": "lastRefreshedAt",
+        "smart_paused": "smartPaused",
+        "cloned_from_list_id": "clonedFromListId",
+        "cloned_from": "clonedFrom",
+      });
+    }),
+  )
 );
 
 export function updateListDataFromJSON(
@@ -810,9 +844,11 @@ export function updateListDataFromJSON(
 export const UpdateListResponseBody$inboundSchema: z.ZodMiniType<
   UpdateListResponseBody,
   unknown
-> = z.object({
-  data: z.lazy(() => UpdateListData$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.lazy(() => UpdateListData$inboundSchema),
+  })
+);
 
 export function updateListResponseBodyFromJSON(
   jsonString: string,
@@ -828,17 +864,19 @@ export function updateListResponseBodyFromJSON(
 export const UpdateListResponse$inboundSchema: z.ZodMiniType<
   UpdateListResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => UpdateListResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => UpdateListResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function updateListResponseFromJSON(

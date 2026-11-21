@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { smartUnion } from "../../types/smart-union.js";
@@ -310,21 +310,23 @@ export type AddItemToListRequestBody$Outbound = {
 export const AddItemToListRequestBody$outboundSchema: z.ZodMiniType<
   AddItemToListRequestBody$Outbound,
   AddItemToListRequestBody
-> = z.pipe(
-  z.object({
-    entityId: z.int(),
-    entityType: z.optional(z.nullable(z.string())),
-    variantId: z.optional(z.nullable(z.int())),
-    position: z.optional(z.nullable(z.int())),
-    note: z.optional(z.nullable(z.string())),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      entityId: "entity_id",
-      entityType: "entity_type",
-      variantId: "variant_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      entityId: z.int(),
+      entityType: z.optional(z.nullable(z.string())),
+      variantId: z.optional(z.nullable(z.int())),
+      position: z.optional(z.nullable(z.int())),
+      note: z.optional(z.nullable(z.string())),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        entityId: "entity_id",
+        entityType: "entity_type",
+        variantId: "variant_id",
+      });
+    }),
+  )
 );
 
 export function addItemToListRequestBodyToJSON(
@@ -345,16 +347,18 @@ export type AddItemToListRequest$Outbound = {
 export const AddItemToListRequest$outboundSchema: z.ZodMiniType<
   AddItemToListRequest$Outbound,
   AddItemToListRequest
-> = z.pipe(
-  z.object({
-    listId: z.int(),
-    body: z.lazy(() => AddItemToListRequestBody$outboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      listId: "list_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      listId: z.int(),
+      body: z.lazy(() => AddItemToListRequestBody$outboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        listId: "list_id",
+      });
+    }),
+  )
 );
 
 export function addItemToListRequestToJSON(
@@ -369,18 +373,20 @@ export function addItemToListRequestToJSON(
 export const AddItemToListConflictVariant$inboundSchema: z.ZodMiniType<
   AddItemToListConflictVariant,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    ratio: types.nullable(types.string()),
-    cover_image_url: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_image_url": "coverImageUrl",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      ratio: types.nullable(types.string()),
+      cover_image_url: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_image_url": "coverImageUrl",
+      });
+    }),
+  )
 );
 
 export function addItemToListConflictVariantFromJSON(
@@ -397,18 +403,20 @@ export function addItemToListConflictVariantFromJSON(
 export const EntityConflict5$inboundSchema: z.ZodMiniType<
   EntityConflict5,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "image_url": "imageUrl",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "image_url": "imageUrl",
+      });
+    }),
+  )
 );
 
 export function entityConflict5FromJSON(
@@ -425,20 +433,22 @@ export function entityConflict5FromJSON(
 export const EntityConflict4$inboundSchema: z.ZodMiniType<
   EntityConflict4,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-    issues_count: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "image_url": "imageUrl",
-      "issues_count": "issuesCount",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+      issues_count: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "image_url": "imageUrl",
+        "issues_count": "issuesCount",
+      });
+    }),
+  )
 );
 
 export function entityConflict4FromJSON(
@@ -455,20 +465,22 @@ export function entityConflict4FromJSON(
 export const EntityConflict3$inboundSchema: z.ZodMiniType<
   EntityConflict3,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    real_name: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "real_name": "realName",
-      "image_url": "imageUrl",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      real_name: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "real_name": "realName",
+        "image_url": "imageUrl",
+      });
+    }),
+  )
 );
 
 export function entityConflict3FromJSON(
@@ -485,30 +497,32 @@ export function entityConflict3FromJSON(
 export const EntityConflict2$inboundSchema: z.ZodMiniType<
   EntityConflict2,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    start_year: types.nullable(types.number()),
-    end_year: types.nullable(types.number()),
-    status: types.nullable(types.string()),
-    publication_type: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-    is_nsfw: types.nullable(types.boolean()),
-    issues_count: types.nullable(types.number()),
-    publisher: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "start_year": "startYear",
-      "end_year": "endYear",
-      "publication_type": "publicationType",
-      "image_url": "imageUrl",
-      "is_nsfw": "isNsfw",
-      "issues_count": "issuesCount",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      start_year: types.nullable(types.number()),
+      end_year: types.nullable(types.number()),
+      status: types.nullable(types.string()),
+      publication_type: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+      is_nsfw: types.nullable(types.boolean()),
+      issues_count: types.nullable(types.number()),
+      publisher: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "start_year": "startYear",
+        "end_year": "endYear",
+        "publication_type": "publicationType",
+        "image_url": "imageUrl",
+        "is_nsfw": "isNsfw",
+        "issues_count": "issuesCount",
+      });
+    }),
+  )
 );
 
 export function entityConflict2FromJSON(
@@ -525,18 +539,20 @@ export function entityConflict2FromJSON(
 export const ConflictSeries$inboundSchema: z.ZodMiniType<
   ConflictSeries,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    start_year: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "start_year": "startYear",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      start_year: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "start_year": "startYear",
+      });
+    }),
+  )
 );
 
 export function conflictSeriesFromJSON(
@@ -553,28 +569,30 @@ export function conflictSeriesFromJSON(
 export const EntityConflict1$inboundSchema: z.ZodMiniType<
   EntityConflict1,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    issue_number: types.nullable(types.string()),
-    release_date: types.nullable(types.string()),
-    foc_date: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-    is_nsfw: types.nullable(types.boolean()),
-    publisher: types.nullable(types.string()),
-    series: types.nullable(z.lazy(() => ConflictSeries$inboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "issue_number": "issueNumber",
-      "release_date": "releaseDate",
-      "foc_date": "focDate",
-      "image_url": "imageUrl",
-      "is_nsfw": "isNsfw",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      issue_number: types.nullable(types.string()),
+      release_date: types.nullable(types.string()),
+      foc_date: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+      is_nsfw: types.nullable(types.boolean()),
+      publisher: types.nullable(types.string()),
+      series: types.nullable(z.lazy(() => ConflictSeries$inboundSchema)),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "issue_number": "issueNumber",
+        "release_date": "releaseDate",
+        "foc_date": "focDate",
+        "image_url": "imageUrl",
+        "is_nsfw": "isNsfw",
+      });
+    }),
+  )
 );
 
 export function entityConflict1FromJSON(
@@ -591,13 +609,15 @@ export function entityConflict1FromJSON(
 export const ConflictEntityUnion$inboundSchema: z.ZodMiniType<
   ConflictEntityUnion,
   unknown
-> = smartUnion([
-  z.lazy(() => EntityConflict2$inboundSchema),
-  z.lazy(() => EntityConflict1$inboundSchema),
-  z.lazy(() => EntityConflict3$inboundSchema),
-  z.lazy(() => EntityConflict4$inboundSchema),
-  z.lazy(() => EntityConflict5$inboundSchema),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    z.lazy(() => EntityConflict2$inboundSchema),
+    z.lazy(() => EntityConflict1$inboundSchema),
+    z.lazy(() => EntityConflict3$inboundSchema),
+    z.lazy(() => EntityConflict4$inboundSchema),
+    z.lazy(() => EntityConflict5$inboundSchema),
+  ])
+);
 
 export function conflictEntityUnionFromJSON(
   jsonString: string,
@@ -613,34 +633,38 @@ export function conflictEntityUnionFromJSON(
 export const AddItemToListItem$inboundSchema: z.ZodMiniType<
   AddItemToListItem,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    position: types.nullable(types.number()),
-    note: types.nullable(types.string()),
-    created_at: types.string(),
-    updated_at: types.string(),
-    variant_id: types.nullable(types.number()),
-    variant: types.optional(
-      z.lazy(() => AddItemToListConflictVariant$inboundSchema),
-    ),
-    entity_type: types.string(),
-    entity: types.optional(smartUnion([
-      z.lazy(() => EntityConflict2$inboundSchema),
-      z.lazy(() => EntityConflict1$inboundSchema),
-      z.lazy(() => EntityConflict3$inboundSchema),
-      z.lazy(() => EntityConflict4$inboundSchema),
-      z.lazy(() => EntityConflict5$inboundSchema),
-    ])),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-      "variant_id": "variantId",
-      "entity_type": "entityType",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      position: types.nullable(types.number()),
+      note: types.nullable(types.string()),
+      created_at: types.string(),
+      updated_at: types.string(),
+      variant_id: types.nullable(types.number()),
+      variant: types.optional(
+        z.lazy(() => AddItemToListConflictVariant$inboundSchema),
+      ),
+      entity_type: types.string(),
+      entity: types.optional(
+        smartUnion([
+          z.lazy(() => EntityConflict2$inboundSchema),
+          z.lazy(() => EntityConflict1$inboundSchema),
+          z.lazy(() => EntityConflict3$inboundSchema),
+          z.lazy(() => EntityConflict4$inboundSchema),
+          z.lazy(() => EntityConflict5$inboundSchema),
+        ]),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+        "variant_id": "variantId",
+        "entity_type": "entityType",
+      });
+    }),
+  )
 );
 
 export function addItemToListItemFromJSON(
@@ -657,18 +681,20 @@ export function addItemToListItemFromJSON(
 export const AddItemToListDataVariant$inboundSchema: z.ZodMiniType<
   AddItemToListDataVariant,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    ratio: types.nullable(types.string()),
-    cover_image_url: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_image_url": "coverImageUrl",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      ratio: types.nullable(types.string()),
+      cover_image_url: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_image_url": "coverImageUrl",
+      });
+    }),
+  )
 );
 
 export function addItemToListDataVariantFromJSON(
@@ -685,18 +711,20 @@ export function addItemToListDataVariantFromJSON(
 export const AddItemToListEntityData5$inboundSchema: z.ZodMiniType<
   AddItemToListEntityData5,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "image_url": "imageUrl",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "image_url": "imageUrl",
+      });
+    }),
+  )
 );
 
 export function addItemToListEntityData5FromJSON(
@@ -713,20 +741,22 @@ export function addItemToListEntityData5FromJSON(
 export const AddItemToListEntityData4$inboundSchema: z.ZodMiniType<
   AddItemToListEntityData4,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-    issues_count: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "image_url": "imageUrl",
-      "issues_count": "issuesCount",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+      issues_count: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "image_url": "imageUrl",
+        "issues_count": "issuesCount",
+      });
+    }),
+  )
 );
 
 export function addItemToListEntityData4FromJSON(
@@ -743,20 +773,22 @@ export function addItemToListEntityData4FromJSON(
 export const AddItemToListEntityData3$inboundSchema: z.ZodMiniType<
   AddItemToListEntityData3,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    real_name: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "real_name": "realName",
-      "image_url": "imageUrl",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      real_name: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "real_name": "realName",
+        "image_url": "imageUrl",
+      });
+    }),
+  )
 );
 
 export function addItemToListEntityData3FromJSON(
@@ -773,30 +805,32 @@ export function addItemToListEntityData3FromJSON(
 export const AddItemToListEntityData2$inboundSchema: z.ZodMiniType<
   AddItemToListEntityData2,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    start_year: types.nullable(types.number()),
-    end_year: types.nullable(types.number()),
-    status: types.nullable(types.string()),
-    publication_type: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-    is_nsfw: types.nullable(types.boolean()),
-    issues_count: types.nullable(types.number()),
-    publisher: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "start_year": "startYear",
-      "end_year": "endYear",
-      "publication_type": "publicationType",
-      "image_url": "imageUrl",
-      "is_nsfw": "isNsfw",
-      "issues_count": "issuesCount",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      start_year: types.nullable(types.number()),
+      end_year: types.nullable(types.number()),
+      status: types.nullable(types.string()),
+      publication_type: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+      is_nsfw: types.nullable(types.boolean()),
+      issues_count: types.nullable(types.number()),
+      publisher: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "start_year": "startYear",
+        "end_year": "endYear",
+        "publication_type": "publicationType",
+        "image_url": "imageUrl",
+        "is_nsfw": "isNsfw",
+        "issues_count": "issuesCount",
+      });
+    }),
+  )
 );
 
 export function addItemToListEntityData2FromJSON(
@@ -813,18 +847,20 @@ export function addItemToListEntityData2FromJSON(
 export const AddItemToListDataSeries$inboundSchema: z.ZodMiniType<
   AddItemToListDataSeries,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    start_year: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "start_year": "startYear",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      start_year: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "start_year": "startYear",
+      });
+    }),
+  )
 );
 
 export function addItemToListDataSeriesFromJSON(
@@ -841,28 +877,32 @@ export function addItemToListDataSeriesFromJSON(
 export const AddItemToListEntityData1$inboundSchema: z.ZodMiniType<
   AddItemToListEntityData1,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    issue_number: types.nullable(types.string()),
-    release_date: types.nullable(types.string()),
-    foc_date: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-    is_nsfw: types.nullable(types.boolean()),
-    publisher: types.nullable(types.string()),
-    series: types.nullable(z.lazy(() => AddItemToListDataSeries$inboundSchema)),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "issue_number": "issueNumber",
-      "release_date": "releaseDate",
-      "foc_date": "focDate",
-      "image_url": "imageUrl",
-      "is_nsfw": "isNsfw",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      issue_number: types.nullable(types.string()),
+      release_date: types.nullable(types.string()),
+      foc_date: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+      is_nsfw: types.nullable(types.boolean()),
+      publisher: types.nullable(types.string()),
+      series: types.nullable(
+        z.lazy(() => AddItemToListDataSeries$inboundSchema),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "issue_number": "issueNumber",
+        "release_date": "releaseDate",
+        "foc_date": "focDate",
+        "image_url": "imageUrl",
+        "is_nsfw": "isNsfw",
+      });
+    }),
+  )
 );
 
 export function addItemToListEntityData1FromJSON(
@@ -879,13 +919,15 @@ export function addItemToListEntityData1FromJSON(
 export const AddItemToListDataEntityUnion$inboundSchema: z.ZodMiniType<
   AddItemToListDataEntityUnion,
   unknown
-> = smartUnion([
-  z.lazy(() => AddItemToListEntityData2$inboundSchema),
-  z.lazy(() => AddItemToListEntityData1$inboundSchema),
-  z.lazy(() => AddItemToListEntityData3$inboundSchema),
-  z.lazy(() => AddItemToListEntityData4$inboundSchema),
-  z.lazy(() => AddItemToListEntityData5$inboundSchema),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    z.lazy(() => AddItemToListEntityData2$inboundSchema),
+    z.lazy(() => AddItemToListEntityData1$inboundSchema),
+    z.lazy(() => AddItemToListEntityData3$inboundSchema),
+    z.lazy(() => AddItemToListEntityData4$inboundSchema),
+    z.lazy(() => AddItemToListEntityData5$inboundSchema),
+  ])
+);
 
 export function addItemToListDataEntityUnionFromJSON(
   jsonString: string,
@@ -901,36 +943,36 @@ export function addItemToListDataEntityUnionFromJSON(
 export const AddItemToListData$inboundSchema: z.ZodMiniType<
   AddItemToListData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    position: types.nullable(types.number()),
-    note: types.nullable(types.string()),
-    created_at: types.string(),
-    updated_at: types.string(),
-    variant_id: types.nullable(types.number()),
-    variant: types.optional(
-      z.lazy(() => AddItemToListDataVariant$inboundSchema),
-    ),
-    entity_type: types.string(),
-    entity: types.optional(
-      smartUnion([
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      position: types.nullable(types.number()),
+      note: types.nullable(types.string()),
+      created_at: types.string(),
+      updated_at: types.string(),
+      variant_id: types.nullable(types.number()),
+      variant: types.optional(
+        z.lazy(() => AddItemToListDataVariant$inboundSchema),
+      ),
+      entity_type: types.string(),
+      entity: types.optional(smartUnion([
         z.lazy(() => AddItemToListEntityData2$inboundSchema),
         z.lazy(() => AddItemToListEntityData1$inboundSchema),
         z.lazy(() => AddItemToListEntityData3$inboundSchema),
         z.lazy(() => AddItemToListEntityData4$inboundSchema),
         z.lazy(() => AddItemToListEntityData5$inboundSchema),
-      ]),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-      "variant_id": "variantId",
-      "entity_type": "entityType",
-    });
-  }),
+      ])),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+        "variant_id": "variantId",
+        "entity_type": "entityType",
+      });
+    }),
+  )
 );
 
 export function addItemToListDataFromJSON(
@@ -947,9 +989,11 @@ export function addItemToListDataFromJSON(
 export const AddItemToListResponseBody$inboundSchema: z.ZodMiniType<
   AddItemToListResponseBody,
   unknown
-> = z.object({
-  data: z.lazy(() => AddItemToListData$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.lazy(() => AddItemToListData$inboundSchema),
+  })
+);
 
 export function addItemToListResponseBodyFromJSON(
   jsonString: string,
@@ -965,17 +1009,19 @@ export function addItemToListResponseBodyFromJSON(
 export const AddItemToListResponse$inboundSchema: z.ZodMiniType<
   AddItemToListResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => AddItemToListResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => AddItemToListResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function addItemToListResponseFromJSON(

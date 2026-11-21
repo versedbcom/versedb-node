@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -329,10 +329,12 @@ export type LookupByDistributorCodeRequest$Outbound = {
 export const LookupByDistributorCodeRequest$outboundSchema: z.ZodMiniType<
   LookupByDistributorCodeRequest$Outbound,
   LookupByDistributorCodeRequest
-> = z.object({
-  code: z.string(),
-  languages: z.optional(z.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    code: z.string(),
+    languages: z.optional(z.string()),
+  })
+);
 
 export function lookupByDistributorCodeRequestToJSON(
   lookupByDistributorCodeRequest: LookupByDistributorCodeRequest,
@@ -348,26 +350,28 @@ export function lookupByDistributorCodeRequestToJSON(
 export const LookupByDistributorCodeMatchVariant$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeMatchVariant,
   unknown
-> = z.pipe(
-  z.object({
-    variant_id: types.nullable(types.number()),
-    variant_name: types.string(),
-    cover_url: types.nullable(types.string()),
-    upc: types.nullable(types.string()),
-    lunar_code: types.nullable(types.string()),
-    universal_code: types.nullable(types.string()),
-    diamond_code: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "variant_id": "variantId",
-      "variant_name": "variantName",
-      "cover_url": "coverUrl",
-      "lunar_code": "lunarCode",
-      "universal_code": "universalCode",
-      "diamond_code": "diamondCode",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      variant_id: types.nullable(types.number()),
+      variant_name: types.string(),
+      cover_url: types.nullable(types.string()),
+      upc: types.nullable(types.string()),
+      lunar_code: types.nullable(types.string()),
+      universal_code: types.nullable(types.string()),
+      diamond_code: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "variant_id": "variantId",
+        "variant_name": "variantName",
+        "cover_url": "coverUrl",
+        "lunar_code": "lunarCode",
+        "universal_code": "universalCode",
+        "diamond_code": "diamondCode",
+      });
+    }),
+  )
 );
 
 export function lookupByDistributorCodeMatchVariantFromJSON(
@@ -385,36 +389,38 @@ export function lookupByDistributorCodeMatchVariantFromJSON(
 export const LookupByDistributorCodeMatch$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeMatch,
   unknown
-> = z.pipe(
-  z.object({
-    issue_id: types.number(),
-    series_name: types.nullable(types.string()),
-    series_id: types.nullable(types.number()),
-    issue_number: types.nullable(types.string()),
-    cover_url: types.nullable(types.string()),
-    variant_name: types.nullable(z.any()),
-    suggested_variant_id: types.nullable(types.number()),
-    variants: z.array(
-      z.lazy(() => LookupByDistributorCodeMatchVariant$inboundSchema),
-    ),
-    publisher_name: types.nullable(types.string()),
-    release_date: types.nullable(types.string()),
-    start_year: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "issue_id": "issueId",
-      "series_name": "seriesName",
-      "series_id": "seriesId",
-      "issue_number": "issueNumber",
-      "cover_url": "coverUrl",
-      "variant_name": "variantName",
-      "suggested_variant_id": "suggestedVariantId",
-      "publisher_name": "publisherName",
-      "release_date": "releaseDate",
-      "start_year": "startYear",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      issue_id: types.number(),
+      series_name: types.nullable(types.string()),
+      series_id: types.nullable(types.number()),
+      issue_number: types.nullable(types.string()),
+      cover_url: types.nullable(types.string()),
+      variant_name: types.nullable(z.any()),
+      suggested_variant_id: types.nullable(types.number()),
+      variants: z.array(
+        z.lazy(() => LookupByDistributorCodeMatchVariant$inboundSchema),
+      ),
+      publisher_name: types.nullable(types.string()),
+      release_date: types.nullable(types.string()),
+      start_year: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "issue_id": "issueId",
+        "series_name": "seriesName",
+        "series_id": "seriesId",
+        "issue_number": "issueNumber",
+        "cover_url": "coverUrl",
+        "variant_name": "variantName",
+        "suggested_variant_id": "suggestedVariantId",
+        "publisher_name": "publisherName",
+        "release_date": "releaseDate",
+        "start_year": "startYear",
+      });
+    }),
+  )
 );
 
 export function lookupByDistributorCodeMatchFromJSON(
@@ -431,20 +437,22 @@ export function lookupByDistributorCodeMatchFromJSON(
 export const LookupByDistributorCodeImages$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeImages,
   unknown
-> = z.pipe(
-  z.object({
-    thumb: types.optional(types.string()),
-    cover_sm: types.optional(types.string()),
-    cover_md: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_md": "coverMd",
-      "cover_lg": "coverLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      thumb: types.optional(types.string()),
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  )
 );
 
 export function lookupByDistributorCodeImagesFromJSON(
@@ -461,11 +469,13 @@ export function lookupByDistributorCodeImagesFromJSON(
 export const LookupByDistributorCodeTitle$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeTitle,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.nullable(types.string()),
-  slug: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+  })
+);
 
 export function lookupByDistributorCodeTitleFromJSON(
   jsonString: string,
@@ -481,11 +491,13 @@ export function lookupByDistributorCodeTitleFromJSON(
 export const LookupByDistributorCodeGenre$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeGenre,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.nullable(types.string()),
-  slug: types.nullable(z.any()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(z.any()),
+  })
+);
 
 export function lookupByDistributorCodeGenreFromJSON(
   jsonString: string,
@@ -501,10 +513,12 @@ export function lookupByDistributorCodeGenreFromJSON(
 export const LookupByDistributorCodeSeriesImprint$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeSeriesImprint,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+  })
+);
 
 export function lookupByDistributorCodeSeriesImprintFromJSON(
   jsonString: string,
@@ -519,12 +533,15 @@ export function lookupByDistributorCodeSeriesImprintFromJSON(
 
 /** @internal */
 export const LookupByDistributorCodeForeignEditionOf$inboundSchema:
-  z.ZodMiniType<LookupByDistributorCodeForeignEditionOf, unknown> = z.object({
-    id: types.number(),
-    name: types.string(),
-    slug: types.nullable(types.string()),
-    language: types.nullable(types.string()),
-  });
+  z.ZodMiniType<LookupByDistributorCodeForeignEditionOf, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.object({
+        id: types.number(),
+        name: types.string(),
+        slug: types.nullable(types.string()),
+        language: types.nullable(types.string()),
+      })
+    );
 
 export function lookupByDistributorCodeForeignEditionOfFromJSON(
   jsonString: string,
@@ -546,12 +563,14 @@ export function lookupByDistributorCodeForeignEditionOfFromJSON(
 export const LookupByDistributorCodeForeignEdition$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeForeignEdition,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.string(),
-  slug: types.nullable(types.string()),
-  language: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.string(),
+    slug: types.nullable(types.string()),
+    language: types.nullable(types.string()),
+  })
+);
 
 export function lookupByDistributorCodeForeignEditionFromJSON(
   jsonString: string,
@@ -568,51 +587,53 @@ export function lookupByDistributorCodeForeignEditionFromJSON(
 export const LookupByDistributorCodeSeries$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeSeries,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    start_year: types.nullable(types.number()),
-    end_year: types.nullable(types.number()),
-    volume_number: types.nullable(types.number()),
-    status: types.nullable(types.string()),
-    publication_type: types.nullable(types.string()),
-    cached_issues_count: types.nullable(types.number()),
-    medium: types.string(),
-    format: types.nullable(types.string()),
-    content_rating_label: types.nullable(types.string()),
-    min_age: types.nullable(types.number()),
-    is_nsfw: types.boolean(),
-    original_language: types.nullable(types.string()),
-    language: types.nullable(types.string()),
-    genres: z.array(z.lazy(() => LookupByDistributorCodeGenre$inboundSchema)),
-    aliases: z.array(types.string()),
-    imprint: types.nullable(
-      z.lazy(() => LookupByDistributorCodeSeriesImprint$inboundSchema),
-    ),
-    foreign_edition_of: z.array(
-      z.lazy(() => LookupByDistributorCodeForeignEditionOf$inboundSchema),
-    ),
-    foreign_editions: z.array(
-      z.lazy(() => LookupByDistributorCodeForeignEdition$inboundSchema),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "start_year": "startYear",
-      "end_year": "endYear",
-      "volume_number": "volumeNumber",
-      "publication_type": "publicationType",
-      "cached_issues_count": "cachedIssuesCount",
-      "content_rating_label": "contentRatingLabel",
-      "min_age": "minAge",
-      "is_nsfw": "isNsfw",
-      "original_language": "originalLanguage",
-      "foreign_edition_of": "foreignEditionOf",
-      "foreign_editions": "foreignEditions",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      start_year: types.nullable(types.number()),
+      end_year: types.nullable(types.number()),
+      volume_number: types.nullable(types.number()),
+      status: types.nullable(types.string()),
+      publication_type: types.nullable(types.string()),
+      cached_issues_count: types.nullable(types.number()),
+      medium: types.string(),
+      format: types.nullable(types.string()),
+      content_rating_label: types.nullable(types.string()),
+      min_age: types.nullable(types.number()),
+      is_nsfw: types.boolean(),
+      original_language: types.nullable(types.string()),
+      language: types.nullable(types.string()),
+      genres: z.array(z.lazy(() => LookupByDistributorCodeGenre$inboundSchema)),
+      aliases: z.array(types.string()),
+      imprint: types.nullable(
+        z.lazy(() => LookupByDistributorCodeSeriesImprint$inboundSchema),
+      ),
+      foreign_edition_of: z.array(
+        z.lazy(() => LookupByDistributorCodeForeignEditionOf$inboundSchema),
+      ),
+      foreign_editions: z.array(
+        z.lazy(() => LookupByDistributorCodeForeignEdition$inboundSchema),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "start_year": "startYear",
+        "end_year": "endYear",
+        "volume_number": "volumeNumber",
+        "publication_type": "publicationType",
+        "cached_issues_count": "cachedIssuesCount",
+        "content_rating_label": "contentRatingLabel",
+        "min_age": "minAge",
+        "is_nsfw": "isNsfw",
+        "original_language": "originalLanguage",
+        "foreign_edition_of": "foreignEditionOf",
+        "foreign_editions": "foreignEditions",
+      });
+    }),
+  )
 );
 
 export function lookupByDistributorCodeSeriesFromJSON(
@@ -629,11 +650,13 @@ export function lookupByDistributorCodeSeriesFromJSON(
 export const LookupByDistributorCodePublisher$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodePublisher,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.nullable(types.string()),
-  slug: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    slug: types.nullable(types.string()),
+  })
+);
 
 export function lookupByDistributorCodePublisherFromJSON(
   jsonString: string,
@@ -649,10 +672,12 @@ export function lookupByDistributorCodePublisherFromJSON(
 export const LookupByDistributorCodeImprint$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeImprint,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+  })
+);
 
 export function lookupByDistributorCodeImprintFromJSON(
   jsonString: string,
@@ -668,12 +693,14 @@ export function lookupByDistributorCodeImprintFromJSON(
 export const LookupByDistributorCodeAward$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeAward,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.nullable(types.string()),
-  category: types.nullable(types.string()),
-  year: types.nullable(types.number()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    category: types.nullable(types.string()),
+    year: types.nullable(types.number()),
+  })
+);
 
 export function lookupByDistributorCodeAwardFromJSON(
   jsonString: string,
@@ -689,19 +716,21 @@ export function lookupByDistributorCodeAwardFromJSON(
 export const LookupByDistributorCodeCreatorImages$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeCreatorImages,
   unknown
-> = z.pipe(
-  z.object({
-    tile_sm: types.optional(types.string()),
-    profile_md: types.optional(types.string()),
-    full_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "tile_sm": "tileSm",
-      "profile_md": "profileMd",
-      "full_lg": "fullLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      tile_sm: types.optional(types.string()),
+      profile_md: types.optional(types.string()),
+      full_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "tile_sm": "tileSm",
+        "profile_md": "profileMd",
+        "full_lg": "fullLg",
+      });
+    }),
+  )
 );
 
 export function lookupByDistributorCodeCreatorImagesFromJSON(
@@ -719,24 +748,26 @@ export function lookupByDistributorCodeCreatorImagesFromJSON(
 export const LookupByDistributorCodeCreator$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeCreator,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    photo_url: types.nullable(types.string()),
-    images: types.nullable(
-      z.lazy(() => LookupByDistributorCodeCreatorImages$inboundSchema),
-    ),
-    role: types.string(),
-    sort_order: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "photo_url": "photoUrl",
-      "sort_order": "sortOrder",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      photo_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => LookupByDistributorCodeCreatorImages$inboundSchema),
+      ),
+      role: types.string(),
+      sort_order: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "photo_url": "photoUrl",
+        "sort_order": "sortOrder",
+      });
+    }),
+  )
 );
 
 export function lookupByDistributorCodeCreatorFromJSON(
@@ -751,20 +782,23 @@ export function lookupByDistributorCodeCreatorFromJSON(
 
 /** @internal */
 export const LookupByDistributorCodeCharacterImages$inboundSchema:
-  z.ZodMiniType<LookupByDistributorCodeCharacterImages, unknown> = z.pipe(
-    z.object({
-      tile_sm: types.optional(types.string()),
-      profile_md: types.optional(types.string()),
-      full_lg: types.optional(types.string()),
-    }),
-    z.transform((v) => {
-      return remap$(v, {
-        "tile_sm": "tileSm",
-        "profile_md": "profileMd",
-        "full_lg": "fullLg",
-      });
-    }),
-  );
+  z.ZodMiniType<LookupByDistributorCodeCharacterImages, unknown> =
+    /* @__PURE__ */ lazySchema$(() =>
+      z.pipe(
+        z.object({
+          tile_sm: types.optional(types.string()),
+          profile_md: types.optional(types.string()),
+          full_lg: types.optional(types.string()),
+        }),
+        z.transform((v) => {
+          return remap$(v, {
+            "tile_sm": "tileSm",
+            "profile_md": "profileMd",
+            "full_lg": "fullLg",
+          });
+        }),
+      )
+    );
 
 export function lookupByDistributorCodeCharacterImagesFromJSON(
   jsonString: string,
@@ -781,25 +815,27 @@ export function lookupByDistributorCodeCharacterImagesFromJSON(
 export const LookupByDistributorCodeCharacter$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeCharacter,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    real_name: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-    images: types.nullable(
-      z.lazy(() => LookupByDistributorCodeCharacterImages$inboundSchema),
-    ),
-    sort_order: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "real_name": "realName",
-      "image_url": "imageUrl",
-      "sort_order": "sortOrder",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      real_name: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => LookupByDistributorCodeCharacterImages$inboundSchema),
+      ),
+      sort_order: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "real_name": "realName",
+        "image_url": "imageUrl",
+        "sort_order": "sortOrder",
+      });
+    }),
+  )
 );
 
 export function lookupByDistributorCodeCharacterFromJSON(
@@ -816,19 +852,21 @@ export function lookupByDistributorCodeCharacterFromJSON(
 export const LookupByDistributorCodeTeamImages$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeTeamImages,
   unknown
-> = z.pipe(
-  z.object({
-    tile_sm: types.optional(types.string()),
-    profile_md: types.optional(types.string()),
-    full_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "tile_sm": "tileSm",
-      "profile_md": "profileMd",
-      "full_lg": "fullLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      tile_sm: types.optional(types.string()),
+      profile_md: types.optional(types.string()),
+      full_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "tile_sm": "tileSm",
+        "profile_md": "profileMd",
+        "full_lg": "fullLg",
+      });
+    }),
+  )
 );
 
 export function lookupByDistributorCodeTeamImagesFromJSON(
@@ -845,24 +883,26 @@ export function lookupByDistributorCodeTeamImagesFromJSON(
 export const LookupByDistributorCodeTeam$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeTeam,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    headquarters: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-    images: types.nullable(
-      z.lazy(() => LookupByDistributorCodeTeamImages$inboundSchema),
-    ),
-    sort_order: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "image_url": "imageUrl",
-      "sort_order": "sortOrder",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      headquarters: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => LookupByDistributorCodeTeamImages$inboundSchema),
+      ),
+      sort_order: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "image_url": "imageUrl",
+        "sort_order": "sortOrder",
+      });
+    }),
+  )
 );
 
 export function lookupByDistributorCodeTeamFromJSON(
@@ -879,19 +919,21 @@ export function lookupByDistributorCodeTeamFromJSON(
 export const LookupByDistributorCodeStoryArcImages$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeStoryArcImages,
   unknown
-> = z.pipe(
-  z.object({
-    cover_sm: types.optional(types.string()),
-    cover_md: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_md": "coverMd",
-      "cover_lg": "coverLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  )
 );
 
 export function lookupByDistributorCodeStoryArcImagesFromJSON(
@@ -909,23 +951,25 @@ export function lookupByDistributorCodeStoryArcImagesFromJSON(
 export const LookupByDistributorCodeStoryArc$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeStoryArc,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    image_url: types.nullable(types.string()),
-    images: types.nullable(
-      z.lazy(() => LookupByDistributorCodeStoryArcImages$inboundSchema),
-    ),
-    sort_order: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "image_url": "imageUrl",
-      "sort_order": "sortOrder",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      image_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => LookupByDistributorCodeStoryArcImages$inboundSchema),
+      ),
+      sort_order: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "image_url": "imageUrl",
+        "sort_order": "sortOrder",
+      });
+    }),
+  )
 );
 
 export function lookupByDistributorCodeStoryArcFromJSON(
@@ -942,10 +986,12 @@ export function lookupByDistributorCodeStoryArcFromJSON(
 export const LookupByDistributorCodeUniverse$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeUniverse,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+  })
+);
 
 export function lookupByDistributorCodeUniverseFromJSON(
   jsonString: string,
@@ -961,20 +1007,22 @@ export function lookupByDistributorCodeUniverseFromJSON(
 export const LookupByDistributorCodeComicEvent$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeComicEvent,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    type: types.nullable(types.string()),
-    notes: types.nullable(types.string()),
-    display_order: types.nullable(types.number()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "display_order": "displayOrder",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      type: types.nullable(types.string()),
+      notes: types.nullable(types.string()),
+      display_order: types.nullable(types.number()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "display_order": "displayOrder",
+      });
+    }),
+  )
 );
 
 export function lookupByDistributorCodeComicEventFromJSON(
@@ -991,12 +1039,14 @@ export function lookupByDistributorCodeComicEventFromJSON(
 export const LookupByDistributorCodeKeyIssueReason$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeKeyIssueReason,
   unknown
-> = z.object({
-  id: types.number(),
-  name: types.nullable(types.string()),
-  category: types.string(),
-  notes: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    name: types.nullable(types.string()),
+    category: types.string(),
+    notes: types.nullable(types.string()),
+  })
+);
 
 export function lookupByDistributorCodeKeyIssueReasonFromJSON(
   jsonString: string,
@@ -1013,41 +1063,43 @@ export function lookupByDistributorCodeKeyIssueReasonFromJSON(
 export const LookupByDistributorCodeAvailability$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeAvailability,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.nullable(types.number()),
-    provider: types.string(),
-    provider_label: types.string(),
-    kind: types.string(),
-    store_name: types.nullable(types.string()),
-    custom_name: types.nullable(types.string()),
-    display_name: types.string(),
-    store_logo: types.nullable(types.string()),
-    url: types.string(),
-    external_id: types.nullable(types.string()),
-    price: types.nullable(types.number()),
-    formatted_price: types.nullable(types.string()),
-    currency: types.nullable(types.string()),
-    is_digital: types.nullable(types.boolean()),
-    is_affiliate: types.boolean(),
-    is_synthesized: types.boolean(),
-    verified_at: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "provider_label": "providerLabel",
-      "store_name": "storeName",
-      "custom_name": "customName",
-      "display_name": "displayName",
-      "store_logo": "storeLogo",
-      "external_id": "externalId",
-      "formatted_price": "formattedPrice",
-      "is_digital": "isDigital",
-      "is_affiliate": "isAffiliate",
-      "is_synthesized": "isSynthesized",
-      "verified_at": "verifiedAt",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.nullable(types.number()),
+      provider: types.string(),
+      provider_label: types.string(),
+      kind: types.string(),
+      store_name: types.nullable(types.string()),
+      custom_name: types.nullable(types.string()),
+      display_name: types.string(),
+      store_logo: types.nullable(types.string()),
+      url: types.string(),
+      external_id: types.nullable(types.string()),
+      price: types.nullable(types.number()),
+      formatted_price: types.nullable(types.string()),
+      currency: types.nullable(types.string()),
+      is_digital: types.nullable(types.boolean()),
+      is_affiliate: types.boolean(),
+      is_synthesized: types.boolean(),
+      verified_at: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "provider_label": "providerLabel",
+        "store_name": "storeName",
+        "custom_name": "customName",
+        "display_name": "displayName",
+        "store_logo": "storeLogo",
+        "external_id": "externalId",
+        "formatted_price": "formattedPrice",
+        "is_digital": "isDigital",
+        "is_affiliate": "isAffiliate",
+        "is_synthesized": "isSynthesized",
+        "verified_at": "verifiedAt",
+      });
+    }),
+  )
 );
 
 export function lookupByDistributorCodeAvailabilityFromJSON(
@@ -1065,12 +1117,14 @@ export function lookupByDistributorCodeAvailabilityFromJSON(
 export const LookupByDistributorCodeNameI18n$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function lookupByDistributorCodeNameI18nFromJSON(
   jsonString: string,
@@ -1086,126 +1140,130 @@ export function lookupByDistributorCodeNameI18nFromJSON(
 export const LookupByDistributorCodeData$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    series_id: types.nullable(types.number()),
-    issue_number: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    solicitation: types.nullable(types.string()),
-    release_date: types.nullable(types.string()),
-    foc_date: types.nullable(types.string()),
-    cover_date: types.nullable(types.string()),
-    is_unreleased: types.boolean(),
-    cover_url: types.nullable(types.string()),
-    images: types.nullable(
-      z.lazy(() => LookupByDistributorCodeImages$inboundSchema),
-    ),
-    is_reprint: types.nullable(types.boolean()),
-    content_rating_label: types.nullable(types.string()),
-    min_age: types.nullable(types.number()),
-    is_nsfw: types.nullable(types.boolean()),
-    page_count: types.nullable(types.number()),
-    price: types.nullable(types.string()),
-    currency_code: types.nullable(types.string()),
-    formatted_price: types.nullable(types.string()),
-    isbn: types.nullable(types.string()),
-    upc: types.nullable(types.string()),
-    lunar_code: types.nullable(types.string()),
-    universal_code: types.nullable(types.string()),
-    diamond_code: types.nullable(types.string()),
-    ean: types.nullable(types.string()),
-    issn: types.nullable(types.string()),
-    is_anthology: types.nullable(types.boolean()),
-    is_tie_in: types.boolean(),
-    adapted_from: types.nullable(types.string()),
-    print_run: types.nullable(types.number()),
-    locations: types.nullable(types.string()),
-    sku: types.nullable(types.string()),
-    variant_count: types.number(),
-    reads_count: types.number(),
-    average_rating: types.optional(types.number()),
-    review_count: types.optional(types.number()),
-    title: types.optional(
-      z.lazy(() => LookupByDistributorCodeTitle$inboundSchema),
-    ),
-    series: types.nullable(
-      z.lazy(() => LookupByDistributorCodeSeries$inboundSchema),
-    ),
-    publisher: z.optional(
-      z.nullable(z.lazy(() => LookupByDistributorCodePublisher$inboundSchema)),
-    ),
-    imprint: types.optional(
-      z.lazy(() => LookupByDistributorCodeImprint$inboundSchema),
-    ),
-    awards: types.optional(
-      z.array(z.lazy(() => LookupByDistributorCodeAward$inboundSchema)),
-    ),
-    creators: types.optional(
-      z.array(z.lazy(() => LookupByDistributorCodeCreator$inboundSchema)),
-    ),
-    characters: types.optional(
-      z.array(z.lazy(() => LookupByDistributorCodeCharacter$inboundSchema)),
-    ),
-    teams: types.optional(
-      z.array(z.lazy(() => LookupByDistributorCodeTeam$inboundSchema)),
-    ),
-    story_arcs: types.optional(
-      z.array(z.lazy(() => LookupByDistributorCodeStoryArc$inboundSchema)),
-    ),
-    universes: types.optional(
-      z.array(z.lazy(() => LookupByDistributorCodeUniverse$inboundSchema)),
-    ),
-    comic_events: types.optional(
-      z.array(z.lazy(() => LookupByDistributorCodeComicEvent$inboundSchema)),
-    ),
-    key_issue_reasons: types.optional(
-      z.array(
-        z.lazy(() => LookupByDistributorCodeKeyIssueReason$inboundSchema),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      series_id: types.nullable(types.number()),
+      issue_number: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      solicitation: types.nullable(types.string()),
+      release_date: types.nullable(types.string()),
+      foc_date: types.nullable(types.string()),
+      cover_date: types.nullable(types.string()),
+      is_unreleased: types.boolean(),
+      cover_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => LookupByDistributorCodeImages$inboundSchema),
       ),
-    ),
-    availabilities: z.array(
-      z.lazy(() => LookupByDistributorCodeAvailability$inboundSchema),
-    ),
-    name_i18n: z.record(
-      z.string(),
-      z.lazy(() => LookupByDistributorCodeNameI18n$inboundSchema),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "series_id": "seriesId",
-      "issue_number": "issueNumber",
-      "release_date": "releaseDate",
-      "foc_date": "focDate",
-      "cover_date": "coverDate",
-      "is_unreleased": "isUnreleased",
-      "cover_url": "coverUrl",
-      "is_reprint": "isReprint",
-      "content_rating_label": "contentRatingLabel",
-      "min_age": "minAge",
-      "is_nsfw": "isNsfw",
-      "page_count": "pageCount",
-      "currency_code": "currencyCode",
-      "formatted_price": "formattedPrice",
-      "lunar_code": "lunarCode",
-      "universal_code": "universalCode",
-      "diamond_code": "diamondCode",
-      "is_anthology": "isAnthology",
-      "is_tie_in": "isTieIn",
-      "adapted_from": "adaptedFrom",
-      "print_run": "printRun",
-      "variant_count": "variantCount",
-      "reads_count": "readsCount",
-      "average_rating": "averageRating",
-      "review_count": "reviewCount",
-      "story_arcs": "storyArcs",
-      "comic_events": "comicEvents",
-      "key_issue_reasons": "keyIssueReasons",
-      "name_i18n": "nameI18n",
-    });
-  }),
+      is_reprint: types.nullable(types.boolean()),
+      content_rating_label: types.nullable(types.string()),
+      min_age: types.nullable(types.number()),
+      is_nsfw: types.nullable(types.boolean()),
+      page_count: types.nullable(types.number()),
+      price: types.nullable(types.string()),
+      currency_code: types.nullable(types.string()),
+      formatted_price: types.nullable(types.string()),
+      isbn: types.nullable(types.string()),
+      upc: types.nullable(types.string()),
+      lunar_code: types.nullable(types.string()),
+      universal_code: types.nullable(types.string()),
+      diamond_code: types.nullable(types.string()),
+      ean: types.nullable(types.string()),
+      issn: types.nullable(types.string()),
+      is_anthology: types.nullable(types.boolean()),
+      is_tie_in: types.boolean(),
+      adapted_from: types.nullable(types.string()),
+      print_run: types.nullable(types.number()),
+      locations: types.nullable(types.string()),
+      sku: types.nullable(types.string()),
+      variant_count: types.number(),
+      reads_count: types.number(),
+      average_rating: types.optional(types.number()),
+      review_count: types.optional(types.number()),
+      title: types.optional(
+        z.lazy(() => LookupByDistributorCodeTitle$inboundSchema),
+      ),
+      series: types.nullable(
+        z.lazy(() => LookupByDistributorCodeSeries$inboundSchema),
+      ),
+      publisher: z.optional(
+        z.nullable(
+          z.lazy(() => LookupByDistributorCodePublisher$inboundSchema),
+        ),
+      ),
+      imprint: types.optional(
+        z.lazy(() => LookupByDistributorCodeImprint$inboundSchema),
+      ),
+      awards: types.optional(
+        z.array(z.lazy(() => LookupByDistributorCodeAward$inboundSchema)),
+      ),
+      creators: types.optional(
+        z.array(z.lazy(() => LookupByDistributorCodeCreator$inboundSchema)),
+      ),
+      characters: types.optional(
+        z.array(z.lazy(() => LookupByDistributorCodeCharacter$inboundSchema)),
+      ),
+      teams: types.optional(
+        z.array(z.lazy(() => LookupByDistributorCodeTeam$inboundSchema)),
+      ),
+      story_arcs: types.optional(
+        z.array(z.lazy(() => LookupByDistributorCodeStoryArc$inboundSchema)),
+      ),
+      universes: types.optional(
+        z.array(z.lazy(() => LookupByDistributorCodeUniverse$inboundSchema)),
+      ),
+      comic_events: types.optional(
+        z.array(z.lazy(() => LookupByDistributorCodeComicEvent$inboundSchema)),
+      ),
+      key_issue_reasons: types.optional(
+        z.array(
+          z.lazy(() => LookupByDistributorCodeKeyIssueReason$inboundSchema),
+        ),
+      ),
+      availabilities: z.array(
+        z.lazy(() => LookupByDistributorCodeAvailability$inboundSchema),
+      ),
+      name_i18n: z.record(
+        z.string(),
+        z.lazy(() => LookupByDistributorCodeNameI18n$inboundSchema),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "series_id": "seriesId",
+        "issue_number": "issueNumber",
+        "release_date": "releaseDate",
+        "foc_date": "focDate",
+        "cover_date": "coverDate",
+        "is_unreleased": "isUnreleased",
+        "cover_url": "coverUrl",
+        "is_reprint": "isReprint",
+        "content_rating_label": "contentRatingLabel",
+        "min_age": "minAge",
+        "is_nsfw": "isNsfw",
+        "page_count": "pageCount",
+        "currency_code": "currencyCode",
+        "formatted_price": "formattedPrice",
+        "lunar_code": "lunarCode",
+        "universal_code": "universalCode",
+        "diamond_code": "diamondCode",
+        "is_anthology": "isAnthology",
+        "is_tie_in": "isTieIn",
+        "adapted_from": "adaptedFrom",
+        "print_run": "printRun",
+        "variant_count": "variantCount",
+        "reads_count": "readsCount",
+        "average_rating": "averageRating",
+        "review_count": "reviewCount",
+        "story_arcs": "storyArcs",
+        "comic_events": "comicEvents",
+        "key_issue_reasons": "keyIssueReasons",
+        "name_i18n": "nameI18n",
+      });
+    }),
+  )
 );
 
 export function lookupByDistributorCodeDataFromJSON(
@@ -1222,26 +1280,28 @@ export function lookupByDistributorCodeDataFromJSON(
 export const LookupByDistributorCodeVariant$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeVariant,
   unknown
-> = z.pipe(
-  z.object({
-    variant_id: types.nullable(types.number()),
-    variant_name: types.string(),
-    cover_url: types.nullable(types.string()),
-    upc: types.nullable(types.string()),
-    lunar_code: types.nullable(types.string()),
-    universal_code: types.nullable(types.string()),
-    diamond_code: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "variant_id": "variantId",
-      "variant_name": "variantName",
-      "cover_url": "coverUrl",
-      "lunar_code": "lunarCode",
-      "universal_code": "universalCode",
-      "diamond_code": "diamondCode",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      variant_id: types.nullable(types.number()),
+      variant_name: types.string(),
+      cover_url: types.nullable(types.string()),
+      upc: types.nullable(types.string()),
+      lunar_code: types.nullable(types.string()),
+      universal_code: types.nullable(types.string()),
+      diamond_code: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "variant_id": "variantId",
+        "variant_name": "variantName",
+        "cover_url": "coverUrl",
+        "lunar_code": "lunarCode",
+        "universal_code": "universalCode",
+        "diamond_code": "diamondCode",
+      });
+    }),
+  )
 );
 
 export function lookupByDistributorCodeVariantFromJSON(
@@ -1258,19 +1318,21 @@ export function lookupByDistributorCodeVariantFromJSON(
 export const LookupByDistributorCodeResponseBody$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeResponseBody,
   unknown
-> = z.pipe(
-  z.object({
-    data: z.lazy(() => LookupByDistributorCodeData$inboundSchema),
-    suggested_variant_id: types.nullable(types.number()),
-    variants: z.array(
-      z.lazy(() => LookupByDistributorCodeVariant$inboundSchema),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "suggested_variant_id": "suggestedVariantId",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      data: z.lazy(() => LookupByDistributorCodeData$inboundSchema),
+      suggested_variant_id: types.nullable(types.number()),
+      variants: z.array(
+        z.lazy(() => LookupByDistributorCodeVariant$inboundSchema),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "suggested_variant_id": "suggestedVariantId",
+      });
+    }),
+  )
 );
 
 export function lookupByDistributorCodeResponseBodyFromJSON(
@@ -1288,17 +1350,19 @@ export function lookupByDistributorCodeResponseBodyFromJSON(
 export const LookupByDistributorCodeResponse$inboundSchema: z.ZodMiniType<
   LookupByDistributorCodeResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => LookupByDistributorCodeResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => LookupByDistributorCodeResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function lookupByDistributorCodeResponseFromJSON(

@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -228,49 +228,51 @@ export type ListIssuesRequest$Outbound = {
 export const ListIssuesRequest$outboundSchema: z.ZodMiniType<
   ListIssuesRequest$Outbound,
   ListIssuesRequest
-> = z.pipe(
-  z.object({
-    q: z.optional(z.string()),
-    seriesId: z.optional(z.int()),
-    publisherId: z.optional(z.int()),
-    releaseDateFrom: z.optional(z.string()),
-    releaseDateTo: z.optional(z.string()),
-    publisherIds: z.optional(z.string()),
-    seriesIds: z.optional(z.string()),
-    titleIds: z.optional(z.string()),
-    characterIds: z.optional(z.string()),
-    creatorIds: z.optional(z.string()),
-    creatorRoleIds: z.optional(z.string()),
-    teamIds: z.optional(z.string()),
-    genreIds: z.optional(z.string()),
-    languages: z.optional(z.string()),
-    medium: z.optional(z.string()),
-    keyIssuesOnly: z.optional(z.boolean()),
-    hideUnreleased: z.optional(z.boolean()),
-    include: z.optional(z.string()),
-    sort: z.optional(z.string()),
-    direction: z.optional(z.string()),
-    limit: z.optional(z.int()),
-    page: z.optional(z.int()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      seriesId: "series_id",
-      publisherId: "publisher_id",
-      releaseDateFrom: "release_date_from",
-      releaseDateTo: "release_date_to",
-      publisherIds: "publisher_ids",
-      seriesIds: "series_ids",
-      titleIds: "title_ids",
-      characterIds: "character_ids",
-      creatorIds: "creator_ids",
-      creatorRoleIds: "creator_role_ids",
-      teamIds: "team_ids",
-      genreIds: "genre_ids",
-      keyIssuesOnly: "key_issues_only",
-      hideUnreleased: "hide_unreleased",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      q: z.optional(z.string()),
+      seriesId: z.optional(z.int()),
+      publisherId: z.optional(z.int()),
+      releaseDateFrom: z.optional(z.string()),
+      releaseDateTo: z.optional(z.string()),
+      publisherIds: z.optional(z.string()),
+      seriesIds: z.optional(z.string()),
+      titleIds: z.optional(z.string()),
+      characterIds: z.optional(z.string()),
+      creatorIds: z.optional(z.string()),
+      creatorRoleIds: z.optional(z.string()),
+      teamIds: z.optional(z.string()),
+      genreIds: z.optional(z.string()),
+      languages: z.optional(z.string()),
+      medium: z.optional(z.string()),
+      keyIssuesOnly: z.optional(z.boolean()),
+      hideUnreleased: z.optional(z.boolean()),
+      include: z.optional(z.string()),
+      sort: z.optional(z.string()),
+      direction: z.optional(z.string()),
+      limit: z.optional(z.int()),
+      page: z.optional(z.int()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        seriesId: "series_id",
+        publisherId: "publisher_id",
+        releaseDateFrom: "release_date_from",
+        releaseDateTo: "release_date_to",
+        publisherIds: "publisher_ids",
+        seriesIds: "series_ids",
+        titleIds: "title_ids",
+        characterIds: "character_ids",
+        creatorIds: "creator_ids",
+        creatorRoleIds: "creator_role_ids",
+        teamIds: "team_ids",
+        genreIds: "genre_ids",
+        keyIssuesOnly: "key_issues_only",
+        hideUnreleased: "hide_unreleased",
+      });
+    }),
+  )
 );
 
 export function listIssuesRequestToJSON(
@@ -285,20 +287,22 @@ export function listIssuesRequestToJSON(
 export const ListIssuesImages$inboundSchema: z.ZodMiniType<
   ListIssuesImages,
   unknown
-> = z.pipe(
-  z.object({
-    thumb: types.optional(types.string()),
-    cover_sm: types.optional(types.string()),
-    cover_md: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_md": "coverMd",
-      "cover_lg": "coverLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      thumb: types.optional(types.string()),
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  )
 );
 
 export function listIssuesImagesFromJSON(
@@ -315,12 +319,14 @@ export function listIssuesImagesFromJSON(
 export const ListIssuesNameI18n$inboundSchema: z.ZodMiniType<
   ListIssuesNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function listIssuesNameI18nFromJSON(
   jsonString: string,
@@ -336,19 +342,21 @@ export function listIssuesNameI18nFromJSON(
 export const ListIssuesSeriesImages$inboundSchema: z.ZodMiniType<
   ListIssuesSeriesImages,
   unknown
-> = z.pipe(
-  z.object({
-    cover_sm: types.optional(types.string()),
-    cover_md: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_md": "coverMd",
-      "cover_lg": "coverLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  )
 );
 
 export function listIssuesSeriesImagesFromJSON(
@@ -365,32 +373,36 @@ export function listIssuesSeriesImagesFromJSON(
 export const ListIssuesSeries$inboundSchema: z.ZodMiniType<
   ListIssuesSeries,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    start_year: types.nullable(types.number()),
-    end_year: types.nullable(types.number()),
-    volume_number: types.nullable(types.number()),
-    publication_type: types.nullable(types.string()),
-    format: types.nullable(types.string()),
-    cached_issues_count: types.nullable(types.number()),
-    cover_url: types.nullable(types.string()),
-    images: types.nullable(z.lazy(() => ListIssuesSeriesImages$inboundSchema)),
-    publisher_name: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "start_year": "startYear",
-      "end_year": "endYear",
-      "volume_number": "volumeNumber",
-      "publication_type": "publicationType",
-      "cached_issues_count": "cachedIssuesCount",
-      "cover_url": "coverUrl",
-      "publisher_name": "publisherName",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      start_year: types.nullable(types.number()),
+      end_year: types.nullable(types.number()),
+      volume_number: types.nullable(types.number()),
+      publication_type: types.nullable(types.string()),
+      format: types.nullable(types.string()),
+      cached_issues_count: types.nullable(types.number()),
+      cover_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => ListIssuesSeriesImages$inboundSchema),
+      ),
+      publisher_name: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "start_year": "startYear",
+        "end_year": "endYear",
+        "volume_number": "volumeNumber",
+        "publication_type": "publicationType",
+        "cached_issues_count": "cachedIssuesCount",
+        "cover_url": "coverUrl",
+        "publisher_name": "publisherName",
+      });
+    }),
+  )
 );
 
 export function listIssuesSeriesFromJSON(
@@ -407,49 +419,51 @@ export function listIssuesSeriesFromJSON(
 export const ListIssuesData$inboundSchema: z.ZodMiniType<
   ListIssuesData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    series_id: types.nullable(types.number()),
-    issue_number: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    cover_date: types.nullable(types.string()),
-    release_date: types.nullable(types.string()),
-    foc_date: types.nullable(types.string()),
-    is_unreleased: types.boolean(),
-    cover_url: types.nullable(types.string()),
-    images: types.nullable(z.lazy(() => ListIssuesImages$inboundSchema)),
-    is_reprint: types.boolean(),
-    content_rating_label: types.nullable(types.string()),
-    min_age: types.nullable(types.number()),
-    is_nsfw: types.boolean(),
-    average_rating: types.nullable(types.number()),
-    name_i18n: z.record(
-      z.string(),
-      z.lazy(() => ListIssuesNameI18n$inboundSchema),
-    ),
-    series: z.optional(
-      z.nullable(z.lazy(() => ListIssuesSeries$inboundSchema)),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "series_id": "seriesId",
-      "issue_number": "issueNumber",
-      "cover_date": "coverDate",
-      "release_date": "releaseDate",
-      "foc_date": "focDate",
-      "is_unreleased": "isUnreleased",
-      "cover_url": "coverUrl",
-      "is_reprint": "isReprint",
-      "content_rating_label": "contentRatingLabel",
-      "min_age": "minAge",
-      "is_nsfw": "isNsfw",
-      "average_rating": "averageRating",
-      "name_i18n": "nameI18n",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      series_id: types.nullable(types.number()),
+      issue_number: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      cover_date: types.nullable(types.string()),
+      release_date: types.nullable(types.string()),
+      foc_date: types.nullable(types.string()),
+      is_unreleased: types.boolean(),
+      cover_url: types.nullable(types.string()),
+      images: types.nullable(z.lazy(() => ListIssuesImages$inboundSchema)),
+      is_reprint: types.boolean(),
+      content_rating_label: types.nullable(types.string()),
+      min_age: types.nullable(types.number()),
+      is_nsfw: types.boolean(),
+      average_rating: types.nullable(types.number()),
+      name_i18n: z.record(
+        z.string(),
+        z.lazy(() => ListIssuesNameI18n$inboundSchema),
+      ),
+      series: z.optional(
+        z.nullable(z.lazy(() => ListIssuesSeries$inboundSchema)),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "series_id": "seriesId",
+        "issue_number": "issueNumber",
+        "cover_date": "coverDate",
+        "release_date": "releaseDate",
+        "foc_date": "focDate",
+        "is_unreleased": "isUnreleased",
+        "cover_url": "coverUrl",
+        "is_reprint": "isReprint",
+        "content_rating_label": "contentRatingLabel",
+        "min_age": "minAge",
+        "is_nsfw": "isNsfw",
+        "average_rating": "averageRating",
+        "name_i18n": "nameI18n",
+      });
+    }),
+  )
 );
 
 export function listIssuesDataFromJSON(
@@ -466,12 +480,14 @@ export function listIssuesDataFromJSON(
 export const ListIssuesLinks$inboundSchema: z.ZodMiniType<
   ListIssuesLinks,
   unknown
-> = z.object({
-  first: types.string(),
-  last: types.string(),
-  prev: types.nullable(types.string()),
-  next: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    first: types.string(),
+    last: types.string(),
+    prev: types.nullable(types.string()),
+    next: types.nullable(types.string()),
+  })
+);
 
 export function listIssuesLinksFromJSON(
   jsonString: string,
@@ -487,12 +503,14 @@ export function listIssuesLinksFromJSON(
 export const ListIssuesLink$inboundSchema: z.ZodMiniType<
   ListIssuesLink,
   unknown
-> = z.object({
-  url: types.nullable(types.string()),
-  label: types.string(),
-  page: z.optional(z.nullable(types.number())),
-  active: types.boolean(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    url: types.nullable(types.string()),
+    label: types.string(),
+    page: z.optional(z.nullable(types.number())),
+    active: types.boolean(),
+  })
+);
 
 export function listIssuesLinkFromJSON(
   jsonString: string,
@@ -508,24 +526,26 @@ export function listIssuesLinkFromJSON(
 export const ListIssuesMeta$inboundSchema: z.ZodMiniType<
   ListIssuesMeta,
   unknown
-> = z.pipe(
-  z.object({
-    current_page: types.number(),
-    from: types.nullable(types.number()),
-    last_page: types.number(),
-    links: z.array(z.lazy(() => ListIssuesLink$inboundSchema)),
-    path: types.string(),
-    per_page: types.number(),
-    to: types.nullable(types.number()),
-    total: types.number(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "current_page": "currentPage",
-      "last_page": "lastPage",
-      "per_page": "perPage",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      current_page: types.number(),
+      from: types.nullable(types.number()),
+      last_page: types.number(),
+      links: z.array(z.lazy(() => ListIssuesLink$inboundSchema)),
+      path: types.string(),
+      per_page: types.number(),
+      to: types.nullable(types.number()),
+      total: types.number(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "current_page": "currentPage",
+        "last_page": "lastPage",
+        "per_page": "perPage",
+      });
+    }),
+  )
 );
 
 export function listIssuesMetaFromJSON(
@@ -542,11 +562,13 @@ export function listIssuesMetaFromJSON(
 export const ListIssuesResponseBody$inboundSchema: z.ZodMiniType<
   ListIssuesResponseBody,
   unknown
-> = z.object({
-  data: z.array(z.lazy(() => ListIssuesData$inboundSchema)),
-  links: z.lazy(() => ListIssuesLinks$inboundSchema),
-  meta: z.lazy(() => ListIssuesMeta$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.array(z.lazy(() => ListIssuesData$inboundSchema)),
+    links: z.lazy(() => ListIssuesLinks$inboundSchema),
+    meta: z.lazy(() => ListIssuesMeta$inboundSchema),
+  })
+);
 
 export function listIssuesResponseBodyFromJSON(
   jsonString: string,
@@ -562,17 +584,19 @@ export function listIssuesResponseBodyFromJSON(
 export const ListIssuesResponse$inboundSchema: z.ZodMiniType<
   ListIssuesResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => ListIssuesResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => ListIssuesResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function listIssuesResponseFromJSON(

@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -187,30 +187,32 @@ export type ListEventsRequest$Outbound = {
 export const ListEventsRequest$outboundSchema: z.ZodMiniType<
   ListEventsRequest$Outbound,
   ListEventsRequest
-> = z.pipe(
-  z.object({
-    q: z.optional(z.string()),
-    type: z.optional(z.string()),
-    upcoming: z.optional(z.boolean()),
-    past: z.optional(z.boolean()),
-    isOnline: z.optional(z.boolean()),
-    isFcbd: z.optional(z.boolean()),
-    countryCode: z.optional(z.string()),
-    region: z.optional(z.string()),
-    weekend: z.optional(z.boolean()),
-    month: z.optional(z.string()),
-    sort: z.optional(z.string()),
-    limit: z.optional(z.int()),
-    page: z.optional(z.int()),
-    languages: z.optional(z.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      isOnline: "is_online",
-      isFcbd: "is_fcbd",
-      countryCode: "country_code",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      q: z.optional(z.string()),
+      type: z.optional(z.string()),
+      upcoming: z.optional(z.boolean()),
+      past: z.optional(z.boolean()),
+      isOnline: z.optional(z.boolean()),
+      isFcbd: z.optional(z.boolean()),
+      countryCode: z.optional(z.string()),
+      region: z.optional(z.string()),
+      weekend: z.optional(z.boolean()),
+      month: z.optional(z.string()),
+      sort: z.optional(z.string()),
+      limit: z.optional(z.int()),
+      page: z.optional(z.int()),
+      languages: z.optional(z.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        isOnline: "is_online",
+        isFcbd: "is_fcbd",
+        countryCode: "country_code",
+      });
+    }),
+  )
 );
 
 export function listEventsRequestToJSON(
@@ -225,12 +227,14 @@ export function listEventsRequestToJSON(
 export const ListEventsNameI18n$inboundSchema: z.ZodMiniType<
   ListEventsNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function listEventsNameI18nFromJSON(
   jsonString: string,
@@ -246,19 +250,21 @@ export function listEventsNameI18nFromJSON(
 export const ListEventsImages$inboundSchema: z.ZodMiniType<
   ListEventsImages,
   unknown
-> = z.pipe(
-  z.object({
-    tile_sm: types.optional(types.string()),
-    full_md: types.optional(types.string()),
-    full_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "tile_sm": "tileSm",
-      "full_md": "fullMd",
-      "full_lg": "fullLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      tile_sm: types.optional(types.string()),
+      full_md: types.optional(types.string()),
+      full_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "tile_sm": "tileSm",
+        "full_md": "fullMd",
+        "full_lg": "fullLg",
+      });
+    }),
+  )
 );
 
 export function listEventsImagesFromJSON(
@@ -275,55 +281,57 @@ export function listEventsImagesFromJSON(
 export const ListEventsData$inboundSchema: z.ZodMiniType<
   ListEventsData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    name_i18n: z.record(
-      z.string(),
-      z.lazy(() => ListEventsNameI18n$inboundSchema),
-    ),
-    aliases_i18n: z.record(z.string(), z.array(types.string())),
-    original_locale: types.nullable(types.string()),
-    type: types.nullable(types.string()),
-    start_date: types.nullable(types.string()),
-    end_date: types.nullable(types.string()),
-    start_time: types.nullable(types.string()),
-    end_time: types.nullable(types.string()),
-    timezone: types.nullable(types.string()),
-    is_online: types.boolean(),
-    is_fcbd: types.boolean(),
-    status: types.string(),
-    venue_name: types.nullable(types.string()),
-    city: types.nullable(types.string()),
-    region: types.nullable(types.string()),
-    country_code: types.nullable(types.string()),
-    full_location: types.string(),
-    logo_url: types.nullable(types.string()),
-    images: types.nullable(z.lazy(() => ListEventsImages$inboundSchema)),
-    ticket_price: types.nullable(types.string()),
-    follower_count: types.number(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "name_i18n": "nameI18n",
-      "aliases_i18n": "aliasesI18n",
-      "original_locale": "originalLocale",
-      "start_date": "startDate",
-      "end_date": "endDate",
-      "start_time": "startTime",
-      "end_time": "endTime",
-      "is_online": "isOnline",
-      "is_fcbd": "isFcbd",
-      "venue_name": "venueName",
-      "country_code": "countryCode",
-      "full_location": "fullLocation",
-      "logo_url": "logoUrl",
-      "ticket_price": "ticketPrice",
-      "follower_count": "followerCount",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      name_i18n: z.record(
+        z.string(),
+        z.lazy(() => ListEventsNameI18n$inboundSchema),
+      ),
+      aliases_i18n: z.record(z.string(), z.array(types.string())),
+      original_locale: types.nullable(types.string()),
+      type: types.nullable(types.string()),
+      start_date: types.nullable(types.string()),
+      end_date: types.nullable(types.string()),
+      start_time: types.nullable(types.string()),
+      end_time: types.nullable(types.string()),
+      timezone: types.nullable(types.string()),
+      is_online: types.boolean(),
+      is_fcbd: types.boolean(),
+      status: types.string(),
+      venue_name: types.nullable(types.string()),
+      city: types.nullable(types.string()),
+      region: types.nullable(types.string()),
+      country_code: types.nullable(types.string()),
+      full_location: types.string(),
+      logo_url: types.nullable(types.string()),
+      images: types.nullable(z.lazy(() => ListEventsImages$inboundSchema)),
+      ticket_price: types.nullable(types.string()),
+      follower_count: types.number(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "name_i18n": "nameI18n",
+        "aliases_i18n": "aliasesI18n",
+        "original_locale": "originalLocale",
+        "start_date": "startDate",
+        "end_date": "endDate",
+        "start_time": "startTime",
+        "end_time": "endTime",
+        "is_online": "isOnline",
+        "is_fcbd": "isFcbd",
+        "venue_name": "venueName",
+        "country_code": "countryCode",
+        "full_location": "fullLocation",
+        "logo_url": "logoUrl",
+        "ticket_price": "ticketPrice",
+        "follower_count": "followerCount",
+      });
+    }),
+  )
 );
 
 export function listEventsDataFromJSON(
@@ -340,12 +348,14 @@ export function listEventsDataFromJSON(
 export const ListEventsLinks$inboundSchema: z.ZodMiniType<
   ListEventsLinks,
   unknown
-> = z.object({
-  first: types.string(),
-  last: types.string(),
-  prev: types.nullable(types.string()),
-  next: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    first: types.string(),
+    last: types.string(),
+    prev: types.nullable(types.string()),
+    next: types.nullable(types.string()),
+  })
+);
 
 export function listEventsLinksFromJSON(
   jsonString: string,
@@ -361,12 +371,14 @@ export function listEventsLinksFromJSON(
 export const ListEventsLink$inboundSchema: z.ZodMiniType<
   ListEventsLink,
   unknown
-> = z.object({
-  url: types.nullable(types.string()),
-  label: types.string(),
-  page: z.optional(z.nullable(types.number())),
-  active: types.boolean(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    url: types.nullable(types.string()),
+    label: types.string(),
+    page: z.optional(z.nullable(types.number())),
+    active: types.boolean(),
+  })
+);
 
 export function listEventsLinkFromJSON(
   jsonString: string,
@@ -382,24 +394,26 @@ export function listEventsLinkFromJSON(
 export const ListEventsMeta$inboundSchema: z.ZodMiniType<
   ListEventsMeta,
   unknown
-> = z.pipe(
-  z.object({
-    current_page: types.number(),
-    from: types.nullable(types.number()),
-    last_page: types.number(),
-    links: z.array(z.lazy(() => ListEventsLink$inboundSchema)),
-    path: types.string(),
-    per_page: types.number(),
-    to: types.nullable(types.number()),
-    total: types.number(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "current_page": "currentPage",
-      "last_page": "lastPage",
-      "per_page": "perPage",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      current_page: types.number(),
+      from: types.nullable(types.number()),
+      last_page: types.number(),
+      links: z.array(z.lazy(() => ListEventsLink$inboundSchema)),
+      path: types.string(),
+      per_page: types.number(),
+      to: types.nullable(types.number()),
+      total: types.number(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "current_page": "currentPage",
+        "last_page": "lastPage",
+        "per_page": "perPage",
+      });
+    }),
+  )
 );
 
 export function listEventsMetaFromJSON(
@@ -416,11 +430,13 @@ export function listEventsMetaFromJSON(
 export const ListEventsResponseBody$inboundSchema: z.ZodMiniType<
   ListEventsResponseBody,
   unknown
-> = z.object({
-  data: z.array(z.lazy(() => ListEventsData$inboundSchema)),
-  links: z.lazy(() => ListEventsLinks$inboundSchema),
-  meta: z.lazy(() => ListEventsMeta$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.array(z.lazy(() => ListEventsData$inboundSchema)),
+    links: z.lazy(() => ListEventsLinks$inboundSchema),
+    meta: z.lazy(() => ListEventsMeta$inboundSchema),
+  })
+);
 
 export function listEventsResponseBodyFromJSON(
   jsonString: string,
@@ -436,17 +452,19 @@ export function listEventsResponseBodyFromJSON(
 export const ListEventsResponse$inboundSchema: z.ZodMiniType<
   ListEventsResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => ListEventsResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => ListEventsResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function listEventsResponseFromJSON(

@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -83,16 +83,18 @@ export type GetASpecificTeamRequest$Outbound = {
 export const GetASpecificTeamRequest$outboundSchema: z.ZodMiniType<
   GetASpecificTeamRequest$Outbound,
   GetASpecificTeamRequest
-> = z.pipe(
-  z.object({
-    teamId: z.int(),
-    languages: z.optional(z.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      teamId: "team_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      teamId: z.int(),
+      languages: z.optional(z.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        teamId: "team_id",
+      });
+    }),
+  )
 );
 
 export function getASpecificTeamRequestToJSON(
@@ -107,19 +109,21 @@ export function getASpecificTeamRequestToJSON(
 export const GetASpecificTeamImages$inboundSchema: z.ZodMiniType<
   GetASpecificTeamImages,
   unknown
-> = z.pipe(
-  z.object({
-    tile_sm: types.optional(types.string()),
-    profile_md: types.optional(types.string()),
-    full_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "tile_sm": "tileSm",
-      "profile_md": "profileMd",
-      "full_lg": "fullLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      tile_sm: types.optional(types.string()),
+      profile_md: types.optional(types.string()),
+      full_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "tile_sm": "tileSm",
+        "profile_md": "profileMd",
+        "full_lg": "fullLg",
+      });
+    }),
+  )
 );
 
 export function getASpecificTeamImagesFromJSON(
@@ -136,12 +140,14 @@ export function getASpecificTeamImagesFromJSON(
 export const GetASpecificTeamNameI18n$inboundSchema: z.ZodMiniType<
   GetASpecificTeamNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function getASpecificTeamNameI18nFromJSON(
   jsonString: string,
@@ -157,42 +163,46 @@ export function getASpecificTeamNameI18nFromJSON(
 export const GetASpecificTeamData$inboundSchema: z.ZodMiniType<
   GetASpecificTeamData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    aliases: z.array(types.string()),
-    formation_date: types.nullable(types.string()),
-    disbanded_date: types.nullable(types.string()),
-    headquarters: types.nullable(types.string()),
-    members_count: types.number(),
-    series_count: types.number(),
-    appearances_count: types.number(),
-    lists_count: types.number(),
-    image_url: types.nullable(types.string()),
-    images: types.nullable(z.lazy(() => GetASpecificTeamImages$inboundSchema)),
-    name_i18n: z.record(
-      z.string(),
-      z.lazy(() => GetASpecificTeamNameI18n$inboundSchema),
-    ),
-    aliases_i18n: z.record(z.string(), z.array(types.string())),
-    original_locale: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "formation_date": "formationDate",
-      "disbanded_date": "disbandedDate",
-      "members_count": "membersCount",
-      "series_count": "seriesCount",
-      "appearances_count": "appearancesCount",
-      "lists_count": "listsCount",
-      "image_url": "imageUrl",
-      "name_i18n": "nameI18n",
-      "aliases_i18n": "aliasesI18n",
-      "original_locale": "originalLocale",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      aliases: z.array(types.string()),
+      formation_date: types.nullable(types.string()),
+      disbanded_date: types.nullable(types.string()),
+      headquarters: types.nullable(types.string()),
+      members_count: types.number(),
+      series_count: types.number(),
+      appearances_count: types.number(),
+      lists_count: types.number(),
+      image_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => GetASpecificTeamImages$inboundSchema),
+      ),
+      name_i18n: z.record(
+        z.string(),
+        z.lazy(() => GetASpecificTeamNameI18n$inboundSchema),
+      ),
+      aliases_i18n: z.record(z.string(), z.array(types.string())),
+      original_locale: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "formation_date": "formationDate",
+        "disbanded_date": "disbandedDate",
+        "members_count": "membersCount",
+        "series_count": "seriesCount",
+        "appearances_count": "appearancesCount",
+        "lists_count": "listsCount",
+        "image_url": "imageUrl",
+        "name_i18n": "nameI18n",
+        "aliases_i18n": "aliasesI18n",
+        "original_locale": "originalLocale",
+      });
+    }),
+  )
 );
 
 export function getASpecificTeamDataFromJSON(
@@ -209,9 +219,11 @@ export function getASpecificTeamDataFromJSON(
 export const GetASpecificTeamResponseBody$inboundSchema: z.ZodMiniType<
   GetASpecificTeamResponseBody,
   unknown
-> = z.object({
-  data: z.lazy(() => GetASpecificTeamData$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.lazy(() => GetASpecificTeamData$inboundSchema),
+  })
+);
 
 export function getASpecificTeamResponseBodyFromJSON(
   jsonString: string,
@@ -227,17 +239,19 @@ export function getASpecificTeamResponseBodyFromJSON(
 export const GetASpecificTeamResponse$inboundSchema: z.ZodMiniType<
   GetASpecificTeamResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => GetASpecificTeamResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => GetASpecificTeamResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function getASpecificTeamResponseFromJSON(

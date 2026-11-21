@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
@@ -28,15 +28,17 @@ export type RemoveFromPullListRequest$Outbound = {
 export const RemoveFromPullListRequest$outboundSchema: z.ZodMiniType<
   RemoveFromPullListRequest$Outbound,
   RemoveFromPullListRequest
-> = z.pipe(
-  z.object({
-    itemId: z.int(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      itemId: "item_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      itemId: z.int(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        itemId: "item_id",
+      });
+    }),
+  )
 );
 
 export function removeFromPullListRequestToJSON(
@@ -51,15 +53,17 @@ export function removeFromPullListRequestToJSON(
 export const RemoveFromPullListResponse$inboundSchema: z.ZodMiniType<
   RemoveFromPullListResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+      });
+    }),
+  )
 );
 
 export function removeFromPullListResponseFromJSON(

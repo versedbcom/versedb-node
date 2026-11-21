@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 
@@ -33,17 +33,19 @@ export type RemoveFromWishlistRequest$Outbound = {
 export const RemoveFromWishlistRequest$outboundSchema: z.ZodMiniType<
   RemoveFromWishlistRequest$Outbound,
   RemoveFromWishlistRequest
-> = z.pipe(
-  z.object({
-    issueId: z.int(),
-    variantId: z.optional(z.int()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      issueId: "issue_id",
-      variantId: "variant_id",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      issueId: z.int(),
+      variantId: z.optional(z.int()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        issueId: "issue_id",
+        variantId: "variant_id",
+      });
+    }),
+  )
 );
 
 export function removeFromWishlistRequestToJSON(
@@ -58,15 +60,17 @@ export function removeFromWishlistRequestToJSON(
 export const RemoveFromWishlistResponse$inboundSchema: z.ZodMiniType<
   RemoveFromWishlistResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+      });
+    }),
+  )
 );
 
 export function removeFromWishlistResponseFromJSON(

@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import * as openEnums from "../../types/enums.js";
 import { OpenEnum } from "../../types/enums.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
@@ -138,18 +138,20 @@ export type FollowUpdatesRequest$Outbound = {
 export const FollowUpdatesRequest$outboundSchema: z.ZodMiniType<
   FollowUpdatesRequest$Outbound,
   FollowUpdatesRequest
-> = z.pipe(
-  z.object({
-    days: z.optional(z.int()),
-    page: z.optional(z.int()),
-    perPage: z.optional(z.int()),
-    languages: z.optional(z.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      perPage: "per_page",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      days: z.optional(z.int()),
+      page: z.optional(z.int()),
+      perPage: z.optional(z.int()),
+      languages: z.optional(z.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        perPage: "per_page",
+      });
+    }),
+  )
 );
 
 export function followUpdatesRequestToJSON(
@@ -164,20 +166,22 @@ export function followUpdatesRequestToJSON(
 export const FollowUpdatesImages$inboundSchema: z.ZodMiniType<
   FollowUpdatesImages,
   unknown
-> = z.pipe(
-  z.object({
-    thumb: types.optional(types.string()),
-    cover_sm: types.optional(types.string()),
-    cover_md: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_md": "coverMd",
-      "cover_lg": "coverLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      thumb: types.optional(types.string()),
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  )
 );
 
 export function followUpdatesImagesFromJSON(
@@ -194,12 +198,14 @@ export function followUpdatesImagesFromJSON(
 export const FollowUpdatesNameI18n$inboundSchema: z.ZodMiniType<
   FollowUpdatesNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function followUpdatesNameI18nFromJSON(
   jsonString: string,
@@ -215,19 +221,21 @@ export function followUpdatesNameI18nFromJSON(
 export const FollowUpdatesSeriesImages$inboundSchema: z.ZodMiniType<
   FollowUpdatesSeriesImages,
   unknown
-> = z.pipe(
-  z.object({
-    cover_sm: types.optional(types.string()),
-    cover_md: types.optional(types.string()),
-    cover_lg: types.optional(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "cover_sm": "coverSm",
-      "cover_md": "coverMd",
-      "cover_lg": "coverLg",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      cover_sm: types.optional(types.string()),
+      cover_md: types.optional(types.string()),
+      cover_lg: types.optional(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "cover_sm": "coverSm",
+        "cover_md": "coverMd",
+        "cover_lg": "coverLg",
+      });
+    }),
+  )
 );
 
 export function followUpdatesSeriesImagesFromJSON(
@@ -244,34 +252,36 @@ export function followUpdatesSeriesImagesFromJSON(
 export const FollowUpdatesSeries$inboundSchema: z.ZodMiniType<
   FollowUpdatesSeries,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.nullable(types.string()),
-    slug: types.nullable(types.string()),
-    start_year: types.nullable(types.number()),
-    end_year: types.nullable(types.number()),
-    volume_number: types.nullable(types.number()),
-    publication_type: types.nullable(types.string()),
-    format: types.nullable(types.string()),
-    cached_issues_count: types.nullable(types.number()),
-    cover_url: types.nullable(types.string()),
-    images: types.nullable(
-      z.lazy(() => FollowUpdatesSeriesImages$inboundSchema),
-    ),
-    publisher_name: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "start_year": "startYear",
-      "end_year": "endYear",
-      "volume_number": "volumeNumber",
-      "publication_type": "publicationType",
-      "cached_issues_count": "cachedIssuesCount",
-      "cover_url": "coverUrl",
-      "publisher_name": "publisherName",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.nullable(types.string()),
+      slug: types.nullable(types.string()),
+      start_year: types.nullable(types.number()),
+      end_year: types.nullable(types.number()),
+      volume_number: types.nullable(types.number()),
+      publication_type: types.nullable(types.string()),
+      format: types.nullable(types.string()),
+      cached_issues_count: types.nullable(types.number()),
+      cover_url: types.nullable(types.string()),
+      images: types.nullable(
+        z.lazy(() => FollowUpdatesSeriesImages$inboundSchema),
+      ),
+      publisher_name: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "start_year": "startYear",
+        "end_year": "endYear",
+        "volume_number": "volumeNumber",
+        "publication_type": "publicationType",
+        "cached_issues_count": "cachedIssuesCount",
+        "cover_url": "coverUrl",
+        "publisher_name": "publisherName",
+      });
+    }),
+  )
 );
 
 export function followUpdatesSeriesFromJSON(
@@ -288,49 +298,51 @@ export function followUpdatesSeriesFromJSON(
 export const FollowUpdatesData$inboundSchema: z.ZodMiniType<
   FollowUpdatesData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    slug: types.nullable(types.string()),
-    series_id: types.nullable(types.number()),
-    issue_number: types.nullable(types.string()),
-    name: types.nullable(types.string()),
-    cover_date: types.nullable(types.string()),
-    release_date: types.nullable(types.string()),
-    foc_date: types.nullable(types.string()),
-    is_unreleased: types.boolean(),
-    cover_url: types.nullable(types.string()),
-    images: types.nullable(z.lazy(() => FollowUpdatesImages$inboundSchema)),
-    is_reprint: types.boolean(),
-    content_rating_label: types.nullable(types.string()),
-    min_age: types.nullable(types.number()),
-    is_nsfw: types.boolean(),
-    average_rating: types.nullable(types.number()),
-    name_i18n: z.record(
-      z.string(),
-      z.lazy(() => FollowUpdatesNameI18n$inboundSchema),
-    ),
-    series: z.optional(
-      z.nullable(z.lazy(() => FollowUpdatesSeries$inboundSchema)),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "series_id": "seriesId",
-      "issue_number": "issueNumber",
-      "cover_date": "coverDate",
-      "release_date": "releaseDate",
-      "foc_date": "focDate",
-      "is_unreleased": "isUnreleased",
-      "cover_url": "coverUrl",
-      "is_reprint": "isReprint",
-      "content_rating_label": "contentRatingLabel",
-      "min_age": "minAge",
-      "is_nsfw": "isNsfw",
-      "average_rating": "averageRating",
-      "name_i18n": "nameI18n",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      slug: types.nullable(types.string()),
+      series_id: types.nullable(types.number()),
+      issue_number: types.nullable(types.string()),
+      name: types.nullable(types.string()),
+      cover_date: types.nullable(types.string()),
+      release_date: types.nullable(types.string()),
+      foc_date: types.nullable(types.string()),
+      is_unreleased: types.boolean(),
+      cover_url: types.nullable(types.string()),
+      images: types.nullable(z.lazy(() => FollowUpdatesImages$inboundSchema)),
+      is_reprint: types.boolean(),
+      content_rating_label: types.nullable(types.string()),
+      min_age: types.nullable(types.number()),
+      is_nsfw: types.boolean(),
+      average_rating: types.nullable(types.number()),
+      name_i18n: z.record(
+        z.string(),
+        z.lazy(() => FollowUpdatesNameI18n$inboundSchema),
+      ),
+      series: z.optional(
+        z.nullable(z.lazy(() => FollowUpdatesSeries$inboundSchema)),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "series_id": "seriesId",
+        "issue_number": "issueNumber",
+        "cover_date": "coverDate",
+        "release_date": "releaseDate",
+        "foc_date": "focDate",
+        "is_unreleased": "isUnreleased",
+        "cover_url": "coverUrl",
+        "is_reprint": "isReprint",
+        "content_rating_label": "contentRatingLabel",
+        "min_age": "minAge",
+        "is_nsfw": "isNsfw",
+        "average_rating": "averageRating",
+        "name_i18n": "nameI18n",
+      });
+    }),
+  )
 );
 
 export function followUpdatesDataFromJSON(
@@ -347,7 +359,9 @@ export function followUpdatesDataFromJSON(
 export const FollowContexts$inboundSchema: z.ZodMiniType<
   FollowContexts,
   unknown
-> = smartUnion([z.record(z.string(), types.string()), z.array(z.any())]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([z.record(z.string(), types.string()), z.array(z.any())])
+);
 
 export function followContextsFromJSON(
   jsonString: string,
@@ -363,14 +377,16 @@ export function followContextsFromJSON(
 export const FollowTypesEnum$inboundSchema: z.ZodMiniType<
   FollowTypesEnum,
   unknown
-> = openEnums.inboundSchema(FollowTypesEnum);
+> = /* @__PURE__ */ lazySchema$(() => openEnums.inboundSchema(FollowTypesEnum));
 
 /** @internal */
 export const FollowTypes$inboundSchema: z.ZodMiniType<FollowTypes, unknown> =
-  smartUnion([
-    z.record(z.string(), FollowTypesEnum$inboundSchema),
-    z.array(z.any()),
-  ]);
+  /* @__PURE__ */ lazySchema$(() =>
+    smartUnion([
+      z.record(z.string(), FollowTypesEnum$inboundSchema),
+      z.array(z.any()),
+    ])
+  );
 
 export function followTypesFromJSON(
   jsonString: string,
@@ -386,23 +402,25 @@ export function followTypesFromJSON(
 export const FollowUpdatesMeta$inboundSchema: z.ZodMiniType<
   FollowUpdatesMeta,
   unknown
-> = z.pipe(
-  z.object({
-    days: types.number(),
-    total_follows: types.number(),
-    current_page: types.number(),
-    per_page: types.number(),
-    total: types.number(),
-    last_page: types.number(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "total_follows": "totalFollows",
-      "current_page": "currentPage",
-      "per_page": "perPage",
-      "last_page": "lastPage",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      days: types.number(),
+      total_follows: types.number(),
+      current_page: types.number(),
+      per_page: types.number(),
+      total: types.number(),
+      last_page: types.number(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "total_follows": "totalFollows",
+        "current_page": "currentPage",
+        "per_page": "perPage",
+        "last_page": "lastPage",
+      });
+    }),
+  )
 );
 
 export function followUpdatesMetaFromJSON(
@@ -419,26 +437,28 @@ export function followUpdatesMetaFromJSON(
 export const FollowUpdatesResponseBody$inboundSchema: z.ZodMiniType<
   FollowUpdatesResponseBody,
   unknown
-> = z.pipe(
-  z.object({
-    data: z.array(z.lazy(() => FollowUpdatesData$inboundSchema)),
-    follow_contexts: types.optional(
-      smartUnion([z.record(z.string(), types.string()), z.array(z.any())]),
-    ),
-    follow_types: types.optional(
-      smartUnion([
-        z.record(z.string(), FollowTypesEnum$inboundSchema),
-        z.array(z.any()),
-      ]),
-    ),
-    meta: z.lazy(() => FollowUpdatesMeta$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "follow_contexts": "followContexts",
-      "follow_types": "followTypes",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      data: z.array(z.lazy(() => FollowUpdatesData$inboundSchema)),
+      follow_contexts: types.optional(
+        smartUnion([z.record(z.string(), types.string()), z.array(z.any())]),
+      ),
+      follow_types: types.optional(
+        smartUnion([
+          z.record(z.string(), FollowTypesEnum$inboundSchema),
+          z.array(z.any()),
+        ]),
+      ),
+      meta: z.lazy(() => FollowUpdatesMeta$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "follow_contexts": "followContexts",
+        "follow_types": "followTypes",
+      });
+    }),
+  )
 );
 
 export function followUpdatesResponseBodyFromJSON(
@@ -455,17 +475,19 @@ export function followUpdatesResponseBodyFromJSON(
 export const FollowUpdatesResponse$inboundSchema: z.ZodMiniType<
   FollowUpdatesResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => FollowUpdatesResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => FollowUpdatesResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function followUpdatesResponseFromJSON(

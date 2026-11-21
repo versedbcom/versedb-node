@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
@@ -146,20 +146,22 @@ export type BrowseListsRequest$Outbound = {
 export const BrowseListsRequest$outboundSchema: z.ZodMiniType<
   BrowseListsRequest$Outbound,
   BrowseListsRequest
-> = z.pipe(
-  z.object({
-    q: z.optional(z.string()),
-    entityType: z.optional(z.string()),
-    type: z.optional(z.string()),
-    sort: z.optional(z.string()),
-    limit: z.optional(z.int()),
-    page: z.optional(z.int()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      entityType: "entity_type",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      q: z.optional(z.string()),
+      entityType: z.optional(z.string()),
+      type: z.optional(z.string()),
+      sort: z.optional(z.string()),
+      limit: z.optional(z.int()),
+      page: z.optional(z.int()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        entityType: "entity_type",
+      });
+    }),
+  )
 );
 
 export function browseListsRequestToJSON(
@@ -174,11 +176,13 @@ export function browseListsRequestToJSON(
 export const BrowseListsUser$inboundSchema: z.ZodMiniType<
   BrowseListsUser,
   unknown
-> = z.object({
-  id: types.number(),
-  username: types.nullable(types.string()),
-  avatar: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: types.number(),
+    username: types.nullable(types.string()),
+    avatar: types.nullable(types.string()),
+  })
+);
 
 export function browseListsUserFromJSON(
   jsonString: string,
@@ -194,18 +198,20 @@ export function browseListsUserFromJSON(
 export const BrowseListsPreviewItem$inboundSchema: z.ZodMiniType<
   BrowseListsPreviewItem,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    image_url: types.nullable(types.string()),
-    is_nsfw: types.boolean(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "image_url": "imageUrl",
-      "is_nsfw": "isNsfw",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      image_url: types.nullable(types.string()),
+      is_nsfw: types.boolean(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "image_url": "imageUrl",
+        "is_nsfw": "isNsfw",
+      });
+    }),
+  )
 );
 
 export function browseListsPreviewItemFromJSON(
@@ -222,46 +228,48 @@ export function browseListsPreviewItemFromJSON(
 export const BrowseListsData$inboundSchema: z.ZodMiniType<
   BrowseListsData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    title: types.string(),
-    slug: types.string(),
-    description: types.optional(types.string()),
-    entity_type: types.string(),
-    list_type: types.string(),
-    entity_type_label: types.string(),
-    is_curated: types.boolean(),
-    is_smart: types.boolean(),
-    is_ranked: types.boolean(),
-    is_private: types.boolean(),
-    items_count: types.number(),
-    saves_count: types.number(),
-    likes_count: types.number(),
-    created_at: types.string(),
-    updated_at: types.string(),
-    user: types.nullable(z.lazy(() => BrowseListsUser$inboundSchema)),
-    preview_items: types.optional(
-      z.array(z.lazy(() => BrowseListsPreviewItem$inboundSchema)),
-    ),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "entity_type": "entityType",
-      "list_type": "listType",
-      "entity_type_label": "entityTypeLabel",
-      "is_curated": "isCurated",
-      "is_smart": "isSmart",
-      "is_ranked": "isRanked",
-      "is_private": "isPrivate",
-      "items_count": "itemsCount",
-      "saves_count": "savesCount",
-      "likes_count": "likesCount",
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-      "preview_items": "previewItems",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      title: types.string(),
+      slug: types.string(),
+      description: types.optional(types.string()),
+      entity_type: types.string(),
+      list_type: types.string(),
+      entity_type_label: types.string(),
+      is_curated: types.boolean(),
+      is_smart: types.boolean(),
+      is_ranked: types.boolean(),
+      is_private: types.boolean(),
+      items_count: types.number(),
+      saves_count: types.number(),
+      likes_count: types.number(),
+      created_at: types.string(),
+      updated_at: types.string(),
+      user: types.nullable(z.lazy(() => BrowseListsUser$inboundSchema)),
+      preview_items: types.optional(
+        z.array(z.lazy(() => BrowseListsPreviewItem$inboundSchema)),
+      ),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "entity_type": "entityType",
+        "list_type": "listType",
+        "entity_type_label": "entityTypeLabel",
+        "is_curated": "isCurated",
+        "is_smart": "isSmart",
+        "is_ranked": "isRanked",
+        "is_private": "isPrivate",
+        "items_count": "itemsCount",
+        "saves_count": "savesCount",
+        "likes_count": "likesCount",
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+        "preview_items": "previewItems",
+      });
+    }),
+  )
 );
 
 export function browseListsDataFromJSON(
@@ -278,12 +286,14 @@ export function browseListsDataFromJSON(
 export const BrowseListsLinks$inboundSchema: z.ZodMiniType<
   BrowseListsLinks,
   unknown
-> = z.object({
-  first: types.string(),
-  last: types.string(),
-  prev: types.nullable(types.string()),
-  next: types.nullable(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    first: types.string(),
+    last: types.string(),
+    prev: types.nullable(types.string()),
+    next: types.nullable(types.string()),
+  })
+);
 
 export function browseListsLinksFromJSON(
   jsonString: string,
@@ -299,12 +309,14 @@ export function browseListsLinksFromJSON(
 export const BrowseListsLink$inboundSchema: z.ZodMiniType<
   BrowseListsLink,
   unknown
-> = z.object({
-  url: types.nullable(types.string()),
-  label: types.string(),
-  page: z.optional(z.nullable(types.number())),
-  active: types.boolean(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    url: types.nullable(types.string()),
+    label: types.string(),
+    page: z.optional(z.nullable(types.number())),
+    active: types.boolean(),
+  })
+);
 
 export function browseListsLinkFromJSON(
   jsonString: string,
@@ -320,24 +332,26 @@ export function browseListsLinkFromJSON(
 export const BrowseListsMeta$inboundSchema: z.ZodMiniType<
   BrowseListsMeta,
   unknown
-> = z.pipe(
-  z.object({
-    current_page: types.number(),
-    from: types.nullable(types.number()),
-    last_page: types.number(),
-    links: z.array(z.lazy(() => BrowseListsLink$inboundSchema)),
-    path: types.string(),
-    per_page: types.number(),
-    to: types.nullable(types.number()),
-    total: types.number(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "current_page": "currentPage",
-      "last_page": "lastPage",
-      "per_page": "perPage",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      current_page: types.number(),
+      from: types.nullable(types.number()),
+      last_page: types.number(),
+      links: z.array(z.lazy(() => BrowseListsLink$inboundSchema)),
+      path: types.string(),
+      per_page: types.number(),
+      to: types.nullable(types.number()),
+      total: types.number(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "current_page": "currentPage",
+        "last_page": "lastPage",
+        "per_page": "perPage",
+      });
+    }),
+  )
 );
 
 export function browseListsMetaFromJSON(
@@ -354,11 +368,13 @@ export function browseListsMetaFromJSON(
 export const BrowseListsResponseBody$inboundSchema: z.ZodMiniType<
   BrowseListsResponseBody,
   unknown
-> = z.object({
-  data: z.array(z.lazy(() => BrowseListsData$inboundSchema)),
-  links: z.lazy(() => BrowseListsLinks$inboundSchema),
-  meta: z.lazy(() => BrowseListsMeta$inboundSchema),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    data: z.array(z.lazy(() => BrowseListsData$inboundSchema)),
+    links: z.lazy(() => BrowseListsLinks$inboundSchema),
+    meta: z.lazy(() => BrowseListsMeta$inboundSchema),
+  })
+);
 
 export function browseListsResponseBodyFromJSON(
   jsonString: string,
@@ -374,17 +390,19 @@ export function browseListsResponseBodyFromJSON(
 export const BrowseListsResponse$inboundSchema: z.ZodMiniType<
   BrowseListsResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => BrowseListsResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => BrowseListsResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function browseListsResponseFromJSON(

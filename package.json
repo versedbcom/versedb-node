@@ -1,6 +1,6 @@
 {
   "name": "@versedbcom/sdk",
-  "version": "3.0.15",
+  "version": "3.0.16",
   "author": "VerseDB",
   "license": "MIT",
   "type": "module",
@@ -12,6 +12,11 @@
       "default": "./esm/index.js"
     },
     "./package.json": "./package.json",
+    "./node": {
+      "source": "./src/node.ts",
+      "types": "./esm/node.d.ts",
+      "default": "./esm/node.js"
+    },
     "./types": {
       "source": "./src/types/index.ts",
       "types": "./esm/types/index.d.ts",

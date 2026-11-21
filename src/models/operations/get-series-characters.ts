@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { smartUnion } from "../../types/smart-union.js";
@@ -168,11 +168,13 @@ export type GetSeriesCharactersRequest$Outbound = {
 export const GetSeriesCharactersRequest$outboundSchema: z.ZodMiniType<
   GetSeriesCharactersRequest$Outbound,
   GetSeriesCharactersRequest
-> = z.object({
-  id: z.int(),
-  page: z.optional(z.int()),
-  languages: z.optional(z.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: z.int(),
+    page: z.optional(z.int()),
+    languages: z.optional(z.string()),
+  })
+);
 
 export function getSeriesCharactersRequestToJSON(
   getSeriesCharactersRequest: GetSeriesCharactersRequest,
@@ -186,13 +188,15 @@ export function getSeriesCharactersRequestToJSON(
 export const GetSeriesCharactersAlterEgo$inboundSchema: z.ZodMiniType<
   GetSeriesCharactersAlterEgo,
   unknown
-> = smartUnion([
-  types.string(),
-  types.number(),
-  types.boolean(),
-  z.array(z.any()),
-  z.record(z.string(), z.any()),
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  smartUnion([
+    types.string(),
+    types.number(),
+    types.boolean(),
+    z.array(z.any()),
+    z.record(z.string(), z.any()),
+  ])
+);
 
 export function getSeriesCharactersAlterEgoFromJSON(
   jsonString: string,
@@ -208,12 +212,14 @@ export function getSeriesCharactersAlterEgoFromJSON(
 export const GetSeriesCharactersNameI18n$inboundSchema: z.ZodMiniType<
   GetSeriesCharactersNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function getSeriesCharactersNameI18nFromJSON(
   jsonString: string,
@@ -229,12 +235,14 @@ export function getSeriesCharactersNameI18nFromJSON(
 export const GetSeriesCharactersRealNameI18n$inboundSchema: z.ZodMiniType<
   GetSeriesCharactersRealNameI18n,
   unknown
-> = z.object({
-  value: types.string(),
-  source: types.string(),
-  reading: types.optional(types.string()),
-  sort: types.optional(types.string()),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    value: types.string(),
+    source: types.string(),
+    reading: types.optional(types.string()),
+    sort: types.optional(types.string()),
+  })
+);
 
 export function getSeriesCharactersRealNameI18nFromJSON(
   jsonString: string,
@@ -250,19 +258,21 @@ export function getSeriesCharactersRealNameI18nFromJSON(
 export const GetSeriesCharactersTagPivot$inboundSchema: z.ZodMiniType<
   GetSeriesCharactersTagPivot,
   unknown
-> = z.pipe(
-  z.object({
-    taggable_type: types.string(),
-    taggable_id: types.number(),
-    tag_id: types.number(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "taggable_type": "taggableType",
-      "taggable_id": "taggableId",
-      "tag_id": "tagId",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      taggable_type: types.string(),
+      taggable_id: types.number(),
+      tag_id: types.number(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "taggable_type": "taggableType",
+        "taggable_id": "taggableId",
+        "tag_id": "tagId",
+      });
+    }),
+  )
 );
 
 export function getSeriesCharactersTagPivotFromJSON(
@@ -279,24 +289,26 @@ export function getSeriesCharactersTagPivotFromJSON(
 export const GetSeriesCharactersTag$inboundSchema: z.ZodMiniType<
   GetSeriesCharactersTag,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: z.record(z.string(), types.string()),
-    slug: z.record(z.string(), types.string()),
-    type: types.nullable(types.string()),
-    order_column: types.nullable(types.number()),
-    created_at: types.nullable(types.string()),
-    updated_at: types.nullable(types.string()),
-    pivot: z.lazy(() => GetSeriesCharactersTagPivot$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "order_column": "orderColumn",
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: z.record(z.string(), types.string()),
+      slug: z.record(z.string(), types.string()),
+      type: types.nullable(types.string()),
+      order_column: types.nullable(types.number()),
+      created_at: types.nullable(types.string()),
+      updated_at: types.nullable(types.string()),
+      pivot: z.lazy(() => GetSeriesCharactersTagPivot$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "order_column": "orderColumn",
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+      });
+    }),
+  )
 );
 
 export function getSeriesCharactersTagFromJSON(
@@ -313,21 +325,23 @@ export function getSeriesCharactersTagFromJSON(
 export const GetSeriesCharactersPivot$inboundSchema: z.ZodMiniType<
   GetSeriesCharactersPivot,
   unknown
-> = z.pipe(
-  z.object({
-    series_id: types.number(),
-    character_id: types.number(),
-    created_at: types.nullable(types.string()),
-    updated_at: types.nullable(types.string()),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "series_id": "seriesId",
-      "character_id": "characterId",
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      series_id: types.number(),
+      character_id: types.number(),
+      created_at: types.nullable(types.string()),
+      updated_at: types.nullable(types.string()),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "series_id": "seriesId",
+        "character_id": "characterId",
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+      });
+    }),
+  )
 );
 
 export function getSeriesCharactersPivotFromJSON(
@@ -344,76 +358,78 @@ export function getSeriesCharactersPivotFromJSON(
 export const GetSeriesCharactersData$inboundSchema: z.ZodMiniType<
   GetSeriesCharactersData,
   unknown
-> = z.pipe(
-  z.object({
-    id: types.number(),
-    name: types.string(),
-    slug: types.string(),
-    real_name: types.nullable(types.string()),
-    description: types.nullable(types.string()),
-    alter_ego: types.nullable(
-      smartUnion([
-        types.string(),
-        types.number(),
-        types.boolean(),
-        z.array(z.any()),
-        z.record(z.string(), z.any()),
-      ]),
-    ),
-    birthday: types.nullable(types.string()),
-    birth_place: types.nullable(types.string()),
-    occupation: types.nullable(types.string()),
-    height: types.nullable(types.string()),
-    weight: types.nullable(types.string()),
-    citizenship: types.nullable(types.string()),
-    education: types.nullable(types.string()),
-    aliases: types.nullable(z.array(types.string())),
-    profile_photo_path: types.nullable(types.string()),
-    gender: types.nullable(types.string()),
-    created_at: types.nullable(types.string()),
-    updated_at: types.nullable(types.string()),
-    deleted_at: types.nullable(types.string()),
-    last_edited_by: types.nullable(types.number()),
-    last_edited_at: types.nullable(types.string()),
-    public_lists_count: types.number(),
-    debut_date: types.nullable(types.string()),
-    debut_issue_id: types.nullable(types.number()),
-    debut_editorial: types.boolean(),
-    original_locale: types.nullable(types.string()),
-    name_i18n: z.record(
-      z.string(),
-      z.lazy(() => GetSeriesCharactersNameI18n$inboundSchema),
-    ),
-    aliases_i18n: z.record(z.string(), z.array(types.string())),
-    real_name_i18n: z.record(
-      z.string(),
-      z.lazy(() => GetSeriesCharactersRealNameI18n$inboundSchema),
-    ),
-    race: types.nullable(types.string()),
-    tags: z.array(z.lazy(() => GetSeriesCharactersTag$inboundSchema)),
-    pivot: z.lazy(() => GetSeriesCharactersPivot$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "real_name": "realName",
-      "alter_ego": "alterEgo",
-      "birth_place": "birthPlace",
-      "profile_photo_path": "profilePhotoPath",
-      "created_at": "createdAt",
-      "updated_at": "updatedAt",
-      "deleted_at": "deletedAt",
-      "last_edited_by": "lastEditedBy",
-      "last_edited_at": "lastEditedAt",
-      "public_lists_count": "publicListsCount",
-      "debut_date": "debutDate",
-      "debut_issue_id": "debutIssueId",
-      "debut_editorial": "debutEditorial",
-      "original_locale": "originalLocale",
-      "name_i18n": "nameI18n",
-      "aliases_i18n": "aliasesI18n",
-      "real_name_i18n": "realNameI18n",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      id: types.number(),
+      name: types.string(),
+      slug: types.string(),
+      real_name: types.nullable(types.string()),
+      description: types.nullable(types.string()),
+      alter_ego: types.nullable(
+        smartUnion([
+          types.string(),
+          types.number(),
+          types.boolean(),
+          z.array(z.any()),
+          z.record(z.string(), z.any()),
+        ]),
+      ),
+      birthday: types.nullable(types.string()),
+      birth_place: types.nullable(types.string()),
+      occupation: types.nullable(types.string()),
+      height: types.nullable(types.string()),
+      weight: types.nullable(types.string()),
+      citizenship: types.nullable(types.string()),
+      education: types.nullable(types.string()),
+      aliases: types.nullable(z.array(types.string())),
+      profile_photo_path: types.nullable(types.string()),
+      gender: types.nullable(types.string()),
+      created_at: types.nullable(types.string()),
+      updated_at: types.nullable(types.string()),
+      deleted_at: types.nullable(types.string()),
+      last_edited_by: types.nullable(types.number()),
+      last_edited_at: types.nullable(types.string()),
+      public_lists_count: types.number(),
+      debut_date: types.nullable(types.string()),
+      debut_issue_id: types.nullable(types.number()),
+      debut_editorial: types.boolean(),
+      original_locale: types.nullable(types.string()),
+      name_i18n: z.record(
+        z.string(),
+        z.lazy(() => GetSeriesCharactersNameI18n$inboundSchema),
+      ),
+      aliases_i18n: z.record(z.string(), z.array(types.string())),
+      real_name_i18n: z.record(
+        z.string(),
+        z.lazy(() => GetSeriesCharactersRealNameI18n$inboundSchema),
+      ),
+      race: types.nullable(types.string()),
+      tags: z.array(z.lazy(() => GetSeriesCharactersTag$inboundSchema)),
+      pivot: z.lazy(() => GetSeriesCharactersPivot$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "real_name": "realName",
+        "alter_ego": "alterEgo",
+        "birth_place": "birthPlace",
+        "profile_photo_path": "profilePhotoPath",
+        "created_at": "createdAt",
+        "updated_at": "updatedAt",
+        "deleted_at": "deletedAt",
+        "last_edited_by": "lastEditedBy",
+        "last_edited_at": "lastEditedAt",
+        "public_lists_count": "publicListsCount",
+        "debut_date": "debutDate",
+        "debut_issue_id": "debutIssueId",
+        "debut_editorial": "debutEditorial",
+        "original_locale": "originalLocale",
+        "name_i18n": "nameI18n",
+        "aliases_i18n": "aliasesI18n",
+        "real_name_i18n": "realNameI18n",
+      });
+    }),
+  )
 );
 
 export function getSeriesCharactersDataFromJSON(
@@ -430,12 +446,14 @@ export function getSeriesCharactersDataFromJSON(
 export const GetSeriesCharactersLink$inboundSchema: z.ZodMiniType<
   GetSeriesCharactersLink,
   unknown
-> = z.object({
-  url: types.nullable(types.string()),
-  label: types.string(),
-  page: z.optional(z.nullable(types.number())),
-  active: types.boolean(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    url: types.nullable(types.string()),
+    label: types.string(),
+    page: z.optional(z.nullable(types.number())),
+    active: types.boolean(),
+  })
+);
 
 export function getSeriesCharactersLinkFromJSON(
   jsonString: string,
@@ -451,33 +469,35 @@ export function getSeriesCharactersLinkFromJSON(
 export const GetSeriesCharactersResponseBody$inboundSchema: z.ZodMiniType<
   GetSeriesCharactersResponseBody,
   unknown
-> = z.pipe(
-  z.object({
-    current_page: types.number(),
-    data: z.array(z.lazy(() => GetSeriesCharactersData$inboundSchema)),
-    first_page_url: types.string(),
-    from: types.nullable(types.number()),
-    last_page: types.number(),
-    last_page_url: types.string(),
-    links: z.array(z.lazy(() => GetSeriesCharactersLink$inboundSchema)),
-    next_page_url: types.nullable(types.string()),
-    path: types.string(),
-    per_page: types.number(),
-    prev_page_url: types.nullable(types.string()),
-    to: types.nullable(types.number()),
-    total: types.number(),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "current_page": "currentPage",
-      "first_page_url": "firstPageUrl",
-      "last_page": "lastPage",
-      "last_page_url": "lastPageUrl",
-      "next_page_url": "nextPageUrl",
-      "per_page": "perPage",
-      "prev_page_url": "prevPageUrl",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      current_page: types.number(),
+      data: z.array(z.lazy(() => GetSeriesCharactersData$inboundSchema)),
+      first_page_url: types.string(),
+      from: types.nullable(types.number()),
+      last_page: types.number(),
+      last_page_url: types.string(),
+      links: z.array(z.lazy(() => GetSeriesCharactersLink$inboundSchema)),
+      next_page_url: types.nullable(types.string()),
+      path: types.string(),
+      per_page: types.number(),
+      prev_page_url: types.nullable(types.string()),
+      to: types.nullable(types.number()),
+      total: types.number(),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "current_page": "currentPage",
+        "first_page_url": "firstPageUrl",
+        "last_page": "lastPage",
+        "last_page_url": "lastPageUrl",
+        "next_page_url": "nextPageUrl",
+        "per_page": "perPage",
+        "prev_page_url": "prevPageUrl",
+      });
+    }),
+  )
 );
 
 export function getSeriesCharactersResponseBodyFromJSON(
@@ -494,17 +514,19 @@ export function getSeriesCharactersResponseBodyFromJSON(
 export const GetSeriesCharactersResponse$inboundSchema: z.ZodMiniType<
   GetSeriesCharactersResponse,
   unknown
-> = z.pipe(
-  z.object({
-    Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
-    Result: z.lazy(() => GetSeriesCharactersResponseBody$inboundSchema),
-  }),
-  z.transform((v) => {
-    return remap$(v, {
-      "Headers": "headers",
-      "Result": "result",
-    });
-  }),
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.pipe(
+    z.object({
+      Headers: z._default(z.record(z.string(), z.array(z.string())), {}),
+      Result: z.lazy(() => GetSeriesCharactersResponseBody$inboundSchema),
+    }),
+    z.transform((v) => {
+      return remap$(v, {
+        "Headers": "headers",
+        "Result": "result",
+      });
+    }),
+  )
 );
 
 export function getSeriesCharactersResponseFromJSON(
