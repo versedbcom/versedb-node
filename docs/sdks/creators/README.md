@@ -3,7 +3,7 @@
 ## Overview
 
 
-Endpoints for browsing and searching comic book creators.
+Endpoints for browsing and searching comics and manga creators.
 
 Creators include writers, artists, colorists, letterers, editors, and other roles.
 

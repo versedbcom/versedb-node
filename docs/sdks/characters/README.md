@@ -3,7 +3,7 @@
 ## Overview
 
 
-Endpoints for browsing and searching comic book characters.
+Endpoints for browsing and searching comics and manga characters.
 
 Characters include heroes, villains, and supporting characters across all publishers.
 

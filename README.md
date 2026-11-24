@@ -100,7 +100,7 @@ The SDK source is generated — see [CONTRIBUTING.md](CONTRIBUTING.md) before op
 <!-- Start Summary [summary] -->
 ## Summary
 
-VerseDB API Documentation: REST API for accessing comic book data, managing collections, and building integrations with VerseDB.
+VerseDB API Documentation: REST API for accessing comics and manga data, managing collections, and building integrations with VerseDB.
 <!-- End Summary [summary] -->
 
 <!-- Start Table of Contents [toc] -->

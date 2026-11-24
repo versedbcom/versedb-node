@@ -3,9 +3,9 @@
 ## Overview
 
 
-Endpoints for browsing and searching comic book series.
+Endpoints for browsing and searching comics and manga series.
 
-A series represents a specific volume or run of a title (e.g., "Amazing Spider-Man (2018)").
+A series represents a specific volume or run of a title (e.g., "Amazing Spider-Man (2018)", "One Piece (2003)").
 
 ### Available Operations
 

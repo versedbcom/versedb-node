@@ -3,7 +3,7 @@
 ## Overview
 
 
-User-generated and curated lists of comic content.
+User-generated and curated lists of comics and manga content.
 
 Lists allow users to organize and share collections of issues, series, characters, creators, teams, or story arcs.
 Users can save and like lists, and lists can be ranked or unranked.

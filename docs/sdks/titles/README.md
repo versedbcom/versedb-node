@@ -3,7 +3,7 @@
 ## Overview
 
 
-Endpoints for browsing comic book titles (franchises/properties).
+Endpoints for browsing comics and manga titles (franchises/properties).
 
 A title represents a franchise (e.g., "Batman"), which may have multiple series under it.
 

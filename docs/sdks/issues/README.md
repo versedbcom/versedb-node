@@ -3,9 +3,9 @@
 ## Overview
 
 
-Endpoints for browsing and searching comic book issues.
+Endpoints for browsing and searching comic issues and manga volumes.
 
-An issue is a single publication in a series (e.g., "Amazing Spider-Man #1").
+An issue is a single publication in a series (e.g., "Amazing Spider-Man #1", "One Piece Vol. 1").
 
 ### Available Operations
 

@@ -3,7 +3,7 @@
 ## Overview
 
 
-Endpoints for browsing comic book imprints (publisher sub-brands, e.g.,
+Endpoints for browsing comics and manga imprints (publisher sub-brands, e.g.,
 Vertigo under DC, Icon under Marvel).
 
 ### Available Operations

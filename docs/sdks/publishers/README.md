@@ -3,7 +3,7 @@
 ## Overview
 
 
-Endpoints for browsing comic book publishers.
+Endpoints for browsing comics and manga publishers.
 
 ### Available Operations
 
