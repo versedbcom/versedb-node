@@ -3,7 +3,7 @@
 ## Overview
 
 
-Endpoints for browsing comic book podcasts and episodes.
+Endpoints for browsing comics and manga podcasts and episodes.
 
 ### Available Operations
 
@@ -12,7 +12,7 @@ Endpoints for browsing comic book podcasts and episodes.
 
 ## listAllPodcastsWithOptionalSearch
 
-Returns a paginated list of comic book podcasts and YouTube channels, plus
+Returns a paginated list of comics and manga podcasts and YouTube channels, plus
 the languages and categories present in the catalog. Filter with `q`, `type`,
 `language`, or `category`, and order with `sort`.
 

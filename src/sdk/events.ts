@@ -13,7 +13,7 @@ export class Events extends ClientSDK {
    * List events.
    *
    * @remarks
-   * Returns comic conventions and store events, paginated. Filter by type, time, place and format, and order with `sort`.
+   * Returns conventions and store events, paginated. Filter by type, time, place and format, and order with `sort`.
    */
   async listEvents(
     request?: operations.ListEventsRequest | undefined,

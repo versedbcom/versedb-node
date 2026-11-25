@@ -3,7 +3,7 @@
 ## Overview
 
 
-Endpoints for looking up comics by barcode (UPC or ISBN) or by a distributor's
+Endpoints for looking up comics and manga by barcode (UPC or ISBN) or by a distributor's
 order code (Lunar or Universal). Used by the mobile app's barcode scanning feature
 and exposed to User API tokens via the `lookup:barcode` ability.
 

@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * List events.
  *
  * @remarks
- * Returns comic conventions and store events, paginated. Filter by type, time, place and format, and order with `sort`.
+ * Returns conventions and store events, paginated. Filter by type, time, place and format, and order with `sort`.
  */
 export function eventsListEvents(
   client: VerseDBCore,

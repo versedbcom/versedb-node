@@ -31,7 +31,7 @@ import { Result } from "../types/fp.js";
  * List all podcasts with optional search
  *
  * @remarks
- * Returns a paginated list of comic book podcasts and YouTube channels, plus
+ * Returns a paginated list of comics and manga podcasts and YouTube channels, plus
  * the languages and categories present in the catalog. Filter with `q`, `type`,
  * `language`, or `category`, and order with `sort`.
  */

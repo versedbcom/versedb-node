@@ -3,7 +3,7 @@
 ## Overview
 
 
-Endpoints for browsing comic conventions and store events.
+Endpoints for browsing conventions and store events.
 
 ### Available Operations
 
@@ -12,7 +12,7 @@ Endpoints for browsing comic conventions and store events.
 
 ## listEvents
 
-Returns comic conventions and store events, paginated. Filter by type, time, place and format, and order with `sort`.
+Returns conventions and store events, paginated. Filter by type, time, place and format, and order with `sort`.
 
 ### Example Usage
 
