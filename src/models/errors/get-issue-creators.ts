@@ -46,10 +46,12 @@ export const GetIssueCreatorsForbiddenError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new GetIssueCreatorsForbiddenError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new GetIssueCreatorsForbiddenError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )

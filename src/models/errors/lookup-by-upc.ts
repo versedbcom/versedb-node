@@ -136,10 +136,12 @@ export const LookupByUPCUnprocessableEntityError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new LookupByUPCUnprocessableEntityError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new LookupByUPCUnprocessableEntityError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -161,14 +163,15 @@ export const LookupByUPCConflictError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      const remapped = remap$(v, {
+      const { request$, response$, body$, ...data } = v;
+      const remapped = remap$(data, {
         "total_count": "totalCount",
       });
 
       return new LookupByUPCConflictError(remapped, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -187,10 +190,12 @@ export const LookupByUPCNotFoundError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new LookupByUPCNotFoundError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new LookupByUPCNotFoundError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -209,10 +214,12 @@ export const LookupByUPCForbiddenError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new LookupByUPCForbiddenError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new LookupByUPCForbiddenError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )

@@ -46,10 +46,12 @@ export const ListSeriesForbiddenError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new ListSeriesForbiddenError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new ListSeriesForbiddenError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )

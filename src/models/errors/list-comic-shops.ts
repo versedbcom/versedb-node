@@ -46,10 +46,12 @@ export const ListComicShopsForbiddenError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new ListComicShopsForbiddenError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new ListComicShopsForbiddenError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )

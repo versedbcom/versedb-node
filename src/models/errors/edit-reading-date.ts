@@ -156,10 +156,12 @@ export const EditReadingDateResponseBodyError3$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new EditReadingDateResponseBodyError3(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new EditReadingDateResponseBodyError3(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -179,10 +181,12 @@ export const EditReadingDateResponseBodyError2$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new EditReadingDateResponseBodyError2(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new EditReadingDateResponseBodyError2(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -202,10 +206,12 @@ export const EditReadingDateResponseBodyError1$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new EditReadingDateResponseBodyError1(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new EditReadingDateResponseBodyError1(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -247,10 +253,12 @@ export const EditReadingDateNotFoundError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new EditReadingDateNotFoundError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new EditReadingDateNotFoundError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -269,10 +277,12 @@ export const EditReadingDateForbiddenError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new EditReadingDateForbiddenError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new EditReadingDateForbiddenError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )

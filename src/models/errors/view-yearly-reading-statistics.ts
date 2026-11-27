@@ -71,10 +71,12 @@ export const ViewYearlyReadingStatisticsForbiddenError$inboundSchema:
           body$: z.string(),
         }),
         z.transform((v) => {
-          return new ViewYearlyReadingStatisticsForbiddenError(v, {
-            request: v.request$,
-            response: v.response$,
-            body: v.body$,
+          const { request$, response$, body$, ...data } = v;
+
+          return new ViewYearlyReadingStatisticsForbiddenError(data, {
+            request: request$,
+            response: response$,
+            body: body$,
           });
         }),
       )
@@ -92,10 +94,12 @@ export const ViewYearlyReadingStatisticsUnauthorizedError$inboundSchema:
           body$: z.string(),
         }),
         z.transform((v) => {
-          return new ViewYearlyReadingStatisticsUnauthorizedError(v, {
-            request: v.request$,
-            response: v.response$,
-            body: v.body$,
+          const { request$, response$, body$, ...data } = v;
+
+          return new ViewYearlyReadingStatisticsUnauthorizedError(data, {
+            request: request$,
+            response: response$,
+            body: body$,
           });
         }),
       )

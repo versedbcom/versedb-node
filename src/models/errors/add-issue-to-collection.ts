@@ -212,10 +212,12 @@ export const AddIssueToCollectionResponseBodyError3$inboundSchema:
           body$: z.string(),
         }),
         z.transform((v) => {
-          return new AddIssueToCollectionResponseBodyError3(v, {
-            request: v.request$,
-            response: v.response$,
-            body: v.body$,
+          const { request$, response$, body$, ...data } = v;
+
+          return new AddIssueToCollectionResponseBodyError3(data, {
+            request: request$,
+            response: response$,
+            body: body$,
           });
         }),
       )
@@ -234,10 +236,12 @@ export const AddIssueToCollectionResponseBodyError2$inboundSchema:
           body$: z.string(),
         }),
         z.transform((v) => {
-          return new AddIssueToCollectionResponseBodyError2(v, {
-            request: v.request$,
-            response: v.response$,
-            body: v.body$,
+          const { request$, response$, body$, ...data } = v;
+
+          return new AddIssueToCollectionResponseBodyError2(data, {
+            request: request$,
+            response: response$,
+            body: body$,
           });
         }),
       )
@@ -256,10 +260,12 @@ export const AddIssueToCollectionResponseBodyError1$inboundSchema:
           body$: z.string(),
         }),
         z.transform((v) => {
-          return new AddIssueToCollectionResponseBodyError1(v, {
-            request: v.request$,
-            response: v.response$,
-            body: v.body$,
+          const { request$, response$, body$, ...data } = v;
+
+          return new AddIssueToCollectionResponseBodyError1(data, {
+            request: request$,
+            response: response$,
+            body: body$,
           });
         }),
       )
@@ -306,10 +312,12 @@ export const AddIssueToCollectionConflictError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new AddIssueToCollectionConflictError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new AddIssueToCollectionConflictError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -328,10 +336,12 @@ export const AddIssueToCollectionNotFoundError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new AddIssueToCollectionNotFoundError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new AddIssueToCollectionNotFoundError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -350,10 +360,12 @@ export const AddIssueToCollectionForbiddenError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new AddIssueToCollectionForbiddenError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new AddIssueToCollectionForbiddenError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -372,10 +384,12 @@ export const AddIssueToCollectionBadRequestError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new AddIssueToCollectionBadRequestError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new AddIssueToCollectionBadRequestError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )

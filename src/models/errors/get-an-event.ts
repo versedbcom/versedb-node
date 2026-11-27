@@ -72,10 +72,12 @@ export const GetAnEventNotFoundError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new GetAnEventNotFoundError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new GetAnEventNotFoundError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -94,10 +96,12 @@ export const GetAnEventForbiddenError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new GetAnEventForbiddenError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new GetAnEventForbiddenError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )

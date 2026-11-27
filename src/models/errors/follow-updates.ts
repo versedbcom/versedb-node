@@ -77,10 +77,12 @@ export const FollowUpdatesUnprocessableEntityError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new FollowUpdatesUnprocessableEntityError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new FollowUpdatesUnprocessableEntityError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -99,10 +101,12 @@ export const FollowUpdatesForbiddenError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new FollowUpdatesForbiddenError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new FollowUpdatesForbiddenError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )

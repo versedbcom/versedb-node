@@ -45,10 +45,12 @@ export const ListAllTeamsWithOptionalSearchForbiddenError$inboundSchema:
           body$: z.string(),
         }),
         z.transform((v) => {
-          return new ListAllTeamsWithOptionalSearchForbiddenError(v, {
-            request: v.request$,
-            response: v.response$,
-            body: v.body$,
+          const { request$, response$, body$, ...data } = v;
+
+          return new ListAllTeamsWithOptionalSearchForbiddenError(data, {
+            request: request$,
+            response: response$,
+            body: body$,
           });
         }),
       )

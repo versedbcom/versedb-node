@@ -75,10 +75,12 @@ export const GetStoryArcsForASpecificCharacterNotFoundError$inboundSchema:
           body$: z.string(),
         }),
         z.transform((v) => {
-          return new GetStoryArcsForASpecificCharacterNotFoundError(v, {
-            request: v.request$,
-            response: v.response$,
-            body: v.body$,
+          const { request$, response$, body$, ...data } = v;
+
+          return new GetStoryArcsForASpecificCharacterNotFoundError(data, {
+            request: request$,
+            response: response$,
+            body: body$,
           });
         }),
       )
@@ -96,10 +98,12 @@ export const GetStoryArcsForASpecificCharacterForbiddenError$inboundSchema:
           body$: z.string(),
         }),
         z.transform((v) => {
-          return new GetStoryArcsForASpecificCharacterForbiddenError(v, {
-            request: v.request$,
-            response: v.response$,
-            body: v.body$,
+          const { request$, response$, body$, ...data } = v;
+
+          return new GetStoryArcsForASpecificCharacterForbiddenError(data, {
+            request: request$,
+            response: response$,
+            body: body$,
           });
         }),
       )

@@ -72,10 +72,12 @@ export const RemoveItemFromListNotFoundError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new RemoveItemFromListNotFoundError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new RemoveItemFromListNotFoundError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -94,10 +96,12 @@ export const RemoveItemFromListForbiddenError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new RemoveItemFromListForbiddenError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new RemoveItemFromListForbiddenError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )

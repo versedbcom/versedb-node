@@ -47,10 +47,12 @@ export const GetStoryArcsForASpecificUniverseForbiddenError$inboundSchema:
           body$: z.string(),
         }),
         z.transform((v) => {
-          return new GetStoryArcsForASpecificUniverseForbiddenError(v, {
-            request: v.request$,
-            response: v.response$,
-            body: v.body$,
+          const { request$, response$, body$, ...data } = v;
+
+          return new GetStoryArcsForASpecificUniverseForbiddenError(data, {
+            request: request$,
+            response: response$,
+            body: body$,
           });
         }),
       )

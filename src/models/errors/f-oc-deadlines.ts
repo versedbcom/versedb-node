@@ -77,10 +77,12 @@ export const FOCDeadlinesUnprocessableEntityError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new FOCDeadlinesUnprocessableEntityError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new FOCDeadlinesUnprocessableEntityError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -99,10 +101,12 @@ export const FOCDeadlinesForbiddenError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new FOCDeadlinesForbiddenError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new FOCDeadlinesForbiddenError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )

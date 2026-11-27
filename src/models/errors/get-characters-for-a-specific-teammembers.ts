@@ -47,10 +47,12 @@ export const GetCharactersForASpecificTeammembersForbiddenError$inboundSchema:
           body$: z.string(),
         }),
         z.transform((v) => {
-          return new GetCharactersForASpecificTeammembersForbiddenError(v, {
-            request: v.request$,
-            response: v.response$,
-            body: v.body$,
+          const { request$, response$, body$, ...data } = v;
+
+          return new GetCharactersForASpecificTeammembersForbiddenError(data, {
+            request: request$,
+            response: response$,
+            body: body$,
           });
         }),
       )

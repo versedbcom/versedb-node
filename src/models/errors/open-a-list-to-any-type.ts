@@ -97,10 +97,12 @@ export const OpenAListToAnyTypeUnprocessableEntityError$inboundSchema:
           body$: z.string(),
         }),
         z.transform((v) => {
-          return new OpenAListToAnyTypeUnprocessableEntityError(v, {
-            request: v.request$,
-            response: v.response$,
-            body: v.body$,
+          const { request$, response$, body$, ...data } = v;
+
+          return new OpenAListToAnyTypeUnprocessableEntityError(data, {
+            request: request$,
+            response: response$,
+            body: body$,
           });
         }),
       )
@@ -119,10 +121,12 @@ export const OpenAListToAnyTypeNotFoundError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new OpenAListToAnyTypeNotFoundError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new OpenAListToAnyTypeNotFoundError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -141,10 +145,12 @@ export const OpenAListToAnyTypeForbiddenError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new OpenAListToAnyTypeForbiddenError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new OpenAListToAnyTypeForbiddenError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )

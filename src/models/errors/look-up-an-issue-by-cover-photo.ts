@@ -105,10 +105,12 @@ export const ServiceUnavailableError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new ServiceUnavailableError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new ServiceUnavailableError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -129,10 +131,12 @@ export const LookUpAnIssueByCoverPhotoUnprocessableEntityError$inboundSchema:
           body$: z.string(),
         }),
         z.transform((v) => {
-          return new LookUpAnIssueByCoverPhotoUnprocessableEntityError(v, {
-            request: v.request$,
-            response: v.response$,
-            body: v.body$,
+          const { request$, response$, body$, ...data } = v;
+
+          return new LookUpAnIssueByCoverPhotoUnprocessableEntityError(data, {
+            request: request$,
+            response: response$,
+            body: body$,
           });
         }),
       )
@@ -150,10 +154,12 @@ export const LookUpAnIssueByCoverPhotoForbiddenError$inboundSchema:
           body$: z.string(),
         }),
         z.transform((v) => {
-          return new LookUpAnIssueByCoverPhotoForbiddenError(v, {
-            request: v.request$,
-            response: v.response$,
-            body: v.body$,
+          const { request$, response$, body$, ...data } = v;
+
+          return new LookUpAnIssueByCoverPhotoForbiddenError(data, {
+            request: request$,
+            response: response$,
+            body: body$,
           });
         }),
       )

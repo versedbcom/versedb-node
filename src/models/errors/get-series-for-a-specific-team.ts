@@ -45,10 +45,12 @@ export const GetSeriesForASpecificTeamForbiddenError$inboundSchema:
           body$: z.string(),
         }),
         z.transform((v) => {
-          return new GetSeriesForASpecificTeamForbiddenError(v, {
-            request: v.request$,
-            response: v.response$,
-            body: v.body$,
+          const { request$, response$, body$, ...data } = v;
+
+          return new GetSeriesForASpecificTeamForbiddenError(data, {
+            request: request$,
+            response: response$,
+            body: body$,
           });
         }),
       )

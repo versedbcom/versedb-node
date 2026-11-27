@@ -134,10 +134,12 @@ export const AddItemToListUnprocessableEntityError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new AddItemToListUnprocessableEntityError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new AddItemToListUnprocessableEntityError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -157,10 +159,12 @@ export const AddItemToListConflictError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new AddItemToListConflictError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new AddItemToListConflictError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -179,10 +183,12 @@ export const AddItemToListNotFoundError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new AddItemToListNotFoundError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new AddItemToListNotFoundError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -201,10 +207,12 @@ export const AddItemToListForbiddenError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new AddItemToListForbiddenError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new AddItemToListForbiddenError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )

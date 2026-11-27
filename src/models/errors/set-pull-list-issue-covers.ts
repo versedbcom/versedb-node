@@ -104,10 +104,12 @@ export const SetPullListIssueCoversUnprocessableEntityError$inboundSchema:
           body$: z.string(),
         }),
         z.transform((v) => {
-          return new SetPullListIssueCoversUnprocessableEntityError(v, {
-            request: v.request$,
-            response: v.response$,
-            body: v.body$,
+          const { request$, response$, body$, ...data } = v;
+
+          return new SetPullListIssueCoversUnprocessableEntityError(data, {
+            request: request$,
+            response: response$,
+            body: body$,
           });
         }),
       )
@@ -126,10 +128,12 @@ export const SetPullListIssueCoversNotFoundError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new SetPullListIssueCoversNotFoundError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new SetPullListIssueCoversNotFoundError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -148,10 +152,12 @@ export const SetPullListIssueCoversForbiddenError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new SetPullListIssueCoversForbiddenError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new SetPullListIssueCoversForbiddenError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )

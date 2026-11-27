@@ -2,7 +2,7 @@
 
 {
   "name": "@versedbcom/sdk",
-  "version": "3.0.21",
+  "version": "3.0.22",
   "exports": {
     ".": "./src/index.ts",
     "./node": "./src/node.ts",

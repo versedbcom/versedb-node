@@ -40,10 +40,12 @@ export const UnauthorizedErrorError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new UnauthorizedErrorError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new UnauthorizedErrorError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )

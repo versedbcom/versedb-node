@@ -99,10 +99,12 @@ export const StopAListUpdatingItselfUnprocessableEntityError$inboundSchema:
           body$: z.string(),
         }),
         z.transform((v) => {
-          return new StopAListUpdatingItselfUnprocessableEntityError(v, {
-            request: v.request$,
-            response: v.response$,
-            body: v.body$,
+          const { request$, response$, body$, ...data } = v;
+
+          return new StopAListUpdatingItselfUnprocessableEntityError(data, {
+            request: request$,
+            response: response$,
+            body: body$,
           });
         }),
       )
@@ -121,10 +123,12 @@ export const StopAListUpdatingItselfNotFoundError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new StopAListUpdatingItselfNotFoundError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new StopAListUpdatingItselfNotFoundError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -143,10 +147,12 @@ export const StopAListUpdatingItselfForbiddenError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new StopAListUpdatingItselfForbiddenError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new StopAListUpdatingItselfForbiddenError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )

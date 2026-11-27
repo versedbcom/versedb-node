@@ -99,10 +99,12 @@ export const MergeAListIntoThisOneUnprocessableEntityError$inboundSchema:
           body$: z.string(),
         }),
         z.transform((v) => {
-          return new MergeAListIntoThisOneUnprocessableEntityError(v, {
-            request: v.request$,
-            response: v.response$,
-            body: v.body$,
+          const { request$, response$, body$, ...data } = v;
+
+          return new MergeAListIntoThisOneUnprocessableEntityError(data, {
+            request: request$,
+            response: response$,
+            body: body$,
           });
         }),
       )
@@ -121,10 +123,12 @@ export const MergeAListIntoThisOneNotFoundError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new MergeAListIntoThisOneNotFoundError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new MergeAListIntoThisOneNotFoundError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -143,10 +147,12 @@ export const MergeAListIntoThisOneForbiddenError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new MergeAListIntoThisOneForbiddenError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new MergeAListIntoThisOneForbiddenError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )

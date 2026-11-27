@@ -156,10 +156,12 @@ export const MarkAsReadResponseBodyError3$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new MarkAsReadResponseBodyError3(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new MarkAsReadResponseBodyError3(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -179,10 +181,12 @@ export const MarkAsReadResponseBodyError2$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new MarkAsReadResponseBodyError2(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new MarkAsReadResponseBodyError2(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -202,10 +206,12 @@ export const MarkAsReadResponseBodyError1$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new MarkAsReadResponseBodyError1(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new MarkAsReadResponseBodyError1(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -246,10 +252,12 @@ export const MarkAsReadNotFoundError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new MarkAsReadNotFoundError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new MarkAsReadNotFoundError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -268,10 +276,12 @@ export const MarkAsReadForbiddenError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new MarkAsReadForbiddenError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new MarkAsReadForbiddenError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )

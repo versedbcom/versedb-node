@@ -47,10 +47,12 @@ export const ListAllPodcastsWithOptionalSearchForbiddenError$inboundSchema:
           body$: z.string(),
         }),
         z.transform((v) => {
-          return new ListAllPodcastsWithOptionalSearchForbiddenError(v, {
-            request: v.request$,
-            response: v.response$,
-            body: v.body$,
+          const { request$, response$, body$, ...data } = v;
+
+          return new ListAllPodcastsWithOptionalSearchForbiddenError(data, {
+            request: request$,
+            response: response$,
+            body: body$,
           });
         }),
       )

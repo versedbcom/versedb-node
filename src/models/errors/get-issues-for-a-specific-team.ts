@@ -45,10 +45,12 @@ export const GetIssuesForASpecificTeamForbiddenError$inboundSchema:
           body$: z.string(),
         }),
         z.transform((v) => {
-          return new GetIssuesForASpecificTeamForbiddenError(v, {
-            request: v.request$,
-            response: v.response$,
-            body: v.body$,
+          const { request$, response$, body$, ...data } = v;
+
+          return new GetIssuesForASpecificTeamForbiddenError(data, {
+            request: request$,
+            response: response$,
+            body: body$,
           });
         }),
       )

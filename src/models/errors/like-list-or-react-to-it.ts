@@ -110,14 +110,15 @@ export const LikeListOrReactToItUnprocessableEntityError$inboundSchema:
           body$: z.string(),
         }),
         z.transform((v) => {
-          const remapped = remap$(v, {
+          const { request$, response$, body$, ...data } = v;
+          const remapped = remap$(data, {
             "available_reactions": "availableReactions",
           });
 
           return new LikeListOrReactToItUnprocessableEntityError(remapped, {
-            request: v.request$,
-            response: v.response$,
-            body: v.body$,
+            request: request$,
+            response: response$,
+            body: body$,
           });
         }),
       )
@@ -136,10 +137,12 @@ export const LikeListOrReactToItNotFoundError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new LikeListOrReactToItNotFoundError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new LikeListOrReactToItNotFoundError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -158,10 +161,12 @@ export const LikeListOrReactToItForbiddenError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new LikeListOrReactToItForbiddenError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new LikeListOrReactToItForbiddenError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )

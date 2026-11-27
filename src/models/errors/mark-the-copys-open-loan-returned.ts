@@ -104,11 +104,12 @@ export const MarkTheCopysOpenLoanReturnedUnprocessableEntityError$inboundSchema:
           body$: z.string(),
         }),
         z.transform((v) => {
-          return new MarkTheCopysOpenLoanReturnedUnprocessableEntityError(v, {
-            request: v.request$,
-            response: v.response$,
-            body: v.body$,
-          });
+          const { request$, response$, body$, ...data } = v;
+
+          return new MarkTheCopysOpenLoanReturnedUnprocessableEntityError(
+            data,
+            { request: request$, response: response$, body: body$ },
+          );
         }),
       )
     );
@@ -125,10 +126,12 @@ export const MarkTheCopysOpenLoanReturnedNotFoundError$inboundSchema:
           body$: z.string(),
         }),
         z.transform((v) => {
-          return new MarkTheCopysOpenLoanReturnedNotFoundError(v, {
-            request: v.request$,
-            response: v.response$,
-            body: v.body$,
+          const { request$, response$, body$, ...data } = v;
+
+          return new MarkTheCopysOpenLoanReturnedNotFoundError(data, {
+            request: request$,
+            response: response$,
+            body: body$,
           });
         }),
       )
@@ -146,10 +149,12 @@ export const MarkTheCopysOpenLoanReturnedForbiddenError$inboundSchema:
           body$: z.string(),
         }),
         z.transform((v) => {
-          return new MarkTheCopysOpenLoanReturnedForbiddenError(v, {
-            request: v.request$,
-            response: v.response$,
-            body: v.body$,
+          const { request$, response$, body$, ...data } = v;
+
+          return new MarkTheCopysOpenLoanReturnedForbiddenError(data, {
+            request: request$,
+            response: response$,
+            body: body$,
           });
         }),
       )

@@ -193,9 +193,11 @@ export const UpdateCollectionItemResponseBodyUnprocessableEntityError3$inboundSc
         body$: z.string(),
       }),
       z.transform((v) => {
+        const { request$, response$, body$, ...data } = v;
+
         return new UpdateCollectionItemResponseBodyUnprocessableEntityError3(
-          v,
-          { request: v.request$, response: v.response$, body: v.body$ },
+          data,
+          { request: request$, response: response$, body: body$ },
         );
       }),
     )
@@ -216,9 +218,11 @@ export const UpdateCollectionItemResponseBodyUnprocessableEntityError2$inboundSc
         body$: z.string(),
       }),
       z.transform((v) => {
+        const { request$, response$, body$, ...data } = v;
+
         return new UpdateCollectionItemResponseBodyUnprocessableEntityError2(
-          v,
-          { request: v.request$, response: v.response$, body: v.body$ },
+          data,
+          { request: request$, response: response$, body: body$ },
         );
       }),
     )
@@ -239,9 +243,11 @@ export const UpdateCollectionItemResponseBodyUnprocessableEntityError1$inboundSc
         body$: z.string(),
       }),
       z.transform((v) => {
+        const { request$, response$, body$, ...data } = v;
+
         return new UpdateCollectionItemResponseBodyUnprocessableEntityError1(
-          v,
-          { request: v.request$, response: v.response$, body: v.body$ },
+          data,
+          { request: request$, response: response$, body: body$ },
         );
       }),
     )
@@ -292,10 +298,12 @@ export const UpdateCollectionItemResponseBodyNotFoundError2$inboundSchema:
           body$: z.string(),
         }),
         z.transform((v) => {
-          return new UpdateCollectionItemResponseBodyNotFoundError2(v, {
-            request: v.request$,
-            response: v.response$,
-            body: v.body$,
+          const { request$, response$, body$, ...data } = v;
+
+          return new UpdateCollectionItemResponseBodyNotFoundError2(data, {
+            request: request$,
+            response: response$,
+            body: body$,
           });
         }),
       )
@@ -313,10 +321,12 @@ export const UpdateCollectionItemResponseBodyNotFoundError1$inboundSchema:
           body$: z.string(),
         }),
         z.transform((v) => {
-          return new UpdateCollectionItemResponseBodyNotFoundError1(v, {
-            request: v.request$,
-            response: v.response$,
-            body: v.body$,
+          const { request$, response$, body$, ...data } = v;
+
+          return new UpdateCollectionItemResponseBodyNotFoundError1(data, {
+            request: request$,
+            response: response$,
+            body: body$,
           });
         }),
       )
@@ -356,10 +366,12 @@ export const UpdateCollectionItemForbiddenError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new UpdateCollectionItemForbiddenError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new UpdateCollectionItemForbiddenError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )

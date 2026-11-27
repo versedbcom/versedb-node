@@ -137,10 +137,12 @@ export const LookupByDistributorCodeUnprocessableEntityError$inboundSchema:
           body$: z.string(),
         }),
         z.transform((v) => {
-          return new LookupByDistributorCodeUnprocessableEntityError(v, {
-            request: v.request$,
-            response: v.response$,
-            body: v.body$,
+          const { request$, response$, body$, ...data } = v;
+
+          return new LookupByDistributorCodeUnprocessableEntityError(data, {
+            request: request$,
+            response: response$,
+            body: body$,
           });
         }),
       )
@@ -164,14 +166,15 @@ export const LookupByDistributorCodeConflictError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      const remapped = remap$(v, {
+      const { request$, response$, body$, ...data } = v;
+      const remapped = remap$(data, {
         "total_count": "totalCount",
       });
 
       return new LookupByDistributorCodeConflictError(remapped, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -190,10 +193,12 @@ export const LookupByDistributorCodeNotFoundError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new LookupByDistributorCodeNotFoundError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new LookupByDistributorCodeNotFoundError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -212,10 +217,12 @@ export const LookupByDistributorCodeForbiddenError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new LookupByDistributorCodeForbiddenError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new LookupByDistributorCodeForbiddenError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )

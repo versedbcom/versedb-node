@@ -126,10 +126,12 @@ export const AddToWishlistResponseBodyError2$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new AddToWishlistResponseBodyError2(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new AddToWishlistResponseBodyError2(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -149,10 +151,12 @@ export const AddToWishlistResponseBodyError1$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new AddToWishlistResponseBodyError1(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new AddToWishlistResponseBodyError1(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -192,10 +196,12 @@ export const AddToWishlistNotFoundError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new AddToWishlistNotFoundError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new AddToWishlistNotFoundError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -214,10 +220,12 @@ export const AddToWishlistForbiddenError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new AddToWishlistForbiddenError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new AddToWishlistForbiddenError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )

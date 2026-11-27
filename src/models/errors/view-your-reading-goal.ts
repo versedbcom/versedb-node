@@ -72,10 +72,12 @@ export const ViewYourReadingGoalForbiddenError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new ViewYourReadingGoalForbiddenError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new ViewYourReadingGoalForbiddenError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )
@@ -94,10 +96,12 @@ export const ViewYourReadingGoalUnauthorizedError$inboundSchema: z.ZodMiniType<
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new ViewYourReadingGoalUnauthorizedError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
+      const { request$, response$, body$, ...data } = v;
+
+      return new ViewYourReadingGoalUnauthorizedError(data, {
+        request: request$,
+        response: response$,
+        body: body$,
       });
     }),
   )

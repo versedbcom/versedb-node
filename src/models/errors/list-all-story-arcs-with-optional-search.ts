@@ -47,10 +47,12 @@ export const ListAllStoryArcsWithOptionalSearchForbiddenError$inboundSchema:
           body$: z.string(),
         }),
         z.transform((v) => {
-          return new ListAllStoryArcsWithOptionalSearchForbiddenError(v, {
-            request: v.request$,
-            response: v.response$,
-            body: v.body$,
+          const { request$, response$, body$, ...data } = v;
+
+          return new ListAllStoryArcsWithOptionalSearchForbiddenError(data, {
+            request: request$,
+            response: response$,
+            body: body$,
           });
         }),
       )

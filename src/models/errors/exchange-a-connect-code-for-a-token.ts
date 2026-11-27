@@ -61,14 +61,15 @@ export const ExchangeAConnectCodeForATokenBadRequestError$inboundSchema:
           body$: z.string(),
         }),
         z.transform((v) => {
-          const remapped = remap$(v, {
+          const { request$, response$, body$, ...data } = v;
+          const remapped = remap$(data, {
             "error_description": "errorDescription",
           });
 
           return new ExchangeAConnectCodeForATokenBadRequestError(remapped, {
-            request: v.request$,
-            response: v.response$,
-            body: v.body$,
+            request: request$,
+            response: response$,
+            body: body$,
           });
         }),
       )

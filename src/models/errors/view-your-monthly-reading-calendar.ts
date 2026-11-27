@@ -73,10 +73,12 @@ export const ViewYourMonthlyReadingCalendarForbiddenError$inboundSchema:
           body$: z.string(),
         }),
         z.transform((v) => {
-          return new ViewYourMonthlyReadingCalendarForbiddenError(v, {
-            request: v.request$,
-            response: v.response$,
-            body: v.body$,
+          const { request$, response$, body$, ...data } = v;
+
+          return new ViewYourMonthlyReadingCalendarForbiddenError(data, {
+            request: request$,
+            response: response$,
+            body: body$,
           });
         }),
       )
@@ -94,10 +96,12 @@ export const ViewYourMonthlyReadingCalendarUnauthorizedError$inboundSchema:
           body$: z.string(),
         }),
         z.transform((v) => {
-          return new ViewYourMonthlyReadingCalendarUnauthorizedError(v, {
-            request: v.request$,
-            response: v.response$,
-            body: v.body$,
+          const { request$, response$, body$, ...data } = v;
+
+          return new ViewYourMonthlyReadingCalendarUnauthorizedError(data, {
+            request: request$,
+            response: response$,
+            body: body$,
           });
         }),
       )
