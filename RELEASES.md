@@ -1000,3 +1000,13 @@ Based on:
 - [typescript v3.0.22] .
 ### Releases
 - [NPM v3.0.22] https://www.npmjs.com/package/@versedbcom/sdk/v/3.0.22 - .
+
+## 2026-11-28 14:51:35
+### Changes
+Based on:
+- OpenAPI Doc  
+- Speakeasy CLI 1.813.0 (2.969.4) https://github.com/speakeasy-api/speakeasy
+### Generated
+- [typescript v3.0.23] .
+### Releases
+- [NPM v3.0.23] https://www.npmjs.com/package/@versedbcom/sdk/v/3.0.23 - .
